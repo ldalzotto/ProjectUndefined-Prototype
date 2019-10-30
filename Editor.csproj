@@ -91,7 +91,6 @@
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\LevelChunkCreationWizard\Modules\LevelChunkSceneCreation.cs" />
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\LevelChunkCreationWizard\Modules\LevelHierarchyModification.cs" />
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\PuzzleLevelCreationWizard\Modules\EditorInformations.cs" />
-     <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\PuzzleLevelCreationWizard\Modules\Level\LevelConfigurationCreation.cs" />
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\PuzzleLevelCreationWizard\Modules\Level\LevelHierarchyCreation.cs" />
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\PuzzleLevelCreationWizard\Modules\Level\LevelSceneConfigurationCreation.cs" />
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\LevelCreation\PuzzleLevelCreationWizard\Modules\Level\LevelSceneCreation.cs" />
@@ -128,7 +127,6 @@
      <Compile Include="Assets\Editor\GameDesigner\Modules\Ground\GroundSetter.cs" />
      <Compile Include="Assets\Editor\GameDesigner\Modules\Level\CreateChunk.cs" />
      <Compile Include="Assets\Editor\GameDesigner\Modules\Level\CreatePuzzleLevel.cs" />
-     <Compile Include="Assets\Editor\GameDesigner\Modules\Level\EditPuzzleLevel.cs" />
      <Compile Include="Assets\Editor\Helper\AssetFinder.cs" />
      <Compile Include="Assets\Editor\Helper\AssetHelper.cs" />
      <Compile Include="Assets\Editor\Helper\EnumPicker.cs" />

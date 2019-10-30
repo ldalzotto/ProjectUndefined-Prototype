@@ -59,8 +59,8 @@
      <Compile Include="Assets\Common\LevelManagement\Configuration\ChunkZonesSceneConfiguration\ChunkZonesSceneConfiguration.cs" />
      <Compile Include="Assets\Common\LevelManagement\Configuration\GlobalLevelConfiguration\GlobalLevelConfiguration.cs" />
      <Compile Include="Assets\Common\LevelManagement\Configuration\LevelAvailabilityTimelineNodeID.cs" />
-     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelConfiguration\LevelConfiguration.cs" />
      <Compile Include="Assets\Common\LevelManagement\Configuration\LevelConfiguration\LevelConfigurationData.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelConfiguration\LevelConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\LevelManagement\Configuration\LevelHierarchyConfiguration\LevelHierarchyConfiguration.cs" />
      <Compile Include="Assets\Common\LevelManagement\Configuration\LevelHierarchyConfiguration\LevelHierarchyConfigurationData.cs" />
      <Compile Include="Assets\Common\LevelManagement\Configuration\LevelManagementConfigurationGameObject.cs" />

@@ -34,7 +34,7 @@ namespace GameLoop
 
 
             RangeObjectV2Manager.Get().Init();
-            GroundEffectsManagerV2.Get().Init(LevelManagementConfigurationGameObject.Get().LevelConfiguration.ConfigurationInherentData[LevelManager.Get().GetCurrentLevel()].LevelRangeEffectInherentData);
+            GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             InteractiveObjectV2Manager.Get().Init();
 
             CameraMovementManager.Get().Init();
