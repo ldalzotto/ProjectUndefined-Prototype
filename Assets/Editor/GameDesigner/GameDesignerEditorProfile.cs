@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using OdinSerializer;
-using GameConfigurationID;
+using UnityEngine;
 
 namespace Editor_GameDesigner
 {
-    [System.Serializable]
+    [Serializable]
     [CreateAssetMenu(fileName = "GameDesignerEditorProfile", menuName = "GameDesigner/GameDesignerEditorProfile", order = 1)]
     public class GameDesignerEditorProfile : SerializedScriptableObject
     {
@@ -20,15 +19,15 @@ namespace Editor_GameDesigner
             {
                 this.CurrentGameDesignerModule.OnDisabled();
             }
+
             this.CurrentGameDesignerModule = nextModule;
             this.CurrentGameDesignerModule.OnEnabled();
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class GameDesignerTreePickerProfile
     {
         public string SelectedKey;
     }
-
 }

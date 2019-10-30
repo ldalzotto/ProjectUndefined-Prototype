@@ -1,0 +1,21 @@
+﻿{
+    "name": "InteractiveObjects",
+    "references": [
+        "GUID:bf33ead00b68e7843b03838c3c92d67b",
+        "CoreGame",
+        "OdinSerializer",
+        "Editor_Common",
+        "InteractiveObjects_Interfaces",
+"InteractiveObject_Animation",
+"AnimatorPlayable",
+"SequencedAction"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

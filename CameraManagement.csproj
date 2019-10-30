@@ -56,10 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraManagement\CameraMovementManager.cs" />
-     <Compile Include="Assets\CameraManagement\Configuration\CameraConfigurationGameObject.cs" />
-     <Compile Include="Assets\CameraManagement\Configuration\CameraMovementConfiguration.cs" />
-     <None Include="Assets\CameraManagement\CameraManagement.asmdef" />
+     <Compile Include="Assets\Common\CameraManagement\CameraMovementManager.cs" />
+     <Compile Include="Assets\Common\CameraManagement\Configuration\CameraConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\CameraManagement\Configuration\CameraMovementConfiguration.cs" />
+     <None Include="Assets\Common\CameraManagement\CameraManagement.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

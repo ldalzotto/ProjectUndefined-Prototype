@@ -56,19 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Tutorial\Configuration\TutorialConfigurationGameObject.cs" />
-     <Compile Include="Assets\Tutorial\Configuration\TutorialStep\TutorialStepConfiguration.cs" />
-     <Compile Include="Assets\Tutorial\Configuration\TutorialStep\TutorialStepConfigurationInherentData.cs" />
-     <Compile Include="Assets\Tutorial\Managers\TutorialManager.cs" />
-     <Compile Include="Assets\Tutorial\Managers\TutorialStatePersister.cs" />
-     <Compile Include="Assets\Tutorial\PuzzleTutorialEventSenderManager.cs" />
-     <Compile Include="Assets\Tutorial\TutorialSteps\Abstract\AbstractTutorialTextAction.cs" />
-     <Compile Include="Assets\Tutorial\TutorialSteps\ActionWheelTutorialStepAction.cs" />
-     <Compile Include="Assets\Tutorial\TutorialSteps\ActionWheelTutorialStepActionDefinition.cs" />
-     <Compile Include="Assets\Tutorial\TutorialSteps\MovementTutorialTextAction.cs" />
-     <Compile Include="Assets\Tutorial\TutorialSteps\MovementTutorialTextActionDefinition.cs" />
-     <Compile Include="Assets\Tutorial\TutorialSteps\TutorialStepID.cs" />
-     <None Include="Assets\Tutorial\Tutorial.asmdef" />
+     <Compile Include="Assets\Common\Tutorial\Configuration\TutorialConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\Tutorial\Configuration\TutorialStep\TutorialStepConfiguration.cs" />
+     <Compile Include="Assets\Common\Tutorial\Configuration\TutorialStep\TutorialStepConfigurationInherentData.cs" />
+     <Compile Include="Assets\Common\Tutorial\Managers\TutorialManager.cs" />
+     <Compile Include="Assets\Common\Tutorial\Managers\TutorialStatePersister.cs" />
+     <Compile Include="Assets\Common\Tutorial\PuzzleTutorialEventSenderManager.cs" />
+     <Compile Include="Assets\Common\Tutorial\TutorialSteps\Abstract\AbstractTutorialTextAction.cs" />
+     <Compile Include="Assets\Common\Tutorial\TutorialSteps\TutorialStepID.cs" />
+     <None Include="Assets\Common\Tutorial\Tutorial.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -646,10 +642,6 @@
     <ProjectReference Include="SequencedAction.csproj">
       <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
       <Name>SequencedAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="GameConfigurationID.csproj">
-      <Project>{06A8FBB9-2865-52EF-46A1-DD70B419EDC5}</Project>
-      <Name>GameConfigurationID</Name>
     </ProjectReference>
     <ProjectReference Include="Persistence.csproj">
       <Project>{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}</Project>

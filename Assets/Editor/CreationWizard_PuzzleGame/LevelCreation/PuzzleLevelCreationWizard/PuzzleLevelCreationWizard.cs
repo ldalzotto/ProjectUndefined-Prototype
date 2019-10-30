@@ -7,7 +7,5 @@ namespace Editor_PuzzleLevelCreationWizard
 {
     public class PuzzleLevelCreationWizard : AbstractCreationWizardEditor<PuzzleLevelCreationWizardEditorProfile>
     {
-
     }
 }
-

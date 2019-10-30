@@ -56,35 +56,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LevelManagement\Configuration\ChunkZonesSceneConfiguration\ChunkZonesSceneConfiguration.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\GlobalLevelConfiguration\GlobalLevelConfiguration.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelAvailabilityTimelineNodeID.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelConfiguration\LevelConfiguration.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelConfiguration\LevelConfigurationData.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelHierarchyConfiguration\LevelHierarchyConfiguration.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelHierarchyConfiguration\LevelHierarchyConfigurationData.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelManagementConfigurationGameObject.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelZoneChunkID.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelZonesID.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelZonesSceneConfiguration\LevelZonesSceneConfiguration.cs" />
-     <Compile Include="Assets\LevelManagement\Configuration\LevelZonesSceneConfiguration\LevelZonesSceneConfigurationData.cs" />
-     <Compile Include="Assets\LevelManagement\Events\LevelAvailabilityTimelineEventManager.cs" />
-     <Compile Include="Assets\LevelManagement\Events\LevelManagerEventManager.cs" />
-     <Compile Include="Assets\LevelManagement\LevelAvailability\Manager\LevelAvailabilityManager.cs" />
-     <Compile Include="Assets\LevelManagement\LevelAvailabilityTimeline\LevelAvailabilityTimelineInitializerV3.cs" />
-     <Compile Include="Assets\LevelManagement\LevelAvailabilityTimeline\LevelAvailabilityTimelineNodeManagerV2.cs" />
-     <Compile Include="Assets\LevelManagement\LevelAvailabilityTimeline\TimelineAction\LevelCompletedTimelineAction.cs" />
-     <Compile Include="Assets\LevelManagement\LevelAvailabilityTimeline\TimelineNodeWorkflowAction\LevelUnlockWorkflowAction.cs" />
-     <Compile Include="Assets\LevelManagement\LevelChunk\InteractiveObject\LevelChunkInteractiveObject.cs" />
-     <Compile Include="Assets\LevelManagement\LevelChunk\InteractiveObject\LevelChunkInteractiveObjectInitializer.cs" />
-     <Compile Include="Assets\LevelManagement\LevelChunk\InteractiveObject\Systems\LevelChunkTrackerSystem.cs" />
-     <Compile Include="Assets\LevelManagement\LevelChunk\InteractiveObject\Systems\LevelChunkTransitionFXSystem.cs" />
-     <Compile Include="Assets\LevelManagement\LevelChunk\Managers\LevelChunkFXTransitionManager.cs" />
-     <Compile Include="Assets\LevelManagement\Managers\LevelManager.cs" />
-     <Compile Include="Assets\LevelManagement\Managers\LevelTransitionManager.cs" />
-     <Compile Include="Assets\LevelManagement\Managers\StartLevelManager.cs" />
-     <Compile Include="Assets\LevelManagement\TransitionableLevelFX\Script\TransitionableLevelFXType.cs" />
-     <None Include="Assets\LevelManagement\LevelManagement.asmdef" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\ChunkZonesSceneConfiguration\ChunkZonesSceneConfiguration.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\GlobalLevelConfiguration\GlobalLevelConfiguration.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelAvailabilityTimelineNodeID.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelConfiguration\LevelConfiguration.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelConfiguration\LevelConfigurationData.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelHierarchyConfiguration\LevelHierarchyConfiguration.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelHierarchyConfiguration\LevelHierarchyConfigurationData.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelManagementConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelZoneChunkID.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelZonesID.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelZonesSceneConfiguration\LevelZonesSceneConfiguration.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Configuration\LevelZonesSceneConfiguration\LevelZonesSceneConfigurationData.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Events\LevelAvailabilityTimelineEventManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Events\LevelManagerEventManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelAvailability\Manager\LevelAvailabilityManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelAvailabilityTimeline\LevelAvailabilityTimelineInitializerV3.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelAvailabilityTimeline\LevelAvailabilityTimelineNodeManagerV2.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelAvailabilityTimeline\TimelineAction\LevelCompletedTimelineAction.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelAvailabilityTimeline\TimelineNodeWorkflowAction\LevelUnlockWorkflowAction.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelChunk\InteractiveObject\LevelChunkInteractiveObject.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelChunk\InteractiveObject\LevelChunkInteractiveObjectInitializer.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelChunk\InteractiveObject\Systems\LevelChunkTrackerSystem.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelChunk\InteractiveObject\Systems\LevelChunkTransitionFXSystem.cs" />
+     <Compile Include="Assets\Common\LevelManagement\LevelChunk\Managers\LevelChunkFXTransitionManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Managers\LevelManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Managers\LevelTransitionManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\Managers\StartLevelManager.cs" />
+     <Compile Include="Assets\Common\LevelManagement\TransitionableLevelFX\Script\TransitionableLevelFXType.cs" />
+     <None Include="Assets\Common\LevelManagement\LevelManagement.asmdef" />
  <Reference Include="Unity.Postprocessing.Runtime">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
  </Reference>
@@ -670,10 +670,6 @@
       <Project>{B0B86AC7-E423-566C-6E55-58B5FDE37DF9}</Project>
       <Name>RangeObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="GameConfigurationID.csproj">
-      <Project>{06A8FBB9-2865-52EF-46A1-DD70B419EDC5}</Project>
-      <Name>GameConfigurationID</Name>
-    </ProjectReference>
     <ProjectReference Include="Persistence.csproj">
       <Project>{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}</Project>
       <Name>Persistence</Name>
@@ -681,6 +677,10 @@
     <ProjectReference Include="Timelines.csproj">
       <Project>{86D2DBA8-BC22-7FE3-44CC-06B764F94632}</Project>
       <Name>Timelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="SequencedAction.csproj">
+      <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
+      <Name>SequencedAction</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

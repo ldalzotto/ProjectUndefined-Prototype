@@ -56,14 +56,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AnimatorPlayable\Configuration\AnimationPlayableDefinition\A_AnimationPlayableDefinition.cs" />
-     <Compile Include="Assets\AnimatorPlayable\Configuration\AnimationPlayableDefinition\BlendedAnimationPlayableDefinition.cs" />
-     <Compile Include="Assets\AnimatorPlayable\Configuration\AnimationPlayableDefinition\SequencedAnimationPlayableDefinition.cs" />
-     <Compile Include="Assets\AnimatorPlayable\Lib\AnimatorPlayable.cs" />
-     <Compile Include="Assets\AnimatorPlayable\Lib\Inputs\AnimationLayersInput.cs" />
-     <Compile Include="Assets\AnimatorPlayable\Lib\Layers\BlendedAnimation.cs" />
-     <Compile Include="Assets\AnimatorPlayable\Lib\Layers\SequencedAnimation.cs" />
-     <None Include="Assets\AnimatorPlayable\AnimatorPlayable.asmdef" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\A_AnimationPlayableDefinition.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\BlendedAnimationPlayableDefinition.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\SequencedAnimationPlayableDefinition.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Lib\AnimatorPlayable.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Inputs\AnimationLayersInput.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\BlendedAnimation.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\SequencedAnimation.cs" />
+     <None Include="Assets\Common\AnimatorPlayable\AnimatorPlayable.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

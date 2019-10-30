@@ -1,18 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using Editor_LevelCreation;
 using Editor_MainGameCreationWizard;
+using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace Editor_PuzzleLevelCreationWizard
 {
-    [System.Serializable]
+    [Serializable]
     public class LevelSceneCreation : CreateableSceneComponent
     {
-
         public override void OnGenerationClicked(AbstractCreationWizardEditorProfile editorProfile)
         {
             var editorInformationsData = editorProfile.GetModule<EditorInformations>().EditorInformationsData;
@@ -23,15 +19,11 @@ namespace Editor_PuzzleLevelCreationWizard
             {
                 PrefabUtility.InstantiatePrefab(editorInformationsData.CommonGameConfigurations.PuzzleLevelCommonPrefabs.CorePuzzleSceneElements);
                 PrefabUtility.InstantiatePrefab(editorInformationsData.CommonGameConfigurations.PuzzleLevelCommonPrefabs.GameManagerPersistanceInstance);
-                PrefabUtility.InstantiatePrefab(editorInformationsData.CommonGameConfigurations.PuzzleLevelCommonPrefabs.PuzzleDebugModule);
                 PrefabUtility.InstantiatePrefab(puzzleLevelDynamicsCreation.CreatedPrefab);
 
                 this.SaveScene(scenePath);
-                editorProfile.AddToGeneratedObjects(new UnityEngine.Object[] { this.CreatedSceneAsset });
+                editorProfile.AddToGeneratedObjects(new Object[] {this.CreatedSceneAsset});
             }
         }
-
     }
-
-
 }

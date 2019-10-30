@@ -1,0 +1,30 @@
+{
+    "name": "GameLoop",
+    "references": [
+"CoreGame",
+"LevelManagement",
+"PlayerObject",
+"Persistence",
+"Timelines",
+"Input",
+"RangeObjects",  
+"InteractiveObjects",
+"InteractiveObjects_Interfaces",
+"CameraManagement",
+"Tutorial",
+"VisualFeedback",
+"PlayerObject_Interface",
+"PlayerActions",
+"SelectionObjects",
+"Obstacle",
+"LevelManagement_Interfaces"
+],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

@@ -56,8 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\_GameLoop\AsbtractCoreGameManager.cs" />
-     <None Include="Assets\_GameLoop\GameLoop.asmdef" />
+     <Compile Include="Assets\Common\_GameLoop\AsbtractCoreGameManager.cs" />
+     <Compile Include="Assets\Common\_GameLoop\GameManager.cs" />
+     <None Include="Assets\Common\_GameLoop\GameLoop.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -635,6 +636,50 @@
     <ProjectReference Include="Input.csproj">
       <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
       <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="RangeObjects.csproj">
+      <Project>{B0B86AC7-E423-566C-6E55-58B5FDE37DF9}</Project>
+      <Name>RangeObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Name>InteractiveObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="CameraManagement.csproj">
+      <Project>{75B47827-9468-98A0-CC43-F62747983306}</Project>
+      <Name>CameraManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="Tutorial.csproj">
+      <Project>{5E7C0353-8FB9-B0AD-BB52-3277A43DE61F}</Project>
+      <Name>Tutorial</Name>
+    </ProjectReference>
+    <ProjectReference Include="VisualFeedback.csproj">
+      <Project>{7CB22E21-2248-2D5F-191C-57E9A683E3D8}</Project>
+      <Name>VisualFeedback</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerObject_Interface.csproj">
+      <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
+      <Name>PlayerObject_Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerActions.csproj">
+      <Project>{63AE0CB7-735A-D4CD-7DAE-B8ABD6F2883E}</Project>
+      <Name>PlayerActions</Name>
+    </ProjectReference>
+    <ProjectReference Include="SelectionObjects.csproj">
+      <Project>{3ED6129A-F77C-7D87-CFDC-573822D6A1E2}</Project>
+      <Name>SelectionObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="Obstacle.csproj">
+      <Project>{A56A5795-1CB9-EF28-85DE-67DC873B52CC}</Project>
+      <Name>Obstacle</Name>
+    </ProjectReference>
+    <ProjectReference Include="LevelManagement_Interfaces.csproj">
+      <Project>{A57781E4-D853-FCD5-B604-158EA14A06F7}</Project>
+      <Name>LevelManagement_Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,12 +1,10 @@
-﻿using CoreGame;
-using Editor_MainGameCreationWizard;
-using GameConfigurationID;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Editor_MainGameCreationWizard;
 using LevelManagement;
 using UnityEditor;
 
-[System.Serializable]
+[Serializable]
 public abstract class ALevelHierarchyCreation : CreateableScriptableObjectComponent<LevelHierarchyConfigurationData>
 {
     protected abstract LevelZonesID GetLevelZonesID(AbstractCreationWizardEditorProfile editorProfile);

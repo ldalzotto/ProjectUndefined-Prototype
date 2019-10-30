@@ -56,15 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\SequencedAction\CommonActions\Branch\BranchInfiniteLoopAction.cs" />
-     <Compile Include="Assets\SequencedAction\CommonActions\CutsceneWorkflowAbortAction.cs" />
-     <Compile Include="Assets\SequencedAction\CommonActions\CutsceneWorkflowWaitForSecondsAction.cs" />
-     <Compile Include="Assets\SequencedAction\Managers\SequencedActionManager.cs" />
-     <Compile Include="Assets\SequencedAction\Managers\SequencedActionPlayer.cs" />
-     <Compile Include="Assets\SequencedAction\SequencedAction\ASequencedAction.cs" />
-     <Compile Include="Assets\SequencedAction\SequencedAction\SequencedActionTags.cs" />
-     <Compile Include="Assets\SequencedAction\SequencedGraph\ASequencedActionGraph.cs" />
-     <None Include="Assets\SequencedAction\SequencedAction.asmdef" />
+     <Compile Include="Assets\Common\SequencedAction\CommonActions\Branch\BranchInfiniteLoopAction.cs" />
+     <Compile Include="Assets\Common\SequencedAction\CommonActions\CutsceneWorkflowAbortAction.cs" />
+     <Compile Include="Assets\Common\SequencedAction\CommonActions\CutsceneWorkflowWaitForSecondsAction.cs" />
+     <Compile Include="Assets\Common\SequencedAction\Managers\SequencedActionManager.cs" />
+     <Compile Include="Assets\Common\SequencedAction\Managers\SequencedActionPlayer.cs" />
+     <Compile Include="Assets\Common\SequencedAction\SequencedAction\ASequencedAction.cs" />
+     <Compile Include="Assets\Common\SequencedAction\SequencedAction\SequencedActionTags.cs" />
+     <Compile Include="Assets\Common\SequencedAction\SequencedGraph\ASequencedActionGraph.cs" />
+     <None Include="Assets\Common\SequencedAction\SequencedAction.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

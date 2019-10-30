@@ -1,0 +1,30 @@
+{
+    "name": "TrainingLevel",
+    "references": [
+"CoreGame",
+"Editor_Common",
+"SequencedAction_Editor_Common",
+"OdinSerializer",
+"InteractiveObjects",
+"InteractiveObjects_Interfaces",
+"InteractiveObject_Animation",
+"AIObjects",
+"SequencedAction",
+"VisualFeedback",
+"PlayerActions",
+"SelectionObjects",
+"PlayerObject",
+"PlayerObject_Interface",
+"LevelManagement",
+"RangeObjects",
+"AnimatorPlayable"
+],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

@@ -56,15 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\~StartMenu\_Game\Singleton\StartMenuSingletonInstances.cs" />
-     <Compile Include="Assets\~StartMenu\_Game\StartMenuGameManager.cs" />
-     <Compile Include="Assets\~StartMenu\Configuration\StartMenuStaticConfiguration.cs" />
-     <Compile Include="Assets\~StartMenu\Configuration\StartMenuStaticConfigurationManager.cs" />
-     <Compile Include="Assets\~StartMenu\Configuration\StaticConfiguration\StartMenuPrefabConfiguration.cs" />
-     <Compile Include="Assets\~StartMenu\GameProgressionState\GameProgressionStateManager.cs" />
-     <Compile Include="Assets\~StartMenu\StartMenu\NewGameButton.cs" />
-     <Compile Include="Assets\~StartMenu\StartMenu\StartMenuManager.cs" />
-     <None Include="Assets\~StartMenu\StartMenu.asmdef" />
+     <Compile Include="Assets\Common\~StartMenu\_Game\Singleton\StartMenuSingletonInstances.cs" />
+     <Compile Include="Assets\Common\~StartMenu\_Game\StartMenuGameManager.cs" />
+     <Compile Include="Assets\Common\~StartMenu\Configuration\StartMenuStaticConfiguration.cs" />
+     <Compile Include="Assets\Common\~StartMenu\Configuration\StartMenuStaticConfigurationManager.cs" />
+     <Compile Include="Assets\Common\~StartMenu\Configuration\StaticConfiguration\StartMenuPrefabConfiguration.cs" />
+     <Compile Include="Assets\Common\~StartMenu\GameProgressionState\GameProgressionStateManager.cs" />
+     <Compile Include="Assets\Common\~StartMenu\StartMenu\NewGameButton.cs" />
+     <Compile Include="Assets\Common\~StartMenu\StartMenu\StartMenuManager.cs" />
+     <None Include="Assets\Common\~StartMenu\StartMenu.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -622,10 +622,6 @@
     <ProjectReference Include="CoreGame.csproj">
       <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
       <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="GameConfigurationID.csproj">
-      <Project>{06A8FBB9-2865-52EF-46A1-DD70B419EDC5}</Project>
-      <Name>GameConfigurationID</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>

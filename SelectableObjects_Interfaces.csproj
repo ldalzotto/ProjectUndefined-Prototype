@@ -56,9 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\SelectableObjects\SelectableObjects_Interfaces\Events\SelectableObjectEventsManager.cs" />
-     <Compile Include="Assets\SelectableObjects\SelectableObjects_Interfaces\InteractiveObject\Systems\ISelectableObjectSystem.cs" />
-     <None Include="Assets\SelectableObjects\SelectableObjects_Interfaces\SelectableObjects_Interfaces.asmdef" />
+     <Compile Include="Assets\Common\SelectableObjects\SelectableObjects_Interfaces\Events\SelectableObjectEventsManager.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\SelectableObjects_Interfaces\InteractiveObject\Systems\ISelectableObjectSystem.cs" />
+     <None Include="Assets\Common\SelectableObjects\SelectableObjects_Interfaces\SelectableObjects_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

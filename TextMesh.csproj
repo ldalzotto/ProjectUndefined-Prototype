@@ -56,10 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\TextMesh\Text\GeneratedTextDimensions.cs" />
-     <Compile Include="Assets\TextMesh\Text\ProceduralText.cs" />
-     <Compile Include="Assets\TextMesh\Text\ProceduralTextParametersV2.cs" />
-     <None Include="Assets\TextMesh\TextMesh.asmdef" />
+     <Compile Include="Assets\Common\TextMesh\Text\GeneratedTextDimensions.cs" />
+     <Compile Include="Assets\Common\TextMesh\Text\ProceduralText.cs" />
+     <Compile Include="Assets\Common\TextMesh\Text\ProceduralTextParametersV2.cs" />
+     <None Include="Assets\Common\TextMesh\TextMesh.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

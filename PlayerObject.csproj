@@ -56,16 +56,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PlayerObject\BlockingCutscene\BlockingCutscenePlayerManager.cs" />
-     <Compile Include="Assets\PlayerObject\Configuration\PlayerConfigurationGameObject.cs" />
-     <Compile Include="Assets\PlayerObject\Configuration\PlayerGlobalConfiguration\PlayerGlobalConfiguration.cs" />
-     <Compile Include="Assets\PlayerObject\InteractiveObject\Managers\PlayerInteractiveObjectManager.cs" />
-     <Compile Include="Assets\PlayerObject\InteractiveObject\PlayerInteractiveObject.cs" />
-     <Compile Include="Assets\PlayerObject\InteractiveObject\PlayerInteractiveObjectInitializer.cs" />
-     <Compile Include="Assets\PlayerObject\Lib\PlayerBodyPhysicsEnvironment.cs" />
-     <Compile Include="Assets\PlayerObject\Lib\PlayerInputMoveManager.cs" />
-     <Compile Include="Assets\PlayerObject\PositionPersistance\PlayerPositionPersistenceManager.cs" />
-     <None Include="Assets\PlayerObject\PlayerObject.asmdef" />
+     <Compile Include="Assets\Common\PlayerObject\BlockingCutscene\BlockingCutscenePlayerManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerGlobalConfiguration\PlayerGlobalConfiguration.cs" />
+     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\Managers\PlayerInteractiveObjectManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObject.cs" />
+     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectInitializer.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerBodyPhysicsEnvironment.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerInputMoveManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\PositionPersistance\PlayerPositionPersistenceManager.cs" />
+     <None Include="Assets\Common\PlayerObject\PlayerObject.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

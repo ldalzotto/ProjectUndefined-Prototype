@@ -56,8 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Timelines\Timelines_Editor\TimelineInitializerScriptableObjectCustomEditor.cs" />
-     <None Include="Assets\Timelines\Timelines_Editor\Timelines_Editor.asmdef" />
+     <Compile Include="Assets\Common\Timelines\Timelines_Editor\TimelineInitializerScriptableObjectCustomEditor.cs" />
+     <None Include="Assets\Common\Timelines\Timelines_Editor\Timelines_Editor.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

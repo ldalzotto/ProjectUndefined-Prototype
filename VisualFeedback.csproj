@@ -56,25 +56,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\VisualFeedback\CircleFillBar\CircleFillBarRendererManager.cs" />
-     <Compile Include="Assets\VisualFeedback\CircleFillBar\CircleFillBarType.cs" />
-     <Compile Include="Assets\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfiguration.cs" />
-     <Compile Include="Assets\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfigurationGameObject.cs" />
-     <Compile Include="Assets\VisualFeedback\CircleFillBar\RenderPipelineFeature\CircleFillBarRenderPassFeature.cs" />
-     <Compile Include="Assets\VisualFeedback\Configuration\VisualFeedbackConfigurationGameObject.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Configuration\DottedLineConfiguration.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Configuration\DottedLineID.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Configuration\DottedLineInherentData.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Configuration\DottedLineStaticConfiguration.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Lib\LinePositioning\ILinePositioning.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Lib\LinePositioning\LineFollowTransformPositioning.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Lib\LineTypes\DottedLine.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Lib\LineTypes\DottedLineGameObject.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Managers\DottedLineManager.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Managers\DottedLineRendererManager.cs" />
-     <Compile Include="Assets\VisualFeedback\LineVisualFeedback\Systems\LineVisualFeedbackSystem.cs" />
-     <None Include="Assets\VisualFeedback\VisualFeedback.asmdef" />
-     <None Include="Assets\VisualFeedback\LineVisualFeedback\Shader\DottedLineShader.shader" />
+     <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\CircleFillBarRendererManager.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\CircleFillBarType.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfiguration.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\RenderPipelineFeature\CircleFillBarRenderPassFeature.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\Configuration\VisualFeedbackConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineConfiguration.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineID.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineInherentData.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineStaticConfiguration.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LinePositioning\ILinePositioning.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LinePositioning\LineFollowTransformPositioning.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LineTypes\DottedLine.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LineTypes\DottedLineGameObject.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Managers\DottedLineManager.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Managers\DottedLineRendererManager.cs" />
+     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Systems\LineVisualFeedbackSystem.cs" />
+     <None Include="Assets\Common\VisualFeedback\VisualFeedback.asmdef" />
+     <None Include="Assets\Common\VisualFeedback\LineVisualFeedback\Shader\DottedLineShader.shader" />
  <Reference Include="Unity.RenderPipelines.Lightweight.Runtime">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Runtime.dll</HintPath>
  </Reference>

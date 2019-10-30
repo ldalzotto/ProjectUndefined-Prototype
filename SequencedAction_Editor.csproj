@@ -56,9 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\SequencedAction\SequencedAction_Editor\ASequencedActionCustomEditor.cs" />
-     <Compile Include="Assets\SequencedAction\SequencedAction_Editor\MultiplePointMovementEditor.cs" />
-     <None Include="Assets\SequencedAction\SequencedAction_Editor\SequencedAction_Editor.asmdef" />
+     <Compile Include="Assets\Common\SequencedAction\SequencedAction_Editor\ASequencedActionCustomEditor.cs" />
+     <Compile Include="Assets\Common\SequencedAction\SequencedAction_Editor\MultiplePointMovementEditor.cs" />
+     <None Include="Assets\Common\SequencedAction\SequencedAction_Editor\SequencedAction_Editor.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

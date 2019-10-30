@@ -1,7 +1,5 @@
-﻿using CoreGame;
+﻿using System;
 using Editor_GameDesigner;
-using GameConfigurationID;
-using System;
 using UnityEditor;
 using UnityEngine;
 

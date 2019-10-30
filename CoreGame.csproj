@@ -56,53 +56,52 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\_Scenes\_1_Town\PlayerObjects\Speaker\SpeakerPlayingAnimationBehavior.cs" />
-     <Compile Include="Assets\~CoreGame\__Game\Scripts\Coroutiner.cs" />
-     <Compile Include="Assets\~CoreGame\__Game\Scripts\GameLogHandler.cs" />
-     <Compile Include="Assets\~CoreGame\__Game\Scripts\Persistance\GameManagerPersistanceInstance.cs" />
-     <Compile Include="Assets\~CoreGame\__Game\Scripts\Singleton\CoreGameSingletonInstances.cs" />
-     <Compile Include="Assets\~CoreGame\__Game\Scripts\Singleton\GameSingleton.cs" />
-     <Compile Include="Assets\~CoreGame\_Constants\LayerConstants.cs" />
-     <Compile Include="Assets\~CoreGame\_Constants\NavMeshConstants.cs" />
-     <Compile Include="Assets\~CoreGame\_Constants\StringConstants.cs" />
-     <Compile Include="Assets\~CoreGame\_Constants\TagConstants.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\BoundsHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\ComponentSearchExtensions.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\ComponentSearchHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\ComputeBufferHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\DynamicComputeBufferManager.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\FunctionalExtensions.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\GizmoHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\MultiValueDictionary.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\MyEditorStyles.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\ProceduralTextureHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\QuaterionHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\RandomHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\RendererRetrievableHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\SceneLoadingHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\SerializationHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\StructHelper.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\TransformChangeListener.cs" />
-     <Compile Include="Assets\~CoreGame\_Helpers\TransformExtensions.cs" />
-     <Compile Include="Assets\~CoreGame\Configuration\GameConfiguration.cs" />
-     <Compile Include="Assets\~CoreGame\CustomYields\WaitForEndOfAnimation.cs" />
-     <Compile Include="Assets\~CoreGame\CustomYields\WaitForListOfAsyncOperation.cs" />
-     <Compile Include="Assets\~CoreGame\CustomYields\WaitForNavAgentDestinationReached.cs" />
-     <Compile Include="Assets\~CoreGame\CustomYields\WaitForParticlesToNotEmit.cs" />
-     <Compile Include="Assets\~CoreGame\CustomYields\WaitForTransformPositionReached.cs" />
-     <Compile Include="Assets\~CoreGame\Debug\Scripts\FPSDisplay.cs" />
-     <Compile Include="Assets\~CoreGame\EnumDependantProperty\ByEnumProperty.cs" />
-     <Compile Include="Assets\~CoreGame\EventVariables\BoolVariable.cs" />
-     <Compile Include="Assets\~CoreGame\Extensions\Vector3Extensions.cs" />
-     <Compile Include="Assets\~CoreGame\Log\MyLog.cs" />
-     <Compile Include="Assets\~CoreGame\Math\FrustumPointsPositions.cs" />
-     <Compile Include="Assets\~CoreGame\Math\Intersection.cs" />
-     <Compile Include="Assets\~CoreGame\Math\ShapeDefinitions.cs" />
-     <Compile Include="Assets\~CoreGame\Math\Types\StartEndSlice.cs" />
-     <Compile Include="Assets\~CoreGame\Path\BeziersControlPoints.cs" />
-     <Compile Include="Assets\~CoreGame\Physics\PhysicsHelper.cs" />
-     <Compile Include="Assets\~CoreGame\Player\Scripts\CommonComponents\TransformMoveManagerComponentV3.cs" />
-     <Compile Include="Assets\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
+     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Coroutiner.cs" />
+     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\GameLogHandler.cs" />
+     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Persistance\GameManagerPersistanceInstance.cs" />
+     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Singleton\CoreGameSingletonInstances.cs" />
+     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Singleton\GameSingleton.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Constants\LayerConstants.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Constants\NavMeshConstants.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Constants\StringConstants.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Constants\TagConstants.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\BoundsHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\ComponentSearchExtensions.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\ComponentSearchHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\ComputeBufferHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\DynamicComputeBufferManager.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\FunctionalExtensions.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\GizmoHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\MultiValueDictionary.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\MyEditorStyles.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\ProceduralTextureHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\QuaterionHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\RandomHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\RendererRetrievableHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\SceneLoadingHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\SerializationHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\StructHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\TransformChangeListener.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\TransformExtensions.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Configuration\GameConfiguration.cs" />
+     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForEndOfAnimation.cs" />
+     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForListOfAsyncOperation.cs" />
+     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForNavAgentDestinationReached.cs" />
+     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForParticlesToNotEmit.cs" />
+     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForTransformPositionReached.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Debug\Scripts\FPSDisplay.cs" />
+     <Compile Include="Assets\Common\~CoreGame\EnumDependantProperty\ByEnumProperty.cs" />
+     <Compile Include="Assets\Common\~CoreGame\EventVariables\BoolVariable.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Extensions\Vector3Extensions.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Log\MyLog.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Math\FrustumPointsPositions.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Math\Intersection.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Math\ShapeDefinitions.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Math\Types\StartEndSlice.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Path\BeziersControlPoints.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Player\Scripts\CommonComponents\TransformMoveManagerComponentV3.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\_Shader\Wave\WaveMovementV2.cginc" />
@@ -709,10 +708,6 @@
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="GameConfigurationID.csproj">
-      <Project>{06A8FBB9-2865-52EF-46A1-DD70B419EDC5}</Project>
-      <Name>GameConfigurationID</Name>
     </ProjectReference>
     <ProjectReference Include="SequencedAction.csproj">
       <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>

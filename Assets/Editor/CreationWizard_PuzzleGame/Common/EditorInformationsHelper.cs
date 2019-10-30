@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ConfigurationEditor;
-using CoreGame;
 using CreationWizard;
 using LevelManagement;
-using RTPuzzle;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -19,7 +17,6 @@ namespace Editor_MainGameCreationWizard
 
             AssetFinder.SafeSingleAssetFind(ref CommonGameConfigurations.PuzzleLevelCommonPrefabs.GameManagerPersistanceInstance, "_GameManagers_Persistance_Instanciater");
             AssetFinder.SafeSingleAssetFind(ref CommonGameConfigurations.PuzzleLevelCommonPrefabs.CorePuzzleSceneElements, "CorePuzzleSceneElements");
-            AssetFinder.SafeSingleAssetFind(ref CommonGameConfigurations.PuzzleLevelCommonPrefabs.PuzzleDebugModule, "PuzzleDebugModule");
             AssetFinder.SafeSingleAssetFind(ref CommonGameConfigurations.PuzzleLevelCommonPrefabs.BasePuzzleLevelDynamics, "BasePuzzleLevelDynamics");
             AssetFinder.SafeSingleAssetFind(ref CommonGameConfigurations.PuzzleLevelCommonPrefabs.BaseLevelChunkPrefab, "BaseLevelprefab");
 
@@ -76,6 +73,5 @@ namespace Editor_MainGameCreationWizard
         [MyReadOnly] public LevelManager BasePuzzleLevelDynamics;
         [MyReadOnly] public GameObject CorePuzzleSceneElements;
         [MyReadOnly] public GameManagerPersistanceInstance GameManagerPersistanceInstance;
-        [MyReadOnly] public PuzzleDebugModule PuzzleDebugModule;
     }
 }

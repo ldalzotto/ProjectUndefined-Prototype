@@ -1,5 +1,4 @@
-﻿using GameConfigurationID;
-using LevelManagement;
+﻿using LevelManagement;
 
 public class NamingConventionHelper
 {

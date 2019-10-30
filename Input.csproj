@@ -56,13 +56,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Input\Input\CoreInputConfiguration.cs" />
-     <Compile Include="Assets\Input\Input\InputConfiguration\InputConfiguration.cs" />
-     <Compile Include="Assets\Input\Input\InputConfiguration\InputConfigurationInherentData.cs" />
-     <Compile Include="Assets\Input\Input\InputConfiguration\InputID.cs" />
-     <Compile Include="Assets\Input\Input\InputConfigurationGameObject.cs" />
-     <Compile Include="Assets\Input\Managers\GameInputManager.cs" />
-     <None Include="Assets\Input\Input.asmdef" />
+     <Compile Include="Assets\Common\Input\Input\CoreInputConfiguration.cs" />
+     <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputConfiguration.cs" />
+     <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputConfigurationInherentData.cs" />
+     <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputID.cs" />
+     <Compile Include="Assets\Common\Input\Input\InputConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\Input\Managers\GameInputManager.cs" />
+     <None Include="Assets\Common\Input\Input.asmdef" />
  <Reference Include="Unity.InputSystem">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
  </Reference>

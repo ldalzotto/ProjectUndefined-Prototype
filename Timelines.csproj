@@ -56,15 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Timelines\Configuration\TimelineConfiguration.cs" />
-     <Compile Include="Assets\Timelines\Configuration\TimelineConfigurationGameObject.cs" />
-     <Compile Include="Assets\Timelines\Configuration\TimelineID.cs" />
-     <Compile Include="Assets\Timelines\Events\TimelinesEventManager.cs" />
-     <Compile Include="Assets\Timelines\Managers\ATimelinesManager.cs" />
-     <Compile Include="Assets\Timelines\Persistance\ATimelinePersister.cs" />
-     <Compile Include="Assets\Timelines\Timelines\Timeline.cs" />
-     <Compile Include="Assets\Timelines\Timelines\TimelineAction.cs" />
-     <None Include="Assets\Timelines\Timelines.asmdef" />
+     <Compile Include="Assets\Common\Timelines\Configuration\TimelineConfiguration.cs" />
+     <Compile Include="Assets\Common\Timelines\Configuration\TimelineConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\Timelines\Configuration\TimelineID.cs" />
+     <Compile Include="Assets\Common\Timelines\Events\TimelinesEventManager.cs" />
+     <Compile Include="Assets\Common\Timelines\Managers\ATimelinesManager.cs" />
+     <Compile Include="Assets\Common\Timelines\Persistance\ATimelinePersister.cs" />
+     <Compile Include="Assets\Common\Timelines\Timelines\Timeline.cs" />
+     <Compile Include="Assets\Common\Timelines\Timelines\TimelineAction.cs" />
+     <None Include="Assets\Common\Timelines\Timelines.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

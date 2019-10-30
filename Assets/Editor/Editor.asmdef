@@ -17,7 +17,8 @@
 "VisualFeedback",
 "Persistence",
 "AnimatorPlayable",
-"SequencedAction"
+"SequencedAction",
+"GameLoop"
   ],
   "includePlatforms": [
     "Editor"

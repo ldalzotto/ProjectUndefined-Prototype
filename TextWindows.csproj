@@ -56,12 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\TextWindows\InputImage\InputImageType.cs" />
-     <Compile Include="Assets\TextWindows\Lib\RectTransformHelper.cs" />
-     <Compile Include="Assets\TextWindows\Test\DiscussionWindowTest.cs" />
-     <Compile Include="Assets\TextWindows\Windows\DisplayAllTextWindow.cs" />
-     <Compile Include="Assets\TextWindows\Windows\ProceduralTextWindow.cs" />
-     <None Include="Assets\TextWindows\TextWindows.asmdef" />
+     <Compile Include="Assets\Common\TextWindows\InputImage\InputImageType.cs" />
+     <Compile Include="Assets\Common\TextWindows\Lib\RectTransformHelper.cs" />
+     <Compile Include="Assets\Common\TextWindows\Test\DiscussionWindowTest.cs" />
+     <Compile Include="Assets\Common\TextWindows\Windows\DisplayAllTextWindow.cs" />
+     <Compile Include="Assets\Common\TextWindows\Windows\ProceduralTextWindow.cs" />
+     <None Include="Assets\Common\TextWindows\TextWindows.asmdef" />
  <Reference Include="Unity.InputSystem">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
  </Reference>

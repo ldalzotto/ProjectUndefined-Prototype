@@ -1,6 +1,4 @@
-﻿using OdinSerializer;
-using RTPuzzle;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace Tests
@@ -33,7 +31,5 @@ namespace Tests
             agent.nextPosition = worldPosition;
             agent.transform.position = worldPosition;
         }
-
     }
-
 }

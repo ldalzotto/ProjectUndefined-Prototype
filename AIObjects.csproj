@@ -56,14 +56,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIMoveToActionV2.cs" />
-     <Compile Include="Assets\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIWarpActionV2.cs" />
-     <Compile Include="Assets\AIObjects\AIPatrolV2\AIPatrolGraphV2.cs" />
-     <Compile Include="Assets\AIObjects\AIPatrolV2\Systems\AIPatrolSystem.cs" />
-     <Compile Include="Assets\AIObjects\AIPatrolV2\Systems\AIPatrolSystemDefinition.cs" />
-     <Compile Include="Assets\AIObjects\InteractiveObject\AIInteractiveObjectTemplates\AbstractAIInteractiveObjectInitializerData.cs" />
-     <Compile Include="Assets\AIObjects\Systems\AIMoveToDestinationSystem.cs" />
-     <None Include="Assets\AIObjects\AIObjects.asmdef" />
+     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIMoveToActionV2.cs" />
+     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIWarpActionV2.cs" />
+     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolGraphV2.cs" />
+     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystem.cs" />
+     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystemDefinition.cs" />
+     <Compile Include="Assets\Common\AIObjects\InteractiveObject\AIInteractiveObjectTemplates\AbstractAIInteractiveObjectInitializerData.cs" />
+     <Compile Include="Assets\Common\AIObjects\Systems\AIMoveToDestinationSystem.cs" />
+     <None Include="Assets\Common\AIObjects\AIObjects.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

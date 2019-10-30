@@ -56,15 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\SelectableObjects\Configuration\SelectableObjectsConfiguration.cs" />
-     <Compile Include="Assets\SelectableObjects\Configuration\SelectableObjectsConfigurationGameObject.cs" />
-     <Compile Include="Assets\SelectableObjects\InteractiveObject\Systems\SelectableObjectSystem.cs" />
-     <Compile Include="Assets\SelectableObjects\InteractiveObject\Systems\SelectableObjectSystemDefinition.cs" />
-     <Compile Include="Assets\SelectableObjects\SelectableObject\Lib\SelectableObjectIconAnimation.cs" />
-     <Compile Include="Assets\SelectableObjects\SelectableObject\Managers\SelectableObjectManagerV2.cs" />
-     <Compile Include="Assets\SelectableObjects\SelectableObjectsRendering\PuzzleSelectionObjectRederingPassFeature.cs" />
-     <Compile Include="Assets\SelectableObjects\SelectableObjectsRendering\SelectableObjectRendererManager.cs" />
-     <None Include="Assets\SelectableObjects\SelectableObjects.asmdef" />
+     <Compile Include="Assets\Common\SelectableObjects\Configuration\SelectableObjectsConfiguration.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\Configuration\SelectableObjectsConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\InteractiveObject\Systems\SelectableObjectSystem.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\InteractiveObject\Systems\SelectableObjectSystemDefinition.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\SelectableObject\Lib\SelectableObjectIconAnimation.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\SelectableObject\Managers\SelectableObjectManagerV2.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\SelectableObjectsRendering\PuzzleSelectionObjectRederingPassFeature.cs" />
+     <Compile Include="Assets\Common\SelectableObjects\SelectableObjectsRendering\SelectableObjectRendererManager.cs" />
+     <None Include="Assets\Common\SelectableObjects\SelectableObjects.asmdef" />
  <Reference Include="Unity.RenderPipelines.Lightweight.Runtime">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Runtime.dll</HintPath>
  </Reference>

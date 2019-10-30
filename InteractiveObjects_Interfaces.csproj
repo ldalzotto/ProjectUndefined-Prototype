@@ -56,10 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\InteractiveObjects\InteractiveObjects_Interfaces\CommonConstants\InteractiveObjectsConstants.cs" />
-     <Compile Include="Assets\InteractiveObjects\InteractiveObjects_Interfaces\IInteractiveGameObject.cs" />
-     <Compile Include="Assets\InteractiveObjects\InteractiveObjects_Interfaces\Systems\AInteractiveObjectSystem.cs" />
-     <None Include="Assets\InteractiveObjects\InteractiveObjects_Interfaces\InteractiveObjects_Interfaces.asmdef" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\CommonConstants\InteractiveObjectsConstants.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\IInteractiveGameObject.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\Systems\AInteractiveObjectSystem.cs" />
+     <None Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\InteractiveObjects_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

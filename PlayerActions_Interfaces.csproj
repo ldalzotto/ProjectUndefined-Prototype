@@ -56,8 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PlayerActions\PlayerActions_Interfaces\Events\PlayerActionsEventListenerManager.cs" />
-     <None Include="Assets\PlayerActions\PlayerActions_Interfaces\PlayerActions_Interfaces.asmdef" />
+     <Compile Include="Assets\Common\PlayerActions\PlayerActions_Interfaces\Events\PlayerActionsEventListenerManager.cs" />
+     <None Include="Assets\Common\PlayerActions\PlayerActions_Interfaces\PlayerActions_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

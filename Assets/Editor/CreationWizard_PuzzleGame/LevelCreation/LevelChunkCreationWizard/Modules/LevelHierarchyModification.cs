@@ -1,10 +1,9 @@
-﻿using CoreGame;
-using GameConfigurationID;
+﻿using System;
 using LevelManagement;
 
 namespace Editor_LevelChunkCreationWizard
 {
-    [System.Serializable]
+    [Serializable]
     public class LevelHierarchyModification : ModificationComponent
     {
         public override void OnGenerationClicked(AbstractCreationWizardEditorProfile editorProfile)

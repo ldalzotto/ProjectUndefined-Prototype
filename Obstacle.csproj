@@ -56,14 +56,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Obstacle\InteractiveObject\Initializer\ObstacleInteractiveObjectInitializer.cs" />
-     <Compile Include="Assets\Obstacle\InteractiveObject\ObstacleInteractiveObject.cs" />
-     <Compile Include="Assets\Obstacle\InteractiveObject\ObstacleOcclusionFrustums\SquareObstacleOcclusionFrustumsDefinition.cs" />
-     <Compile Include="Assets\Obstacle\Managers\ObstacleInteractiveObjectManager.cs" />
-     <Compile Include="Assets\Obstacle\Managers\ObstacleOcclusionCalculationManagerV2.cs" />
-     <Compile Include="Assets\Obstacle\Managers\ObstaclesListenerManager.cs" />
-     <Compile Include="Assets\Obstacle\RangeObject\Systems\ObstacleListenerSystem.cs" />
-     <None Include="Assets\Obstacle\Obstacle.asmdef" />
+     <Compile Include="Assets\Common\Obstacle\InteractiveObject\Initializer\ObstacleInteractiveObjectInitializer.cs" />
+     <Compile Include="Assets\Common\Obstacle\InteractiveObject\ObstacleInteractiveObject.cs" />
+     <Compile Include="Assets\Common\Obstacle\InteractiveObject\ObstacleOcclusionFrustums\SquareObstacleOcclusionFrustumsDefinition.cs" />
+     <Compile Include="Assets\Common\Obstacle\Managers\ObstacleInteractiveObjectManager.cs" />
+     <Compile Include="Assets\Common\Obstacle\Managers\ObstacleOcclusionCalculationManagerV2.cs" />
+     <Compile Include="Assets\Common\Obstacle\Managers\ObstaclesListenerManager.cs" />
+     <Compile Include="Assets\Common\Obstacle\RangeObject\Systems\ObstacleListenerSystem.cs" />
+     <None Include="Assets\Common\Obstacle\Obstacle.asmdef" />
  <Reference Include="Unity.Burst">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
  </Reference>
@@ -632,10 +632,6 @@
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
       <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="GameConfigurationID.csproj">
-      <Project>{06A8FBB9-2865-52EF-46A1-DD70B419EDC5}</Project>
-      <Name>GameConfigurationID</Name>
     </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>

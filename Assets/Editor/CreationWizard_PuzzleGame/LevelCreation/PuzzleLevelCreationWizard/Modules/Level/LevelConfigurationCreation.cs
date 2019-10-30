@@ -1,14 +1,10 @@
-﻿using UnityEngine;
-using UnityEditor;
-using RTPuzzle;
-using System;
+﻿using System;
 using Editor_MainGameCreationWizard;
-using System.Collections.Generic;
 using LevelManagement;
 
 namespace Editor_PuzzleLevelCreationWizard
 {
-    [System.Serializable]
+    [Serializable]
     public class LevelConfigurationCreation : CreateableScriptableObjectComponent<LevelConfigurationData>
     {
         protected override string objectFieldLabel => typeof(LevelConfigurationData).Name;

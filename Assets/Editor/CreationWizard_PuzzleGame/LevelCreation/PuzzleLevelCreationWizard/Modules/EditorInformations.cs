@@ -1,20 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEditor;
-using UnityEngine.EventSystems;
+﻿using System;
 using System.Collections.Generic;
 using CreationWizard;
-using RTPuzzle;
-using System.Linq;
-using System;
-using CoreGame;
 using Editor_MainGameCreationWizard;
-using GameConfigurationID;
 using LevelManagement;
+using UnityEditor;
+using UnityEngine;
 
 namespace Editor_PuzzleLevelCreationWizard
 {
-    [System.Serializable]
+    [Serializable]
     public class EditorInformations : CreationModuleComponent
     {
         [SerializeField] public EditorInformationsData EditorInformationsData;
@@ -56,7 +50,7 @@ namespace Editor_PuzzleLevelCreationWizard
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class EditorInformationsData
     {
         [CustomEnum()] public LevelZonesID LevelZonesID;

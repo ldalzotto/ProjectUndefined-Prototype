@@ -56,12 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Persistence\Configuration\PersistanceConfiguration.cs" />
-     <Compile Include="Assets\Persistence\Configuration\PersistanceConfigurationGameObject.cs" />
-     <Compile Include="Assets\Persistence\Lib\AbstractGamePersister.cs" />
-     <Compile Include="Assets\Persistence\Managers\AutoSaveIcon.cs" />
-     <Compile Include="Assets\Persistence\Managers\PersistanceManager.cs" />
-     <None Include="Assets\Persistence\Persistence.asmdef" />
+     <Compile Include="Assets\Common\Persistence\Configuration\PersistanceConfiguration.cs" />
+     <Compile Include="Assets\Common\Persistence\Configuration\PersistanceConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\Persistence\Lib\AbstractGamePersister.cs" />
+     <Compile Include="Assets\Common\Persistence\Managers\AutoSaveIcon.cs" />
+     <Compile Include="Assets\Common\Persistence\Managers\PersistanceManager.cs" />
+     <None Include="Assets\Common\Persistence\Persistence.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

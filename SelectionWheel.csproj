@@ -56,18 +56,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\SelectionWheel\Configuration\SelectionWheelGlobal\SelectionWheelGlobalConfiguration.cs" />
-     <Compile Include="Assets\SelectionWheel\Configuration\SelectionWheelGlobal\SelectionWheelGlobalConfigurationGameObject.cs" />
-     <Compile Include="Assets\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfiguration.cs" />
-     <Compile Include="Assets\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfigurationData.cs" />
-     <Compile Include="Assets\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfigurationGameObject.cs" />
-     <Compile Include="Assets\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfigurationId.cs" />
-     <Compile Include="Assets\SelectionWheel\Lib\SelectionWheelInstancer.cs" />
-     <Compile Include="Assets\SelectionWheel\SelectionWheel\SelectionWheelGameObject.cs" />
-     <Compile Include="Assets\SelectionWheel\SelectionWheel\SelectionWheelNode.cs" />
-     <Compile Include="Assets\SelectionWheel\SelectionWheel\SelectionWheelObject.cs" />
-     <Compile Include="Assets\SelectionWheel\SelectionWheel\SelectionWheelObjectAnimation.cs" />
-     <None Include="Assets\SelectionWheel\SelectionWheel.asmdef" />
+     <Compile Include="Assets\Common\SelectionWheel\Configuration\SelectionWheelGlobal\SelectionWheelGlobalConfiguration.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\Configuration\SelectionWheelGlobal\SelectionWheelGlobalConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfiguration.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfigurationData.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\Configuration\SelectionWheelNode\SelectionWheelNodeConfigurationId.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\Lib\SelectionWheelInstancer.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\SelectionWheel\SelectionWheelGameObject.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\SelectionWheel\SelectionWheelNode.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\SelectionWheel\SelectionWheelObject.cs" />
+     <Compile Include="Assets\Common\SelectionWheel\SelectionWheel\SelectionWheelObjectAnimation.cs" />
+     <None Include="Assets\Common\SelectionWheel\SelectionWheel.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

@@ -1,10 +1,9 @@
-﻿using CoreGame;
+﻿using System;
 using Editor_MainGameCreationWizard;
-using GameConfigurationID;
 using LevelManagement;
 using UnityEditor;
 
-[System.Serializable]
+[Serializable]
 public abstract class ALevelSceneConfigurationCreation : CreateableScriptableObjectComponent<LevelZonesSceneConfigurationData>
 {
     protected abstract LevelZonesID GetLevelZonesID(AbstractCreationWizardEditorProfile editorProfile);

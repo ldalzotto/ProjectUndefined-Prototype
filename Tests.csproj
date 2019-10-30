@@ -616,10 +616,6 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="PuzzleGame.csproj">
-      <Project>{FC207E2F-E5F7-098C-D7ED-9E2B548A1914}</Project>
-      <Name>PuzzleGame</Name>
-    </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
       <Name>CoreGame</Name>
@@ -635,10 +631,6 @@
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="GameConfigurationID.csproj">
-      <Project>{06A8FBB9-2865-52EF-46A1-DD70B419EDC5}</Project>
-      <Name>GameConfigurationID</Name>
     </ProjectReference>
     <ProjectReference Include="VisualFeedback.csproj">
       <Project>{7CB22E21-2248-2D5F-191C-57E9A683E3D8}</Project>

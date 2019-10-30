@@ -56,16 +56,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\InteractiveObjects\Configuration\AbstractInteractiveObjectV2Definition.cs" />
-     <Compile Include="Assets\InteractiveObjects\Configuration\InteractiveObjectV2Configuration.cs" />
-     <Compile Include="Assets\InteractiveObjects\Configuration\InteractiveObjectV2ConfigurationGameObject.cs" />
-     <Compile Include="Assets\InteractiveObjects\Configuration\InteractiveObjectV2DefinitionID.cs" />
-     <Compile Include="Assets\InteractiveObjects\Events\InteractiveObjectEventsManager.cs" />
-     <Compile Include="Assets\InteractiveObjects\InteractiveGameObject\InteractiveGameObject.cs" />
-     <Compile Include="Assets\InteractiveObjects\InteractiveObject.cs" />
-     <Compile Include="Assets\InteractiveObjects\InteractiveObjectInitializer.cs" />
-     <Compile Include="Assets\InteractiveObjects\Managers\InteractiveObjectV2Manager.cs" />
-     <None Include="Assets\InteractiveObjects\InteractiveObjects.asmdef" />
+     <Compile Include="Assets\Common\InteractiveObjects\Configuration\AbstractInteractiveObjectV2Definition.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\Definitions\LocalPuzzleCutsceneTemplate.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\Events\InteractiveObjectEventsManager.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveGameObject\InteractiveGameObject.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObject.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectInitializer.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\Managers\InteractiveObjectV2Manager.cs" />
+     <None Include="Assets\Common\InteractiveObjects\InteractiveObjects.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -636,13 +634,17 @@
       <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="InteractiveObject_Animation.csproj">
+      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
+      <Name>InteractiveObject_Animation</Name>
+    </ProjectReference>
     <ProjectReference Include="AnimatorPlayable.csproj">
       <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
       <Name>AnimatorPlayable</Name>
     </ProjectReference>
-    <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
-      <Name>InteractiveObject_Animation</Name>
+    <ProjectReference Include="SequencedAction.csproj">
+      <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
+      <Name>SequencedAction</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

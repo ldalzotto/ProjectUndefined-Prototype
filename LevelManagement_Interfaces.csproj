@@ -56,8 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LevelManagement\LevelManagement_Interfaces\LevelRangeEffectInherentData.cs" />
-     <None Include="Assets\LevelManagement\LevelManagement_Interfaces\LevelManagement_Interfaces.asmdef" />
+     <Compile Include="Assets\Common\LevelManagement\LevelManagement_Interfaces\LevelRangeEffectInherentData.cs" />
+     <None Include="Assets\Common\LevelManagement\LevelManagement_Interfaces\LevelManagement_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
