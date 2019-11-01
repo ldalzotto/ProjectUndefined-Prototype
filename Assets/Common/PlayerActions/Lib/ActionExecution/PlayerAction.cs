@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PlayerActions
 {
-    public abstract class RTPPlayerAction
+    public abstract class PlayerAction
     {
         private CooldownEventTrackerManager CooldownEventTrackerManager;
 
@@ -18,7 +18,7 @@ namespace PlayerActions
         private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
 
 
-        protected RTPPlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition)
+        protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition)
         {
             PlayerActionType = CorePlayerActionDefinition.PlayerActionType;
             var SelectionWheelNodeConfiguration = SelectionWheelNodeConfigurationGameObject.Get().SelectionWheelNodeConfiguration;
@@ -117,7 +117,7 @@ namespace PlayerActions
             endOfCooldownEventEmitted = false;
         }
 
-        public void Tick(RTPPlayerAction involvedAction)
+        public void Tick(PlayerAction involvedAction)
         {
             if (!endOfCooldownEventEmitted) endOfCooldownEventEmitted = true;
         }

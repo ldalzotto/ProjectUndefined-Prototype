@@ -65,7 +65,7 @@ namespace PlayerActions
 
         #region Data Retrieval
 
-        public RTPPlayerAction GetCurrentlySelectedPlayerAction()
+        public PlayerAction GetCurrentlySelectedPlayerAction()
         {
             return this.PlayerActionWheelManager.GetCurrentlySelectedPlayerAction();
         }
@@ -74,12 +74,12 @@ namespace PlayerActions
 
         #region Events and methods
 
-        public void IncreaseOrAddActionsRemainingExecutionAmount(RTPPlayerAction RTPPlayerAction, int deltaRemaining)
+        public void IncreaseOrAddActionsRemainingExecutionAmount(PlayerAction playerAction, int deltaRemaining)
         {
-            this.PlayerActionManager.IncreaseOrAddActionsRemainingExecutionAmount(RTPPlayerAction, deltaRemaining);
+            this.PlayerActionManager.IncreaseOrAddActionsRemainingExecutionAmount(playerAction, deltaRemaining);
         }
 
-        public void ExecuteAction(RTPPlayerAction rTPPlayerAction)
+        public void ExecuteAction(PlayerAction rTPPlayerAction)
         {
             this.PlayerActionManager.ExecuteAction(rTPPlayerAction);
             this.PlayerActionWheelManager.PlayerActionWheelSleep(false);
@@ -95,25 +95,25 @@ namespace PlayerActions
             this.PlayerActionWheelManager.PlayerActionWheelSleep(destroyImmediate);
         }
 
-        public void AddActionsToAvailable(List<RTPPlayerAction> addedActions)
+        public void AddActionsToAvailable(List<PlayerAction> addedActions)
         {
             this.PlayerActionManager.AddActionsToAvailable(addedActions);
         }
 
-        public void RemoveActionsToAvailable(List<RTPPlayerAction> removedActions)
+        public void RemoveActionsToAvailable(List<PlayerAction> removedActions)
         {
             this.PlayerActionManager.RemoveActionsToAvailable(removedActions);
         }
 
         private void OnSelectableObjectSelected(ISelectableObjectSystem SelectableObject)
         {
-            this.PlayerActionManager.AddActionToAvailable(SelectableObject.AssociatedPlayerAction as RTPPlayerAction);
+            this.PlayerActionManager.AddActionToAvailable(SelectableObject.AssociatedPlayerAction as PlayerAction);
             this.PlayerActionWheelManager.PlayerActionWheelRefresh(this.PlayerActionManager.GetCurrentAvailablePlayerActions());
         }
 
         private void OnSelectableObjectDeSelected(ISelectableObjectSystem SelectableObject)
         {
-            this.PlayerActionManager.RemoveActionToAvailable(SelectableObject.AssociatedPlayerAction as RTPPlayerAction);
+            this.PlayerActionManager.RemoveActionToAvailable(SelectableObject.AssociatedPlayerAction as PlayerAction);
             this.PlayerActionWheelManager.PlayerActionWheelRefresh(this.PlayerActionManager.GetCurrentAvailablePlayerActions());
         }
 

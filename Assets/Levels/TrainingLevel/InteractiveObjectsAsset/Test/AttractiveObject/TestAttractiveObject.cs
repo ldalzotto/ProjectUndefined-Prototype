@@ -11,7 +11,7 @@ namespace InteractiveObjects
     {
         private TestAttractiveObjectInitializerData TestAttractiveObjectInitializerData;
 
-        [VE_Ignore] private RTPPlayerAction AssociatedPlayerAction;
+        [VE_Ignore] private PlayerAction AssociatedPlayerAction;
 
         [VE_Nested] private AttractiveObjectSystem AttractiveObjectSystem;
         [VE_Nested] [DrawNested] private DisarmObjectSystem DisarmObjectSystem;

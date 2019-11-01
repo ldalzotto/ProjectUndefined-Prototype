@@ -27,7 +27,7 @@ namespace PlayerActions
 
         #region External Events
 
-        internal void PlayerActionWheelAwake(List<RTPPlayerAction> availablePlayerActions, Transform followingWorldTransform)
+        internal void PlayerActionWheelAwake(List<PlayerAction> availablePlayerActions, Transform followingWorldTransform)
         {
             this.PlayerActionSelectionWheel.AwakeWheel(availablePlayerActions.ConvertAll(rtpPlayerAction => new PlayerSelectionWheelNodeData(rtpPlayerAction) as SelectionWheelNodeData), followingWorldTransform);
             PlayerActionsEventListenerManager.Get().OnPlayerActionSelectionWheelAwake();
@@ -38,7 +38,7 @@ namespace PlayerActions
             this.PlayerActionSelectionWheel.SleepWheel(detroyImmediate);
         }
 
-        internal void PlayerActionWheelRefresh(List<RTPPlayerAction> availablePlayerActions)
+        internal void PlayerActionWheelRefresh(List<PlayerAction> availablePlayerActions)
         {
             if (this.PlayerActionSelectionWheel.IsWheelEnabled)
             {
@@ -50,11 +50,11 @@ namespace PlayerActions
 
         #region Data Retrieval
 
-        public RTPPlayerAction GetCurrentlySelectedPlayerAction()
+        public PlayerAction GetCurrentlySelectedPlayerAction()
         {
             if (this.PlayerActionSelectionWheel.IsWheelEnabled)
             {
-                return ((PlayerSelectionWheelNodeData) this.PlayerActionSelectionWheel.GetSelectedNodeData()).Data as RTPPlayerAction;
+                return ((PlayerSelectionWheelNodeData) this.PlayerActionSelectionWheel.GetSelectedNodeData()).Data as PlayerAction;
             }
 
             return null;

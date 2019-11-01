@@ -11,7 +11,7 @@ namespace PlayerActions
     {
         public CorePlayerActionDefinition CorePlayerActionDefinition;
 
-        public abstract RTPPlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject);
+        public abstract PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject);
     }
 
     [Serializable]

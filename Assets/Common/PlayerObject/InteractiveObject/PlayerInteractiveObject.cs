@@ -1,5 +1,4 @@
-﻿using AnimatorPlayable;
-using Input;
+﻿using Input;
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
@@ -11,47 +10,48 @@ namespace PlayerObject
 {
     public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject
     {
-        private InteractiveObjectLogicColliderDefinition InteractiveObjectLogicCollider;
-        private A_AnimationPlayableDefinition LocomotionAnimationDefinition;
+        private PlayerInteractiveObjectInitializer PlayerInteractiveObjectInitializer;
 
         #region Systems
 
-        [VE_Nested] private BaseObjectAnimatorPlayableSystem _baseObjectAnimatorPlayableSystem;
+        [VE_Nested] private BaseObjectAnimatorPlayableSystem baseObjectAnimatorPlayableSystem;
+
+        #endregion
+
+        #region External Dependencies
+
+        private GameInputManager GameInputManager;
 
         #endregion
 
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
-
         [VE_Ignore] private PlayerInputMoveManager PlayerInputMoveManager;
         [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
 
-        public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, InteractiveObjectLogicColliderDefinition InteractiveObjectLogicCollider,
-            A_AnimationPlayableDefinition LocomotionAnimationDefinition)
+        public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectInitializer PlayerInteractiveObjectInitializer)
         {
-            this.InteractiveObjectLogicCollider = InteractiveObjectLogicCollider;
-            this.LocomotionAnimationDefinition = LocomotionAnimationDefinition;
+            this.PlayerInteractiveObjectInitializer = PlayerInteractiveObjectInitializer;
             base.BaseInit(interactiveGameObject, false);
         }
 
         public override void Init()
         {
-            this.InteractiveGameObject.CreateLogicCollider(InteractiveObjectLogicCollider);
+            this.InteractiveGameObject.CreateLogicCollider(this.PlayerInteractiveObjectInitializer.InteractiveObjectLogicCollider);
             interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true};
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
 
             #region External Dependencies
 
-            var gameInputManager = GameInputManager.Get();
+            this.GameInputManager = GameInputManager.Get();
 
             #endregion
 
-
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
 
-            PlayerInputMoveManager = new PlayerInputMoveManager(PlayerInteractiveObjectInitializerData.SpeedMultiplicationFactor, cameraPivotPoint.transform, gameInputManager, this.InteractiveGameObject.PhysicsRigidbody);
+            PlayerInputMoveManager = new PlayerInputMoveManager(PlayerInteractiveObjectInitializerData.SpeedMultiplicationFactor, cameraPivotPoint.transform, this.GameInputManager, this.InteractiveGameObject.PhysicsRigidbody);
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
-            PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, gameInputManager,
+            PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, this.GameInputManager,
                 PlayerActionEntryPoint.Get());
 
             //Getting persisted position
@@ -59,7 +59,7 @@ namespace PlayerObject
             this.InteractiveGameObject.InteractiveGameObjectParent.transform.position = PlayerPositionPersistenceManager.Get().PlayerPositionBeforeLevelLoad.GetPosition();
             this.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation = PlayerPositionPersistenceManager.Get().PlayerPositionBeforeLevelLoad.GetQuaternion();
 
-            this._baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, LocomotionAnimationDefinition);
+            this.baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.PlayerInteractiveObjectInitializer.LocomotionAnimation);
         }
 
         public PlayerInteractiveObjectInitializerData PlayerInteractiveObjectInitializerData { get; private set; }
@@ -73,7 +73,14 @@ namespace PlayerObject
                 {
                     if (!this.PlayerActionEntryPoint.IsSelectionWheelEnabled())
                     {
-                        PlayerInputMoveManager.Tick(d);
+                        if (this.GameInputManager.CurrentInput.FiringActionDown())
+                        {
+                            this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectInitializer.FiringPlayerActionInherentData.BuildPlayerAction(this));
+                        }
+                        else
+                        {
+                            PlayerInputMoveManager.Tick(d);
+                        }
                     }
                     else
                     {
@@ -87,7 +94,7 @@ namespace PlayerObject
                 PlayerInputMoveManager.ResetSpeed();
             }
 
-            this._baseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(GetNormalizedSpeed());
+            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(GetNormalizedSpeed());
         }
 
         public override void FixedTick(float d)
@@ -110,11 +117,6 @@ namespace PlayerObject
         #endregion
 
         #region Logical Conditions
-
-        public bool HasPlayerMovedThisFrame()
-        {
-            return PlayerInputMoveManager.HasMoved;
-        }
 
         public float GetNormalizedSpeed()
         {

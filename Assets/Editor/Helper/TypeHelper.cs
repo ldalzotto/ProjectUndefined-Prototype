@@ -6,6 +6,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using System;
 using System.Linq;
+using Input;
 using LevelManagement;
 using RangeObjects;
 using Timelines;
@@ -43,6 +44,7 @@ public class TypeHelper
                 .Union(typeof(TutorialManager).Assembly.GetTypes())
                 .Union(typeof(DottedLineManager).Assembly.GetTypes())
                 .Union(typeof(TimelineConfiguration).Assembly.GetTypes())
+                .Union(typeof(InputConfiguration).Assembly.GetTypes())
                 .Where(t => typeof(IConfigurationSerialization).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface).ToArray();
     }
 

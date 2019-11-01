@@ -2,11 +2,11 @@ using PlayerActions;
 
 namespace RTPuzzle
 {
-    public class GrabObjectAction : RTPPlayerAction
+    public class GrabObjectAction : PlayerAction
     {
-        private RTPPlayerAction addedPlayerAction;
+        private PlayerAction addedPlayerAction;
 
-        public GrabObjectAction(RTPPlayerAction addedPlayerAction, CorePlayerActionDefinition CorePlayerActionDefinition) : base(CorePlayerActionDefinition)
+        public GrabObjectAction(PlayerAction addedPlayerAction, CorePlayerActionDefinition CorePlayerActionDefinition) : base(CorePlayerActionDefinition)
         {
             this.addedPlayerAction = addedPlayerAction;
         }

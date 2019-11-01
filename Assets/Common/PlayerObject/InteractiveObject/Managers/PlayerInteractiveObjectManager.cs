@@ -1,5 +1,4 @@
 ﻿using CoreGame;
-using InteractiveObjects_Interfaces;
 
 namespace PlayerObject
 {
@@ -30,21 +29,6 @@ namespace PlayerObject
         public void LateTick(float d)
         {
             PlayerInteractiveObject.LateTick(d);
-        }
-
-        public IInteractiveGameObject GetPlayerGameObject()
-        {
-            return PlayerInteractiveObject.InteractiveGameObject;
-        }
-
-        public float GetNormalizedSpeed()
-        {
-            return PlayerInteractiveObject.GetNormalizedSpeed();
-        }
-
-        public bool HasPlayerMovedThisFrame()
-        {
-            return PlayerInteractiveObject.HasPlayerMovedThisFrame();
         }
     }
 }

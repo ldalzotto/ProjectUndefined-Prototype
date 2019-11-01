@@ -1,5 +1,4 @@
-﻿using System;
-using CoreGame;
+﻿using CoreGame;
 using UnityEngine;
 
 namespace PlayerObject
@@ -29,11 +28,6 @@ namespace PlayerObject
                 //stick to ground
                 StickGroundBodyPositioner.FixedTick(GroundRayCaster.GetHitPosition());
             }
-        }
-
-        public void ResetSpeed()
-        {
-            this.SlopeVelocityAdjuster.ResetSpeed();
         }
     }
 

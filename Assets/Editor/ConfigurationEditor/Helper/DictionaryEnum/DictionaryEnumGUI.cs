@@ -1,12 +1,11 @@
-﻿#if UNITY_EDITOR
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+#if UNITY_EDITOR
+using System;
+using System.Linq;
 
 namespace ConfigurationEditor
 {
@@ -16,7 +15,7 @@ namespace ConfigurationEditor
         void SetSearchFilter(string searchString);
     }
 
-    [System.Serializable]
+    [Serializable]
     public class DictionaryEnumGUI<K, V> : IDictionaryEnumGUI<K, V> where K : Enum where V : ScriptableObject
     {
         #region Add Entry
@@ -92,6 +91,8 @@ namespace ConfigurationEditor
             DoAddEntry(ref dictionaryEditorValues);
 
             EditorGUILayout.LabelField(typeof(V).Name + " : ", EditorStyles.boldLabel);
+
+            DoSearchFilter(ref dictionaryEditorValues);
 
             var dictionaryEditorEntryValues = dictionaryEditorValues.ToList();
             if (this.alphabeticalOrder)
@@ -283,6 +284,52 @@ namespace ConfigurationEditor
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Separator();
+        }
+
+        private void DoSearchFilter(ref Dictionary<K, V> dictionaryEditorValues)
+        {
+            EditorGUILayout.BeginVertical(this.keySearchFieldStyle);
+
+            EditorGUI.BeginChangeCheck();
+            string keySearchString = this.keySearchField.OnGUI(this.keySearchString);
+            if (EditorGUI.EndChangeCheck())
+            {
+                this.keySearchString = keySearchString;
+                this.UpdateSearchStringRegex();
+            }
+
+            if (this.keySearchRegexErrorMessage != null && this.keySearchRegexErrorMessage != String.Empty)
+            {
+                EditorGUILayout.LabelField(this.keySearchRegexErrorMessage, this.keySearchRegexErrorMessageStyle);
+            }
+
+            EditorGUILayout.Separator();
+            EditorGUILayout.Space();
+
+            EditorGUILayout.BeginHorizontal(GUILayout.Width(30f));
+            EditorGUI.BeginChangeCheck();
+            bool sensitiveOperationsEnabled = GUILayout.Toggle(this.sensitiveOperationsEnabled, new GUIContent("!", "Authorize sensitive operations."), EditorStyles.miniButtonLeft);
+            bool alphabeticalOrder = GUILayout.Toggle(this.alphabeticalOrder, new GUIContent("A↑", "Alphabetical order."), EditorStyles.miniButtonMid);
+            bool forceLookAll = GUILayout.Toggle(this.forceLookOfAll, new GUIContent("L*", "Show all elements detail."), EditorStyles.miniButtonRight);
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (forceLookAll)
+                {
+                    this.valuesToLook = dictionaryEditorValues.Keys.ToList();
+                }
+                else
+                {
+                    this.valuesToLook.Clear();
+                }
+
+                this.sensitiveOperationsEnabled = sensitiveOperationsEnabled;
+                this.alphabeticalOrder = alphabeticalOrder;
+                this.forceLookOfAll = forceLookAll;
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.Space();
         }
 
         private void DoDisplayEntry(ref Dictionary<K, V> dictionaryEditorValues, KeyValuePair<K, V> dictionaryEditorEntry)

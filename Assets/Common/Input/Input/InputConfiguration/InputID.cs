@@ -28,6 +28,8 @@ namespace Input
         TIME_FORWARD_DOWN_HOLD = 10,
         PUZZLE_RESET_DOWN_HOLD = 11,
         SWITCH_SELECTION_DOWN = 12,
-        CAMERA_ZOOM = 13
+        CAMERA_ZOOM = 13,
+        FIRING_ACTION_DOWN = 14,
+        FIRING_ACTION_RELEASED = 15
     }
 }

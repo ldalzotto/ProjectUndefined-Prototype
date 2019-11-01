@@ -48,16 +48,6 @@ namespace Input
                 return this.gameInputV2.InputConditionsMet(InputID.CANCEL_DOWN);
             }
 
-            public bool CancelButtonDH()
-            {
-                return this.gameInputV2.InputConditionsMet(InputID.CANCEL_DOWN_HOLD);
-            }
-
-            public bool InventoryButtonD()
-            {
-                return this.gameInputV2.InputConditionsMet(InputID.INVENTORY_DOWN);
-            }
-
             public Vector3 LocomotionAxis()
             {
                 var rawDirection = new Vector3(-Convert.ToInt32(this.gameInputV2.InputConditionsMet(InputID.LEFT_DOWN_HOLD))
@@ -103,16 +93,6 @@ namespace Input
                 return 0f;
             }
 
-            public bool TimeForwardButtonDH()
-            {
-                return this.gameInputV2.InputConditionsMet(InputID.TIME_FORWARD_DOWN_HOLD);
-            }
-
-            public bool PuzzleResetButton()
-            {
-                return this.gameInputV2.InputConditionsMet(InputID.PUZZLE_RESET_DOWN_HOLD);
-            }
-
             public bool SwitchSelectionButtonD()
             {
                 return this.gameInputV2.InputConditionsMet(InputID.SWITCH_SELECTION_DOWN);
@@ -121,6 +101,16 @@ namespace Input
             public float CameraZoom()
             {
                 return this.gameInputV2.InputConditionsMetFloat(InputID.CAMERA_ZOOM);
+            }
+
+            public bool FiringActionDown()
+            {
+                return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_DOWN);
+            }
+
+            public bool FiringActionReleased()
+            {
+                return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_RELEASED);
             }
         }
 
@@ -206,6 +196,10 @@ namespace Input
                     {
                         inputConditionsMet = Convert.ToSingle(this.keyToKeyControlLookup[attibutedKey].wasPressedThisFrame || this.keyToKeyControlLookup[attibutedKey].isPressed);
                     }
+                    else if (inputConfigurationInherentData.Released)
+                    {
+                        inputConditionsMet = Convert.ToSingle(this.keyToKeyControlLookup[attibutedKey].wasReleasedThisFrame);
+                    }
 
                     if (inputConditionsMet != 0f)
                     {
@@ -222,6 +216,10 @@ namespace Input
                     else if (inputConfigurationInherentData.DownHold)
                     {
                         inputConditionsMet = Convert.ToSingle(this.mouseButtonControlLookup[attrubuteMouseButton].wasPressedThisFrame || this.mouseButtonControlLookup[attrubuteMouseButton].isPressed);
+                    }
+                    else if (inputConfigurationInherentData.Released)
+                    {
+                        inputConditionsMet = Convert.ToSingle(this.mouseButtonControlLookup[attrubuteMouseButton].wasReleasedThisFrame);
                     }
 
                     if (inputConditionsMet != 0f)
@@ -242,13 +240,11 @@ namespace Input
         float LeftRotationCameraDH();
         float RightRotationCameraDH();
         bool ActionButtonD();
-        bool InventoryButtonD();
         bool CancelButtonD();
-        bool CancelButtonDH();
-        bool TimeForwardButtonDH();
-        bool PuzzleResetButton();
         bool SwitchSelectionButtonD();
         float CameraZoom();
+        bool FiringActionDown();
+        bool FiringActionReleased();
     }
 
     public enum MouseButton

@@ -18,7 +18,8 @@
 "Persistence",
 "AnimatorPlayable",
 "SequencedAction",
-"GameLoop"
+"GameLoop",
+"Input"
   ],
   "includePlatforms": [
     "Editor"

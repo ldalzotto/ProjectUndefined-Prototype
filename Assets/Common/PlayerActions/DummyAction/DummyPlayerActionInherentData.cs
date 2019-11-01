@@ -8,13 +8,13 @@ namespace PlayerActions
     [CreateAssetMenu(fileName = "DummyPlayerActionInherentData", menuName = "Test/DummyPlayerActionInherentData", order = 1)]
     public class DummyPlayerActionInherentData : PlayerActionInherentData
     {
-        public override RTPPlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
+        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
         {
             return new DummyPlayerAction(CorePlayerActionDefinition);
         }
     }
 
-    public class DummyPlayerAction : RTPPlayerAction
+    public class DummyPlayerAction : PlayerAction
     {
         public DummyPlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition) : base(CorePlayerActionDefinition)
         {

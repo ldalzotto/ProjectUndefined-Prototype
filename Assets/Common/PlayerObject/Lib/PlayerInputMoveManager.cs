@@ -9,7 +9,6 @@ namespace PlayerObject
     {
         private float SpeedMultiplicationFactor;
         protected Rigidbody PlayerRigidBody;
-        private bool hasMoved;
         protected float playerSpeedMagnitude;
         protected PlayerSpeedProcessingInput playerSpeedProcessingInput;
 
@@ -21,29 +20,14 @@ namespace PlayerObject
             PlayerRigidBody = playerRigidBody;
         }
 
-        public PlayerSpeedProcessingInput PlayerSpeedProcessingInput
-        {
-            get => playerSpeedProcessingInput;
-        }
-
-        public bool HasMoved
-        {
-            get => hasMoved;
-        }
-
         public float PlayerSpeedMagnitude
         {
-            get => playerSpeedMagnitude;
+            get => playerSpeedProcessingInput.PlayerSpeedMagnitude;
         }
 
         public void Tick(float d)
         {
             this.playerSpeedProcessingInput = ComputePlayerSpeedProcessingInput();
-            this.playerSpeedMagnitude = playerSpeedProcessingInput.PlayerSpeedMagnitude;
-            if (playerSpeedMagnitude > float.Epsilon)
-            {
-                hasMoved = true;
-            }
         }
 
         public void FixedTick(float d)
@@ -57,10 +41,6 @@ namespace PlayerObject
 
             //move rigid body
             PlayerRigidBody.velocity = playerSpeedProcessingInput.PlayerMovementOrientation * playerSpeedProcessingInput.PlayerSpeedMagnitude * this.SpeedMultiplicationFactor;
-            if (playerSpeedProcessingInput.PlayerSpeedMagnitude <= float.Epsilon)
-            {
-                hasMoved = false;
-            }
         }
     }
 

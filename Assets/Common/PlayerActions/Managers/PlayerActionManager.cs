@@ -54,7 +54,7 @@ namespace PlayerActions
             PlayerActionExecutionManager.GUITick();
         }
 
-        internal void ExecuteAction(RTPPlayerAction rTPPlayerAction)
+        internal void ExecuteAction(PlayerAction rTPPlayerAction)
         {
             PlayerActionExecutionManager.ExecuteAction(rTPPlayerAction);
         }
@@ -64,27 +64,27 @@ namespace PlayerActions
             PlayerActionExecutionManager.StopAction();
         }
 
-        internal void IncreaseOrAddActionsRemainingExecutionAmount(RTPPlayerAction RTPPlayerAction, int deltaRemaining)
+        internal void IncreaseOrAddActionsRemainingExecutionAmount(PlayerAction playerAction, int deltaRemaining)
         {
-            PlayerActionsAvailableManager.IncreaseOrAddActionsRemainingExecutionAmount(RTPPlayerAction, deltaRemaining);
+            PlayerActionsAvailableManager.IncreaseOrAddActionsRemainingExecutionAmount(playerAction, deltaRemaining);
         }
 
-        internal void AddActionsToAvailable(List<RTPPlayerAction> addedActions)
+        internal void AddActionsToAvailable(List<PlayerAction> addedActions)
         {
             foreach (var addedAction in addedActions) AddActionToAvailable(addedAction);
         }
 
-        internal void RemoveActionsToAvailable(List<RTPPlayerAction> removedActions)
+        internal void RemoveActionsToAvailable(List<PlayerAction> removedActions)
         {
             foreach (var removedAction in removedActions) this.PlayerActionsAvailableManager.RemoveActionToAvailable(removedAction);
         }
 
-        internal void RemoveActionToAvailable(RTPPlayerAction removedAction)
+        internal void RemoveActionToAvailable(PlayerAction removedAction)
         {
             this.PlayerActionsAvailableManager.RemoveActionToAvailable(removedAction);
         }
 
-        internal void AddActionToAvailable(RTPPlayerAction addedAction)
+        internal void AddActionToAvailable(PlayerAction addedAction)
         {
             PlayerActionsAvailableManager.AddActionToAvailable(addedAction);
         }
@@ -100,15 +100,7 @@ namespace PlayerActions
 
         #region Data Retrieval
 
-        public RTPPlayerAction GetCurrentRunningAction()
-        {
-            if (!IsActionExecuting())
-                return null;
-            else
-                return PlayerActionExecutionManager.CurrentAction;
-        }
-
-        internal List<RTPPlayerAction> GetCurrentAvailablePlayerActions()
+        internal List<PlayerAction> GetCurrentAvailablePlayerActions()
         {
             return this.PlayerActionsAvailableManager.CurrentAvailableActions.MultiValueGetValues();
         }
@@ -121,7 +113,7 @@ namespace PlayerActions
 
     internal class PlayerActionExecutionManager
     {
-        private RTPPlayerAction currentAction;
+        private PlayerAction currentAction;
         private bool isActionExecuting;
         private Action TriggerOnPlayerActionFinichedEventAction;
 
@@ -132,7 +124,7 @@ namespace PlayerActions
 
         public bool IsActionExecuting => isActionExecuting;
 
-        public RTPPlayerAction CurrentAction => currentAction;
+        public PlayerAction CurrentAction => currentAction;
 
         public void Tick(float d)
         {
@@ -160,7 +152,7 @@ namespace PlayerActions
             if (currentAction != null) currentAction.GUITick();
         }
 
-        public void ExecuteAction(RTPPlayerAction PlayerAction)
+        public void ExecuteAction(PlayerAction PlayerAction)
         {
             currentAction = PlayerAction;
             isActionExecuting = true;
@@ -180,14 +172,14 @@ namespace PlayerActions
 
     internal class PlayerActionsAvailableManager
     {
-        private MultiValueDictionary<PlayerActionType, RTPPlayerAction> currentAvailableActions;
+        private MultiValueDictionary<PlayerActionType, PlayerAction> currentAvailableActions;
 
         public PlayerActionsAvailableManager()
         {
-            currentAvailableActions = new MultiValueDictionary<PlayerActionType, RTPPlayerAction>();
+            currentAvailableActions = new MultiValueDictionary<PlayerActionType, PlayerAction>();
         }
 
-        public MultiValueDictionary<PlayerActionType, RTPPlayerAction> CurrentAvailableActions => currentAvailableActions;
+        public MultiValueDictionary<PlayerActionType, PlayerAction> CurrentAvailableActions => currentAvailableActions;
 
         public void Tick(float d, float timeAttenuation)
         {
@@ -196,30 +188,30 @@ namespace PlayerActions
                     availableAction.CoolDownTick(d * timeAttenuation);
         }
 
-        public void AddActionToAvailable(RTPPlayerAction rTPPlayerActionToAdd)
+        public void AddActionToAvailable(PlayerAction rTPPlayerActionToAdd)
         {
             currentAvailableActions.MultiValueAdd(rTPPlayerActionToAdd.PlayerActionType, rTPPlayerActionToAdd);
         }
 
-        public void RemoveActionToAvailable(RTPPlayerAction rTPPlayerActionToRemove)
+        public void RemoveActionToAvailable(PlayerAction rTPPlayerActionToRemove)
         {
             currentAvailableActions.MultiValueRemove(rTPPlayerActionToRemove.PlayerActionType, rTPPlayerActionToRemove);
         }
 
-        public void IncreaseOrAddActionsRemainingExecutionAmount(RTPPlayerAction RTPPlayerAction, int deltaRemaining)
+        public void IncreaseOrAddActionsRemainingExecutionAmount(PlayerAction playerAction, int deltaRemaining)
         {
-            if (RTPPlayerAction.PlayerActionType != PlayerActionType.UNCLASSIFIED)
+            if (playerAction.PlayerActionType != PlayerActionType.UNCLASSIFIED)
             {
-                currentAvailableActions.TryGetValue(RTPPlayerAction.PlayerActionType, out var retrievedActions);
+                currentAvailableActions.TryGetValue(playerAction.PlayerActionType, out var retrievedActions);
                 if (retrievedActions != null && retrievedActions.Count > 0)
                     foreach (var action in retrievedActions)
                         action.IncreaseActionRemainingExecutionAmount(deltaRemaining);
                 else //Wa add
-                    currentAvailableActions.MultiValueAdd(RTPPlayerAction.PlayerActionType, RTPPlayerAction);
+                    currentAvailableActions.MultiValueAdd(playerAction.PlayerActionType, playerAction);
             }
             else //Wa add
             {
-                currentAvailableActions.MultiValueAdd(RTPPlayerAction.PlayerActionType, RTPPlayerAction);
+                currentAvailableActions.MultiValueAdd(playerAction.PlayerActionType, playerAction);
             }
         }
     }
@@ -230,9 +222,9 @@ namespace PlayerActions
 
     public class PlayerSelectionWheelNodeData : SelectionWheelNodeData
     {
-        private RTPPlayerAction playerAction;
+        private PlayerAction playerAction;
 
-        public PlayerSelectionWheelNodeData(RTPPlayerAction playerAction)
+        public PlayerSelectionWheelNodeData(PlayerAction playerAction)
         {
             this.playerAction = playerAction;
         }

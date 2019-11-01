@@ -98,6 +98,16 @@ namespace Tests
             return 0f;
         }
 
+        public bool FiringActionDown()
+        {
+            return false;
+        }
+
+        public bool FiringActionReleased()
+        {
+            return false;
+        }
+
         #endregion
     }
 }
