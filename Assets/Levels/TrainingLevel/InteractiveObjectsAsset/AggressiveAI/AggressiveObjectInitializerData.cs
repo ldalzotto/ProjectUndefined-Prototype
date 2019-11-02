@@ -15,9 +15,9 @@ namespace InteractiveObjects
         [Inline(createAtSameLevelIfAbsent: true)]
         public SightObjectSystemDefinition SightObjectSystemDefinition;
 
-        public override CoreInteractiveObject BuildInteractiveObject(GameObject parent)
+        public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new AggressiveAIObject(InteractiveGameObjectFactory.Build(parent), this);
+            return new AggressiveAIObject(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
         }
     }
 }

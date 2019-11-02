@@ -56,7 +56,7 @@ namespace InteractiveObjects
             InitAgent();
         }
 
-        public void CreateLogicCollider(InteractiveObjectLogicColliderDefinition interactiveObjectLogicColliderDefinition)
+        public void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition)
         {
             if (interactiveObjectLogicColliderDefinition.Enabled)
             {

@@ -22,7 +22,7 @@ namespace Obstacle
             this.InteractiveGameObject.CreateLogicCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider);
             ObstacleCollider = this.InteractiveGameObject.GetLogicColliderAsBox();
             SquareObstacleSystemInitializationData = ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData;
-            interactiveObjectTag = new InteractiveObjectTag {IsObstacle = true};
+            interactiveObjectTag = new InteractiveObjectTag {IsObstacle = 1};
             squareObstacleOcclusionFrustumsDefinition = new SquareObstacleOcclusionFrustumsDefinition();
 
             ObstacleInteractiveObjectUniqueID = ObstacleInteractiveObjectManager.Get().OnSquareObstacleSystemCreated(this);

@@ -9,7 +9,6 @@ namespace InteractiveObjects_Interfaces
     {
         GameObject InteractiveGameObjectParent { get; }
         ExtendedBounds AverageModelBounds { get; }
-        //TODO -> Animator should be deleted and replaced by PlayableAnimator
         Animator Animator { get; }
         List<Renderer> Renderers { get; }
         Collider LogicCollider { get; }
@@ -24,6 +23,6 @@ namespace InteractiveObjects_Interfaces
         BoxDefinition GetLogicColliderBoxDefinition();
 
         void CreateAgent(AIAgentDefinition AIAgentDefinition);
-        void CreateLogicCollider(InteractiveObjectLogicColliderDefinition interactiveObjectLogicColliderDefinition);
+        void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition);
     }
 }

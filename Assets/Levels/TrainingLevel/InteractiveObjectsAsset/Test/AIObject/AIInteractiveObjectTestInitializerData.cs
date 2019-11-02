@@ -22,9 +22,9 @@ namespace InteractiveObjects
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public LocalPuzzleCutsceneTemplate DisarmObjectAnimation;
 
-        public override CoreInteractiveObject BuildInteractiveObject(GameObject parent)
+        public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new AIInteractiveObjectTest(InteractiveGameObjectFactory.Build(parent), this);
+            return new AIInteractiveObjectTest(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
         }
     }
 }

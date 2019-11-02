@@ -8,7 +8,7 @@ namespace PlayerObject
     [SceneHandleDraw]
     public class PlayerInteractiveObjectInitializer : InteractiveObjectInitializer
     {
-        [DrawNested] public InteractiveObjectLogicColliderDefinition InteractiveObjectLogicCollider;
+        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
 
         public A_AnimationPlayableDefinition LocomotionAnimation;
         public PlayerActionInherentData FiringPlayerActionInherentData;

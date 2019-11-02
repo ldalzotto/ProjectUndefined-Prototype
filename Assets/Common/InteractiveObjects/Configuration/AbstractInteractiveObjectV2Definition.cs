@@ -6,6 +6,6 @@ namespace InteractiveObjects
     [SceneHandleDraw]
     public abstract class AbstractInteractiveObjectV2Definition : SerializedScriptableObject
     {
-        public abstract CoreInteractiveObject BuildInteractiveObject(GameObject parent);
+        public abstract CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject);
     }
 }

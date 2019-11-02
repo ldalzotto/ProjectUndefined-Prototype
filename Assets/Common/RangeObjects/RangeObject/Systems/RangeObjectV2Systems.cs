@@ -83,12 +83,12 @@ namespace RangeObjects
     public class RangeObstaclePhysicsEventListener : ARangeObjectV2PhysicsEventListener
     {
         private ObstacleListenerSystem AssociatedObstacleListener;
-        private InteractiveObjectTagStruct SelectionGuard;
+        private InteractiveObjectTag SelectionGuard;
 
         public RangeObstaclePhysicsEventListener(ObstacleListenerSystem associatedObstacleListener)
         {
             AssociatedObstacleListener = associatedObstacleListener;
-            this.SelectionGuard = new InteractiveObjectTagStruct(isObstacle: 1);
+            this.SelectionGuard = new InteractiveObjectTag(isObstacle: 1);
         }
 
         public override bool ColliderSelectionGuard(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)

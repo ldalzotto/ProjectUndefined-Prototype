@@ -6,7 +6,7 @@ namespace InteractiveObjects
     public interface IInteractiveObjectEventsManager
     {
         void RegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
-        void UpRegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
+        void UnRegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
         void RegisterOnInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action);
         void UnRegisterOnInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action);
     }
@@ -26,7 +26,7 @@ namespace InteractiveObjects
             OnInteractiveObjectCreatedEvent += action;
         }
 
-        public void UpRegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action)
+        public void UnRegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action)
         {
             OnInteractiveObjectCreatedEvent -= action;
         }

@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace InteractiveObjects
 {
-    public abstract class CoreInteractiveObject
+    public abstract partial class CoreInteractiveObject
     {
         #region External Dependencies
 
@@ -81,91 +81,34 @@ namespace InteractiveObjects
         {
         }
 
-        public virtual void OnAnimationObjectSetUnscaledSpeedMagnitude(float UnscaledSpeedMagnitude)
-        {
-        }
-
-        #endregion
-
-        #region AI Events
-
-        public virtual void SetAIDestination(AIDestination AIDestination)
-        {
-        }
-
-        public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
-        {
-        }
-
-        public virtual void OnAIDestinationReached()
-        {
-        }
-
-        #endregion
-
-        #region Attractive Object Events
-
-        public virtual void OnOtherAttractiveObjectJustIntersected(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        public virtual void OnOtherAttractiveObjectIntersectedNothing(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        public virtual void OnOtherAttractiveObjectNoMoreIntersected(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        #endregion
-
-        #region Disarm Object Events
-
-        public virtual void OnOtherDisarmObjectTriggerEnter(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        public virtual void OnOtherDisarmobjectTriggerExit(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
         #endregion
     }
 
-    public class InteractiveObjectTag
-    {
-        public bool IsAi;
-        public bool IsAttractiveObject;
-        public bool IsLevelCompletionZone;
-        public bool IsObstacle;
-        public bool IsPlayer;
-    }
-
+    /// <summary>
+    /// -1 is used to exclude in comparison
+    /// </summary>
     [Serializable]
-    public struct InteractiveObjectTagStruct
+    public struct InteractiveObjectTag
     {
         public int IsAttractiveObject;
         public int IsAi;
         public int IsObstacle;
         public int IsPlayer;
-        public int IsLevelCompletionZone;
 
-        public InteractiveObjectTagStruct(int isAttractiveObject = -1, int isAi = -1, int isObstacle = -1, int isPlayer = -1, int isLevelCompletionZone = -1)
+        public InteractiveObjectTag(int isAttractiveObject = -1, int isAi = -1, int isObstacle = -1, int isPlayer = -1)
         {
             IsAttractiveObject = isAttractiveObject;
             IsAi = isAi;
             IsObstacle = isObstacle;
             IsPlayer = isPlayer;
-            IsLevelCompletionZone = isLevelCompletionZone;
         }
 
         public bool Compare(InteractiveObjectTag InteractiveObjectTag)
         {
-            return (IsAttractiveObject == -1 || IsAttractiveObject == Convert.ToInt32(InteractiveObjectTag.IsAttractiveObject))
-                   && (IsAi == -1 || IsAi == Convert.ToInt32(InteractiveObjectTag.IsAi))
-                   && (IsObstacle == -1 || IsObstacle == Convert.ToInt32(InteractiveObjectTag.IsObstacle))
-                   && (IsPlayer == -1 || IsPlayer == Convert.ToInt32(InteractiveObjectTag.IsPlayer))
-                   && (IsLevelCompletionZone == -1 || IsLevelCompletionZone == Convert.ToInt32(InteractiveObjectTag.IsLevelCompletionZone));
+            return (IsAttractiveObject == -1 || IsAttractiveObject == InteractiveObjectTag.IsAttractiveObject)
+                   && (IsAi == -1 || IsAi == InteractiveObjectTag.IsAi)
+                   && (IsObstacle == -1 || IsObstacle == InteractiveObjectTag.IsObstacle)
+                   && (IsPlayer == -1 || IsPlayer == InteractiveObjectTag.IsPlayer);
         }
     }
 }

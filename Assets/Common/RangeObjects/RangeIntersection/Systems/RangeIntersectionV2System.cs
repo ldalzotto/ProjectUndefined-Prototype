@@ -149,14 +149,14 @@ namespace RangeObjects
 
     public class RangeIntersectionV2Listener_Delegated : ARangeIntersectionV2Listener
     {
-        protected InteractiveObjectTagStruct InteractiveObjectSelectionGuard;
+        protected InteractiveObjectTag InteractiveObjectSelectionGuard;
         private Action<CoreInteractiveObject> OnInterestedNothingAction = null;
         private Action<CoreInteractiveObject> OnJustIntersectedAction = null;
         private Action<CoreInteractiveObject> OnJustNotIntersectedAction = null;
         private Action<CoreInteractiveObject> OnTriggerEnterSuccessAction = null;
         private Action<CoreInteractiveObject> OnTriggerExitSuccessAction = null;
 
-        public RangeIntersectionV2Listener_Delegated(RangeObjectV2 associatedRangeObject, InteractiveObjectTagStruct InteractiveObjectSelectionGuard,
+        public RangeIntersectionV2Listener_Delegated(RangeObjectV2 associatedRangeObject, InteractiveObjectTag InteractiveObjectSelectionGuard,
             Action<CoreInteractiveObject> OnInterestedNothingAction = null, Action<CoreInteractiveObject> OnJustIntersectedAction = null, Action<CoreInteractiveObject> OnJustNotIntersectedAction = null,
             Action<CoreInteractiveObject> OnTriggerEnterSuccessAction = null, Action<CoreInteractiveObject> OnTriggerExitSuccessAction = null) : base(associatedRangeObject)
         {

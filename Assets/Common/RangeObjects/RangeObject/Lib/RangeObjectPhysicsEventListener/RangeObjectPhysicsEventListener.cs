@@ -29,11 +29,11 @@ namespace RangeObjects
 
     public class RangeObjectV2PhysicsEventListener_Delegated : ARangeObjectV2PhysicsEventListener
     {
-        protected InteractiveObjectTagStruct InteractiveObjectSelectionGuard;
+        protected InteractiveObjectTag InteractiveObjectSelectionGuard;
         private Action<CoreInteractiveObject> OnTriggerEnterAction = null;
         private Action<CoreInteractiveObject> OnTriggerExitAction = null;
 
-        public RangeObjectV2PhysicsEventListener_Delegated(InteractiveObjectTagStruct interactiveObjectSelectionGuard,
+        public RangeObjectV2PhysicsEventListener_Delegated(InteractiveObjectTag interactiveObjectSelectionGuard,
             Action<CoreInteractiveObject> onTriggerEnterAction = null, Action<CoreInteractiveObject> onTriggerExitAction = null)
         {
             OnTriggerEnterAction = onTriggerEnterAction;

@@ -11,7 +11,7 @@ namespace InteractiveObjects
     [CreateAssetMenu(fileName = "TestAttractiveObjectInitializerData", menuName = "Test/TestAttractiveObjectInitializerData", order = 1)]
     public class TestAttractiveObjectInitializerData : AbstractInteractiveObjectV2Definition
     {
-        [DrawNested] public InteractiveObjectLogicColliderDefinition InteractiveObjectLogicCollider;
+        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
 
         [DrawNested] [Inline(createAtSameLevelIfAbsent: true)]
         public AttractiveObjectSystemDefinition AttractiveObjectSystemDefinition;
@@ -24,9 +24,9 @@ namespace InteractiveObjects
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public SelectableObjectSystemDefinition SelectableObjectSystemDefinition;
 
-        public override CoreInteractiveObject BuildInteractiveObject(GameObject parent)
+        public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new TestAttractiveObject(InteractiveGameObjectFactory.Build(parent), this);
+            return new TestAttractiveObject(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
         }
     }
 }

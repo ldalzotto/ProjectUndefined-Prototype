@@ -9,7 +9,7 @@ namespace InteractiveObjects
         private RangeObjectV2 LevelCompletionZoneObject;
 
         public LevelCompletionZoneSystem(CoreInteractiveObject AssociatedInteractiveObject, LevelCompletionZoneSystemDefinition LevelCompletionZoneSystemDefinition,
-            InteractiveObjectTagStruct ComparedInteractiveObjectTagStruct,
+            InteractiveObjectTag ComparedInteractiveObjectTagStruct,
             Action<CoreInteractiveObject> OnLevelCompletionTriggerEnterPlayer)
         {
             LevelCompletionZoneObject = RangeObjectV2Builder.Build(AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent,

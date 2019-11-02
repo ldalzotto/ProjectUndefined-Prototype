@@ -28,7 +28,7 @@ namespace Obstacle
     [SceneHandleDraw]
     public class ObstacleInteractiveObjectInitializerData
     {
-        [DrawNested] public InteractiveObjectLogicColliderDefinition InteractiveObjectLogicCollider;
+        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
         public SquareObstacleSystemInitializationData SquareObstacleSystemInitializationData;
     }
 }

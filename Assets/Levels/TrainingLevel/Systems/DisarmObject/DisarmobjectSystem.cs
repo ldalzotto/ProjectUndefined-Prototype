@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreGame;
 using InteractiveObjects_Interfaces;
 using RangeObjects;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace InteractiveObjects
         private RangeObjectV2 SphereRange;
 
         public DisarmObjectSystem(CoreInteractiveObject AssociatedInteractiveObject, DisarmSystemDefinition DisarmObjectInitializationData,
-            InteractiveObjectTagStruct PhysicsEventListenerGuard, Action<CoreInteractiveObject> OnAssociatedDisarmObjectTriggerEnter,
+            InteractiveObjectTag PhysicsEventListenerGuard, Action<CoreInteractiveObject> OnAssociatedDisarmObjectTriggerEnter,
             Action<CoreInteractiveObject> OnAssociatedDisarmObjectTriggerExit)
         {
             DisarmSystemDefinition = DisarmObjectInitializationData;

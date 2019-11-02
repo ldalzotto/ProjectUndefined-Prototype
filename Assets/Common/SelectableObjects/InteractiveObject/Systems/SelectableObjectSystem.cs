@@ -76,14 +76,14 @@ namespace SelectableObject
 
     internal class SelectableObjectPhysicsEventListener : ARangeObjectV2PhysicsEventListener
     {
-        private InteractiveObjectTagStruct InteractiveObjectTagStruct;
+        private InteractiveObjectTag InteractiveObjectTagStruct;
 
         private OnPlayerTriggerInSelectionEnterDelegate OnPlayerTriggerInSelectionEnter;
         private OnPlayerTriggerInSelectionExitDelegate OnPlayerTriggerInSelectionExit;
 
         public SelectableObjectPhysicsEventListener(OnPlayerTriggerInSelectionEnterDelegate OnPlayerTriggerInSelectionEnter, OnPlayerTriggerInSelectionExitDelegate OnPlayerTriggerInSelectionExit)
         {
-            InteractiveObjectTagStruct = new InteractiveObjectTagStruct {IsPlayer = 1};
+            InteractiveObjectTagStruct = new InteractiveObjectTag {IsPlayer = 1};
             this.OnPlayerTriggerInSelectionEnter = OnPlayerTriggerInSelectionEnter;
             this.OnPlayerTriggerInSelectionExit = OnPlayerTriggerInSelectionExit;
         }

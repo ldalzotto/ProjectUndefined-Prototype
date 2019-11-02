@@ -11,9 +11,9 @@ namespace InteractiveObjects
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public RootAnimationCutsceneTemplate RootAnimationCutsceneTemplate;
 
-        public override CoreInteractiveObject BuildInteractiveObject(GameObject parent)
+        public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new RootAnimationAITestObject(InteractiveGameObjectFactory.Build(parent), this);
+            return new RootAnimationAITestObject(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
         }
     }
 }
