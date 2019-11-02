@@ -9,6 +9,7 @@ namespace Firing
     public class FiringPlayerActionInherentData : PlayerActionInherentData
     {
         public float RecoilTime;
+        public float TargetCursorInitialOffset;
         public GameObject FiringProjectilePrefab;
         public GameObject TargetCursorPrefab;
         public GameObject FiringHorizontalPlanePrefab;

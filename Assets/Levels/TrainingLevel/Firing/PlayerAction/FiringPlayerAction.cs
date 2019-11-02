@@ -68,7 +68,8 @@ namespace Firing
         public void CreateTargetCursor()
         {
             this.TargetCursor = GameObject.Instantiate(this.FiringPlayerActionInherentDataRef.TargetCursorPrefab, CoreGameSingletonInstances.GameCanvas.transform);
-            this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(this.PlayerInteractiveObjectRef.InteractiveGameObject.GetTransform().WorldPosition);
+            var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
+            this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(playerTransform.position + (playerTransform.forward * this.FiringPlayerActionInherentDataRef.TargetCursorInitialOffset));
         }
 
         public void Tick(float d)
