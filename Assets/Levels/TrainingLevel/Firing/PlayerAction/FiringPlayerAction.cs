@@ -12,21 +12,15 @@ namespace Firing
 
         private TargetCursorSystem TargetCursorSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
-
-        #region  External Dependencies
-
-        private GameInputManager GameInputManager;
-
-        #endregion
-
-        private bool ActionFinished;
+        private ExitActionSystem ExitActionSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
-            this.GameInputManager = GameInputManager.Get();
+            var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
-            this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.GameInputManager);
+            this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, gameInputManager);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem);
+            this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem);
         }
 
         public override void FirstExecution()
@@ -37,20 +31,16 @@ namespace Firing
 
         public override bool FinishedCondition()
         {
-            return this.ActionFinished;
+            return this.ExitActionSystem.ActionFinished;
         }
 
         public override void Tick(float d)
         {
-            this.ActionFinished = this.GameInputManager.CurrentInput.FiringActionReleased();
-            if (!this.ActionFinished)
+            this.ExitActionSystem.Tick(d);
+            if (!this.ExitActionSystem.ActionFinished)
             {
                 this.TargetCursorSystem.Tick(d);
                 this.PlayerObjectOrientationSystem.Tick(d);
-            }
-            else
-            {
-                this.TargetCursorSystem.Dispose();
             }
         }
 
@@ -86,7 +76,9 @@ namespace Firing
         {
             this.TargetCursor = GameObject.Instantiate(this.FiringPlayerActionInherentDataRef.TargetCursorPrefab, CoreGameSingletonInstances.GameCanvas.transform);
             var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
-            this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(playerTransform.position + (playerTransform.forward * this.FiringPlayerActionInherentDataRef.TargetCursorInitialOffset));
+            this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(
+                playerTransform.position + (playerTransform.forward * this.FiringPlayerActionInherentDataRef.TargetCursorInitialOffset) // Eq (1)
+            );
         }
 
         public void Tick(float d)
@@ -135,6 +127,28 @@ namespace Firing
 
                 var rotationAngle = Vector3.SignedAngle(Vector3.forward, lookDirection, playerTransform.up);
                 playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle, playerTransform.eulerAngles.z);
+            }
+        }
+    }
+
+    class ExitActionSystem
+    {
+        public bool ActionFinished { get; private set; }
+        private GameInputManager GameInputManager;
+        private TargetCursorSystem TargetCursorSystem;
+
+        public ExitActionSystem(GameInputManager gameInputManager, TargetCursorSystem targetCursorSystem)
+        {
+            GameInputManager = gameInputManager;
+            TargetCursorSystem = targetCursorSystem;
+        }
+
+        public void Tick(float d)
+        {
+            this.ActionFinished = this.GameInputManager.CurrentInput.FiringActionReleased();
+            if (this.ActionFinished)
+            {
+                this.TargetCursorSystem.Dispose();
             }
         }
     }
