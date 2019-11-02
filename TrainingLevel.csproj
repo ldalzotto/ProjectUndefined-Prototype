@@ -704,6 +704,10 @@
       <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
       <Name>AnimatorPlayable</Name>
     </ProjectReference>
+    <ProjectReference Include="Input.csproj">
+      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
+      <Name>Input</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

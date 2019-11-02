@@ -17,7 +17,8 @@
 "PlayerObject_Interface",
 "LevelManagement",
 "RangeObjects",
-"AnimatorPlayable"
+"AnimatorPlayable",
+"Input"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

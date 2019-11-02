@@ -11,10 +11,11 @@ namespace Firing
         public float RecoilTime;
         public GameObject FiringProjectilePrefab;
         public GameObject TargetCursorPrefab;
+        public GameObject FiringHorizontalPlanePrefab;
 
         public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
         {
-            return new FiringPlayerAction(this);
+            return new FiringPlayerAction(this, PlayerInteractiveObject);
         }
     }
 }
