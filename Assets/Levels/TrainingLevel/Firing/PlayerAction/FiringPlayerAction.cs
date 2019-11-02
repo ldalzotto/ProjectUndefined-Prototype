@@ -20,7 +20,7 @@ namespace Firing
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
             this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, gameInputManager);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem);
-            this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem);
+            this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem, this.PlayerObjectOrientationSystem);
         }
 
         public override void FirstExecution()
@@ -129,6 +129,14 @@ namespace Firing
                 playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle, playerTransform.eulerAngles.z);
             }
         }
+
+        public void Dispose()
+        {
+            if (this.HorizontalPlaneGameObject != null)
+            {
+                GameObject.Destroy(this.HorizontalPlaneGameObject);
+            }
+        }
     }
 
     class ExitActionSystem
@@ -136,11 +144,13 @@ namespace Firing
         public bool ActionFinished { get; private set; }
         private GameInputManager GameInputManager;
         private TargetCursorSystem TargetCursorSystem;
+        private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
 
-        public ExitActionSystem(GameInputManager gameInputManager, TargetCursorSystem targetCursorSystem)
+        public ExitActionSystem(GameInputManager gameInputManager, TargetCursorSystem targetCursorSystem, PlayerObjectOrientationSystem PlayerObjectOrientationSystem)
         {
             GameInputManager = gameInputManager;
             TargetCursorSystem = targetCursorSystem;
+            this.PlayerObjectOrientationSystem = PlayerObjectOrientationSystem;
         }
 
         public void Tick(float d)
@@ -149,6 +159,7 @@ namespace Firing
             if (this.ActionFinished)
             {
                 this.TargetCursorSystem.Dispose();
+                this.PlayerObjectOrientationSystem.Dispose();
             }
         }
     }
