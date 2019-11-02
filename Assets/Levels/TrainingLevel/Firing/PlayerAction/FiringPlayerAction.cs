@@ -13,10 +13,19 @@ namespace Firing
         private TargetCursorSystem TargetCursorSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
 
+        #region  External Dependencies
+
+        private GameInputManager GameInputManager;
+
+        #endregion
+
+        private bool ActionFinished;
+
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
+            this.GameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
-            this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, GameInputManager.Get());
+            this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.GameInputManager);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem);
         }
 
@@ -28,13 +37,21 @@ namespace Firing
 
         public override bool FinishedCondition()
         {
-            return false;
+            return this.ActionFinished;
         }
 
         public override void Tick(float d)
         {
-            this.TargetCursorSystem.Tick(d);
-            this.PlayerObjectOrientationSystem.Tick(d);
+            this.ActionFinished = this.GameInputManager.CurrentInput.FiringActionReleased();
+            if (!this.ActionFinished)
+            {
+                this.TargetCursorSystem.Tick(d);
+                this.PlayerObjectOrientationSystem.Tick(d);
+            }
+            else
+            {
+                this.TargetCursorSystem.Dispose();
+            }
         }
 
         public override void LateTick(float d)
@@ -81,6 +98,14 @@ namespace Firing
         public Vector2 GetTargetCursorScreenPosition()
         {
             return this.TargetCursor.transform.position;
+        }
+
+        public void Dispose()
+        {
+            if (this.TargetCursor != null)
+            {
+                GameObject.Destroy(this.TargetCursor.gameObject);
+            }
         }
     }
 
