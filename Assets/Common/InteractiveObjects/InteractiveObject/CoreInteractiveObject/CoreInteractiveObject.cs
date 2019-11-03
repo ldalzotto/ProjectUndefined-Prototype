@@ -19,6 +19,7 @@ namespace InteractiveObjects
         [VE_Ignore] protected bool isAskingToBeDestroyed;
 
         [VE_Ignore] public bool IsUpdatedInMainManager;
+        [VE_Ignore] private InteractiveObjectPhysicsEventListener InteractiveObjectPhysicsEventListener;
 
         protected void BaseInit(IInteractiveGameObject interactiveGameObject, bool IsUpdatedInMainManager = true)
         {
@@ -46,6 +47,20 @@ namespace InteractiveObjects
 
         public abstract void Init();
 
+        public void RegisterInteractiveObjectPhysicsEventListener(AInteractiveObjectPhysicsEventListener AInteractiveObjectPhysicsEventListener)
+        {
+            if (this.InteractiveGameObject.LogicCollider != null)
+            {
+                if (this.InteractiveObjectPhysicsEventListener == null)
+                {
+                    this.InteractiveObjectPhysicsEventListener = this.InteractiveGameObject.LogicCollider.gameObject.AddComponent<InteractiveObjectPhysicsEventListener>();
+                    this.InteractiveObjectPhysicsEventListener.Init(this);
+                }
+
+                this.InteractiveObjectPhysicsEventListener.AddPhysicsEventListener(AInteractiveObjectPhysicsEventListener);
+            }
+        }
+
         public virtual void FixedTick(float d)
         {
         }
@@ -68,6 +83,7 @@ namespace InteractiveObjects
         {
             this.AnimatorPlayable?.Destroy();
             InteractiveObjectEventsManager.OnInteractiveObjectDestroyed(this);
+            this.InteractiveObjectPhysicsEventListener?.Destroy();
             Object.Destroy(InteractiveGameObject.InteractiveGameObjectParent);
         }
 
