@@ -74,7 +74,7 @@ namespace SelectableObject
         }
     }
 
-    internal class SelectableObjectPhysicsEventListener : ARangeObjectV2PhysicsEventListener
+    internal class SelectableObjectPhysicsEventListener : AInteractiveObjectPhysicsEventListener
     {
         private InteractiveObjectTag InteractiveObjectTagStruct;
 
@@ -88,17 +88,17 @@ namespace SelectableObject
             this.OnPlayerTriggerInSelectionExit = OnPlayerTriggerInSelectionExit;
         }
 
-        public override bool ColliderSelectionGuard(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return InteractiveObjectTagStruct.Compare(RangeObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return InteractiveObjectTagStruct.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
         }
 
-        public override void OnTriggerEnter(RangeObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
             OnPlayerTriggerInSelectionEnter.Invoke(PhysicsTriggerInfo.OtherInteractiveObject);
         }
 
-        public override void OnTriggerExit(RangeObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        public override void OnTriggerExit(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
             OnPlayerTriggerInSelectionExit.Invoke(PhysicsTriggerInfo.OtherInteractiveObject);
         }

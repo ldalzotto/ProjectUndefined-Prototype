@@ -14,7 +14,7 @@ namespace InteractiveObjects
         {
             LevelCompletionZoneObject = RangeObjectV2Builder.Build(AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent,
                 LevelCompletionZoneSystemDefinition.TriggerRangeObjectInitialization, AssociatedInteractiveObject, AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.name + "_LevelCompletionZoneListener");
-            LevelCompletionZoneObject.RegisterPhysicsEventListener(new RangeObjectV2PhysicsEventListener_Delegated(ComparedInteractiveObjectTagStruct, OnLevelCompletionTriggerEnterPlayer));
+            LevelCompletionZoneObject.RegisterPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(ComparedInteractiveObjectTagStruct, OnLevelCompletionTriggerEnterPlayer));
         }
 
         public override void OnDestroy()

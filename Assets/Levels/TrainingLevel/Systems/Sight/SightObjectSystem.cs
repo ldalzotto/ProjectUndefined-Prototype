@@ -31,7 +31,7 @@ namespace InteractiveObjects
                         FrustumV2 = SightObjectSystemDefinition.Frustum
                     }
                 }, AssocaitedInteractiveObject, AssocaitedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.name + "_SightObject");
-            SightRange.RegisterIntersectionEventListener(new RangeIntersectionV2Listener_Delegated(SightRange, PhysicsTagEventGuard,
+            SightRange.RegisterIntersectionEventListener(new InteractiveIntersectionListenerDelegated(SightRange, PhysicsTagEventGuard,
                 OnJustIntersectedAction: OnSightJustIntersected, OnInterestedNothingAction: OnSightObjectSystemIntersectedNothing, OnJustNotIntersectedAction: OnSightNoMoreIntersected));
         }
 

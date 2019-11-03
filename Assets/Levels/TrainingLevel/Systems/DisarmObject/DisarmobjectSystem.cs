@@ -28,7 +28,7 @@ namespace InteractiveObjects
                         Radius = DisarmObjectInitializationData.DisarmRange
                     }
                 }, AssociatedInteractiveObject, AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.name + "_DisarmTriggerRange");
-            SphereRange.RegisterPhysicsEventListener(new RangeObjectV2PhysicsEventListener_Delegated(PhysicsEventListenerGuard, OnAssociatedDisarmObjectTriggerEnter, OnAssociatedDisarmObjectTriggerExit));
+            SphereRange.RegisterPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(PhysicsEventListenerGuard, OnAssociatedDisarmObjectTriggerEnter, OnAssociatedDisarmObjectTriggerExit));
 
             ProgressBarGameObject = new GameObject("ProgressBar");
             ProgressBarGameObject.transform.parent = AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform;

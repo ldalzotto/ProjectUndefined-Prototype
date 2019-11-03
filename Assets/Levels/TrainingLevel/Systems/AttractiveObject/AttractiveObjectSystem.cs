@@ -23,7 +23,7 @@ namespace InteractiveObjects
                 }, InteractiveObject, InteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.name + "_AttractiveObjectRange");
             IsAskingTobedestroyed = false;
 
-            SphereRange.RegisterIntersectionEventListener(new RangeIntersectionV2Listener_Delegated(SphereRange, physicsInteractionSelectionGuard, OnJustIntersectedAction: onAttractiveSystemJustIntersected,
+            SphereRange.RegisterIntersectionEventListener(new InteractiveIntersectionListenerDelegated(SphereRange, physicsInteractionSelectionGuard, OnJustIntersectedAction: onAttractiveSystemJustIntersected,
                 OnJustNotIntersectedAction: onAttractiveSystemJustNotIntersected, OnInterestedNothingAction: onAttractiveSystemInterestedNothing));
             AttractiveObjectLifetimeTimer = new AttractiveObjectLifetimeTimer(AttractiveObjectSystemDefinition.EffectiveTime);
         }

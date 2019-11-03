@@ -30,10 +30,10 @@ namespace RangeObjects
             this.RangeObjectInitialization = RangeObjectInitialization;
 
             this.RangeIntersectionV2System = new RangeIntersectionV2System(this);
-            this.RangeExternalPhysicsOnlyListenersSystem = new RangeExternalPhysicsOnlyListenersSystem(this, this.RangeGameObjectV2.RangeObjectV2PhysicsEventListenerComponent);
+            this.RangeExternalPhysicsOnlyListenersSystem = new RangeExternalPhysicsOnlyListenersSystem(this, this.RangeGameObjectV2.InteractiveObjectPhysicsEventListener);
             if (RangeObjectInitialization.IsTakingIntoAccountObstacles)
             {
-                this.RangeObstacleListenerSystem = new RangeObstacleListenerSystem(this, this.RangeGameObjectV2.RangeObjectV2PhysicsEventListenerComponent);
+                this.RangeObstacleListenerSystem = new RangeObstacleListenerSystem(this, this.RangeGameObjectV2.InteractiveObjectPhysicsEventListener);
             }
 
             this.RangeEventsManager.OnRangeObjectCreated(this);
@@ -66,14 +66,14 @@ namespace RangeObjects
             this.RangeGameObjectV2.ReceiveEvent(SetWorldPositionEvent);
         }
 
-        public void RegisterIntersectionEventListener(ARangeIntersectionV2Listener ARangeIntersectionV2Listener)
+        public void RegisterIntersectionEventListener(AInteractiveIntersectionListener aInteractiveIntersectionListener)
         {
-            this.RangeIntersectionV2System.RegisterIntersectionEventListener(ARangeIntersectionV2Listener, this.RangeGameObjectV2.RangeObjectV2PhysicsEventListenerComponent);
+            this.RangeIntersectionV2System.RegisterIntersectionEventListener(aInteractiveIntersectionListener, this.RangeGameObjectV2.InteractiveObjectPhysicsEventListener);
         }
 
-        public void RegisterPhysicsEventListener(ARangeObjectV2PhysicsEventListener ARangeObjectV2PhysicsEventListener)
+        public void RegisterPhysicsEventListener(AInteractiveObjectPhysicsEventListener aInteractiveObjectPhysicsEventListener)
         {
-            this.RangeExternalPhysicsOnlyListenersSystem.RegisterPhysicsEventListener(ARangeObjectV2PhysicsEventListener);
+            this.RangeExternalPhysicsOnlyListenersSystem.RegisterPhysicsEventListener(aInteractiveObjectPhysicsEventListener);
         }
 
         public ObstacleListenerSystem GetObstacleListener()

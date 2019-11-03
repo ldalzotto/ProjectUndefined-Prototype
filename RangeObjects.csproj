@@ -70,13 +70,11 @@
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Initializer\RangeObjectInitialization.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Initializer\RangeObjectInitializer.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Lib\RangeObjectBoundingColliderBuilder.cs" />
-     <Compile Include="Assets\Common\RangeObjects\RangeObject\Lib\RangeObjectPhysicsEventListener\RangeObjectPhysicsEventListener.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Lib\RangeObjectRenderingDataProvider\RangeObjectRenderingDataProvider.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Managers\RangeObjectV2Manager.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Managers\RangeObjectV2ManagerOperations.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\RangeGameObjectV2.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\RangeObjectV2.cs" />
-     <Compile Include="Assets\Common\RangeObjects\RangeObject\RangeObjectV2PhysicsEventListenerComponent.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Systems\RangeObjectV2Systems.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeRendering\Components\GroundEffectIgnoredGroundObjectType.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeRendering\Components\GroundEffectType.cs" />

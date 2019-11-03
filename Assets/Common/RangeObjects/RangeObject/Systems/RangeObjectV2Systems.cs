@@ -63,45 +63,45 @@ namespace RangeObjects
 
     public class RangeObstacleListenerSystem : ARangeObjectSystem
     {
-        private RangeObstaclePhysicsEventListener RangeObstaclePhysicsEventListener;
+        private InteractiveObstaclePhysicsEventListener _interactiveObstaclePhysicsEventListener;
 
-        public RangeObstacleListenerSystem(RangeObjectV2 rangeObjectV2Ref, RangeObjectV2PhysicsEventListenerComponent rangeObjectV2PhysicsEventListenerComponent) : base(rangeObjectV2Ref)
+        public RangeObstacleListenerSystem(RangeObjectV2 rangeObjectV2Ref, InteractiveObjectPhysicsEventListener interactiveObjectPhysicsEventListener) : base(rangeObjectV2Ref)
         {
             this.ObstacleListener = new ObstacleListenerSystem(new Func<TransformStruct>(() => rangeObjectV2Ref.GetTransform()));
-            this.RangeObstaclePhysicsEventListener = new RangeObstaclePhysicsEventListener(this.ObstacleListener);
-            rangeObjectV2PhysicsEventListenerComponent.AddPhysicsEventListener(this.RangeObstaclePhysicsEventListener);
+            this._interactiveObstaclePhysicsEventListener = new InteractiveObstaclePhysicsEventListener(this.ObstacleListener);
+            interactiveObjectPhysicsEventListener.AddPhysicsEventListener(this._interactiveObstaclePhysicsEventListener);
         }
 
         public ObstacleListenerSystem ObstacleListener { get; private set; }
 
         public void OnDestroy()
         {
-            this.RangeObstaclePhysicsEventListener.OnDestroy();
+            this._interactiveObstaclePhysicsEventListener.OnDestroy();
         }
     }
 
-    public class RangeObstaclePhysicsEventListener : ARangeObjectV2PhysicsEventListener
+    public class InteractiveObstaclePhysicsEventListener : AInteractiveObjectPhysicsEventListener
     {
         private ObstacleListenerSystem AssociatedObstacleListener;
         private InteractiveObjectTag SelectionGuard;
 
-        public RangeObstaclePhysicsEventListener(ObstacleListenerSystem associatedObstacleListener)
+        public InteractiveObstaclePhysicsEventListener(ObstacleListenerSystem associatedObstacleListener)
         {
             AssociatedObstacleListener = associatedObstacleListener;
             this.SelectionGuard = new InteractiveObjectTag(isObstacle: 1);
         }
 
-        public override bool ColliderSelectionGuard(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return this.SelectionGuard.Compare(RangeObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return this.SelectionGuard.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
         }
 
-        public override void OnTriggerEnter(RangeObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
             this.AssociatedObstacleListener.AddNearSquareObstacle((ObstacleInteractiveObject) PhysicsTriggerInfo.OtherInteractiveObject);
         }
 
-        public override void OnTriggerExit(RangeObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        public override void OnTriggerExit(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
             this.AssociatedObstacleListener.RemoveNearSquareObstacle((ObstacleInteractiveObject) PhysicsTriggerInfo.OtherInteractiveObject);
         }
@@ -118,21 +118,21 @@ namespace RangeObjects
 
     public class RangeExternalPhysicsOnlyListenersSystem : ARangeObjectSystem
     {
-        private RangeObjectV2PhysicsEventListenerComponent _rangeObjectV2PhysicsEventListenerComponent;
+        private InteractiveObjectPhysicsEventListener _interactiveObjectPhysicsEventListener;
 
-        public RangeExternalPhysicsOnlyListenersSystem(RangeObjectV2 rangeObjectV2Ref, RangeObjectV2PhysicsEventListenerComponent rangeObjectV2PhysicsEventListenerComponent) : base(rangeObjectV2Ref)
+        public RangeExternalPhysicsOnlyListenersSystem(RangeObjectV2 rangeObjectV2Ref, InteractiveObjectPhysicsEventListener interactiveObjectPhysicsEventListener) : base(rangeObjectV2Ref)
         {
-            this._rangeObjectV2PhysicsEventListenerComponent = rangeObjectV2PhysicsEventListenerComponent;
+            this._interactiveObjectPhysicsEventListener = interactiveObjectPhysicsEventListener;
         }
 
-        public void RegisterPhysicsEventListener(ARangeObjectV2PhysicsEventListener ARangeObjectV2PhysicsEventListener)
+        public void RegisterPhysicsEventListener(AInteractiveObjectPhysicsEventListener aInteractiveObjectPhysicsEventListener)
         {
-            this._rangeObjectV2PhysicsEventListenerComponent.AddPhysicsEventListener(ARangeObjectV2PhysicsEventListener);
+            this._interactiveObjectPhysicsEventListener.AddPhysicsEventListener(aInteractiveObjectPhysicsEventListener);
         }
 
         public void OnDestroy()
         {
-            this._rangeObjectV2PhysicsEventListenerComponent.Destroy();
+            this._interactiveObjectPhysicsEventListener.Destroy();
         }
     }
 

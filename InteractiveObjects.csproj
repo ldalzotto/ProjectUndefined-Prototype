@@ -62,7 +62,9 @@
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveGameObject\InteractiveGameObject.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\CoreInteractiveObject\CoreInteractiveObject.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\CoreInteractiveObject\CoreInteractiveObjectEventsInterface.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveInteractiveObjectPhysicsListener.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectInitializer.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectPhysicsEventListener.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Managers\InteractiveObjectV2Manager.cs" />
      <None Include="Assets\Common\InteractiveObjects\InteractiveObjects.asmdef" />
  <Reference Include="UnityEditor.UI">

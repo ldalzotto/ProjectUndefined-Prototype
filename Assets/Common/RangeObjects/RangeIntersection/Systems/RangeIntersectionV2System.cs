@@ -13,7 +13,7 @@ namespace RangeObjects
         {
         }
 
-        public List<ARangeIntersectionV2Listener> RangeIntersectionListeners { get; private set; } = null;
+        public List<AInteractiveIntersectionListener> RangeIntersectionListeners { get; private set; } = null;
 
         public override void Tick(float d)
         {
@@ -22,13 +22,13 @@ namespace RangeObjects
                     RangeIntersectionListeners[RangeIntersectionListenerIndex].Tick();
         }
 
-        public void RegisterIntersectionEventListener(ARangeIntersectionV2Listener ARangeIntersectionV2Listener,
-            RangeObjectV2PhysicsEventListenerComponent associatedRangeObjectV2PhysicsEventListenerComponent)
+        public void RegisterIntersectionEventListener(AInteractiveIntersectionListener aInteractiveIntersectionListener,
+            InteractiveObjectPhysicsEventListener associatedInteractiveObjectPhysicsEventListener)
         {
-            if (RangeIntersectionListeners == null) RangeIntersectionListeners = new List<ARangeIntersectionV2Listener>();
+            if (RangeIntersectionListeners == null) RangeIntersectionListeners = new List<AInteractiveIntersectionListener>();
 
-            associatedRangeObjectV2PhysicsEventListenerComponent.AddPhysicsEventListener(ARangeIntersectionV2Listener);
-            RangeIntersectionListeners.Add(ARangeIntersectionV2Listener);
+            associatedInteractiveObjectPhysicsEventListener.AddPhysicsEventListener(aInteractiveIntersectionListener);
+            RangeIntersectionListeners.Add(aInteractiveIntersectionListener);
         }
 
         public void OnDestroy()
@@ -39,7 +39,7 @@ namespace RangeObjects
         }
     }
 
-    public abstract class ARangeIntersectionV2Listener : ARangeObjectV2PhysicsEventListener
+    public abstract class AInteractiveIntersectionListener : AInteractiveObjectPhysicsEventListener
     {
         protected RangeObjectV2 associatedRangeObject;
         protected List<RangeIntersectionCalculator> intersectionCalculators = new List<RangeIntersectionCalculator>();
@@ -48,7 +48,7 @@ namespace RangeObjects
         private List<RangeIntersectionCalculator> justTriggerExitedCalculators = new List<RangeIntersectionCalculator>();
         private Dictionary<CoreInteractiveObject, RangeIntersectionCalculator> justTriggerExitedCalculatorsIndexedByTrackedInteractiveObject = new Dictionary<CoreInteractiveObject, RangeIntersectionCalculator>();
 
-        protected ARangeIntersectionV2Listener(RangeObjectV2 associatedRangeObject)
+        protected AInteractiveIntersectionListener(RangeObjectV2 associatedRangeObject)
         {
             this.associatedRangeObject = associatedRangeObject;
         }
@@ -65,11 +65,11 @@ namespace RangeObjects
         {
         }
 
-        protected virtual void OnTriggerEnterSuccess(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        protected virtual void OnTriggerEnterSuccess(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
         }
 
-        protected virtual void OnTriggerExitSuccess(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        protected virtual void OnTriggerExitSuccess(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
         }
 
@@ -84,7 +84,7 @@ namespace RangeObjects
             for (var i = justTriggerExitedCalculators.Count - 1; i >= 0; i--) SingleJustExited(justTriggerExitedCalculators[i]);
         }
 
-        public sealed override void OnTriggerEnter(RangeObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        public sealed override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
             var rangeIntersectionCalculator = new RangeIntersectionCalculator(associatedRangeObject, PhysicsTriggerInfo.OtherInteractiveObject);
             intersectionCalculators.Add(rangeIntersectionCalculator);
@@ -92,7 +92,7 @@ namespace RangeObjects
             OnTriggerEnterSuccess(PhysicsTriggerInfo);
         }
 
-        public sealed override void OnTriggerExit(RangeObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        public sealed override void OnTriggerExit(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
             var rangeIntersectionCalculator = intersectionCalculatorsIndexedByTrackedInteractiveObject[PhysicsTriggerInfo.OtherInteractiveObject];
 
@@ -147,7 +147,7 @@ namespace RangeObjects
         }
     }
 
-    public class RangeIntersectionV2Listener_Delegated : ARangeIntersectionV2Listener
+    public class InteractiveIntersectionListenerDelegated : AInteractiveIntersectionListener
     {
         protected InteractiveObjectTag InteractiveObjectSelectionGuard;
         private Action<CoreInteractiveObject> OnInterestedNothingAction = null;
@@ -156,7 +156,7 @@ namespace RangeObjects
         private Action<CoreInteractiveObject> OnTriggerEnterSuccessAction = null;
         private Action<CoreInteractiveObject> OnTriggerExitSuccessAction = null;
 
-        public RangeIntersectionV2Listener_Delegated(RangeObjectV2 associatedRangeObject, InteractiveObjectTag InteractiveObjectSelectionGuard,
+        public InteractiveIntersectionListenerDelegated(RangeObjectV2 associatedRangeObject, InteractiveObjectTag InteractiveObjectSelectionGuard,
             Action<CoreInteractiveObject> OnInterestedNothingAction = null, Action<CoreInteractiveObject> OnJustIntersectedAction = null, Action<CoreInteractiveObject> OnJustNotIntersectedAction = null,
             Action<CoreInteractiveObject> OnTriggerEnterSuccessAction = null, Action<CoreInteractiveObject> OnTriggerExitSuccessAction = null) : base(associatedRangeObject)
         {
@@ -168,9 +168,9 @@ namespace RangeObjects
             this.InteractiveObjectSelectionGuard = InteractiveObjectSelectionGuard;
         }
 
-        public override bool ColliderSelectionGuard(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return InteractiveObjectSelectionGuard.Compare(RangeObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return InteractiveObjectSelectionGuard.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
         }
 
         protected override void OnInterestedNothing(RangeIntersectionCalculator intersectionCalculator)
@@ -188,14 +188,14 @@ namespace RangeObjects
             if (OnJustNotIntersectedAction != null) OnJustNotIntersectedAction.Invoke(intersectionCalculator.TrackedInteractiveObject);
         }
 
-        protected override void OnTriggerEnterSuccess(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        protected override void OnTriggerEnterSuccess(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            if (OnTriggerEnterSuccessAction != null) OnTriggerEnterSuccessAction.Invoke(RangeObjectPhysicsTriggerInfo.OtherInteractiveObject);
+            if (OnTriggerEnterSuccessAction != null) OnTriggerEnterSuccessAction.Invoke(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject);
         }
 
-        protected override void OnTriggerExitSuccess(RangeObjectPhysicsTriggerInfo RangeObjectPhysicsTriggerInfo)
+        protected override void OnTriggerExitSuccess(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            if (OnTriggerExitSuccessAction != null) OnTriggerExitSuccessAction.Invoke(RangeObjectPhysicsTriggerInfo.OtherInteractiveObject);
+            if (OnTriggerExitSuccessAction != null) OnTriggerExitSuccessAction.Invoke(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject);
         }
     }
 }

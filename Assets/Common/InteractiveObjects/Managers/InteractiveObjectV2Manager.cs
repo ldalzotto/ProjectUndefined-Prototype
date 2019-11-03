@@ -72,14 +72,14 @@ namespace InteractiveObjects
         private void OnInteractiveObjectCreated(CoreInteractiveObject InteractiveObject)
         {
             InteractiveObjects.Add(InteractiveObject);
-            var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.GetLogicColliderAsBox();
+            var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
             if (interactiveObjectLogicCollider != null) InteractiveObjectsIndexedByLogicCollider.Add(interactiveObjectLogicCollider, InteractiveObject);
         }
 
         private void OnInteractiveObjectDestroyed(CoreInteractiveObject InteractiveObject)
         {
             InteractiveObjects.Remove(InteractiveObject);
-            var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.GetLogicColliderAsBox();
+            var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
             if (interactiveObjectLogicCollider != null) InteractiveObjectsIndexedByLogicCollider.Remove(interactiveObjectLogicCollider);
         }
 
