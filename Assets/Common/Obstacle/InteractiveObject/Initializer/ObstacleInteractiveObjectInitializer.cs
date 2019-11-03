@@ -11,9 +11,9 @@ namespace Obstacle
     {
         [DrawNested] public ObstacleInteractiveObjectInitializerData InteractiveObjectInitializerData;
 
-        public override void Init()
+        public override CoreInteractiveObject Init()
         {
-            new ObstacleInteractiveObject(InteractiveGameObjectFactory.Build(this.gameObject), InteractiveObjectInitializerData);
+            return new ObstacleInteractiveObject(InteractiveGameObjectFactory.Build(this.gameObject), InteractiveObjectInitializerData);
         }
     }
 

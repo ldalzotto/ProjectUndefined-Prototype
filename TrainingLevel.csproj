@@ -56,8 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Levels\TrainingLevel\Firing\PlayerAction\FiringPlayerAction.cs" />
-     <Compile Include="Assets\Levels\TrainingLevel\Firing\PlayerAction\FiringPlayerActionInherentData.cs" />
      <Compile Include="Assets\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
      <Compile Include="Assets\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectActionInherentData.cs" />
      <Compile Include="Assets\Levels\TrainingLevel\InteractiveObjectsAsset\AggressiveAI\AggressiveAIObject.cs" />

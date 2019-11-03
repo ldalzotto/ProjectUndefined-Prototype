@@ -12,6 +12,7 @@ namespace Firing
 
         private TargetCursorSystem TargetCursorSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
+        private FiringProjectileSystem FiringProjectileSystem;
         private ExitActionSystem ExitActionSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
@@ -20,6 +21,7 @@ namespace Firing
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
             this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, gameInputManager);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem);
+            this.FiringProjectileSystem = new FiringProjectileSystem(gameInputManager, FiringRecoilTimeManager.Get(), SpawnFiringProjectileEvent.Get(), FiringPlayerActionInherentData, PlayerInteractiveObject);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem, this.PlayerObjectOrientationSystem);
         }
 
@@ -41,6 +43,7 @@ namespace Firing
             {
                 this.TargetCursorSystem.Tick(d);
                 this.PlayerObjectOrientationSystem.Tick(d);
+                this.FiringProjectileSystem.Tick(d);
             }
         }
 
@@ -135,6 +138,42 @@ namespace Firing
             if (this.HorizontalPlaneGameObject != null)
             {
                 GameObject.Destroy(this.HorizontalPlaneGameObject);
+            }
+        }
+    }
+
+    class FiringProjectileSystem
+    {
+        private GameInputManager GameInputManager;
+        private FiringRecoilTimeManager FiringRecoilTimeManager;
+        private SpawnFiringProjectileEvent SpawnFiringProjectileEvent;
+        private FiringPlayerActionInherentData FiringPlayerActionInherentData;
+        private IPlayerInteractiveObject IPlayerInteractiveObject;
+
+        public FiringProjectileSystem(GameInputManager gameInputManager, FiringRecoilTimeManager firingRecoilTimeManager,
+            SpawnFiringProjectileEvent spawnFiringProjectileEvent, FiringPlayerActionInherentData firingPlayerActionInherentData, IPlayerInteractiveObject IPlayerInteractiveObject)
+        {
+            GameInputManager = gameInputManager;
+            FiringRecoilTimeManager = firingRecoilTimeManager;
+            SpawnFiringProjectileEvent = spawnFiringProjectileEvent;
+            FiringPlayerActionInherentData = firingPlayerActionInherentData;
+            this.IPlayerInteractiveObject = IPlayerInteractiveObject;
+        }
+
+        public void Tick(float d)
+        {
+            if (this.GameInputManager.CurrentInput.GetInputCondition(InputID.FIRING_PROJECTILE_DOWN_HOLD) && this.FiringRecoilTimeManager.AuthorizeFiringAProjectile())
+            {
+                var FiringProjectileInitializerPrefab = this.FiringPlayerActionInherentData.FiringProjectileInitializerPrefab;
+                var FiringProjectileInitializer = MonoBehaviour.Instantiate(FiringProjectileInitializerPrefab);
+                FiringProjectileInitializer.Init();
+                var FiredProjectile = FiringProjectileInitializer.GetCreatedFiredProjectile();
+                var ProjectileSpawnLocalPosition = this.FiringPlayerActionInherentData.ProjectileSpawnLocalPosition;
+                var FiredProjectileTransform = FiredProjectile.InteractiveGameObject.GetTransform();
+                // Eq (2)
+                FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.position = this.IPlayerInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + ProjectileSpawnLocalPosition;
+                FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.eulerAngles = this.IPlayerInteractiveObject.InteractiveGameObject.GetTransform().WorldRotationEuler;
+                this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(this.FiringPlayerActionInherentData.RecoilTime);
             }
         }
     }

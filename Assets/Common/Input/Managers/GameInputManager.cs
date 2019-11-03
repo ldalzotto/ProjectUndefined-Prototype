@@ -112,6 +112,11 @@ namespace Input
             {
                 return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_RELEASED);
             }
+
+            public bool GetInputCondition(InputID InputID)
+            {
+                return this.gameInputV2.InputConditionsMet(InputID);
+            }
         }
 
         #region Data Retrieval
@@ -245,6 +250,7 @@ namespace Input
         float CameraZoom();
         bool FiringActionDown();
         bool FiringActionReleased();
+        bool GetInputCondition(InputID InputID);
     }
 
     public enum MouseButton

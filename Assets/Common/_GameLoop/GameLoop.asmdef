@@ -17,7 +17,8 @@
 "PlayerActions",
 "SelectionObjects",
 "Obstacle",
-"LevelManagement_Interfaces"
+"LevelManagement_Interfaces",
+"Firing"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

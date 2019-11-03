@@ -30,6 +30,7 @@ namespace Input
         SWITCH_SELECTION_DOWN = 12,
         CAMERA_ZOOM = 13,
         FIRING_ACTION_DOWN = 14,
-        FIRING_ACTION_RELEASED = 15
+        FIRING_ACTION_RELEASED = 15,
+        FIRING_PROJECTILE_DOWN_HOLD = 16
     }
 }

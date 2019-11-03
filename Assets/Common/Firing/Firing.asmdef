@@ -1,0 +1,21 @@
+﻿{
+    "name": "Firing",
+    "references": [
+        "CoreGame",
+        "Editor_Common",
+        "OdinSerializer",
+        "InteractiveObjects",
+        "InteractiveObjects_Interfaces",
+        "PlayerActions",
+        "PlayerObject_Interface",
+        "Input"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

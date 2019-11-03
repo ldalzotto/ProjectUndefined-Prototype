@@ -9,9 +9,12 @@ namespace InteractiveObjects
     {
         [Inline()] public AbstractInteractiveObjectV2Definition AbstractInteractiveObjectV2Definition;
 
-        public virtual void Init()
+        protected CoreInteractiveObject CreatedCoreInteractiveObject;
+
+        public virtual CoreInteractiveObject Init()
         {
-            this.AbstractInteractiveObjectV2Definition.BuildInteractiveObject(gameObject);
+            this.CreatedCoreInteractiveObject = this.AbstractInteractiveObjectV2Definition.BuildInteractiveObject(gameObject);
+            return this.CreatedCoreInteractiveObject;
         }
     }
 }

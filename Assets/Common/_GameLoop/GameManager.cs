@@ -1,5 +1,6 @@
 using CameraManagement;
 using CoreGame;
+using Firing;
 using Input;
 using InteractiveObjects;
 using LevelManagement;
@@ -64,6 +65,8 @@ namespace GameLoop
             PlayerInteractiveObjectManager.Get().AfterTicks(d);
 
             CameraMovementManager.Get().Tick(d);
+
+            FiringRecoilTimeManager.Get().Tick(d);
 
             ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
             RangeIntersectionCalculationManagerV2.Get().Tick(d);

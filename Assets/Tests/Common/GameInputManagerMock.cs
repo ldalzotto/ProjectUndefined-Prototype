@@ -108,6 +108,11 @@ namespace Tests
             return false;
         }
 
+        public bool GetInputCondition(InputID InputID)
+        {
+            return false;
+        }
+
         #endregion
     }
 }

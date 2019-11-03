@@ -6,11 +6,16 @@ using UnityEngine;
 namespace Firing
 {
     [Serializable]
+    [SceneHandleDraw]
     public class FiringPlayerActionInherentData : PlayerActionInherentData
     {
         public float RecoilTime;
         public float TargetCursorInitialOffset;
-        public GameObject FiringProjectilePrefab;
+
+        [WireCircleWorldAttribute(PositionFieldName = nameof(FiringPlayerActionInherentData.ProjectileSpawnLocalPosition))]
+        public Vector3 ProjectileSpawnLocalPosition;
+
+        public FiredProjectileInitializer FiringProjectileInitializerPrefab;
         public GameObject TargetCursorPrefab;
         public GameObject FiringHorizontalPlanePrefab;
 
