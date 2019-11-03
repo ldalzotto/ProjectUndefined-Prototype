@@ -38,7 +38,7 @@ namespace RangeObjects
 
         public GameObject RangeGameObject { get; private set; }
 
-        public InteractiveObjectPhysicsEventListener InteractiveObjectPhysicsEventListener { get; private set; }
+        public InteractiveInteractiveObjectPhysicsListener InteractiveInteractiveObjectPhysicsListener { get; private set; }
 
 
         public Collider BoundingCollider { get; private set; }
@@ -59,8 +59,8 @@ namespace RangeObjects
             rigidbody.useGravity = false;
             rigidbody.isKinematic = true;
 
-            this.InteractiveObjectPhysicsEventListener = this.RangeGameObject.AddComponent<InteractiveObjectPhysicsEventListener>();
-            this.InteractiveObjectPhysicsEventListener.Init(AssociatedInteractiveObject);
+            this.InteractiveInteractiveObjectPhysicsListener = this.RangeGameObject.AddComponent<InteractiveInteractiveObjectPhysicsListener>();
+            this.InteractiveInteractiveObjectPhysicsListener.Init(AssociatedInteractiveObject);
         }
 
         public void ReceiveEvent(SetWorldPositionEvent SetWorldPositionEvent)

@@ -23,11 +23,11 @@ namespace RangeObjects
         }
 
         public void RegisterIntersectionEventListener(AInteractiveIntersectionListener aInteractiveIntersectionListener,
-            InteractiveObjectPhysicsEventListener associatedInteractiveObjectPhysicsEventListener)
+            InteractiveInteractiveObjectPhysicsListener associatedInteractiveInteractiveObjectPhysicsListener)
         {
             if (RangeIntersectionListeners == null) RangeIntersectionListeners = new List<AInteractiveIntersectionListener>();
 
-            associatedInteractiveObjectPhysicsEventListener.AddPhysicsEventListener(aInteractiveIntersectionListener);
+            associatedInteractiveInteractiveObjectPhysicsListener.AddPhysicsEventListener(aInteractiveIntersectionListener);
             RangeIntersectionListeners.Add(aInteractiveIntersectionListener);
         }
 

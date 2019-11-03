@@ -65,11 +65,11 @@ namespace RangeObjects
     {
         private InteractiveObstaclePhysicsEventListener _interactiveObstaclePhysicsEventListener;
 
-        public RangeObstacleListenerSystem(RangeObjectV2 rangeObjectV2Ref, InteractiveObjectPhysicsEventListener interactiveObjectPhysicsEventListener) : base(rangeObjectV2Ref)
+        public RangeObstacleListenerSystem(RangeObjectV2 rangeObjectV2Ref, InteractiveInteractiveObjectPhysicsListener interactiveInteractiveObjectPhysicsListener) : base(rangeObjectV2Ref)
         {
             this.ObstacleListener = new ObstacleListenerSystem(new Func<TransformStruct>(() => rangeObjectV2Ref.GetTransform()));
             this._interactiveObstaclePhysicsEventListener = new InteractiveObstaclePhysicsEventListener(this.ObstacleListener);
-            interactiveObjectPhysicsEventListener.AddPhysicsEventListener(this._interactiveObstaclePhysicsEventListener);
+            interactiveInteractiveObjectPhysicsListener.AddPhysicsEventListener(this._interactiveObstaclePhysicsEventListener);
         }
 
         public ObstacleListenerSystem ObstacleListener { get; private set; }
@@ -118,21 +118,21 @@ namespace RangeObjects
 
     public class RangeExternalPhysicsOnlyListenersSystem : ARangeObjectSystem
     {
-        private InteractiveObjectPhysicsEventListener _interactiveObjectPhysicsEventListener;
+        private InteractiveInteractiveObjectPhysicsListener _interactiveInteractiveObjectPhysicsListener;
 
-        public RangeExternalPhysicsOnlyListenersSystem(RangeObjectV2 rangeObjectV2Ref, InteractiveObjectPhysicsEventListener interactiveObjectPhysicsEventListener) : base(rangeObjectV2Ref)
+        public RangeExternalPhysicsOnlyListenersSystem(RangeObjectV2 rangeObjectV2Ref, InteractiveInteractiveObjectPhysicsListener interactiveInteractiveObjectPhysicsListener) : base(rangeObjectV2Ref)
         {
-            this._interactiveObjectPhysicsEventListener = interactiveObjectPhysicsEventListener;
+            this._interactiveInteractiveObjectPhysicsListener = interactiveInteractiveObjectPhysicsListener;
         }
 
         public void RegisterPhysicsEventListener(AInteractiveObjectPhysicsEventListener aInteractiveObjectPhysicsEventListener)
         {
-            this._interactiveObjectPhysicsEventListener.AddPhysicsEventListener(aInteractiveObjectPhysicsEventListener);
+            this._interactiveInteractiveObjectPhysicsListener.AddPhysicsEventListener(aInteractiveObjectPhysicsEventListener);
         }
 
         public void OnDestroy()
         {
-            this._interactiveObjectPhysicsEventListener.Destroy();
+            this._interactiveInteractiveObjectPhysicsListener.Destroy();
         }
     }
 

@@ -30,10 +30,10 @@ namespace RangeObjects
             this.RangeObjectInitialization = RangeObjectInitialization;
 
             this.RangeIntersectionV2System = new RangeIntersectionV2System(this);
-            this.RangeExternalPhysicsOnlyListenersSystem = new RangeExternalPhysicsOnlyListenersSystem(this, this.RangeGameObjectV2.InteractiveObjectPhysicsEventListener);
+            this.RangeExternalPhysicsOnlyListenersSystem = new RangeExternalPhysicsOnlyListenersSystem(this, this.RangeGameObjectV2.InteractiveInteractiveObjectPhysicsListener);
             if (RangeObjectInitialization.IsTakingIntoAccountObstacles)
             {
-                this.RangeObstacleListenerSystem = new RangeObstacleListenerSystem(this, this.RangeGameObjectV2.InteractiveObjectPhysicsEventListener);
+                this.RangeObstacleListenerSystem = new RangeObstacleListenerSystem(this, this.RangeGameObjectV2.InteractiveInteractiveObjectPhysicsListener);
             }
 
             this.RangeEventsManager.OnRangeObjectCreated(this);
@@ -68,7 +68,7 @@ namespace RangeObjects
 
         public void RegisterIntersectionEventListener(AInteractiveIntersectionListener aInteractiveIntersectionListener)
         {
-            this.RangeIntersectionV2System.RegisterIntersectionEventListener(aInteractiveIntersectionListener, this.RangeGameObjectV2.InteractiveObjectPhysicsEventListener);
+            this.RangeIntersectionV2System.RegisterIntersectionEventListener(aInteractiveIntersectionListener, this.RangeGameObjectV2.InteractiveInteractiveObjectPhysicsListener);
         }
 
         public void RegisterPhysicsEventListener(AInteractiveObjectPhysicsEventListener aInteractiveObjectPhysicsEventListener)

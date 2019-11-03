@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace InteractiveObjects
 {
-    public class InteractiveObjectPhysicsEventListener : MonoBehaviour
+    public class InteractiveInteractiveObjectPhysicsListener : MonoBehaviour
     {
         private CoreInteractiveObject AssociatedInteractiveObject;
         private List<Collider> CurrentlyTrackedColliders = new List<Collider>();

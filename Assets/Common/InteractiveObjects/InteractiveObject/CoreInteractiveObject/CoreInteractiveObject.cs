@@ -19,7 +19,7 @@ namespace InteractiveObjects
         [VE_Ignore] protected bool isAskingToBeDestroyed;
 
         [VE_Ignore] public bool IsUpdatedInMainManager;
-        [VE_Ignore] private InteractiveObjectPhysicsEventListener InteractiveObjectPhysicsEventListener;
+        [VE_Ignore] private InteractiveInteractiveObjectPhysicsListener _interactiveInteractiveObjectPhysicsListener;
 
         protected void BaseInit(IInteractiveGameObject interactiveGameObject, bool IsUpdatedInMainManager = true)
         {
@@ -51,13 +51,13 @@ namespace InteractiveObjects
         {
             if (this.InteractiveGameObject.LogicCollider != null)
             {
-                if (this.InteractiveObjectPhysicsEventListener == null)
+                if (this._interactiveInteractiveObjectPhysicsListener == null)
                 {
-                    this.InteractiveObjectPhysicsEventListener = this.InteractiveGameObject.LogicCollider.gameObject.AddComponent<InteractiveObjectPhysicsEventListener>();
-                    this.InteractiveObjectPhysicsEventListener.Init(this);
+                    this._interactiveInteractiveObjectPhysicsListener = this.InteractiveGameObject.LogicCollider.gameObject.AddComponent<InteractiveInteractiveObjectPhysicsListener>();
+                    this._interactiveInteractiveObjectPhysicsListener.Init(this);
                 }
 
-                this.InteractiveObjectPhysicsEventListener.AddPhysicsEventListener(AInteractiveObjectPhysicsEventListener);
+                this._interactiveInteractiveObjectPhysicsListener.AddPhysicsEventListener(AInteractiveObjectPhysicsEventListener);
             }
         }
 
@@ -83,7 +83,7 @@ namespace InteractiveObjects
         {
             this.AnimatorPlayable?.Destroy();
             InteractiveObjectEventsManager.OnInteractiveObjectDestroyed(this);
-            this.InteractiveObjectPhysicsEventListener?.Destroy();
+            this._interactiveInteractiveObjectPhysicsListener?.Destroy();
             Object.Destroy(InteractiveGameObject.InteractiveGameObjectParent);
         }
 
