@@ -26,7 +26,7 @@ namespace Firing
 
         public override void Tick(float d)
         {
-            this.FiredProjectileMovementSystem.Tick(d);
+            this.FiredProjectileMovementSystem.Tick(d);    
             base.Tick(d);
         }
 
