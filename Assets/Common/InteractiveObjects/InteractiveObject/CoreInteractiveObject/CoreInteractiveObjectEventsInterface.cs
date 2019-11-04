@@ -55,5 +55,13 @@ namespace InteractiveObjects
         }
 
         #endregion
+
+        #region Health Events
+
+        public virtual void DealDamage(float Damage)
+        {
+        }
+
+        #endregion
     }
 }

@@ -56,10 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Common\Firing\FiredProjectile\FiredProjectile.cs" />
      <Compile Include="Assets\Common\Firing\FiredProjectile\FiredProjectileDefinition.cs" />
      <Compile Include="Assets\Common\Firing\FiredProjectile\FiredProjectileInitializer.cs" />
      <Compile Include="Assets\Common\Firing\FiredProjectile\FiringRecoilTimeManager.cs" />
      <Compile Include="Assets\Common\Firing\FiredProjectile\SpawnFiringProjectileEvent.cs" />
+     <Compile Include="Assets\Common\Firing\FiredProjectile\Systems\FiredProjectileMovementSystem.cs" />
      <Compile Include="Assets\Common\Firing\PlayerAction\FiringPlayerAction.cs" />
      <Compile Include="Assets\Common\Firing\PlayerAction\FiringPlayerActionInherentData.cs" />
      <None Include="Assets\Common\Firing\Firing.asmdef" />
@@ -648,6 +650,10 @@
     <ProjectReference Include="Input.csproj">
       <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
       <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="Damage.csproj">
+      <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
+      <Name>Damage</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

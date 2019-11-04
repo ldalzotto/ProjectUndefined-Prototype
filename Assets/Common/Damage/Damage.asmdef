@@ -1,15 +1,10 @@
-﻿{
-    "name": "Firing",
+{
+    "name": "Damage",
     "references": [
-        "CoreGame",
-        "Editor_Common",
-        "OdinSerializer",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "PlayerActions",
-        "PlayerObject_Interface",
-        "Input",
-        "Damage"
+        "Health",
+"OdinSerializer",
+"CoreGame",
+"InteractiveObjects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

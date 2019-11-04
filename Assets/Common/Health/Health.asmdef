@@ -1,15 +1,7 @@
-﻿{
-    "name": "Firing",
+{
+    "name": "Health",
     "references": [
-        "CoreGame",
-        "Editor_Common",
-        "OdinSerializer",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "PlayerActions",
-        "PlayerObject_Interface",
-        "Input",
-        "Damage"
+        "OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

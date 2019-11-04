@@ -107,5 +107,6 @@ namespace InteractiveObjects
         public bool IsAi;
         public bool IsObstacle;
         public bool IsPlayer;
+        public bool IsTakingDamage;
     }
 }
