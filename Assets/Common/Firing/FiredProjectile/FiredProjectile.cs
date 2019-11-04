@@ -15,6 +15,7 @@ namespace Firing
             this.BaseInit(parent, true);
             this.FiredProjectileMovementSystem = new FiredProjectileMovementSystem(FiredProjectileDefinition, this);
             this.DamageDealerSystem = new DamageDealerSystem(this, FiredProjectileDefinition.DamageDealerSystemDefinition, this.OnDamageDealtToOther);
+            this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectTag => InteractiveObjectTag.IsObstacle), this.OnObstacleTriggerEnter));
         }
 
         public override void Tick(float d)
@@ -28,6 +29,11 @@ namespace Firing
         }
 
         private void OnDamageDealtToOther(CoreInteractiveObject OtherInteractiveObject)
+        {
+            this.AskToDestroy();
+        }
+
+        private void OnObstacleTriggerEnter(CoreInteractiveObject OtherInteractiveObject)
         {
             this.AskToDestroy();
         }
