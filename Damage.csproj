@@ -615,6 +615,10 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Editor_Common.csproj">
+      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Name>Editor_Common</Name>
+    </ProjectReference>
     <ProjectReference Include="Health.csproj">
       <Project>{75786E6C-34C8-0B2C-40F8-743BA59E9518}</Project>
       <Name>Health</Name>

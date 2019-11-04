@@ -1,6 +1,7 @@
 {
     "name": "Damage",
     "references": [
+"Editor_Common",
         "Health",
 "OdinSerializer",
 "CoreGame",

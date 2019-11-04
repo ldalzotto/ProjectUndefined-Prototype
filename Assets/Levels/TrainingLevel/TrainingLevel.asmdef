@@ -18,7 +18,9 @@
 "LevelManagement",
 "RangeObjects",
 "AnimatorPlayable",
-"Input"
+"Input",
+"Health",
+"Damage"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

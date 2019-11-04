@@ -6,7 +6,8 @@ namespace Damage
     public class StunningDamageDealingSystem
     {
         private float StunnedTimer;
-        private BoolVariable IsStunned;
+        [VE_Nested] private BoolVariable isStunned;
+        public BoolVariable IsStunned => this.isStunned;
         private StunningDamageDealingSystemDefinition StunningDamageDealingSystemDefinition;
 
         #region External Dependencies
@@ -20,7 +21,7 @@ namespace Damage
         {
             StunningDamageDealingSystemDefinition = stunningDamageDealingSystemDefinition;
             HealthSystem = healthSystem;
-            this.IsStunned = new BoolVariable(false, OnStunningDamageDealingStartedAction, OnStunningDamageDealingEndedAction);
+            this.isStunned = new BoolVariable(false, OnStunningDamageDealingStartedAction, OnStunningDamageDealingEndedAction);
         }
 
         public void DealDamage(float Damage)

@@ -1,15 +1,16 @@
 ﻿using System;
 using InteractiveObjects;
-using UnityEngine;
 
 namespace Damage
 {
     public class DamageDealerSystem
     {
         private DamageDealerSystemDefinition DamageDealerSystemDefinition;
+        private CoreInteractiveObject AssociatedInteractiveObjectRef;
 
         public DamageDealerSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerSystemDefinition DamageDealerSystemDefinition)
         {
+            this.AssociatedInteractiveObjectRef = AssociatedInteractiveObject;
             this.DamageDealerSystemDefinition = DamageDealerSystemDefinition;
             AssociatedInteractiveObject.RegisterInteractiveObjectPhysicsEventListener(new DamageDealerSystemPhysicsListener(
                 interactiveObjectSelectionGuard: (InteractiveObjectTag => InteractiveObjectTag.IsTakingDamage),
@@ -19,8 +20,10 @@ namespace Damage
 
         private void OnTriggerEnter(CoreInteractiveObject Other)
         {
-            Debug.Log("DEAL DAMAGE");
-            Other.DealDamage(this.DamageDealerSystemDefinition.Damage);
+            if (AssociatedInteractiveObjectRef != Other)
+            {
+                Other.DealDamage(-1 * this.DamageDealerSystemDefinition.Damage);
+            }
         }
     }
 

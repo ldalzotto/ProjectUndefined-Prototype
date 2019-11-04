@@ -62,6 +62,10 @@ namespace InteractiveObjects
         {
         }
 
+        public virtual void OnHealthBelowZero()
+        {
+        }
+
         #endregion
     }
 }
