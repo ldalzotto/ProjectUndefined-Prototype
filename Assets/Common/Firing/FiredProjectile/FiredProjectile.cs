@@ -14,7 +14,7 @@ namespace Firing
             parent.CreateLogicCollider(FiredProjectileDefinition.InteractiveObjectBoxLogicColliderDefinition);
             this.BaseInit(parent, true);
             this.FiredProjectileMovementSystem = new FiredProjectileMovementSystem(FiredProjectileDefinition, this);
-            this.DamageDealerSystem = new DamageDealerSystem(this, FiredProjectileDefinition.DamageDealerSystemDefinition);
+            this.DamageDealerSystem = new DamageDealerSystem(this, FiredProjectileDefinition.DamageDealerSystemDefinition, this.OnDamageDealtToOther);
         }
 
         public override void Tick(float d)
@@ -25,6 +25,11 @@ namespace Firing
 
         public override void Init()
         {
+        }
+
+        private void OnDamageDealtToOther(CoreInteractiveObject OtherInteractiveObject)
+        {
+            this.AskToDestroy();
         }
 
         public void AskToDestroy()

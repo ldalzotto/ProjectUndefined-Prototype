@@ -8,10 +8,13 @@ namespace Damage
         private DamageDealerSystemDefinition DamageDealerSystemDefinition;
         private CoreInteractiveObject AssociatedInteractiveObjectRef;
 
-        public DamageDealerSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerSystemDefinition DamageDealerSystemDefinition)
+        private Action<CoreInteractiveObject> OnDamageDealtToOtherAction;
+
+        public DamageDealerSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerSystemDefinition DamageDealerSystemDefinition, Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null)
         {
             this.AssociatedInteractiveObjectRef = AssociatedInteractiveObject;
             this.DamageDealerSystemDefinition = DamageDealerSystemDefinition;
+            this.OnDamageDealtToOtherAction = OnDamageDealtToOtherAction;
             AssociatedInteractiveObject.RegisterInteractiveObjectPhysicsEventListener(new DamageDealerSystemPhysicsListener(
                 interactiveObjectSelectionGuard: (InteractiveObjectTag => InteractiveObjectTag.IsTakingDamage),
                 onTriggerEnterAction: this.OnTriggerEnter
@@ -23,6 +26,7 @@ namespace Damage
             if (AssociatedInteractiveObjectRef != Other)
             {
                 Other.DealDamage(-1 * this.DamageDealerSystemDefinition.Damage);
+                this.OnDamageDealtToOtherAction?.Invoke(Other);
             }
         }
     }
