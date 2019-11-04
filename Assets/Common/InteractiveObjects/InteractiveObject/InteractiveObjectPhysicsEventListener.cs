@@ -24,15 +24,20 @@ namespace InteractiveObjects
     {
         public CoreInteractiveObject OtherInteractiveObject;
         public Collider Other;
+
+        public InteractiveObjectTag GetOtherInteractiveObjectTag()
+        {
+            return this.OtherInteractiveObject.InteractiveObjectTag;
+        }
     }
 
     public class InteractiveObjectPhysicsEventListenerDelegated : AInteractiveObjectPhysicsEventListener
     {
-        protected InteractiveObjectTag InteractiveObjectSelectionGuard;
+        protected Func<InteractiveObjectTag, bool> InteractiveObjectSelectionGuard;
         private Action<CoreInteractiveObject> OnTriggerEnterAction = null;
         private Action<CoreInteractiveObject> OnTriggerExitAction = null;
 
-        public InteractiveObjectPhysicsEventListenerDelegated(InteractiveObjectTag interactiveObjectSelectionGuard,
+        public InteractiveObjectPhysicsEventListenerDelegated(Func<InteractiveObjectTag, bool> interactiveObjectSelectionGuard,
             Action<CoreInteractiveObject> onTriggerEnterAction = null, Action<CoreInteractiveObject> onTriggerExitAction = null)
         {
             OnTriggerEnterAction = onTriggerEnterAction;
@@ -42,7 +47,7 @@ namespace InteractiveObjects
 
         public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return InteractiveObjectSelectionGuard.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return InteractiveObjectSelectionGuard.Invoke(interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag());
         }
 
         public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)

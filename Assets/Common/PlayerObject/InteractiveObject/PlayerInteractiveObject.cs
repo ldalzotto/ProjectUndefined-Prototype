@@ -37,7 +37,7 @@ namespace PlayerObject
         public override void Init()
         {
             this.InteractiveGameObject.CreateLogicCollider(this.PlayerInteractiveObjectInitializer.InteractiveObjectLogicCollider);
-            interactiveObjectTag = new InteractiveObjectTag {IsPlayer = 1};
+            interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true};
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
 

@@ -100,31 +100,12 @@ namespace InteractiveObjects
         #endregion
     }
 
-    /// <summary>
-    /// -1 is used to exclude in comparison
-    /// </summary>
     [Serializable]
     public struct InteractiveObjectTag
     {
-        public int IsAttractiveObject;
-        public int IsAi;
-        public int IsObstacle;
-        public int IsPlayer;
-
-        public InteractiveObjectTag(int isAttractiveObject = -1, int isAi = -1, int isObstacle = -1, int isPlayer = -1)
-        {
-            IsAttractiveObject = isAttractiveObject;
-            IsAi = isAi;
-            IsObstacle = isObstacle;
-            IsPlayer = isPlayer;
-        }
-
-        public bool Compare(InteractiveObjectTag InteractiveObjectTag)
-        {
-            return (IsAttractiveObject == -1 || IsAttractiveObject == InteractiveObjectTag.IsAttractiveObject)
-                   && (IsAi == -1 || IsAi == InteractiveObjectTag.IsAi)
-                   && (IsObstacle == -1 || IsObstacle == InteractiveObjectTag.IsObstacle)
-                   && (IsPlayer == -1 || IsPlayer == InteractiveObjectTag.IsPlayer);
-        }
+        public bool IsAttractiveObject;
+        public bool IsAi;
+        public bool IsObstacle;
+        public bool IsPlayer;
     }
 }

@@ -1,4 +1,5 @@
-﻿using CoreGame;
+﻿using System;
+using CoreGame;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using RangeObjects;
@@ -76,21 +77,21 @@ namespace SelectableObject
 
     internal class SelectableObjectPhysicsEventListener : AInteractiveObjectPhysicsEventListener
     {
-        private InteractiveObjectTag InteractiveObjectTagStruct;
+        private Func<InteractiveObjectTag, bool> SelectionGuard;
 
         private OnPlayerTriggerInSelectionEnterDelegate OnPlayerTriggerInSelectionEnter;
         private OnPlayerTriggerInSelectionExitDelegate OnPlayerTriggerInSelectionExit;
 
         public SelectableObjectPhysicsEventListener(OnPlayerTriggerInSelectionEnterDelegate OnPlayerTriggerInSelectionEnter, OnPlayerTriggerInSelectionExitDelegate OnPlayerTriggerInSelectionExit)
         {
-            InteractiveObjectTagStruct = new InteractiveObjectTag {IsPlayer = 1};
+            SelectionGuard = (InteractiveObjectTag) => InteractiveObjectTag.IsPlayer;
             this.OnPlayerTriggerInSelectionEnter = OnPlayerTriggerInSelectionEnter;
             this.OnPlayerTriggerInSelectionExit = OnPlayerTriggerInSelectionExit;
         }
 
         public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return InteractiveObjectTagStruct.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return SelectionGuard.Invoke(interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag());
         }
 
         public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)

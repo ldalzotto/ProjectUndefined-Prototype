@@ -26,11 +26,11 @@ namespace InteractiveObjects
 
         public override void Init()
         {
-            interactiveObjectTag = new InteractiveObjectTag {IsAi = 1};
+            interactiveObjectTag = new InteractiveObjectTag {IsAi = true};
             AIPatrollingState = new AIPatrollingState();
             AIPatrollingState.isPatrolling = true;
             AIPatrolSystem = new AIPatrolSystem(this, this.AggressiveObjectInitializerData.AIPatrolSystemDefinition);
-            SightObjectSystem = new SightObjectSystem(this, this.AggressiveObjectInitializerData.SightObjectSystemDefinition, new InteractiveObjectTag {IsPlayer = 1},
+            SightObjectSystem = new SightObjectSystem(this, this.AggressiveObjectInitializerData.SightObjectSystemDefinition, (InteractiveObjectTag => InteractiveObjectTag.IsPlayer),
                 OnSightObjectSystemJustIntersected, OnSightObjectSystemIntersectedNothing, OnSightObjectSystemNoMoreIntersected);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.AggressiveObjectInitializerData, this.OnAIDestinationReached);
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.AggressiveObjectInitializerData.LocomotionAnimation);

@@ -27,13 +27,12 @@ namespace InteractiveObjects
 
         public override void Init()
         {
-            interactiveObjectTag = new InteractiveObjectTag {IsAttractiveObject = 1};
+            interactiveObjectTag = new InteractiveObjectTag {IsAttractiveObject = true};
 
-            var physicsInteractionSelectionGuard = new InteractiveObjectTag(isAi: 1);
-            AttractiveObjectSystem = new AttractiveObjectSystem(this, physicsInteractionSelectionGuard, this.TestAttractiveObjectInitializerData.AttractiveObjectSystemDefinition,
+            AttractiveObjectSystem = new AttractiveObjectSystem(this, (InteractiveObjectTag) => InteractiveObjectTag.IsAi, this.TestAttractiveObjectInitializerData.AttractiveObjectSystemDefinition,
                 OnAssociatedAttractiveSystemJustIntersected, OnAssociatedAttractiveSystemNoMoreIntersected, OnAssociatedAttractiveSystemInterestedNothing);
 
-            DisarmObjectSystem = new DisarmObjectSystem(this, this.TestAttractiveObjectInitializerData.DisarmSystemDefinition, new InteractiveObjectTag {IsAi = 1}, OnAssociatedDisarmObjectTriggerEnter, OnAssciatedDisarmObjectTriggerExit);
+            DisarmObjectSystem = new DisarmObjectSystem(this, this.TestAttractiveObjectInitializerData.DisarmSystemDefinition, (InteractiveObjectTag) => InteractiveObjectTag.IsAi, OnAssociatedDisarmObjectTriggerEnter, OnAssciatedDisarmObjectTriggerExit);
             SelectableObjectSystem = new SelectableObjectSystem(this, this.TestAttractiveObjectInitializerData.SelectableObjectSystemDefinition,
                 this.TestAttractiveObjectInitializerData.SelectableGrabActionDefinition.BuildPlayerAction(PlayerInteractiveObjectManager.Get().PlayerInteractiveObject));
         }

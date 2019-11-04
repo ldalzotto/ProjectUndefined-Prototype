@@ -149,14 +149,14 @@ namespace RangeObjects
 
     public class InteractiveIntersectionListenerDelegated : AInteractiveIntersectionListener
     {
-        protected InteractiveObjectTag InteractiveObjectSelectionGuard;
+        protected Func<InteractiveObjectTag, bool> InteractiveObjectSelectionGuardAction;
         private Action<CoreInteractiveObject> OnInterestedNothingAction = null;
         private Action<CoreInteractiveObject> OnJustIntersectedAction = null;
         private Action<CoreInteractiveObject> OnJustNotIntersectedAction = null;
         private Action<CoreInteractiveObject> OnTriggerEnterSuccessAction = null;
         private Action<CoreInteractiveObject> OnTriggerExitSuccessAction = null;
 
-        public InteractiveIntersectionListenerDelegated(RangeObjectV2 associatedRangeObject, InteractiveObjectTag InteractiveObjectSelectionGuard,
+        public InteractiveIntersectionListenerDelegated(RangeObjectV2 associatedRangeObject, Func<InteractiveObjectTag, bool> InteractiveObjectSelectionGuardAction,
             Action<CoreInteractiveObject> OnInterestedNothingAction = null, Action<CoreInteractiveObject> OnJustIntersectedAction = null, Action<CoreInteractiveObject> OnJustNotIntersectedAction = null,
             Action<CoreInteractiveObject> OnTriggerEnterSuccessAction = null, Action<CoreInteractiveObject> OnTriggerExitSuccessAction = null) : base(associatedRangeObject)
         {
@@ -165,12 +165,12 @@ namespace RangeObjects
             this.OnJustNotIntersectedAction = OnJustNotIntersectedAction;
             this.OnTriggerEnterSuccessAction = OnTriggerEnterSuccessAction;
             this.OnTriggerExitSuccessAction = OnTriggerExitSuccessAction;
-            this.InteractiveObjectSelectionGuard = InteractiveObjectSelectionGuard;
+            this.InteractiveObjectSelectionGuardAction = InteractiveObjectSelectionGuardAction;
         }
 
         public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return InteractiveObjectSelectionGuard.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return this.InteractiveObjectSelectionGuardAction.Invoke(interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag());
         }
 
         protected override void OnInterestedNothing(RangeIntersectionCalculator intersectionCalculator)

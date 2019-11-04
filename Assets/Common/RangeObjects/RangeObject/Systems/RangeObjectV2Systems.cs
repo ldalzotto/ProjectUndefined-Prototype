@@ -83,17 +83,17 @@ namespace RangeObjects
     public class InteractiveObstaclePhysicsEventListener : AInteractiveObjectPhysicsEventListener
     {
         private ObstacleListenerSystem AssociatedObstacleListener;
-        private InteractiveObjectTag SelectionGuard;
+        private Func<InteractiveObjectTag, bool> SelectionGuard;
 
         public InteractiveObstaclePhysicsEventListener(ObstacleListenerSystem associatedObstacleListener)
         {
             AssociatedObstacleListener = associatedObstacleListener;
-            this.SelectionGuard = new InteractiveObjectTag(isObstacle: 1);
+            this.SelectionGuard = (InteractiveObjectTag) => InteractiveObjectTag.IsObstacle;
         }
 
         public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return this.SelectionGuard.Compare(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject.InteractiveObjectTag);
+            return this.SelectionGuard.Invoke(interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag());
         }
 
         public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)

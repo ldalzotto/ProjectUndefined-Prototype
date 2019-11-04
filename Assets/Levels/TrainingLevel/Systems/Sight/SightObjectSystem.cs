@@ -14,7 +14,7 @@ namespace InteractiveObjects
         private Action<CoreInteractiveObject> OnSightObjectSystemNoMoreIntersected;
         [DrawNested] private RangeObjectV2 SightRange;
 
-        public SightObjectSystem(CoreInteractiveObject AssocaitedInteractiveObject, SightObjectSystemDefinition SightObjectSystemDefinition, InteractiveObjectTag PhysicsTagEventGuard,
+        public SightObjectSystem(CoreInteractiveObject AssocaitedInteractiveObject, SightObjectSystemDefinition SightObjectSystemDefinition, Func<InteractiveObjectTag, bool> PhysicsTagEventGuard,
             Action<CoreInteractiveObject> OnSightObjectSystemJustIntersected,
             Action<CoreInteractiveObject> OnSightObjectSystemIntersectedNothing,
             Action<CoreInteractiveObject> OnSightObjectSystemNoMoreIntersected)

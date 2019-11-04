@@ -35,11 +35,12 @@ namespace InteractiveObjects
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, AIInteractiveObjectInitializerData, this.OnAIDestinationReached);
             this.AIAttractiveObjectState = new AIAttractiveObjectState(new BoolVariable(false, OnAIIsJustAttractedByAttractiveObject, OnAIIsNoMoreAttractedByAttractiveObject));
             this.AIDisarmObjectState = new AIDisarmObjectState(new BoolVariable(false, OnAIIsJustDisarmingObject, OnAIIsNoMoreJustDisarmingObject));
-            this.interactiveObjectTag = new InteractiveObjectTag {IsAi = 1};
+            this.interactiveObjectTag = new InteractiveObjectTag {IsAi = true};
 
             this.AIPatrolSystem = new AIPatrolSystem(this, AIInteractiveObjectInitializerData.AIPatrolSystemDefinition);
 
-            this.SightObjectSystem = new SightObjectSystem(this, AIInteractiveObjectInitializerData.SightObjectSystemDefinition, new InteractiveObjectTag {IsAttractiveObject = 1},
+            this.SightObjectSystem = new SightObjectSystem(this, AIInteractiveObjectInitializerData.SightObjectSystemDefinition,
+                (InteractiveObjectTag => InteractiveObjectTag.IsAttractiveObject),
                 OnSightObjectSystemJustIntersected, OnSightObjectSystemIntersectedNothing, OnSightObjectSystemNoMoreIntersected);
             this.LocalCutscenePlayerSystem = new LocalCutscenePlayerSystem();
             this.LineVisualFeedbackSystem = new LineVisualFeedbackSystem(this.InteractiveGameObject);
@@ -119,7 +120,7 @@ namespace InteractiveObjects
 
         private void SwitchToAttractedState(CoreInteractiveObject OtherInteractiveObject)
         {
-            if (OtherInteractiveObject.InteractiveObjectTag.IsAttractiveObject == 1 || OtherInteractiveObject.InteractiveObjectTag.IsPlayer == 1)
+            if (OtherInteractiveObject.InteractiveObjectTag.IsAttractiveObject || OtherInteractiveObject.InteractiveObjectTag.IsPlayer)
             {
                 AIAttractiveObjectState.SetIsAttractedByAttractiveObject(true, OtherInteractiveObject);
                 AIPatrollingState.isPatrolling = false;

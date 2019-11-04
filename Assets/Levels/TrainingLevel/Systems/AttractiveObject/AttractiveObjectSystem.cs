@@ -8,7 +8,7 @@ namespace InteractiveObjects
     {
         private AttractiveObjectLifetimeTimer AttractiveObjectLifetimeTimer;
 
-        public AttractiveObjectSystem(CoreInteractiveObject InteractiveObject, InteractiveObjectTag physicsInteractionSelectionGuard, AttractiveObjectSystemDefinition AttractiveObjectSystemDefinition,
+        public AttractiveObjectSystem(CoreInteractiveObject InteractiveObject, Func<InteractiveObjectTag, bool> physicsInteractionSelectionGuard, AttractiveObjectSystemDefinition AttractiveObjectSystemDefinition,
             Action<CoreInteractiveObject> onAttractiveSystemJustIntersected = null,
             Action<CoreInteractiveObject> onAttractiveSystemJustNotIntersected = null, Action<CoreInteractiveObject> onAttractiveSystemInterestedNothing = null)
         {

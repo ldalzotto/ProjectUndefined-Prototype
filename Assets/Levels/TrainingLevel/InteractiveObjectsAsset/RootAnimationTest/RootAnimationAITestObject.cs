@@ -22,7 +22,7 @@ namespace InteractiveObjects
 
         public override void Init()
         {
-            this.interactiveObjectTag = new InteractiveObjectTag() {IsAi = 1};
+            this.interactiveObjectTag = new InteractiveObjectTag() {IsAi = true};
             this.LocalCutscenePlayerSystem = new LocalCutscenePlayerSystem();
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.RootAnimationAITestObjectInitializerData, OnAIDestinationReached);
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.RootAnimationAITestObjectInitializerData.LocomotionAnimation);
