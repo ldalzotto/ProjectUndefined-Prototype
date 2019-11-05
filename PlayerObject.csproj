@@ -668,6 +668,10 @@
       <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
       <Name>Input</Name>
     </ProjectReference>
+    <ProjectReference Include="Weapon.csproj">
+      <Project>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</Project>
+      <Name>Weapon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

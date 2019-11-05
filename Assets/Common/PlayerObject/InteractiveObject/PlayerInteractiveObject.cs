@@ -5,6 +5,7 @@ using InteractiveObjects_Interfaces;
 using PlayerActions;
 using PlayerObject_Interfaces;
 using UnityEngine;
+using Weapon;
 
 namespace PlayerObject
 {
@@ -15,6 +16,7 @@ namespace PlayerObject
         #region Systems
 
         [VE_Nested] private BaseObjectAnimatorPlayableSystem baseObjectAnimatorPlayableSystem;
+        private WeaponHandlingSystem WeaponHandlingSystem;
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace PlayerObject
         {
             this.PlayerInteractiveObjectInitializer = PlayerInteractiveObjectInitializer;
             base.BaseInit(interactiveGameObject, false);
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponInitializerPrefab));
         }
 
         public override void Init()
@@ -121,6 +124,16 @@ namespace PlayerObject
         public float GetNormalizedSpeed()
         {
             return PlayerInputMoveManager.PlayerSpeedMagnitude;
+        }
+
+        #endregion
+
+
+        #region Projectile Events
+
+        public override void AskToFireAFiredProjectile()
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile();
         }
 
         #endregion

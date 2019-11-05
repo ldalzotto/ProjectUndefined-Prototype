@@ -56,9 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\Health\Systems\HealthSystem.cs" />
-     <Compile Include="Assets\Common\Health\Systems\HealthSystemDefinition.cs" />
-     <None Include="Assets\Common\Health\Health.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\Health\Systems\HealthSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\Health\Systems\HealthSystemDefinition.cs" />
+     <None Include="Assets\Undefined\Logic\Health\Health.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

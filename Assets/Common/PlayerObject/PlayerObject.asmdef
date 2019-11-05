@@ -12,7 +12,8 @@
 "SequencedAction",
 "AnimatorPlayable",
 "InteractiveObject_Animation",
-"Input"
+"Input",
+"Weapon"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

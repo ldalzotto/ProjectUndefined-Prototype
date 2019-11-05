@@ -9,13 +9,7 @@ namespace Firing
     [SceneHandleDraw]
     public class FiringPlayerActionInherentData : PlayerActionInherentData
     {
-        public float RecoilTime;
         public float TargetCursorInitialOffset;
-
-        [WireCircleWorldAttribute(PositionFieldName = nameof(FiringPlayerActionInherentData.ProjectileSpawnLocalPosition))]
-        public Vector3 ProjectileSpawnLocalPosition;
-
-        public FiredProjectileInitializer FiringProjectileInitializerPrefab;
         public GameObject TargetCursorPrefab;
         public GameObject FiringHorizontalPlanePrefab;
 

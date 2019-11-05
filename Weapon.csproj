@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{D8D28AC0-0514-A580-37DA-8CD37F449C30}</ProjectGuid>
+    <ProjectGuid>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>TrainingLevel</AssemblyName>
+    <AssemblyName>Weapon</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,30 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemy.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemyDefinition.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectActionInherentData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\AggressiveAI\AggressiveAIObject.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\AggressiveAI\AggressiveObjectInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\RootAnimationTest\RootAnimationAITestObject.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\RootAnimationTest\RootAnimationAITestObjectInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\RootAnimationTest\RootAnimationCutsceneTemplate.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AIInteractiveObjectTest.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AIInteractiveObjectTestInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AIPatrolGraphTest.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AITestDisarmLocalCutscene.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AttractiveObject\TestAttractiveObject.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AttractiveObject\TestAttractiveObjectInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\AttractiveObject\AttractiveObjectSystem.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\AttractiveObject\AttractiveObjectSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\DisarmObject\DisarmobjectSystem.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\DisarmObject\DisarmSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\LevelCompletionZone\LevelCompletionZoneSystem.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\LevelCompletionZone\LevelCompletionZoneSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\Sight\SightObjectSystem.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\Sight\SightObjectSystemDefinition.cs" />
-     <None Include="Assets\Undefined\Levels\TrainingLevel\TrainingLevel.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\Weapon.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponInitializer.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystemDefinition.cs" />
+     <None Include="Assets\Undefined\Logic\Weapon\Weapon.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -634,18 +616,6 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
-      <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
-      <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="SequencedAction_Editor_Common.csproj">
-      <Project>{0D0A264B-1D3D-7B14-5E92-5228B7ECB71D}</Project>
-      <Name>SequencedAction_Editor_Common</Name>
-    </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>
@@ -654,65 +624,17 @@
       <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="Firing.csproj">
+      <Project>{526A522A-DE6D-2D66-9543-C9F55C02111B}</Project>
+      <Name>Firing</Name>
+    </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
-      <Name>InteractiveObject_Animation</Name>
-    </ProjectReference>
-    <ProjectReference Include="AIObjects.csproj">
-      <Project>{4B5DEF64-4FDA-7B80-40DB-F36B792B3884}</Project>
-      <Name>AIObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="SequencedAction.csproj">
-      <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
-      <Name>SequencedAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="VisualFeedback.csproj">
-      <Project>{7CB22E21-2248-2D5F-191C-57E9A683E3D8}</Project>
-      <Name>VisualFeedback</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{63AE0CB7-735A-D4CD-7DAE-B8ABD6F2883E}</Project>
-      <Name>PlayerActions</Name>
-    </ProjectReference>
-    <ProjectReference Include="SelectionObjects.csproj">
-      <Project>{3ED6129A-F77C-7D87-CFDC-573822D6A1E2}</Project>
-      <Name>SelectionObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerObject.csproj">
-      <Project>{D724B571-7DAE-8593-0240-BB4D3341B93B}</Project>
-      <Name>PlayerObject</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
-      <Name>PlayerObject_Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="LevelManagement.csproj">
-      <Project>{F9A056B6-F4BF-D32F-5783-F99516EBF2DD}</Project>
-      <Name>LevelManagement</Name>
-    </ProjectReference>
-    <ProjectReference Include="RangeObjects.csproj">
-      <Project>{B0B86AC7-E423-566C-6E55-58B5FDE37DF9}</Project>
-      <Name>RangeObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="AnimatorPlayable.csproj">
-      <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
-      <Name>AnimatorPlayable</Name>
-    </ProjectReference>
-    <ProjectReference Include="Input.csproj">
-      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
-      <Name>Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="Health.csproj">
-      <Project>{75786E6C-34C8-0B2C-40F8-743BA59E9518}</Project>
-      <Name>Health</Name>
-    </ProjectReference>
-    <ProjectReference Include="Damage.csproj">
-      <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
-      <Name>Damage</Name>
+    <ProjectReference Include="CoreGame.csproj">
+      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Name>CoreGame</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

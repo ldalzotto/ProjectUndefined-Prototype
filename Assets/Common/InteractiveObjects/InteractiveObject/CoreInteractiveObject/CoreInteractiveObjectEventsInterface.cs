@@ -67,5 +67,13 @@ namespace InteractiveObjects
         }
 
         #endregion
+
+        #region Projectile Events
+
+        public virtual void AskToFireAFiredProjectile()
+        {
+        }
+
+        #endregion
     }
 }

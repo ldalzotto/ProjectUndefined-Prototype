@@ -2,6 +2,7 @@
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using PlayerActions;
+using Weapon;
 
 namespace PlayerObject
 {
@@ -9,7 +10,7 @@ namespace PlayerObject
     public class PlayerInteractiveObjectInitializer : InteractiveObjectInitializer
     {
         [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
-
+        public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
         public A_AnimationPlayableDefinition LocomotionAnimation;
         [DrawNested] public PlayerActionInherentData FiringPlayerActionInherentData;
 
