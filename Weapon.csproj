@@ -56,9 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Logic\Weapon\Events\SpawnFiringProjectileEvent.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\Events\WeaponCreatedEvent.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\Weapon.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponInitializer.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\Managers\WeaponRecoilTimeManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystemDefinition.cs" />
      <None Include="Assets\Undefined\Logic\Weapon\Weapon.asmdef" />

@@ -681,9 +681,9 @@
       <Project>{A57781E4-D853-FCD5-B604-158EA14A06F7}</Project>
       <Name>LevelManagement_Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="Firing.csproj">
-      <Project>{526A522A-DE6D-2D66-9543-C9F55C02111B}</Project>
-      <Name>Firing</Name>
+    <ProjectReference Include="Weapon.csproj">
+      <Project>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</Project>
+      <Name>Weapon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

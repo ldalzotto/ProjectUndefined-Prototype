@@ -1,6 +1,5 @@
 using CameraManagement;
 using CoreGame;
-using Firing;
 using Input;
 using InteractiveObjects;
 using LevelManagement;
@@ -12,6 +11,7 @@ using SelectableObject;
 using Tutorial;
 using UnityEngine;
 using VisualFeedback;
+using Weapon;
 
 namespace GameLoop
 {
@@ -66,7 +66,7 @@ namespace GameLoop
 
             CameraMovementManager.Get().Tick(d);
 
-            FiringRecoilTimeManager.Get().Tick(d);
+            WeaponRecoilTimeManager.Get().Tick(d);
 
             ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
             RangeIntersectionCalculationManagerV2.Get().Tick(d);

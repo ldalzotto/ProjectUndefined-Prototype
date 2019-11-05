@@ -1,5 +1,4 @@
-﻿using Firing;
-using InteractiveObjects;
+﻿using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 
@@ -11,12 +10,13 @@ namespace Weapon
 
         public Weapon(IInteractiveGameObject IInteractiveGameObject, WeaponDefinition WeaponDefinition)
         {
-            this.FiringProjectileSystem = new FiringProjectileSystem(WeaponDefinition);
+            this.FiringProjectileSystem = new FiringProjectileSystem(this, WeaponDefinition);
             this.BaseInit(IInteractiveGameObject, false);
         }
 
         public override void Init()
         {
+            WeaponCreatedEvent.Get().OnWeaponCreated(this);
         }
 
         public void SpawnFiredProjectile(TransformStruct StartTransform)
@@ -27,19 +27,21 @@ namespace Weapon
 
     class FiringProjectileSystem
     {
-        private FiringRecoilTimeManager FiringRecoilTimeManager = FiringRecoilTimeManager.Get();
+        private WeaponRecoilTimeManager _weaponRecoilTimeManager = WeaponRecoilTimeManager.Get();
         private SpawnFiringProjectileEvent SpawnFiringProjectileEvent = SpawnFiringProjectileEvent.Get();
 
+        private Weapon WeaponRef;
         private WeaponDefinition WeaponDefinition;
 
-        public FiringProjectileSystem(WeaponDefinition weaponDefinition)
+        public FiringProjectileSystem(Weapon WeaponRef, WeaponDefinition weaponDefinition)
         {
+            this.WeaponRef = WeaponRef;
             WeaponDefinition = weaponDefinition;
         }
 
         public void SpawnFiredProjectile(TransformStruct StartTransform)
         {
-            if (FiringRecoilTimeManager.AuthorizeFiringAProjectile())
+            if (_weaponRecoilTimeManager.AuthorizeFiringAProjectile(this.WeaponRef))
             {
                 var FiringProjectileInitializerPrefab = this.WeaponDefinition.FiringProjectileInitializerPrefab;
                 var FiringProjectileInitializer = MonoBehaviour.Instantiate(FiringProjectileInitializerPrefab);
@@ -50,7 +52,7 @@ namespace Weapon
                 // Eq (2)
                 FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.position = StartTransform.WorldPosition;
                 FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.eulerAngles = StartTransform.WorldRotationEuler;
-                this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(this.WeaponDefinition.RecoilTime);
+                this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(this.WeaponRef, this.WeaponDefinition.RecoilTime);
             }
         }
     }

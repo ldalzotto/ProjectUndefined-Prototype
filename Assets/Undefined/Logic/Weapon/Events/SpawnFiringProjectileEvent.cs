@@ -1,12 +1,12 @@
 ﻿using CoreGame;
 
-namespace Firing
+namespace Weapon
 {
     public class SpawnFiringProjectileEvent : GameSingleton<SpawnFiringProjectileEvent>
     {
-        public void OnFiringProjectileSpawned(float recoilTime)
+        public void OnFiringProjectileSpawned(Weapon sourceWeapon, float recoilTime)
         {
-            FiringRecoilTimeManager.Get().OnProjectileSpawned(recoilTime);
+            WeaponRecoilTimeManager.Get().OnFiredProjectileSpawned(sourceWeapon, recoilTime);
         }
     }
 }
