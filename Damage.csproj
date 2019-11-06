@@ -56,10 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealer\Systems\DamageDealerSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealer\Systems\DamageDealerSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealing\Systems\StunningDamageDealingSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealing\Systems\StunningDamageDealingSystemDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealerEmitter\Systems\DamageDealerEmitterSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealerEmitter\Systems\DamageDealerEmitterSystemDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealerReceiver\Systems\StunningDamageDealerReceiverSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\Damage\DamageDealerReceiver\Systems\StunningDamageDealerReceiverSystemDefinition.cs" />
      <None Include="Assets\Undefined\Logic\Damage\Damage.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

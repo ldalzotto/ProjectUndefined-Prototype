@@ -4,6 +4,7 @@ using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Weapon;
 
 namespace TrainingLevel
@@ -17,8 +18,8 @@ namespace TrainingLevel
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public HealthSystemDefinition HealthSystemDefinition;
 
-        [Inline(CreateAtSameLevelIfAbsent = true)]
-        public StunningDamageDealingSystemDefinition StunningDamageDealingSystemDefinition;
+        [FormerlySerializedAs("StunningDamageDealingSystemDefinition")] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public StunningDamageDealerReceiverSystemDefinition stunningDamageDealerReceiverSystemDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;

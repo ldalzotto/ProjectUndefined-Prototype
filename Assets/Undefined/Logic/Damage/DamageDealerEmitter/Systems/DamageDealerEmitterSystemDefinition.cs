@@ -2,7 +2,7 @@
 
 namespace Damage
 {
-    public class DamageDealerSystemDefinition : SerializedScriptableObject
+    public class DamageDealerEmitterSystemDefinition : SerializedScriptableObject
     {
         public float Damage;
     }

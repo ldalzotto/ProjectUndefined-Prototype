@@ -8,7 +8,7 @@ namespace Firing
     public class FiredProjectile : CoreInteractiveObject
     {
         private FiredProjectileMovementSystem FiredProjectileMovementSystem;
-        private DamageDealerSystem DamageDealerSystem;
+        private DamageDealerEmitterSystem _damageDealerEmitterSystem;
         private CoreInteractiveObject WeaponHolder;
 
         public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition, CoreInteractiveObject weaponHolder)
@@ -17,7 +17,7 @@ namespace Firing
             parent.CreateLogicCollider(FiredProjectileDefinition.InteractiveObjectBoxLogicColliderDefinition);
             this.BaseInit(parent, true);
             this.FiredProjectileMovementSystem = new FiredProjectileMovementSystem(FiredProjectileDefinition, this);
-            this.DamageDealerSystem = new DamageDealerSystem(this, FiredProjectileDefinition.DamageDealerSystemDefinition, this.OnDamageDealtToOther, IgnoredInteractiveObjects: new List<CoreInteractiveObject>() {this.WeaponHolder});
+            this._damageDealerEmitterSystem = new DamageDealerEmitterSystem(this, FiredProjectileDefinition.damageDealerEmitterSystemDefinition, this.OnDamageDealtToOther, IgnoredInteractiveObjects: new List<CoreInteractiveObject>() {this.WeaponHolder});
             this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectPhysicsTriggerInfo => InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle), this.OnObstacleTriggerEnter));
         }
 

@@ -4,18 +4,18 @@ using InteractiveObjects;
 
 namespace Damage
 {
-    public class DamageDealerSystem
+    public class DamageDealerEmitterSystem
     {
-        private DamageDealerSystemDefinition DamageDealerSystemDefinition;
+        private DamageDealerEmitterSystemDefinition _damageDealerEmitterSystemDefinition;
         private CoreInteractiveObject AssociatedInteractiveObjectRef;
 
         private Action<CoreInteractiveObject> OnDamageDealtToOtherAction;
 
-        public DamageDealerSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerSystemDefinition DamageDealerSystemDefinition, Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null,
+        public DamageDealerEmitterSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerEmitterSystemDefinition damageDealerEmitterSystemDefinition, Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null,
             List<CoreInteractiveObject> IgnoredInteractiveObjects = null)
         {
             this.AssociatedInteractiveObjectRef = AssociatedInteractiveObject;
-            this.DamageDealerSystemDefinition = DamageDealerSystemDefinition;
+            this._damageDealerEmitterSystemDefinition = damageDealerEmitterSystemDefinition;
             this.OnDamageDealtToOtherAction = OnDamageDealtToOtherAction;
             AssociatedInteractiveObject.RegisterInteractiveObjectPhysicsEventListener(new DamageDealerSystemPhysicsListener(
                 interactiveObjectSelectionGuard: (InteractiveObjectPhysicsTriggerInfo =>
@@ -29,7 +29,7 @@ namespace Damage
         {
             if (AssociatedInteractiveObjectRef != Other)
             {
-                Other.DealDamage(-1 * this.DamageDealerSystemDefinition.Damage);
+                Other.DealDamage(-1 * this._damageDealerEmitterSystemDefinition.Damage);
                 this.OnDamageDealtToOtherAction?.Invoke(Other);
             }
         }

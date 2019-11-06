@@ -3,6 +3,7 @@ using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Firing
 {
@@ -14,8 +15,8 @@ namespace Firing
         public float Speed;
         public float MaxDistance;
 
-        [Inline(CreateAtSameLevelIfAbsent = true)]
-        public DamageDealerSystemDefinition DamageDealerSystemDefinition;
+        [FormerlySerializedAs("DamageDealerSystemDefinition")] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public DamageDealerEmitterSystemDefinition damageDealerEmitterSystemDefinition;
 
         public FiredProjectile BuildFiredProjectile(CoreInteractiveObject WeaponHolder)
         {
