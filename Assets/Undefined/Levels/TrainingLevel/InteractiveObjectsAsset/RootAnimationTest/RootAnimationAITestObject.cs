@@ -24,7 +24,8 @@ namespace InteractiveObjects
         {
             this.interactiveObjectTag = new InteractiveObjectTag() {IsAi = true};
             this.LocalCutscenePlayerSystem = new LocalCutscenePlayerSystem();
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.RootAnimationAITestObjectInitializerData, OnAIDestinationReached);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.RootAnimationAITestObjectInitializerData.TransformMoveManagerComponentV3, OnAIDestinationReached,
+                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.RootAnimationAITestObjectInitializerData.LocomotionAnimation);
             this.LocalCutscenePlayerSystem.PlayCutscene(this.RootAnimationAITestObjectInitializerData.RootAnimationCutsceneTemplate.GetSequencedActions(this));
         }
@@ -52,7 +53,7 @@ namespace InteractiveObjects
             this.AIMoveToDestinationSystem.IsEnabled = true;
         }
 
-        public override void OnAIDestinationReached()
+        public void OnAIDestinationReached()
         {
             this.LocalCutscenePlayerSystem.OnAIDestinationReached();
         }
@@ -65,11 +66,6 @@ namespace InteractiveObjects
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
         {
             AIMoveToDestinationSystem.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
-        }
-
-        public override void OnAnimationObjectSetUnscaledSpeedMagnitude(float unscaledSpeedMagnitude)
-        {
-            this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeedMagnitude);
         }
     }
 }

@@ -4,14 +4,6 @@ namespace InteractiveObjects
 {
     public abstract partial class CoreInteractiveObject
     {
-        #region Animation Object Events
-
-        public virtual void OnAnimationObjectSetUnscaledSpeedMagnitude(float UnscaledSpeedMagnitude)
-        {
-        }
-
-        #endregion
-
         #region AI Events
 
         public virtual void SetAIDestination(AIDestination AIDestination)
@@ -19,10 +11,6 @@ namespace InteractiveObjects
         }
 
         public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
-        {
-        }
-
-        public virtual void OnAIDestinationReached()
         {
         }
 

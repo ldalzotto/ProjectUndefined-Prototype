@@ -1,5 +1,7 @@
-﻿using Damage;
+﻿using AIObjects;
+using Damage;
 using Health;
+using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
@@ -12,16 +14,22 @@ namespace TrainingLevel
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
         private WeaponHandlingSystem WeaponHandlingSystem;
+        private AIMoveToDestinationSystem AIMoveToDestinationSystem;
+        private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
             parent.CreateLogicCollider(SoliderEnemyDefinition.InteractiveObjectBoxLogicColliderDefinition);
+            parent.CreateAgent(SoliderEnemyDefinition.AIAgentDefinition);
             this.interactiveObjectTag = new InteractiveObjectTag() {IsTakingDamage = true};
             BaseInit(parent);
             this.HealthSystem = new HealthSystem(SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthBelowZero);
             this._stunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(SoliderEnemyDefinition.stunningDamageDealerReceiverSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal,
                 SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
+                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
+            this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, SoliderEnemyDefinition.LocomotionAnimation);
         }
 
         public override void Tick(float d)
@@ -40,6 +48,7 @@ namespace TrainingLevel
             foreach (var renderer in this.InteractiveGameObject.Renderers)
             {
                 renderer.material.SetColor("_BaseColor", Color.red);
+                this.AnimatorPlayable.Stop();
             }
         }
 
@@ -48,6 +57,7 @@ namespace TrainingLevel
             foreach (var renderer in this.InteractiveGameObject.Renderers)
             {
                 renderer.material.SetColor("_BaseColor", Color.white);
+                this.AnimatorPlayable.Play();
             }
         }
 
@@ -59,6 +69,10 @@ namespace TrainingLevel
         public override void DealDamage(float Damage)
         {
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);
+        }
+
+        private void OnAIDestinationReached()
+        {
         }
 
         #region Projectile Events

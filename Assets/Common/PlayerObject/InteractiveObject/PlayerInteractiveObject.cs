@@ -64,7 +64,7 @@ namespace PlayerObject
 
             this.baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.PlayerInteractiveObjectInitializer.LocomotionAnimation);
         }
-<
+
         public PlayerInteractiveObjectInitializerData PlayerInteractiveObjectInitializerData { get; private set; }
 
         public override void Tick(float d)

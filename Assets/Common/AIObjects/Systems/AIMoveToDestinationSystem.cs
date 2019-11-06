@@ -1,4 +1,6 @@
-﻿using InteractiveObjects;
+﻿using System;
+using CoreGame;
+using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,26 +15,38 @@ namespace AIObjects
 
     public class AIMoveToDestinationSystem : AInteractiveObjectSystem
     {
-        [VE_Nested] private AIDestinationMoveManager AIDestinationMoveManager;
+        private NavMeshAgent objectAgent;
+
+        private AIDestinationManager AIDestinationManager;
+        [VE_Nested] private AIPositionMoveManager aiPositionMoveManager;
+        private AIRotationMoveManager AIRotationMoveManager;
         private AISpeedEventDispatcher AISpeedEventDispatcher;
 
         public bool IsEnabled;
 
-        public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, AbstractAIInteractiveObjectInitializerData AIInteractiveObjectInitializerData,
-            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached)
+        public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
+            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
         {
             this.IsEnabled = true;
-            AIDestinationMoveManager = new AIDestinationMoveManager(CoreInteractiveObject.InteractiveGameObject.Agent, AIInteractiveObjectInitializerData, OnAIInteractiveObjectDestinationReached);
-            AISpeedEventDispatcher = new AISpeedEventDispatcher(CoreInteractiveObject, AIInteractiveObjectInitializerData);
+            this.objectAgent = CoreInteractiveObject.InteractiveGameObject.Agent;
+            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3);
+            this.AIDestinationManager = new AIDestinationManager(this.objectAgent, OnAIInteractiveObjectDestinationReached, this.aiPositionMoveManager);
+            this.AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, AITransformMoveManagerComponentV3, this.AIDestinationManager);
+            this.AISpeedEventDispatcher = new AISpeedEventDispatcher(CoreInteractiveObject, AITransformMoveManagerComponentV3, OnAgentUnscaledSpeedMagnitudeCalculatedAction);
         }
 
         public override void Tick(float d)
         {
             if (IsEnabled)
             {
-                AIDestinationMoveManager.TickDestinationReached();
-                AIDestinationMoveManager.EnableAgent();
-                AIDestinationMoveManager.Tick(d);
+                this.EnableAgent();
+                this.AIDestinationManager.CheckIfDestinationReached(d);
+                this.AIRotationMoveManager.UpdateAgentRotation(d);
+                this.aiPositionMoveManager.UpdateAgentPosition(d);
+            }
+            else
+            {
+                this.StopAgent();
             }
         }
 
@@ -40,55 +54,65 @@ namespace AIObjects
         {
             if (IsEnabled)
             {
-                AISpeedEventDispatcher.AfterTicks(AIDestinationMoveManager.CurrentDestination.HasValue);
+                AISpeedEventDispatcher.AfterTicks(this.AIDestinationManager.CurrentDestination.HasValue);
             }
         }
 
         public void SetDestination(AIDestination AIDestination)
         {
-            AIDestinationMoveManager.SetDestination(AIDestination);
+            this.AIDestinationManager.SetDestination(AIDestination);
         }
 
         public void SetSpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
         {
-            AIDestinationMoveManager.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
+            aiPositionMoveManager.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
         }
 
         public void ClearPath()
         {
-            AIDestinationMoveManager.ClearPath();
+            this.AIDestinationManager.ClearPath();
+            objectAgent.ResetPath();
+        }
+
+
+        private void EnableAgent()
+        {
+            objectAgent.isStopped = false;
+        }
+
+        private void StopAgent()
+        {
+            if (objectAgent.hasPath)
+            {
+                objectAgent.ResetPath();
+                objectAgent.isStopped = true;
+            }
         }
     }
 
-    internal class AIDestinationMoveManager
+    internal class AIDestinationManager
     {
-        #region Configuration Data
-
-        private AbstractAIInteractiveObjectInitializerData AIInteractiveObjectInitializerData;
-
-        #endregion
-
-        #region destination reached manual update
-
+        private float DeltaTime;
         private int FrameWereOccuredTheLastDestinationReached = -1;
-
-        #endregion
-
-        private Vector3 lastSuccessfulWorldDestination;
+        private Vector3 lastSettedWorldDestination;
         private NavMeshAgent objectAgent;
         private OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached;
+        [VE_Nested] private AIDestination? currentDestination;
+        public AIDestination? CurrentDestination => currentDestination;
 
-        public AIDestinationMoveManager(NavMeshAgent objectAgent, AbstractAIInteractiveObjectInitializerData AIInteractiveObjectInitializerData, OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached)
+        private AIPositionMoveManager _aiPositionMoveManagerRef;
+
+        public AIDestinationManager(NavMeshAgent objectAgent, OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, AIPositionMoveManager aiPositionMoveManagerRef)
         {
             this.objectAgent = objectAgent;
-            lastSuccessfulWorldDestination = new Vector3(9999999, 99999999, 9999999);
-            this.AIInteractiveObjectInitializerData = AIInteractiveObjectInitializerData;
             this.OnAIInteractiveObjectDestinationReached = OnAIInteractiveObjectDestinationReached;
-            currentSpeedAttenuationFactor = AIMovementSpeedDefinition.RUN;
+            this.lastSettedWorldDestination = new Vector3(9999999, 99999999, 9999999);
+            this._aiPositionMoveManagerRef = aiPositionMoveManagerRef;
         }
 
-        public void TickDestinationReached()
+        public void CheckIfDestinationReached(float d)
         {
+            this.DeltaTime = d;
             //is destination reached
             if (CurrentDestination.HasValue)
                 if (!objectAgent.pathPending && objectAgent.remainingDistance <= objectAgent.stoppingDistance && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f))
@@ -102,58 +126,37 @@ namespace AIObjects
                 }
         }
 
-        public void Tick(float d)
+
+        public void SetDestination(AIDestination AIDestination)
         {
-            DeltaTime = d;
-            UpdateAgentTransform(d);
+            //When a different path is calculated, we manually reset the path and calculate the next destination
+            //The input world destination may not be exactly on NavMesh.
+            //So we do comparison between world destination
+            if (lastSettedWorldDestination != AIDestination.WorldPosition)
+            {
+                //   Debug.Log(MyLog.Format("Set destination : " + AIDestination.WorldPosition));
+                this.currentDestination = AIDestination;
+                objectAgent.ResetPath();
+                var path = CreateValidNavMeshPathWithFallback(objectAgent, AIDestination.WorldPosition, 50);
+
+                objectAgent.SetPath(path);
+
+                //If direction change is occuring when current destination has been reached
+                //We manually calculate next position to avoid a frame where AI is standing still
+                if (FrameWereOccuredTheLastDestinationReached == Time.frameCount)
+                {
+                    this.ManuallyUpdateAgent(this.objectAgent);
+                }
+
+
+                lastSettedWorldDestination = AIDestination.WorldPosition;
+            }
         }
 
-        private void UpdateAgentTransform(float d)
+        public void ClearPath()
         {
-            var TransformMoveManagerComponentV3 = AIInteractiveObjectInitializerData.TransformMoveManagerComponentV3;
-            objectAgent.speed = TransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementDefinitions.AIMovementSpeedAttenuationFactorLookup[currentSpeedAttenuationFactor];
-
-            var updatePosition = true;
-            // We use a minimal velocity amplitude to avoid precision loss occured by the navmesh agent velocity calculation.
-            if (objectAgent.hasPath && !objectAgent.isStopped)
-            {
-                //if target is too close, we look to destination
-                var distanceToDestination = Vector3.Distance(objectAgent.nextPosition, objectAgent.destination);
-
-                Quaternion targetRotation;
-
-                if (objectAgent.nextPosition != objectAgent.destination && distanceToDestination <= 5f)
-                    targetRotation = Quaternion.LookRotation(objectAgent.destination - objectAgent.nextPosition, Vector3.up);
-                else
-                    targetRotation = Quaternion.LookRotation((objectAgent.path.corners[1] - objectAgent.path.corners[0]).normalized, Vector3.up);
-
-                objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, targetRotation, TransformMoveManagerComponentV3.RotationSpeed * d);
-
-                updatePosition =
-                    !TransformMoveManagerComponentV3.IsPositionUpdateConstrained ||
-                    TransformMoveManagerComponentV3.IsPositionUpdateConstrained && Quaternion.Angle(objectAgent.transform.rotation, targetRotation) <= TransformMoveManagerComponentV3.TransformPositionUpdateConstraints.MinAngleThatAllowThePositionUpdate;
-            }
-            else if (CurrentDestination.HasValue && CurrentDestination.Value.Rotation.HasValue)
-            {
-                var targetRotation = CurrentDestination.Value.Rotation.Value;
-                objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, targetRotation, TransformMoveManagerComponentV3.RotationSpeed * d);
-            }
-
-            if (updatePosition)
-                objectAgent.transform.position = objectAgent.nextPosition;
-            else
-                objectAgent.nextPosition = objectAgent.transform.position;
-        }
-
-        private void ManuallyUpdateAgent()
-        {
-            //   Debug.Log(MyLog.Format("ManuallyUpdateAgent"));
-            Vector3 velocitySetted = default;
-            NavMeshHit pathHit;
-            objectAgent.SamplePathPosition(NavMesh.AllAreas, objectAgent.speed * DeltaTime, out pathHit);
-            if (DeltaTime > 0) objectAgent.velocity = (pathHit.position - objectAgent.transform.position) / DeltaTime;
-
-            objectAgent.nextPosition = pathHit.position;
+            this.lastSettedWorldDestination = new Vector3(9999999, 99999999, 9999999);
+            this.currentDestination = null;
         }
 
         private static NavMeshPath CreateValidNavMeshPathWithFallback(NavMeshAgent agent, Vector3 WorldDestination, float fallbackNearestPointDistance)
@@ -167,63 +170,66 @@ namespace AIObjects
             return path;
         }
 
+
+        private void ManuallyUpdateAgent(NavMeshAgent agent)
+        {
+            //   Debug.Log(MyLog.Format("ManuallyUpdateAgent"));
+            Vector3 velocitySetted = default;
+            NavMeshHit pathHit;
+            agent.SamplePathPosition(NavMesh.AllAreas, agent.speed * DeltaTime, out pathHit);
+            if (DeltaTime > 0) agent.velocity = (pathHit.position - agent.transform.position) / DeltaTime;
+
+            agent.nextPosition = pathHit.position;
+        }
+    }
+
+    internal class AIPositionMoveManager
+    {
+        #region Configuration Data
+
+        private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
+
+        #endregion
+
         #region State
-
-        private float DeltaTime;
-
-        [VE_Nested] private AIDestination? currentDestination;
-
-        public AIDestination? CurrentDestination => this.currentDestination;
 
         //Used to change the agent speed
         private AIMovementSpeedDefinition currentSpeedAttenuationFactor;
 
         #endregion
 
+        private NavMeshAgent objectAgent;
+        private Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager;
+
+        public AIPositionMoveManager(NavMeshAgent objectAgent, Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3)
+        {
+            this.objectAgent = objectAgent;
+            this.CurrentLookingTargetRotationFromAIRotationMoveManager = CurrentLookingTargetRotationFromAIRotationMoveManager;
+            this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
+            currentSpeedAttenuationFactor = AIMovementSpeedDefinition.RUN;
+        }
+
+        public void UpdateAgentPosition(float d)
+        {
+            objectAgent.speed = this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementDefinitions.AIMovementSpeedAttenuationFactorLookup[currentSpeedAttenuationFactor];
+
+            var updatePosition = true;
+            // We use a minimal velocity amplitude to avoid precision loss occured by the navmesh agent velocity calculation.
+            if (objectAgent.hasPath && !objectAgent.isStopped)
+            {
+                updatePosition =
+                    !this.AITransformMoveManagerComponentV3.IsPositionUpdateConstrained ||
+                    this.AITransformMoveManagerComponentV3.IsPositionUpdateConstrained
+                    && Quaternion.Angle(objectAgent.transform.rotation, this.CurrentLookingTargetRotationFromAIRotationMoveManager.Invoke()) <= this.AITransformMoveManagerComponentV3.TransformPositionUpdateConstraints.MinAngleThatAllowThePositionUpdate;
+            }
+
+            if (updatePosition)
+                objectAgent.transform.position = objectAgent.nextPosition;
+            else
+                objectAgent.nextPosition = objectAgent.transform.position;
+        }
+
         #region External Events
-
-        public void SetDestination(AIDestination AIDestination)
-        {
-            //When a different path is calculated, we manually reset the path and calculate the next destination
-            //The input world destination may not be exactly on NavMesh.
-            //So we do comparison between world destination
-            if (lastSuccessfulWorldDestination != AIDestination.WorldPosition)
-            {
-                //   Debug.Log(MyLog.Format("Set destination : " + AIDestination.WorldPosition));
-                this.currentDestination = AIDestination;
-                objectAgent.ResetPath();
-                var path = CreateValidNavMeshPathWithFallback(objectAgent, AIDestination.WorldPosition, 50);
-
-                objectAgent.SetPath(path);
-
-                //If direction change is occuring when current destination has been reached
-                //We manually calculate next position to avoid a frame where AI is standing still
-                if (FrameWereOccuredTheLastDestinationReached == Time.frameCount) ManuallyUpdateAgent();
-
-                lastSuccessfulWorldDestination = AIDestination.WorldPosition;
-            }
-        }
-
-        public void StopAgent()
-        {
-            if (objectAgent.hasPath)
-            {
-                objectAgent.ResetPath();
-                objectAgent.isStopped = true;
-            }
-        }
-
-        public void EnableAgent()
-        {
-            objectAgent.isStopped = false;
-        }
-
-        public void ClearPath()
-        {
-            this.currentDestination = null;
-            lastSuccessfulWorldDestination = new Vector3(9999999, -9999999, 999999);
-            objectAgent.ResetPath();
-        }
 
         public void SetSpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
         {
@@ -233,21 +239,65 @@ namespace AIObjects
         #endregion
     }
 
-    internal class AISpeedEventDispatcher
+    internal class AIRotationMoveManager
     {
-        private AbstractAIInteractiveObjectInitializerData AIInteractiveObjectInitializerData;
-        private CoreInteractiveObject AssociatedInteractiveObject;
+        private NavMeshAgent objectAgent;
+        private AIDestinationManager AIDestinationManagerRef;
+        private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
+        public Quaternion CurrentLookingTargetRotation { get; private set; }
 
-        public AISpeedEventDispatcher(CoreInteractiveObject associatedInteractiveObject, AbstractAIInteractiveObjectInitializerData aIInteractiveObjectInitializerData)
+        public AIRotationMoveManager(NavMeshAgent objectAgent, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3, AIDestinationManager AIDestinationManagerRef)
         {
-            AssociatedInteractiveObject = associatedInteractiveObject;
-            AIInteractiveObjectInitializerData = aIInteractiveObjectInitializerData;
+            this.objectAgent = objectAgent;
+            this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
+            this.AIDestinationManagerRef = AIDestinationManagerRef;
         }
 
-        public void AfterTicks(bool hasCurrentlyADestination)
+        public void UpdateAgentRotation(float d)
         {
-            var currentSpeed = (hasCurrentlyADestination ? AssociatedInteractiveObject.InteractiveGameObject.Agent.speed : 0) / AIInteractiveObjectInitializerData.TransformMoveManagerComponentV3.SpeedMultiplicationFactor;
-            AssociatedInteractiveObject.OnAnimationObjectSetUnscaledSpeedMagnitude(currentSpeed);
+            if (objectAgent.hasPath && !objectAgent.isStopped)
+            {
+                //if target is too close, we look to destination
+                var distanceToDestination = Vector3.Distance(objectAgent.nextPosition, objectAgent.destination);
+
+                if (objectAgent.nextPosition != objectAgent.destination && distanceToDestination <= 5f)
+                    this.CurrentLookingTargetRotation = Quaternion.LookRotation(objectAgent.destination - objectAgent.nextPosition, Vector3.up);
+                else
+                    this.CurrentLookingTargetRotation = Quaternion.LookRotation((objectAgent.path.corners[1] - objectAgent.path.corners[0]).normalized, Vector3.up);
+
+                objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, this.CurrentLookingTargetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
+            }
+            else
+            {
+                //If the agent has no path, this could be a warp
+                if (this.AIDestinationManagerRef.CurrentDestination.HasValue && this.AIDestinationManagerRef.CurrentDestination.Value.Rotation.HasValue)
+                {
+                    var targetRotation = this.AIDestinationManagerRef.CurrentDestination.Value.Rotation.Value;
+                    objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, targetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
+                }
+            }
+        }
+    }
+
+    internal class AISpeedEventDispatcher
+    {
+        private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
+        private CoreInteractiveObject AssociatedInteractiveObject;
+
+        private Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction;
+
+        public AISpeedEventDispatcher(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
+            Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction)
+        {
+            AssociatedInteractiveObject = associatedInteractiveObject;
+            this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
+            this.OnAgentUnscaledSpeedMagnitudeCalculatedAction = OnAgentUnscaledSpeedMagnitudeCalculatedAction;
+        }
+
+        public void AfterTicks(bool currentlyHasADestination)
+        {
+            var currentSpeed = (currentlyHasADestination ? AssociatedInteractiveObject.InteractiveGameObject.Agent.speed : 0) / this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor;
+            this.OnAgentUnscaledSpeedMagnitudeCalculatedAction?.Invoke(currentSpeed);
         }
     }
 }

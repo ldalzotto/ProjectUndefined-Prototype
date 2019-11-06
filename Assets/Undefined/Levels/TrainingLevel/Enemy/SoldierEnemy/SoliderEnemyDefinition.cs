@@ -1,4 +1,6 @@
 ﻿using System;
+using AnimatorPlayable;
+using CoreGame;
 using Damage;
 using Health;
 using InteractiveObjects;
@@ -14,6 +16,9 @@ namespace TrainingLevel
     public class SoliderEnemyDefinition : AbstractInteractiveObjectV2Definition
     {
         [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
+        [DrawNested] public AIAgentDefinition AIAgentDefinition;
+
+        public TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public HealthSystemDefinition HealthSystemDefinition;
@@ -23,6 +28,9 @@ namespace TrainingLevel
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
+
+        public A_AnimationPlayableDefinition LocomotionAnimation;
+
 
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {

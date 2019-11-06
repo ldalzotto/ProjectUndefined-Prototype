@@ -32,7 +32,8 @@ namespace InteractiveObjects
             AIPatrolSystem = new AIPatrolSystem(this, this.AggressiveObjectInitializerData.AIPatrolSystemDefinition);
             SightObjectSystem = new SightObjectSystem(this, this.AggressiveObjectInitializerData.SightObjectSystemDefinition, (InteractiveObjectTag => InteractiveObjectTag.IsPlayer),
                 OnSightObjectSystemJustIntersected, OnSightObjectSystemIntersectedNothing, OnSightObjectSystemNoMoreIntersected);
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.AggressiveObjectInitializerData, this.OnAIDestinationReached);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.AggressiveObjectInitializerData.TransformMoveManagerComponentV3, this.OnAIDestinationReached,
+                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.AggressiveObjectInitializerData.LocomotionAnimation);
         }
 
@@ -50,7 +51,7 @@ namespace InteractiveObjects
             this.AIMoveToDestinationSystem.AfterTicks();
         }
 
-        public override void OnAIDestinationReached()
+        public void OnAIDestinationReached()
         {
             AIPatrolSystem.OnAIDestinationReached();
         }
@@ -88,11 +89,6 @@ namespace InteractiveObjects
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
         {
             AIMoveToDestinationSystem.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
-        }
-
-        public override void OnAnimationObjectSetUnscaledSpeedMagnitude(float unscaledSpeedMagnitude)
-        {
-            this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeedMagnitude);
         }
     }
 }

@@ -37,6 +37,16 @@ namespace AnimatorPlayable
             }
         }
 
+        public void Stop()
+        {
+            this.GlobalPlayableGraph.Stop();
+        }
+
+        public void Play()
+        {
+            this.GlobalPlayableGraph.Play();
+        }
+
         private void PlayBlendedAnimation(int layerID, BlendedAnimationInput BlendedAnimationInput, Func<float> InputWeightProvider)
         {
             if (this.AllAnimationLayersCurrentlyPlaying.ContainsKey(layerID))

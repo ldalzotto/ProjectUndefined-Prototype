@@ -26,13 +26,15 @@ namespace InteractiveObjects
         public AIInteractiveObjectTest(IInteractiveGameObject interactiveGameObject, AIInteractiveObjectTestInitializerData AIInteractiveObjectInitializerData)
         {
             this.AIInteractiveObjectInitializerData = AIInteractiveObjectInitializerData;
+            interactiveGameObject.CreateLogicCollider(AIInteractiveObjectInitializerData.InteractiveObjectLogicCollider);
+            interactiveGameObject.CreateAgent(AIInteractiveObjectInitializerData.AIAgentDefinition);
             base.BaseInit(interactiveGameObject);
         }
 
         public override void Init()
         {
             this.AIPatrollingState = new AIPatrollingState();
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, AIInteractiveObjectInitializerData, this.OnAIDestinationReached);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, AIInteractiveObjectInitializerData.TransformMoveManagerComponentV3, this.OnAIDestinationReached);
             this.AIAttractiveObjectState = new AIAttractiveObjectState(new BoolVariable(false, OnAIIsJustAttractedByAttractiveObject, OnAIIsNoMoreAttractedByAttractiveObject));
             this.AIDisarmObjectState = new AIDisarmObjectState(new BoolVariable(false, OnAIIsJustDisarmingObject, OnAIIsNoMoreJustDisarmingObject));
             this.interactiveObjectTag = new InteractiveObjectTag {IsAi = true};
@@ -65,9 +67,19 @@ namespace InteractiveObjects
             base.AfterTicks(d);
         }
 
-        public override void OnAIDestinationReached()
+        public void OnAIDestinationReached()
         {
             AIPatrolSystem.OnAIDestinationReached();
+        }
+
+        public override void SetAIDestination(AIDestination AIDestination)
+        {
+            this.AIMoveToDestinationSystem.SetDestination(AIDestination);
+        }
+
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        {
+            this.AIMoveToDestinationSystem.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
         }
 
         public override void OnOtherDisarmObjectTriggerEnter(CoreInteractiveObject OtherInteractiveObject)
