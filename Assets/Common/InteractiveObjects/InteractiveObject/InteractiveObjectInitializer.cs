@@ -7,7 +7,7 @@ namespace InteractiveObjects
     [Serializable]
     public class InteractiveObjectInitializer : MonoBehaviour
     {
-        [Inline()] public AbstractInteractiveObjectV2Definition AbstractInteractiveObjectV2Definition;
+        [Inline()] [DrawNested] public AbstractInteractiveObjectV2Definition AbstractInteractiveObjectV2Definition;
 
         protected CoreInteractiveObject CreatedCoreInteractiveObject;
 

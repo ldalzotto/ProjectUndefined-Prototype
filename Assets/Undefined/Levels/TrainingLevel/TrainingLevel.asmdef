@@ -20,7 +20,8 @@
 "AnimatorPlayable",
 "Input",
 "Health",
-"Damage"
+"Damage",
+"Weapon"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

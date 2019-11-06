@@ -34,7 +34,7 @@ namespace PlayerObject
         {
             this.PlayerInteractiveObjectInitializer = PlayerInteractiveObjectInitializer;
             base.BaseInit(interactiveGameObject, false);
-            this.WeaponHandlingSystem = new WeaponHandlingSystem(new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponInitializerPrefab));
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponDefinition));
         }
 
         public override void Init()

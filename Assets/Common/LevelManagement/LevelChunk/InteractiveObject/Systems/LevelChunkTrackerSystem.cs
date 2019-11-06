@@ -24,7 +24,7 @@ namespace LevelManagement
             }, AssociatedLevelChunkInteractiveObject, nameof(LevelChunkTrackerSystem.LevelChunkTrackerRange));
 
             this.LevelChunkTrackerRange.RegisterPhysicsEventListener(
-                new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectTag) => InteractiveObjectTag.IsPlayer, OnLevelChunkTriggerEnterAction, OnLevelChunkTriggerExitAction)
+                new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectPhysicsTriggerInfo) => InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsPlayer, OnLevelChunkTriggerEnterAction, OnLevelChunkTriggerExitAction)
             );
         }
     }

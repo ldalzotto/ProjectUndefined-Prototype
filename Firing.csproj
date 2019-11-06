@@ -58,7 +58,6 @@
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectile.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectileDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectileInitializer.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\Systems\FiredProjectileMovementSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerActionInherentData.cs" />

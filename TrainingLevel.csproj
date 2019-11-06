@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Debug\TrainingLevelDebugComponent.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemy.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemyDefinition.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
@@ -713,6 +714,10 @@
     <ProjectReference Include="Damage.csproj">
       <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
       <Name>Damage</Name>
+    </ProjectReference>
+    <ProjectReference Include="Weapon.csproj">
+      <Project>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</Project>
+      <Name>Weapon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

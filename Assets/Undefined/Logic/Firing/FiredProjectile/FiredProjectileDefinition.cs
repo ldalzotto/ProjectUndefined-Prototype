@@ -1,13 +1,15 @@
 ﻿using Damage;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using OdinSerializer;
 using UnityEngine;
 
 namespace Firing
 {
     [SceneHandleDraw]
-    public class FiredProjectileDefinition : AbstractInteractiveObjectV2Definition
+    public class FiredProjectileDefinition : SerializedScriptableObject
     {
+        public GameObject FiredProjectileModelPrefab;
         [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
         public float Speed;
         public float MaxDistance;
@@ -15,9 +17,10 @@ namespace Firing
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public DamageDealerSystemDefinition DamageDealerSystemDefinition;
 
-        public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
+        public FiredProjectile BuildFiredProjectile(CoreInteractiveObject WeaponHolder)
         {
-            return new FiredProjectile(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
+            var FiredProjectileModel = Instantiate(this.FiredProjectileModelPrefab);
+            return new FiredProjectile(InteractiveGameObjectFactory.Build(FiredProjectileModel), this, WeaponHolder);
         }
     }
 }

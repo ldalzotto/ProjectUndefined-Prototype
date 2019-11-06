@@ -2,6 +2,7 @@
     "name": "Weapon",
     "references": [
         "OdinSerializer",
+"Editor_Common",
         "InteractiveObjects",
         "Firing",
         "InteractiveObjects_Interfaces",

@@ -60,7 +60,6 @@
      <Compile Include="Assets\Undefined\Logic\Weapon\Events\WeaponCreatedEvent.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\Weapon.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponInitializer.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\Managers\WeaponRecoilTimeManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystemDefinition.cs" />
@@ -622,6 +621,10 @@
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>
+    </ProjectReference>
+    <ProjectReference Include="Editor_Common.csproj">
+      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
       <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>

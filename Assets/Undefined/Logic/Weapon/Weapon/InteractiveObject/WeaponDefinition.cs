@@ -1,17 +1,20 @@
 ﻿using Firing;
 using InteractiveObjects;
+using OdinSerializer;
 using UnityEngine;
 
 namespace Weapon
 {
-    public class WeaponDefinition : AbstractInteractiveObjectV2Definition
+    public class WeaponDefinition : SerializedScriptableObject
     {
+        public GameObject WeaponModelPrefab;
         public float RecoilTime;
-        public FiredProjectileInitializer FiringProjectileInitializerPrefab;
+        public FiredProjectileDefinition FiredProjectileDefinition;
 
-        public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
+        public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)
         {
-            return new Weapon(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
+            var weaponModelPrefab = Instantiate(this.WeaponModelPrefab);
+            return new Weapon(InteractiveGameObjectFactory.Build(weaponModelPrefab), this, WeaponHolder);
         }
     }
 }

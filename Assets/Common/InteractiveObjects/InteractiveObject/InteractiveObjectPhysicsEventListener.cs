@@ -33,11 +33,11 @@ namespace InteractiveObjects
 
     public class InteractiveObjectPhysicsEventListenerDelegated : AInteractiveObjectPhysicsEventListener
     {
-        protected Func<InteractiveObjectTag, bool> InteractiveObjectSelectionGuard;
+        protected Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard;
         private Action<CoreInteractiveObject> OnTriggerEnterAction = null;
         private Action<CoreInteractiveObject> OnTriggerExitAction = null;
 
-        public InteractiveObjectPhysicsEventListenerDelegated(Func<InteractiveObjectTag, bool> interactiveObjectSelectionGuard,
+        public InteractiveObjectPhysicsEventListenerDelegated(Func<InteractiveObjectPhysicsTriggerInfo, bool> interactiveObjectSelectionGuard,
             Action<CoreInteractiveObject> onTriggerEnterAction = null, Action<CoreInteractiveObject> onTriggerExitAction = null)
         {
             OnTriggerEnterAction = onTriggerEnterAction;
@@ -47,7 +47,7 @@ namespace InteractiveObjects
 
         public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
         {
-            return InteractiveObjectSelectionGuard.Invoke(interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag());
+            return InteractiveObjectSelectionGuard.Invoke(interactiveObjectPhysicsTriggerInfo);
         }
 
         public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)

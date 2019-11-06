@@ -15,7 +15,7 @@ namespace InteractiveObjects
         private RangeObjectV2 SphereRange;
 
         public DisarmObjectSystem(CoreInteractiveObject AssociatedInteractiveObject, DisarmSystemDefinition DisarmObjectInitializationData,
-            Func<InteractiveObjectTag, bool> PhysicsEventListenerGuard, Action<CoreInteractiveObject> OnAssociatedDisarmObjectTriggerEnter,
+            Func<InteractiveObjectPhysicsTriggerInfo, bool> PhysicsEventListenerGuard, Action<CoreInteractiveObject> OnAssociatedDisarmObjectTriggerEnter,
             Action<CoreInteractiveObject> OnAssociatedDisarmObjectTriggerExit)
         {
             DisarmSystemDefinition = DisarmObjectInitializationData;

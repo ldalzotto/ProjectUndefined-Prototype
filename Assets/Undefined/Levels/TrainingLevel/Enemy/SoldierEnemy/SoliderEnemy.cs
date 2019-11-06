@@ -2,6 +2,7 @@
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using Weapon;
 
 namespace TrainingLevel
 {
@@ -9,6 +10,7 @@ namespace TrainingLevel
     {
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealingSystem StunningDamageDealingSystem;
+        private WeaponHandlingSystem WeaponHandlingSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -17,6 +19,8 @@ namespace TrainingLevel
             BaseInit(parent);
             this.HealthSystem = new HealthSystem(SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthBelowZero);
             this.StunningDamageDealingSystem = new StunningDamageDealingSystem(SoliderEnemyDefinition.StunningDamageDealingSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal,
+                SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
         }
 
         public override void Tick(float d)
@@ -47,6 +51,15 @@ namespace TrainingLevel
         {
             this.StunningDamageDealingSystem.DealDamage(Damage);
         }
+
+        #region Projectile Events
+
+        public override void AskToFireAFiredProjectile()
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile();
+        }
+
+        #endregion
 
         public override void Init()
         {

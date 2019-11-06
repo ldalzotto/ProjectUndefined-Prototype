@@ -8,12 +8,10 @@ namespace Weapon
         public WeaponHandlingSystemInitializationData WeaponHandlingSystemInitializationData;
         private Weapon WeaponReference;
 
-        public WeaponHandlingSystem(WeaponHandlingSystemInitializationData weaponHandlingSystemInitializationData)
+        public WeaponHandlingSystem(CoreInteractiveObject AssociatedInteractiveObject, WeaponHandlingSystemInitializationData weaponHandlingSystemInitializationData)
         {
             WeaponHandlingSystemInitializationData = weaponHandlingSystemInitializationData;
-            var WeaponInitializer = MonoBehaviour.Instantiate(this.WeaponHandlingSystemInitializationData.WeaponInitializerPrefab);
-            WeaponInitializer.Init();
-            this.WeaponReference = WeaponInitializer.GetInitializedWeapon();
+            this.WeaponReference = this.WeaponHandlingSystemInitializationData.WeaponDefinition.BuildWeapon(AssociatedInteractiveObject);
         }
 
         public void AskToFireAFiredProjectile()
@@ -30,13 +28,13 @@ namespace Weapon
     {
         public CoreInteractiveObject Parent;
         public Vector3 WeaponFirePointOriginLocal;
-        public WeaponInitializer WeaponInitializerPrefab;
+        public WeaponDefinition WeaponDefinition;
 
-        public WeaponHandlingSystemInitializationData(CoreInteractiveObject parent, Vector3 weaponFirePointOriginLocal, WeaponInitializer weaponInitializerPrefab)
+        public WeaponHandlingSystemInitializationData(CoreInteractiveObject parent, Vector3 weaponFirePointOriginLocal, WeaponDefinition WeaponDefinition)
         {
             Parent = parent;
             WeaponFirePointOriginLocal = weaponFirePointOriginLocal;
-            WeaponInitializerPrefab = weaponInitializerPrefab;
+            this.WeaponDefinition = WeaponDefinition;
         }
     }
 }

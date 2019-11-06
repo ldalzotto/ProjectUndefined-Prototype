@@ -8,6 +8,6 @@ namespace Weapon
     public class WeaponHandlingSystemDefinition : SerializedScriptableObject
     {
         public Vector3 WeaponFirePointOriginLocal;
-        public WeaponInitializer WeaponInitializerPrefab;
+        public WeaponDefinition WeaponDefinition;
     }
 }

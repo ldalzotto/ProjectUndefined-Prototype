@@ -1,4 +1,5 @@
-﻿using Damage;
+﻿using System.Collections.Generic;
+using Damage;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 
@@ -8,14 +9,16 @@ namespace Firing
     {
         private FiredProjectileMovementSystem FiredProjectileMovementSystem;
         private DamageDealerSystem DamageDealerSystem;
+        private CoreInteractiveObject WeaponHolder;
 
-        public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition)
+        public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition, CoreInteractiveObject weaponHolder)
         {
+            this.WeaponHolder = weaponHolder;
             parent.CreateLogicCollider(FiredProjectileDefinition.InteractiveObjectBoxLogicColliderDefinition);
             this.BaseInit(parent, true);
             this.FiredProjectileMovementSystem = new FiredProjectileMovementSystem(FiredProjectileDefinition, this);
-            this.DamageDealerSystem = new DamageDealerSystem(this, FiredProjectileDefinition.DamageDealerSystemDefinition, this.OnDamageDealtToOther);
-            this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectTag => InteractiveObjectTag.IsObstacle), this.OnObstacleTriggerEnter));
+            this.DamageDealerSystem = new DamageDealerSystem(this, FiredProjectileDefinition.DamageDealerSystemDefinition, this.OnDamageDealtToOther, IgnoredInteractiveObjects: new List<CoreInteractiveObject>() {this.WeaponHolder});
+            this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectPhysicsTriggerInfo => InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle), this.OnObstacleTriggerEnter));
         }
 
         public override void Tick(float d)

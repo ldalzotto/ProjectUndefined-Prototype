@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using InteractiveObjects;
 
 namespace Damage
@@ -10,13 +11,16 @@ namespace Damage
 
         private Action<CoreInteractiveObject> OnDamageDealtToOtherAction;
 
-        public DamageDealerSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerSystemDefinition DamageDealerSystemDefinition, Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null)
+        public DamageDealerSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerSystemDefinition DamageDealerSystemDefinition, Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null,
+            List<CoreInteractiveObject> IgnoredInteractiveObjects = null)
         {
             this.AssociatedInteractiveObjectRef = AssociatedInteractiveObject;
             this.DamageDealerSystemDefinition = DamageDealerSystemDefinition;
             this.OnDamageDealtToOtherAction = OnDamageDealtToOtherAction;
             AssociatedInteractiveObject.RegisterInteractiveObjectPhysicsEventListener(new DamageDealerSystemPhysicsListener(
-                interactiveObjectSelectionGuard: (InteractiveObjectTag => InteractiveObjectTag.IsTakingDamage),
+                interactiveObjectSelectionGuard: (InteractiveObjectPhysicsTriggerInfo =>
+                    InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsTakingDamage
+                    && IgnoredInteractiveObjects == null || !IgnoredInteractiveObjects.Contains(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject)),
                 onTriggerEnterAction: this.OnTriggerEnter
             ));
         }
@@ -33,7 +37,7 @@ namespace Damage
 
     class DamageDealerSystemPhysicsListener : InteractiveObjectPhysicsEventListenerDelegated
     {
-        public DamageDealerSystemPhysicsListener(Func<InteractiveObjectTag, bool> interactiveObjectSelectionGuard,
+        public DamageDealerSystemPhysicsListener(Func<InteractiveObjectPhysicsTriggerInfo, bool> interactiveObjectSelectionGuard,
             Action<CoreInteractiveObject> onTriggerEnterAction = null, Action<CoreInteractiveObject> onTriggerExitAction = null) : base(interactiveObjectSelectionGuard, onTriggerEnterAction, onTriggerExitAction)
         {
         }

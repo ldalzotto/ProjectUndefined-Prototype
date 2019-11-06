@@ -4,6 +4,7 @@ using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
+using Weapon;
 
 namespace TrainingLevel
 {
@@ -18,6 +19,9 @@ namespace TrainingLevel
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public StunningDamageDealingSystemDefinition StunningDamageDealingSystemDefinition;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
 
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {

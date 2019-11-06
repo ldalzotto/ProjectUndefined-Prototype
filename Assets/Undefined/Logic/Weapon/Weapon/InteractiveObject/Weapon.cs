@@ -1,15 +1,16 @@
 ﻿using InteractiveObjects;
 using InteractiveObjects_Interfaces;
-using UnityEngine;
 
 namespace Weapon
 {
     public class Weapon : CoreInteractiveObject
     {
         private FiringProjectileSystem FiringProjectileSystem;
+        public CoreInteractiveObject WeaponHolder { get; private set; }
 
-        public Weapon(IInteractiveGameObject IInteractiveGameObject, WeaponDefinition WeaponDefinition)
+        public Weapon(IInteractiveGameObject IInteractiveGameObject, WeaponDefinition WeaponDefinition, CoreInteractiveObject weaponHolder)
         {
+            this.WeaponHolder = weaponHolder;
             this.FiringProjectileSystem = new FiringProjectileSystem(this, WeaponDefinition);
             this.BaseInit(IInteractiveGameObject, false);
         }
@@ -43,10 +44,7 @@ namespace Weapon
         {
             if (_weaponRecoilTimeManager.AuthorizeFiringAProjectile(this.WeaponRef))
             {
-                var FiringProjectileInitializerPrefab = this.WeaponDefinition.FiringProjectileInitializerPrefab;
-                var FiringProjectileInitializer = MonoBehaviour.Instantiate(FiringProjectileInitializerPrefab);
-                FiringProjectileInitializer.Init();
-                var FiredProjectile = FiringProjectileInitializer.GetCreatedFiredProjectile();
+                var FiredProjectile = this.WeaponDefinition.FiredProjectileDefinition.BuildFiredProjectile(this.WeaponRef.WeaponHolder);
                 var ProjectileSpawnLocalPosition = StartTransform.WorldPosition;
                 var FiredProjectileTransform = FiredProjectile.InteractiveGameObject.GetTransform();
                 // Eq (2)

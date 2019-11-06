@@ -32,7 +32,7 @@ namespace InteractiveObjects
             AttractiveObjectSystem = new AttractiveObjectSystem(this, (InteractiveObjectTag) => InteractiveObjectTag.IsAi, this.TestAttractiveObjectInitializerData.AttractiveObjectSystemDefinition,
                 OnAssociatedAttractiveSystemJustIntersected, OnAssociatedAttractiveSystemNoMoreIntersected, OnAssociatedAttractiveSystemInterestedNothing);
 
-            DisarmObjectSystem = new DisarmObjectSystem(this, this.TestAttractiveObjectInitializerData.DisarmSystemDefinition, (InteractiveObjectTag) => InteractiveObjectTag.IsAi, OnAssociatedDisarmObjectTriggerEnter, OnAssciatedDisarmObjectTriggerExit);
+            DisarmObjectSystem = new DisarmObjectSystem(this, this.TestAttractiveObjectInitializerData.DisarmSystemDefinition, (InteractiveObjectPhysicsTriggerInfo) => InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsAi, OnAssociatedDisarmObjectTriggerEnter, OnAssciatedDisarmObjectTriggerExit);
             SelectableObjectSystem = new SelectableObjectSystem(this, this.TestAttractiveObjectInitializerData.SelectableObjectSystemDefinition,
                 this.TestAttractiveObjectInitializerData.SelectableGrabActionDefinition.BuildPlayerAction(PlayerInteractiveObjectManager.Get().PlayerInteractiveObject));
         }
