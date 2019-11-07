@@ -13,25 +13,34 @@ namespace AIObjects
 
     #endregion
 
+
     public class AIMoveToDestinationSystem : AInteractiveObjectSystem
     {
         private NavMeshAgent objectAgent;
+        private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
 
         private AIDestinationManager AIDestinationManager;
         [VE_Nested] private AIPositionMoveManager aiPositionMoveManager;
-        private AIRotationMoveManager AIRotationMoveManager;
+        private A_AIRotationMoveManager A_AIRotationMoveManager;
         private AISpeedEventDispatcher AISpeedEventDispatcher;
 
+        #region State
+
+        private Type LastIAgentMovementCalculationStrategyType;
         public bool IsEnabled;
+
+        #endregion
+
 
         public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
             OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
         {
             this.IsEnabled = true;
             this.objectAgent = CoreInteractiveObject.InteractiveGameObject.Agent;
-            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3);
+            this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
+            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.A_AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3);
             this.AIDestinationManager = new AIDestinationManager(this.objectAgent, OnAIInteractiveObjectDestinationReached, this.aiPositionMoveManager);
-            this.AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, AITransformMoveManagerComponentV3, this.AIDestinationManager);
+            this.A_AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, AITransformMoveManagerComponentV3, this.AIDestinationManager);
             this.AISpeedEventDispatcher = new AISpeedEventDispatcher(CoreInteractiveObject, AITransformMoveManagerComponentV3, OnAgentUnscaledSpeedMagnitudeCalculatedAction);
         }
 
@@ -41,7 +50,7 @@ namespace AIObjects
             {
                 this.EnableAgent();
                 this.AIDestinationManager.CheckIfDestinationReached(d);
-                this.AIRotationMoveManager.UpdateAgentRotation(d);
+                this.A_AIRotationMoveManager.UpdateAgentRotation(d);
                 this.aiPositionMoveManager.UpdateAgentPosition(d);
             }
             else
@@ -58,9 +67,23 @@ namespace AIObjects
             }
         }
 
-        public void SetDestination(AIDestination AIDestination)
+        public void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            this.AIDestinationManager.SetDestination(AIDestination);
+            if (LastIAgentMovementCalculationStrategyType == null || LastIAgentMovementCalculationStrategyType != IAgentMovementCalculationStrategy.GetType())
+            {
+                switch (IAgentMovementCalculationStrategy)
+                {
+                    case ForwardAgentMovementCalculationStrategy ForwardAgentMovementCalculationStrategy:
+                        this.A_AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, this.AITransformMoveManagerComponentV3, this.AIDestinationManager);
+                        break;
+                    case LookingAtAgentMovementCalculationStrategy LookingAtAgentMovementCalculationStrategy:
+                        this.A_AIRotationMoveManager = new AIRotationFacingMoveManager(this.objectAgent, this.AITransformMoveManagerComponentV3, LookingAtAgentMovementCalculationStrategy.TargetLook);
+                        break;
+                }
+            }
+
+            this.LastIAgentMovementCalculationStrategyType = IAgentMovementCalculationStrategy.GetType();
+            this.AIDestinationManager.SetDestination(IAgentMovementCalculationStrategy.GetAIDestination());
         }
 
         public void SetSpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
@@ -239,45 +262,6 @@ namespace AIObjects
         #endregion
     }
 
-    internal class AIRotationMoveManager
-    {
-        private NavMeshAgent objectAgent;
-        private AIDestinationManager AIDestinationManagerRef;
-        private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
-        public Quaternion CurrentLookingTargetRotation { get; private set; }
-
-        public AIRotationMoveManager(NavMeshAgent objectAgent, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3, AIDestinationManager AIDestinationManagerRef)
-        {
-            this.objectAgent = objectAgent;
-            this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            this.AIDestinationManagerRef = AIDestinationManagerRef;
-        }
-
-        public void UpdateAgentRotation(float d)
-        {
-            if (objectAgent.hasPath && !objectAgent.isStopped)
-            {
-                //if target is too close, we look to destination
-                var distanceToDestination = Vector3.Distance(objectAgent.nextPosition, objectAgent.destination);
-
-                if (objectAgent.nextPosition != objectAgent.destination && distanceToDestination <= 5f)
-                    this.CurrentLookingTargetRotation = Quaternion.LookRotation(objectAgent.destination - objectAgent.nextPosition, Vector3.up);
-                else
-                    this.CurrentLookingTargetRotation = Quaternion.LookRotation((objectAgent.path.corners[1] - objectAgent.path.corners[0]).normalized, Vector3.up);
-
-                objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, this.CurrentLookingTargetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
-            }
-            else
-            {
-                //If the agent has no path, this could be a warp
-                if (this.AIDestinationManagerRef.CurrentDestination.HasValue && this.AIDestinationManagerRef.CurrentDestination.Value.Rotation.HasValue)
-                {
-                    var targetRotation = this.AIDestinationManagerRef.CurrentDestination.Value.Rotation.Value;
-                    objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, targetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
-                }
-            }
-        }
-    }
 
     internal class AISpeedEventDispatcher
     {

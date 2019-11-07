@@ -6,7 +6,7 @@ namespace InteractiveObjects
     {
         #region AI Events
 
-        public virtual void SetAIDestination(AIDestination AIDestination)
+        public virtual void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
         }
 

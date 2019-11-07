@@ -62,7 +62,9 @@
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystem.cs" />
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystemDefinition.cs" />
      <Compile Include="Assets\Common\AIObjects\InteractiveObject\AIInteractiveObjectTemplates\AbstractAIInteractiveObjectInitializerData.cs" />
+     <Compile Include="Assets\Common\AIObjects\Systems\AIMoveToDestinationCalculationStrategy.cs" />
      <Compile Include="Assets\Common\AIObjects\Systems\AIMoveToDestinationSystem.cs" />
+     <Compile Include="Assets\Common\AIObjects\Systems\Lib\AIRotationMove.cs" />
      <None Include="Assets\Common\AIObjects\AIObjects.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

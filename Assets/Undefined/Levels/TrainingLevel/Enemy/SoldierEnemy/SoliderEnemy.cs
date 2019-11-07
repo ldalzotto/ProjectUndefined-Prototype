@@ -37,11 +37,22 @@ namespace TrainingLevel
             this._stunningDamageDealerReceiverSystem.Tick(d);
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                //PUT all other logic
+                this.AIMoveToDestinationSystem.Tick(d);
             }
 
             base.Tick(d);
         }
+
+        public override void AfterTicks(float d)
+        {
+            if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
+            {
+                this.AIMoveToDestinationSystem.AfterTicks();
+            }
+
+            base.AfterTicks(d);
+        }
+
 
         private void OnStunningDamageDealingStarted()
         {
@@ -69,6 +80,16 @@ namespace TrainingLevel
         public override void DealDamage(float Damage)
         {
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);
+        }
+
+        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        {
+            this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
+        }
+
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        {
+            this.AIMoveToDestinationSystem.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
         }
 
         private void OnAIDestinationReached()

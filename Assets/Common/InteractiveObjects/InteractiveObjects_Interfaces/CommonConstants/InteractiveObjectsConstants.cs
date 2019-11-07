@@ -10,6 +10,11 @@ namespace InteractiveObjects_Interfaces
         public Quaternion? Rotation;
     }
 
+    public interface IAgentMovementCalculationStrategy
+    {
+        AIDestination GetAIDestination();
+    }
+
     public enum AIMovementSpeedDefinition
     {
         RUN = 0,

@@ -72,9 +72,9 @@ namespace InteractiveObjects
             AIPatrolSystem.OnAIDestinationReached();
         }
 
-        public override void SetAIDestination(AIDestination AIDestination)
+        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            this.AIMoveToDestinationSystem.SetDestination(AIDestination);
+            this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
@@ -136,7 +136,7 @@ namespace InteractiveObjects
             {
                 AIAttractiveObjectState.SetIsAttractedByAttractiveObject(true, OtherInteractiveObject);
                 AIPatrollingState.isPatrolling = false;
-                SetAIDestination(new AIDestination {WorldPosition = OtherInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition});
+                SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination {WorldPosition = OtherInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition}));
             }
         }
 

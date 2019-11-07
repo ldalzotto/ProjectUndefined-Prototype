@@ -62,7 +62,7 @@ namespace InteractiveObjects
         {
             AIPatrollingState.isPatrolling = false;
             SetAISpeedAttenuationFactor(AIMovementSpeedDefinition.RUN);
-            SetAIDestination(new AIDestination {WorldPosition = IntersectedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition});
+            SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination {WorldPosition = IntersectedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition}));
         }
 
         protected void OnSightObjectSystemIntersectedNothing(CoreInteractiveObject IntersectedInteractiveObject)
@@ -81,9 +81,9 @@ namespace InteractiveObjects
         #endregion
 
 
-        public override void SetAIDestination(AIDestination AIDestination)
+        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            AIMoveToDestinationSystem.SetDestination(AIDestination);
+            AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)

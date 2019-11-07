@@ -40,11 +40,11 @@ namespace AIObjects
         {
             if (!this.destinationReached)
             {
-                this.InteractiveObject.SetAIDestination(new AIDestination
+                this.InteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination
                 {
                     WorldPosition = this.WorldPoint.WorldPosition,
                     Rotation = Quaternion.Euler(this.WorldPoint.WorldRotationEuler)
-                });
+                }));
                 this.InteractiveObject.SetAISpeedAttenuationFactor(this.AIMovementSpeed);
             }
         }

@@ -58,9 +58,9 @@ namespace InteractiveObjects
             this.LocalCutscenePlayerSystem.OnAIDestinationReached();
         }
 
-        public override void SetAIDestination(AIDestination AIDestination)
+        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            AIMoveToDestinationSystem.SetDestination(AIDestination);
+            AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
