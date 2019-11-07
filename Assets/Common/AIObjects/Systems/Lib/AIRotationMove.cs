@@ -1,5 +1,4 @@
 ﻿using CoreGame;
-using InteractiveObjects;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -55,9 +54,9 @@ namespace AIObjects
     {
         private NavMeshAgent objectAgent;
         private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
-        private CoreInteractiveObject TargetLook;
+        private Transform TargetLook;
 
-        public AIRotationFacingMoveManager(NavMeshAgent objectAgent, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3, CoreInteractiveObject targetLook)
+        public AIRotationFacingMoveManager(NavMeshAgent objectAgent, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3, Transform targetLook)
         {
             this.objectAgent = objectAgent;
             AITransformMoveManagerComponentV3 = aiTransformMoveManagerComponentV3;
@@ -68,7 +67,7 @@ namespace AIObjects
         {
             if (this.objectAgent.hasPath && !this.objectAgent.isStopped)
             {
-                this.CurrentLookingTargetRotation = Quaternion.LookRotation((this.TargetLook.InteractiveGameObject.GetTransform().WorldPosition - this.objectAgent.transform.position).normalized, Vector3.up);
+                this.CurrentLookingTargetRotation = Quaternion.LookRotation((this.TargetLook.position - this.objectAgent.transform.position).normalized, Vector3.up);
                 objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, this.CurrentLookingTargetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
             }
         }

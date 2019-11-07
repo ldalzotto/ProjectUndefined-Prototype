@@ -1,5 +1,5 @@
-﻿using InteractiveObjects;
-using InteractiveObjects_Interfaces;
+﻿using InteractiveObjects_Interfaces;
+using UnityEngine;
 
 namespace AIObjects
 {
@@ -21,9 +21,9 @@ namespace AIObjects
     public struct LookingAtAgentMovementCalculationStrategy : IAgentMovementCalculationStrategy
     {
         public AIDestination AiDestination;
-        public CoreInteractiveObject TargetLook;
+        public Transform TargetLook;
 
-        public LookingAtAgentMovementCalculationStrategy(AIDestination aiDestination, CoreInteractiveObject targetLook)
+        public LookingAtAgentMovementCalculationStrategy(AIDestination aiDestination, Transform targetLook)
         {
             AiDestination = aiDestination;
             TargetLook = targetLook;
