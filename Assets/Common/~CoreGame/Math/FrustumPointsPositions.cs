@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-
+﻿using System;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 namespace CoreGame
@@ -15,7 +16,7 @@ namespace CoreGame
  *   C4----C3     
  */
 
-    [System.Serializable]
+    [Serializable]
     public struct FrustumPointsPositions
     {
         public Vector3 FC1;
@@ -61,7 +62,6 @@ namespace CoreGame
         }
 
 
-
         public void DrawInScene(Color color)
         {
 #if UNITY_EDITOR
@@ -88,5 +88,22 @@ namespace CoreGame
         }
     }
 
+    public struct SingleFacePosition
+    {
+        public Vector3 FC1;
+        public Vector3 FC2;
+        public Vector3 FC3;
+        public Vector3 FC4;
 
+        public Vector2 normal1;
+
+        public SingleFacePosition(Vector3 fc1, Vector3 fc2, Vector3 fc3, Vector3 fc4, Vector2 normal1)
+        {
+            FC1 = fc1;
+            FC2 = fc2;
+            FC3 = fc3;
+            FC4 = fc4;
+            this.normal1 = normal1;
+        }
+    }
 }

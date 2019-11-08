@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace CoreGame
 {
@@ -11,6 +10,11 @@ namespace CoreGame
             vector.y += y;
             vector.z += z;
             return vector;
+        }
+
+        public static Vector3 Add(this Vector3 vector3, Vector3 other)
+        {
+            return vector3.Add(other.x, other.y, other.z);
         }
 
         public static Vector3 Mul(this Vector3 vector, float nb)

@@ -5,8 +5,16 @@ namespace CoreGame
     public struct ExtendedBounds
     {
         private Bounds bounds;
-        public Bounds Bounds { get => bounds; }
-        public Vector3 SideDistances { get => sideDistances; }
+
+        public Bounds Bounds
+        {
+            get => bounds;
+        }
+
+        public Vector3 SideDistances
+        {
+            get => sideDistances;
+        }
 
         private bool created;
 
@@ -14,8 +22,8 @@ namespace CoreGame
         {
             this.bounds = bounds;
             this.sideDistances = new Vector3(Mathf.Abs(this.bounds.max.x - this.bounds.min.x),
-                        Mathf.Abs(this.bounds.max.y - this.bounds.min.y),
-                        Mathf.Abs(this.bounds.max.z - this.bounds.min.z));
+                Mathf.Abs(this.bounds.max.y - this.bounds.min.y),
+                Mathf.Abs(this.bounds.max.z - this.bounds.min.z));
             this.created = true;
         }
 
@@ -31,66 +39,20 @@ namespace CoreGame
     {
         public static ExtendedBounds GetAverageRendererBounds(Renderer[] renderers)
         {
-            float maxXOffset = 0f;
-            float maxYOffset = 0f;
-            float maxZOffset = 0f;
-
-            float minXOffset = 0f;
-            float minYOffset = 0f;
-            float minZOffset = 0f;
-
-            for (var i = 0; i < renderers.Length; i++)
+            if (renderers != null && renderers.Length > 0)
             {
-                if (i == 0)
+                Bounds averageBound = renderers[0].bounds;
+                foreach (var renderer in renderers)
                 {
-                    maxXOffset = renderers[0].bounds.max.x;
-                    maxYOffset = renderers[0].bounds.max.y;
-                    maxZOffset = renderers[0].bounds.max.z;
-
-                    minXOffset = renderers[0].bounds.min.x;
-                    minYOffset = renderers[0].bounds.min.y;
-                    minZOffset = renderers[0].bounds.min.z;
+                    averageBound.Encapsulate(renderer.bounds);
                 }
-                else
-                {
-                    var currentX = renderers[i].bounds.max.x;
-                    var currentY = renderers[i].bounds.max.y;
-                    var currentZ = renderers[i].bounds.max.z;
 
-                    if (currentX > maxXOffset)
-                    {
-                        maxXOffset = currentX;
-                    }
-                    if (currentY > maxYOffset)
-                    {
-                        maxYOffset = currentY;
-                    }
-                    if (currentZ > maxZOffset)
-                    {
-                        maxZOffset = currentZ;
-                    }
-
-                    var currentMinX = renderers[i].bounds.min.x;
-                    var currentMinY = renderers[i].bounds.min.y;
-                    var currentMinZ = renderers[i].bounds.min.z;
-
-                    if (currentMinX < minXOffset)
-                    {
-                        maxXOffset = currentX;
-                    }
-                    if (currentMinY < minYOffset)
-                    {
-                        maxYOffset = currentY;
-                    }
-                    if (currentMinZ < minZOffset)
-                    {
-                        maxZOffset = currentZ;
-                    }
-                }
+                return new ExtendedBounds(averageBound);
             }
-            return new ExtendedBounds(new Bounds(new Vector3((maxXOffset - minXOffset) / 2f, (maxYOffset - minYOffset) / 2f, (maxZOffset - minZOffset) / 2f),
-                                 new Vector3(maxXOffset - minXOffset, maxYOffset - minYOffset, maxZOffset - minZOffset)));
+            else
+            {
+                return default;
+            }
         }
     }
-
 }

@@ -103,6 +103,7 @@
      <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
      <Compile Include="Assets\Common\~CoreGame\Player\Scripts\CommonComponents\TransformMoveManagerComponentV3.cs" />
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
+     <Compile Include="Assets\Test\IntersectionTest.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\_Shader\Wave\WaveMovementV2.cginc" />

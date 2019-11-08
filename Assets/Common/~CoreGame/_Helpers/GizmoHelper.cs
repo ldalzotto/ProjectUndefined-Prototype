@@ -1,10 +1,19 @@
 ﻿#if UNITY_EDITOR
-using UnityEngine;
-using System.Collections;
 using UnityEditor;
+using UnityEngine;
 
-public class GizmoHelper 
+public class GizmoHelper
 {
+    public static void DrawBox(Matrix4x4 LocalToWorld, Vector3 LocalCenter, Bounds bounds, Color color, string label, GUIStyle labelStyle)
+    {
+        var oldColor = Gizmos.color;
+        Gizmos.color = color;
+        var worldCenter = LocalToWorld.MultiplyPoint(LocalCenter);
+        Handles.Label(new Vector3(worldCenter.x, worldCenter.y + bounds.max.y + 10f, worldCenter.z), label, labelStyle);
+        Gizmos.DrawWireCube(worldCenter, bounds.size);
+        Gizmos.color = oldColor;
+    }
+
     public static void DrawBoxCollider(BoxCollider boxCollider, Transform transform, Color color, string label, GUIStyle labelStyle)
     {
         var oldColor = Gizmos.color;
@@ -13,6 +22,5 @@ public class GizmoHelper
         Gizmos.DrawWireCube(transform.TransformPoint(boxCollider.center), boxCollider.size);
         Gizmos.color = oldColor;
     }
-
 }
 #endif
