@@ -56,11 +56,15 @@ namespace AIObjects
         private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
         private Transform TargetLook;
 
-        public AIRotationFacingMoveManager(NavMeshAgent objectAgent, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3, Transform targetLook)
+        public AIRotationFacingMoveManager(NavMeshAgent objectAgent, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3)
         {
             this.objectAgent = objectAgent;
             AITransformMoveManagerComponentV3 = aiTransformMoveManagerComponentV3;
-            TargetLook = targetLook;
+        }
+
+        public void Init(Transform targetLook)
+        {
+            this.TargetLook = targetLook;
         }
 
         public override void UpdateAgentRotation(float d)

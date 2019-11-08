@@ -77,9 +77,16 @@ namespace AIObjects
                         this.A_AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, this.AITransformMoveManagerComponentV3, this.AIDestinationManager);
                         break;
                     case LookingAtAgentMovementCalculationStrategy LookingAtAgentMovementCalculationStrategy:
-                        this.A_AIRotationMoveManager = new AIRotationFacingMoveManager(this.objectAgent, this.AITransformMoveManagerComponentV3, LookingAtAgentMovementCalculationStrategy.TargetLook);
+                        this.A_AIRotationMoveManager = new AIRotationFacingMoveManager(this.objectAgent, this.AITransformMoveManagerComponentV3);
                         break;
                 }
+            }
+
+            switch (IAgentMovementCalculationStrategy)
+            {
+                case LookingAtAgentMovementCalculationStrategy LookingAtAgentMovementCalculationStrategy:
+                    (this.A_AIRotationMoveManager as AIRotationFacingMoveManager).Init(LookingAtAgentMovementCalculationStrategy.TargetLook);
+                    break;
             }
 
             this.LastIAgentMovementCalculationStrategyType = IAgentMovementCalculationStrategy.GetType();

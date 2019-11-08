@@ -23,7 +23,7 @@ namespace TrainingLevel
             Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Action ClearpathAction, Action AskToFireAFiredProjectileAction
         ) : base(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER)
         {
-            this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnInteractiveObjectJustOutOfSight);
+            this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
                 {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, this.PlayerObjectStateDataSystem, destinationAction)},
@@ -32,17 +32,22 @@ namespace TrainingLevel
             };
         }
 
+        public override void Tick(float d)
+        {
+            this.PlayerObjectStateDataSystem.Tick(d);
+            base.Tick(d);
+        }
 
         #region External Sight Events
 
         public void OnInteractiveObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
-            this.GetCurrentStateManager().OnInteractiveObjectJustOnSight(InSightInteractiveObject);
+            this.PlayerObjectStateDataSystem.OnInteractiveObjectJustOnSight(InSightInteractiveObject);
         }
 
         public void OnInteractiveObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
-            this.GetCurrentStateManager().OnInteractiveObjectJustOutOfSight(NotInSightInteractiveObject);
+            this.PlayerObjectStateDataSystem.OnInteractiveObjectJustOutOfSight(NotInSightInteractiveObject);
         }
 
         #endregion
@@ -51,11 +56,12 @@ namespace TrainingLevel
 
         private void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
-            //TODO -> problem with events
+            this.GetCurrentStateManager().OnPlayerObjectJustOnSight(InSightInteractiveObject);
         }
 
         private void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
+            this.GetCurrentStateManager().OnPlayerObjectJustOutOfSight(NotInSightInteractiveObject);
         }
 
         #endregion
@@ -72,11 +78,11 @@ namespace TrainingLevel
 
     public abstract class SoldierStateManager : StateManager
     {
-        public virtual void OnInteractiveObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        public virtual void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
         }
 
-        public virtual void OnInteractiveObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
+        public virtual void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
         }
 
@@ -148,7 +154,7 @@ namespace TrainingLevel
                 AIMovementSpeedDefinition.RUN);
         }
 
-        public override void OnInteractiveObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
             this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
         }
@@ -186,7 +192,7 @@ namespace TrainingLevel
             this.AskToFireAFiredProjectileAction.Invoke();
         }
 
-        public override void OnInteractiveObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
+        public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
             var NotInSightInteractiveObjectWorldPos = NotInSightInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition;
             var AssociatedInteractiveobjectWorldPos = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition;
@@ -220,7 +226,7 @@ namespace TrainingLevel
             SetDestinationAction = destinationAction;
         }
 
-        public void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        public override void OnStateEnter()
         {
             var LastPlayerSeenPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition;
             var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition;
@@ -259,10 +265,11 @@ namespace TrainingLevel
             }
         }
 
-        public override void OnInteractiveObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
             this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
         }
+
 
         public override void OnDestinationReached()
         {

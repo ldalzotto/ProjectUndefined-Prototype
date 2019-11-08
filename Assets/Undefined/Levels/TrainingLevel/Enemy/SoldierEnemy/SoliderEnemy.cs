@@ -105,6 +105,7 @@ namespace TrainingLevel
 
         private void OnAIDestinationReached()
         {
+            this.SoldierAIBehavior.OnDestinationReached();
         }
 
         #region Projectile Events
