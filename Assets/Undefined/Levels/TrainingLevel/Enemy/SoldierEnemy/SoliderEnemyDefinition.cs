@@ -17,7 +17,7 @@ namespace TrainingLevel
     {
         [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
         [DrawNested] public AIAgentDefinition AIAgentDefinition;
-
+        public SightObjectSystemDefinition SightObjectSystemDefinition;
         public TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]

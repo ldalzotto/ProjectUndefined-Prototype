@@ -16,6 +16,8 @@ namespace TrainingLevel
         private WeaponHandlingSystem WeaponHandlingSystem;
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
+        private SightObjectSystem SightObjectSystem;
+        private SoldierAIBehavior SoldierAIBehavior;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -30,6 +32,13 @@ namespace TrainingLevel
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
                 (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, SoliderEnemyDefinition.LocomotionAnimation);
+            this.SoldierAIBehavior = new SoldierAIBehavior(this, (IAgentMovementCalculationStrategy, AIMovementSpeedDefinition) =>
+            {
+                this.SetAISpeedAttenuationFactor(AIMovementSpeedDefinition);
+                this.SetDestination(IAgentMovementCalculationStrategy);
+            }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile);
+            this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
+                this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
         }
 
         public override void Tick(float d)
@@ -37,6 +46,7 @@ namespace TrainingLevel
             this._stunningDamageDealerReceiverSystem.Tick(d);
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
+                this.SoldierAIBehavior.Tick(d);
                 this.AIMoveToDestinationSystem.Tick(d);
             }
 
@@ -53,13 +63,13 @@ namespace TrainingLevel
             base.AfterTicks(d);
         }
 
-
         private void OnStunningDamageDealingStarted()
         {
             foreach (var renderer in this.InteractiveGameObject.Renderers)
             {
                 renderer.material.SetColor("_BaseColor", Color.red);
                 this.AnimatorPlayable.Stop();
+                this.AIMoveToDestinationSystem.StopAgent();
             }
         }
 
@@ -69,6 +79,7 @@ namespace TrainingLevel
             {
                 renderer.material.SetColor("_BaseColor", Color.white);
                 this.AnimatorPlayable.Play();
+                this.AIMoveToDestinationSystem.EnableAgent();
             }
         }
 

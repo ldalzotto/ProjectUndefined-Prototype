@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Debug\TrainingLevelDebugComponent.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoldierAIBehavior.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemy.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemyDefinition.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />

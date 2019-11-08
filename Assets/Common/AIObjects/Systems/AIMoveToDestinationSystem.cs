@@ -98,12 +98,12 @@ namespace AIObjects
         }
 
 
-        private void EnableAgent()
+        public void EnableAgent()
         {
             objectAgent.isStopped = false;
         }
 
-        private void StopAgent()
+        public void StopAgent()
         {
             if (objectAgent.hasPath)
             {

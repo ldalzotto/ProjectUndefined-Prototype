@@ -61,6 +61,7 @@ namespace InteractiveObjects
             if (interactiveObjectLogicColliderDefinition.Enabled)
             {
                 var LogicColliderObject = new GameObject("LogicCollider");
+                LogicColliderObject.layer = interactiveObjectLogicColliderDefinition.Layer;
                 LogicColliderObject.transform.parent = InteractiveGameObjectParent.transform;
                 LogicColliderObject.transform.localPosition = Vector3.zero;
                 LogicColliderObject.transform.localRotation = Quaternion.identity;
@@ -74,6 +75,7 @@ namespace InteractiveObjects
                 if (interactiveObjectLogicColliderDefinition.HasRigidBody)
                 {
                     var rb = LogicColliderObject.AddComponent<Rigidbody>();
+                    rb.interpolation = interactiveObjectLogicColliderDefinition.RigidbodyInterpolation;
                     rb.isKinematic = true;
                     rb.useGravity = false;
                 }

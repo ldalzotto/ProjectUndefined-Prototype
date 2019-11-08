@@ -92,6 +92,7 @@
      <Compile Include="Assets\Common\~CoreGame\Debug\Scripts\FPSDisplay.cs" />
      <Compile Include="Assets\Common\~CoreGame\EnumDependantProperty\ByEnumProperty.cs" />
      <Compile Include="Assets\Common\~CoreGame\EventVariables\BoolVariable.cs" />
+     <Compile Include="Assets\Common\~CoreGame\EventVariables\EnumVariable.cs" />
      <Compile Include="Assets\Common\~CoreGame\Extensions\Vector3Extensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Log\MyLog.cs" />
      <Compile Include="Assets\Common\~CoreGame\Math\FrustumPointsPositions.cs" />
