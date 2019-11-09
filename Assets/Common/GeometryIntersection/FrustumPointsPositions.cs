@@ -5,7 +5,7 @@ using UnityEditor;
 
 #endif
 
-namespace CoreGame
+namespace GeometryIntersection
 {
     /*
  *     C5----C6

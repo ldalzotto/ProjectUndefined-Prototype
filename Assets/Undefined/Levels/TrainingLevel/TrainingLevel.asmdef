@@ -21,7 +21,8 @@
 "Input",
 "Health",
 "Damage",
-"Weapon"
+"Weapon",
+"GeometryIntersection"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

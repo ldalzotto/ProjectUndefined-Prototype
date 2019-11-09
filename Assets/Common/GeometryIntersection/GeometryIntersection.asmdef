@@ -1,9 +1,7 @@
 {
-    "name": "InteractiveObjects_Interfaces",
+    "name": "GeometryIntersection",
     "references": [
-        "CoreGame",
-        "Editor_Common",
-        "GeometryIntersection"
+        "CoreGame"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

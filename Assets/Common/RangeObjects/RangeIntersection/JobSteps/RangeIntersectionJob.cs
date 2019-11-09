@@ -1,5 +1,4 @@
-﻿using CoreGame;
-using RangeObjects;
+﻿using GeometryIntersection;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;

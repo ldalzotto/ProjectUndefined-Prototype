@@ -642,6 +642,10 @@
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
+    <ProjectReference Include="GeometryIntersection.csproj">
+      <Project>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</Project>
+      <Name>GeometryIntersection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

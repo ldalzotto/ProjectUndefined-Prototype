@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{2E0DF170-5586-5B9F-1D17-9336702E6605}</ProjectGuid>
+    <ProjectGuid>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Tests</AssemblyName>
+    <AssemblyName>GeometryIntersection</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,21 +56,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Tests\~CoreGame\Intersection\IntersectionTests.cs" />
-     <Compile Include="Assets\Tests\~RTPuzzleGame\AI\Scripts\CommonSceneTest\TestHelperMethods.cs" />
-     <Compile Include="Assets\Tests\~RTPuzzleGame\Common\SceneMock.cs" />
-     <Compile Include="Assets\Tests\~RTPuzzleGame\Common\TestPosition.cs" />
-     <Compile Include="Assets\Tests\Common\GameInputManagerMock.cs" />
-     <None Include="Assets\Tests\Tests.asmdef" />
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="Unity.InputSystem">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Common\GeometryIntersection\FrustumPointsPositions.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Intersection.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\ShapeDefinitions.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Test\IntersectionTest.cs" />
+     <None Include="Assets\Common\GeometryIntersection\GeometryIntersection.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -257,8 +247,17 @@
  <Reference Include="UnityEngine.XRModule">
  <HintPath>G:/Programs/Unity/2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
  </Reference>
- <Reference Include="nunit.framework">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>G:/Programs/Unity/2019.2.11f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>G:/Programs/Unity/2019.2.11f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>G:/Programs/Unity/2019.2.11f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Burst.Unsafe">
+ <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.11f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -619,42 +618,6 @@
     <ProjectReference Include="CoreGame.csproj">
       <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
       <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor.csproj">
-      <Project>{2DD87826-BED4-3147-BE7B-C30240F79B63}</Project>
-      <Name>Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
-      <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
-      <Name>OdinSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="VisualFeedback.csproj">
-      <Project>{7CB22E21-2248-2D5F-191C-57E9A683E3D8}</Project>
-      <Name>VisualFeedback</Name>
-    </ProjectReference>
-    <ProjectReference Include="Persistence.csproj">
-      <Project>{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}</Project>
-      <Name>Persistence</Name>
-    </ProjectReference>
-    <ProjectReference Include="Timelines.csproj">
-      <Project>{86D2DBA8-BC22-7FE3-44CC-06B764F94632}</Project>
-      <Name>Timelines</Name>
-    </ProjectReference>
-    <ProjectReference Include="LevelManagement.csproj">
-      <Project>{F9A056B6-F4BF-D32F-5783-F99516EBF2DD}</Project>
-      <Name>LevelManagement</Name>
-    </ProjectReference>
-    <ProjectReference Include="Input.csproj">
-      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
-      <Name>Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="GeometryIntersection.csproj">
-      <Project>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</Project>
-      <Name>GeometryIntersection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

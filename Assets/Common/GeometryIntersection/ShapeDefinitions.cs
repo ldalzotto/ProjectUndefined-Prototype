@@ -1,7 +1,8 @@
 ﻿using System;
+using CoreGame;
 using UnityEngine;
 
-namespace CoreGame
+namespace GeometryIntersection
 {
     /*
      *     C5----C6

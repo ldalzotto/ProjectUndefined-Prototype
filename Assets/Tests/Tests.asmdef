@@ -14,7 +14,8 @@
         "UnityEditor.TestRunner",
         "Unity.InputSystem",
 "LevelManagement",
-"Input"
+"Input",
+"GeometryIntersection"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoreGame;
+using GeometryIntersection;
 using UnityEngine;
 
 namespace Obstacle

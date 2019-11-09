@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using CoreGame;
+﻿using System;
+using GeometryIntersection;
 using OdinSerializer;
 
 namespace InteractiveObjects
 {
-    [System.Serializable]
+    [Serializable]
     [SceneHandleDraw]
     public class SightObjectSystemDefinition : SerializedScriptableObject
     {

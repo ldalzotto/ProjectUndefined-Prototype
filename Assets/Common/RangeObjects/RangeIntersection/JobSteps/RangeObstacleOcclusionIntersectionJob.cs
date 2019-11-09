@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CoreGame;
+using GeometryIntersection;
 using Obstacle;
 using Unity.Collections;
 using UnityEngine;

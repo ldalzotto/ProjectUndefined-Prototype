@@ -649,6 +649,10 @@
       <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
       <Name>SequencedAction</Name>
     </ProjectReference>
+    <ProjectReference Include="GeometryIntersection.csproj">
+      <Project>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</Project>
+      <Name>GeometryIntersection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

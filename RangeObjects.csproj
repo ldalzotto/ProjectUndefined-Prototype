@@ -682,6 +682,10 @@
       <Project>{A56A5795-1CB9-EF28-85DE-67DC873B52CC}</Project>
       <Name>Obstacle</Name>
     </ProjectReference>
+    <ProjectReference Include="GeometryIntersection.csproj">
+      <Project>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</Project>
+      <Name>GeometryIntersection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

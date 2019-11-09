@@ -47,6 +47,7 @@ namespace GameLoop
 
         protected void BeforeTick(float d)
         {
+            // ManualPhysics.Get().Tick(d);
             PersistanceManager.Get().Tick(d);
             if (levelType != LevelType.STARTMENU) LevelChunkFXTransitionManager.Get().Tick(d);
         }

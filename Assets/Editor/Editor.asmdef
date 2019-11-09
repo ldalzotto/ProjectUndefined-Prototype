@@ -19,7 +19,8 @@
 "AnimatorPlayable",
 "SequencedAction",
 "GameLoop",
-"Input"
+"Input",
+"GeometryIntersection"
   ],
   "includePlatforms": [
     "Editor"

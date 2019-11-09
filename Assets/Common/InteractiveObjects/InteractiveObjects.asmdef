@@ -8,7 +8,8 @@
         "InteractiveObjects_Interfaces",
 "InteractiveObject_Animation",
 "AnimatorPlayable",
-"SequencedAction"
+"SequencedAction",
+"GeometryIntersection"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

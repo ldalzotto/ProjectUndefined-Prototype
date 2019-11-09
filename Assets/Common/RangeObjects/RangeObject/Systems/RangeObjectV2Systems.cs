@@ -1,5 +1,5 @@
 ﻿using System;
-using CoreGame;
+using GeometryIntersection;
 using InteractiveObjects;
 using Obstacle;
 using UnityEngine;

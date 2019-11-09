@@ -1,5 +1,5 @@
 ﻿using System;
-using CoreGame;
+using GeometryIntersection;
 using UnityEngine;
 
 namespace RangeObjects

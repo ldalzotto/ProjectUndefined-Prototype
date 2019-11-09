@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using AIObjects;
-using CoreGame;
 using Editor_MainGameCreationWizard;
+using GeometryIntersection;
 using RangeObjects;
 using UnityEditor;
 using UnityEngine;

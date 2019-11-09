@@ -1,4 +1,4 @@
-﻿using CoreGame;
+﻿using GeometryIntersection;
 using Obstacle;
 using UnityEngine;
 

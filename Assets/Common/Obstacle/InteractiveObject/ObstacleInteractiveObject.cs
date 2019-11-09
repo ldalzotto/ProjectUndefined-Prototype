@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CoreGame;
+using GeometryIntersection;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;

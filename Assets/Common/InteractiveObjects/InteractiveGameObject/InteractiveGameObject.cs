@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoreGame;
+using GeometryIntersection;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -56,12 +57,12 @@ namespace InteractiveObjects
             InitAgent();
         }
 
-        public void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition)
+        public void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition, int layer = 0)
         {
             if (interactiveObjectLogicColliderDefinition.Enabled)
             {
                 var LogicColliderObject = new GameObject("LogicCollider");
-                LogicColliderObject.layer = interactiveObjectLogicColliderDefinition.Layer;
+                LogicColliderObject.layer = layer;
                 LogicColliderObject.transform.parent = InteractiveGameObjectParent.transform;
                 LogicColliderObject.transform.localPosition = Vector3.zero;
                 LogicColliderObject.transform.localRotation = Quaternion.identity;

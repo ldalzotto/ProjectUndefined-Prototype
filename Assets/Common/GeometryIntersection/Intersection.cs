@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using CoreGame;
+using UnityEngine;
 
-namespace CoreGame
+namespace GeometryIntersection
 {
     public class Intersection
     {
