@@ -88,6 +88,7 @@ namespace GeometryIntersection
         }
     }
 
+    [Serializable]
     public struct SingleFacePosition
     {
         public Vector3 FC1;

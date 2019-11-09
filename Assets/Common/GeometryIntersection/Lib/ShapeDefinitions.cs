@@ -100,4 +100,28 @@ namespace GeometryIntersection
             this.LocalToWorld = BoxCollider.transform.localToWorldMatrix;
         }
     }
+
+    [Serializable]
+    public class BoxDefinitionManaged
+    {
+        public Vector3 LocalCenter;
+        public Vector3 LocalSize;
+        public Transform Transform;
+
+        private SingleFacePosition[] Faces;
+
+        public BoxDefinitionManaged(BoxCollider BoxCollider)
+        {
+            this.LocalCenter = BoxCollider.center;
+            this.LocalSize = BoxCollider.size;
+            this.Transform = BoxCollider.transform;
+            this.Faces = new[] {new SingleFacePosition(), new SingleFacePosition(), new SingleFacePosition(), new SingleFacePosition(), new SingleFacePosition(), new SingleFacePosition()};
+        }
+
+        public SingleFacePosition[] GetFaces()
+        {
+            Intersection.FromBoxDefinition(new BoxDefinition() {LocalCenter = this.LocalCenter, LocalSize = this.LocalSize, LocalToWorld = this.Transform.localToWorldMatrix}, ref this.Faces);
+            return this.Faces;
+        }
+    }
 }

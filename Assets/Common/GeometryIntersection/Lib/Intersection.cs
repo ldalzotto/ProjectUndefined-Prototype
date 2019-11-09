@@ -201,6 +201,19 @@ namespace GeometryIntersection
             return false;
         }
 
+        public static bool GeometryFaceIntersection(SingleFacePosition sourceFace, SingleFacePosition targetFace)
+        {
+            if (SegmentAccuratePlaneIntersectionV2(sourceFace.FC1, sourceFace.FC2, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4)
+                || SegmentAccuratePlaneIntersectionV2(sourceFace.FC2, sourceFace.FC3, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4)
+                || SegmentAccuratePlaneIntersectionV2(sourceFace.FC3, sourceFace.FC4, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4)
+                || SegmentAccuratePlaneIntersectionV2(sourceFace.FC4, sourceFace.FC1, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool FrustumBoxIntersection(FrustumPointsPositions frustumPoints, BoxDefinition BoxDefinition)
         {
             ExtractBoxColliderWorldPointsV2(BoxDefinition, out Vector3 BC1, out Vector3 BC2, out Vector3 BC3, out Vector3 BC4, out Vector3 BC5, out Vector3 BC6, out Vector3 BC7, out Vector3 BC8);
@@ -328,18 +341,15 @@ namespace GeometryIntersection
    *   C4----C3     
    */
 
-        public static SingleFacePosition[] FromBoxDefinition(BoxDefinition BoxDefinition)
+        public static void FromBoxDefinition(BoxDefinition BoxDefinition, ref SingleFacePosition[] Faces)
         {
             ExtractBoxColliderWorldPointsV2(BoxDefinition, out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8);
-            return new SingleFacePosition[]
-            {
-                new SingleFacePosition(C1, C2, C3, C4, (C6 - C2).normalized),
-                new SingleFacePosition(C1, C5, C6, C2, (C3 - C1).normalized),
-                new SingleFacePosition(C2, C6, C7, C3, (C1 - C2).normalized),
-                new SingleFacePosition(C3, C4, C1, C2, (C7 - C3).normalized),
-                new SingleFacePosition(C4, C8, C5, C1, (C2 - C1).normalized),
-                new SingleFacePosition(C8, C5, C6, C7, (C4 - C8).normalized),
-            };
+            Faces[0] = new SingleFacePosition(C1, C2, C3, C4, (C6 - C2).normalized);
+            Faces[1] = new SingleFacePosition(C1, C5, C6, C2, (C3 - C1).normalized);
+            Faces[2] = new SingleFacePosition(C2, C6, C7, C3, (C1 - C2).normalized);
+            Faces[3] = new SingleFacePosition(C3, C4, C1, C2, (C7 - C3).normalized);
+            Faces[4] = new SingleFacePosition(C4, C8, C5, C1, (C2 - C1).normalized);
+            Faces[5] = new SingleFacePosition(C8, C5, C6, C7, (C4 - C8).normalized);
         }
 
         public static void ExtractBoxColliderWorldPointsV2(BoxDefinition BoxDefinition, out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8)

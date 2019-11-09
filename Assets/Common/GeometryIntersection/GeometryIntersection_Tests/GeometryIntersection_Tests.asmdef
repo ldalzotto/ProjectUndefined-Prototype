@@ -1,8 +1,8 @@
 {
-    "name": "GeometryIntersection",
+    "name": "GeometryIntersection_Tests",
     "references": [
-        "CoreGame",
-        "Unity.Burst"
+        "GUID:bf3f2a346a37ed642851567e54bd2452",
+        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

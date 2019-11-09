@@ -8,6 +8,7 @@ public class TrainingLevelDebugComponent : MonoBehaviour
     public bool FireProjectileToInteractiveObject;
     public Collider LogicCollider;
 
+
     private void Update()
     {
         if (FireProjectileToInteractiveObject)

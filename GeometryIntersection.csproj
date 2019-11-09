@@ -56,11 +56,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\GeometryIntersection\FrustumPointsPositions.cs" />
-     <Compile Include="Assets\Common\GeometryIntersection\Intersection.cs" />
-     <Compile Include="Assets\Common\GeometryIntersection\ShapeDefinitions.cs" />
-     <Compile Include="Assets\Common\GeometryIntersection\Test\IntersectionTest.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Job\GeometryFaceIntersectionCalculationJob.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Job\GeometryIntersectionJobManager.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Lib\FrustumPointsPositions.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Lib\Intersection.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Lib\ShapeDefinitions.cs" />
      <None Include="Assets\Common\GeometryIntersection\GeometryIntersection.asmdef" />
+ <Reference Include="Unity.Burst">
+ <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

@@ -18,7 +18,8 @@
 "SelectionObjects",
 "Obstacle",
 "LevelManagement_Interfaces",
-"Weapon"
+"Weapon",
+"GeometryIntersection"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],
