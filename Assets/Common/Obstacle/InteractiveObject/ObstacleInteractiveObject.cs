@@ -19,8 +19,7 @@ namespace Obstacle
 
         public override void Init()
         {
-            this.InteractiveGameObject.InteractiveGameObjectParent.layer = LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES);
-            this.InteractiveGameObject.CreateLogicCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider);
+            this.InteractiveGameObject.CreateLogicCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider, LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
             ObstacleCollider = this.InteractiveGameObject.GetLogicColliderAsBox();
             SquareObstacleSystemInitializationData = ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData;
             interactiveObjectTag = new InteractiveObjectTag {IsObstacle = true};

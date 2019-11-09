@@ -23,6 +23,6 @@ namespace InteractiveObjects_Interfaces
         BoxDefinition GetLogicColliderBoxDefinition();
 
         void CreateAgent(AIAgentDefinition AIAgentDefinition);
-        void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition);
+        void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition, int layer = 0);
     }
 }

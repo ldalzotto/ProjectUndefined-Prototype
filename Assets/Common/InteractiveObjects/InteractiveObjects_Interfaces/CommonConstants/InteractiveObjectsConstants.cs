@@ -48,7 +48,6 @@ namespace InteractiveObjects_Interfaces
     [SceneHandleDraw]
     public class InteractiveObjectBoxLogicColliderDefinition
     {
-        public int Layer;
         public bool Enabled = true;
         public bool HasRigidBody = true;
         public RigidbodyInterpolation RigidbodyInterpolation;
