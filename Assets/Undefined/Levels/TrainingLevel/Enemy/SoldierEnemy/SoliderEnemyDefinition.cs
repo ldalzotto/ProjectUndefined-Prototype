@@ -17,24 +17,28 @@ namespace TrainingLevel
     {
         [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
         [DrawNested] public AIAgentDefinition AIAgentDefinition;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
         public SightObjectSystemDefinition SightObjectSystemDefinition;
+
         public TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public HealthSystemDefinition HealthSystemDefinition;
 
-        [Inline(CreateAtSameLevelIfAbsent = true)]
+        [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
 
         [FormerlySerializedAs("StunningDamageDealingSystemDefinition")] [Inline(CreateAtSameLevelIfAbsent = true)]
         public StunningDamageDealerReceiverSystemDefinition stunningDamageDealerReceiverSystemDefinition;
 
-        [Inline(CreateAtSameLevelIfAbsent = true)]
+        [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
 
-        public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
-        public A_AnimationPlayableDefinition LocomotionAnimation;
+        [DrawNested] public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
 
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public A_AnimationPlayableDefinition LocomotionAnimation;
 
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {

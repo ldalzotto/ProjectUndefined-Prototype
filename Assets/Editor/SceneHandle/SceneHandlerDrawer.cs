@@ -74,6 +74,11 @@ public static class SceneHandlerDrawer
                                 worldPositionCenter = GetPositionFromObject(drawableObject.GetType().GetField(WireCircleWorldAttribute.PositionFieldName).GetValue(drawableObject));
                             }
 
+                            if (!string.IsNullOrEmpty(WireCircleWorldAttribute.PositionOffsetFieldName))
+                            {
+                                worldPositionCenter += (Vector3) drawableObject.GetType().GetField(WireCircleWorldAttribute.PositionOffsetFieldName).GetValue(drawableObject);
+                            }
+
                             if (!string.IsNullOrEmpty(WireCircleWorldAttribute.RadiusFieldName))
                             {
                                 radius = (float) drawableObject.GetType().GetField(WireCircleWorldAttribute.RadiusFieldName).GetValue(drawableObject);

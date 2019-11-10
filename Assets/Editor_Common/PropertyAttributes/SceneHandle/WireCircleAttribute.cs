@@ -10,6 +10,7 @@ public class WireCircleWorldAttribute : AbstractSceneHandleAttribute
 {
     public bool UseTransform = false;
     public string PositionFieldName;
+    public string PositionOffsetFieldName;
     public string RadiusFieldName = string.Empty;
     public float Radius = 1f;
 }
