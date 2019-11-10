@@ -34,7 +34,7 @@ namespace TrainingLevel
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
                 (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, SoliderEnemyDefinition.LocomotionAnimation);
-            this.SoldierAIBehavior = new SoldierAIBehavior(this, (IAgentMovementCalculationStrategy, AIMovementSpeedDefinition) =>
+            this.SoldierAIBehavior = new SoldierAIBehavior(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition, (IAgentMovementCalculationStrategy, AIMovementSpeedDefinition) =>
             {
                 this.SetAISpeedAttenuationFactor(AIMovementSpeedDefinition);
                 this.SetDestination(IAgentMovementCalculationStrategy);

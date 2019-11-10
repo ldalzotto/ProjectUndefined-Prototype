@@ -169,7 +169,6 @@ namespace AIObjects
                 objectAgent.ResetPath();
                 var path = CreateValidNavMeshPathWithFallback(objectAgent, AIDestination.WorldPosition, 50);
 
-                Debug.Log(path.status);
                 objectAgent.SetPath(path);
 
                 //If direction change is occuring when current destination has been reached

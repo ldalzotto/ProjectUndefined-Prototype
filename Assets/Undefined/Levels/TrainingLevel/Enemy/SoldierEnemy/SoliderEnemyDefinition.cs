@@ -23,6 +23,9 @@ namespace TrainingLevel
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public HealthSystemDefinition HealthSystemDefinition;
 
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
+
         [FormerlySerializedAs("StunningDamageDealingSystemDefinition")] [Inline(CreateAtSameLevelIfAbsent = true)]
         public StunningDamageDealerReceiverSystemDefinition stunningDamageDealerReceiverSystemDefinition;
 
