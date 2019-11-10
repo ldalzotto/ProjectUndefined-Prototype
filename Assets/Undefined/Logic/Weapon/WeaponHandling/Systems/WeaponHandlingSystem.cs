@@ -22,6 +22,14 @@ namespace Weapon
             var firedProjectileRotation = parent.InteractiveGameObject.GetTransform().WorldRotationEuler;
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
         }
+
+        public void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        {
+            var parent = WeaponHandlingSystemInitializationData.Parent;
+            var firedProjectilePosition = parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponFirePointOriginLocal;
+            var firedProjectileRotation = Quaternion.LookRotation(WorldTargetDirection.normalized).eulerAngles;
+            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
+        }
     }
 
     public class WeaponHandlingSystemInitializationData

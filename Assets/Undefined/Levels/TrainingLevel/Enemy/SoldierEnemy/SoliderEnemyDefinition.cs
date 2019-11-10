@@ -29,6 +29,7 @@ namespace TrainingLevel
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
 
+        public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
         public A_AnimationPlayableDefinition LocomotionAnimation;
 
 

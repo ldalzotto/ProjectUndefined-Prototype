@@ -1,4 +1,5 @@
 ﻿using InteractiveObjects_Interfaces;
+using UnityEngine;
 
 namespace InteractiveObjects
 {
@@ -60,6 +61,15 @@ namespace InteractiveObjects
 
         public virtual void AskToFireAFiredProjectile()
         {
+        }
+
+        public virtual void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        {
+        }
+
+        public virtual Vector3 GetFiringTargetLocalPosition()
+        {
+            return this.InteractiveGameObject.GetTransform().WorldPosition;
         }
 
         #endregion

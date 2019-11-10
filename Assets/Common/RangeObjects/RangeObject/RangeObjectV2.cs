@@ -120,6 +120,18 @@ namespace RangeObjects
             var BoxCollider = (BoxCollider) RangeGameObjectV2.BoundingCollider;
             return new BoxDefinition(BoxCollider);
         }
+
+        public void SetLocalCenter(Vector3 localCenter)
+        {
+            var BoxCollider = (BoxCollider) RangeGameObjectV2.BoundingCollider;
+            BoxCollider.center = localCenter;
+        }
+
+        public void SetLocalSize(Vector3 localSize)
+        {
+            var BoxCollider = (BoxCollider) RangeGameObjectV2.BoundingCollider;
+            BoxCollider.size = localSize;
+        }
     }
 
     public class FrustumRangeObjectV2 : RangeObjectV2

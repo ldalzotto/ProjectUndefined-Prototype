@@ -4,6 +4,7 @@ using AIObjects;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using PlayerObject;
+using RangeObjects;
 using UnityEngine;
 
 namespace TrainingLevel
@@ -20,7 +21,7 @@ namespace TrainingLevel
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
 
         public SoldierAIBehavior(CoreInteractiveObject AssociatedInteractiveObject,
-            Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Action ClearpathAction, Action AskToFireAFiredProjectileAction
+            Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction, Func<Vector3> GetWeaponFirePointOriginLocalAction
         ) : base(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER)
         {
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
@@ -28,7 +29,7 @@ namespace TrainingLevel
             {
                 {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, this.PlayerObjectStateDataSystem, destinationAction)},
                 {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction)},
-                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, destinationAction)}
+                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, destinationAction, GetWeaponFirePointOriginLocalAction)}
             };
         }
 
@@ -36,6 +37,12 @@ namespace TrainingLevel
         {
             this.PlayerObjectStateDataSystem.Tick(d);
             base.Tick(d);
+        }
+
+        public override void SetState(SoldierAIStateEnum NewState)
+        {
+            Debug.Log(MyLog.Format("New State : " + NewState));
+            base.SetState(NewState);
         }
 
         #region External Sight Events
@@ -95,7 +102,7 @@ namespace TrainingLevel
     {
         public CoreInteractiveObject PlayerObject { get; private set; }
         public Vector3 LastPlayerSeenPosition { get; private set; }
-        private bool IsPlayerInSight;
+        public bool IsPlayerInSight { get; private set; }
         private SoldierAIBehavior SoldierAIBehaviorRef;
 
         private Action<CoreInteractiveObject> OnPlayerObjectJustOnSightAction;
@@ -167,10 +174,10 @@ namespace TrainingLevel
         private CoreInteractiveObject AssociatedInteractiveObject;
 
         private Action ClearPathAction;
-        private Action AskToFireAFiredProjectileAction;
+        private Action<Vector3> AskToFireAFiredProjectileAction;
 
         public ShootingAtPlayerStateManager(SoldierAIBehavior SoldierAIBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            CoreInteractiveObject associatedInteractiveObject, Action clearPathAction, Action askToFireAFiredProjectileAction)
+            CoreInteractiveObject associatedInteractiveObject, Action clearPathAction, Action<Vector3> askToFireAFiredProjectileAction)
         {
             this.SoldierAIBehaviorRef = SoldierAIBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
@@ -189,7 +196,9 @@ namespace TrainingLevel
             var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject;
             this.AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation =
                 Quaternion.LookRotation((PlayerObject.InteractiveGameObject.GetTransform().WorldPosition - this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition).normalized, Vector3.up);
-            this.AskToFireAFiredProjectileAction.Invoke();
+            var WorldTargetDirection = ((PlayerObject.InteractiveGameObject.GetTransform().WorldPosition + PlayerObject.GetFiringTargetLocalPosition())
+                                        - (this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + this.AssociatedInteractiveObject.GetFiringTargetLocalPosition())).normalized;
+            this.AskToFireAFiredProjectileAction.Invoke(WorldTargetDirection);
         }
 
         public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
@@ -208,45 +217,114 @@ namespace TrainingLevel
         }
     }
 
+    class WeaponFiringAreaSystem : AInteractiveObjectPhysicsEventListener
+    {
+        private CoreInteractiveObject AssociatedInteractiveObject;
+        private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
+        private BoxRangeObjectV2 WeaponFiringAreaBoxRangeObject;
+        private Func<Vector3> GetWeaponFirePointOriginLocalAction;
+
+        private List<Collider> InsideWeaponFiringAreaObstacles = new List<Collider>();
+
+        public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, Func<Vector3> weaponFirePointOriginLocalAction)
+        {
+            AssociatedInteractiveObject = associatedInteractiveObject;
+            PlayerObjectStateDataSystem = playerObjectStateDataSystem;
+            GetWeaponFirePointOriginLocalAction = weaponFirePointOriginLocalAction;
+            this.WeaponFiringAreaBoxRangeObject = new BoxRangeObjectV2(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
+            {
+                RangeTypeID = RangeTypeID.NOT_DISPLAYED,
+                IsTakingIntoAccountObstacles = false,
+                BoxRangeTypeDefinition = new BoxRangeTypeDefinition()
+            }, associatedInteractiveObject, "WeaponFiringAreaBoxRangeObject");
+            this.WeaponFiringAreaBoxRangeObject.RegisterPhysicsEventListener(this);
+            this.Tick(0f);
+        }
+
+        public void Tick(float d)
+        {
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.GetWeaponFirePointOriginLocalAction.Invoke();
+            var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject;
+            var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition() - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);
+
+            var DistanceSoldierPlayer = Vector3.Distance((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition()), this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition);
+            this.WeaponFiringAreaBoxRangeObject.SetLocalCenter(new Vector3(0, 0, DistanceSoldierPlayer * 0.5f));
+            this.WeaponFiringAreaBoxRangeObject.SetLocalSize(new Vector3(2, 2, DistanceSoldierPlayer));
+        }
+
+        public bool AreObstaclesInside()
+        {
+            return this.InsideWeaponFiringAreaObstacles.Count > 0;
+        }
+
+        public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
+        {
+            return interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle;
+        }
+
+        public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        {
+            this.InsideWeaponFiringAreaObstacles.Add(PhysicsTriggerInfo.Other);
+        }
+
+        public override void OnTriggerExit(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
+        {
+            this.InsideWeaponFiringAreaObstacles.Remove(PhysicsTriggerInfo.Other);
+        }
+
+        public void Destroy()
+        {
+            this.WeaponFiringAreaBoxRangeObject.OnDestroy();
+            GameObject.Destroy(this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject);
+        }
+    }
+
     class MoveAroundPlayerStateManager : SoldierStateManager
     {
         private SoldierAIBehavior SoldierAIBehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
+        private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
-
         private Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> SetDestinationAction;
+        private Func<Vector3> WeaponFirePointOriginLocalAction;
 
         private GameObject TmpLastPlayerSeenPositionGameObject;
 
-        public MoveAroundPlayerStateManager(SoldierAIBehavior soldierAiBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject, Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction)
+        public MoveAroundPlayerStateManager(SoldierAIBehavior soldierAiBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
+            Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Func<Vector3> weaponFirePointOriginLocalAction)
         {
             SoldierAIBehaviorRef = soldierAiBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             SetDestinationAction = destinationAction;
+            this.WeaponFirePointOriginLocalAction = weaponFirePointOriginLocalAction;
         }
 
         public override void OnStateEnter()
         {
+            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(this.AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, this.WeaponFirePointOriginLocalAction);
             var LastPlayerSeenPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition;
             var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition;
 
             bool SightDirectionFound = false;
             Vector3 SightDirection = Vector3.zero;
-            for (var SampleNUmber = 1; SampleNUmber <= 5; SampleNUmber++)
+            for (var SampleNumber = 1; SampleNumber <= 5; SampleNumber++)
             {
-                var QueriedDirection = Quaternion.Euler(0, SampleNUmber * 10, 0) * AItoLVPDistance;
+                var RotationAngle = SampleNumber * 10;
+                var QueriedDirection = Quaternion.Euler(0, RotationAngle, 0) * AItoLVPDistance;
                 if (!Physics.Raycast(LastPlayerSeenPosition, QueriedDirection.normalized, QueriedDirection.magnitude, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES)))
                 {
-                    SightDirection = QueriedDirection;
+                    SightDirection = Quaternion.Euler(0, Math.Sign(RotationAngle) * 50, 0) * AItoLVPDistance;
                     SightDirectionFound = true;
                     break;
                 }
 
-                QueriedDirection = Quaternion.Euler(0, -1 * SampleNUmber * 10, 0) * AItoLVPDistance;
+                RotationAngle = -1 * SampleNumber * 10;
+                QueriedDirection = Quaternion.Euler(0, RotationAngle, 0) * AItoLVPDistance;
                 if (!Physics.Raycast(LastPlayerSeenPosition, QueriedDirection.normalized, QueriedDirection.magnitude, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES)))
                 {
-                    SightDirection = QueriedDirection;
+                    SightDirection = Quaternion.Euler(0, Math.Sign(RotationAngle) * 50, 0) * AItoLVPDistance;
                     SightDirectionFound = true;
                     break;
                 }
@@ -256,6 +334,8 @@ namespace TrainingLevel
             {
                 this.TmpLastPlayerSeenPositionGameObject = new GameObject("TmpLastPlayerSeenPositionGameObject");
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition;
+                Debug.Log(MyLog.Format("MoveAroundPlayerStateManager : Destination : " + (LastPlayerSeenPosition + SightDirection).ToString("F4")));
+                Debug.Log(MyLog.Format("MoveAroundPlayerStateManager : CurrentAI : " + (this.AssociatedInteractiveObject.InteractiveGameObject.Agent.transform.position).ToString("F4")));
                 this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
                     AIMovementSpeedDefinition.WALK);
             }
@@ -265,11 +345,14 @@ namespace TrainingLevel
             }
         }
 
-        public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        public override void Tick(float d)
         {
-            this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
+            this.WeaponFiringAreaSystem.Tick(d);
+            if (this.PlayerObjectStateDataSystem.IsPlayerInSight && !this.WeaponFiringAreaSystem.AreObstaclesInside())
+            {
+                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
+            }
         }
-
 
         public override void OnDestinationReached()
         {
@@ -281,6 +364,11 @@ namespace TrainingLevel
             if (this.TmpLastPlayerSeenPositionGameObject != null)
             {
                 GameObject.Destroy(this.TmpLastPlayerSeenPositionGameObject.gameObject);
+            }
+
+            if (this.WeaponFiringAreaSystem != null)
+            {
+                this.WeaponFiringAreaSystem.Destroy();
             }
         }
     }

@@ -14,6 +14,7 @@ namespace TrainingLevel
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
         private WeaponHandlingSystem WeaponHandlingSystem;
+        private FiringTargetPositionSystem FiringTargetPositionSystem;
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
         private SightObjectSystem SightObjectSystem;
@@ -29,6 +30,7 @@ namespace TrainingLevel
             this._stunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(SoliderEnemyDefinition.stunningDamageDealerReceiverSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal,
                 SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
                 (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, SoliderEnemyDefinition.LocomotionAnimation);
@@ -36,7 +38,7 @@ namespace TrainingLevel
             {
                 this.SetAISpeedAttenuationFactor(AIMovementSpeedDefinition);
                 this.SetDestination(IAgentMovementCalculationStrategy);
-            }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile);
+            }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile, () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal);
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
         }
@@ -113,6 +115,16 @@ namespace TrainingLevel
         public override void AskToFireAFiredProjectile()
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile();
+        }
+
+        public override void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile(WorldTargetDirection);
+        }
+
+        public override Vector3 GetFiringTargetLocalPosition()
+        {
+            return this.FiringTargetPositionSystem.GetFiringTargetLocalPosition();
         }
 
         #endregion

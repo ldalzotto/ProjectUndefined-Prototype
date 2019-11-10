@@ -52,7 +52,7 @@ namespace AIObjects
             return this.CurrentState.GetValue();
         }
 
-        public void SetState(S NewState)
+        public virtual void SetState(S NewState)
         {
             this.CurrentState.SetValue(NewState);
         }

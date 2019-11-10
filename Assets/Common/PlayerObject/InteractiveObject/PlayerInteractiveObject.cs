@@ -17,6 +17,7 @@ namespace PlayerObject
 
         [VE_Nested] private BaseObjectAnimatorPlayableSystem baseObjectAnimatorPlayableSystem;
         private WeaponHandlingSystem WeaponHandlingSystem;
+        private FiringTargetPositionSystem FiringTargetPositionSystem;
 
         #endregion
 
@@ -35,6 +36,7 @@ namespace PlayerObject
             this.PlayerInteractiveObjectInitializer = PlayerInteractiveObjectInitializer;
             base.BaseInit(interactiveGameObject, false);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectInitializer.FiringTargetPositionSystemDefinition);
         }
 
         public override void Init()
@@ -134,6 +136,16 @@ namespace PlayerObject
         public override void AskToFireAFiredProjectile()
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile();
+        }
+
+        public override void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile(WorldTargetDirection);
+        }
+
+        public override Vector3 GetFiringTargetLocalPosition()
+        {
+            return this.FiringTargetPositionSystem.GetFiringTargetLocalPosition();
         }
 
         #endregion
