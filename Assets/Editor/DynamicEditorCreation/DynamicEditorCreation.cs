@@ -5,9 +5,14 @@ using UnityEngine;
 public class DynamicEditorCreation
 {
     private static DynamicEditorCreation Instance;
+
     public static DynamicEditorCreation Get()
     {
-        if (Instance == null) { Instance = new DynamicEditorCreation(); }
+        if (Instance == null)
+        {
+            Instance = new DynamicEditorCreation();
+        }
+
         return Instance;
     }
 
@@ -18,9 +23,9 @@ public class DynamicEditorCreation
 
     private void OnPlayModeStateChanged(PlayModeStateChange state)
     {
-        if(state == PlayModeStateChange.ExitingEditMode)
+        if (state == PlayModeStateChange.ExitingEditMode)
         {
-            DynamicEditorCreation.ClearCreatedEditors();
+            ClearCreatedEditors();
         }
     }
 
@@ -29,14 +34,16 @@ public class DynamicEditorCreation
     [MenuItem("EditorTool/DynamicEditorClear")]
     public static void ClearCreatedEditors()
     {
-        foreach (var createdEditor in DynamicEditorCreation.Get().CreatedEditors)
+        for (var i = Get().CreatedEditors.Count - 1; i >= 0; i--)
         {
+            var createdEditor = Get().CreatedEditors[i];
             if (createdEditor != null)
             {
                 Editor.DestroyImmediate(createdEditor);
             }
         }
-        DynamicEditorCreation.Get().CreatedEditors.Clear();
+
+        Get().CreatedEditors.Clear();
     }
 
     public Editor CreateEditor(Object obj)

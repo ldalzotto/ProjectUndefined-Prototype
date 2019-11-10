@@ -1,4 +1,5 @@
-﻿using SequencedAction;
+﻿using System.Reflection;
+using SequencedAction;
 using UnityEditor;
 
 namespace SequencedAction_Editor
@@ -6,19 +7,34 @@ namespace SequencedAction_Editor
     [CustomEditor(typeof(ASequencedActionGraph), editorForChildClasses: true)]
     public class ASequencedActionCustomEditor : Editor
     {
+        private SceneHandleDrawAttribute SceneHandleDrawAttribute;
+
         private void OnEnable()
         {
-            this.RegisterCallback();
+            this.SceneHandleDrawAttribute = this.target.GetType().GetCustomAttribute<SceneHandleDrawAttribute>(true);
+            if (this.SceneHandleDrawAttribute != null)
+            {
+                DynamicEditorCreation.Get().CreatedEditors.Add(this);
+                this.RegisterCallback();
+            }
         }
 
         private void OnDisable()
         {
-            this.UnRegisterCallback();
+            if (this.SceneHandleDrawAttribute != null)
+            {
+                DynamicEditorCreation.Get().CreatedEditors.Remove(this);
+                this.UnRegisterCallback();
+            }
         }
 
         private void OnDestroy()
         {
-            this.UnRegisterCallback();
+            if (this.SceneHandleDrawAttribute != null)
+            {
+                DynamicEditorCreation.Get().CreatedEditors.Remove(this);
+                this.UnRegisterCallback();
+            }
         }
 
         private void RegisterCallback()

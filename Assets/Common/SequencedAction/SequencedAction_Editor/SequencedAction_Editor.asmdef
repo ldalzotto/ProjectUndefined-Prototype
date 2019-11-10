@@ -3,6 +3,7 @@
     "references": [
         "CoreGame",
         "Editor",
+"Editor_Common",
 "SequencedAction",
 "SequencedAction_Editor_Common"
     ],

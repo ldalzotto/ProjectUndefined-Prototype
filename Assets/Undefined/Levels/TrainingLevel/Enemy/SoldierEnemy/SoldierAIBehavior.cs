@@ -84,6 +84,17 @@ namespace TrainingLevel
         #endregion
     }
 
+    public static class SoldierAIBehaviorUtil
+    {
+        public static bool InteractiveObjectBeyondObstacle(CoreInteractiveObject InteractiveObject, CoreInteractiveObject SoliderEnemy)
+        {
+            var NotInSightInteractiveObjectWorldPos = InteractiveObject.InteractiveGameObject.GetTransform().WorldPosition;
+            var AssociatedInteractiveobjectWorldPos = SoliderEnemy.InteractiveGameObject.GetTransform().WorldPosition;
+            float DistanceFromAssociatedInteractiveObject = Vector3.Distance(NotInSightInteractiveObjectWorldPos, AssociatedInteractiveobjectWorldPos);
+            return Physics.Raycast(NotInSightInteractiveObjectWorldPos, (AssociatedInteractiveobjectWorldPos - NotInSightInteractiveObjectWorldPos).normalized, DistanceFromAssociatedInteractiveObject, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
+        }
+    }
+
     public abstract class SoldierStateManager : StateManager
     {
         public virtual void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
@@ -172,6 +183,14 @@ namespace TrainingLevel
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
             }
         }
+
+        public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
+        {
+            if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject, this.AssociatedInteractiveObject))
+            {
+                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
+            }
+        }
     }
 
     class ShootingAtPlayerStateManager : SoldierStateManager
@@ -210,10 +229,7 @@ namespace TrainingLevel
 
         public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
-            var NotInSightInteractiveObjectWorldPos = NotInSightInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition;
-            var AssociatedInteractiveobjectWorldPos = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition;
-            float DistanceFromAssociatedInteractiveObject = Vector3.Distance(NotInSightInteractiveObjectWorldPos, AssociatedInteractiveobjectWorldPos);
-            if (Physics.Raycast(NotInSightInteractiveObjectWorldPos, (AssociatedInteractiveobjectWorldPos - NotInSightInteractiveObjectWorldPos).normalized, DistanceFromAssociatedInteractiveObject, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES)))
+            if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(NotInSightInteractiveObject, this.AssociatedInteractiveObject))
             {
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
             }
@@ -342,7 +358,7 @@ namespace TrainingLevel
                 this.TmpLastPlayerSeenPositionGameObject = new GameObject("TmpLastPlayerSeenPositionGameObject");
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition;
                 this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
-                    AIMovementSpeedDefinition.WALK);
+                    AIMovementSpeedDefinition.RUN);
             }
             else
             {

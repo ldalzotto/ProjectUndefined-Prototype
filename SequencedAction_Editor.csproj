@@ -630,6 +630,10 @@
       <Project>{2DD87826-BED4-3147-BE7B-C30240F79B63}</Project>
       <Name>Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="Editor_Common.csproj">
+      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Name>Editor_Common</Name>
+    </ProjectReference>
     <ProjectReference Include="SequencedAction.csproj">
       <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
       <Name>SequencedAction</Name>
