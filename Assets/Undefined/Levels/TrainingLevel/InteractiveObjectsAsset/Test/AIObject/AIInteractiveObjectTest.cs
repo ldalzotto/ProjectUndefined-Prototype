@@ -1,6 +1,7 @@
 ﻿using AIObjects;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
+using UnityEngine.AI;
 using VisualFeedback;
 
 namespace InteractiveObjects
@@ -72,9 +73,9 @@ namespace InteractiveObjects
             AIPatrolSystem.OnAIDestinationReached();
         }
 
-        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
+            return this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)

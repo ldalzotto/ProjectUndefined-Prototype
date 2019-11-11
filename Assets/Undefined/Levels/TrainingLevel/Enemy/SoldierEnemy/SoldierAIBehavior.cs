@@ -6,6 +6,7 @@ using InteractiveObjects_Interfaces;
 using PlayerObject;
 using RangeObjects;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace TrainingLevel
 {
@@ -21,25 +22,28 @@ namespace TrainingLevel
     {
         private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
+        private WeaponFiringAreaSystem WeaponFiringAreaSystem;
 
         public SoldierAIBehavior(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction, Func<Vector3> GetWeaponFirePointOriginLocalAction
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction, Func<Vector3> GetWeaponFirePointOriginLocalAction
         ) : base(SoldierAIStateEnum.PATROLLING)
         {
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
+            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, GetWeaponFirePointOriginLocalAction);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
                 {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
-                {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, destinationAction)},
+                {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, destinationAction)},
                 {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction)},
-                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, destinationAction, GetWeaponFirePointOriginLocalAction)}
+                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, destinationAction)}
             };
         }
 
         public override void Tick(float d)
         {
             this.PlayerObjectStateDataSystem.Tick(d);
+            this.WeaponFiringAreaSystem.Tick(d);
             base.Tick(d);
         }
 
@@ -95,6 +99,11 @@ namespace TrainingLevel
             float DistanceFromAssociatedInteractiveObject = Vector3.Distance(NotInSightInteractiveObjectWorldPos, AssociatedInteractiveobjectWorldPos);
             return Physics.Raycast(NotInSightInteractiveObjectWorldPos, (AssociatedInteractiveobjectWorldPos - NotInSightInteractiveObjectWorldPos).normalized, DistanceFromAssociatedInteractiveObject, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
         }
+
+        public static bool IsAllowToMoveToShootingAtPlayerState(PlayerObjectStateDataSystem PlayerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem)
+        {
+            return PlayerObjectStateDataSystem.IsPlayerInSight && !WeaponFiringAreaSystem.AreObstaclesInside();
+        }
     }
 
     public abstract class SoldierStateManager : StateManager
@@ -112,7 +121,7 @@ namespace TrainingLevel
         }
     }
 
-    class PlayerObjectStateDataSystem
+    public class PlayerObjectStateDataSystem
     {
         private CoreInteractiveObject playerObject;
 
@@ -184,6 +193,7 @@ namespace TrainingLevel
 
         public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
+            Debug.Log(MyLog.Format("PatrollingStateManager to MOVE_TOWARDS_PLAYER"));
             this.SoldierAIBehavior.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
         }
 
@@ -199,15 +209,17 @@ namespace TrainingLevel
         private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
-        private Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> SetDestinationAction;
+        private WeaponFiringAreaSystem WeaponFiringAreaSystem;
+        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
 
         public MoveTowardsPlayerStateManager(SoldierAIBehavior soldierAiBehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction)
+            CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem, Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction)
         {
             SoldierAIBehaviorRef = soldierAiBehaviorRef;
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
+            this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
             SetDestinationAction = destinationAction;
         }
 
@@ -216,9 +228,10 @@ namespace TrainingLevel
             this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}),
                 AIMovementSpeedDefinition.RUN);
             if (
-                this.PlayerObjectStateDataSystem.IsPlayerInSight &&
+                SoldierAIBehaviorUtil.IsAllowToMoveToShootingAtPlayerState(this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem) &&
                 Vector3.Distance(this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition, this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition) <= this.SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp)
             {
+                Debug.Log(MyLog.Format("MoveTowardsPlayerStateManager to GO_ROUND_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
             }
         }
@@ -227,6 +240,7 @@ namespace TrainingLevel
         {
             if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject(), this.AssociatedInteractiveObject))
             {
+                Debug.Log(MyLog.Format("MoveTowardsPlayerStateManager to GO_ROUND_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
             }
         }
@@ -270,16 +284,18 @@ namespace TrainingLevel
         {
             if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(NotInSightInteractiveObject, this.AssociatedInteractiveObject))
             {
+                Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to GO_ROUND_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
             }
             else
             {
+                Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to MOVE_TOWARDS_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
             }
         }
     }
 
-    class WeaponFiringAreaSystem : AInteractiveObjectPhysicsEventListener
+    public class WeaponFiringAreaSystem : AInteractiveObjectPhysicsEventListener
     {
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
@@ -300,7 +316,6 @@ namespace TrainingLevel
                 BoxRangeTypeDefinition = new BoxRangeTypeDefinition()
             }, associatedInteractiveObject, "WeaponFiringAreaBoxRangeObject");
             this.WeaponFiringAreaBoxRangeObject.RegisterPhysicsEventListener(this);
-            this.Tick(0f);
         }
 
         public void Tick(float d)
@@ -348,24 +363,23 @@ namespace TrainingLevel
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
-        private Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> SetDestinationAction;
-        private Func<Vector3> WeaponFirePointOriginLocalAction;
+        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
 
         private GameObject TmpLastPlayerSeenPositionGameObject;
 
         public MoveAroundPlayerStateManager(SoldierAIBehavior soldierAiBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
-            Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Func<Vector3> weaponFirePointOriginLocalAction)
+            WeaponFiringAreaSystem WeaponFiringAreaSystem,
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction)
         {
             SoldierAIBehaviorRef = soldierAiBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             SetDestinationAction = destinationAction;
-            this.WeaponFirePointOriginLocalAction = weaponFirePointOriginLocalAction;
+            this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
         }
 
         public override void OnStateEnter()
         {
-            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(this.AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, this.WeaponFirePointOriginLocalAction);
             var LastPlayerSeenPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition;
             var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition;
 
@@ -396,26 +410,32 @@ namespace TrainingLevel
             {
                 this.TmpLastPlayerSeenPositionGameObject = new GameObject("TmpLastPlayerSeenPositionGameObject");
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition;
-                this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
-                    AIMovementSpeedDefinition.RUN);
+                if (this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
+                        AIMovementSpeedDefinition.RUN) == NavMeshPathStatus.PathInvalid)
+                {
+                    Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TOWARDS_PLAYER"));
+                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
+                }
             }
             else
             {
+                Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TOWARDS_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
             }
         }
 
         public override void Tick(float d)
         {
-            this.WeaponFiringAreaSystem.Tick(d);
-            if (this.PlayerObjectStateDataSystem.IsPlayerInSight && !this.WeaponFiringAreaSystem.AreObstaclesInside())
+            if (SoldierAIBehaviorUtil.IsAllowToMoveToShootingAtPlayerState(this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem))
             {
+                Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to SHOOTING_AT_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
             }
         }
 
         public override void OnDestinationReached()
         {
+            Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to PATROLLING"));
             this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.PATROLLING);
         }
 
@@ -424,11 +444,6 @@ namespace TrainingLevel
             if (this.TmpLastPlayerSeenPositionGameObject != null)
             {
                 GameObject.Destroy(this.TmpLastPlayerSeenPositionGameObject.gameObject);
-            }
-
-            if (this.WeaponFiringAreaSystem != null)
-            {
-                this.WeaponFiringAreaSystem.Destroy();
             }
         }
     }

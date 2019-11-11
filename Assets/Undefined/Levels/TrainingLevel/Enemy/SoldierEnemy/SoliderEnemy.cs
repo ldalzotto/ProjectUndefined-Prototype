@@ -5,6 +5,7 @@ using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 using Weapon;
 
 namespace TrainingLevel
@@ -37,7 +38,7 @@ namespace TrainingLevel
             this.SoldierAIBehavior = new SoldierAIBehavior(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition, (IAgentMovementCalculationStrategy, AIMovementSpeedDefinition) =>
             {
                 this.SetAISpeedAttenuationFactor(AIMovementSpeedDefinition);
-                this.SetDestination(IAgentMovementCalculationStrategy);
+                return this.SetDestination(IAgentMovementCalculationStrategy);
             }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile, () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal);
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
@@ -95,9 +96,9 @@ namespace TrainingLevel
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);
         }
 
-        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
+            return this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)

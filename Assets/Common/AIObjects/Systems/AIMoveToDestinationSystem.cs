@@ -67,7 +67,7 @@ namespace AIObjects
             }
         }
 
-        public void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        public NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             if (LastIAgentMovementCalculationStrategyType == null || LastIAgentMovementCalculationStrategyType != IAgentMovementCalculationStrategy.GetType())
             {
@@ -90,7 +90,7 @@ namespace AIObjects
             }
 
             this.LastIAgentMovementCalculationStrategyType = IAgentMovementCalculationStrategy.GetType();
-            this.AIDestinationManager.SetDestination(IAgentMovementCalculationStrategy.GetAIDestination());
+            return this.AIDestinationManager.SetDestination(IAgentMovementCalculationStrategy.GetAIDestination());
         }
 
         public void SetSpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
@@ -157,7 +157,7 @@ namespace AIObjects
         }
 
 
-        public void SetDestination(AIDestination AIDestination)
+        public NavMeshPathStatus SetDestination(AIDestination AIDestination)
         {
             //When a different path is calculated, we manually reset the path and calculate the next destination
             //The input world destination may not be exactly on NavMesh.
@@ -168,19 +168,26 @@ namespace AIObjects
                 this.currentDestination = AIDestination;
                 objectAgent.ResetPath();
                 var path = CreateValidNavMeshPathWithFallback(objectAgent, AIDestination.WorldPosition, 50);
-
                 objectAgent.SetPath(path);
-
-                //If direction change is occuring when current destination has been reached
-                //We manually calculate next position to avoid a frame where AI is standing still
-                if (FrameWereOccuredTheLastDestinationReached == Time.frameCount)
+                if (path.status != NavMeshPathStatus.PathInvalid)
                 {
-                    this.ManuallyUpdateAgent(this.objectAgent);
+                    //If direction change is occuring when current destination has been reached
+                    //We manually calculate next position to avoid a frame where AI is standing still
+                    if (FrameWereOccuredTheLastDestinationReached == Time.frameCount)
+                    {
+                        this.ManuallyUpdateAgent(this.objectAgent);
+                    }
+                }
+                else
+                {
+                    this.currentDestination = null;
                 }
 
-
                 lastSettedWorldDestination = AIDestination.WorldPosition;
+                return path.status;
             }
+
+            return NavMeshPathStatus.PathComplete;
         }
 
         public void ClearPath()

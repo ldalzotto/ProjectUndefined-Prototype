@@ -23,11 +23,11 @@ public class EnumVariable<T> where T : Enum
 
     public void SetValue(T enumValue)
     {
-        if (!EqualityComparer<T>.Default.Equals(enumValue, Value))
-        {
-            this.OnEnumValueChanged?.Invoke(this.Value, enumValue);
-        }
-
+        var oldValue = this.Value;
         Value = enumValue;
+        if (!EqualityComparer<T>.Default.Equals(enumValue, oldValue))
+        {
+            this.OnEnumValueChanged?.Invoke(oldValue, enumValue);
+        }
     }
 }

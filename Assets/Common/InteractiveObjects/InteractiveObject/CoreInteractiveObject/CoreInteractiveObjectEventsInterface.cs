@@ -1,5 +1,6 @@
 ﻿using InteractiveObjects_Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace InteractiveObjects
 {
@@ -7,8 +8,9 @@ namespace InteractiveObjects
     {
         #region AI Events
 
-        public virtual void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        public virtual NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
+            return NavMeshPathStatus.PathInvalid;
         }
 
         public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)

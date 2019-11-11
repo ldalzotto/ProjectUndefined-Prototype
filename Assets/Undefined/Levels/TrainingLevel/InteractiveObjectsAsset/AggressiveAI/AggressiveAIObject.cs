@@ -1,6 +1,7 @@
 ﻿using AIObjects;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
+using UnityEngine.AI;
 
 namespace InteractiveObjects
 {
@@ -81,9 +82,9 @@ namespace InteractiveObjects
         #endregion
 
 
-        public override void SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
+            return AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
