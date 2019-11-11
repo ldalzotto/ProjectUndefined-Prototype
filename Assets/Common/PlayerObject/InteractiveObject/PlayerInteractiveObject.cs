@@ -99,7 +99,7 @@ namespace PlayerObject
                 PlayerInputMoveManager.ResetSpeed();
             }
 
-            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(GetNormalizedSpeed());
+            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * GetNormalizedSpeed());
         }
 
         public override void FixedTick(float d)

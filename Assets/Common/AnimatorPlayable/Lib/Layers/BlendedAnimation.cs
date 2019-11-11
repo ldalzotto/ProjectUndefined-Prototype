@@ -10,7 +10,6 @@ namespace AnimatorPlayable
         public List<BlendedAnimationClip> BlendedAnimationClips;
         private BlendedAnimationSpeedCurve BlendedAnimationSpeedCurve;
         public AnimationMixerPlayable AnimationMixerPlayable { get; private set; }
-
         private Func<float> inputWeightProvider;
 
         public BlendedAnimationLayer(PlayableGraph PlayableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable,

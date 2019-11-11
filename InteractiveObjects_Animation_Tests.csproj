@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</ProjectGuid>
+    <ProjectGuid>{042B6C35-7479-099C-7FC6-98F9FB942F5B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>AnimatorPlayable</AssemblyName>
+    <AssemblyName>InteractiveObjects_Animation_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,17 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\A_AnimationPlayableDefinition.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\BlendedAnimationPlayableDefinition.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\SequencedAnimationPlayableDefinition.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Configuration\AnimationPlayableDefinition\TwoDBlendTreePlayableDefinition.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Lib\AnimatorPlayable.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Inputs\AnimationLayersInput.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Interpolation\FreeformDirectionalInterpolator.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\BlendedAnimation.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\SequencedAnimation.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\TwoDBlendTree.cs" />
-     <None Include="Assets\Common\AnimatorPlayable\AnimatorPlayable.asmdef" />
+     <Compile Include="Assets\Common\InteractiveObjects_Animation\InteractiveObjects_Animation_Tests\TwoDObjectAnimationTest\TwoDAnimationTest.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects_Animation\InteractiveObjects_Animation_Tests\TwoDObjectAnimationTest\TwoDObjectAnimationPlayableSystem.cs" />
+     <None Include="Assets\Common\InteractiveObjects_Animation\InteractiveObjects_Animation_Tests\InteractiveObjects_Animation_Tests.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -621,13 +613,9 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
-      <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
-      <Name>CoreGame</Name>
+    <ProjectReference Include="AnimatorPlayable.csproj">
+      <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
+      <Name>AnimatorPlayable</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>

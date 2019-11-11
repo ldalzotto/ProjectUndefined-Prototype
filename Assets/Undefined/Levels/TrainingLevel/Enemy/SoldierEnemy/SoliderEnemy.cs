@@ -32,7 +32,7 @@ namespace TrainingLevel
                 SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
-                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
+                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, SoliderEnemyDefinition.LocomotionAnimation);
             this.SoldierAIBehavior = new SoldierAIBehavior(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition, (IAgentMovementCalculationStrategy, AIMovementSpeedDefinition) =>
             {

@@ -33,7 +33,7 @@ namespace InteractiveObjects
             SightObjectSystem = new SightObjectSystem(this, this.AggressiveObjectInitializerData.SightObjectSystemDefinition, (InteractiveObjectTag => InteractiveObjectTag.IsPlayer),
                 OnSightObjectSystemJustIntersected, OnSightObjectSystemIntersectedNothing, OnSightObjectSystemNoMoreIntersected);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.AggressiveObjectInitializerData.TransformMoveManagerComponentV3, this.OnAIDestinationReached,
-                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
+                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.AggressiveObjectInitializerData.LocomotionAnimation);
         }
 

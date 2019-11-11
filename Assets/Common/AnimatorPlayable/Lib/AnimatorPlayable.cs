@@ -25,7 +25,7 @@ namespace AnimatorPlayable
             this.GlobalPlayableGraph.Play();
         }
 
-        public void PlayAnimation(int layerID, IAnimationInput animationInput, Action OnAnimationEnd = null, Func<float> InputWeightProvider = null)
+        public void PlayAnimation(int layerID, IAnimationInput animationInput, Action OnAnimationEnd = null, Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
         {
             if (animationInput.AnimationInputType == AnimationInputType.SEQUENCED)
             {
@@ -34,6 +34,10 @@ namespace AnimatorPlayable
             else if (animationInput.AnimationInputType == AnimationInputType.BLENDED)
             {
                 this.PlayBlendedAnimation(layerID, animationInput as BlendedAnimationInput, InputWeightProvider);
+            }
+            else if (animationInput.AnimationInputType == AnimationInputType.TWODBLENDED)
+            {
+                this.PlayTwoDBlendedAnimation(layerID, animationInput as TwoDAnimationInput, TwoDInputWheigtProvider);
             }
         }
 
@@ -57,7 +61,7 @@ namespace AnimatorPlayable
             BlendedAnimationLayer BlendedAnimationLayer = new BlendedAnimationLayer(this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, layerID,
                 BlendedAnimationInput.BlendedAnimationClips.ConvertAll(i => i.ToBlendedAnimationClip()), BlendedAnimationInput.BlendedAnimationSpeedCurve);
             BlendedAnimationLayer.Inputhandler = PlayableExtensions.AddInput(this.AnimationLayerMixerPlayable, BlendedAnimationLayer.AnimationMixerPlayable, 0);
-
+            this.AnimationLayerMixerPlayable.SetLayerAdditive((uint) layerID, BlendedAnimationInput.IsAdditive);
             this.AllAnimationLayersCurrentlyPlaying[layerID] = BlendedAnimationLayer;
             this.OrderedByInputHandlerAnimationLayers.Add(BlendedAnimationLayer);
 
@@ -68,6 +72,29 @@ namespace AnimatorPlayable
             if (InputWeightProvider != null)
             {
                 BlendedAnimationLayer.RegisterInputWeightProvider(InputWeightProvider);
+            }
+        }
+
+        private void PlayTwoDBlendedAnimation(int layerID, TwoDAnimationInput TwoDAnimationInput, Func<Vector2> TwoDInputWiehgtProvider)
+        {
+            if (this.AllAnimationLayersCurrentlyPlaying.ContainsKey(layerID))
+            {
+                this.DestroyLayer(layerID);
+            }
+
+            TwoDBlendTree TwoDBlendTree = new TwoDBlendTree(layerID, this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable,
+                TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.ConvertAll(i => new TwoDBlendTreeAnimationClip(i.AnimationClip, i.TreePosition, i.Speed)));
+            TwoDBlendTree.Inputhandler = PlayableExtensions.AddInput(this.AnimationLayerMixerPlayable, TwoDBlendTree.AnimationMixerPlayable, 0);
+            this.AllAnimationLayersCurrentlyPlaying[layerID] = TwoDBlendTree;
+            this.OrderedByInputHandlerAnimationLayers.Add(TwoDBlendTree);
+
+            this.SortLayers();
+
+            PlayableExtensions.SetInputWeight(this.AnimationLayerMixerPlayable, this.AllAnimationLayersCurrentlyPlaying[layerID].Inputhandler, 1f);
+
+            if (TwoDAnimationInput != null)
+            {
+                TwoDBlendTree.Register2DTwoDInputWheigtProvider(TwoDInputWiehgtProvider);
             }
         }
 

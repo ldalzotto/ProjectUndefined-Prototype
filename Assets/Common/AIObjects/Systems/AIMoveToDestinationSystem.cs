@@ -33,7 +33,7 @@ namespace AIObjects
 
 
         public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
-            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
+            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, Action<Vector3> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
         {
             this.IsEnabled = true;
             this.objectAgent = CoreInteractiveObject.InteractiveGameObject.Agent;
@@ -63,7 +63,7 @@ namespace AIObjects
         {
             if (IsEnabled)
             {
-                AISpeedEventDispatcher.AfterTicks(this.AIDestinationManager.CurrentDestination.HasValue);
+                AISpeedEventDispatcher.AfterTicks(this.AIDestinationManager.CurrentDestination.HasValue, this.aiPositionMoveManager.CurrentLocalDirection);
             }
         }
 
@@ -225,6 +225,7 @@ namespace AIObjects
 
         //Used to change the agent speed
         private AIMovementSpeedDefinition currentSpeedAttenuationFactor;
+        public Vector3 CurrentLocalDirection { get; private set; }
 
         #endregion
 
@@ -254,9 +255,19 @@ namespace AIObjects
             }
 
             if (updatePosition)
+            {
+                var WorldDirection = (objectAgent.nextPosition - objectAgent.transform.position).normalized;
+                this.CurrentLocalDirection =
+                    new Vector3(Vector3.Project(WorldDirection, objectAgent.transform.right).magnitude,
+                        Vector3.Project(WorldDirection, objectAgent.transform.up).magnitude,
+                        Vector3.Project(WorldDirection, objectAgent.transform.forward).magnitude).normalized;
                 objectAgent.transform.position = objectAgent.nextPosition;
+            }
             else
+            {
+                this.CurrentLocalDirection = Vector3.zero;
                 objectAgent.nextPosition = objectAgent.transform.position;
+            }
         }
 
         #region External Events
@@ -275,20 +286,20 @@ namespace AIObjects
         private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
         private CoreInteractiveObject AssociatedInteractiveObject;
 
-        private Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction;
+        private Action<Vector3> OnAgentLocalDirectionCalculated;
 
         public AISpeedEventDispatcher(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
-            Action<float> OnAgentUnscaledSpeedMagnitudeCalculatedAction)
+            Action<Vector3> onAgentLocalDirectionCalculated)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            this.OnAgentUnscaledSpeedMagnitudeCalculatedAction = OnAgentUnscaledSpeedMagnitudeCalculatedAction;
+            this.OnAgentLocalDirectionCalculated = onAgentLocalDirectionCalculated;
         }
 
-        public void AfterTicks(bool currentlyHasADestination)
+        public void AfterTicks(bool currentlyHasADestination, Vector3 CurrentLocalDirection)
         {
             var currentSpeed = (currentlyHasADestination ? AssociatedInteractiveObject.InteractiveGameObject.Agent.speed : 0) / this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor;
-            this.OnAgentUnscaledSpeedMagnitudeCalculatedAction?.Invoke(currentSpeed);
+            this.OnAgentLocalDirectionCalculated?.Invoke(CurrentLocalDirection.normalized * currentSpeed);
         }
     }
 }

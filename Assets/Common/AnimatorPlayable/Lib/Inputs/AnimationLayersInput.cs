@@ -9,7 +9,8 @@ namespace AnimatorPlayable
     public enum AnimationInputType
     {
         BLENDED,
-        SEQUENCED
+        SEQUENCED,
+        TWODBLENDED
     }
 
     public interface IAnimationInput
@@ -23,6 +24,14 @@ namespace AnimatorPlayable
         public AnimationInputType AnimationInputType { get; private set; } = AnimationInputType.BLENDED;
         public List<BlendedAnimationClipInput> BlendedAnimationClips;
         public BlendedAnimationSpeedCurve BlendedAnimationSpeedCurve;
+        public bool IsAdditive;
+    }
+
+    [Serializable]
+    public class TwoDAnimationInput : IAnimationInput
+    {
+        public AnimationInputType AnimationInputType { get; private set; } = AnimationInputType.TWODBLENDED;
+        public List<TwoDBlendTreeAnimationClipInput> TwoDBlendTreeAnimationClipInputs;
     }
 
     [Serializable]
@@ -159,5 +168,31 @@ namespace AnimatorPlayable
     {
         public bool BlendedSpeedCurveEnabled;
         public AnimationCurve SpeedCurve;
+    }
+
+    [Serializable]
+    public class TwoDBlendTreeAnimationClip
+    {
+        public AnimationClip AnimationClip;
+        public Vector2 TreePosition;
+        public float Speed;
+
+        public TwoDBlendTreeAnimationClip(AnimationClip animationClip, Vector2 treePosition, float Speed)
+        {
+            AnimationClip = animationClip;
+            TreePosition = treePosition;
+            this.Speed = Speed;
+        }
+
+        [MyReadOnly] public int InputHandler;
+        [NonSerialized] public AnimationClipPlayable AnimationClipPlayable;
+    }
+
+    [Serializable]
+    public class TwoDBlendTreeAnimationClipInput
+    {
+        public AnimationClip AnimationClip;
+        public Vector2 TreePosition;
+        public float Speed = 1f;
     }
 }

@@ -25,7 +25,7 @@ namespace InteractiveObjects
             this.interactiveObjectTag = new InteractiveObjectTag() {IsAi = true};
             this.LocalCutscenePlayerSystem = new LocalCutscenePlayerSystem();
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, this.RootAnimationAITestObjectInitializerData.TransformMoveManagerComponentV3, OnAIDestinationReached,
-                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectSpeed(unscaledSpeed));
+                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.RootAnimationAITestObjectInitializerData.LocomotionAnimation);
             this.LocalCutscenePlayerSystem.PlayCutscene(this.RootAnimationAITestObjectInitializerData.RootAnimationCutsceneTemplate.GetSequencedActions(this));
         }
