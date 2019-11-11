@@ -13,7 +13,8 @@ namespace TrainingLevel
     {
         MOVE_TOWARDS_PLAYER = 0,
         GO_ROUND_PLAYER = 1,
-        SHOOTING_AT_PLAYER = 2
+        SHOOTING_AT_PLAYER = 2,
+        PATROLLING = 3
     }
 
     public class SoldierAIBehavior : AIBehavior<SoldierAIStateEnum, SoldierStateManager>
@@ -23,12 +24,13 @@ namespace TrainingLevel
 
         public SoldierAIBehavior(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             Action<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction, Func<Vector3> GetWeaponFirePointOriginLocalAction
-        ) : base(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER)
+        ) : base(SoldierAIStateEnum.PATROLLING)
         {
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
+                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
                 {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, destinationAction)},
                 {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction)},
                 {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, destinationAction, GetWeaponFirePointOriginLocalAction)}
@@ -112,7 +114,18 @@ namespace TrainingLevel
 
     class PlayerObjectStateDataSystem
     {
-        public CoreInteractiveObject PlayerObject { get; private set; }
+        private CoreInteractiveObject playerObject;
+
+        public CoreInteractiveObject PlayerObject()
+        {
+            if (this.playerObject == null)
+            {
+                this.playerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+            }
+
+            return this.playerObject;
+        }
+
         public Vector3 LastPlayerSeenPosition { get; private set; }
         public bool IsPlayerInSight { get; private set; }
         private SoldierAIBehavior SoldierAIBehaviorRef;
@@ -124,14 +137,13 @@ namespace TrainingLevel
         {
             this.OnPlayerObjectJustOnSightAction = OnPlayerObjectJustOnSightAction;
             this.OnPlayerObjectJustOutOfSightAction = OnPlayerObjectJustOutOfSightAction;
-            this.PlayerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
         }
 
         public void Tick(float d)
         {
             if (this.IsPlayerInSight)
             {
-                this.LastPlayerSeenPosition = this.PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
+                this.LastPlayerSeenPosition = this.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition;
             }
         }
 
@@ -151,6 +163,33 @@ namespace TrainingLevel
                 this.IsPlayerInSight = false;
                 this.OnPlayerObjectJustOutOfSightAction.Invoke(NotInSightInteractiveObject);
             }
+        }
+    }
+
+    class PatrollingStateManager : SoldierStateManager
+    {
+        private SoldierAIBehavior SoldierAIBehavior;
+        private AIPatrolSystem AIPatrolSystem;
+
+        public PatrollingStateManager(SoldierAIBehavior SoldierAIBehavior, CoreInteractiveObject AssociatedInteractiveObject, AIPatrolSystemDefinition AIPatrolSystemDefinition)
+        {
+            this.SoldierAIBehavior = SoldierAIBehavior;
+            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolSystemDefinition);
+        }
+
+        public override void Tick(float d)
+        {
+            this.AIPatrolSystem.Tick(d);
+        }
+
+        public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        {
+            this.SoldierAIBehavior.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
+        }
+
+        public override void OnDestinationReached()
+        {
+            this.AIPatrolSystem.OnAIDestinationReached();
         }
     }
 
@@ -174,11 +213,11 @@ namespace TrainingLevel
 
         public override void Tick(float d)
         {
-            this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject.InteractiveGameObject.GetTransform().WorldPosition}),
+            this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}),
                 AIMovementSpeedDefinition.RUN);
             if (
                 this.PlayerObjectStateDataSystem.IsPlayerInSight &&
-                Vector3.Distance(this.PlayerObjectStateDataSystem.PlayerObject.InteractiveGameObject.GetTransform().WorldPosition, this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition) <= this.SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp)
+                Vector3.Distance(this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition, this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition) <= this.SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp)
             {
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.SHOOTING_AT_PLAYER);
             }
@@ -186,7 +225,7 @@ namespace TrainingLevel
 
         public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
-            if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject, this.AssociatedInteractiveObject))
+            if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject(), this.AssociatedInteractiveObject))
             {
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
             }
@@ -219,7 +258,7 @@ namespace TrainingLevel
 
         public override void Tick(float d)
         {
-            var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject;
+            var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             this.AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation =
                 Quaternion.LookRotation((PlayerObject.InteractiveGameObject.GetTransform().WorldPosition - this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition).normalized, Vector3.up);
             var WorldTargetDirection = ((PlayerObject.InteractiveGameObject.GetTransform().WorldPosition + PlayerObject.GetFiringTargetLocalPosition())
@@ -267,7 +306,7 @@ namespace TrainingLevel
         public void Tick(float d)
         {
             this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.GetWeaponFirePointOriginLocalAction.Invoke();
-            var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject;
+            var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
             this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition() - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);
 
@@ -377,7 +416,7 @@ namespace TrainingLevel
 
         public override void OnDestinationReached()
         {
-            this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
+            this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.PATROLLING);
         }
 
         public override void OnStateExit()
