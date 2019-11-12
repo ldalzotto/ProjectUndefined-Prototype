@@ -59,7 +59,6 @@
      <Compile Include="Assets\Tests\~CoreGame\Intersection\IntersectionTests.cs" />
      <Compile Include="Assets\Tests\~RTPuzzleGame\AI\Scripts\CommonSceneTest\TestHelperMethods.cs" />
      <Compile Include="Assets\Tests\~RTPuzzleGame\Common\SceneMock.cs" />
-     <Compile Include="Assets\Tests\~RTPuzzleGame\Common\TestPosition.cs" />
      <Compile Include="Assets\Tests\Common\GameInputManagerMock.cs" />
      <None Include="Assets\Tests\Tests.asmdef" />
  <Reference Include="UnityEngine.TestRunner">

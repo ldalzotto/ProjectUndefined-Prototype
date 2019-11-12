@@ -1,0 +1,21 @@
+{
+    "name": "SoliderBehavior",
+       "references": [
+       "AIObjects",
+       "InteractiveObjects",
+       "InteractiveObjects_Interfaces",
+       "PlayerObject",
+       "RangeObjects",
+       "CoreGame",
+       "Editor_Common",
+       "OdinSerializer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
