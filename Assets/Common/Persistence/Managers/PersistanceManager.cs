@@ -62,6 +62,7 @@ namespace Persistence
 
         public virtual T Load<T>(string folderPath, string dataPath, string filename, string fileExtension)
         {
+            Debug.Log(MyLog.Format("Load PersistanceManager"));
             return LoadStatic<T>(folderPath, dataPath, filename, fileExtension, this.binaryFormatter);
         }
 

@@ -11,7 +11,7 @@ public static class SceneHandlerDrawer
 {
     public static void Draw(object drawableObject, Transform objectTransform, CommonGameConfigurations CommonGameConfigurations)
     {
-        if (drawableObject.GetType().GetCustomAttribute<SceneHandleDrawAttribute>(true) != null)
+        if (drawableObject != null && drawableObject.GetType().GetCustomAttribute<SceneHandleDrawAttribute>(true) != null)
         {
             var fields = ReflectionHelper.GetAllFields(drawableObject.GetType());
             foreach (var field in fields)

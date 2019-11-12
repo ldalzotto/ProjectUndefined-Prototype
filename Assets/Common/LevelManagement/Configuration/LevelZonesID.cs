@@ -14,7 +14,7 @@ namespace LevelManagement {
   [System.Serializable()]
   public enum LevelZonesID {
     NONE = 0,
-    
+    TestScene = 1,
     RTP_TEST = 3,
     
     StartMenu = 17,

@@ -8,14 +8,15 @@
         "OdinSerializer",
         "GameConfigurationID",
         "VisualFeedback",
-"Persistence",
-"Timelines",
+        "Persistence",
+        "Timelines",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Unity.InputSystem",
-"LevelManagement",
-"Input",
-"GeometryIntersection"
+        "LevelManagement",
+        "Input",
+        "GeometryIntersection",
+        "GameLoop"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

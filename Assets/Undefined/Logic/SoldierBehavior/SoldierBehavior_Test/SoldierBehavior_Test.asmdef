@@ -1,0 +1,17 @@
+{
+    "name": "SoldierBehavior_Test",
+    "references": [
+        "SoliderBehavior",
+        "Tests"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

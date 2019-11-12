@@ -8,6 +8,10 @@ namespace Tests
 {
     public class GameTestMockedInputManager : GameInputManager
     {
+        public GameTestMockedInputManager()
+        {
+            this.currentInput = new GameTestMockedXInput();
+        }
         public static void SetupForTestScene()
         {
             SetInstance(new GameTestMockedInputManager());

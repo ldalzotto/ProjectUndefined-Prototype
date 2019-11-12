@@ -60,6 +60,7 @@
      <Compile Include="Assets\Tests\~RTPuzzleGame\AI\Scripts\CommonSceneTest\TestHelperMethods.cs" />
      <Compile Include="Assets\Tests\~RTPuzzleGame\Common\SceneMock.cs" />
      <Compile Include="Assets\Tests\Common\GameInputManagerMock.cs" />
+     <Compile Include="Assets\Tests\Common\TestGameManager.cs" />
      <None Include="Assets\Tests\Tests.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
@@ -654,6 +655,10 @@
     <ProjectReference Include="GeometryIntersection.csproj">
       <Project>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</Project>
       <Name>GeometryIntersection</Name>
+    </ProjectReference>
+    <ProjectReference Include="GameLoop.csproj">
+      <Project>{639B2A1B-495A-2DE9-D504-C31C8A831882}</Project>
+      <Name>GameLoop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

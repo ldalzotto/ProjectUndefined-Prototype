@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoreGame;
 using GeometryIntersection;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
@@ -20,6 +21,7 @@ namespace Obstacle
         public override void Init()
         {
             this.InteractiveGameObject.CreateLogicCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider, LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
+            this.CreatePhysicsCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider);
             ObstacleCollider = this.InteractiveGameObject.GetLogicColliderAsBox();
             SquareObstacleSystemInitializationData = ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData;
             interactiveObjectTag = new InteractiveObjectTag {IsObstacle = true};
@@ -36,6 +38,16 @@ namespace Obstacle
         {
             ObstacleInteractiveObjectManager.Get().OnSquareObstacleSystemDestroyed(this);
             base.Destroy();
+        }
+
+        private void CreatePhysicsCollider(InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition)
+        {
+            var physicsColliderObject = new GameObject("PhysicsCollider");
+            physicsColliderObject.transform.parent = this.InteractiveGameObject.InteractiveGameObjectParent.transform;
+            physicsColliderObject.transform.ResetLocal();
+            var BoxCollider = physicsColliderObject.AddComponent<BoxCollider>();
+            BoxCollider.center = InteractiveObjectBoxLogicColliderDefinition.LocalCenter;
+            BoxCollider.size = InteractiveObjectBoxLogicColliderDefinition.LocalSize;
         }
 
         #region Data Retrieval
