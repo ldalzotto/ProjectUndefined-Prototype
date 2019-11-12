@@ -11,6 +11,14 @@ namespace RangeObjects
     /// </summary>
     public class RangeIntersectionCalculationManagerV2 : GameSingleton<RangeIntersectionCalculationManagerV2>
     {
+        
+        #region External Dependencies
+
+        private ObstacleOcclusionCalculationManagerV2 ObstacleOcclusionCalculationManagerV2 = ObstacleOcclusionCalculationManagerV2.Get();
+        private RangeIntersectionCalculatorManager _rangeIntersectionCalculatorManager = RangeIntersectionCalculatorManager.Get();
+
+        #endregion
+        
         private NativeArray<IsOccludedByObstacleJobData> IsOccludedByObstacleJobData;
 
         #region Job State   
@@ -158,11 +166,5 @@ namespace RangeObjects
             RangeObstacleOcclusionIntersection.Dispose();
         }
 
-        #region External Dependencies
-
-        private ObstacleOcclusionCalculationManagerV2 ObstacleOcclusionCalculationManagerV2 = ObstacleOcclusionCalculationManagerV2.Get();
-        private RangeIntersectionCalculatorManager _rangeIntersectionCalculatorManager = RangeIntersectionCalculatorManager.Get();
-
-        #endregion
     }
 }

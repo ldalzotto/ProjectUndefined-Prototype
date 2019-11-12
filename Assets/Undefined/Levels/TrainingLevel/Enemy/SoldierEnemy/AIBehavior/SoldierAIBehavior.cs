@@ -64,6 +64,15 @@ namespace TrainingLevel
             base.SetState(NewState);
         }
 
+        public override void OnDestroy()
+        {
+            foreach (var stateManager in this.StateManagersLookup.Values)
+            {
+                stateManager.OnDestroy();
+            }
+            this.WeaponFiringAreaSystem.OnDestroy();
+        }
+
         #region External Sight Events
 
         public void OnInteractiveObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
@@ -132,6 +141,9 @@ namespace TrainingLevel
         public virtual void OnDestinationReached()
         {
         }
+
+        public virtual void OnDestroy()
+        {}
     }
 
 

@@ -66,6 +66,13 @@ namespace TrainingLevel
             base.AfterTicks(d);
         }
 
+        public override void Destroy()
+        {
+            this.SightObjectSystem.OnDestroy();
+            this.SoldierAIBehavior.OnDestroy();
+            base.Destroy();
+        }
+
         private void OnStunningDamageDealingStarted()
         {
             foreach (var renderer in this.InteractiveGameObject.Renderers)

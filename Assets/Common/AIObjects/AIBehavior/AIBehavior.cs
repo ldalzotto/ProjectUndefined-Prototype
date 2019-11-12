@@ -68,5 +68,7 @@ namespace AIObjects
         {
             this.CurrentState.SetValue(NewState);
         }
+        
+        public virtual void OnDestroy(){}
     }
 }

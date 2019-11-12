@@ -19,7 +19,7 @@ namespace InteractiveObjects
         [VE_Ignore] protected bool isAskingToBeDestroyed;
 
         [VE_Ignore] public bool IsUpdatedInMainManager;
-        [VE_Ignore] private InteractiveInteractiveObjectPhysicsListener _interactiveInteractiveObjectPhysicsListener;
+        [VE_Ignore] private InteractiveInteractiveObjectPhysicsListener interactiveInteractiveObjectPhysicsListener;
 
         protected void BaseInit(IInteractiveGameObject interactiveGameObject, bool IsUpdatedInMainManager = true)
         {
@@ -42,7 +42,7 @@ namespace InteractiveObjects
         public InteractiveObjectTag InteractiveObjectTag => interactiveObjectTag;
 
         public AnimatorPlayableObject AnimatorPlayable { get; protected set; }
- 
+
         public AnimationController AnimationController { get; protected set; }
         public bool IsAskingToBeDestroyed => isAskingToBeDestroyed;
 
@@ -52,13 +52,13 @@ namespace InteractiveObjects
         {
             if (this.InteractiveGameObject.LogicCollider != null)
             {
-                if (this._interactiveInteractiveObjectPhysicsListener == null)
+                if (this.interactiveInteractiveObjectPhysicsListener == null)
                 {
-                    this._interactiveInteractiveObjectPhysicsListener = this.InteractiveGameObject.LogicCollider.gameObject.AddComponent<InteractiveInteractiveObjectPhysicsListener>();
-                    this._interactiveInteractiveObjectPhysicsListener.Init(this);
+                    this.interactiveInteractiveObjectPhysicsListener = this.InteractiveGameObject.LogicCollider.gameObject.AddComponent<InteractiveInteractiveObjectPhysicsListener>();
+                    this.interactiveInteractiveObjectPhysicsListener.Init(this);
                 }
 
-                this._interactiveInteractiveObjectPhysicsListener.AddPhysicsEventListener(AInteractiveObjectPhysicsEventListener);
+                this.interactiveInteractiveObjectPhysicsListener.AddPhysicsEventListener(AInteractiveObjectPhysicsEventListener);
             }
         }
 
@@ -84,7 +84,7 @@ namespace InteractiveObjects
         {
             this.AnimatorPlayable?.Destroy();
             InteractiveObjectEventsManager.OnInteractiveObjectDestroyed(this);
-            this._interactiveInteractiveObjectPhysicsListener?.Destroy();
+            this.interactiveInteractiveObjectPhysicsListener?.Destroy();
             Object.Destroy(InteractiveGameObject.InteractiveGameObjectParent);
         }
 

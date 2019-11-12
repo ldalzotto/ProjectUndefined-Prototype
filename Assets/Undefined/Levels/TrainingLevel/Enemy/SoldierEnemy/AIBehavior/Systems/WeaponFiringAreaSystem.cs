@@ -71,10 +71,10 @@ namespace TrainingLevel
             this.InsideWeaponFiringAreaObstacles.Remove(PhysicsTriggerInfo.Other);
         }
 
-        public void Destroy()
+        public void OnDestroy()
         {
             this.WeaponFiringAreaBoxRangeObject.OnDestroy();
-            GameObject.Destroy(this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject);
+      //      GameObject.Destroy(this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject);
         }
     }
 }

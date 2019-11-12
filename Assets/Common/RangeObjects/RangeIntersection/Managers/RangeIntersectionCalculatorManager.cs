@@ -20,6 +20,7 @@ namespace RangeObjects
         {
             this.AllRangeIntersectionCalculatorV2.Add(rangeIntersectionCalculator);
             this.CurrentRangeIntersectionCalculatorV2ManagerCounter += 1;
+            RangeEventsManager.Get().RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
             return this.CurrentRangeIntersectionCalculatorV2ManagerCounter;
         }
 
@@ -32,6 +33,37 @@ namespace RangeObjects
         {
             base.OnDestroy();
             this.AllRangeIntersectionCalculatorV2.Clear();
+        }
+
+        /// <summary>
+        /// On RangeObject destroyed, every <see cref="RangeIntersectionCalculator"/> in <see cref="AllRangeIntersectionCalculatorV2"/> that references the
+        /// <paramref name="RangeObjectV2"/> must be destroyed.
+        /// </summary>
+        public void OnRangeObjectDestroyed(RangeObjectV2 RangeObjectV2)
+        {
+            List<RangeIntersectionCalculator> RangeIntersectionCalculatorsToDestroy = null;
+            for (var i = 0; i < this.AllRangeIntersectionCalculatorV2.Count; i++)
+            {
+                var currentIntersectionCalculator = this.AllRangeIntersectionCalculatorV2[i];
+                if (currentIntersectionCalculator.GetAssociatedRangeObject() == RangeObjectV2)
+                {
+                    if (RangeIntersectionCalculatorsToDestroy == null)
+                    {
+                        RangeIntersectionCalculatorsToDestroy = new List<RangeIntersectionCalculator>();
+                    }
+
+                    RangeIntersectionCalculatorsToDestroy.Add(currentIntersectionCalculator);
+                }
+            }
+
+            if (RangeIntersectionCalculatorsToDestroy != null)
+            {
+                foreach (var rangeIntersectionCalculatorToDestroy in RangeIntersectionCalculatorsToDestroy)
+                {
+                    rangeIntersectionCalculatorToDestroy.OnDestroy();
+                    this.AllRangeIntersectionCalculatorV2.Remove(rangeIntersectionCalculatorToDestroy);
+                }
+            }
         }
 
         public void GizmoTick()

@@ -92,6 +92,11 @@ namespace TrainingLevel
 
         public override void OnStateExit()
         {
+            this.OnDestroy();
+        }
+
+        public override void OnDestroy()
+        {
             if (this.TmpLastPlayerSeenPositionGameObject != null)
             {
                 GameObject.Destroy(this.TmpLastPlayerSeenPositionGameObject.gameObject);

@@ -48,5 +48,10 @@ namespace InteractiveObjects
             currentlyIntersectedInteractiveObjects.Remove(IntersectedInteractiveObject);
             if (OnSightObjectSystemNoMoreIntersected != null) OnSightObjectSystemNoMoreIntersected.Invoke(IntersectedInteractiveObject);
         }
+
+        public override void OnDestroy()
+        {
+            this.SightRange.OnDestroy();
+        }
     }
 }
