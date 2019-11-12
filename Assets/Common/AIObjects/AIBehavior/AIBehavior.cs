@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace AIObjects
 {
+    /// <summary>
+    /// A StateManager can be associated to only one State.
+    /// It defines logic when the <see cref="StateManager"/> is currently active and when the State exit and enter.
+    /// </summary>
     public abstract class StateManager
     {
         public virtual void Tick(float d)
@@ -18,6 +22,15 @@ namespace AIObjects
         }
     }
 
+    /// <summary>
+    /// The AIBehavior holds informations about :
+    /// <list type="bullet">
+    ///    <item><description>The current State.</description></item>
+    ///    <item><description>The lookup table between State and StateManagers</description></item>
+    /// </list>
+    /// </summary>
+    /// <typeparam name="S">The State enum type</typeparam>
+    /// <typeparam name="SM">The base StateManager type</typeparam>
     public abstract class AIBehavior<S, SM> where S : Enum where SM : StateManager
     {
         private EnumVariable<S> CurrentState;
@@ -28,6 +41,10 @@ namespace AIObjects
             this.CurrentState = new EnumVariable<S>(StartState, this.OnStateChanged);
         }
 
+        /// <summary>
+        /// When the <see cref="CurrentState"/> changes,
+        /// <see cref="StateManager.OnStateExit"/> and <see cref="StateManager.OnStateEnter"/> workflow methods are called. 
+        /// </summary>
         private void OnStateChanged(S Old, S New)
         {
             if (!EqualityComparer<S>.Default.Equals(Old, New))
@@ -45,11 +62,6 @@ namespace AIObjects
         public SM GetCurrentStateManager()
         {
             return this.StateManagersLookup[this.CurrentState.GetValue()];
-        }
-
-        public S GetCurrentState()
-        {
-            return this.CurrentState.GetValue();
         }
 
         public virtual void SetState(S NewState)

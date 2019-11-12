@@ -57,8 +57,14 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Debug\TrainingLevelDebugComponent.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoldierAIBehavior.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoldierAIBehaviorDefinition.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\SoldierAIBehavior.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\SoldierAIBehaviorDefinition.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\MoveAroundPlayerStateManager.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\MoveTowardsPlayerStateManager.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\PatrollingStateManager.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\ShootingAtPlayerStateManager.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\Systems\PlayerObjectStateDataSystem.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\Systems\WeaponFiringAreaSystem.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemy.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemyDefinition.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
