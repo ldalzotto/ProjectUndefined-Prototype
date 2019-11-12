@@ -49,12 +49,6 @@ namespace GeometryIntersection
         #region FRUSTUM<->POINT
 
 #warning Trigger frustum points recalculation
-        public static bool PointInsideFrustum(FrustumV2 frustum, Vector3 worldPositionPoint)
-        {
-            //TODO
-            return false; //PointInsideFrustumComputationV2(worldPositionPoint, frustum.FrustumPointsPositions);
-        }
-
         public static bool PointInsideFrustum(FrustumPointsPositions FrustumPointsWorldPositions, Vector3 worldPositionPoint)
         {
             return PointInsideFrustumComputationV2(worldPositionPoint, FrustumPointsWorldPositions);
@@ -185,35 +179,6 @@ namespace GeometryIntersection
                     && PointInsideFrustumComputationV2(BC8, frustumPoints));
         }
 
-        public static bool GeometryGeometryIntersection(SingleFacePosition[] sourcePoints, SingleFacePosition[] targetPoints)
-        {
-            for (var i = 0; i < sourcePoints.Length; i++)
-            {
-                if (LineGeometryIntersection(sourcePoints[i].FC1, sourcePoints[i].FC2, targetPoints)
-                    || LineGeometryIntersection(sourcePoints[i].FC2, sourcePoints[i].FC3, targetPoints)
-                    || LineGeometryIntersection(sourcePoints[i].FC3, sourcePoints[i].FC4, targetPoints)
-                    || LineGeometryIntersection(sourcePoints[i].FC4, sourcePoints[i].FC1, targetPoints))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public static bool GeometryFaceIntersection(SingleFacePosition sourceFace, SingleFacePosition targetFace)
-        {
-            if (SegmentAccuratePlaneIntersectionV2(sourceFace.FC1, sourceFace.FC2, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4)
-                || SegmentAccuratePlaneIntersectionV2(sourceFace.FC2, sourceFace.FC3, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4)
-                || SegmentAccuratePlaneIntersectionV2(sourceFace.FC3, sourceFace.FC4, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4)
-                || SegmentAccuratePlaneIntersectionV2(sourceFace.FC4, sourceFace.FC1, targetFace.FC1, targetFace.FC2, targetFace.FC3, targetFace.FC4))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public static bool FrustumBoxIntersection(FrustumPointsPositions frustumPoints, BoxDefinition BoxDefinition)
         {
             ExtractBoxColliderWorldPointsV2(BoxDefinition, out Vector3 BC1, out Vector3 BC2, out Vector3 BC3, out Vector3 BC4, out Vector3 BC5, out Vector3 BC6, out Vector3 BC7, out Vector3 BC8);
@@ -229,19 +194,6 @@ namespace GeometryIntersection
         }
 
         #endregion
-
-        public static bool LineGeometryIntersection(Vector3 lineOrigin, Vector3 lineEnd, SingleFacePosition[] points)
-        {
-            for (var i = 0; i < points.Length; i++)
-            {
-                if (SegmentAccuratePlaneIntersectionV2(lineOrigin, lineEnd, points[i].FC1, points[i].FC2, points[i].FC3, points[i].FC4))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
 
         public static bool LineFrustumIntersection(Vector3 lineOrigin, Vector3 lineEnd, FrustumPointsPositions frustumPoints)
         {
@@ -340,17 +292,6 @@ namespace GeometryIntersection
    *   | /    |/     C3->C7  Forward
    *   C4----C3     
    */
-
-        public static void FromBoxDefinition(BoxDefinition BoxDefinition, ref SingleFacePosition[] Faces)
-        {
-            ExtractBoxColliderWorldPointsV2(BoxDefinition, out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8);
-            Faces[0] = new SingleFacePosition(C1, C2, C3, C4, (C6 - C2).normalized);
-            Faces[1] = new SingleFacePosition(C1, C5, C6, C2, (C3 - C1).normalized);
-            Faces[2] = new SingleFacePosition(C2, C6, C7, C3, (C1 - C2).normalized);
-            Faces[3] = new SingleFacePosition(C3, C4, C1, C2, (C7 - C3).normalized);
-            Faces[4] = new SingleFacePosition(C4, C8, C5, C1, (C2 - C1).normalized);
-            Faces[5] = new SingleFacePosition(C8, C5, C6, C7, (C4 - C8).normalized);
-        }
 
         public static void ExtractBoxColliderWorldPointsV2(BoxDefinition BoxDefinition, out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8)
         {

@@ -69,7 +69,6 @@ namespace GameLoop
 
             WeaponRecoilTimeManager.Get().Tick(d);
 
-            GeometryIntersectionJobManager.Get().Tick(d);
             ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
             RangeIntersectionCalculationManagerV2.Get().Tick(d);
 
@@ -95,7 +94,6 @@ namespace GameLoop
 
             ObstacleOcclusionCalculationManagerV2.Get().LateTick();
             RangeIntersectionCalculationManagerV2.Get().LateTick();
-            GeometryIntersectionJobManager.Get().LateTick();
         }
 
         private void FixedUpdate()

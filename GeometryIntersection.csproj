@@ -56,8 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\GeometryIntersection\Job\GeometryFaceIntersectionCalculationJob.cs" />
-     <Compile Include="Assets\Common\GeometryIntersection\Job\GeometryIntersectionJobManager.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\FrustumPointsPositions.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\Intersection.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\ShapeDefinitions.cs" />
