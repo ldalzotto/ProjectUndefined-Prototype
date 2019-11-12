@@ -58,14 +58,14 @@ namespace TrainingLevel
                 if (this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
                         AIMovementSpeedDefinition.RUN) == NavMeshPathStatus.PathInvalid)
                 {
-                    Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TOWARDS_PLAYER"));
-                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
+                    Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
+                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
                 }
             }
             else
             {
-                Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TOWARDS_PLAYER"));
-                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
+                Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
+                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
             }
         }
 
@@ -82,12 +82,12 @@ namespace TrainingLevel
 
         /// <summary>
         /// If this method is called, this means that the <see cref="SoldierAIBehavior"/> haven't seen the Player after it's movement.
-        /// We consider that the Player is lost -> switch to <see cref="SoldierAIStateEnum.PATROLLING"/>.
+        /// We consider that the Player is lost -> switch to <see cref="SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION"/>.
         /// </summary>
         public override void OnDestinationReached()
         {
-            Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to PATROLLING"));
-            this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.PATROLLING);
+            Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
+            this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
         }
 
         public override void OnStateExit()

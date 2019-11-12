@@ -12,6 +12,12 @@ namespace TrainingLevel
 {
     public enum SoldierAIStateEnum
     {
+        /// <summary>
+        /// /!\ It is often not ecouraged to use this state. The state <see cref="SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION"/>
+        /// is always more appropriate and will automatically switch to <see cref="SoldierAIStateEnum.MOVE_TOWARDS_PLAYER"/> is
+        /// the player is in sight.
+        /// This state must be used only when the player is in sight
+        /// </summary>
         MOVE_TOWARDS_PLAYER = 0,
         GO_ROUND_PLAYER = 1,
 
@@ -19,7 +25,8 @@ namespace TrainingLevel
         /// /!\ Switching to this state is only allowed if <see cref="SoldierAIBehaviorUtil.IsAllowToMoveToShootingAtPlayerState"/> conditions are fulfilled.
         /// </summary>
         SHOOTING_AT_PLAYER = 2,
-        PATROLLING = 3
+        PATROLLING = 3,
+        MOVE_TO_LAST_SEEN_PLAYER_POSITION = 4
     }
 
     public class SoldierAIBehavior : AIBehavior<SoldierAIStateEnum, SoldierStateManager>
@@ -37,10 +44,11 @@ namespace TrainingLevel
             this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, GetWeaponFirePointOriginLocalAction);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
-                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
+                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
                 {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, destinationAction)},
                 {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction)},
-                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, destinationAction)}
+                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, destinationAction)},
+                {SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, this.PlayerObjectStateDataSystem, destinationAction)}
             };
         }
 
@@ -93,7 +101,7 @@ namespace TrainingLevel
 
         #endregion
     }
-    
+
     /// <summary>
     /// Base class of all Solider AI <see cref="StateManager"/>. It defines common events functions that can be implemented
     /// by any <see cref="StateManager"/>.
@@ -101,6 +109,14 @@ namespace TrainingLevel
     /// </summary>
     public abstract class SoldierStateManager : StateManager
     {
+        /// <summary>
+        /// This event is called just when Player has been on sight.
+        /// The call is done during the <see cref="RangeIntersectionV2System"/> calculation step. This cause the <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>
+        /// to not have been updated when the event is called.
+        /// It is often a better choice to execute the logic in the <see cref="StateManager.Tick"/> method by checking
+        /// <see cref="PlayerObjectStateDataSystem.IsPlayerInSight"/> state. 
+        /// </summary>
+        /// <param name="InSightInteractiveObject"></param>
         public virtual void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
         }
@@ -117,8 +133,7 @@ namespace TrainingLevel
         {
         }
     }
-    
-    
+
 
     public static class SoldierAIBehaviorUtil
     {
@@ -138,7 +153,4 @@ namespace TrainingLevel
             return PlayerObjectStateDataSystem.IsPlayerInSight && !WeaponFiringAreaSystem.AreObstaclesInside();
         }
     }
-
-
-
 }

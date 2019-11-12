@@ -60,6 +60,7 @@
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\SoldierAIBehavior.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\SoldierAIBehaviorDefinition.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\MoveAroundPlayerStateManager.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\MoveToLastSeenPlayerPositionStateManager.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\MoveTowardsPlayerStateManager.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\PatrollingStateManager.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\AIBehavior\StateManagers\ShootingAtPlayerStateManager.cs" />

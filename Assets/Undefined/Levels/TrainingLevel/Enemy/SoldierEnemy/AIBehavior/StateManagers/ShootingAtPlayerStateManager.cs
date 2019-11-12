@@ -41,9 +41,25 @@ namespace TrainingLevel
 
         public override void Tick(float d)
         {
-            var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
-            OrientToTarget(PlayerObject);
-            FireProjectile(PlayerObject);
+            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight)
+            {
+                if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject(), this.AssociatedInteractiveObject))
+                {
+                    Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to GO_ROUND_PLAYER"));
+                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
+                }
+                else
+                {
+                    Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to MOVE_TOWARDS_PLAYER"));
+                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+                }
+            }
+            else
+            {
+                var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
+                OrientToTarget(PlayerObject);
+                FireProjectile(PlayerObject);  
+            }
         }
 
         private void OrientToTarget(CoreInteractiveObject PlayerObject)
@@ -63,18 +79,5 @@ namespace TrainingLevel
             this.AskToFireAFiredProjectileAction.Invoke(WorldTargetDirection);
         }
 
-        public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
-        {
-            if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(NotInSightInteractiveObject, this.AssociatedInteractiveObject))
-            {
-                Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to GO_ROUND_PLAYER"));
-                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
-            }
-            else
-            {
-                Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to MOVE_TOWARDS_PLAYER"));
-                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
-            }
-        }
     }
 }

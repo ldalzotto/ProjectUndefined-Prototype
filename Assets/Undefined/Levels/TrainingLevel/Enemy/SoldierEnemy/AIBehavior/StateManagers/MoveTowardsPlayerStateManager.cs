@@ -51,7 +51,7 @@ namespace TrainingLevel
         }
 
         /// <summary>
-        /// When the PlayerObject is out of sight, the <see cref="SoldierAIBehavior"/> state moves to <see cref="SoldierAIStateEnum.GO_ROUND_PLAYER"/>
+        /// When the PlayerObject has just been out of sight, the <see cref="SoldierAIBehavior"/> state moves to <see cref="SoldierAIStateEnum.GO_ROUND_PLAYER"/>
         /// if the PlayerObject is behind an <see cref="InteractiveObjectTag.IsObstacle"/> object.
         /// </summary>
         public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
@@ -60,6 +60,11 @@ namespace TrainingLevel
             {
                 Debug.Log(MyLog.Format("MoveTowardsPlayerStateManager to GO_ROUND_PLAYER"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
+            }
+            else
+            {
+                Debug.Log(MyLog.Format("MoveTowardsPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
+                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
             }
         }
     }
