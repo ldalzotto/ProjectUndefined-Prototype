@@ -10,7 +10,7 @@ namespace PlayerObject
     public class PlayerInteractiveObjectInitializer : InteractiveObjectInitializer
     {
         [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
-
+        [DrawNested] public AIAgentDefinition AIAgentDefinition;
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
 

@@ -1,4 +1,6 @@
-﻿using PlayerObject;
+﻿using AIObjects;
+using InteractiveObjects_Interfaces;
+using PlayerObject;
 #if UNITY_EDITOR
 using InteractiveObjects;
 using UnityEngine;
@@ -8,6 +10,8 @@ public class TrainingLevelDebugComponent : MonoBehaviour
     public bool FireProjectileToInteractiveObject;
     public Collider LogicCollider;
 
+    public bool SetPlayerPosition;
+    public Transform TargetPlayerPosition;
 
     private void Update()
     {
@@ -15,6 +19,12 @@ public class TrainingLevelDebugComponent : MonoBehaviour
         {
             FireProjectileToInteractiveObject = false;
             InteractiveObjectV2Manager.Get().InteractiveObjectsIndexedByLogicCollider[this.LogicCollider].AskToFireAFiredProjectile();
+        }
+
+        if (SetPlayerPosition)
+        {
+            SetPlayerPosition = false;
+            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination() {Rotation = this.TargetPlayerPosition.rotation, WorldPosition = this.TargetPlayerPosition.position}));
         }
     }
 

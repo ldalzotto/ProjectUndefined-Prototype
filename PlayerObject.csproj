@@ -63,7 +63,9 @@
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObject.cs" />
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectInitializer.cs" />
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerBodyPhysicsEnvironment.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerRigidBodyMoveManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerAgentMoveManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerMoveManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerRigidBodyMoveManager.cs" />
      <Compile Include="Assets\Common\PlayerObject\PositionPersistance\PlayerPositionPersistenceManager.cs" />
      <None Include="Assets\Common\PlayerObject\PlayerObject.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -671,6 +673,10 @@
     <ProjectReference Include="Weapon.csproj">
       <Project>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</Project>
       <Name>Weapon</Name>
+    </ProjectReference>
+    <ProjectReference Include="AIObjects.csproj">
+      <Project>{4B5DEF64-4FDA-7B80-40DB-F36B792B3884}</Project>
+      <Name>AIObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

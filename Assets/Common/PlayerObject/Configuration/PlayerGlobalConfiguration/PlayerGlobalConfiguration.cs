@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreGame;
 using OdinSerializer;
 using UnityEngine;
 
@@ -15,6 +16,6 @@ namespace PlayerObject
     public class PlayerInteractiveObjectInitializerData
     {
         public float MinimumDistanceToStick = 0.01f;
-        public float SpeedMultiplicationFactor = 20f;
+        public TransformMoveManagerComponentV3 TransformMoveManagerComponent;
     }
 }

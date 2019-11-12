@@ -42,6 +42,7 @@ namespace InteractiveObjects
         public InteractiveObjectTag InteractiveObjectTag => interactiveObjectTag;
 
         public AnimatorPlayableObject AnimatorPlayable { get; protected set; }
+ 
         public AnimationController AnimationController { get; protected set; }
         public bool IsAskingToBeDestroyed => isAskingToBeDestroyed;
 

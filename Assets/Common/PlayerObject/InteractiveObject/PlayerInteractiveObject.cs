@@ -5,6 +5,7 @@ using InteractiveObjects_Interfaces;
 using PlayerActions;
 using PlayerObject_Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 using Weapon;
 
 namespace PlayerObject
@@ -24,11 +25,13 @@ namespace PlayerObject
         #region External Dependencies
 
         private GameInputManager GameInputManager;
+        private PlayerActionEntryPoint PlayerActionEntryPoint = PlayerActionEntryPoint.Get();
+        [VE_Nested] private BlockingCutscenePlayerManager BlockingCutscenePlayer = BlockingCutscenePlayerManager.Get();
 
         #endregion
 
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
-        [VE_Ignore] private PlayerRigidBodyMoveManager playerRigidBodyMoveManager;
+        [VE_Ignore] private PlayerMoveManager playerMoveManager;
         [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
 
         public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectInitializer PlayerInteractiveObjectInitializer)
@@ -42,6 +45,12 @@ namespace PlayerObject
         public override void Init()
         {
             this.InteractiveGameObject.CreateLogicCollider(this.PlayerInteractiveObjectInitializer.InteractiveObjectLogicCollider);
+            
+            /// Agent creation is used to allow player movement without input.
+            this.InteractiveGameObject.CreateAgent(this.PlayerInteractiveObjectInitializer.AIAgentDefinition);
+            /// It is disabled by default.
+            this.InteractiveGameObject.Agent.enabled = false;
+                
             interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true};
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
@@ -54,7 +63,9 @@ namespace PlayerObject
 
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
 
-            playerRigidBodyMoveManager = new PlayerRigidBodyMoveManager(PlayerInteractiveObjectInitializerData.SpeedMultiplicationFactor, this.InteractiveGameObject.PhysicsRigidbody, cameraPivotPoint.transform);
+            this.playerMoveManager = new PlayerMoveManager(this,
+                new PlayerRigidBodyMoveManager(PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent.SpeedMultiplicationFactor, this.InteractiveGameObject.PhysicsRigidbody, cameraPivotPoint.transform),
+                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent));
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
             PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, this.GameInputManager,
                 PlayerActionEntryPoint.Get());
@@ -84,28 +95,33 @@ namespace PlayerObject
                         }
                         else
                         {
-                            playerRigidBodyMoveManager.Tick(d);
+                            playerMoveManager.Tick(d);
                         }
                     }
                     else
                     {
-                        playerRigidBodyMoveManager.ResetSpeed();
+                        playerMoveManager.ResetSpeed();
                         PlayerSelectionWheelManager.TriggerActionOnInput();
                     }
                 }
             }
             else
             {
-                playerRigidBodyMoveManager.ResetSpeed();
+                playerMoveManager.ResetSpeed();
             }
 
-            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * GetNormalizedSpeed());
+            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * playerMoveManager.GetPlayerSpeedMagnitude());
+        }
+
+        public override void AfterTicks(float d)
+        {
+            this.playerMoveManager.AfterTicks();
         }
 
         public override void FixedTick(float d)
         {
             base.FixedTick(d);
-            playerRigidBodyMoveManager.FixedTick(d);
+            playerMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
 
@@ -114,22 +130,18 @@ namespace PlayerObject
             base.Destroy();
         }
 
-        #region External Dependencies
+        #region Agents events
 
-        private PlayerActionEntryPoint PlayerActionEntryPoint = PlayerActionEntryPoint.Get();
-        [VE_Nested] private BlockingCutscenePlayerManager BlockingCutscenePlayer = BlockingCutscenePlayerManager.Get();
-
-        #endregion
-
-        #region Logical Conditions
-
-        public float GetNormalizedSpeed()
+        public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
-            return playerRigidBodyMoveManager.PlayerSpeedMagnitude;
+            return this.playerMoveManager.SetDestination(IAgentMovementCalculationStrategy);
+        }
+
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        {
         }
 
         #endregion
-
 
         #region Projectile Events
 

@@ -1,22 +1,19 @@
-﻿using CoreGame;
-using Input;
+﻿using Input;
 using UnityEngine;
 
 namespace PlayerObject
 {
-    #region Player Movement
-
     /// <summary>
     /// Process Input to calculate <see cref="PlayerInteractiveObject"/> <see cref="Rigidbody"/> rotation and velocity.
     /// </summary>
-    public class PlayerRigidBodyMoveManager
+    public class PlayerRigidBodyMoveManager : APlayerMoveManager
     {
         private float SpeedMultiplicationFactor;
-        protected Rigidbody PlayerRigidBody;
+        private Rigidbody PlayerRigidBody;
         private Transform CameraPivotPoint;
         private GameInputManager GameInputManager;
-        protected PlayerSpeedProcessingInput playerSpeedProcessingInput;
-        
+        private PlayerSpeedProcessingInput playerSpeedProcessingInput;
+
         public PlayerRigidBodyMoveManager(float SpeedMultiplicationFactor, Rigidbody playerRigidBody, Transform cameraPivotPoint)
         {
             this.SpeedMultiplicationFactor = SpeedMultiplicationFactor;
@@ -25,17 +22,16 @@ namespace PlayerObject
             this.CameraPivotPoint = cameraPivotPoint;
         }
 
-        public float PlayerSpeedMagnitude
+        public override float GetPlayerSpeedMagnitude()
         {
-            get => playerSpeedProcessingInput.PlayerSpeedMagnitude;
+            return this.playerSpeedProcessingInput.PlayerSpeedMagnitude;
         }
-
-        public void Tick(float d)
+        
+        public override void Tick(float d)
         {
             this.playerSpeedProcessingInput = ComputePlayerSpeedProcessingInput();
         }
-        
-        
+
         private PlayerSpeedProcessingInput ComputePlayerSpeedProcessingInput()
         {
             var currentCameraAngle = CameraPivotPoint.transform.eulerAngles.y;
@@ -48,12 +44,12 @@ namespace PlayerObject
             return new PlayerSpeedProcessingInput(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
         }
 
-        public void ResetSpeed()
+        public override void ResetSpeed()
         {
             this.playerSpeedProcessingInput = new PlayerSpeedProcessingInput(Vector3.zero, 0f);
         }
 
-        public void FixedTick(float d)
+        public override void FixedTick(float d)
         {
             //move rigid body rotation
             if (playerSpeedProcessingInput.PlayerMovementOrientation.sqrMagnitude > .05)
@@ -66,19 +62,4 @@ namespace PlayerObject
             PlayerRigidBody.velocity = playerSpeedProcessingInput.PlayerMovementOrientation * playerSpeedProcessingInput.PlayerSpeedMagnitude * this.SpeedMultiplicationFactor;
         }
     }
-
-    public struct PlayerSpeedProcessingInput
-    {
-        public Vector3 PlayerMovementOrientation;
-        public float PlayerSpeedMagnitude;
-
-        public PlayerSpeedProcessingInput(Vector3 playerMovementOrientation, float playerSpeedMagnitude)
-        {
-            this.PlayerMovementOrientation = playerMovementOrientation;
-            this.PlayerSpeedMagnitude = playerSpeedMagnitude;
-        }
-
-    }
-
-    #endregion
 }

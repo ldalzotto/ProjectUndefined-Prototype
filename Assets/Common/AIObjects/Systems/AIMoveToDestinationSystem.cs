@@ -33,7 +33,7 @@ namespace AIObjects
 
 
         public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
-            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, Action<Vector3> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
+            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached = null, Action<Vector3> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
         {
             this.IsEnabled = true;
             this.objectAgent = CoreInteractiveObject.InteractiveGameObject.Agent;
@@ -101,7 +101,10 @@ namespace AIObjects
         public void ClearPath()
         {
             this.AIDestinationManager.ClearPath();
-            objectAgent.ResetPath();
+            if (objectAgent.hasPath)
+            {
+                objectAgent.ResetPath();
+            }
         }
 
 
@@ -112,6 +115,7 @@ namespace AIObjects
 
         public void StopAgent()
         {
+            this.AIDestinationManager.ClearPath();
             if (objectAgent.hasPath)
             {
                 objectAgent.ResetPath();
@@ -152,7 +156,7 @@ namespace AIObjects
                     objectAgent.isStopped = true;
                     objectAgent.ResetPath();
                     Debug.Log(MyLog.Format("Destination reached !"));
-                    OnAIInteractiveObjectDestinationReached.Invoke();
+                    OnAIInteractiveObjectDestinationReached?.Invoke();
                 }
         }
 
