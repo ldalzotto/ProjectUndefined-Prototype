@@ -28,7 +28,7 @@ namespace PlayerObject
         #endregion
 
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
-        [VE_Ignore] private PlayerInputMoveManager PlayerInputMoveManager;
+        [VE_Ignore] private PlayerRigidBodyMoveManager playerRigidBodyMoveManager;
         [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
 
         public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectInitializer PlayerInteractiveObjectInitializer)
@@ -54,7 +54,7 @@ namespace PlayerObject
 
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
 
-            PlayerInputMoveManager = new PlayerInputMoveManager(PlayerInteractiveObjectInitializerData.SpeedMultiplicationFactor, cameraPivotPoint.transform, this.GameInputManager, this.InteractiveGameObject.PhysicsRigidbody);
+            playerRigidBodyMoveManager = new PlayerRigidBodyMoveManager(PlayerInteractiveObjectInitializerData.SpeedMultiplicationFactor, this.InteractiveGameObject.PhysicsRigidbody, cameraPivotPoint.transform);
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
             PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, this.GameInputManager,
                 PlayerActionEntryPoint.Get());
@@ -84,19 +84,19 @@ namespace PlayerObject
                         }
                         else
                         {
-                            PlayerInputMoveManager.Tick(d);
+                            playerRigidBodyMoveManager.Tick(d);
                         }
                     }
                     else
                     {
-                        PlayerInputMoveManager.ResetSpeed();
+                        playerRigidBodyMoveManager.ResetSpeed();
                         PlayerSelectionWheelManager.TriggerActionOnInput();
                     }
                 }
             }
             else
             {
-                PlayerInputMoveManager.ResetSpeed();
+                playerRigidBodyMoveManager.ResetSpeed();
             }
 
             this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * GetNormalizedSpeed());
@@ -105,7 +105,7 @@ namespace PlayerObject
         public override void FixedTick(float d)
         {
             base.FixedTick(d);
-            PlayerInputMoveManager.FixedTick(d);
+            playerRigidBodyMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
 
@@ -125,7 +125,7 @@ namespace PlayerObject
 
         public float GetNormalizedSpeed()
         {
-            return PlayerInputMoveManager.PlayerSpeedMagnitude;
+            return playerRigidBodyMoveManager.PlayerSpeedMagnitude;
         }
 
         #endregion
