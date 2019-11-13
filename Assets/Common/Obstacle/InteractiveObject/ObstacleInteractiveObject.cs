@@ -10,22 +10,22 @@ namespace Obstacle
 {
     public class ObstacleInteractiveObject : CoreInteractiveObject
     {
-        private ObstacleInteractiveObjectInitializerData ObstacleInteractiveObjectInitializerData;
+        private ObstacleInteractiveObjectDefinition _obstacleInteractiveObjectDefinition;
         [VE_Nested] private SquareObstacleOcclusionFrustumsDefinition squareObstacleOcclusionFrustumsDefinition;
 
-        public ObstacleInteractiveObject(IInteractiveGameObject interactiveGameObject, ObstacleInteractiveObjectInitializerData ObstacleInteractiveObjectInitializerData)
+        public ObstacleInteractiveObject(IInteractiveGameObject interactiveGameObject, ObstacleInteractiveObjectDefinition ObstacleInteractiveObjectDefinition)
         {
-            this.ObstacleInteractiveObjectInitializerData = ObstacleInteractiveObjectInitializerData;
+            this._obstacleInteractiveObjectDefinition = ObstacleInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
         }
 
         public override void Init()
         {
-            this.InteractiveGameObject.CreateLogicCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider, LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
-            this.CreatePhysicsCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider);
-            this.CreateNavMeshObstacle(ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData);
+            this.InteractiveGameObject.CreateLogicCollider(_obstacleInteractiveObjectDefinition.InteractiveObjectLogicCollider, LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
+            this.CreatePhysicsCollider(_obstacleInteractiveObjectDefinition.InteractiveObjectLogicCollider);
+            this.CreateNavMeshObstacle(_obstacleInteractiveObjectDefinition.SquareObstacleSystemInitializationData);
             ObstacleCollider = this.InteractiveGameObject.GetLogicColliderAsBox();
-            SquareObstacleSystemInitializationData = ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData;
+            SquareObstacleSystemInitializationData = _obstacleInteractiveObjectDefinition.SquareObstacleSystemInitializationData;
             interactiveObjectTag = new InteractiveObjectTag {IsObstacle = true};
             squareObstacleOcclusionFrustumsDefinition = new SquareObstacleOcclusionFrustumsDefinition();
 
