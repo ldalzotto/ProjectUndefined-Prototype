@@ -63,6 +63,17 @@ namespace Obstacle
             nearSquareObstacles.Remove(ObstacleInteractiveObject);
         }
 
+        public void RemoveReferencesToObstacleInteractiveObject(ObstacleInteractiveObject ObstacleInteractiveObject)
+        {
+            for (var i = this.nearSquareObstacles.Count - 1; i >= 0; i++)
+            {
+                if (this.nearSquareObstacles[i] == ObstacleInteractiveObject)
+                {
+                    this.nearSquareObstacles.RemoveAt(i);
+                }
+            }
+        }
+
         #region External Dependencies
 
         private ObstacleOcclusionCalculationManagerV2 ObstacleOcclusionCalculationManagerV2 = ObstacleOcclusionCalculationManagerV2.Get();

@@ -192,6 +192,16 @@ namespace Obstacle
             foreach (var singleObstacleSystemThatChanged in singleObstacleThatHasChangedThisFrame) singleObstacleSystemThatChanged.Value.Clear();
         }
 
+        public void OnObstacleInteractiveObjectDestroyed(ObstacleInteractiveObject ObstacleInteractiveObjectDestroyed)
+        {
+            foreach (var ObstaclesWithFrustums in CalculatedOcclusionFrustums.Values)
+            {
+                ObstaclesWithFrustums.Remove(ObstacleInteractiveObjectDestroyed.ObstacleInteractiveObjectUniqueID);
+            }
+
+            this.ObstacleLastFramePositions.Remove(ObstacleInteractiveObjectDestroyed);
+        }
+
         private static void AddToArrays(ref NativeArray<FrustumOcclusionCalculationData> FrustumOcclusionCalculationDatas, NativeArray<FrustumV2Indexed> AssociatedFrustums,
             ref int currentOcclusionCalculationCounter, ref int currentFrustumCounter, ObstacleListenerSystem obstacleListenerThatChanged, ObstacleInteractiveObject nearSquareObstacle)
         {

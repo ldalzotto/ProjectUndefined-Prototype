@@ -10,7 +10,7 @@
         "Editor_Common",
         "Obstacle",
         "Unity.Burst",
-"GeometryIntersection",
+        "GeometryIntersection",
         "Unity.RenderPipelines.Lightweight.Runtime"
     ],
     "includePlatforms": [],

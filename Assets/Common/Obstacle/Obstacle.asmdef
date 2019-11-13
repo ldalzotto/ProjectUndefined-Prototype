@@ -2,13 +2,13 @@
     "name": "Obstacle",
     "references": [
         "InteractiveObjects",
-"InteractiveObjects_Interfaces",
+        "InteractiveObjects_Interfaces",
         "Editor_Common",
-        "GameConfigurationID",
         "CoreGame",
         "OdinSerializer",
         "Unity.Burst",
-"GeometryIntersection"
+        "GeometryIntersection",
+        "Obstacle_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

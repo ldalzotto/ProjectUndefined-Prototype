@@ -17,6 +17,14 @@ namespace Obstacle
             return this.ObstacleListenerAddedCounter;
         }
 
+        public void OnObstacleInteractiveObjectDestroyed(ObstacleInteractiveObject ObstacleInteractiveObjectDestroyed)
+        {
+            foreach (var obstacleListener in obstacleListeners)
+            {
+                obstacleListener.RemoveReferencesToObstacleInteractiveObject(ObstacleInteractiveObjectDestroyed);
+            }
+        }
+        
         public void OnObstacleListenerDestroyed(ObstacleListenerSystem obstacleListener)
         {
             this.obstacleListeners.Remove(obstacleListener);

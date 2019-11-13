@@ -39,7 +39,7 @@ namespace RangeObjects
         /// On RangeObject destroyed, every <see cref="RangeIntersectionCalculator"/> in <see cref="AllRangeIntersectionCalculatorV2"/> that references the
         /// <paramref name="RangeObjectV2"/> must be destroyed.
         /// </summary>
-        public void OnRangeObjectDestroyed(RangeObjectV2 RangeObjectV2)
+        private void OnRangeObjectDestroyed(RangeObjectV2 RangeObjectV2)
         {
             List<RangeIntersectionCalculator> RangeIntersectionCalculatorsToDestroy = null;
             for (var i = 0; i < this.AllRangeIntersectionCalculatorV2.Count; i++)

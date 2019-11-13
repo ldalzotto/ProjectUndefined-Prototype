@@ -38,6 +38,8 @@ namespace Obstacle
 
         public override void Destroy()
         {
+            ObstacleOcclusionCalculationManagerV2.Get().OnObstacleInteractiveObjectDestroyed(this);
+            ObstaclesListenerManager.Get().OnObstacleInteractiveObjectDestroyed(this);
             ObstacleInteractiveObjectManager.Get().OnSquareObstacleSystemDestroyed(this);
             base.Destroy();
         }

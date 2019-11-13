@@ -3,6 +3,7 @@ using InteractiveObjects_Interfaces;
 using PlayerObject;
 #if UNITY_EDITOR
 using InteractiveObjects;
+using Obstacle;
 using UnityEngine;
 
 public class TrainingLevelDebugComponent : MonoBehaviour
@@ -12,6 +13,8 @@ public class TrainingLevelDebugComponent : MonoBehaviour
 
     public bool SetPlayerPosition;
     public Transform TargetPlayerPosition;
+
+    public bool DestroyAllObstacles;
 
     private void Update()
     {
@@ -25,6 +28,18 @@ public class TrainingLevelDebugComponent : MonoBehaviour
         {
             SetPlayerPosition = false;
             PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination() {Rotation = this.TargetPlayerPosition.rotation, WorldPosition = this.TargetPlayerPosition.position}));
+        }
+
+        if (DestroyAllObstacles)
+        {
+            DestroyAllObstacles = false;
+
+            for (var i = ObstacleInteractiveObjectManager.Get().AllObstacleInteractiveObjects.Count - 1; i >= 0; i--)
+            {
+                var currentInteractiveObject = ObstacleInteractiveObjectManager.Get().AllObstacleInteractiveObjects[i];
+               currentInteractiveObject.Destroy();
+            }
+            
         }
     }
 

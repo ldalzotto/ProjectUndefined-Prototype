@@ -23,6 +23,7 @@
         "PlayerObject",
         "RangeObjects",
         "GeometryIntersection",
+        "Obstacle",
         "SoliderBehavior"
     ],
     "includePlatforms": [],

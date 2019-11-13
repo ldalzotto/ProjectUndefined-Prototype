@@ -723,6 +723,10 @@
       <Project>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</Project>
       <Name>GeometryIntersection</Name>
     </ProjectReference>
+    <ProjectReference Include="Obstacle.csproj">
+      <Project>{A56A5795-1CB9-EF28-85DE-67DC873B52CC}</Project>
+      <Name>Obstacle</Name>
+    </ProjectReference>
     <ProjectReference Include="SoliderBehavior.csproj">
       <Project>{CCE8FB12-317B-A034-92B0-DED327F99BF4}</Project>
       <Name>SoliderBehavior</Name>
