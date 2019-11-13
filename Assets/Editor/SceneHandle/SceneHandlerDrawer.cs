@@ -124,25 +124,45 @@ public static class SceneHandlerDrawer
                             SetupColors(WireLineAttribute.GetColor());
                             Handles.DrawLine(objectTransform.transform.position, objectTransform.transform.position + new Vector3(WireLineAttribute.dX, WireLineAttribute.dY, WireLineAttribute.dZ) * lineLength);
                         }
-                        else if (AbstractSceneHandleAttribute.GetType() == typeof(WireArrowAttribute))
+                        else if (AbstractSceneHandleAttribute.GetType() == typeof(WireArrowLinkAttribute))
+                        {
+                            var WireArrowLinkAttribute = (WireArrowLinkAttribute) AbstractSceneHandleAttribute;
+
+                            Vector3 Source = WireArrowLinkAttribute.Source;
+                            Vector3 Target = WireArrowLinkAttribute.Target;
+
+                            if (!string.IsNullOrEmpty(WireArrowLinkAttribute.SourceFieldName))
+                            {
+                                Source = GetPositionFromObject(drawableObject.GetType().GetField(WireArrowLinkAttribute.SourceFieldName).GetValue(drawableObject));
+                            }
+
+                            if (!string.IsNullOrEmpty(WireArrowLinkAttribute.TargetFieldName))
+                            {
+                                Target = GetPositionFromObject(drawableObject.GetType().GetField(WireArrowLinkAttribute.TargetFieldName).GetValue(drawableObject));
+                            }
+
+                            SetupColors(WireArrowLinkAttribute.GetColor());
+                            HandlesHelper.DrawArrow(Source, Target, WireArrowLinkAttribute.GetColor(), WireArrowLinkAttribute.ArrowSemiAngle, WireArrowLinkAttribute.ArrowLength);
+                        } else if (AbstractSceneHandleAttribute.GetType() == typeof(WireArrowAttribute))
                         {
                             var WireArrowAttribute = (WireArrowAttribute) AbstractSceneHandleAttribute;
 
-                            Vector3 Source = WireArrowAttribute.Source;
-                            Vector3 Target = WireArrowAttribute.Target;
-
-                            if (!string.IsNullOrEmpty(WireArrowAttribute.SourceFieldName))
+                            Vector3 Origin = WireArrowAttribute.Origin;
+                            if (!string.IsNullOrEmpty(WireArrowAttribute.OriginFieldName))
                             {
-                                Source = GetPositionFromObject(drawableObject.GetType().GetField(WireArrowAttribute.SourceFieldName).GetValue(drawableObject));
+                                Origin =  GetPositionFromObject(drawableObject.GetType().GetField(WireArrowAttribute.OriginFieldName).GetValue(drawableObject));
                             }
-
-                            if (!string.IsNullOrEmpty(WireArrowAttribute.TargetFieldName))
-                            {
-                                Target = GetPositionFromObject(drawableObject.GetType().GetField(WireArrowAttribute.TargetFieldName).GetValue(drawableObject));
-                            }
-
+                            
                             SetupColors(WireArrowAttribute.GetColor());
-                            HandlesHelper.DrawArrow(Source, Target, WireArrowAttribute.GetColor(), WireArrowAttribute.ArrowSemiAngle, WireArrowAttribute.ArrowLength);
+
+                            Vector3? WorldEulerAngles = GetRotationFromObject(drawableObject.GetType().GetField(WireArrowAttribute.OriginFieldName).GetValue(drawableObject));
+                            if (WorldEulerAngles.HasValue)
+                            {
+                                Vector3 Target = Origin + (Quaternion.Euler(WorldEulerAngles.Value) * (Vector3.forward * WireArrowAttribute.ArrowLength*1.5f));
+                            
+                                HandlesHelper.DrawArrow(Origin, Target, WireArrowAttribute.GetColor(), WireArrowAttribute.ArrowSemiAngle, WireArrowAttribute.ArrowLength);  
+                            }
+                           
                         }
                     }
                 }
@@ -219,9 +239,23 @@ public static class SceneHandlerDrawer
         }
         else if (position.GetType() == typeof(AIMoveToActionInputData))
         {
-            return ((AIMoveToActionInputData) position).GetWorldPosition();
+            return ((AIMoveToActionInputData) position).WorldPosition;
         }
 
         return Vector3.zero;
+    }
+    
+    private static Vector3? GetRotationFromObject(object rotation)
+    {
+        if (rotation.GetType() == typeof(Vector3))
+        {
+            return (Vector3) rotation;
+        }
+        else if (rotation.GetType() == typeof(AIMoveToActionInputData))
+        {
+            return ((AIMoveToActionInputData) rotation).GetWorldRotation();
+        }
+
+        return default(Nullable<Vector3>);
     }
 }

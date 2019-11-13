@@ -11,7 +11,7 @@ namespace InteractiveObjects
     [SceneHandleDraw]
     public class RootAnimationCutsceneTemplate : LocalPuzzleCutsceneTemplate
     {
-        [WireCircleWorld(R = 0f, G = 1f, B = 0f, UseTransform = false, PositionFieldName = nameof(RootAnimationCutsceneTemplate.StartPoint))] [WireArrow(SourceFieldName = nameof(RootAnimationCutsceneTemplate.StartPoint), TargetFieldName = nameof(RootAnimationCutsceneTemplate.MovePoint))]
+        [WireCircleWorld(R = 0f, G = 1f, B = 0f, UseTransform = false, PositionFieldName = nameof(RootAnimationCutsceneTemplate.StartPoint))] [WireArrowLink(SourceFieldName = nameof(RootAnimationCutsceneTemplate.StartPoint), TargetFieldName = nameof(RootAnimationCutsceneTemplate.MovePoint))]
         public AIMoveToActionInputData StartPoint;
 
         public AIMoveToActionInputData MovePoint;
@@ -22,9 +22,9 @@ namespace InteractiveObjects
         {
             return new List<ASequencedAction>()
             {
-                new AIWarpActionV2(associatedInteractiveObject, this.StartPoint.WorldPoint, () => new List<ASequencedAction>()
+                new AIWarpActionV2(associatedInteractiveObject, this.StartPoint.WorldPosition,this.StartPoint.GetWorldRotation(), () => new List<ASequencedAction>()
                 {
-                    new AIMoveToActionV2(associatedInteractiveObject, this.MovePoint.WorldPoint, this.MovePoint.AIMovementSpeed, () => new List<ASequencedAction>()
+                    new AIMoveToActionV2(associatedInteractiveObject, this.MovePoint.WorldPosition, this.MovePoint.GetWorldRotation(), this.MovePoint.AIMovementSpeed, () => new List<ASequencedAction>()
                     {
                         new PlayContextAnimationAction(associatedInteractiveObject.AnimationController, this.Animation, () => new List<ASequencedAction>()
                         {

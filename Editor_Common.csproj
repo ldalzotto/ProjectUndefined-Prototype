@@ -72,7 +72,7 @@
      <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\DrawNestedAttribute.cs" />
      <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\SceneHandleDrawAttribute.cs" />
      <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\WireArcAttribute.cs" />
-     <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\WireArrowAttribute.cs" />
+     <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\WireArrowLinkAttribute.cs" />
      <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\WireBoxAttribute.cs" />
      <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\WireCircleAttribute.cs" />
      <Compile Include="Assets\Editor_Common\PropertyAttributes\SceneHandle\WireDirectionalLineAttribute.cs" />

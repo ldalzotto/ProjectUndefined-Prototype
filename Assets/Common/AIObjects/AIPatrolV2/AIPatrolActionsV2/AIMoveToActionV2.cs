@@ -11,14 +11,16 @@ namespace AIObjects
     {
         private bool destinationReached;
         private CoreInteractiveObject InteractiveObject;
-        private TransformStruct WorldPoint;
+        private Vector3 WorldPosition;
+        private Vector3? WorldRotation;
         private AIMovementSpeedDefinition AIMovementSpeed;
 
-        public AIMoveToActionV2(CoreInteractiveObject InteractiveObject, TransformStruct WorldPoint, AIMovementSpeedDefinition AIMovementSpeed, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public AIMoveToActionV2(CoreInteractiveObject InteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation, AIMovementSpeedDefinition AIMovementSpeed, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
         {
             this.destinationReached = false;
             this.InteractiveObject = InteractiveObject;
-            this.WorldPoint = WorldPoint;
+            this.WorldPosition = WorldPosition;
+            this.WorldRotation = WorldRotation; 
             this.AIMovementSpeed = AIMovementSpeed;
         }
 
@@ -42,8 +44,8 @@ namespace AIObjects
             {
                 this.InteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination
                 {
-                    WorldPosition = this.WorldPoint.WorldPosition,
-                    Rotation = Quaternion.Euler(this.WorldPoint.WorldRotationEuler)
+                    WorldPosition = this.WorldPosition,
+                    Rotation = this.WorldRotation.HasValue ? Quaternion.Euler(this.WorldRotation.Value) : default(Nullable<Quaternion>)
                 }));
                 this.InteractiveObject.SetAISpeedAttenuationFactor(this.AIMovementSpeed);
             }

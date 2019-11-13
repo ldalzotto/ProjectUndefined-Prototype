@@ -141,9 +141,18 @@ namespace SequencedAction_Editor
 
         public void Move(Vector3 delta)
         {
-            var initalStruct = (TransformStruct) Field.GetValue(this.BaseObject);
-            initalStruct.WorldPosition += delta;
-            Field.SetValue(this.BaseObject, initalStruct);
+            var fieldValue = Field.GetValue(this.BaseObject);
+            switch (fieldValue)
+            {
+                case TransformStruct TransformStruct:
+                    TransformStruct.WorldPosition += delta;
+                    Field.SetValue(this.BaseObject, TransformStruct);
+                    break;
+                case Vector3 vector3:
+                    vector3 += delta;
+                    Field.SetValue(this.BaseObject, vector3);
+                    break;
+            }
         }
     }
 }

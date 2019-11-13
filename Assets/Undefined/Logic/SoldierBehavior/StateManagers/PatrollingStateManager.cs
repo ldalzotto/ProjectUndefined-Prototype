@@ -29,12 +29,18 @@ namespace SoliderAIBehavior
                 Debug.Log(MyLog.Format("PatrollingStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
                 this.SoldierAIBehavior.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
             }
-            this.AIPatrolSystem.Tick(d);
+            else
+            {
+                this.AIPatrolSystem.Tick(d);
+            }
         }
-        
+
         public override void OnDestinationReached()
         {
-            this.AIPatrolSystem.OnAIDestinationReached();
+            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight)
+            {
+                this.AIPatrolSystem.OnAIDestinationReached();
+            }
         }
     }
 }

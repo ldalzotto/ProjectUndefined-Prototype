@@ -124,32 +124,61 @@ namespace AIObjects
         }
     }
 
+    /// <summary>
+    /// Stores the current destination <see cref="CurrentDestination"/>.
+    /// Calculate path for destination set <see cref="SetDestination"/>.
+    /// Emit <see cref="OnAIInteractiveObjectDestinationReached"/> event when the destination is reached.
+    /// Manually update agent position following it's path if destination is setted the same frame as the destination is reached <see cref="ManuallyUpdateAgent"/>
+    /// </summary>
     internal class AIDestinationManager
     {
+        /// <summary>
+        /// The <see cref="DeltaTime"/> is used when manually update agent position following it's path <see cref="ManuallyUpdateAgent"/>. The value is stored to sample the <see cref="NavMeshPath"/>.
+        /// This value is stored to avoid having a deltaTime parameter when setting the destination <see cref="SetDestination"/> -> the  <see cref="ManuallyUpdateAgent"/> calculation
+        /// will use the <see cref="DeltaTime"/> instead of a parameter deltaTime.
+        /// </summary>
         private float DeltaTime;
+
+        /// <summary>
+        /// Thre frame number were destination has been reached is stored to trigger the <see cref="ManuallyUpdateAgent"/> if a destination is set the same frame as the destination is reached.
+        /// </summary>
         private int FrameWereOccuredTheLastDestinationReached = -1;
+
         private Vector3 lastSettedWorldDestination;
         private NavMeshAgent objectAgent;
         private OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached;
+
         [VE_Nested] private AIDestination? currentDestination;
         public AIDestination? CurrentDestination => currentDestination;
 
-        private AIPositionMoveManager _aiPositionMoveManagerRef;
+        private AIPositionMoveManager aiPositionMoveManagerRef;
 
         public AIDestinationManager(NavMeshAgent objectAgent, OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, AIPositionMoveManager aiPositionMoveManagerRef)
         {
             this.objectAgent = objectAgent;
             this.OnAIInteractiveObjectDestinationReached = OnAIInteractiveObjectDestinationReached;
             this.lastSettedWorldDestination = new Vector3(9999999, 99999999, 9999999);
-            this._aiPositionMoveManagerRef = aiPositionMoveManagerRef;
+            this.aiPositionMoveManagerRef = aiPositionMoveManagerRef;
         }
 
+        /// <summary>
+        /// Trigger <see cref="OnAIInteractiveObjectDestinationReached"/> event when conditions are met.
+        /// </summary>
         public void CheckIfDestinationReached(float d)
         {
             this.DeltaTime = d;
-            //is destination reached
+
+            /// If there is currently a destination to reach
             if (CurrentDestination.HasValue)
-                if (!objectAgent.pathPending && objectAgent.remainingDistance <= objectAgent.stoppingDistance && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f))
+                if (
+                    /// If the NavMeshPath not currently async calculated
+                    !objectAgent.pathPending
+                    /// If the WorldPosition has been reached
+                    && objectAgent.remainingDistance <= objectAgent.stoppingDistance
+                    /// If there is a WorldRotation angle to reach
+                    && ((!this.CurrentDestination.Value.Rotation.HasValue) || (this.CurrentDestination.Value.Rotation.Value.IsApproximate(objectAgent.transform.rotation)))
+                    /// If the agent has stopped
+                    && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f))
                 {
                     this.currentDestination = null;
                     FrameWereOccuredTheLastDestinationReached = Time.frameCount;
@@ -163,9 +192,9 @@ namespace AIObjects
 
         public NavMeshPathStatus SetDestination(AIDestination AIDestination)
         {
-            //When a different path is calculated, we manually reset the path and calculate the next destination
-            //The input world destination may not be exactly on NavMesh.
-            //So we do comparison between world destination
+            /// When a different path is calculated, we manually reset the path and calculate the next destination
+            /// The input world destination may not be exactly on NavMesh.
+            /// So we do comparison between world destination
             if (lastSettedWorldDestination != AIDestination.WorldPosition)
             {
                 //   Debug.Log(MyLog.Format("Set destination : " + AIDestination.WorldPosition));
@@ -175,8 +204,8 @@ namespace AIObjects
                 objectAgent.SetPath(path);
                 if (path.status != NavMeshPathStatus.PathInvalid)
                 {
-                    //If direction change is occuring when current destination has been reached
-                    //We manually calculate next position to avoid a frame where AI is standing still
+                    /// If direction change is occuring when current destination has been reached
+                    /// We manually calculate next position to avoid a frame where AI is standing still
                     if (FrameWereOccuredTheLastDestinationReached == Time.frameCount)
                     {
                         this.ManuallyUpdateAgent(this.objectAgent);
@@ -194,6 +223,10 @@ namespace AIObjects
             return NavMeshPathStatus.PathComplete;
         }
 
+        /// <summary>
+        /// When clearing the path, the <see cref="lastSettedWorldDestination"/> is setted to an improbable value to bypass <see cref="SetDestination"/> destination cache and always trigger
+        /// <see cref="NavMeshPath"/> calculation.
+        /// </summary>
         public void ClearPath()
         {
             this.lastSettedWorldDestination = new Vector3(9999999, 99999999, 9999999);

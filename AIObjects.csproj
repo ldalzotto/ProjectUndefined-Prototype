@@ -60,6 +60,7 @@
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIMoveToActionV2.cs" />
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIWarpActionV2.cs" />
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolGraphV2.cs" />
+     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\CommonAIPatrolGraphTemplate\StandStillAIPatrolGraph.cs" />
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystem.cs" />
      <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystemDefinition.cs" />
      <Compile Include="Assets\Common\AIObjects\InteractiveObject\AIInteractiveObjectTemplates\AbstractAIInteractiveObjectInitializerData.cs" />
