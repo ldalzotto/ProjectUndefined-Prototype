@@ -4,6 +4,7 @@ using GeometryIntersection;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Obstacle
 {
@@ -22,6 +23,7 @@ namespace Obstacle
         {
             this.InteractiveGameObject.CreateLogicCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider, LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
             this.CreatePhysicsCollider(ObstacleInteractiveObjectInitializerData.InteractiveObjectLogicCollider);
+            this.CreateNavMeshObstacle(ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData);
             ObstacleCollider = this.InteractiveGameObject.GetLogicColliderAsBox();
             SquareObstacleSystemInitializationData = ObstacleInteractiveObjectInitializerData.SquareObstacleSystemInitializationData;
             interactiveObjectTag = new InteractiveObjectTag {IsObstacle = true};
@@ -48,6 +50,19 @@ namespace Obstacle
             var BoxCollider = physicsColliderObject.AddComponent<BoxCollider>();
             BoxCollider.center = InteractiveObjectBoxLogicColliderDefinition.LocalCenter;
             BoxCollider.size = InteractiveObjectBoxLogicColliderDefinition.LocalSize;
+        }
+
+        private void CreateNavMeshObstacle(SquareObstacleSystemInitializationData SquareObstacleSystemInitializationData)
+        {
+            if (SquareObstacleSystemInitializationData.CreateNavMeshObstacle)
+            {
+                if (this.InteractiveGameObject.InteractiveGameObjectParent.GetComponent<NavMeshObstacle>() == null)
+                {
+                    var NavMeshObstacle = this.InteractiveGameObject.InteractiveGameObjectParent.AddComponent<NavMeshObstacle>();
+                    NavMeshObstacle.shape = NavMeshObstacleShape.Box;
+                    NavMeshObstacle.carving = true;
+                }
+            }
         }
 
         #region Data Retrieval

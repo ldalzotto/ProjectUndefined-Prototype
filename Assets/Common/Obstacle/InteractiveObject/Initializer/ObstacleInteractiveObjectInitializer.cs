@@ -22,6 +22,8 @@ namespace Obstacle
     {
         [Tooltip("Avoid tracking of value every frame. But obstacle frustum will never be updated")]
         public bool IsStatic = true;
+
+        public bool CreateNavMeshObstacle;
     }
 
     [Serializable]
