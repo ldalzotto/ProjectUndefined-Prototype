@@ -4,6 +4,7 @@ using Health;
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using SoliderAIBehavior;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon;

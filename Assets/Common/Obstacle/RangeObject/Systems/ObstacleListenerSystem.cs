@@ -37,7 +37,7 @@ namespace Obstacle
 
         public void OnObstacleListenerDestroyed()
         {
-            Debug.Log(MyLog.Format("OnObstacleListenerDestroyed"));
+            /// Debug.Log(MyLog.Format("OnObstacleListenerDestroyed"));
             ObstaclesListenerManager.OnObstacleListenerDestroyed(this);
             nearSquareObstacles.Clear();
         }

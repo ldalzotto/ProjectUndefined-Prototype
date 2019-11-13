@@ -5,7 +5,7 @@ using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// The <see cref="SoldierAIStateEnum.GO_ROUND_PLAYER"/> state is entered when the <see cref="SoliderEnemy"/> is

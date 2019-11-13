@@ -1,16 +1,17 @@
 ﻿using System;
+using OdinSerializer;
 using UnityEngine;
 
-namespace CoreGame
+namespace InteractiveObjects_Interfaces
 {
     [Serializable]
-    public class TransformMoveManagerComponentV3
+    public class TransformMoveManagerComponentV3 : SerializedScriptableObject
     {
         [HideInInspector] public bool IsPositionUpdateConstrained = false;
         public float RotationSpeed = 5f;
         public float SpeedMultiplicationFactor = 20f;
 
-        [Foldable(true, nameof(IsPositionUpdateConstrained))]
+        [Foldable(true, nameof(TransformMoveManagerComponentV3.IsPositionUpdateConstrained))]
         public TransformPositionUpdateConstraints TransformPositionUpdateConstraints;
     }
 

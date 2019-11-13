@@ -11,7 +11,10 @@ namespace Firing
     public class FiredProjectileDefinition : SerializedScriptableObject
     {
         public GameObject FiredProjectileModelPrefab;
-        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
+
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
+
         public float Speed;
         public float MaxDistance;
 

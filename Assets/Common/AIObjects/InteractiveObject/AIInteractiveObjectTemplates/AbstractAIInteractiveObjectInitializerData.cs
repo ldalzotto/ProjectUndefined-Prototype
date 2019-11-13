@@ -11,7 +11,9 @@ namespace AIObjects
     public abstract class AbstractAIInteractiveObjectInitializerData : AbstractInteractiveObjectV2Definition
     {
         [DrawNested] public AIAgentDefinition AIAgentDefinition;
-        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
+        [DrawNested]
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
         public TransformMoveManagerComponentV3 TransformMoveManagerComponentV3;
         public A_AnimationPlayableDefinition LocomotionAnimation;
     }

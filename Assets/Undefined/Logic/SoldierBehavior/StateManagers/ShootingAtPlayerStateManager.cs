@@ -2,7 +2,7 @@
 using InteractiveObjects;
 using UnityEngine;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// Orient the <see cref="SoliderEnemy"/> and trigger its <see cref="SoliderEnemy.AskToFireAFiredProjectile()"/> event.

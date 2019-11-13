@@ -2,7 +2,7 @@
 using AIObjects;
 using OdinSerializer;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     [Serializable]
     [SceneHandleDraw]

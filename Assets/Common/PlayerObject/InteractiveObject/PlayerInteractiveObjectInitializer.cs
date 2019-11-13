@@ -9,14 +9,14 @@ namespace PlayerObject
     [SceneHandleDraw]
     public class PlayerInteractiveObjectInitializer : InteractiveObjectInitializer
     {
-        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
-        [DrawNested] public AIAgentDefinition AIAgentDefinition;
-        [Inline(CreateAtSameLevelIfAbsent = true)]
-        public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
+        [DrawNested] [Inline()] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
 
-        public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
-        public A_AnimationPlayableDefinition LocomotionAnimation;
-        [DrawNested] public PlayerActionInherentData FiringPlayerActionInherentData;
+        [DrawNested] [Inline()] public AIAgentDefinition AIAgentDefinition;
+
+        [Inline()] public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
+        [Inline()] public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
+        [Inline()] public A_AnimationPlayableDefinition LocomotionAnimation;
+        [Inline()] [DrawNested] public PlayerActionInherentData FiringPlayerActionInherentData;
 
         public override CoreInteractiveObject Init()
         {

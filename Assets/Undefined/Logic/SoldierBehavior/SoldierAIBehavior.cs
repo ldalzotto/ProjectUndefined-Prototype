@@ -8,7 +8,7 @@ using RangeObjects;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     public enum SoldierAIStateEnum
     {

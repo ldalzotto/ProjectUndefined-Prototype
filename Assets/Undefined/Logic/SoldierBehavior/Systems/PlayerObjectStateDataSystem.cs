@@ -3,7 +3,7 @@ using InteractiveObjects;
 using PlayerObject;
 using UnityEngine;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// Holds and update all informations relative to the PlayerObject for the associated <see cref="SoliderEnemy"/>.

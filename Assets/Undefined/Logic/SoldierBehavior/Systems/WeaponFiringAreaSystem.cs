@@ -5,7 +5,7 @@ using PlayerObject;
 using RangeObjects;
 using UnityEngine;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// Holds and update informations about the ability to shoot to the Player. This is achieved by creating a trigger WeaponFiringAreaBoxRangeObject between the

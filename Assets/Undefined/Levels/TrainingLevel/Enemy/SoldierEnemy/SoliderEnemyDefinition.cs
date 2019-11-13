@@ -1,10 +1,10 @@
 ﻿using System;
 using AnimatorPlayable;
-using CoreGame;
 using Damage;
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using SoliderAIBehavior;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Weapon;
@@ -15,13 +15,16 @@ namespace TrainingLevel
     [SceneHandleDraw]
     public class SoliderEnemyDefinition : AbstractInteractiveObjectV2Definition
     {
-        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
-        [DrawNested] public AIAgentDefinition AIAgentDefinition;
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition;
 
-        [DrawNested]
-        [Inline(CreateAtSameLevelIfAbsent = true)]
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public AIAgentDefinition AIAgentDefinition;
+
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public SightObjectSystemDefinition SightObjectSystemDefinition;
 
+        [Inline(CreateAtSameLevelIfAbsent = true)]
         public TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
@@ -36,7 +39,8 @@ namespace TrainingLevel
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public WeaponHandlingSystemDefinition WeaponHandlingSystemDefinition;
 
-        [DrawNested] public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public A_AnimationPlayableDefinition LocomotionAnimation;

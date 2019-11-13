@@ -11,7 +11,8 @@ namespace InteractiveObjects
     [CreateAssetMenu(fileName = "TestAttractiveObjectInitializerData", menuName = "Test/TestAttractiveObjectInitializerData", order = 1)]
     public class TestAttractiveObjectInitializerData : AbstractInteractiveObjectV2Definition
     {
-        [DrawNested] public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
 
         [DrawNested] [Inline(createAtSameLevelIfAbsent: true)]
         public AttractiveObjectSystemDefinition AttractiveObjectSystemDefinition;

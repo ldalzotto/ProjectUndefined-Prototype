@@ -2,7 +2,7 @@
 using InteractiveObjects;
 using UnityEngine;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// The default State of <see cref="SoldierAIBehavior"/> (<see cref="SoldierAIStateEnum.PATROLLING"/>).

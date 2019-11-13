@@ -1,4 +1,5 @@
 ﻿using CoreGame;
+using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 

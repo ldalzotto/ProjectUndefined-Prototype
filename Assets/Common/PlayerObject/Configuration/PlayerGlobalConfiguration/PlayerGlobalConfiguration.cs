@@ -1,5 +1,6 @@
 ﻿using System;
 using CoreGame;
+using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using UnityEngine;
 

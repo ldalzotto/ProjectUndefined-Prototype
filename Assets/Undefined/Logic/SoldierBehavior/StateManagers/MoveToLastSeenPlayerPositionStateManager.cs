@@ -5,7 +5,7 @@ using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// This state moves the PlayerObject to <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.

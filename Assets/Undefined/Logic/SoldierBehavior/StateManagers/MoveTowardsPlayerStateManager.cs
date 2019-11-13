@@ -5,7 +5,7 @@ using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace TrainingLevel
+namespace SoliderAIBehavior
 {
     /// <summary>
     /// Moves the <see cref="SoliderEnemy"/> to the position of the <see cref="InteractiveObjectTag.IsPlayer"/> object.

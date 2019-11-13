@@ -3,7 +3,8 @@
     "references": [
         "CoreGame",
         "Editor_Common",
-        "GeometryIntersection"
+        "GeometryIntersection",
+        "OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

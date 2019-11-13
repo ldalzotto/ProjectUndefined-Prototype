@@ -9,13 +9,21 @@ public class FoldablePropertyDrawer : PropertyDrawer
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        Foldable foldableAttribute = (Foldable)attribute;
+        Foldable foldableAttribute = (Foldable) attribute;
 
         SerializedProperty disablingProperty = null;
         if (foldableAttribute.CanBeDisabled)
         {
             var parentProperty = SerializableObjectHelper.GetParentProperty(property);
-            disablingProperty = parentProperty.FindPropertyRelative(foldableAttribute.DisablingBoolAttribute);
+            if (parentProperty.name != property.name)
+            {
+                disablingProperty = parentProperty.FindPropertyRelative(foldableAttribute.DisablingBoolAttribute);
+            }
+            else
+            {
+                disablingProperty = property.serializedObject.FindProperty(foldableAttribute.DisablingBoolAttribute);
+            }
+
             if (this.foldableArea == null)
             {
                 this.foldableArea = new FoldableArea(foldableAttribute.CanBeDisabled, property.name, disablingProperty.boolValue);
@@ -37,19 +45,19 @@ public class FoldablePropertyDrawer : PropertyDrawer
             {
                 foreach (var childPropery in SerializableObjectHelper.GetChildren(property))
                 {
-
                     EditorGUILayout.PropertyField(childPropery, true);
                 }
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+            }
         });
 
         if (foldableAttribute.CanBeDisabled)
         {
             disablingProperty.boolValue = this.foldableArea.IsEnabled;
         }
+
         EditorGUI.EndProperty();
     }
-
-
 }
