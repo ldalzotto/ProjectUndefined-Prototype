@@ -6,6 +6,7 @@
        "InteractiveObjects_Interfaces",
        "PlayerObject",
        "RangeObjects",
+       "Weapon",
        "CoreGame",
        "Editor_Common",
        "OdinSerializer"

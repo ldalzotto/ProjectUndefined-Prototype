@@ -640,6 +640,10 @@
       <Project>{B0B86AC7-E423-566C-6E55-58B5FDE37DF9}</Project>
       <Name>RangeObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="Weapon.csproj">
+      <Project>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</Project>
+      <Name>Weapon</Name>
+    </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
       <Name>CoreGame</Name>

@@ -63,6 +63,7 @@
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\Managers\WeaponRecoilTimeManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\FiringTargetPositionSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\FiringTargetPositionSystemDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingFirePointOriginLocalDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingSystemDefinition.cs" />
      <None Include="Assets\Undefined\Logic\Weapon\Weapon.asmdef" />

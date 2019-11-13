@@ -4,6 +4,7 @@ using InteractiveObjects;
 using PlayerObject;
 using RangeObjects;
 using UnityEngine;
+using Weapon;
 
 namespace SoliderAIBehavior
 {
@@ -21,15 +22,16 @@ namespace SoliderAIBehavior
         /// /!\ Must be disposed on destroy
         /// </summary>
         private BoxRangeObjectV2 WeaponFiringAreaBoxRangeObject;
-        private Func<Vector3> GetWeaponFirePointOriginLocalAction;
+        private Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction;
         
         private List<Collider> InsideWeaponFiringAreaObstacles = new List<Collider>();
 
-        public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, Func<Vector3> weaponFirePointOriginLocalAction)
+        public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, 
+            Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
-            GetWeaponFirePointOriginLocalAction = weaponFirePointOriginLocalAction;
+            this.weaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
             this.WeaponFiringAreaBoxRangeObject = new BoxRangeObjectV2(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
             {
                 RangeTypeID = RangeTypeID.NOT_DISPLAYED,
@@ -41,7 +43,7 @@ namespace SoliderAIBehavior
 
         public void Tick(float d)
         {
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.GetWeaponFirePointOriginLocalAction.Invoke();
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.weaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
             var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
             this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition() - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);

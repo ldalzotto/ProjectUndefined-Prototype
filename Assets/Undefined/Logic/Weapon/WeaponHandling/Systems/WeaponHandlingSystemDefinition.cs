@@ -1,6 +1,5 @@
 ﻿using System;
 using OdinSerializer;
-using UnityEngine;
 
 namespace Weapon
 {
@@ -8,8 +7,9 @@ namespace Weapon
     [SceneHandleDraw]
     public class WeaponHandlingSystemDefinition : SerializedScriptableObject
     {
-        [WireCircleWorld(UseTransform = true, PositionOffsetFieldName = nameof(WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal), Radius = 0.1f)]
-        public Vector3 WeaponFirePointOriginLocal;
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        [DrawNested]
+        public WeaponHandlingFirePointOriginLocalDefinition WeaponHandlingFirePointOriginLocalDefinition;
 
         [Inline()] public WeaponDefinition WeaponDefinition;
     }

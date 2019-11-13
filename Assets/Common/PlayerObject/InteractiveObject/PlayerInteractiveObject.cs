@@ -38,7 +38,7 @@ namespace PlayerObject
         {
             this.PlayerInteractiveObjectInitializer = PlayerInteractiveObjectInitializer;
             base.BaseInit(interactiveGameObject, false);
-            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponFirePointOriginLocal, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectInitializer.FiringTargetPositionSystemDefinition);
         }
 
