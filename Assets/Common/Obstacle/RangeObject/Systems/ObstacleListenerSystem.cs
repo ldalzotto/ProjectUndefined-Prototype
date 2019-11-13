@@ -65,7 +65,7 @@ namespace Obstacle
 
         public void RemoveReferencesToObstacleInteractiveObject(ObstacleInteractiveObject ObstacleInteractiveObject)
         {
-            for (var i = this.nearSquareObstacles.Count - 1; i >= 0; i++)
+            for (var i = this.nearSquareObstacles.Count - 1; i >= 0; i--)
             {
                 if (this.nearSquareObstacles[i] == ObstacleInteractiveObject)
                 {
