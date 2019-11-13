@@ -30,11 +30,8 @@ namespace GameLoop
         {
         }
 
-        private void Start()
+        protected virtual void Start()
         {
-            OnStart();
-
-
             RangeObjectV2Manager.Get().Init();
             GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             InteractiveObjectV2Manager.Get().Init();
@@ -48,12 +45,11 @@ namespace GameLoop
             PlayerActionEntryPoint.Get().Init();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             var d = Time.deltaTime;
 
             BeforeTick(d);
-
 
             TutorialManager.Get().Tick(d);
             PuzzleTutorialEventSenderManager.Get().Tick(d);

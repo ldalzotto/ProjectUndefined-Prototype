@@ -32,6 +32,7 @@ namespace PlayerObject
 
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
+        public PlayerMoveManager PlayerMoveManager => this.playerMoveManager;
         [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
 
         public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition)

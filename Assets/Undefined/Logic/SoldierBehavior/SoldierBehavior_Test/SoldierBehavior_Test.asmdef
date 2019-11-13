@@ -2,11 +2,19 @@
     "name": "SoldierBehavior_Test",
     "references": [
         "SoliderBehavior",
-        "Tests"
+        "Tests",
+        "OdinSerializer",
+        "SequencedAction",
+        "AIObjects",
+        "PlayerObject",
+        "CoreGame",
+        "InteractiveObjects",
+        "Editor_Common"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+   ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

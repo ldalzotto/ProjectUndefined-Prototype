@@ -14,11 +14,6 @@ namespace StartMenu
             StartMenuManager.Init();
         }
 
-        private void Start()
-        {
-            this.OnStart();
-        }
-
         private void Update()
         {
             var d = Time.deltaTime;

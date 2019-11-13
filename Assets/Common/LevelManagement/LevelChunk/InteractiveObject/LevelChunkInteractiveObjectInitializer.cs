@@ -7,7 +7,7 @@ namespace LevelManagement
     {
         [DrawNested] public LevelChunkInteractiveObjectDefinition LevelChunkInteractiveObjectDefinition;
 
-        public override CoreInteractiveObject Init()
+        protected override CoreInteractiveObject InitializationLogic()
         {
             return new LevelChunkInteractiveObject(InteractiveGameObjectFactory.Build(gameObject), this.LevelChunkInteractiveObjectDefinition);
         }

@@ -15,8 +15,10 @@
         "Unity.InputSystem",
         "LevelManagement",
         "Input",
-        "GeometryIntersection",
-        "GameLoop"
+        "GameLoop",
+        "SequencedAction",
+        "PlayerObject",
+        "InteractiveObjects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

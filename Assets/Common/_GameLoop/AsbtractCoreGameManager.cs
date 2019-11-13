@@ -40,10 +40,6 @@ namespace GameLoop
             }
         }
 
-        protected void OnStart()
-        {
-        }
-
         protected void BeforeTick(float d)
         {
             PersistanceManager.Get().Tick(d);

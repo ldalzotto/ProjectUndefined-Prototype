@@ -11,10 +11,19 @@ namespace InteractiveObjects
 
         protected CoreInteractiveObject CreatedCoreInteractiveObject;
 
-        public virtual CoreInteractiveObject Init()
+        public CoreInteractiveObject Init()
         {
-            this.CreatedCoreInteractiveObject = this.AbstractInteractiveObjectV2Definition.BuildInteractiveObject(gameObject);
+            this.CreatedCoreInteractiveObject = this.InitializationLogic();
+            MonoBehaviour.Destroy(this);
             return this.CreatedCoreInteractiveObject;
+        }
+
+        /// <summary>
+        /// Overriding this method allow to redefine the InitializationLogic while keeping common behaviors defined in <see cref="Init"/>
+        /// </summary>
+        protected virtual CoreInteractiveObject InitializationLogic()
+        {
+            return this.AbstractInteractiveObjectV2Definition.BuildInteractiveObject(gameObject);
         }
     }
 }

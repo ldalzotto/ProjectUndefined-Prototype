@@ -19,9 +19,9 @@ namespace PlayerObject
         private PlayerAgentMoveManager PlayerAgentMoveManager;
 
         /// <summary>
-        /// The <see cref="APlayerMoveManager"/> that will be used for external calls. It's value if choosed from <see cref="PlayerRigidBodyMoveManager"/> and
+        /// The <see cref="APlayerMoveManager"/> that will be used for external calls. It's value is choosed between <see cref="PlayerRigidBodyMoveManager"/> and
         /// <see cref="PlayerAgentMoveManager"/>. <br/>
-        /// Changes can calso be made when a specific method is called. For example, if <see cref="SetDestination"/> is called, then the
+        /// Changes can also be made when a specific method is called. For example, if <see cref="SetDestination"/> is called, then the
         /// <see cref="PlayerMoveManagerState"/> will set the FromAgent to true.
         /// /!\ It's value must only be setted from <see cref="EnableFromInput"/> and <see cref="EnableFromAgent"/>
         /// </summary>
@@ -109,6 +109,11 @@ namespace PlayerObject
         public float GetPlayerSpeedMagnitude()
         {
             return this.CurrentPlayerMoveManager.GetPlayerSpeedMagnitude();
+        }
+
+        public void ForceSwitchToAgent()
+        {
+            this.PlayerMoveManagerState.EnableAgent();
         }
     }
 

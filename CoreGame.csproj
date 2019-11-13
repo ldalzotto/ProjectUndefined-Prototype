@@ -102,8 +102,6 @@
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
      <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
-     <None Include="Assets\_Shader\XToonShader\XToonInput.hlsl" />
-     <None Include="Assets\_Shader\XToonShader\XToonForwardPass.hlsl" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\_Shader\Wave\WaveMovementV2.cginc" />
@@ -115,13 +113,11 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\_Shader\WaveNoiseV2\WaveNoiseV2VertexDisplacement.cginc" />
      <None Include="Assets\_Shader\FX\Range\InsideRange\InsideRangeShader.shader" />
-     <None Include="Assets\_Shader\XToonShader\XToon.shader" />
      <None Include="Assets\_Shader\VertexLit\VertexLit.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\_Shader\WaterV2\WaterWaveMovement.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets\_Shader\XToonShader\XToon.hlsl" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\_Shader\FX\Smoke\SmokeShaderParticles.shader" />
      <None Include="Assets\_Shader\Noise\noiseSimplex.cginc" />

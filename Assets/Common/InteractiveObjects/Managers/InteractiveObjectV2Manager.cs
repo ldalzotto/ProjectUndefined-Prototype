@@ -18,6 +18,15 @@ namespace InteractiveObjects
 
             #endregion
 
+            this.InitializeAllInteractiveObjectsInitializer();
+        }
+
+        /// <summary>
+        /// All <see cref="InteractiveObjectInitializer"/> are destroyed after their initialization (See <see cref="InteractiveObjectInitializer.Init"/>).
+        /// So this method is idempotent.
+        /// </summary>
+        public void InitializeAllInteractiveObjectsInitializer()
+        {
             var InteractiveObjectInitializers = GameObject.FindObjectsOfType<InteractiveObjectInitializer>();
             if (InteractiveObjectInitializers != null)
                 for (var InteractiveObjectInitializerIndex = 0; InteractiveObjectInitializerIndex < InteractiveObjectInitializers.Length; InteractiveObjectInitializerIndex++)

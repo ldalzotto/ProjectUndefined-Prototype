@@ -1,6 +1,7 @@
 ﻿using System;
 using GameLoop;
 using Persistence;
+using PlayerObject;
 using UnityEngine;
 
 namespace Tests
@@ -11,9 +12,24 @@ namespace Tests
         {
             base.AfterGameManagerPersistanceInstanceInitialization();
 
-            //Mock Input to have no effect
+            /// Mock Input to have no effect
             GameTestMockedInputManager.SetupForTestScene();
             PersistanceManager.SetInstance(new MockPersistanceManager());
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            
+            /// Player is forced to be controlled by agent
+            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.PlayerMoveManager.ForceSwitchToAgent();
+        }
+
+        protected override void Update()
+        {
+            TestGameControlManager.Get().Tick();
+            TestScenarioManager.Get().Tick(Time.deltaTime);
+            base.Update();
         }
     }
 

@@ -8,7 +8,7 @@ namespace PlayerObject
         [Inline()]
         [DrawNested]
         public PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
-        public override CoreInteractiveObject Init()
+        protected override CoreInteractiveObject InitializationLogic()
         {
             var PlayerInteractiveObject = new PlayerInteractiveObject(InteractiveGameObjectFactory.Build(gameObject), this.PlayerInteractiveObjectDefinition);
             PlayerInteractiveObjectManager.Get().Init(PlayerInteractiveObject);
