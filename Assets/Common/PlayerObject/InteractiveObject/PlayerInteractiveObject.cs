@@ -12,7 +12,7 @@ namespace PlayerObject
 {
     public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject
     {
-        private PlayerInteractiveObjectInitializer PlayerInteractiveObjectInitializer;
+        private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
         #region Systems
 
@@ -34,23 +34,23 @@ namespace PlayerObject
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
         [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
 
-        public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectInitializer PlayerInteractiveObjectInitializer)
+        public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition)
         {
-            this.PlayerInteractiveObjectInitializer = PlayerInteractiveObjectInitializer;
+            this.PlayerInteractiveObjectDefinition = PlayerInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
-            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectInitializer.WeaponHandlingSystemDefinition.WeaponDefinition));
-            this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectInitializer.FiringTargetPositionSystemDefinition);
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
         }
 
         public override void Init()
         {
-            this.InteractiveGameObject.CreateLogicCollider(this.PlayerInteractiveObjectInitializer.InteractiveObjectLogicCollider);
-            
+            this.InteractiveGameObject.CreateLogicCollider(this.PlayerInteractiveObjectDefinition.InteractiveObjectLogicCollider);
+
             /// Agent creation is used to allow player movement without input.
-            this.InteractiveGameObject.CreateAgent(this.PlayerInteractiveObjectInitializer.AIAgentDefinition);
+            this.InteractiveGameObject.CreateAgent(this.PlayerInteractiveObjectDefinition.AIAgentDefinition);
             /// It is disabled by default.
             this.InteractiveGameObject.Agent.enabled = false;
-                
+
             interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true};
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
@@ -75,7 +75,7 @@ namespace PlayerObject
             this.InteractiveGameObject.InteractiveGameObjectParent.transform.position = PlayerPositionPersistenceManager.Get().PlayerPositionBeforeLevelLoad.GetPosition();
             this.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation = PlayerPositionPersistenceManager.Get().PlayerPositionBeforeLevelLoad.GetQuaternion();
 
-            this.baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.PlayerInteractiveObjectInitializer.LocomotionAnimation);
+            this.baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.PlayerInteractiveObjectDefinition.LocomotionAnimation);
         }
 
         public PlayerInteractiveObjectInitializerData PlayerInteractiveObjectInitializerData { get; private set; }
@@ -91,7 +91,7 @@ namespace PlayerObject
                     {
                         if (this.GameInputManager.CurrentInput.FiringActionDown())
                         {
-                            this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectInitializer.FiringPlayerActionInherentData.BuildPlayerAction(this));
+                            this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.BuildPlayerAction(this));
                         }
                         else
                         {
