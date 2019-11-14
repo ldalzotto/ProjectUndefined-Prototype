@@ -48,6 +48,7 @@ namespace Targetting
                     InteractiveObjectsOverCursorTarget[interactiveObjectListened].SetValue(initialRect.Contains(TargetCursorScreenPosition));
                 }
             }
+            TargettableInteractiveObjectSelectionManager.Get().Tick();
         }
 
         /// <summary>
