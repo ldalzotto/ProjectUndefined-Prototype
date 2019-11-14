@@ -37,7 +37,7 @@ namespace SoliderAIBehavior
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
 
         public SoldierAIBehavior(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction,
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition,
             Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction
         ) : base(SoldierAIStateEnum.PATROLLING)
         {
@@ -48,7 +48,7 @@ namespace SoliderAIBehavior
             {
                 {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
                 {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, destinationAction)},
-                {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction)},
+                {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction_WithTargetPosition)},
                 {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, destinationAction)},
                 {SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, this.PlayerObjectStateDataSystem, destinationAction)}
             };

@@ -19,16 +19,16 @@ namespace SoliderAIBehavior
         /// </summary>
         private Action ClearPathAction;
 
-        private Action<Vector3> AskToFireAFiredProjectileAction;
+        private Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition;
 
         public ShootingAtPlayerStateManager(SoldierAIBehavior SoldierAIBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            CoreInteractiveObject associatedInteractiveObject, Action clearPathAction, Action<Vector3> askToFireAFiredProjectileAction)
+            CoreInteractiveObject associatedInteractiveObject, Action clearPathAction, Action<Vector3> askToFireAFiredProjectileAction_WithTargetPosition)
         {
             this.SoldierAIBehaviorRef = SoldierAIBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             ClearPathAction = clearPathAction;
-            AskToFireAFiredProjectileAction = askToFireAFiredProjectileAction;
+            AskToFireAFiredProjectileAction_WithTargetPosition = askToFireAFiredProjectileAction_WithTargetPosition;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace SoliderAIBehavior
             {
                 var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
                 OrientToTarget(PlayerObject);
-                FireProjectile(PlayerObject);  
+                FireProjectile(PlayerObject);
             }
         }
 
@@ -74,10 +74,7 @@ namespace SoliderAIBehavior
         /// </summary>
         private void FireProjectile(CoreInteractiveObject PlayerObject)
         {
-            var WorldTargetDirection = ((PlayerObject.InteractiveGameObject.GetTransform().WorldPosition + PlayerObject.GetFiringTargetLocalPosition())
-                                        - (this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + this.AssociatedInteractiveObject.GetFiringTargetLocalPosition())).normalized;
-            this.AskToFireAFiredProjectileAction.Invoke(WorldTargetDirection);
+            this.AskToFireAFiredProjectileAction_WithTargetPosition.Invoke(PlayerObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(PlayerObject.GetFiringTargetLocalPosition()));
         }
-
     }
 }

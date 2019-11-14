@@ -25,16 +25,6 @@ namespace Weapon
             var firedProjectileRotation = parent.InteractiveGameObject.GetTransform().WorldRotationEuler;
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
         }
-
-        /// <summary>
-        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> in the <paramref name="WorldTargetDirection"/> direction.
-        /// </summary>
-        public void AskToFireAFiredProjectile_WithDirections(Vector3 WorldTargetDirection)
-        {
-            var firedProjectilePosition = GetWorldWeaponFirePoint();
-            var firedProjectileRotation = Quaternion.LookRotation(WorldTargetDirection.normalized).eulerAngles;
-            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
-        }
         
         /// <summary>
         /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing to <paramref name="WorldDestination"/>.

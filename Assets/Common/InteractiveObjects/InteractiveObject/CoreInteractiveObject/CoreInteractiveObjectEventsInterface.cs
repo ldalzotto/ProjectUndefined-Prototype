@@ -68,10 +68,6 @@ namespace InteractiveObjects
         {
         }
 
-        public virtual void AskToFireAFiredProjectile_WithDirection(Vector3 WorldTargetDirection)
-        {
-        }
-
         public virtual void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
         {
         }
