@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CoreGame;
+﻿using CoreGame;
 using InteractiveObjects;
 
 namespace Targetting
@@ -12,7 +11,24 @@ namespace Targetting
         {
             this.CurrentlyTargettedInteractiveObject = CoreInteractiveObject;
         }
-        
+
+        public void OnCursorNoMoveOverObject(CoreInteractiveObject coreInteractiveObject)
+        {
+            this.OnInteractiveObjectDestroyed(coreInteractiveObject);
+        }
+
+        #region Logical Conditions
+
+        public bool IsCurrentlyTargetting()
+        {
+            return this.CurrentlyTargettedInteractiveObject != null;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// /!\ Called only from <see cref="TargettableInteractiveObjectScreenIntersectionManager"/> when a Targettable listened InteractiveObject is destroyed.
+        /// </summary>
         public void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
         {
             if (CoreInteractiveObject == this.CurrentlyTargettedInteractiveObject)

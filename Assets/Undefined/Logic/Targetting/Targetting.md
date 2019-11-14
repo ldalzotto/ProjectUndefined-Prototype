@@ -35,6 +35,6 @@ TargetCursorSystem --> FiringPlayerAction : Provide data
 OnInteractiveObjectCreated --> TargettableInteractiveObjectScreenIntersectionManager
 TargetCursorSystem --> TargettableInteractiveObjectScreenIntersectionManager : Cursor position
 TargettableInteractiveObjectScreenIntersectionManager -> TargettableInteractiveObjectSelectionManager : OnCursorOverObject
-TargettableInteractiveObjectSelectionManager --> TargetCursorSystem : Locked Target
+TargettableInteractiveObjectSelectionManager --> FiringPlayerAction : Locked Target
 @enduml
 ````

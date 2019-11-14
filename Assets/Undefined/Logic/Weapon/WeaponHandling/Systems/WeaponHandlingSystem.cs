@@ -14,21 +14,42 @@ namespace Weapon
             this.WeaponReference = this.WeaponHandlingSystemInitializationData.WeaponDefinition.BuildWeapon(AssociatedInteractiveObject);
         }
 
-        public void AskToFireAFiredProjectile()
+        /// <summary>
+        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> in the associated <see cref="CoreInteractiveObject"/> forward vector direction.
+        /// </summary>
+        public void AskToFireAFiredProjectile_Forward()
         {
             var parent = WeaponHandlingSystemInitializationData.Parent;
             //Eq (1)
-            var firedProjectilePosition = parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;
+            var firedProjectilePosition = GetWorldWeaponFirePoint();
             var firedProjectileRotation = parent.InteractiveGameObject.GetTransform().WorldRotationEuler;
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
         }
 
-        public void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        /// <summary>
+        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> in the <paramref name="WorldTargetDirection"/> direction.
+        /// </summary>
+        public void AskToFireAFiredProjectile_WithDirections(Vector3 WorldTargetDirection)
         {
-            var parent = WeaponHandlingSystemInitializationData.Parent;
-            var firedProjectilePosition = parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;
+            var firedProjectilePosition = GetWorldWeaponFirePoint();
             var firedProjectileRotation = Quaternion.LookRotation(WorldTargetDirection.normalized).eulerAngles;
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
+        }
+        
+        /// <summary>
+        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing to <paramref name="WorldDestination"/>.
+        /// </summary>
+        public void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
+        {
+            var firedProjectilePosition = GetWorldWeaponFirePoint();
+            var firedProjectileRotation = Quaternion.LookRotation((WorldDestination - firedProjectilePosition).normalized).eulerAngles;
+            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
+        }
+
+        private Vector3 GetWorldWeaponFirePoint()
+        {
+            var parent = WeaponHandlingSystemInitializationData.Parent;
+            return parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;
         }
     }
 

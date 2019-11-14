@@ -40,7 +40,7 @@ namespace TrainingLevel
             {
                 this.SetAISpeedAttenuationFactor(AIMovementSpeedDefinition);
                 return this.SetDestination(IAgentMovementCalculationStrategy);
-            }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile, () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition);
+            }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile_WithDirection, () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition);
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
         }
@@ -121,14 +121,14 @@ namespace TrainingLevel
 
         #region Projectile Events
 
-        public override void AskToFireAFiredProjectile()
+        public override void AskToFireAFiredProjectile_Forward()
         {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile();
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_Forward();
         }
 
-        public override void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        public override void AskToFireAFiredProjectile_WithDirection(Vector3 WorldTargetDirection)
         {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile(WorldTargetDirection);
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_WithDirections(WorldTargetDirection);
         }
 
         public override Vector3 GetFiringTargetLocalPosition()

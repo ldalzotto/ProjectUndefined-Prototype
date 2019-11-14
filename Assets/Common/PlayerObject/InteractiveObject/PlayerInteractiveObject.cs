@@ -157,14 +157,19 @@ namespace PlayerObject
 
         #region Projectile Events
 
-        public override void AskToFireAFiredProjectile()
+        public override void AskToFireAFiredProjectile_Forward()
         {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile();
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_Forward();
         }
 
-        public override void AskToFireAFiredProjectile(Vector3 WorldTargetDirection)
+        public override void AskToFireAFiredProjectile_WithDirection(Vector3 WorldTargetDirection)
         {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile(WorldTargetDirection);
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_WithDirections(WorldTargetDirection);
+        }
+        
+        public override void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTargetPoint(WorldDestination);
         }
 
         public override Vector3 GetFiringTargetLocalPosition()

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using CoreGame;
 using InteractiveObjects;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Targetting
 {
@@ -18,7 +16,14 @@ namespace Targetting
         /// This lookup table is fed by the <see cref="CoreInteractiveObject"/> creation and destroy events <see cref="OnInteractiveObjectCreated"/>, <see cref="OnInteractiveObjectDestroyed"/>
         /// </summary>
         private Dictionary<CoreInteractiveObject, bool> InteractiveObjectsListened = new Dictionary<CoreInteractiveObject, bool>();
-        
+
+        /// <summary>
+        /// A lookup table indicating which <see cref="InteractiveObjectsListened"/> are currently hovered by the play <see cref="TargetCursorSystem"/>.
+        /// This table have the same keys as <see cref="InteractiveObjectsListened"/>.
+        /// When the value change, the internal events <see cref="OnCursorOverObject"/> and <see cref="OnCursorNoMoveOverObject"/> are called.
+        /// </summary>
+        private Dictionary<CoreInteractiveObject, BoolVariable> InteractiveObjectsOverCursorTarget = new Dictionary<CoreInteractiveObject, BoolVariable>();
+
         public void InitializeEvents()
         {
             InteractiveObjectEventsManager.Get().RegisterOnInteractiveObjectCreatedEventListener(this.OnInteractiveObjectCreated);
@@ -40,14 +45,14 @@ namespace Targetting
                 if (this.InteractiveObjectsListened[interactiveObjectListened])
                 {
                     var initialRect = interactiveObjectListened.InteractiveGameObject.AverageModelLocalBounds.Bounds.Mul(interactiveObjectListened.InteractiveGameObject.GetLocalToWorld()).ToScreenSpace(Camera.main);
-                    if (initialRect.Contains(TargetCursorScreenPosition))
-                    {
-                        TargettableInteractiveObjectSelectionManager.Get().OnCursorOverObject(interactiveObjectListened);
-                    }
+                    InteractiveObjectsOverCursorTarget[interactiveObjectListened].SetValue(initialRect.Contains(TargetCursorScreenPosition));
                 }
             }
         }
 
+        /// <summary>
+        /// Update <see cref="InteractiveObjectsListened"/> value by calculating if the InteractiveObject is visible or not.
+        /// </summary>
         private void UpdateInteractiveObjectsScreenVisibility()
         {
             Dictionary<CoreInteractiveObject, bool> ChangedValues = null;
@@ -79,6 +84,7 @@ namespace Targetting
             if (CoreInteractiveObject.InteractiveObjectTag.IsTakingDamage)
             {
                 this.InteractiveObjectsListened.Add(CoreInteractiveObject, CoreInteractiveObject.InteractiveGameObject.IsVisible());
+                this.InteractiveObjectsOverCursorTarget.Add(CoreInteractiveObject, new BoolVariable(false, () => this.OnCursorOverObject(CoreInteractiveObject), () => { this.OnCursorNoMoveOverObject(CoreInteractiveObject); }));
             }
         }
 
@@ -87,8 +93,29 @@ namespace Targetting
             if (CoreInteractiveObject.InteractiveObjectTag.IsTakingDamage)
             {
                 this.InteractiveObjectsListened.Remove(CoreInteractiveObject);
+                this.InteractiveObjectsOverCursorTarget.Remove(CoreInteractiveObject);
                 TargettableInteractiveObjectSelectionManager.Get().OnInteractiveObjectDestroyed(CoreInteractiveObject);
             }
         }
+
+        #region Internal Events
+
+        /// <summary>
+        /// /!\ This events is only called when <see cref="InteractiveObjectsListened"/> value changes from false to true
+        /// </summary>
+        private void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
+        {
+            TargettableInteractiveObjectSelectionManager.Get().OnCursorOverObject(CoreInteractiveObject);
+        }
+
+        /// <summary>
+        /// /!\ This events is only called when <see cref="InteractiveObjectsListened"/> value changes from true to false
+        /// </summary>
+        private void OnCursorNoMoveOverObject(CoreInteractiveObject CoreInteractiveObject)
+        {
+            TargettableInteractiveObjectSelectionManager.Get().OnCursorNoMoveOverObject(CoreInteractiveObject);
+        }
+
+        #endregion
     }
 }

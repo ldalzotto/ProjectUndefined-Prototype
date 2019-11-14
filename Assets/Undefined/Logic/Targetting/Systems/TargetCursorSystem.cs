@@ -23,7 +23,6 @@ namespace Targetting
         #region External Dependencies
 
         private TargettableInteractiveObjectScreenIntersectionManager TargettableInteractiveObjectScreenIntersectionManager = TargettableInteractiveObjectScreenIntersectionManager.Get();
-        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
 
         #endregion
 
@@ -55,21 +54,10 @@ namespace Targetting
             this.TargettableInteractiveObjectScreenIntersectionManager.Tick(d, this.TargetCursor.transform.position);
         }
 
-        /// <summary>
-        /// Moves the <see cref="TargetCursor"/> either from <see cref="GameInputManager"/> or if an actual object is targetted
-        /// <see cref="TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject"/> then setted to it's center
-        /// </summary>
         private void MoveCursor(float d)
         {
-            if (this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject != null)
-            {
-                this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center);
-            }
-            else
-            {
-                var CursorDisplacement = this.GameInputManager.CurrentInput.CursorDisplacement();
-                this.TargetCursor.transform.position += (new Vector3(CursorDisplacement.x, CursorDisplacement.z) * d);
-            }
+            var CursorDisplacement = this.GameInputManager.CurrentInput.CursorDisplacement();
+            this.TargetCursor.transform.position += (new Vector3(CursorDisplacement.x, CursorDisplacement.z) * d);
         }
 
         public Vector2 GetTargetCursorScreenPosition()

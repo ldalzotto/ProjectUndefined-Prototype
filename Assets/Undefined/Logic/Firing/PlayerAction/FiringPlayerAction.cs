@@ -19,11 +19,12 @@ namespace Firing
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
+            var targettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
             this.TargetCursorSystem = new TargetCursorSystem(PlayerInteractiveObject, gameInputManager);
-            this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem);
-            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerInteractiveObject as CoreInteractiveObject);
+            this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem, targettableInteractiveObjectSelectionManager);
+            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerInteractiveObject as CoreInteractiveObject, targettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem, this.PlayerObjectOrientationSystem);
         }
 
@@ -67,27 +68,40 @@ namespace Firing
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
         private GameObject HorizontalPlaneGameObject;
         private TargetCursorSystem TargetCursorSystemRef;
+        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
 
-        public PlayerObjectOrientationSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorSystem TargetCursorSystemRef)
+        public PlayerObjectOrientationSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorSystem TargetCursorSystemRef,
+            TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager)
         {
             this.HorizontalPlaneGameObject = GameObject.Instantiate(firingPlayerActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.HorizontalPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
             this.TargetCursorSystemRef = TargetCursorSystemRef;
+            this.TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager;
         }
 
         public void Tick(float d)
         {
-            this.HorizontalPlaneGameObject.transform.position = this.PlayerInteractiveObjectRef.InteractiveGameObject.GetTransform().WorldPosition;
-            var projectionRay = Camera.main.ScreenPointToRay(this.TargetCursorSystemRef.GetTargetCursorScreenPosition());
-            if (Physics.Raycast(projectionRay, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER)))
+            if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
             {
-                var projectedPosition = hit.point;
                 var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
-                var lookDirection = (projectedPosition - playerTransform.position).normalized;
+                var rotationAngle = Quaternion.LookRotation((this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - playerTransform.position).normalized,
+                    playerTransform.up).eulerAngles;
+                playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle.y, playerTransform.eulerAngles.z);
+            }
+            else
+            {
+                this.HorizontalPlaneGameObject.transform.position = this.PlayerInteractiveObjectRef.InteractiveGameObject.GetTransform().WorldPosition;
+                var projectionRay = Camera.main.ScreenPointToRay(this.TargetCursorSystemRef.GetTargetCursorScreenPosition());
+                if (Physics.Raycast(projectionRay, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER)))
+                {
+                    var projectedPosition = hit.point;
+                    var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
+                    var lookDirection = (projectedPosition - playerTransform.position).normalized;
 
-                var rotationAngle = Vector3.SignedAngle(Vector3.forward, lookDirection, playerTransform.up);
-                playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle, playerTransform.eulerAngles.z);
+                    var rotationAngle = Vector3.SignedAngle(Vector3.forward, lookDirection, playerTransform.up);
+                    playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle, playerTransform.eulerAngles.z);
+                }
             }
         }
 
@@ -104,18 +118,31 @@ namespace Firing
     {
         private GameInputManager GameInputManager;
         private CoreInteractiveObject PlayerInteractiveObject;
+        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
 
-        public FiringProjectileTriggerSystem(GameInputManager gameInputManager, CoreInteractiveObject PlayerInteractiveObject)
+        public FiringProjectileTriggerSystem(GameInputManager gameInputManager, CoreInteractiveObject PlayerInteractiveObject, TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager)
         {
             GameInputManager = gameInputManager;
             this.PlayerInteractiveObject = PlayerInteractiveObject;
+            this.TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager;
         }
 
         public void Tick(float d)
         {
             if (this.GameInputManager.CurrentInput.GetInputCondition(InputID.FIRING_PROJECTILE_DOWN_HOLD))
             {
-                this.PlayerInteractiveObject.AskToFireAFiredProjectile();
+                /// If the Player is currently targettin an object via it's cursor
+                if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
+                {
+                    var CurrentlyTargettedInteractiveObject = this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject;
+                    /// Projectile direction heads towards the FiringTargetLocation
+                    var firingTargetWorldLocation = CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject.GetFiringTargetLocalPosition());
+                    this.PlayerInteractiveObject.AskToFireAFiredProjectile_ToTargetPoint(firingTargetWorldLocation);
+                }
+                else
+                {
+                    this.PlayerInteractiveObject.AskToFireAFiredProjectile_Forward();
+                }
             }
         }
     }

@@ -21,7 +21,7 @@ public class TrainingLevelDebugComponent : MonoBehaviour
         if (FireProjectileToInteractiveObject)
         {
             FireProjectileToInteractiveObject = false;
-            InteractiveObjectV2Manager.Get().InteractiveObjectsIndexedByLogicCollider[this.LogicCollider].AskToFireAFiredProjectile();
+            InteractiveObjectV2Manager.Get().InteractiveObjectsIndexedByLogicCollider[this.LogicCollider].AskToFireAFiredProjectile_Forward();
         }
 
         if (SetPlayerPosition)
