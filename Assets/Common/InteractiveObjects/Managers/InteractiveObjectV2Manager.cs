@@ -4,9 +4,22 @@ using UnityEngine;
 
 namespace InteractiveObjects
 {
+    /// <summary>
+    /// Holds references to ALL <see cref="CoreInteractiveObject"/>. Even if they are not <see cref="CoreInteractiveObject.IsAskingToBeDestroyed"/>, the
+    /// reference is still added to <see cref="InteractiveObjects"/> and <see cref="InteractiveObjectsIndexedByLogicCollider"/>.
+    /// </summary>
     public class InteractiveObjectV2Manager : GameSingleton<InteractiveObjectV2Manager>
     {
+        /// <summary>
+        /// References to all <see cref="CoreInteractiveObject"/>. Objects with <see cref="CoreInteractiveObject.IsAskingToBeDestroyed"/> set to false will not be updated
+        /// in workflow methods.
+        /// </summary>
         public List<CoreInteractiveObject> InteractiveObjects { get; private set; } = new List<CoreInteractiveObject>();
+        
+        /// <summary>
+        /// <see cref="CoreInteractiveObject"/> indexed by it's LogicCollider (<see cref="InteractiveGameObject.LogicCollider"/>).
+        /// This lookup table can be used on Physics event to check if the triggered collider is a <see cref="CoreInteractiveObject"/>.
+        /// </summary>
         public Dictionary<Collider, CoreInteractiveObject> InteractiveObjectsIndexedByLogicCollider { get; private set; } = new Dictionary<Collider, CoreInteractiveObject>();
 
         public void Init()

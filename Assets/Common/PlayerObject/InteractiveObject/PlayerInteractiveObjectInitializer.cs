@@ -11,7 +11,6 @@ namespace PlayerObject
         protected override CoreInteractiveObject InitializationLogic()
         {
             var PlayerInteractiveObject = new PlayerInteractiveObject(InteractiveGameObjectFactory.Build(gameObject), this.PlayerInteractiveObjectDefinition);
-            PlayerInteractiveObjectManager.Get().Init(PlayerInteractiveObject);
             return PlayerInteractiveObject;
         }
     }

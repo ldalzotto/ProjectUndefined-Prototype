@@ -1,5 +1,8 @@
 ﻿using CoreGame;
 using InteractiveObjects;
+using LevelManagement;
+using PlayerObject;
+using PlayerObject_Interfaces;
 using SequencedAction;
 using Tests.TestScenario;
 using UnityEngine;
@@ -17,13 +20,22 @@ namespace Tests
         private SequencedActionPlayer SequencedActionPlayer;
 
         private TestControllerConfiguration TestControllerConfiguration = TestControllerConfiguration.Get();
-        
+
+        public TestScenarioManager()
+        {
+            PlayerInteractiveObjectDestinationReachedEvent.Get().RegisterOnPlayerInteractiveObjectDestinationReachedEventListener(this.OnPlayerDestinationReached);
+        }
+
         public void Tick(float d)
         {
             if (this.TestControllerConfiguration.TestControllerDefinition.StartTest)
             {
-                this.TestControllerConfiguration.TestControllerDefinition.StartTest = false;
                 this.StartTest();
+            }
+
+            if (this.TestControllerConfiguration.TestControllerDefinition.ClearTest)
+            {
+                this.ClearTest();
             }
 
             if (this.SequencedActionPlayer != null)
@@ -31,14 +43,37 @@ namespace Tests
                 this.SequencedActionPlayer.Tick(d);
             }
         }
-        
+
         private void StartTest()
         {
+            this.TestControllerConfiguration.TestControllerDefinition.StartTest = false;
             var aTestScenarioDefinition = this.TestControllerConfiguration.TestControllerDefinition.aTestScenarioDefinition;
             this.TestEntitiesPrefabInstance = GameObject.Instantiate(aTestScenarioDefinition.TestEntitiesPrefab);
             InteractiveObjectV2Manager.Get().InitializeAllInteractiveObjectsInitializer();
             this.SequencedActionPlayer = new SequencedActionPlayer(aTestScenarioDefinition.BuildScenarioActions());
             this.SequencedActionPlayer.Play();
+        }
+
+        private void ClearTest()
+        {
+            this.TestControllerConfiguration.TestControllerDefinition.ClearTest = false;
+            var allInteractiveObjects = InteractiveObjectV2Manager.Get().InteractiveObjects;
+            for (var i = allInteractiveObjects.Count - 1; i >= 0; i--)
+            {
+                //We dont remove the level chunk
+                if (allInteractiveObjects[i].GetType() != typeof(LevelChunkInteractiveObject))
+                {
+                    allInteractiveObjects[i].Destroy();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Registered event from <see cref="PlayerInteractiveObjectDestinationReachedEvent"/>
+        /// </summary>
+        private void OnPlayerDestinationReached()
+        {
+            IActionAbortedOnDestinationReachedHelper.ProcessOnDestinationReachedEvent(this.SequencedActionPlayer);
         }
     }
 }

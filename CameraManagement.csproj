@@ -626,6 +626,14 @@
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
+    <ProjectReference Include="PlayerObject_Interface.csproj">
+      <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
+      <Name>PlayerObject_Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

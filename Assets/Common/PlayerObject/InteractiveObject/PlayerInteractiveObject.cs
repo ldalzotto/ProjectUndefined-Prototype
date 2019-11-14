@@ -41,6 +41,8 @@ namespace PlayerObject
             base.BaseInit(interactiveGameObject, false);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
+          
+            PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
 
         public override void Init()
@@ -66,7 +68,7 @@ namespace PlayerObject
 
             this.playerMoveManager = new PlayerMoveManager(this,
                 new PlayerRigidBodyMoveManager(PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent.SpeedMultiplicationFactor, this.InteractiveGameObject.PhysicsRigidbody, cameraPivotPoint.transform),
-                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent));
+                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.OnDestinationReached));
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
             PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, this.GameInputManager,
                 PlayerActionEntryPoint.Get());
@@ -128,6 +130,7 @@ namespace PlayerObject
 
         public override void Destroy()
         {
+            PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
             base.Destroy();
         }
 
@@ -136,6 +139,14 @@ namespace PlayerObject
         public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             return this.playerMoveManager.SetDestination(IAgentMovementCalculationStrategy);
+        }
+
+        /// <summary>
+        /// This event is called from the <see cref="PlayerMoveManager"/> when it is directed by <see cref="PlayerAgentMoveManager"/>.
+        /// </summary>
+        private void OnDestinationReached()
+        {
+            PlayerInteractiveObjectDestinationReachedEvent.Get().OnPlayerInteractiveObjectDestinationReached();
         }
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)

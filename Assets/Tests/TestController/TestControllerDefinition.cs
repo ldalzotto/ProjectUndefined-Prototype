@@ -14,5 +14,6 @@ namespace Tests
         [Inline()] public TestGameControlDefinition TestGameControlDefinition;
         [Inline()] public ATestScenarioDefinition aTestScenarioDefinition;
         public bool StartTest;
+        public bool ClearTest;
     }
 }

@@ -2,6 +2,7 @@
 using GameLoop;
 using Persistence;
 using PlayerObject;
+using PlayerObject_Interfaces;
 using UnityEngine;
 
 namespace Tests
@@ -21,8 +22,11 @@ namespace Tests
         {
             base.Start();
             
-            /// Player is forced to be controlled by agent
-            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.PlayerMoveManager.ForceSwitchToAgent();
+            PlayerInteractiveObjectCreatedEvent.Get().RegisterPlayerInteractiveObjectCreatedEvent((p) =>
+            {
+                /// Player is forced to be controlled by agent
+                PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.PlayerMoveManager.ForceSwitchToAgent();
+            });
         }
 
         protected override void Update()

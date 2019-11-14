@@ -2,8 +2,10 @@
     "name": "CameraManagement",
     "references": [
         "CoreGame",
-"Input",
-"OdinSerializer"
+        "Input",
+        "OdinSerializer",
+        "PlayerObject_Interface",
+        "InteractiveObjects_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

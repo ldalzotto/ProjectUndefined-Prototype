@@ -56,6 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerInteractiveObjectCreatedEvent.cs" />
+     <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerInteractiveObjectDestinationReachedEvent.cs" />
+     <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerInteractiveObjectDestroyedEvent.cs" />
      <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\IPlayerInteractiveObject.cs" />
      <None Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\PlayerObject_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -615,6 +618,10 @@
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="CoreGame.csproj">
+      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Name>CoreGame</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

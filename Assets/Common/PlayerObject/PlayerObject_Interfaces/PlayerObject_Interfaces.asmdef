@@ -1,7 +1,8 @@
 {
     "name": "PlayerObject_Interface",
     "references": [
-        "GUID:6f109e35241fab442bce341ff19d91ef"
+        "GUID:6f109e35241fab442bce341ff19d91ef",
+        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

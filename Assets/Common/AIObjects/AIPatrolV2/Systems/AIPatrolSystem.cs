@@ -21,11 +21,7 @@ namespace AIObjects
 
         public void OnAIDestinationReached()
         {
-            foreach (var currentAction in SequencedActionPlayer.GetCurrentActions(true))
-            {
-                var destinationReachedListeningNode = currentAction as IActionAbortedOnDestinationReached;
-                if (destinationReachedListeningNode != null) destinationReachedListeningNode.OnDestinationReached();
-            }
+            IActionAbortedOnDestinationReachedHelper.ProcessOnDestinationReachedEvent(this.SequencedActionPlayer);
         }
     }
 }

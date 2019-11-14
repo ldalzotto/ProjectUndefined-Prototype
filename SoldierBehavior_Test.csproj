@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\MoveAroundTestScenario.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\MoveAroundTestScenario\MoveAroundTestScenario.cs" />
      <None Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\SoldierBehavior_Test.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
@@ -640,6 +640,10 @@
     <ProjectReference Include="InteractiveObjects.csproj">
       <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
       <Name>InteractiveObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>

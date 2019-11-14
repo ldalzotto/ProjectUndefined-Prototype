@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGame;
 using Input;
+using PlayerObject_Interfaces;
 using UnityEngine;
 
 namespace CameraManagement
@@ -11,19 +12,22 @@ namespace CameraManagement
         private CameraOrientationManager CameraOrientationManager;
         private CameraZoomManager CameraZoomManager;
 
+        public void InitializeEvents()
+        {
+            PlayerInteractiveObjectCreatedEvent.Get().RegisterPlayerInteractiveObjectCreatedEvent(this.OnPlayerInteractiveObjectCreated);
+            PlayerInteractiveObjectDestroyedEvent.Get().RegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerInteractiveObjectDestroyed);
+        }
+        
         public void Init()
         {
-            var playerPosition = GameObject.FindGameObjectWithTag(TagConstants.PLAYER_TAG).transform;
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform;
-
-            this.CameraFollowManager = new CameraFollowManager(playerPosition, cameraPivotPoint, CameraConfigurationGameObject.Get().CameraMovementConfiguration.CameraFollowManagerComponent);
             this.CameraOrientationManager = new CameraOrientationManager(cameraPivotPoint, GameInputManager.Get(), InputConfigurationGameObject.Get().CoreInputConfiguration);
             this.CameraZoomManager = new CameraZoomManager(Camera.main, GameInputManager.Get());
         }
 
         public void Tick(float d)
         {
-            this.CameraFollowManager.Tick(d);
+            this.CameraFollowManager?.Tick(d);
             this.CameraOrientationManager.Tick(d);
             this.CameraZoomManager.Tick(d);
         }
@@ -32,7 +36,7 @@ namespace CameraManagement
 
         public void SetCameraFollowTarget(Transform followTarget)
         {
-            this.CameraFollowManager.SetCameraFollowTarget(followTarget);
+            this.CameraFollowManager?.SetCameraFollowTarget(followTarget);
         }
 
         public void SetTargetAngle(float targetAngle)
@@ -48,6 +52,24 @@ namespace CameraManagement
         public void EnableInput()
         {
             this.CameraOrientationManager.EnableInput();
+        }
+
+        /// <summary>
+        /// Called from <see cref="PlayerInteractiveObjectCreatedEvent"/>.
+        /// </summary
+        private void OnPlayerInteractiveObjectCreated(IPlayerInteractiveObject IPlayerInteractiveObject)
+        {
+            var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform;
+            this.CameraFollowManager = new CameraFollowManager(IPlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform, cameraPivotPoint,
+                CameraConfigurationGameObject.Get().CameraMovementConfiguration.CameraFollowManagerComponent);
+        }
+
+        /// <summary>
+        /// Called from <see cref="PlayerInteractiveObjectDestroyedEvent"/>
+        /// </summary>
+        private void OnPlayerInteractiveObjectDestroyed()
+        {
+            this.CameraFollowManager = null;
         }
 
         #endregion

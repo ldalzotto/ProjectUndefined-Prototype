@@ -1,4 +1,5 @@
-﻿using AIObjects;
+﻿using System;
+using AIObjects;
 using CoreGame;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
@@ -11,9 +12,10 @@ namespace PlayerObject
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         private PlayerSpeedProcessingInput PlayerSpeedProcessingInput;
 
-        public PlayerAgentMoveManager(PlayerInteractiveObject PlayerInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3)
+        public PlayerAgentMoveManager(PlayerInteractiveObject PlayerInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3, 
+            OnAIInteractiveObjectDestinationReachedDelegate OnDestinationReachedCallback = null)
         {
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(PlayerInteractiveObject, TransformMoveManagerComponentV3, null, this.AgentSpeedDirectionWithMagnitude);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(PlayerInteractiveObject, TransformMoveManagerComponentV3, OnDestinationReachedCallback, this.AgentSpeedDirectionWithMagnitude);
         }
 
         public override void Tick(float d)
