@@ -58,6 +58,8 @@
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargettableInteractiveObjectScreenIntersectionManager.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargettableInteractiveObjectSelectionManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Systems\TargetCursorSystem.cs" />
      <None Include="Assets\Undefined\Logic\Targetting\Targetting.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -621,6 +623,10 @@
     <ProjectReference Include="PlayerObject_Interface.csproj">
       <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
       <Name>PlayerObject_Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>

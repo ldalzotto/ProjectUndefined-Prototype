@@ -19,7 +19,8 @@
 "Obstacle",
 "LevelManagement_Interfaces",
 "Weapon",
-"GeometryIntersection"
+"GeometryIntersection",
+"Targetting"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

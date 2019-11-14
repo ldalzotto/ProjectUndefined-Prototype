@@ -3,6 +3,7 @@
     "references": [
         "Input",
         "PlayerObject_Interface",
+        "InteractiveObjects",
         "InteractiveObjects_Interfaces",
         "CoreGame",
         "OdinSerializer"

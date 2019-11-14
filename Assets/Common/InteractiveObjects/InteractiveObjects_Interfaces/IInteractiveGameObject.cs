@@ -9,14 +9,16 @@ namespace InteractiveObjects_Interfaces
     public interface IInteractiveGameObject
     {
         GameObject InteractiveGameObjectParent { get; }
-        ExtendedBounds AverageModelBounds { get; }
+        ExtendedBounds AverageModelLocalBounds { get; }
         Animator Animator { get; }
         List<Renderer> Renderers { get; }
+        bool IsVisible();
         Collider LogicCollider { get; }
         Rigidbody PhysicsRigidbody { get; }
         Collider PhysicsCollider { get; }
         NavMeshAgent Agent { get; }
 
+        Bounds GetAverageModelWorldBounds();
         BoxCollider GetLogicColliderAsBox();
         TransformStruct GetTransform();
         TransformStruct GetLogicColliderCenterTransform();

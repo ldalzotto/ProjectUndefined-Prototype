@@ -18,7 +18,7 @@ namespace VisualFeedback
         {
             InteractiveGameObjectRef = InteractiveGameObject;
             //position calculation
-            positionOffsetFromNPC = Vector3.up * InteractiveGameObject.AverageModelBounds.Bounds.max.y;
+            positionOffsetFromNPC = Vector3.up * InteractiveGameObject.AverageModelLocalBounds.Bounds.max.y;
         }
 
         public override void Tick(float d)
@@ -42,7 +42,7 @@ namespace VisualFeedback
             sourceTriggeringInteractiveObjects.Add(TargetInteractiveGameObject);
             lines.Add(new DottedLine(DottedLineID));
             var targetGameObject = TargetInteractiveGameObject.InteractiveGameObject;
-            linePositionings.Add(new LineFollowTransformPositioning(targetGameObject.InteractiveGameObjectParent.transform, targetGameObject.AverageModelBounds));
+            linePositionings.Add(new LineFollowTransformPositioning(targetGameObject.InteractiveGameObjectParent.transform, targetGameObject.AverageModelLocalBounds));
         }
 
         /*

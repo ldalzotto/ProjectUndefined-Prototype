@@ -35,7 +35,7 @@ namespace InteractiveObjects
             progressbar = ProgressBarGameObject.AddComponent<CircleFillBarType>();
 
             progressbar.Init(Camera.main);
-            progressbar.transform.position = AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + (Vector3.up * (AssociatedInteractiveObject.InteractiveGameObject.AverageModelBounds.Bounds.max.y));
+            progressbar.transform.position = AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + (Vector3.up * (AssociatedInteractiveObject.InteractiveGameObject.AverageModelLocalBounds.Bounds.max.y));
             progressbar.gameObject.SetActive(false);
 
             elapsedTime = 0f;

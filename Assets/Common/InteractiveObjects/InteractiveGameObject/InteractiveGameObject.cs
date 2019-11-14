@@ -20,7 +20,7 @@ namespace InteractiveObjects
         public InteractiveGameObject(GameObject InteractiveGameObjectParent)
         {
             var childRenderers = InteractiveGameObjectParent.GetComponentsInChildren<Renderer>();
-            if (childRenderers != null) AverageModelBounds = BoundsHelper.GetAverageRendererBounds(childRenderers);
+            if (childRenderers != null) AverageModelLocalBounds = BoundsHelper.GetAverageRendererBoundsLocal(childRenderers, InteractiveGameObjectParent.transform.worldToLocalMatrix);
 
             Animator = InteractiveGameObjectParent.GetComponent<Animator>();
             if (Animator == null) Animator = InteractiveGameObjectParent.GetComponentInChildren<Animator>();
@@ -36,6 +36,11 @@ namespace InteractiveObjects
         }
 
         public GameObject InteractiveGameObjectParent { get; private set; }
+
+        public Bounds GetAverageModelWorldBounds()
+        {
+            return this.AverageModelLocalBounds.Bounds.Mul(this.InteractiveGameObjectParent.transform.localToWorldMatrix);
+        }
 
         public BoxCollider GetLogicColliderAsBox()
         {
@@ -125,9 +130,24 @@ namespace InteractiveObjects
 
         #region Properties
 
-        public ExtendedBounds AverageModelBounds { get; private set; }
+        public ExtendedBounds AverageModelLocalBounds { get; private set; }
         public Animator Animator { get; private set; }
         public List<Renderer> Renderers { get; private set; }
+
+        public bool IsVisible()
+        {
+            var interactiveObjectRenderers = this.Renderers;
+            for (var i = 0; i < interactiveObjectRenderers.Count; i++)
+            {
+                if (interactiveObjectRenderers[i].isVisible)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public Collider LogicCollider { get; private set; }
 
         public Rigidbody PhysicsRigidbody { get; private set; }

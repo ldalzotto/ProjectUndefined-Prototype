@@ -51,7 +51,7 @@ namespace SelectableObject
 
         public ExtendedBounds GetAverageModelBoundLocalSpace()
         {
-            return AssociatedInteractiveObject.InteractiveGameObject.AverageModelBounds;
+            return AssociatedInteractiveObject.InteractiveGameObject.AverageModelLocalBounds;
         }
 
         public Transform GetTransform()

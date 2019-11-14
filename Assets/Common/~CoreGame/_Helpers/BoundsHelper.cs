@@ -37,7 +37,7 @@ namespace CoreGame
 
     public class BoundsHelper
     {
-        public static ExtendedBounds GetAverageRendererBounds(Renderer[] renderers)
+        public static ExtendedBounds GetAverageRendererBoundsLocal(Renderer[] renderers, Matrix4x4 worldToLocalMatrix)
         {
             if (renderers != null && renderers.Length > 0)
             {
@@ -47,7 +47,7 @@ namespace CoreGame
                     averageBound.Encapsulate(renderer.bounds);
                 }
 
-                return new ExtendedBounds(averageBound);
+                return new ExtendedBounds(new Bounds(worldToLocalMatrix.MultiplyPoint(averageBound.center), averageBound.size));
             }
             else
             {

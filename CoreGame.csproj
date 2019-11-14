@@ -93,6 +93,7 @@
      <Compile Include="Assets\Common\~CoreGame\EnumDependantProperty\ByEnumProperty.cs" />
      <Compile Include="Assets\Common\~CoreGame\EventVariables\BoolVariable.cs" />
      <Compile Include="Assets\Common\~CoreGame\EventVariables\EnumVariable.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Extensions\BoundsExtensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Extensions\QuaternionExtensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Extensions\Vector3Extensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Log\MyLog.cs" />
@@ -101,7 +102,11 @@
      <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
+     <Compile Include="Assets\Test\OutlineTest\OutlineCommandBuffer.cs" />
+     <Compile Include="Assets\Test\OutlineTest\OutlineRenderFeature.cs" />
+     <Compile Include="Assets\Test\OutlineTest\OutlineTextureRenderPassFeature.cs" />
      <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
+     <None Include="Assets\Test\OutlineTest\OutlineShader.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\_Shader\Wave\WaveMovementV2.cginc" />
@@ -133,6 +138,7 @@
      <None Include="Assets\_Shader\ImageBlitShader\AddBlitShader.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\Test\OutlineTest\AddBlit.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
  <Reference Include="Unity.Postprocessing.Runtime">

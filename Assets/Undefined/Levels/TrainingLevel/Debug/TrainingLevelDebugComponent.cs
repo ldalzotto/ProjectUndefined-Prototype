@@ -47,8 +47,6 @@ public class TrainingLevelDebugComponent : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            var playerGameObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.InteractiveGameObject;
-            GizmoHelper.DrawBox(playerGameObject.GetLocalToWorld(), playerGameObject.AverageModelBounds.Bounds.center, playerGameObject.AverageModelBounds.Bounds, Color.blue, "Player", MyEditorStyles.LabelGreen);
         }
     }
 }

@@ -19,18 +19,12 @@ namespace CoreGame
 
         public static Vector3 Mul(this Vector3 vector, float nb)
         {
-            vector.x = vector.x * nb;
-            vector.y = vector.y * nb;
-            vector.z = vector.z * nb;
-            return vector;
+            return new Vector3(vector.x * nb, vector.y * nb, vector.z * nb);
         }
 
         public static Vector3 Mul(this Vector3 vector, Vector3 vector2)
         {
-            vector.x = vector.x * vector2.x;
-            vector.y = vector.y * vector2.y;
-            vector.z = vector.z * vector2.z;
-            return vector;
+            return new Vector3(vector.x * vector2.x, vector.y * vector2.y,vector.z * vector2.z );
         }
 
         public static Vector3 SetVector(this Vector3 vector, float x, float y, float z)

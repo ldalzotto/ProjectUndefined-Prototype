@@ -9,6 +9,7 @@ using PlayerActions;
 using PlayerObject;
 using RangeObjects;
 using SelectableObject;
+using Targetting;
 using Tutorial;
 using UnityEngine;
 using VisualFeedback;
@@ -32,11 +33,12 @@ namespace GameLoop
 
         protected virtual void Start()
         {
-            RangeObjectV2Manager.Get().Init();
-            GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             PlayerInteractiveObjectManager.Get().InitializeEvents();
             CameraMovementManager.Get().InitializeEvents();
-            
+            TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
+
+            RangeObjectV2Manager.Get().Init();
+            GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             InteractiveObjectV2Manager.Get().Init();
 
             CameraMovementManager.Get().Init();
