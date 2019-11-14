@@ -9,8 +9,6 @@ namespace Firing
     [SceneHandleDraw]
     public class FiringPlayerActionInherentData : PlayerActionInherentData
     {
-        public float TargetCursorInitialOffset;
-        public GameObject TargetCursorPrefab;
         public GameObject FiringHorizontalPlanePrefab;
 
         public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)

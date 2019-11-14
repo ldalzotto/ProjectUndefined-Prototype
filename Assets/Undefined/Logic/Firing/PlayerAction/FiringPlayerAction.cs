@@ -3,6 +3,7 @@ using Input;
 using InteractiveObjects;
 using PlayerActions;
 using PlayerObject_Interfaces;
+using Targetting;
 using UnityEngine;
 
 namespace Firing
@@ -20,7 +21,7 @@ namespace Firing
         {
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
-            this.TargetCursorSystem = new TargetCursorSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, gameInputManager);
+            this.TargetCursorSystem = new TargetCursorSystem(PlayerInteractiveObject, gameInputManager);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem);
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerInteractiveObject as CoreInteractiveObject);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem, this.PlayerObjectOrientationSystem);
@@ -58,50 +59,6 @@ namespace Firing
 
         public override void GizmoTick()
         {
-        }
-    }
-
-    class TargetCursorSystem
-    {
-        private FiringPlayerActionInherentData FiringPlayerActionInherentDataRef;
-        private IPlayerInteractiveObject PlayerInteractiveObjectRef;
-        private GameInputManager GameInputManager;
-        private GameObject TargetCursor;
-
-        public TargetCursorSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, GameInputManager GameInputManager)
-        {
-            FiringPlayerActionInherentDataRef = firingPlayerActionInherentDataRef;
-            this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
-            this.TargetCursor = null;
-            this.GameInputManager = GameInputManager;
-        }
-
-        public void CreateTargetCursor()
-        {
-            this.TargetCursor = GameObject.Instantiate(this.FiringPlayerActionInherentDataRef.TargetCursorPrefab, CoreGameSingletonInstances.GameCanvas.transform);
-            var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
-            this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(
-                playerTransform.position + (playerTransform.forward * this.FiringPlayerActionInherentDataRef.TargetCursorInitialOffset) // Eq (1)
-            );
-        }
-
-        public void Tick(float d)
-        {
-            var CursorDisplacement = this.GameInputManager.CurrentInput.CursorDisplacement();
-            this.TargetCursor.transform.position += (new Vector3(CursorDisplacement.x, CursorDisplacement.z) * d);
-        }
-
-        public Vector2 GetTargetCursorScreenPosition()
-        {
-            return this.TargetCursor.transform.position;
-        }
-
-        public void Dispose()
-        {
-            if (this.TargetCursor != null)
-            {
-                GameObject.Destroy(this.TargetCursor.gameObject);
-            }
         }
     }
 

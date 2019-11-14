@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{526A522A-DE6D-2D66-9543-C9F55C02111B}</ProjectGuid>
+    <ProjectGuid>{125454DF-138B-94CE-9966-52632EB4DE10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Firing</AssemblyName>
+    <AssemblyName>Targetting</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,12 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectile.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectileDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\Systems\FiredProjectileMovementSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerActionInherentData.cs" />
-     <None Include="Assets\Undefined\Logic\Firing\Firing.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfiguration.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Systems\TargetCursorSystem.cs" />
+     <None Include="Assets\Undefined\Logic\Targetting\Targetting.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -616,45 +614,25 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
-      <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
-      <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
-      <Name>OdinSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
-      <Name>InteractiveObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
-      <Name>InteractiveObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{63AE0CB7-735A-D4CD-7DAE-B8ABD6F2883E}</Project>
-      <Name>PlayerActions</Name>
+    <ProjectReference Include="Input.csproj">
+      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
+      <Name>Input</Name>
     </ProjectReference>
     <ProjectReference Include="PlayerObject_Interface.csproj">
       <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
       <Name>PlayerObject_Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="Input.csproj">
-      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
-      <Name>Input</Name>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="Damage.csproj">
-      <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
-      <Name>Damage</Name>
+    <ProjectReference Include="CoreGame.csproj">
+      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Name>CoreGame</Name>
     </ProjectReference>
-    <ProjectReference Include="Targetting.csproj">
-      <Project>{125454DF-138B-94CE-9966-52632EB4DE10}</Project>
-      <Name>Targetting</Name>
+    <ProjectReference Include="OdinSerializer.csproj">
+      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Name>OdinSerializer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

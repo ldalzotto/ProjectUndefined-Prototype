@@ -1,16 +1,11 @@
-﻿{
-    "name": "Firing",
+{
+    "name": "Targetting",
     "references": [
-        "CoreGame",
-        "Editor_Common",
-        "OdinSerializer",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "PlayerActions",
-        "PlayerObject_Interface",
         "Input",
-        "Damage",
-        "Targetting"
+        "PlayerObject_Interface",
+        "InteractiveObjects_Interfaces",
+        "CoreGame",
+        "OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
