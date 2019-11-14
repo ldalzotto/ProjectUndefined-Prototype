@@ -12,7 +12,7 @@ namespace Tests
     [Serializable]
     public class TestGameControlDefinition : SerializedScriptableObject
     {
-        [Range(0f, 10f)]
+        [Range(0.10f, 2f)]
         public float TimeScale;
     }
 }

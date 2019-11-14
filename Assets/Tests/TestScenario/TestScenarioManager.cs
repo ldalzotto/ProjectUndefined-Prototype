@@ -15,6 +15,11 @@ namespace Tests
     /// </summary>
     public class TestScenarioManager : GameSingleton<TestScenarioManager>
     {
+        /// <summary>
+        /// The instance of <see cref="ATestScenarioDefinition.TestEntitiesPrefab"/>.
+        /// It is created when the test scenario start <see cref="StartTest"/>.
+        /// /!\ It must be disposed when the test scenario is cleared <see cref="ClearTest"/>
+        /// </summary>
         private GameObject TestEntitiesPrefabInstance;
 
         private SequencedActionPlayer SequencedActionPlayer;
@@ -66,6 +71,8 @@ namespace Tests
                     allInteractiveObjects[i].Destroy();
                 }
             }
+            
+            MonoBehaviour.Destroy(TestEntitiesPrefabInstance);
         }
 
         /// <summary>

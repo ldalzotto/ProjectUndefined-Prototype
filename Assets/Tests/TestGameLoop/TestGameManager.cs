@@ -20,6 +20,9 @@ namespace Tests
 
         protected override void Start()
         {
+            /// Preventing switching to the "Game" window in editor.
+            UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
+
             base.Start();
             
             PlayerInteractiveObjectCreatedEvent.Get().RegisterPlayerInteractiveObjectCreatedEvent((p) =>

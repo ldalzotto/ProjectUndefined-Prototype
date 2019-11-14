@@ -10,6 +10,7 @@ namespace Tests.TestScenario
     public abstract class ATestScenarioDefinition : ASequencedActionGraph
     {
         public string Title;
+        [TextArea]
         public string Description;
 
         /// <summary>
