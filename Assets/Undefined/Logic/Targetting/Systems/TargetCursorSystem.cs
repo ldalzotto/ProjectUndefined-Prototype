@@ -65,6 +65,17 @@ namespace Targetting
             return this.TargetCursor.transform.position;
         }
 
+#if UNITY_EDITOR
+        /// <summary>
+        /// Used for testing purpose.
+        /// </summary>
+        /// <param name="ScreenPosition">Pixel coordinates</param>
+        public void SetTargetCursorPosition(Vector2 ScreenPosition)
+        {
+            this.TargetCursor.transform.position = ScreenPosition;
+        }
+#endif
+
         public void Dispose()
         {
             if (this.TargetCursor != null)

@@ -1,0 +1,36 @@
+{
+    "name": "Targetting_Tests",
+    "references": [
+        "SequencedAction",
+        "Targetting",
+        "Firing",
+        "Tests",
+        "OdinSerializer",
+        "Input",
+        "CoreGame",
+        "PlayerActions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "BJM",
+        "iOS",
+        "LinuxStandalone64",
+        "Lumin",
+        "macOSStandalone",
+        "PS4",
+        "Switch",
+        "tvOS",
+        "WSA",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64",
+        "XboxOne"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

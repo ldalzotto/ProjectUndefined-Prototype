@@ -8,13 +8,16 @@ namespace Tests
 {
     public class GameTestMockedInputManager : GameInputManager
     {
+        public static GameTestMockedInputManager MockedInstance;
         public GameTestMockedInputManager()
         {
             this.currentInput = new GameTestMockedXInput();
         }
+
         public static void SetupForTestScene()
         {
-            SetInstance(new GameTestMockedInputManager());
+            MockedInstance = new GameTestMockedInputManager();
+            SetInstance(MockedInstance);
         }
 
         public override void Init(CursorLockMode CursorLockMode)
@@ -35,16 +38,13 @@ namespace Tests
 
     public class GameTestMockedXInput : XInput
     {
-        public bool switchSelectionButtonD = false;
-        public bool actionButtonD = false;
-        public bool timeForwardButtonDH = false;
-        public Vector3 locomotionAxis = Vector3.zero;
-
+        public GameTestInputMockedValues GameTestInputMockedValues = new GameTestInputMockedValues();
+        
         #region Interface implementation
 
         public bool ActionButtonD()
         {
-            return actionButtonD;
+            return GameTestInputMockedValues.ActionButtonD;
         }
 
         public bool CancelButtonD()
@@ -74,7 +74,7 @@ namespace Tests
 
         public Vector3 LocomotionAxis()
         {
-            return this.locomotionAxis;
+            return this.GameTestInputMockedValues.LocomotionAxis;
         }
 
         public bool PuzzleResetButton()
@@ -89,12 +89,12 @@ namespace Tests
 
         public bool SwitchSelectionButtonD()
         {
-            return this.switchSelectionButtonD;
+            return this.GameTestInputMockedValues.SwitchSelectionButtonD;
         }
 
         public bool TimeForwardButtonDH()
         {
-            return this.timeForwardButtonDH;
+            return this.GameTestInputMockedValues.TimeForwardButtonDH;
         }
 
         public float CameraZoom()
@@ -104,7 +104,7 @@ namespace Tests
 
         public bool FiringActionDown()
         {
-            return false;
+            return this.GameTestInputMockedValues.FiringActionDown;
         }
 
         public bool FiringActionReleased()
@@ -118,5 +118,28 @@ namespace Tests
         }
 
         #endregion
+    }
+
+    public class GameTestInputMockedValues
+    {
+        public bool SwitchSelectionButtonD;
+        public bool ActionButtonD;
+        public bool TimeForwardButtonDH;
+        public Vector3 LocomotionAxis;
+        public bool FiringActionDown;
+
+        public GameTestInputMockedValues()
+        {
+            this.Reset();
+        }
+
+        public void Reset()
+        {
+            this.SwitchSelectionButtonD = false;
+            this.ActionButtonD = false;
+            this.TimeForwardButtonDH = false;
+            this.LocomotionAxis = Vector3.zero;
+            this.FiringActionDown = false;
+        }
     }
 }

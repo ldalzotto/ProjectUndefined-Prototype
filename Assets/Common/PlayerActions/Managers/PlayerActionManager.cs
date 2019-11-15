@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace PlayerActions
 {
-    internal class PlayerActionManager : GameSingleton<PlayerActionManager>
+    public class PlayerActionManager : GameSingleton<PlayerActionManager>
     {
         private PlayerActionExecutionManager PlayerActionExecutionManager;
         private PlayerActionsAvailableManager PlayerActionsAvailableManager;
@@ -105,6 +105,10 @@ namespace PlayerActions
             return this.PlayerActionsAvailableManager.CurrentAvailableActions.MultiValueGetValues();
         }
 
+        public PlayerAction GetCurrentlyPlayingPlayerAction()
+        {
+            return this.PlayerActionExecutionManager.CurrentAction;
+        }
         #endregion
     }
 

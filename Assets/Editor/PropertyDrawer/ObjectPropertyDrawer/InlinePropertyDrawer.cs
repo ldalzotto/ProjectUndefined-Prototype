@@ -166,6 +166,7 @@ class ClassSelectionEditorWindow : EditorWindow
         var SearchTextElement = new TextField();
         SearchTextElement.RegisterCallback<ChangeEvent<string>>(this.OnSearchTextChanged);
         RootElement.Add(SearchTextElement);
+        SearchTextElement.Focus();
 
         this.TypeSelectionLineParentElement = new VisualElement();
 

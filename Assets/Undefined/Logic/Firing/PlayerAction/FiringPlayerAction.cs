@@ -1,5 +1,4 @@
-﻿using CoreGame;
-using Input;
+﻿using Input;
 using InteractiveObjects;
 using PlayerActions;
 using PlayerObject_Interfaces;
@@ -61,6 +60,17 @@ namespace Firing
         public override void GizmoTick()
         {
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// Used for testing purpose.
+        /// </summary>
+        /// <param name="ScreenPosition">Pixel coordinates</param>
+        public void SetTargetCursorPosition(Vector2 ScreenPosition)
+        {
+            this.TargetCursorSystem.SetTargetCursorPosition(ScreenPosition);
+        }
+#endif
     }
 
     class PlayerObjectOrientationSystem

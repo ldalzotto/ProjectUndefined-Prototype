@@ -73,6 +73,7 @@ namespace Tests
             }
             
             MonoBehaviour.Destroy(TestEntitiesPrefabInstance);
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Reset();
         }
 
         /// <summary>
