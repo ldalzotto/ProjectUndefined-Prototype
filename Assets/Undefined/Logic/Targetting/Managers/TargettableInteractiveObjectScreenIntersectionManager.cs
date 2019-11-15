@@ -36,14 +36,10 @@ namespace Targetting
         /// The manager is only update when the <see cref="TargetCursorSystem"/> is running because it it only at this moment that the player is aiming.
         /// This is to avoid unnecessary calcualtions.
         /// </summary>
-        /// TODO -> There is memory allocation to this method.
         public void Tick(float d, Vector2 TargetCursorScreenPosition)
         {
-            Profiler.BeginSample("TargettableInteractiveObjectScreenIntersectionManager");
-            /// Update InteractiveObjectsListened Values
             UpdateInteractiveObjectsScreenVisibility();
             UpdateCursorIntersection(TargetCursorScreenPosition);
-            Profiler.EndSample();
             TargettableInteractiveObjectSelectionManager.Get().Tick();
         }
         
