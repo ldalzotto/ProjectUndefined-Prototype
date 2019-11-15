@@ -27,6 +27,6 @@ namespace InteractiveObjects_Interfaces
         string GetAssociatedGameObjectName();
 
         void CreateAgent(AIAgentDefinition AIAgentDefinition);
-        void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition, int layer = 0);
+        void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinitionStruct InteractiveObjectBoxLogicColliderDefinitionStruct, int layer = 0);
     }
 }

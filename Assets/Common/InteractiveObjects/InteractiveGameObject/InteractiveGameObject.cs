@@ -67,9 +67,9 @@ namespace InteractiveObjects
             InitAgent();
         }
 
-        public void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition, int layer = 0)
+        public void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinitionStruct InteractiveObjectBoxLogicColliderDefinitionStruct, int layer = 0)
         {
-            if (interactiveObjectLogicColliderDefinition.Enabled)
+            if (InteractiveObjectBoxLogicColliderDefinitionStruct.Enabled)
             {
                 var LogicColliderObject = new GameObject("LogicCollider");
                 LogicColliderObject.layer = layer;
@@ -80,13 +80,13 @@ namespace InteractiveObjects
 
                 LogicCollider = LogicColliderObject.AddComponent<BoxCollider>();
                 LogicCollider.isTrigger = true;
-                ((BoxCollider) LogicCollider).center = interactiveObjectLogicColliderDefinition.LocalCenter;
-                ((BoxCollider) LogicCollider).size = interactiveObjectLogicColliderDefinition.LocalSize;
+                ((BoxCollider) LogicCollider).center = InteractiveObjectBoxLogicColliderDefinitionStruct.LocalCenter;
+                ((BoxCollider) LogicCollider).size = InteractiveObjectBoxLogicColliderDefinitionStruct.LocalSize;
 
-                if (interactiveObjectLogicColliderDefinition.HasRigidBody)
+                if (InteractiveObjectBoxLogicColliderDefinitionStruct.HasRigidBody)
                 {
                     var rb = LogicColliderObject.AddComponent<Rigidbody>();
-                    rb.interpolation = interactiveObjectLogicColliderDefinition.RigidbodyInterpolation;
+                    rb.interpolation = InteractiveObjectBoxLogicColliderDefinitionStruct.RigidbodyInterpolation;
                     rb.isKinematic = true;
                     rb.useGravity = false;
                 }
