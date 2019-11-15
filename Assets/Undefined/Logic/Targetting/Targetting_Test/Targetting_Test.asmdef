@@ -8,7 +8,9 @@
         "OdinSerializer",
         "Input",
         "CoreGame",
-        "PlayerActions"
+        "PlayerActions",
+        "InteractiveObjects",
+        "InteractiveObjects_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

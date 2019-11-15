@@ -22,11 +22,16 @@ namespace PlayerActions
 
         public override bool FinishedCondition()
         {
-            return true;
+            return true || base.FinishedCondition();
         }
 
         public override void GizmoTick()
         {
+        }
+
+        public override void Dispose()
+        {
+            
         }
 
         public override void GUITick()

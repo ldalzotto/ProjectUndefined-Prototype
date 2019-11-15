@@ -47,6 +47,11 @@ namespace InteractiveObjects
             return (BoxCollider) LogicCollider;
         }
 
+        public string GetAssociatedGameObjectName()
+        {
+            return this.InteractiveGameObjectParent.name;
+        }
+
         public void CreateAgent(AIAgentDefinition AIAgentDefinition)
         {
             if (Agent == null)

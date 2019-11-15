@@ -24,6 +24,7 @@ namespace InteractiveObjects_Interfaces
         TransformStruct GetLogicColliderCenterTransform();
         Matrix4x4 GetLocalToWorld();
         BoxDefinition GetLogicColliderBoxDefinition();
+        string GetAssociatedGameObjectName();
 
         void CreateAgent(AIAgentDefinition AIAgentDefinition);
         void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinition interactiveObjectLogicColliderDefinition, int layer = 0);

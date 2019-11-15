@@ -35,7 +35,7 @@ namespace Firing
 
         public override bool FinishedCondition()
         {
-            return this.ExitActionSystem.ActionFinished;
+            return this.ExitActionSystem.ActionFinished || base.FinishedCondition();
         }
 
         public override void Tick(float d)
@@ -47,6 +47,11 @@ namespace Firing
                 this.PlayerObjectOrientationSystem.Tick(d);
                 this.FiringProjectileTriggerSystem.Tick(d);
             }
+        }
+
+        public override void Dispose()
+        {
+            this.ExitActionSystem.Dispose();
         }
 
         public override void LateTick(float d)
@@ -139,7 +144,7 @@ namespace Firing
 
         public void Tick(float d)
         {
-            if (this.GameInputManager.CurrentInput.GetInputCondition(InputID.FIRING_PROJECTILE_DOWN_HOLD))
+            if (this.GameInputManager.CurrentInput.FiringProjectileDH())
             {
                 /// If the Player is currently targettin an object via it's cursor
                 if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
@@ -176,9 +181,14 @@ namespace Firing
             this.ActionFinished = this.GameInputManager.CurrentInput.FiringActionReleased();
             if (this.ActionFinished)
             {
-                this.TargetCursorSystem.Dispose();
-                this.PlayerObjectOrientationSystem.Dispose();
+                this.Dispose();
             }
+        }
+
+        public void Dispose()
+        {
+            this.TargetCursorSystem.Dispose();
+            this.PlayerObjectOrientationSystem.Dispose();
         }
     }
 }

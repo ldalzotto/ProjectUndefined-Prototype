@@ -112,9 +112,9 @@ namespace Tests
             return false;
         }
 
-        public bool GetInputCondition(InputID InputID)
+        public bool FiringProjectileDH()
         {
-            return false;
+            return this.GameTestInputMockedValues.FiringPorjectileDH;
         }
 
         #endregion
@@ -127,6 +127,7 @@ namespace Tests
         public bool TimeForwardButtonDH;
         public Vector3 LocomotionAxis;
         public bool FiringActionDown;
+        public bool FiringPorjectileDH;
 
         public GameTestInputMockedValues()
         {
@@ -140,6 +141,7 @@ namespace Tests
             this.TimeForwardButtonDH = false;
             this.LocomotionAxis = Vector3.zero;
             this.FiringActionDown = false;
+            this.FiringPorjectileDH = false;
         }
     }
 }

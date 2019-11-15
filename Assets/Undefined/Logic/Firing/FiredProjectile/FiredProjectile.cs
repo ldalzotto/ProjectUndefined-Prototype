@@ -23,8 +23,13 @@ namespace Firing
 
         public override void Tick(float d)
         {
-            this.FiredProjectileMovementSystem.Tick(d);
             base.Tick(d);
+        }
+
+        public override void FixedTick(float d)
+        {
+            this.FiredProjectileMovementSystem.FixedTick(d);
+            base.FixedTick(d);
         }
 
         public override void Init()

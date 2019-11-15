@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CoreGame;
+using PlayerObject_Interfaces;
 using SelectionWheel;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ namespace PlayerActions
 
             PlayerActionExecutionManager = new PlayerActionExecutionManager(() => OnPlayerActionFinishedEvent.Invoke());
             PlayerActionsAvailableManager = new PlayerActionsAvailableManager();
+            PlayerInteractiveObjectDestroyedEvent.Get().RegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerObjectDestroyed);
         }
 
         public void Tick(float d)
@@ -89,6 +91,15 @@ namespace PlayerActions
             PlayerActionsAvailableManager.AddActionToAvailable(addedAction);
         }
 
+        #region External Events
+
+        private void OnPlayerObjectDestroyed()
+        {
+            this.PlayerActionExecutionManager.StopAction();
+        }
+
+        #endregion
+
         #region Logical Conditions
 
         public bool IsActionExecuting()
@@ -109,6 +120,7 @@ namespace PlayerActions
         {
             return this.PlayerActionExecutionManager.CurrentAction;
         }
+
         #endregion
     }
 
@@ -163,9 +175,14 @@ namespace PlayerActions
             currentAction.FirstExecution();
         }
 
-        internal void StopAction()
+        public void StopAction()
         {
-            currentAction = null;
+            if (this.CurrentAction != null)
+            {
+                this.CurrentAction.Dispose();
+                this.currentAction = null;
+            }
+
             isActionExecuting = false;
         }
     }

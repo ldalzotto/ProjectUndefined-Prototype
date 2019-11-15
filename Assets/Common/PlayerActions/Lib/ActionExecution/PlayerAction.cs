@@ -10,6 +10,7 @@ namespace PlayerActions
         protected CorePlayerActionDefinition CorePlayerActionDefinition;
 
         private float onCooldownTimeElapsed;
+        private bool isAborted;
 
         public PlayerActionType PlayerActionType;
 
@@ -29,17 +30,30 @@ namespace PlayerActions
             //on init, it is available
             onCooldownTimeElapsed = this.CorePlayerActionDefinition.CoolDownTime * 2;
             remainingExecutionAmout = this.CorePlayerActionDefinition.ExecutionAmount;
+            this.isAborted = false;
         }
 
-        public abstract bool FinishedCondition();
+        public virtual bool FinishedCondition()
+        {
+            return this.isAborted;
+        }
+        
         public abstract void Tick(float d);
         public abstract void LateTick(float d);
         public abstract void GUITick();
         public abstract void GizmoTick();
 
+        public abstract void Dispose();
+
         public virtual void FirstExecution()
         {
             CooldownEventTrackerManager = new CooldownEventTrackerManager();
+        }
+
+        public void Abort()
+        {
+            this.Dispose();
+            this.isAborted = true;
         }
 
         public void CoolDownTick(float d)

@@ -13,8 +13,9 @@ namespace RTPuzzle
 
         public override bool FinishedCondition()
         {
-            return true;
+            return true || base.FinishedCondition();
         }
+
 
         public override void FirstExecution()
         {
@@ -23,7 +24,12 @@ namespace RTPuzzle
             this.PlayerActionConsumed();
         }
 
+
         public override void Tick(float d)
+        {
+        }
+
+        public override void Dispose()
         {
         }
 

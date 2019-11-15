@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Firing;
+using InteractiveObjects;
 using PlayerActions;
 using SequencedAction;
 using Tests;
@@ -21,8 +22,9 @@ namespace UnityEngine
         }
     }
 
-    class InputTestAction : ASequencedAction
+    internal class InputTestAction : ASequencedAction
     {
+        public const string TestTargettedObjectName = "Test_Targetted_Object";
         public InputTestAction(Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
         {
         }
@@ -30,7 +32,7 @@ namespace UnityEngine
         public override void FirstExecutionAction()
         {
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDown = true;
-            Coroutiner.Instance.StartCoroutine(this.Enumeraa());
+            Coroutiner.Instance.StartCoroutine(this.InputTestAction_Enumerator());
         }
 
         public override bool ComputeFinishedConditions()
@@ -46,10 +48,22 @@ namespace UnityEngine
         {
         }
 
-        private IEnumerator Enumeraa()
+        private IEnumerator InputTestAction_Enumerator()
         {
-            yield return new WaitForEndOfFrame();
-            (PlayerActionManager.Get().GetCurrentlyPlayingPlayerAction() as FiringPlayerAction).SetTargetCursorPosition(Vector2.zero);            
+            yield return null;
+            CoreInteractiveObject targettedObject = null;
+            foreach (var io in InteractiveObjects.InteractiveObjectV2Manager.Get().InteractiveObjects)
+            {
+                if (io.InteractiveGameObject.GetAssociatedGameObjectName() == TestTargettedObjectName)
+                {
+                    targettedObject = io;
+                }
+            }
+            (PlayerActionManager.Get().GetCurrentlyPlayingPlayerAction() as FiringPlayerAction).SetTargetCursorPosition(Camera.main.WorldToScreenPoint(
+                targettedObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(targettedObject.InteractiveGameObject.AverageModelLocalBounds.Bounds.center)));
+
+            yield return null;
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringPorjectileDH = true;
         }
     }
 }

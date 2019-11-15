@@ -644,6 +644,14 @@
       <Project>{63AE0CB7-735A-D4CD-7DAE-B8ABD6F2883E}</Project>
       <Name>PlayerActions</Name>
     </ProjectReference>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Name>InteractiveObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

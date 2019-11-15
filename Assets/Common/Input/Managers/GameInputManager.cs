@@ -113,9 +113,9 @@ namespace Input
                 return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_RELEASED);
             }
 
-            public bool GetInputCondition(InputID InputID)
+            public bool FiringProjectileDH()
             {
-                return this.gameInputV2.InputConditionsMet(InputID);
+                return this.gameInputV2.InputConditionsMet(InputID.FIRING_PROJECTILE_DOWN_HOLD);
             }
         }
 
@@ -250,7 +250,7 @@ namespace Input
         float CameraZoom();
         bool FiringActionDown();
         bool FiringActionReleased();
-        bool GetInputCondition(InputID InputID);
+        bool FiringProjectileDH();
     }
 
     public enum MouseButton

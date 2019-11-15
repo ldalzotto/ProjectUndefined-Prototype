@@ -18,10 +18,11 @@ namespace Firing
             this.CrossedDistance = 0f;
         }
 
-        public void Tick(float d)
+        public void FixedTick(float d)
         {
             var oldPosition = this.FiredProjectileTransform.position;
-            this.FiredProjectileTransform.position += this.FiredProjectileDefinition.Speed * this.FiredProjectileTransform.forward * d; // Eq FiredProjectile.html -> (1)
+            /// /!\ Position displacement needs to be in FixedTick.
+            this.FiredProjectileTransform.position += this.FiredProjectileDefinition.Speed * this.FiredProjectileTransform.forward * d;
             this.CrossedDistance += Vector3.Distance(oldPosition, this.FiredProjectileTransform.position);
             if (this.CrossedDistance >= this.FiredProjectileDefinition.MaxDistance) // Eq FiredProjectile.html -> (2)
             {
