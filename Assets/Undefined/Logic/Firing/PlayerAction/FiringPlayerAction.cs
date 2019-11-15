@@ -85,7 +85,7 @@ namespace Firing
             if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
             {
                 var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
-                var rotationAngle = Quaternion.LookRotation((this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - playerTransform.position).normalized,
+                var rotationAngle = Quaternion.LookRotation((this.TargettableInteractiveObjectSelectionManager.GetCurrentlyTargettedInteractiveObject().InteractiveGameObject.GetTransform().WorldPosition - playerTransform.position).normalized,
                     playerTransform.up).eulerAngles;
                 playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle.y, playerTransform.eulerAngles.z);
             }
@@ -134,9 +134,9 @@ namespace Firing
                 /// If the Player is currently targettin an object via it's cursor
                 if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
                 {
-                    var CurrentlyTargettedInteractiveObject = this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject;
+                    var CurrentlyTargettedInteractiveObject = this.TargettableInteractiveObjectSelectionManager.GetCurrentlyTargettedInteractiveObject();
                     /// Projectile direction heads towards the FiringTargetLocation
-                    var firingTargetWorldLocation = CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.TargettableInteractiveObjectSelectionManager.CurrentlyTargettedInteractiveObject.GetFiringTargetLocalPosition());
+                    var firingTargetWorldLocation = CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(CurrentlyTargettedInteractiveObject.GetFiringTargetLocalPosition());
                     this.PlayerInteractiveObject.AskToFireAFiredProjectile_ToTargetPoint(firingTargetWorldLocation);
                 }
                 else

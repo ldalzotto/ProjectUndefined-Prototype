@@ -2,6 +2,7 @@
 using CoreGame;
 using InteractiveObjects;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Targetting
 {
@@ -18,8 +19,9 @@ namespace Targetting
         private Dictionary<CoreInteractiveObject, bool> InteractiveObjectsListened = new Dictionary<CoreInteractiveObject, bool>();
 
         /// <summary>
-        /// A lookup table indicating which <see cref="InteractiveObjectsListened"/> are currently hovered by the play <see cref="TargetCursorSystem"/>.
-        /// This table have the same keys as <see cref="InteractiveObjectsListened"/>.
+        /// A lookup table indicating which <see cref="InteractiveObjectsListened"/> are currently hovered by the player <see cref="TargetCursorSystem"/>.
+        /// This table has the same keys as <see cref="InteractiveObjectsListened"/>.
+        /// This table is only updated by <see cref="UpdateCursorIntersection"/>.
         /// When the value change, the internal events <see cref="OnCursorOverObject"/> and <see cref="OnCursorNoMoveOverObject"/> are called.
         /// </summary>
         private Dictionary<CoreInteractiveObject, BoolVariable> InteractiveObjectsOverCursorTarget = new Dictionary<CoreInteractiveObject, BoolVariable>();
@@ -34,25 +36,20 @@ namespace Targetting
         /// The manager is only update when the <see cref="TargetCursorSystem"/> is running because it it only at this moment that the player is aiming.
         /// This is to avoid unnecessary calcualtions.
         /// </summary>
+        /// TODO -> There is memory allocation to this method.
         public void Tick(float d, Vector2 TargetCursorScreenPosition)
         {
+            Profiler.BeginSample("TargettableInteractiveObjectScreenIntersectionManager");
             /// Update InteractiveObjectsListened Values
             UpdateInteractiveObjectsScreenVisibility();
-
-            foreach (var interactiveObjectListened in this.InteractiveObjectsListened.Keys)
-            {
-                //If the itneractive object is visible
-                if (this.InteractiveObjectsListened[interactiveObjectListened])
-                {
-                    var initialRect = interactiveObjectListened.InteractiveGameObject.AverageModelLocalBounds.Bounds.Mul(interactiveObjectListened.InteractiveGameObject.GetLocalToWorld()).ToScreenSpace(Camera.main);
-                    InteractiveObjectsOverCursorTarget[interactiveObjectListened].SetValue(initialRect.Contains(TargetCursorScreenPosition));
-                }
-            }
+            UpdateCursorIntersection(TargetCursorScreenPosition);
+            Profiler.EndSample();
             TargettableInteractiveObjectSelectionManager.Get().Tick();
         }
-
+        
         /// <summary>
         /// Update <see cref="InteractiveObjectsListened"/> value by calculating if the InteractiveObject is visible or not.
+        /// TODO -> This step can be extracted to a BurstJob if calculations are too heavy  
         /// </summary>
         private void UpdateInteractiveObjectsScreenVisibility()
         {
@@ -79,6 +76,24 @@ namespace Targetting
                 }
             }
         }
+        
+        /// <summary>
+        /// Update <see cref="InteractiveObjectsOverCursorTarget"/> values by calculating if the <paramref name="TargetCursorScreenPosition"/> is inside
+        /// the Screen projected bounds.
+        /// </summary>
+        private void UpdateCursorIntersection(Vector2 TargetCursorScreenPosition)
+        {
+            foreach (var interactiveObjectListened in this.InteractiveObjectsListened.Keys)
+            {
+                //If the itneractive object is visible
+                if (this.InteractiveObjectsListened[interactiveObjectListened])
+                {
+                    var initialRect = interactiveObjectListened.InteractiveGameObject.AverageModelLocalBounds.Bounds.Mul(interactiveObjectListened.InteractiveGameObject.GetLocalToWorld()).ToScreenSpace(Camera.main);
+                    InteractiveObjectsOverCursorTarget[interactiveObjectListened].SetValue(initialRect.Contains(TargetCursorScreenPosition));
+                }
+            }
+        }
+
 
         private void OnInteractiveObjectCreated(CoreInteractiveObject CoreInteractiveObject)
         {

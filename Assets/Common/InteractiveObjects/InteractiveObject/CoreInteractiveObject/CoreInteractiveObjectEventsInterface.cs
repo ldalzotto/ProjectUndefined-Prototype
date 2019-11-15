@@ -1,4 +1,5 @@
-﻿using InteractiveObjects_Interfaces;
+﻿using System.CodeDom;
+using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -72,9 +73,12 @@ namespace InteractiveObjects
         {
         }
 
+        /// <summary>
+        /// This is the optimum position local position of where objects should aim to hit the associated <see cref="CoreInteractiveObject"/>.
+        /// </summary>
         public virtual Vector3 GetFiringTargetLocalPosition()
         {
-            return default;
+            return default(Vector3);
         }
 
         #endregion
