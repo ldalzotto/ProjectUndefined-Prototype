@@ -5,6 +5,7 @@ using Firing;
 using InteractiveObjects;
 using PlayerActions;
 using SequencedAction;
+using Targetting;
 using Tests;
 using Tests.TestScenario;
 
@@ -59,9 +60,9 @@ namespace UnityEngine
                     targettedObject = io;
                 }
             }
-            (PlayerActionManager.Get().GetCurrentlyPlayingPlayerAction() as FiringPlayerAction).SetTargetCursorPosition(Camera.main.WorldToScreenPoint(
+            TargetCursorManager.Get().SetTargetCursorPosition(Camera.main.WorldToScreenPoint(
                 targettedObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(targettedObject.InteractiveGameObject.AverageModelLocalBounds.Bounds.center)));
-
+            
             yield return null;
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringPorjectileDH = true;
         }

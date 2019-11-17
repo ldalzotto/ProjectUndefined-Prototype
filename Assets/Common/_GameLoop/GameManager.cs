@@ -1,6 +1,5 @@
 using CameraManagement;
 using CoreGame;
-using GeometryIntersection;
 using Health;
 using Input;
 using InteractiveObjects;
@@ -50,6 +49,7 @@ namespace GameLoop
 
             HealthUIManager.Get().Init();
             PlayerActionEntryPoint.Get().Init();
+            TargetCursorManager.Get();
         }
 
         protected virtual void Update()
@@ -63,12 +63,17 @@ namespace GameLoop
 
             BlockingCutscenePlayerManager.Get().Tick(d);
 
+            CameraMovementManager.Get().Tick(d);
+            if (!CameraMovementManager.Get().IsCameraRotating())
+            {
+                TargetCursorManager.Get().Tick(d);
+            }
+
             PlayerActionEntryPoint.Get().Tick(d);
 
             PlayerInteractiveObjectManager.Get().Tick(d);
             PlayerInteractiveObjectManager.Get().AfterTicks(d);
 
-            CameraMovementManager.Get().Tick(d);
 
             WeaponRecoilTimeManager.Get().Tick(d);
 

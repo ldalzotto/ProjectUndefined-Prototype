@@ -11,7 +11,6 @@ namespace Firing
     {
         private FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
-        private TargetCursorSystem TargetCursorSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
@@ -21,16 +20,14 @@ namespace Firing
             var targettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
-            this.TargetCursorSystem = new TargetCursorSystem(PlayerInteractiveObject, gameInputManager);
-            this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, this.TargetCursorSystem, targettableInteractiveObjectSelectionManager);
+            this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), targettableInteractiveObjectSelectionManager);
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerInteractiveObject as CoreInteractiveObject, targettableInteractiveObjectSelectionManager);
-            this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.TargetCursorSystem, this.PlayerObjectOrientationSystem);
+            this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.PlayerObjectOrientationSystem);
         }
 
         public override void FirstExecution()
         {
             base.FirstExecution();
-            this.TargetCursorSystem.CreateTargetCursor();
         }
 
         public override bool FinishedCondition()
@@ -43,7 +40,6 @@ namespace Firing
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
-                this.TargetCursorSystem.Tick(d);
                 this.PlayerObjectOrientationSystem.Tick(d);
                 this.FiringProjectileTriggerSystem.Tick(d);
             }
@@ -65,33 +61,22 @@ namespace Firing
         public override void GizmoTick()
         {
         }
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// Used for testing purpose.
-        /// </summary>
-        /// <param name="ScreenPosition">Pixel coordinates</param>
-        public void SetTargetCursorPosition(Vector2 ScreenPosition)
-        {
-            this.TargetCursorSystem.SetTargetCursorPosition(ScreenPosition);
-        }
-#endif
     }
 
     class PlayerObjectOrientationSystem
     {
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
         private GameObject HorizontalPlaneGameObject;
-        private TargetCursorSystem TargetCursorSystemRef;
+        private TargetCursorManager _targetCursorManagerRef;
         private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
 
-        public PlayerObjectOrientationSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorSystem TargetCursorSystemRef,
+        public PlayerObjectOrientationSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorManager targetCursorManagerRef,
             TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager)
         {
             this.HorizontalPlaneGameObject = GameObject.Instantiate(firingPlayerActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.HorizontalPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
-            this.TargetCursorSystemRef = TargetCursorSystemRef;
+            this._targetCursorManagerRef = targetCursorManagerRef;
             this.TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager;
         }
 
@@ -107,7 +92,7 @@ namespace Firing
             else
             {
                 this.HorizontalPlaneGameObject.transform.position = this.PlayerInteractiveObjectRef.InteractiveGameObject.GetTransform().WorldPosition;
-                var projectionRay = Camera.main.ScreenPointToRay(this.TargetCursorSystemRef.GetTargetCursorScreenPosition());
+                var projectionRay = Camera.main.ScreenPointToRay(this._targetCursorManagerRef.GetTargetCursorScreenPosition());
                 if (Physics.Raycast(projectionRay, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER)))
                 {
                     var projectedPosition = hit.point;
@@ -166,13 +151,11 @@ namespace Firing
     {
         public bool ActionFinished { get; private set; }
         private GameInputManager GameInputManager;
-        private TargetCursorSystem TargetCursorSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
 
-        public ExitActionSystem(GameInputManager gameInputManager, TargetCursorSystem targetCursorSystem, PlayerObjectOrientationSystem PlayerObjectOrientationSystem)
+        public ExitActionSystem(GameInputManager gameInputManager, PlayerObjectOrientationSystem PlayerObjectOrientationSystem)
         {
             GameInputManager = gameInputManager;
-            TargetCursorSystem = targetCursorSystem;
             this.PlayerObjectOrientationSystem = PlayerObjectOrientationSystem;
         }
 
@@ -187,7 +170,6 @@ namespace Firing
 
         public void Dispose()
         {
-            this.TargetCursorSystem.Dispose();
             this.PlayerObjectOrientationSystem.Dispose();
         }
     }

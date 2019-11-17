@@ -1,5 +1,11 @@
 ﻿# Targetting
 
+## Targetting
+
+Targetting is done visualized by a target cursor on screen. <br/>
+The TargetCursor is always displayed and moving according to mouse mouvement. <br/>
+But it's position is not updated when camera movement occurs.
+
 ## Locked targetting
 
 Because the game camera is isometric, it is often hard to properly aim at a Target because perspective can be misleading.
@@ -20,21 +26,20 @@ skinparam node {
     backgroundColor<<Manager>> plum
 }
 
-package Targetting {
+package PlayerObject {
     node FiringPlayerAction <<PlayerAction>>
-    node TargetCursorSystem <<System>>
 }
 
-    node TargettableInteractiveObjectScreenIntersectionManager <<Manager>>
+node TargetCursorManager <<Manager>>
+node TargettableInteractiveObjectScreenIntersectionManager <<Manager>>
 node TargettableInteractiveObjectSelectionManager <<Manager>>
 interface OnInteractiveObjectCreated
 
-FiringPlayerAction --> TargetCursorSystem : Update
-TargetCursorSystem --> FiringPlayerAction : Provide data
+TargetCursorManager -> FiringPlayerAction : Provide data
 
-OnInteractiveObjectCreated --> TargettableInteractiveObjectScreenIntersectionManager
-TargetCursorSystem --> TargettableInteractiveObjectScreenIntersectionManager : Cursor position
+OnInteractiveObjectCreated -down-> TargettableInteractiveObjectScreenIntersectionManager
+TargetCursorManager -down-> TargettableInteractiveObjectScreenIntersectionManager : Cursor position
 TargettableInteractiveObjectScreenIntersectionManager -> TargettableInteractiveObjectSelectionManager : OnCursorOverObject
-TargettableInteractiveObjectSelectionManager --> FiringPlayerAction : Locked Target
+TargettableInteractiveObjectSelectionManager -> FiringPlayerAction : Locked Target
 @enduml
 ````

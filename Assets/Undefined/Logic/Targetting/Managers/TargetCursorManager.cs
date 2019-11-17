@@ -9,7 +9,7 @@ namespace Targetting
     /// <summary>
     /// Creates a <see cref="TargetCursor"/> UI object and handles it's movement (see <see cref="MoveCursor"/>)
     /// </summary>
-    public class TargetCursorSystem
+    public class TargetCursorManager : GameSingleton<TargetCursorManager>
     {
         private TargettingConfiguration TargettingConfiguration;
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
@@ -26,26 +26,17 @@ namespace Targetting
 
         #endregion
 
-        public TargetCursorSystem(IPlayerInteractiveObject PlayerInteractiveObjectRef, GameInputManager GameInputManager)
+        public TargetCursorManager()
         {
             this.TargettingConfiguration = TargettingConfigurationGameObject.Get().TargettingConfiguration;
-            this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
-            this.TargetCursor = null;
-            this.GameInputManager = GameInputManager;
-        }
-
-        public void CreateTargetCursor()
-        {
             this.TargetCursor = GameObject.Instantiate(this.TargettingConfiguration.TargetCursorPrefab, CoreGameSingletonInstances.GameCanvas.transform);
-            var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
-            OffsetTargetCursorPositionAtStart(playerTransform);
+            this.GameInputManager = GameInputManager.Get();
+            this.InitializeTargetCursorPosition();
         }
 
-        private void OffsetTargetCursorPositionAtStart(Transform playerTransform)
+        private void InitializeTargetCursorPosition()
         {
-            this.TargetCursor.transform.position = Camera.main.WorldToScreenPoint(
-                playerTransform.position + (playerTransform.forward * this.TargettingConfiguration.TargetCursorInitialOffset) // Eq (1)
-            );
+            this.TargetCursor.transform.position = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         }
 
         public void Tick(float d)
@@ -57,7 +48,10 @@ namespace Targetting
         private void MoveCursor(float d)
         {
             var CursorDisplacement = this.GameInputManager.CurrentInput.CursorDisplacement();
-            this.TargetCursor.transform.position += (new Vector3(CursorDisplacement.x, CursorDisplacement.z) * d);
+            var targetCursorDisplacementVector = (new Vector3(CursorDisplacement.x, CursorDisplacement.z) * d);
+            var targetCursorPosition = this.TargetCursor.transform.position;
+            this.TargetCursor.transform.position = new Vector3(Mathf.Clamp(targetCursorPosition.x + targetCursorDisplacementVector.x, 0f, Screen.width),
+                Mathf.Clamp(targetCursorPosition.y + targetCursorDisplacementVector.y, 0f, Screen.height));
         }
 
         public Vector2 GetTargetCursorScreenPosition()
@@ -76,7 +70,7 @@ namespace Targetting
         }
 #endif
 
-        public void Dispose()
+        public override void OnDestroy()
         {
             if (this.TargetCursor != null)
             {
