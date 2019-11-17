@@ -1,6 +1,7 @@
 using CameraManagement;
 using CoreGame;
 using GeometryIntersection;
+using Health;
 using Input;
 using InteractiveObjects;
 using LevelManagement;
@@ -47,6 +48,7 @@ namespace GameLoop
             TutorialManager.Get().Init();
             SelectableObjectManagerV2.Get().Init(GameInputManager.Get());
 
+            HealthUIManager.Get().Init();
             PlayerActionEntryPoint.Get().Init();
         }
 

@@ -16,8 +16,8 @@ namespace Damage
 
         #endregion
 
-        public StunningDamageDealerReceiverSystem(StunningDamageDealerReceiverSystemDefinition stunningDamageDealerReceiverSystemDefinition, HealthSystem healthSystem, Action OnStunningDamageDealerReceiverStartedAction,
-            Action OnStunningDamageDealerReceiverEndedAction)
+        public StunningDamageDealerReceiverSystem(StunningDamageDealerReceiverSystemDefinition stunningDamageDealerReceiverSystemDefinition, HealthSystem healthSystem, Action OnStunningDamageDealerReceiverStartedAction = null,
+            Action OnStunningDamageDealerReceiverEndedAction = null)
         {
             _stunningDamageDealerReceiverSystemDefinition = stunningDamageDealerReceiverSystemDefinition;
             HealthSystem = healthSystem;

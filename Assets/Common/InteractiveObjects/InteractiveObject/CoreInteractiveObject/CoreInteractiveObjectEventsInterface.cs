@@ -54,7 +54,7 @@ namespace InteractiveObjects
         {
         }
 
-        public virtual void OnHealthBelowZero()
+        public virtual void OnHealthChanged(float oldVlaue, float newValue)
         {
         }
 

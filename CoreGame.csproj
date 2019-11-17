@@ -93,6 +93,7 @@
      <Compile Include="Assets\Common\~CoreGame\EnumDependantProperty\ByEnumProperty.cs" />
      <Compile Include="Assets\Common\~CoreGame\EventVariables\BoolVariable.cs" />
      <Compile Include="Assets\Common\~CoreGame\EventVariables\EnumVariable.cs" />
+     <Compile Include="Assets\Common\~CoreGame\EventVariables\FloatVariable.cs" />
      <Compile Include="Assets\Common\~CoreGame\EventVariables\ObjectVariable.cs" />
      <Compile Include="Assets\Common\~CoreGame\Extensions\BoundsExtensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Extensions\QuaternionExtensions.cs" />

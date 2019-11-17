@@ -28,7 +28,7 @@ namespace TrainingLevel
             parent.CreateAgent(SoliderEnemyDefinition.AIAgentDefinition);
             this.interactiveObjectTag = new InteractiveObjectTag() {IsTakingDamage = true};
             BaseInit(parent);
-            this.HealthSystem = new HealthSystem(SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthBelowZero);
+            this.HealthSystem = new HealthSystem(SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthChanged);
             this._stunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(SoliderEnemyDefinition.stunningDamageDealerReceiverSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                 SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
@@ -94,11 +94,14 @@ namespace TrainingLevel
             }
         }
 
-        public override void OnHealthBelowZero()
+        public override void OnHealthChanged(float oldVlaue, float newValue)
         {
-            this.isAskingToBeDestroyed = true;
+            if (newValue <= 0f)
+            {
+                this.isAskingToBeDestroyed = true;
+            }
         }
-
+        
         public override void DealDamage(float Damage)
         {
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);

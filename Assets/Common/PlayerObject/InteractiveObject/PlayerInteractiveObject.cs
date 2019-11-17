@@ -1,4 +1,6 @@
-﻿using Input;
+﻿using Damage;
+using Health;
+using Input;
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
@@ -19,6 +21,8 @@ namespace PlayerObject
         [VE_Nested] private BaseObjectAnimatorPlayableSystem baseObjectAnimatorPlayableSystem;
         private WeaponHandlingSystem WeaponHandlingSystem;
         private FiringTargetPositionSystem FiringTargetPositionSystem;
+        private HealthSystem HealthSystem;
+        private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
 
         #endregion
 
@@ -41,7 +45,11 @@ namespace PlayerObject
             base.BaseInit(interactiveGameObject, false);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
-          
+            this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, null);
+            this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
+            /// To display the associated HealthSystem value to UI.
+            HealthUIManager.Get().InitEvents(this.HealthSystem);
+            
             PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
 
@@ -86,11 +94,12 @@ namespace PlayerObject
         public override void Tick(float d)
         {
             base.Tick(d);
+            this.StunningDamageDealerReceiverSystem.Tick(d);
             if (!this.PlayerActionEntryPoint.IsActionExecuting() && !BlockingCutscenePlayer.Playing)
             {
                 if (!PlayerSelectionWheelManager.AwakeOrSleepWheel())
                 {
-                    if (!this.PlayerActionEntryPoint.IsSelectionWheelEnabled())
+                    if (!this.PlayerActionEntryPoint.IsSelectionWheelEnabled() && !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
                     {
                         if (this.GameInputManager.CurrentInput.FiringActionDown())
                         {
@@ -151,6 +160,15 @@ namespace PlayerObject
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
         {
+        }
+
+        #endregion
+        
+        #region Health Events
+
+        public override void DealDamage(float Damage)
+        {
+            this.StunningDamageDealerReceiverSystem.DealDamage(Damage);
         }
 
         #endregion

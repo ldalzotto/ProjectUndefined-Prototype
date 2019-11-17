@@ -679,6 +679,14 @@
       <Project>{4B5DEF64-4FDA-7B80-40DB-F36B792B3884}</Project>
       <Name>AIObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="Health.csproj">
+      <Project>{75786E6C-34C8-0B2C-40F8-743BA59E9518}</Project>
+      <Name>Health</Name>
+    </ProjectReference>
+    <ProjectReference Include="Damage.csproj">
+      <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
+      <Name>Damage</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

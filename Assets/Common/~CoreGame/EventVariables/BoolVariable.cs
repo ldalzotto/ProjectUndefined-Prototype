@@ -22,17 +22,11 @@ public class BoolVariable
         {
             if (value)
             {
-                if (this.OnJustSetToTrue != null)
-                {
-                    this.OnJustSetToTrue.Invoke();
-                }
+                this.OnJustSetToTrue?.Invoke();
             }
             else
             {
-                if (this.OnJustSetToFalse != null)
-                {
-                    this.OnJustSetToFalse.Invoke();
-                }
+                this.OnJustSetToFalse?.Invoke();
             }
         }
     }

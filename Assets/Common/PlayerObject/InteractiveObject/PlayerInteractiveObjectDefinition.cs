@@ -1,5 +1,7 @@
 ﻿using System;
 using AnimatorPlayable;
+using Damage;
+using Health;
 using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using PlayerActions;
@@ -28,5 +30,11 @@ namespace PlayerObject
 
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public PlayerActionInherentData FiringPlayerActionInherentData;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public HealthSystemDefinition HealthSystemDefinition;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public StunningDamageDealerReceiverSystemDefinition StunningDamageDealerReceiverSystemDefinition;
     }
 }

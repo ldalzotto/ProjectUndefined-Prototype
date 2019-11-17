@@ -20,7 +20,8 @@
 "LevelManagement_Interfaces",
 "Weapon",
 "GeometryIntersection",
-"Targetting"
+"Targetting",
+"Health"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

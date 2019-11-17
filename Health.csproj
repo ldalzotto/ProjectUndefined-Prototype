@@ -56,6 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Configuration\HealthUIConfiguration.cs" />
+     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Configuration\HealthUIConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Managers\HealthUIManager.cs" />
+     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Types\HealthUIFullBarType.cs" />
      <Compile Include="Assets\Undefined\Logic\Health\Systems\HealthSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Health\Systems\HealthSystemDefinition.cs" />
      <None Include="Assets\Undefined\Logic\Health\Health.asmdef" />
@@ -613,6 +617,10 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="CoreGame.csproj">
+      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Name>CoreGame</Name>
+    </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
       <Name>OdinSerializer</Name>

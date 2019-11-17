@@ -14,7 +14,9 @@
         "InteractiveObject_Animation",
         "Input",
         "Weapon",
-        "AIObjects"
+        "AIObjects",
+        "Health",
+        "Damage"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
