@@ -26,14 +26,25 @@ namespace SoliderAIBehavior
 
         public override void OnStateEnter()
         {
-            if (this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition}),
-                    AIMovementSpeedDefinition.RUN) == NavMeshPathStatus.PathInvalid)
+            if (MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log(MyLog.Format("MoveToLastSeenPlayerPositionStateManager to PATROLLING"));
                 this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.PATROLLING);
             }
         }
-        
+
+        /// <summary>
+        /// The <see cref="SoliderEnemy"/> destination is set from data provided by <see cref="PlayerObjectStateDataSystem"/>.
+        /// The <see cref="SoliderEnemy"/> destination also include the last seen Rotation. This behavior allows that when the Player has not been found, to look at it's escape destination.
+        /// </summary>
+        /// <returns></returns>
+        private NavMeshPathStatus MoveToLastSeenPlayerPosition()
+        {
+            return this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
+                    this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldRotation)),
+                AIMovementSpeedDefinition.RUN);
+        }
+
         /// <summary>
         /// When the Player is in sight, the <see cref="SoliderEnemy"/> rushes the Payer
         /// </summary>

@@ -47,15 +47,15 @@ namespace SoliderAIBehavior
         public override void OnStateEnter()
         {
             var LastPlayerSeenPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition;
-            var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition;
+            var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition.WorldPosition;
 
             /// If we found a SightDirection without Obstacle
-            if (ComputeSightDirection(AItoLVPDistance, LastPlayerSeenPosition, out var SightDirection))
+            if (ComputeSightDirection(AItoLVPDistance, LastPlayerSeenPosition.WorldPosition, out var SightDirection))
             {
                 this.TmpLastPlayerSeenPositionGameObject = new GameObject("TmpLastPlayerSeenPositionGameObject");
-                this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition;
+                this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition.WorldPosition;
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
-                if (this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
+                if (this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
                         AIMovementSpeedDefinition.RUN) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));

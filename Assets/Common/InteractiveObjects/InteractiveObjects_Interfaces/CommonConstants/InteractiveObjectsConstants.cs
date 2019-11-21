@@ -7,6 +7,12 @@ namespace InteractiveObjects_Interfaces
     {
         public Vector3 WorldPosition;
         public Quaternion? Rotation;
+
+        public AIDestination(Vector3 worldPosition, Quaternion? rotation)
+        {
+            WorldPosition = worldPosition;
+            Rotation = rotation;
+        }
     }
 
     public interface IAgentMovementCalculationStrategy

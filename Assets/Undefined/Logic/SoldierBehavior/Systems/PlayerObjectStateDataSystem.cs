@@ -23,7 +23,7 @@ namespace SoliderAIBehavior
             return this.playerObject;
         }
 
-        public Vector3 LastPlayerSeenPosition { get; private set; }
+        public LastPlayerSeenPosition LastPlayerSeenPosition { get; private set; }
         public bool IsPlayerInSight { get; private set; }
         private SoldierAIBehavior SoldierAIBehaviorRef;
 
@@ -40,7 +40,8 @@ namespace SoliderAIBehavior
         {
             if (this.IsPlayerInSight)
             {
-                this.LastPlayerSeenPosition = this.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition;
+                this.LastPlayerSeenPosition = new LastPlayerSeenPosition(this.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition, 
+                 Quaternion.Euler(this.PlayerObject().InteractiveGameObject.GetTransform().WorldRotationEuler));
             }
         }
 
@@ -60,6 +61,18 @@ namespace SoliderAIBehavior
                 this.IsPlayerInSight = false;
                 this.OnPlayerObjectJustOutOfSightAction.Invoke(NotInSightInteractiveObject);
             }
+        }
+    }
+
+    public struct LastPlayerSeenPosition
+    {
+        public Vector3 WorldPosition;
+        public Quaternion WorldRotation;
+
+        public LastPlayerSeenPosition(Vector3 worldPosition, Quaternion worldRotation)
+        {
+            WorldPosition = worldPosition;
+            WorldRotation = worldRotation;
         }
     }
 }
