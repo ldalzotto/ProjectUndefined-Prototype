@@ -86,7 +86,7 @@ namespace PlayerObject
             this.InteractiveGameObject.InteractiveGameObjectParent.transform.position = PlayerPositionPersistenceManager.Get().PlayerPositionBeforeLevelLoad.GetPosition();
             this.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation = PlayerPositionPersistenceManager.Get().PlayerPositionBeforeLevelLoad.GetQuaternion();
 
-            this.baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimatorPlayable, this.PlayerInteractiveObjectDefinition.LocomotionAnimation);
+            this.baseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, this.PlayerInteractiveObjectDefinition.LocomotionAnimation);
         }
 
         public PlayerInteractiveObjectInitializerData PlayerInteractiveObjectInitializerData { get; private set; }

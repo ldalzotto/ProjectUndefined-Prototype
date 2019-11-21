@@ -8,10 +8,9 @@ namespace InteractiveObject_Animation
     {
         private Vector2 normalizedObjectSpeed;
 
-        public BaseObjectAnimatorPlayableSystem(AnimatorPlayableObject AnimatorPlayableObject, A_AnimationPlayableDefinition LocomotionAnimationDefinition)
+        public BaseObjectAnimatorPlayableSystem(AnimationController AnimationController, A_AnimationPlayableDefinition LocomotionAnimationDefinition)
         {
-            AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[AnimationLayerID.LocomotionLayer].ID, LocomotionAnimationDefinition.GetAnimationInput(),
-                TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
+            AnimationController.PlayLocomotionAnimation(LocomotionAnimationDefinition.GetAnimationInput(), TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
         }
 
         public void SetUnscaledObjectLocalDirection(Vector3 localDirection)

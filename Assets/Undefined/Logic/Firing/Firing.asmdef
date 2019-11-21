@@ -6,11 +6,13 @@
         "OdinSerializer",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
+        "InteractiveObject_Animation",
         "PlayerActions",
         "PlayerObject_Interface",
         "Input",
         "Damage",
-        "Targetting"
+        "Targetting",
+        "AnimatorPlayable"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

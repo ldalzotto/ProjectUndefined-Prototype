@@ -636,6 +636,10 @@
       <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="InteractiveObject_Animation.csproj">
+      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
+      <Name>InteractiveObject_Animation</Name>
+    </ProjectReference>
     <ProjectReference Include="PlayerActions.csproj">
       <Project>{63AE0CB7-735A-D4CD-7DAE-B8ABD6F2883E}</Project>
       <Name>PlayerActions</Name>
@@ -655,6 +659,10 @@
     <ProjectReference Include="Targetting.csproj">
       <Project>{125454DF-138B-94CE-9966-52632EB4DE10}</Project>
       <Name>Targetting</Name>
+    </ProjectReference>
+    <ProjectReference Include="AnimatorPlayable.csproj">
+      <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
+      <Name>AnimatorPlayable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

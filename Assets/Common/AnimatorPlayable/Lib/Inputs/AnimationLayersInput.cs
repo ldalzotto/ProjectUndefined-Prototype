@@ -48,8 +48,15 @@ namespace AnimatorPlayable
     public class UniqueAnimationClip
     {
         public AnimationClip AnimationClip;
-
+        public float AnimationSpeedMultiplier = 1f;
         public LinearBlending TransitionBlending;
+
+        public UniqueAnimationClip(AnimationClip animationClip, float animationSpeedMultiplier, LinearBlending transitionBlending)
+        {
+            AnimationClip = animationClip;
+            AnimationSpeedMultiplier = animationSpeedMultiplier;
+            TransitionBlending = transitionBlending;
+        }
 
         #region Dynamically Setted
 
@@ -62,16 +69,12 @@ namespace AnimatorPlayable
     public class UniqueAnimationClipInput
     {
         public AnimationClip AnimationClip;
-
+        public float AnimationSpeedMultiplier = 1f;
         public LinearBlending TransitionBlending;
 
         public UniqueAnimationClip ToUniqueAnimationClip()
         {
-            return new UniqueAnimationClip()
-            {
-                AnimationClip = AnimationClip,
-                TransitionBlending = TransitionBlending
-            };
+            return new UniqueAnimationClip(AnimationClip, AnimationSpeedMultiplier, TransitionBlending);
         }
     }
 

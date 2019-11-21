@@ -12,9 +12,13 @@ namespace InteractiveObject_Animation
         }
     }
 
+    /// <summary>
+    /// Animation layers prefixed with '*_{number}' are considered overrides of the '*_{number-1}' layer.
+    /// </summary>
     public enum AnimationLayerID
     {
         LocomotionLayer,
+        LocomotionLayer_1,
         ContextActionLayer
     }
 
@@ -23,6 +27,7 @@ namespace InteractiveObject_Animation
         public static Dictionary<AnimationLayerID, AnimationLayer> AnimationLayers = new Dictionary<AnimationLayerID, AnimationLayer>()
         {
             {AnimationLayerID.LocomotionLayer, new AnimationLayer(0)},
+            {AnimationLayerID.LocomotionLayer_1, new AnimationLayer(1)},
             {AnimationLayerID.ContextActionLayer, new AnimationLayer(10)}
         };
     }

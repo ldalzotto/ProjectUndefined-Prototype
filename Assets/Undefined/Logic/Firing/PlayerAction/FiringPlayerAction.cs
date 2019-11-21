@@ -1,4 +1,6 @@
-﻿using Input;
+﻿using AnimatorPlayable;
+using Input;
+using InteractiveObject_Animation;
 using InteractiveObjects;
 using PlayerActions;
 using PlayerObject_Interfaces;
@@ -14,15 +16,18 @@ namespace Firing
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
+        private PlayerAnimationSystem PlayerAnimationSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
+            CoreInteractiveObject playerCoreInteractiveObject = PlayerInteractiveObject as CoreInteractiveObject;
             var targettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), targettableInteractiveObjectSelectionManager);
-            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerInteractiveObject as CoreInteractiveObject, targettableInteractiveObjectSelectionManager);
+            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, playerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.PlayerObjectOrientationSystem);
+            this.PlayerAnimationSystem = new PlayerAnimationSystem(playerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimation);
         }
 
         public override void FirstExecution()
@@ -48,6 +53,7 @@ namespace Firing
         public override void Dispose()
         {
             this.ExitActionSystem.Dispose();
+            this.PlayerAnimationSystem.Dispose();
         }
 
         public override void LateTick(float d)
@@ -171,6 +177,22 @@ namespace Firing
         public void Dispose()
         {
             this.PlayerObjectOrientationSystem.Dispose();
+        }
+    }
+
+    class PlayerAnimationSystem
+    {
+        private CoreInteractiveObject PlayerCoreInteractiveObject;
+
+        public PlayerAnimationSystem(CoreInteractiveObject PlayerCoreInteractiveObject, SequencedAnimationInput FiringPoseAnimation)
+        {
+            this.PlayerCoreInteractiveObject = PlayerCoreInteractiveObject;
+            PlayerCoreInteractiveObject.AnimationController.PlayLocomotionAnimationOverride(FiringPoseAnimation, AnimationLayerID.LocomotionLayer_1);
+        }
+
+        public void Dispose()
+        {
+            PlayerCoreInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_1);
         }
     }
 }

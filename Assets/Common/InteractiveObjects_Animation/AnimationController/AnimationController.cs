@@ -48,6 +48,30 @@ namespace InteractiveObject_Animation
             }
         }
 
+        /// <summary>
+        /// Plays an <see cref="IAnimationInput"/> to the layer <see cref="AnimationLayerID.LocomotionLayer"/>
+        /// </summary>
+        /// <param name="LocomotionAnimation">The played animation</param>
+        public void PlayLocomotionAnimation(IAnimationInput LocomotionAnimation, Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
+        {
+            this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[AnimationLayerID.LocomotionLayer].ID, LocomotionAnimation,
+                InputWeightProvider: InputWeightProvider, TwoDInputWheigtProvider: TwoDInputWheigtProvider);
+        }
+
+        /// <summary>
+        /// Plays an <see cref="IAnimationInput"/> to a layer after <see cref="AnimationLayerID.LocomotionLayer"/>.
+        /// </summary>
+        public void PlayLocomotionAnimationOverride(IAnimationInput LocomotionAnimation, AnimationLayerID overrideLayer, 
+            Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
+        {
+            this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[overrideLayer].ID, LocomotionAnimation,
+                InputWeightProvider: InputWeightProvider, TwoDInputWheigtProvider: TwoDInputWheigtProvider);
+        }
+
+        /// <summary>
+        /// Plays an <see cref="SequencedAnimationInput"/> to the Layer <see cref="AnimationLayerID.ContextActionLayer"/>
+        /// </summary>
+        /// <param name="ContextActionAnimation">The played animation</param>
         public void PlayContextAction(SequencedAnimationInput ContextActionAnimation, bool rootMotion, Action OnAnimationFinished = null)
         {
             this.RootMotionEnabled.SetValue(rootMotion);
@@ -59,10 +83,15 @@ namespace InteractiveObject_Animation
             this.AnimatorPlayableObject.DestroyLayer(AnimationLayerStatic.AnimationLayers[AnimationLayerID.ContextActionLayer].ID);
         }
 
+        public void DestroyAnimationLayer(AnimationLayerID animationLayer)
+        {
+            this.AnimatorPlayableObject.DestroyLayer(AnimationLayerStatic.AnimationLayers[animationLayer].ID);
+        }
+        
         private void OnAnimationFinished(Action parentCallback)
         {
             this.RootMotionEnabled.SetValue(false);
-            parentCallback.Invoke();
+            parentCallback?.Invoke();
         }
 
         private void OnRootMotionEnabled()

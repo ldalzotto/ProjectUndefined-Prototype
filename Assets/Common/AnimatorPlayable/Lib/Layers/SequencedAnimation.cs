@@ -124,6 +124,7 @@ namespace AnimatorPlayable
                     {
                         this.IsTransitioningIn = false;
                         this.AssociatedAnimationClipsPlayable[0].Play();
+                        this.AssociatedAnimationClipsPlayable[0].SetSpeed(this.UniqueAnimationClips[0].AnimationSpeedMultiplier);
                     }
                 }
                 else if (this.IsTransitioningOut)
