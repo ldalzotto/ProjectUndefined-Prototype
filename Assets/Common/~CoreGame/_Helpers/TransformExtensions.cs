@@ -27,6 +27,10 @@ namespace CoreGame
                     rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
                     rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
                     break;
+                case RectTransformSetup.BOTTOM_LEFT:
+                    rectTransform.anchorMax = new Vector2(0f, 0f);
+                    rectTransform.anchorMin = new Vector2(0f, 0f);
+                    break;
             }
 
             rectTransform.pivot = Vector2.zero;
@@ -47,6 +51,7 @@ namespace CoreGame
 
     public enum RectTransformSetup
     {
-        CENTER
+        CENTER,
+        BOTTOM_LEFT
     }
 }

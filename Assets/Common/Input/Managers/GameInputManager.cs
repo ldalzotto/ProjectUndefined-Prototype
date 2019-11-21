@@ -117,6 +117,11 @@ namespace Input
             {
                 return this.gameInputV2.InputConditionsMet(InputID.FIRING_PROJECTILE_DOWN_HOLD);
             }
+
+            public bool MenuExitD()
+            {
+                return this.gameInputV2.InputConditionsMet(InputID.MENU_EXIT_DOWN);
+            }
         }
 
         #region Data Retrieval
@@ -251,6 +256,7 @@ namespace Input
         bool FiringActionDown();
         bool FiringActionReleased();
         bool FiringProjectileDH();
+        bool MenuExitD();
     }
 
     public enum MouseButton

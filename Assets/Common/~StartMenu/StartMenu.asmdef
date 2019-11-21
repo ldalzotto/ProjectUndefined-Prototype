@@ -4,8 +4,10 @@
          "CoreGame",
          "GameConfigurationID",
          "OdinSerializer",
- "GameLoop",
- "LevelManagement"
+        "GameLoop",
+        "LevelManagement",
+        "Input",
+        "Unity.InputSystem"
      ],
      "includePlatforms": [],
      "excludePlatforms": [],

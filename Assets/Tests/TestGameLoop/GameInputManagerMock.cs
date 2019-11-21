@@ -117,6 +117,11 @@ namespace Tests
             return this.GameTestInputMockedValues.FiringPorjectileDH;
         }
 
+        public bool MenuExitD()
+        {
+            return false;
+        }
+
         #endregion
     }
 

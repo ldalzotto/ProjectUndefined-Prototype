@@ -12,6 +12,7 @@ namespace StartMenu
     public class StartMenuPrefabConfiguration : SerializedScriptableObject
     {
         public Button StartMenuButtonBasePrefab;
+        public GameObject ControlsWindowPrefab;
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using OdinSerializer;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Input
 {
@@ -12,6 +13,10 @@ namespace Input
         public float CameraMovementFactor = 1f;
         public float CursorMovementFactor = 1f;
 
+        public Image KeyIconPrefab;
+        public Image LeftClickIconPrefab;
+        public Image RightClickIconPrefab;
+        
         #region Data Retrieval
 
         public float GetCameraMovementMouseSensitivity()
