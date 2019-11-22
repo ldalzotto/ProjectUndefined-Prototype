@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Common\SequencedAction\CommonActions\Branch\BranchInfiniteLoopAction.cs" />
+     <Compile Include="Assets\Common\SequencedAction\CommonActions\Branch\WaitForSecondsAction.cs" />
      <Compile Include="Assets\Common\SequencedAction\CommonActions\CutsceneWorkflowAbortAction.cs" />
      <Compile Include="Assets\Common\SequencedAction\CommonActions\CutsceneWorkflowWaitForSecondsAction.cs" />
      <Compile Include="Assets\Common\SequencedAction\Managers\SequencedActionManager.cs" />
