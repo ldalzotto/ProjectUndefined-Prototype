@@ -52,6 +52,7 @@ namespace Firing
 
         private void OnDamageDealtToOther(CoreInteractiveObject OtherInteractiveObject)
         {
+            Debug.Log(MyLog.Format("OnDamageDealtToOther : " + OtherInteractiveObject.InteractiveGameObject.GetAssociatedGameObjectName()));
             this.AskToDestroy();
         }
 

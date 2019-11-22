@@ -29,7 +29,7 @@ namespace GeometryIntersection
 
         private Vector3 LocalToWorld(TransformStruct FrustumTransform, Vector3 localPoint)
         {
-            return Matrix4x4.TRS(FrustumTransform.WorldPosition, Quaternion.Euler(FrustumTransform.WorldRotationEuler) * Quaternion.Euler(this.DeltaRotation),
+            return Matrix4x4.TRS(Center + FrustumTransform.WorldPosition, Quaternion.Euler(FrustumTransform.WorldRotationEuler) * Quaternion.Euler(this.DeltaRotation),
                        FrustumTransform.LossyScale ).MultiplyPoint(localPoint);
         }
 

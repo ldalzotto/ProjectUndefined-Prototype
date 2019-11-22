@@ -62,7 +62,7 @@ namespace PlayerObject
             /// It is disabled by default.
             this.InteractiveGameObject.Agent.enabled = false;
 
-            interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true};
+            interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true, IsTakingDamage = true};
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
 
