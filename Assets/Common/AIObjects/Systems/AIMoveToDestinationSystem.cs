@@ -184,7 +184,7 @@ namespace AIObjects
                     FrameWereOccuredTheLastDestinationReached = Time.frameCount;
                     objectAgent.isStopped = true;
                     objectAgent.ResetPath();
-                    Debug.Log(MyLog.Format("Destination reached !"));
+                    //Debug.Log(MyLog.Format("Destination reached !"));
                     OnAIInteractiveObjectDestinationReached?.Invoke();
                 }
         }

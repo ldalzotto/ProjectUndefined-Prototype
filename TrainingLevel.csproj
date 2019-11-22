@@ -57,9 +57,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Debug\TrainingLevelDebugComponent.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierA\SoliderEnemyDefinition_A_PatrollingPath.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemy.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemyDefinition.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoliderA\SoliderEnemyDefinition_A_PatrollingPath.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierF\SoliderEnemyDefinition_F_PatrollingPath.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectActionInherentData.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\AggressiveAI\AggressiveAIObject.cs" />
