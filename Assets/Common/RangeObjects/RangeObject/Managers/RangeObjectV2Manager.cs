@@ -9,11 +9,8 @@ namespace RangeObjects
     {
         public List<RangeObjectV2> RangeObjects { get; private set; } = new List<RangeObjectV2>();
 
-        public void Init()
+        public void InitializeEvents()
         {
-            var rangeInitializers = GameObject.FindObjectsOfType<RangeObjectInitializer>();
-            for (var rangeInitializerIndex = 0; rangeInitializerIndex < rangeInitializers.Length; rangeInitializerIndex++) rangeInitializers[rangeInitializerIndex].Init();
-
             #region Event Register
 
             RangeEventsManager.Get().RegisterOnRangeObjectCreatedEventListener(OnRangeObjectCreated);
@@ -21,6 +18,17 @@ namespace RangeObjects
             InteractiveObjectEventsManagerSingleton.Get().RegisterOnInteractiveObjectDestroyedEventListener(OnInteractiveObjectDestroyed);
 
             #endregion
+        }
+        
+        public void Init()
+        {
+            InitializeAllRangeObjects();
+        }
+
+        public static void InitializeAllRangeObjects()
+        {
+            var rangeInitializers = GameObject.FindObjectsOfType<RangeObjectInitializer>();
+            for (var rangeInitializerIndex = 0; rangeInitializerIndex < rangeInitializers.Length; rangeInitializerIndex++) rangeInitializers[rangeInitializerIndex].Init();
         }
 
         public void Tick(float d)

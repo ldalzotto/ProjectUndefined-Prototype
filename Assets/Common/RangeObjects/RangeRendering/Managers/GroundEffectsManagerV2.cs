@@ -43,13 +43,12 @@ namespace RangeObjects
         public Dictionary<RangeTypeID, Dictionary<int, AbstractRangeRenderData>> RangeRenderDatas => rangeRenderDatas;
 #endif
 
-        public void Init(LevelRangeEffectInherentData LevelRangeEffectInherentData)
+        public void InitializeEvents()
         {
-            #region Init Values
-
             rangeRenderDatas = new Dictionary<RangeTypeID, Dictionary<int, AbstractRangeRenderData>>();
-
-            #endregion
+            RangeTypeConfiguration = RangeTypeConfigurationGameObject.Get().RangeRenderingConfiguration.RangeTypeConfiguration;
+            MasterRangeMaterial = new Material(RangeTypeConfigurationGameObject.Get().RangeRenderingConfiguration.MasterRangeShader);
+            RangeRenderingConfiguration = RangeTypeConfigurationGameObject.Get().RangeRenderingConfiguration;
 
             #region Event Registering
 
@@ -57,11 +56,11 @@ namespace RangeObjects
             RangeEventsManager.Get().RegisterOnRangeObjectDestroyedEventListener(OnRangeObjectDestroyed);
 
             #endregion
+        }
 
-            RangeTypeConfiguration = RangeTypeConfigurationGameObject.Get().RangeRenderingConfiguration.RangeTypeConfiguration;
-            MasterRangeMaterial = new Material(RangeTypeConfigurationGameObject.Get().RangeRenderingConfiguration.MasterRangeShader);
-            RangeRenderingConfiguration = RangeTypeConfigurationGameObject.Get().RangeRenderingConfiguration;
-
+        public void Init(LevelRangeEffectInherentData LevelRangeEffectInherentData)
+        {
+          
             RangeDrawCommand = new CommandBuffer();
             RangeDrawCommand.name = GetType().Name + "." + nameof(RangeDrawCommand);
 

@@ -3,6 +3,7 @@ using InteractiveObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RangeObjects;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,8 +23,8 @@ public class InteractiveObjectExplorer : EditorWindow
     private ContextBar ContextBar;
     private TextField SearchTextField;
 
-    private List<InteractiveObjectInitializer> InteractiveObjectInitializers = new List<InteractiveObjectInitializer>();
-    private Dictionary<InteractiveObjectInitializer, InterativeObjectInitializerLine> InteractiveObjectInitializerLines = new Dictionary<InteractiveObjectInitializer, InterativeObjectInitializerLine>();
+    private List<MonoBehaviour> InteractiveObjectInitializers = new List<MonoBehaviour>();
+    private Dictionary<MonoBehaviour, InterativeObjectInitializerLine> InteractiveObjectInitializerLines = new Dictionary<MonoBehaviour, InterativeObjectInitializerLine>();
 
     private void OnEnable()
     {
@@ -47,10 +48,9 @@ public class InteractiveObjectExplorer : EditorWindow
 
         SceneView.duringSceneGui += this.SceneTick;
     }
-    
+
     private void RootMouseDown(MouseUpEvent evt)
     {
-
         evt.StopPropagation();
     }
 
@@ -80,13 +80,15 @@ public class InteractiveObjectExplorer : EditorWindow
         foreach (var InteractiveObjectInitializerLine in this.InteractiveObjectInitializerLines)
         {
             InteractiveObjectInitializerLine.Value.style.display =
-               (string.IsNullOrEmpty(this.SearchTextField.value) || InteractiveObjectInitializerLine.Key.name.ToLower().Contains(this.SearchTextField.value.ToLower())) ? DisplayStyle.Flex : DisplayStyle.None;
+                (string.IsNullOrEmpty(this.SearchTextField.value) || InteractiveObjectInitializerLine.Key.name.ToLower().Contains(this.SearchTextField.value.ToLower())) ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 
     private void Refresh()
     {
-        this.InteractiveObjectInitializers = GameObject.FindObjectsOfType<InteractiveObjectInitializer>().ToList();
+        this.InteractiveObjectInitializers =
+            GameObject.FindObjectsOfType<InteractiveObjectInitializer>().ToList().ConvertAll(c => c as MonoBehaviour);
+        this.InteractiveObjectInitializers.AddRange(GameObject.FindObjectsOfType<RangeObjectInitializer>().ToList().ConvertAll(c => c as MonoBehaviour));
 
         foreach (var interactiveObjectInitializer in this.InteractiveObjectInitializers)
         {
@@ -129,12 +131,10 @@ public class InteractiveObjectExplorer : EditorWindow
             interactiveObjectLine.IsSelected.SetValue(interactiveObjectLine == InterativeObjectInitializerLine);
         }
     }
-
 }
 
 class ContextBar : VisualElement
 {
-
     private ContextButton RefreshButton;
     private ContextButton SelectAllButton;
     private ContextButton UnselectAllButton;
@@ -149,6 +149,7 @@ class ContextBar : VisualElement
     {
         this.RefreshButton = new ContextButton(this, "Refresh", OnSelected);
     }
+
     public void SetupSelectedAllButton(Action OnSelected)
     {
         this.SelectAllButton = new ContextButton(this, "S_All", OnSelected);
@@ -179,9 +180,11 @@ class ContextButton : Button
         this.OnSelectionActionListener.Invoke();
         evt.StopPropagation();
     }
+
     private void OnSelected()
     {
     }
+
     private void OnUnSelected()
     {
     }
@@ -199,7 +202,10 @@ class InterativeObjectInitializerLine : VisualElement
     public ObjectFieldSelectionIcon GizmoIcon { get; private set; }
     private Label Label;
 
-    public bool IsGizmoSelected() { return this.GizmoIcon.Selected.GetValue(); }
+    public bool IsGizmoSelected()
+    {
+        return this.GizmoIcon.Selected.GetValue();
+    }
 
     public InterativeObjectInitializerLine(VisualElement parent, GameObject GameObject, Action<InterativeObjectInitializerLine> OnClickedExtern)
     {
@@ -220,12 +226,12 @@ class InterativeObjectInitializerLine : VisualElement
 
     private void OnMouseDown(MouseDownEvent MouseDownEvent)
     {
-        if (MouseDownEvent.button == (int)MouseButton.LeftMouse)
+        if (MouseDownEvent.button == (int) MouseButton.LeftMouse)
         {
             Selection.activeGameObject = this.GameObjectReference;
             this.OnClickedExtern.Invoke(this);
         }
-        else if (MouseDownEvent.button == (int)MouseButton.RightMouse)
+        else if (MouseDownEvent.button == (int) MouseButton.RightMouse)
         {
             var genericMenu = new GenericMenu();
             genericMenu.AddItem(new GUIContent("Only This"), false, () => { });
@@ -259,5 +265,4 @@ class InterativeObjectInitializerLine : VisualElement
     {
         this.style.backgroundColor = this.InitialBackGroundColor;
     }
-
 }

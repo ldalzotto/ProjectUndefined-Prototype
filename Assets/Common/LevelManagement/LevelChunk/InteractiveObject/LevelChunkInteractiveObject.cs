@@ -1,6 +1,7 @@
 ﻿using System;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using RangeObjects;
 using UnityEngine;
 
 namespace LevelManagement
@@ -58,6 +59,11 @@ namespace LevelManagement
         private void OnLevelChunkTriggerExit(CoreInteractiveObject Other)
         {
             LevelManagerEventManager.Get().OnChunkLevelExit(this);
+        }
+
+        public RangeObjectV2 GetLevelChunkRangeObject()
+        {
+            return this.LevelChunkTrackerSystem.LevelChunkTrackerRange;
         }
 
         public static void DestroyAllDestroyOnStartObjects()

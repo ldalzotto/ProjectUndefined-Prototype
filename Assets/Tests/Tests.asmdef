@@ -19,7 +19,8 @@
         "SequencedAction",
         "PlayerObject",
         "PlayerObject_Interface",
-        "InteractiveObjects"
+        "InteractiveObjects",
+        "RangeObjects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

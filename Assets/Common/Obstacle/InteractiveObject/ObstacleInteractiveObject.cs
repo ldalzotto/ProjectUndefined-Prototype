@@ -23,11 +23,11 @@ namespace Obstacle
         {
             this.InteractiveGameObject.CreateLogicCollider(_obstacleInteractiveObjectDefinition.InteractiveObjectLogicCollider, LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
             this.CreatePhysicsCollider(_obstacleInteractiveObjectDefinition.InteractiveObjectLogicCollider);
-            this.CreateNavMeshObstacle(_obstacleInteractiveObjectDefinition.SquareObstacleSystemInitializationData);
+            this.CreateNavMeshObstacle(_obstacleInteractiveObjectDefinition.SquareObstacleSystemInitializationData, _obstacleInteractiveObjectDefinition.InteractiveObjectLogicCollider);
             ObstacleCollider = this.InteractiveGameObject.GetLogicColliderAsBox();
             SquareObstacleSystemInitializationData = _obstacleInteractiveObjectDefinition.SquareObstacleSystemInitializationData;
             interactiveObjectTag = new InteractiveObjectTag {IsObstacle = true};
-            squareObstacleOcclusionFrustumsDefinition = new SquareObstacleOcclusionFrustumsDefinition();
+            squareObstacleOcclusionFrustumsDefinition = new SquareObstacleOcclusionFrustumsDefinition(_obstacleInteractiveObjectDefinition.InteractiveObjectLogicCollider);
 
             ObstacleInteractiveObjectUniqueID = ObstacleInteractiveObjectManager.Get().OnSquareObstacleSystemCreated(this);
         }
@@ -54,7 +54,7 @@ namespace Obstacle
             BoxCollider.size = InteractiveObjectBoxLogicColliderDefinition.LocalSize;
         }
 
-        private void CreateNavMeshObstacle(SquareObstacleSystemInitializationData SquareObstacleSystemInitializationData)
+        private void CreateNavMeshObstacle(SquareObstacleSystemInitializationData SquareObstacleSystemInitializationData, InteractiveObjectBoxLogicColliderDefinition InteractiveObjectBoxLogicColliderDefinition)
         {
             if (SquareObstacleSystemInitializationData.CreateNavMeshObstacle)
             {
@@ -63,19 +63,13 @@ namespace Obstacle
                     var NavMeshObstacle = this.InteractiveGameObject.InteractiveGameObjectParent.AddComponent<NavMeshObstacle>();
                     NavMeshObstacle.shape = NavMeshObstacleShape.Box;
                     NavMeshObstacle.carving = true;
+                    NavMeshObstacle.center = InteractiveObjectBoxLogicColliderDefinition.LocalCenter;
+                    NavMeshObstacle.size = InteractiveObjectBoxLogicColliderDefinition.LocalSize;
                 }
             }
         }
 
         #region Data Retrieval
-
-        /// <summary>
-        ///     The center of the square obstacle is used by the occlusion frustums calculator.
-        /// </summary>
-        public TransformStruct GetObstacleCenterTransform()
-        {
-            return InteractiveGameObject.GetLogicColliderCenterTransform();
-        }
 
         public List<FrustumV2> GetFaceFrustums()
         {

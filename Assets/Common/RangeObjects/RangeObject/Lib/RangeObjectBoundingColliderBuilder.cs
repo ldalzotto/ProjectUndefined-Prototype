@@ -35,9 +35,10 @@ namespace RangeObjects
 
         private static Collider BuildBoundingCollider(FrustumV2 Frustum, RangeGameObjectV2 RangeGameObject)
         {
+            Frustum.BuildLocalBoundingBox(out Vector3 localSize,out Vector3 localCenter);
             var boxCollider = RangeGameObject.RangeGameObject.AddComponent<BoxCollider>();
-            boxCollider.center = new Vector3(0, 0, Frustum.F2.FaceOffsetFromCenter.z / 4f);
-            boxCollider.size = new Vector3(Mathf.Max(Frustum.F1.Width, Frustum.F2.Width), Math.Max(Frustum.F1.Height, Frustum.F2.Height), Frustum.F2.FaceOffsetFromCenter.z / 2f);
+            boxCollider.center = localCenter;
+            boxCollider.size = localSize;
             boxCollider.isTrigger = true;
             return boxCollider;
         }

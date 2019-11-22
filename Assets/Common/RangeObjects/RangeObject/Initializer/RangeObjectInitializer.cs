@@ -3,16 +3,15 @@ using UnityEngine.Profiling;
 
 namespace RangeObjects
 {
+    [SceneHandleDraw]
     public class RangeObjectInitializer : MonoBehaviour
     {
-        [Inline()] public RangeObjectInitialization RangeObjectInitialization;
+       [DrawNested] [Inline()] public RangeObjectInitialization RangeObjectInitialization;
 
         public void Init()
         {
-            Profiler.BeginSample("RangeObjectInitializer : Init");
             FromRangeObjectInitialization(RangeObjectInitialization, this.gameObject);
             MonoBehaviour.Destroy(this);
-            Profiler.EndSample();
         }
 
         public static RangeObjectV2 FromRangeObjectInitialization(RangeObjectInitialization RangeObjectInitialization, GameObject parent)

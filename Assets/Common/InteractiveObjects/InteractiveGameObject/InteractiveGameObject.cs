@@ -97,23 +97,7 @@ namespace InteractiveObjects
         {
             return new TransformStruct(InteractiveGameObjectParent.transform);
         }
-
-        public TransformStruct GetLogicColliderCenterTransform()
-        {
-            var returnTransform = GetTransform();
-            if (LogicCollider != null)
-                switch (LogicCollider)
-                {
-                    case BoxCollider logicBoxCollider:
-                        returnTransform = new TransformStruct() {WorldPosition = returnTransform.WorldPosition + logicBoxCollider.center, WorldRotationEuler = returnTransform.WorldRotationEuler, LossyScale = returnTransform.LossyScale};
-                        break;
-                    default:
-                        break;
-                }
-
-            return returnTransform;
-        }
-
+        
         public Matrix4x4 GetLocalToWorld()
         {
             return InteractiveGameObjectParent.transform.localToWorldMatrix;

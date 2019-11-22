@@ -7,7 +7,7 @@ namespace LevelManagement
 {
     public class LevelChunkTrackerSystem : AInteractiveObjectSystem
     {
-        private RangeObjectV2 LevelChunkTrackerRange;
+        public RangeObjectV2 LevelChunkTrackerRange { get; private set; }
 
         public LevelChunkTrackerSystem(LevelChunkInteractiveObject AssociatedLevelChunkInteractiveObject, LevelChunkInteractiveObjectDefinition LevelChunkInteractiveObjectDefinition,
             Action<CoreInteractiveObject> OnLevelChunkTriggerEnterAction, Action<CoreInteractiveObject> OnLevelChunkTriggerExitAction)

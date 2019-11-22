@@ -1,0 +1,31 @@
+{
+    "name": "Obstacle_Tests",
+    "references": [
+        "GUID:080209e390669574384ade36547fe4a8",
+        "GUID:4230db27fcf142a439bd15d769d36c99",
+        "GUID:83a23e85924b27e419c0fada7259185a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "BJM",
+        "iOS",
+        "LinuxStandalone64",
+        "Lumin",
+        "macOSStandalone",
+        "PS4",
+        "Switch",
+        "tvOS",
+        "WSA",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64",
+        "XboxOne"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

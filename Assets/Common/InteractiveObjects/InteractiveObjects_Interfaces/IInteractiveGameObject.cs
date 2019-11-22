@@ -21,7 +21,6 @@ namespace InteractiveObjects_Interfaces
         Bounds GetAverageModelWorldBounds();
         BoxCollider GetLogicColliderAsBox();
         TransformStruct GetTransform();
-        TransformStruct GetLogicColliderCenterTransform();
         Matrix4x4 GetLocalToWorld();
         BoxDefinition GetLogicColliderBoxDefinition();
         string GetAssociatedGameObjectName();

@@ -295,35 +295,49 @@ namespace GeometryIntersection
 
         public static void ExtractBoxColliderWorldPointsV2(BoxDefinition BoxDefinition, out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8)
         {
+            ExtractBoxColliderLocalPoints(BoxDefinition.LocalCenter, BoxDefinition.LocalSize, out Vector3 lC1, out Vector3 lC2, out Vector3 lC3, out Vector3 lC4, out Vector3 lC5,
+                out Vector3 lC6, out Vector3 lC7, out Vector3 lC8);
+
+            var boxLocalToWorld = BoxDefinition.LocalToWorld;
+
+            C1 = boxLocalToWorld.MultiplyPoint(lC1);
+            C2 = boxLocalToWorld.MultiplyPoint(lC2);
+            C3 = boxLocalToWorld.MultiplyPoint(lC3);
+            C4 = boxLocalToWorld.MultiplyPoint(lC4);
+            C5 = boxLocalToWorld.MultiplyPoint(lC5);
+            C6 = boxLocalToWorld.MultiplyPoint(lC6);
+            C7 = boxLocalToWorld.MultiplyPoint(lC7);
+            C8 = boxLocalToWorld.MultiplyPoint(lC8);
+        }
+
+        public static void ExtractBoxColliderLocalPoints(Vector3 localCenter, Vector3 localSize, out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8)
+        {
             Vector3 diagDirection = Vector3.zero;
 
-            var boxColliderSize = BoxDefinition.LocalSize;
-            var boxLocalToWorld = BoxDefinition.LocalToWorld;
-            var boxLocalCenter = BoxDefinition.LocalCenter;
 
-            diagDirection = diagDirection.SetVector(-boxColliderSize.x, boxColliderSize.y, -boxColliderSize.z);
-            C1 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(-localSize.x, localSize.y, -localSize.z) * 0.5f;
+            C1 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(boxColliderSize.x, boxColliderSize.y, -boxColliderSize.z);
-            C2 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(localSize.x, localSize.y, -localSize.z) * 0.5f;
+            C2 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(boxColliderSize.x, -boxColliderSize.y, -boxColliderSize.z);
-            C3 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(localSize.x, -localSize.y, -localSize.z) * 0.5f;
+            C3 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(-boxColliderSize.x, -boxColliderSize.y, -boxColliderSize.z);
-            C4 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(-localSize.x, -localSize.y, -localSize.z) * 0.5f;
+            C4 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(-boxColliderSize.x, boxColliderSize.y, boxColliderSize.z);
-            C5 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(-localSize.x, localSize.y, localSize.z) * 0.5f;
+            C5 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(boxColliderSize.x, boxColliderSize.y, boxColliderSize.z);
-            C6 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(localSize.x, localSize.y, localSize.z) * 0.5f;
+            C6 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(boxColliderSize.x, -boxColliderSize.y, boxColliderSize.z);
-            C7 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(localSize.x, -localSize.y, localSize.z) * 0.5f;
+            C7 = localCenter + diagDirection;
 
-            diagDirection = diagDirection.SetVector(-boxColliderSize.x, -boxColliderSize.y, boxColliderSize.z);
-            C8 = boxLocalToWorld.MultiplyPoint(boxLocalCenter + diagDirection / 2f);
+            diagDirection = diagDirection.SetVector(-localSize.x, -localSize.y, localSize.z) * 0.5f;
+            C8 = localCenter + diagDirection;
         }
 
         public static FrustumPointsPositions ConvertBoxColliderToFrustumPoints(BoxDefinition BoxDefinition)

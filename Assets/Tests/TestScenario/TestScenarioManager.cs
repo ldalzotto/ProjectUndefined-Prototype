@@ -1,8 +1,10 @@
-﻿using CoreGame;
+﻿using System.Collections.Generic;
+using CoreGame;
 using InteractiveObjects;
 using LevelManagement;
 using PlayerObject;
 using PlayerObject_Interfaces;
+using RangeObjects;
 using SequencedAction;
 using Tests.TestScenario;
 using UnityEngine;
@@ -54,6 +56,7 @@ namespace Tests
             this.TestControllerConfiguration.TestControllerDefinition.StartTest = false;
             var aTestScenarioDefinition = this.TestControllerConfiguration.TestControllerDefinition.aTestScenarioDefinition;
             this.TestEntitiesPrefabInstance = GameObject.Instantiate(aTestScenarioDefinition.TestEntitiesPrefab);
+            RangeObjectV2Manager.InitializeAllRangeObjects();
             InteractiveObjectV2Manager.Get().InitializeAllInteractiveObjectsInitializer();
             this.SequencedActionPlayer = new SequencedActionPlayer(aTestScenarioDefinition.BuildScenarioActions());
             this.SequencedActionPlayer.Play();
@@ -63,6 +66,9 @@ namespace Tests
         {
             this.TestControllerConfiguration.TestControllerDefinition.ClearTest = false;
             var allInteractiveObjects = InteractiveObjectV2Manager.Get().InteractiveObjects;
+
+            List<RangeObjectV2> ExcludedRangesToDestroy = new List<RangeObjectV2>();
+            
             for (var i = allInteractiveObjects.Count - 1; i >= 0; i--)
             {
                 //We dont remove the level chunk
@@ -70,7 +76,21 @@ namespace Tests
                 {
                     allInteractiveObjects[i].Destroy();
                 }
+                else
+                {
+                    ExcludedRangesToDestroy.Add((allInteractiveObjects[i] as LevelChunkInteractiveObject).GetLevelChunkRangeObject());
+                }
             }
+
+            for (var i = RangeObjectV2Manager.Get().RangeObjects.Count - 1; i >= 0; i--)
+            {
+                if (!ExcludedRangesToDestroy.Contains(RangeObjectV2Manager.Get().RangeObjects[i]))
+                {
+                    RangeObjectV2Manager.Get().RangeObjects[i].OnDestroy();
+                }
+                
+            }
+            
             
             MonoBehaviour.Destroy(TestEntitiesPrefabInstance);
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Reset();

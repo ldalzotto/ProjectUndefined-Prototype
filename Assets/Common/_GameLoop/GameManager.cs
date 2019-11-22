@@ -36,7 +36,9 @@ namespace GameLoop
             PlayerInteractiveObjectManager.Get().InitializeEvents();
             CameraMovementManager.Get().InitializeEvents();
             TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
-
+            RangeObjectV2Manager.Get().InitializeEvents();
+            GroundEffectsManagerV2.Get().InitializeEvents();
+            
             RangeObjectV2Manager.Get().Init();
             GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             InteractiveObjectV2Manager.Get().Init();

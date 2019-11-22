@@ -95,7 +95,7 @@ namespace Obstacle
                             ObstacleLastFramePositions.TryGetValue(squareObstacle, out var lastFrameSquareObstacleTrasform);
                             //Static obstacles are not detecting changes
                             if (!squareObstacle.SquareObstacleSystemInitializationData.IsStatic
-                                && !squareObstacle.GetObstacleCenterTransform().IsEqualTo(lastFrameSquareObstacleTrasform))
+                                && !squareObstacle.InteractiveGameObject.GetTransform().IsEqualTo(lastFrameSquareObstacleTrasform))
                             {
                                 //We add this single couple (listener <-> obstacle) to calculation
                                 obstacleInteractiveObjectsThatChanged.Add(squareObstacle);
@@ -111,7 +111,7 @@ namespace Obstacle
                 }
 
                 //Update Square Obstacle Positions
-                foreach (var obstacleInteractiveObject in obstacleInteractiveObjectManager.AllObstacleInteractiveObjects) ObstacleLastFramePositions[obstacleInteractiveObject] = obstacleInteractiveObject.GetObstacleCenterTransform();
+                foreach (var obstacleInteractiveObject in obstacleInteractiveObjectManager.AllObstacleInteractiveObjects) ObstacleLastFramePositions[obstacleInteractiveObject] = obstacleInteractiveObject.InteractiveGameObject.GetTransform();
             }
             else
             {
@@ -223,7 +223,7 @@ namespace Obstacle
                     SquareObstacleSystemUniqueID = nearSquareObstacle.ObstacleInteractiveObjectUniqueID,
                 },
                 ObstacleListenerTransform = obstacleListenerThatChanged.AssociatedRangeTransformProvider(),
-                SquareObstacleTransform = nearSquareObstacle.GetObstacleCenterTransform()
+                SquareObstacleTransform = nearSquareObstacle.InteractiveGameObject.GetTransform()
             };
 
             currentOcclusionCalculationCounter += 1;
