@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoreGame;
 using GeometryIntersection;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace Obstacle
@@ -16,7 +18,14 @@ namespace Obstacle
 
         private Dictionary<ObstacleListenerSystem, TransformStruct> ObstacleListenerLastFramePositions = new Dictionary<ObstacleListenerSystem, TransformStruct>();
 
+        /// <summary>
+        /// Cleared every frame
+        /// </summary>
         private List<ObstacleListenerSystem> obstacleListenersThatHasChangedThisFrame = new List<ObstacleListenerSystem>();
+
+        /// <summary>
+        /// Values cleared every frame
+        /// </summary>
         private Dictionary<ObstacleListenerSystem, List<ObstacleInteractiveObject>> singleObstacleThatHasChangedThisFrame = new Dictionary<ObstacleListenerSystem, List<ObstacleInteractiveObject>>();
 
 
@@ -93,9 +102,16 @@ namespace Obstacle
                         foreach (var squareObstacle in obstacleListener.NearSquareObstacles)
                         {
                             ObstacleLastFramePositions.TryGetValue(squareObstacle, out var lastFrameSquareObstacleTrasform);
-                            //Static obstacles are not detecting changes
-                            if (!squareObstacle.SquareObstacleSystemInitializationData.IsStatic
-                                && !squareObstacle.InteractiveGameObject.GetTransform().IsEqualTo(lastFrameSquareObstacleTrasform))
+
+                            if (
+                                /// Static obstacles are not detecting transform changes
+                                (!squareObstacle.SquareObstacleSystemInitializationData.IsStatic && !squareObstacle.InteractiveGameObject.GetTransform().IsEqualTo(lastFrameSquareObstacleTrasform))
+                                ||
+                                /// If there is no calculation data for this obstacle -> forcing calculation.
+                                /// This can happen while reloading scene because NearSquareObstacles are added in fixed step and scene reload may imply to not call FixedUpdate before
+                                /// Update
+                                !OcclusionCalculationDataAvailable(obstacleListener, squareObstacle)
+                            )
                             {
                                 //We add this single couple (listener <-> obstacle) to calculation
                                 obstacleInteractiveObjectsThatChanged.Add(squareObstacle);
@@ -103,15 +119,15 @@ namespace Obstacle
                                 totalFrustumCounter += squareObstacle.GetFaceFrustums().Count;
                                 ClearAndCreateCalculatedFrustums(obstacleListener, squareObstacle);
                             }
+
+                            //Update Square Obstacle Positions
+                            ObstacleLastFramePositions[squareObstacle] = squareObstacle.InteractiveGameObject.GetTransform();
                         }
                     }
 
                     //Update Obstacle Listener Positions
                     ObstacleListenerLastFramePositions[obstacleListener] = obstacleListener.AssociatedRangeTransformProvider();
                 }
-
-                //Update Square Obstacle Positions
-                foreach (var obstacleInteractiveObject in obstacleInteractiveObjectManager.AllObstacleInteractiveObjects) ObstacleLastFramePositions[obstacleInteractiveObject] = obstacleInteractiveObject.InteractiveGameObject.GetTransform();
             }
             else
             {
@@ -189,7 +205,10 @@ namespace Obstacle
         {
             //Clear data that changed
             obstacleListenersThatHasChangedThisFrame.Clear();
-            foreach (var singleObstacleSystemThatChanged in singleObstacleThatHasChangedThisFrame) singleObstacleSystemThatChanged.Value.Clear();
+            foreach (var singleObstacleSystemThatChanged in singleObstacleThatHasChangedThisFrame)
+            {
+                singleObstacleSystemThatChanged.Value.Clear();
+            }
         }
 
         public void OnObstacleInteractiveObjectDestroyed(ObstacleInteractiveObject ObstacleInteractiveObjectDestroyed)
@@ -200,6 +219,13 @@ namespace Obstacle
             }
 
             this.ObstacleLastFramePositions.Remove(ObstacleInteractiveObjectDestroyed);
+        }
+
+        public void OnObstacleListenerDestroyed(ObstacleListenerSystem obstacleListener)
+        {
+            this.CalculatedOcclusionFrustums.Remove(obstacleListener.ObstacleListenerUniqueID);
+            this.ObstacleListenerLastFramePositions.Remove(obstacleListener);
+            this.singleObstacleThatHasChangedThisFrame.Remove(obstacleListener);
         }
 
         private static void AddToArrays(ref NativeArray<FrustumOcclusionCalculationData> FrustumOcclusionCalculationDatas, NativeArray<FrustumV2Indexed> AssociatedFrustums,
@@ -251,6 +277,21 @@ namespace Obstacle
                 squareObstacleFrustumPositions.Clear();
         }
 
+        private bool OcclusionCalculationDataAvailable(ObstacleListenerSystem ObstacleListenerSystem, ObstacleInteractiveObject ObstacleInteractiveObject)
+        {
+            this.CalculatedOcclusionFrustums.TryGetValue(ObstacleListenerSystem.ObstacleListenerUniqueID, out Dictionary<int, List<FrustumPointsPositions>> FrustumPointsPositionsByObstacle);
+            if (FrustumPointsPositionsByObstacle != null)
+            {
+                FrustumPointsPositionsByObstacle.TryGetValue(ObstacleInteractiveObject.ObstacleInteractiveObjectUniqueID, out List<FrustumPointsPositions> FrustumPointsPositions);
+                if (FrustumPointsPositions != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #region External Dependencies
 
         private ObstaclesListenerManager ObstaclesListenerManager = ObstaclesListenerManager.Get();
@@ -289,12 +330,14 @@ namespace Obstacle
             FrustumV2Indexed.FrustumV2.CalculateFrustumPointsWorldPosByProjection(out var FrustumPointsPositions, out var IsFacing, FrustumOcclusionCalculationData.SquareObstacleTransform, FrustumOcclusionCalculationData.ObstacleListenerTransform.WorldPosition);
 
             if (IsFacing)
+            {
                 Results[frustumIndex] = new FrustumPointsWithInitializedFlag
                 {
                     Isinitialized = true,
                     FrustumCalculationDataID = FrustumOcclusionCalculationData.FrustumCalculationDataID,
                     FrustumPointsPositions = FrustumPointsPositions
                 };
+            }
         }
     }
 

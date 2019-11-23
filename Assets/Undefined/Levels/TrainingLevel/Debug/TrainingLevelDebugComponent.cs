@@ -3,6 +3,7 @@ using InteractiveObjects_Interfaces;
 using PlayerObject;
 #if UNITY_EDITOR
 using InteractiveObjects;
+using LevelManagement;
 using Obstacle;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class TrainingLevelDebugComponent : MonoBehaviour
     public Transform TargetPlayerPosition;
 
     public bool DestroyAllObstacles;
-
+    public bool RestartLevel;
     private void Update()
     {
         if (FireProjectileToInteractiveObject)
@@ -40,6 +41,12 @@ public class TrainingLevelDebugComponent : MonoBehaviour
                currentInteractiveObject.Destroy();
             }
             
+        }
+
+        if (RestartLevel)
+        {
+            LevelTransitionManager.Get().RestartCurrentLevel();
+            RestartLevel = false;
         }
     }
 

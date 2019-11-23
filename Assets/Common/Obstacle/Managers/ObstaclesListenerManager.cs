@@ -28,6 +28,7 @@ namespace Obstacle
         public void OnObstacleListenerDestroyed(ObstacleListenerSystem obstacleListener)
         {
             this.obstacleListeners.Remove(obstacleListener);
+            ObstacleOcclusionCalculationManagerV2.Get().OnObstacleListenerDestroyed(obstacleListener);
         }
 
         #region Debug Display

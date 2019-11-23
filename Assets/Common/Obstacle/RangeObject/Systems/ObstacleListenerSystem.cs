@@ -47,8 +47,16 @@ namespace Obstacle
         public void ForEachCalculatedFrustum(Action<FrustumPointsPositions> action)
         {
             foreach (var obstacleInteractiveObject in nearSquareObstacles)
-            foreach (var obstacleFrustumPositions in ObstacleOcclusionCalculationManagerV2.GetCalculatedOcclusionFrustums(this, obstacleInteractiveObject))
-                action(obstacleFrustumPositions);
+            {
+                var CalculatedOcclusionFrustums = ObstacleOcclusionCalculationManagerV2.GetCalculatedOcclusionFrustums(this, obstacleInteractiveObject);
+                if (CalculatedOcclusionFrustums != null)
+                {
+                    foreach (var obstacleFrustumPositions in CalculatedOcclusionFrustums)
+                    {
+                        action(obstacleFrustumPositions);
+                    } 
+                }
+            }
         }
 
         #endregion

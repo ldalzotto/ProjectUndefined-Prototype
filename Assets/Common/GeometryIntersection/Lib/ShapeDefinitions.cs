@@ -33,6 +33,11 @@ namespace GeometryIntersection
                        FrustumTransform.LossyScale ).MultiplyPoint(localPoint);
         }
 
+        /// <summary>
+        /// Calculate Frustums based on point projectiion <paramref name="WorldStartAngleProjection"/>.
+        /// Frustums calculation are done only if the <paramref name="WorldStartAngleProjection"/> is facing the <see cref="F1v3"/> face. <paramref name="IsFacing"/> flags
+        /// indicates if calculation has been done or not.
+        /// </summary>
         public void CalculateFrustumPointsWorldPosByProjection(out FrustumPointsPositions FrustumPointsPositions, out bool IsFacing, TransformStruct FrustumTransform, Vector3 WorldStartAngleProjection)
         {
          //   this.F1.CalculateLocalFacePoints(out Vector3 lC1, out Vector3 lC2, out Vector3 lC3, out Vector3 lC4);
