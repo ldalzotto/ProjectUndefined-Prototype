@@ -687,6 +687,10 @@
       <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
       <Name>Damage</Name>
     </ProjectReference>
+    <ProjectReference Include="LevelManagement.csproj">
+      <Project>{F9A056B6-F4BF-D32F-5783-F99516EBF2DD}</Project>
+      <Name>LevelManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

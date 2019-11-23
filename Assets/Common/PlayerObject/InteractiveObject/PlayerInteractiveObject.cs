@@ -4,6 +4,7 @@ using Input;
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using LevelManagement;
 using PlayerActions;
 using PlayerObject_Interfaces;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace PlayerObject
         private GameInputManager GameInputManager;
         private PlayerActionEntryPoint PlayerActionEntryPoint = PlayerActionEntryPoint.Get();
         [VE_Nested] private BlockingCutscenePlayerManager BlockingCutscenePlayer = BlockingCutscenePlayerManager.Get();
+        private LevelTransitionManager LevelTransitionManager = LevelTransitionManager.Get();
 
         #endregion
 
@@ -45,7 +47,7 @@ namespace PlayerObject
             base.BaseInit(interactiveGameObject, false);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
-            this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, null);
+            this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
@@ -169,6 +171,14 @@ namespace PlayerObject
         public override void DealDamage(float Damage)
         {
             this.StunningDamageDealerReceiverSystem.DealDamage(Damage);
+        }
+
+        private void OnHealthValueChanged(float oldValue, float newValue)
+        {
+            if (newValue <= 0)
+            {
+                this.LevelTransitionManager.RestartCurrentLevel();
+            }
         }
 
         #endregion

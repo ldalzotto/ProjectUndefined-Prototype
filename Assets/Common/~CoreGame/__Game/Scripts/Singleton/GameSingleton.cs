@@ -6,6 +6,7 @@ namespace CoreGame
     public interface IGameSingleton
     {
         void OnDestroy();
+        void ClearInstance();
     }
 
     public abstract class GameSingleton<T> : IGameSingleton where T : IGameSingleton, new()
@@ -30,7 +31,13 @@ namespace CoreGame
         }
 #endif
 
-        public virtual void OnDestroy()
+        public virtual void OnDestroy(){}
+
+        /// <summary>
+        /// Unreferencing the singleton instance so that a new one is created on load. This method is called when <see cref="GameSingletonManagers.OnDestroy"/> is called
+        /// usually when a level is unloaded.
+        /// </summary>
+        public void ClearInstance()
         {
             Instance = default;
         }
@@ -64,7 +71,11 @@ namespace CoreGame
                 var gameSingleton = this.AllGameSingletons[i];
                 if (gameSingleton != null)
                 {
+                    /// First calling the destroy callback
                     gameSingleton.OnDestroy();
+                    
+                    /// Unreferencing the singleton instance so that a new one is created on load
+                    gameSingleton.ClearInstance();
                 }
             }
 

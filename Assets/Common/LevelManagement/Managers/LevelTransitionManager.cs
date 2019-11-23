@@ -14,7 +14,7 @@ namespace LevelManagement
 
         public void OnPuzzleToPuzzleLevel(LevelZonesID nextZone)
         {
-            OnLevelChange(nextZone, LevelChangeType.PUZZLE_TO_PUZZLE);
+            OnLevelChange(nextZone, LevelChangeType.LEVEL_TO_ANOTHER_LEVEL);
         }
 
         public void OnStartMenuToLevel(LevelZonesID nextZone)
@@ -22,14 +22,24 @@ namespace LevelManagement
             OnLevelChange(nextZone, LevelChangeType.FROM_STARTMENU);
         }
 
+        public void RestartCurrentLevel()
+        {
+            OnLevelChange(default, LevelChangeType.RESTART_CURRENT_LEVEL);
+        }
+
         private void OnLevelChange(LevelZonesID nextZone, LevelChangeType LevelChangeType)
         {
             isNewZoneLoading = true;
 
             List<AsyncOperation> chunkOperations = null;
-            if (LevelChangeType == LevelChangeType.PUZZLE_TO_PUZZLE)
+            if (LevelChangeType == LevelChangeType.LEVEL_TO_ANOTHER_LEVEL)
             {
-                chunkOperations = LevelManagerEventManager.Get().OnPuzzleToPuzzleLevel(nextZone);
+                chunkOperations = LevelManagerEventManager.Get().OnLevelToAnotherLevel(nextZone);
+            }
+            else if (LevelChangeType == LevelChangeType.RESTART_CURRENT_LEVEL)
+            {
+                nextZone = LevelManager.Get().LevelID;
+                chunkOperations = LevelManagerEventManager.Get().RestartCurrentLevel();
             }
             else if (LevelChangeType == LevelChangeType.FROM_STARTMENU)
             {
@@ -55,9 +65,17 @@ namespace LevelManagement
 
             isNewZoneLoading = false;
             var nextZoneSceneName = LevelManagementConfigurationGameObject.Get().LevelZonesSceneConfiguration.GetSceneName(nextZone);
-            SceneManager.LoadScene(nextZoneSceneName, LoadSceneMode.Single);
+            LoadNextLevelScene(nextZoneSceneName);
             yield return null;
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextZoneSceneName));
+        }
+
+        /// <summary>
+        /// This will destroy the GameManager object (thus calling it's destroy method). Then will initialize the new one via the awake method.
+        /// </summary>
+        private static void LoadNextLevelScene(string nextZoneSceneName)
+        {
+            SceneManager.LoadScene(nextZoneSceneName, LoadSceneMode.Single);
         }
 
         #endregion
@@ -73,7 +91,8 @@ namespace LevelManagement
 
         enum LevelChangeType
         {
-            PUZZLE_TO_PUZZLE,
+            LEVEL_TO_ANOTHER_LEVEL,
+            RESTART_CURRENT_LEVEL,
             FROM_STARTMENU
         }
     }

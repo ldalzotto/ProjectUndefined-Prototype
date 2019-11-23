@@ -55,6 +55,7 @@ namespace VisualFeedback
             {
                 this.ComputeBeziersInnerPointResponses.Clear();
             }
+            base.OnDestroy();
         }
 
         protected virtual void OnComputeBeziersInnerPointResponse(ComputeBeziersInnerPointResponse ComputeBeziersInnerPointResponse)

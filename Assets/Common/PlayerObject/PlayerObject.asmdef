@@ -16,7 +16,8 @@
         "Weapon",
         "AIObjects",
         "Health",
-        "Damage"
+        "Damage",
+        "LevelManagement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -31,6 +31,7 @@ namespace LevelManagement
 
         public override void OnDestroy()
         {
+            base.OnDestroy();
             ATimelinesManager.Get().UnRegisterTimeline(this.LevelAvailabilityTimelineNodeManagerV2);
         }
     }

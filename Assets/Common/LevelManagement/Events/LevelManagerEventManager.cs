@@ -6,9 +6,14 @@ namespace LevelManagement
 {
     public class LevelManagerEventManager : GameSingleton<LevelManagerEventManager>
     {
-        public List<AsyncOperation> OnPuzzleToPuzzleLevel(LevelZonesID nextLevel)
+        public List<AsyncOperation> OnLevelToAnotherLevel(LevelZonesID nextLevel)
         {
-            return LevelManager.Get().OnAdventureToPuzzleLevel(nextLevel);
+            return LevelManager.Get().OnLevelToAnotherLevel(nextLevel);
+        }
+
+        public List<AsyncOperation> RestartCurrentLevel()
+        {
+            return LevelManager.Get().RestartCurrentLevel();
         }
 
         public List<AsyncOperation> OnStartMenuToLevel(LevelZonesID nextLevel)

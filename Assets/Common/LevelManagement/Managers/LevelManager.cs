@@ -64,9 +64,14 @@ namespace LevelManagement
 
         #region External Event
 
-        public List<AsyncOperation> OnAdventureToPuzzleLevel(LevelZonesID nextPuzzleLevel)
+        public List<AsyncOperation> OnLevelToAnotherLevel(LevelZonesID nextPuzzleLevel)
         {
-            return this.EnvironmentSceneLevelManager.OnAdventureToPuzzleLevel(nextPuzzleLevel);
+            return this.EnvironmentSceneLevelManager.OnLevelToAnotherLevel(nextPuzzleLevel);
+        }
+
+        public List<AsyncOperation> RestartCurrentLevel()
+        {
+            return this.EnvironmentSceneLevelManager.OnLevelToAnotherLevel(this.levelID);
         }
 
         public List<AsyncOperation> OnStartMenuToLevel(LevelZonesID nextLevel)
@@ -148,7 +153,7 @@ namespace LevelManagement
             return sceneLoadOperations;
         }
 
-        public List<AsyncOperation> OnAdventureToPuzzleLevel(LevelZonesID nextPuzzleLevel)
+        public List<AsyncOperation> OnLevelToAnotherLevel(LevelZonesID nextPuzzleLevel)
         {
             List<AsyncOperation> sceneUnloadOperations = new List<AsyncOperation>();
             foreach (var referenceChunk in this.LevelManagementConfigurationGameObject.LevelHierarchyConfiguration.GetLevelHierarchy(LevelManagerRef.GetCurrentLevel()))

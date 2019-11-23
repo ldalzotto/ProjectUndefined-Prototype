@@ -41,7 +41,7 @@ namespace GeometryIntersection
             Vector3 C3 = this.LocalToWorld(FrustumTransform, this.F1v3.LocalC3);
             Vector3 C4 = this.LocalToWorld(FrustumTransform, this.F1v3.LocalC4);
             
-            Debug.Log(C1.ToString("F4"));
+           // Debug.Log(C1.ToString("F4"));
 
             Vector3 frontFaceNormal = Vector3.Cross(C2 - C1, C4 - C1).normalized;
             IsFacing = Vector3.Dot(frontFaceNormal, C1 - WorldStartAngleProjection) >= 0;
