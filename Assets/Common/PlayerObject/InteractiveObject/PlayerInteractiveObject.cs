@@ -99,8 +99,9 @@ namespace PlayerObject
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (!this.PlayerActionEntryPoint.IsActionExecuting() && !BlockingCutscenePlayer.Playing)
             {
-                if (!PlayerSelectionWheelManager.AwakeOrSleepWheel())
-                {
+                //TODO -> Temporary disabled selection wheel
+              //  if (!PlayerSelectionWheelManager.AwakeOrSleepWheel())
+              //  {
                     if (!this.PlayerActionEntryPoint.IsSelectionWheelEnabled() && !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
                     {
                         if (this.GameInputManager.CurrentInput.FiringActionDown())
@@ -117,7 +118,7 @@ namespace PlayerObject
                         playerMoveManager.ResetSpeed();
                         PlayerSelectionWheelManager.TriggerActionOnInput();
                     }
-                }
+              //  }
             }
             else
             {

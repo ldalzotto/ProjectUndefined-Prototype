@@ -46,12 +46,6 @@ namespace StartMenu
         public ControlsWindowGameObject(Canvas parentCanvas)
         {
             this.controlsWindowGameObjectParent = MonoBehaviour.Instantiate(StartMenuSingletonInstances.StartMenuStaticConfigurationManager.StartMenuStaticConfiguration.StartMenuPrefabConfiguration.ControlsWindowPrefab);
-
-            foreach (var InputKeyIconInitializer in this.controlsWindowGameObjectParent.GetComponentsInChildren<InputIconInitializer>())
-            {
-                InputKeyIconInitializer.Build();
-            }
-
             this.controlsWindowGameObjectParent.transform.parent = parentCanvas.transform;
             (this.controlsWindowGameObjectParent.transform as RectTransform).Reset(RectTransformSetup.CENTER);
             (this.controlsWindowGameObjectParent.transform as RectTransform).pivot = new Vector2(0.5f,0.5f);

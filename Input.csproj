@@ -61,7 +61,6 @@
      <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputConfigurationInherentData.cs" />
      <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputID.cs" />
      <Compile Include="Assets\Common\Input\Input\InputConfigurationGameObject.cs" />
-     <Compile Include="Assets\Common\Input\InputIcon\Lib\InputIconInitializer.cs" />
      <Compile Include="Assets\Common\Input\Managers\GameInputManager.cs" />
      <None Include="Assets\Common\Input\Input.asmdef" />
  <Reference Include="Unity.InputSystem">
