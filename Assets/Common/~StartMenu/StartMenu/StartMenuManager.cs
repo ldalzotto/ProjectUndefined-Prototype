@@ -30,7 +30,12 @@ namespace StartMenu
 
             var NewGameButton = this.StartMenuGameObject.CreateStartMenuButton();
             NewGameButton.GetComponentInChildren<Text>().text = "New Game";
-            ((RectTransform) NewGameButton.transform).anchoredPosition = new Vector2(0, 40);
+            
+            (NewGameButton.transform as RectTransform).Reset(RectTransformSetup.CENTER);
+            (NewGameButton.transform as RectTransform).pivot = new Vector2(0.5f,0.5f);
+            (NewGameButton.transform as RectTransform).localPosition = Vector3.zero;
+            (NewGameButton.transform as RectTransform).sizeDelta = new Vector2(200,30);
+            (NewGameButton.transform as RectTransform).anchoredPosition =  new Vector2(0, 40);
 
             NewGameButton.onClick.AddListener(() =>
             {
@@ -57,7 +62,14 @@ namespace StartMenu
 
             var ControlsButton = this.StartMenuGameObject.CreateStartMenuButton();
             ControlsButton.GetComponentInChildren<Text>().text = "Controls";
-            ((RectTransform) ControlsButton.transform).anchoredPosition = new Vector2(0, -40);
+            
+            
+            (ControlsButton.transform as RectTransform).Reset(RectTransformSetup.CENTER);
+            (ControlsButton.transform as RectTransform).pivot = new Vector2(0.5f,0.5f);
+            (ControlsButton.transform as RectTransform).localPosition = Vector3.zero;
+            (ControlsButton.transform as RectTransform).sizeDelta = new Vector2(200,30);
+            (ControlsButton.transform as RectTransform).anchoredPosition =  new Vector2(0, -40);
+            
             ControlsButton.onClick.AddListener(this.OnControlsButtonClicked);
         }
 
@@ -92,7 +104,7 @@ namespace StartMenu
             this.StartMenuParent = new GameObject("StartMenuGameObject", typeof(RectTransform));
             this.StartMenuParent.transform.parent = parentCanvas.transform;
             var StartMenuParentRectTransform = (this.StartMenuParent.transform as RectTransform);
-            StartMenuParentRectTransform.Reset(RectTransformSetup.BOTTOM_LEFT);
+            StartMenuParentRectTransform.Reset(RectTransformSetup.CENTER);
         }
 
         public Button CreateStartMenuButton()

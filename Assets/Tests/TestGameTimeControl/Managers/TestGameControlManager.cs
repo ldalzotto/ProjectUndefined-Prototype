@@ -10,6 +10,7 @@ namespace Tests
     public class TestGameControlManager : GameSingleton<TestGameControlManager>
     {
         private TestGameControlDefinition TestGameControlDefinition;
+
         public TestGameControlManager()
         {
             /// We can do this because this is an editor only script
@@ -20,6 +21,7 @@ namespace Tests
         public void Tick()
         {
             Time.timeScale = this.TestGameControlDefinition.TimeScale;
+            Time.fixedDeltaTime = 0.02f * this.TestGameControlDefinition.TimeScale;
         }
     }
 }

@@ -23,10 +23,12 @@ namespace GameLoop
             if (levelType == LevelType.STARTMENU)
             {
                 GameInputManager.Get().Init(CursorLockMode.Confined);
+                Cursor.visible = true;
             }
             else
             {
                 GameInputManager.Get().Init(CursorLockMode.Locked);
+                Cursor.visible = false;
             }
 
             LevelAvailabilityManager.Get().Init();
