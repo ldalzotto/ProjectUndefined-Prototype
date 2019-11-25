@@ -66,7 +66,20 @@ namespace SoliderAIBehavior
             this.TrackAndKillPlayerBehavior.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
         }
         
-                
+        #region Internal Sight Events
+
+        public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
+        {
+            this.TrackAndKillPlayerBehavior.GetCurrentStateManager().OnPlayerObjectJustOnSight(InSightInteractiveObject);
+        }
+
+        public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
+        {
+            this.TrackAndKillPlayerBehavior.GetCurrentStateManager().OnPlayerObjectJustOutOfSight(NotInSightInteractiveObject);
+        }
+
+        #endregion
+            
         #region External Agent Events
 
         public override void OnDestinationReached()

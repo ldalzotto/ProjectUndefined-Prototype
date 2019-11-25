@@ -50,7 +50,8 @@ namespace InteractiveObjects
 
         #region Health Events
 
-        public virtual void DealDamage(float Damage)
+        /// <param name="DamageDealerInteractiveObject">The reference to the <see cref="CoreInteractiveObject"/> that is provoking damages.</param>
+        public virtual void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)
         {
         }
 

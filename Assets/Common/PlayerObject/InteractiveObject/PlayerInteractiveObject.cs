@@ -169,7 +169,7 @@ namespace PlayerObject
         
         #region Health Events
 
-        public override void DealDamage(float Damage)
+        public override void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)
         {
             this.StunningDamageDealerReceiverSystem.DealDamage(Damage);
         }

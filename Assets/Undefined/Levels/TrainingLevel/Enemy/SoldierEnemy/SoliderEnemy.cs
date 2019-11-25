@@ -102,9 +102,10 @@ namespace TrainingLevel
             }
         }
         
-        public override void DealDamage(float Damage)
+        public override void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)
         {
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);
+            this.SoldierAIBehavior.DamageDealt(DamageDealerInteractiveObject);
         }
 
         public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)

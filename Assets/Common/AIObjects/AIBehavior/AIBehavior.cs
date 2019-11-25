@@ -64,6 +64,11 @@ namespace AIObjects
             return this.StateManagersLookup[this.CurrentState.GetValue()];
         }
 
+        public S GetCurrentState()
+        {
+            return this.CurrentState.GetValue();
+        }
+
         public virtual void SetState(S NewState)
         {
             this.CurrentState.SetValue(NewState);

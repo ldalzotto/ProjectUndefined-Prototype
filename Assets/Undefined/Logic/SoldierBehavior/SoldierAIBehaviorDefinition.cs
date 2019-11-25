@@ -19,5 +19,11 @@ namespace SoliderAIBehavior
         /// </summary>
         [WireCircleWorld(R = 0f, G = 1f, B = 1f, UseTransform = true, RadiusFieldName = nameof(SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp))]
         public float MaxDistancePlayerCatchUp;
+
+        /// <summary>
+        /// The maximum distance crossed when the <see cref="SoldierAIBehavior"/> enters in state <see cref="MoveTowardsInterestDirectionStateManager"/>.
+        /// </summary>
+        [WireCircleWorld(R = 0f, G = 1f, B = 1f, UseTransform = true, RadiusFieldName = nameof(MoveTowardsInterestDirectionDistance))]
+        public float MoveTowardsInterestDirectionDistance;
     }
 }

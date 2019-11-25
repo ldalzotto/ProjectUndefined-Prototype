@@ -35,7 +35,7 @@ namespace Damage
         {
             if (AssociatedInteractiveObjectRef != Other)
             {
-                Other.DealDamage(-1 * this._damageDealerEmitterSystemDefinition.Damage);
+                Other.DealDamage(-1 * this._damageDealerEmitterSystemDefinition.Damage, this.AssociatedInteractiveObjectRef);
                 this.OnDamageDealtToOtherAction?.Invoke(Other);
             }
         }

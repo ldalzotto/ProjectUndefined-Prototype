@@ -33,13 +33,13 @@ namespace SoliderAIBehavior
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
-                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
+                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager( AssociatedInteractiveObject, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
                 {
                     SoldierAIStateEnum.TRACK_AND_KILL_PLAYER, new TrackAndKillPlayerStateManager(
                         AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, destinationAction, ClearpathAction,
-                        AskToFireAFiredProjectileAction_WithTargetPosition, GetWeaponFirePointOriginLocalDefinitionAction, this.OnAskedToExitTrackAndKillPlayerBehavior)
+                        AskToFireAFiredProjectileAction_WithTargetPosition, GetWeaponFirePointOriginLocalDefinitionAction, this.OnAnySubBehaviorAskedToExit)
                 },
-                {SoldierAIStateEnum.TRACK_UNKNOWN, new TrackUnknownStateManager()}
+                {SoldierAIStateEnum.TRACK_UNKNOWN, new TrackUnknownStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, destinationAction, this.OnAnySubBehaviorAskedToExit)}
             };
         }
 
@@ -80,6 +80,7 @@ namespace SoliderAIBehavior
 
         private void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
+            this.SetState(SoldierAIStateEnum.TRACK_AND_KILL_PLAYER);
             this.GetCurrentStateManager().OnPlayerObjectJustOnSight(InSightInteractiveObject);
         }
 
@@ -92,7 +93,11 @@ namespace SoliderAIBehavior
 
         #region Internal Sub Behaviors Events
 
-        private void OnAskedToExitTrackAndKillPlayerBehavior()
+        /// <summary>
+        /// When a <see cref="SoldierStateManager"/> call this event, this means that nothings has happened and he wants
+        /// to return to <see cref="SoldierAIBehavior"/> default state.
+        /// </summary>
+        private void OnAnySubBehaviorAskedToExit()
         {
             this.SetState(SoldierAIStateEnum.PATROLLING);
         }
@@ -104,6 +109,26 @@ namespace SoliderAIBehavior
         public void OnDestinationReached()
         {
             this.GetCurrentStateManager().OnDestinationReached();
+        }
+
+        #endregion
+
+        #region External Health Events
+
+        /// <summary>
+        /// It is crutial to set the set the SoldierAIStateEnum.TRACK_UNKNOWN state before propagating
+        /// DamageDealt event to execute DamageDealt logic for the new state.
+        /// </summary>
+        public void DamageDealt(CoreInteractiveObject DamageDealerInteractiveObject)
+        {
+            /// "If the player is not in sight" 
+            if (this.GetCurrentState() == SoldierAIStateEnum.PATROLLING)
+            {
+                Debug.Log(MyLog.Format("Switch to TRACK_UNKNOWN"));
+                this.SetState(SoldierAIStateEnum.TRACK_UNKNOWN);
+            }
+
+            this.GetCurrentStateManager().DamageDealt(DamageDealerInteractiveObject);
         }
 
         #endregion
@@ -137,6 +162,13 @@ namespace SoliderAIBehavior
         /// current destination.
         /// </summary>
         public virtual void OnDestinationReached()
+        {
+        }
+
+        /// <summary>
+        /// This event is called when a damge from the <see cref="CoreInteractiveObject.DealDamage"/> event.
+        /// </summary>
+        public virtual void DamageDealt(CoreInteractiveObject damageDealerInteractiveObject)
         {
         }
 
