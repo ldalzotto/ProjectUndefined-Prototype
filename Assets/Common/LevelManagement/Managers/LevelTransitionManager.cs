@@ -12,17 +12,17 @@ namespace LevelManagement
 
         #region External Events
 
-        public void OnPuzzleToPuzzleLevel(LevelZonesID nextZone)
+        public virtual void OnPuzzleToPuzzleLevel(LevelZonesID nextZone)
         {
             OnLevelChange(nextZone, LevelChangeType.LEVEL_TO_ANOTHER_LEVEL);
         }
 
-        public void OnStartMenuToLevel(LevelZonesID nextZone)
+        public virtual void OnStartMenuToLevel(LevelZonesID nextZone)
         {
             OnLevelChange(nextZone, LevelChangeType.FROM_STARTMENU);
         }
 
-        public void RestartCurrentLevel()
+        public virtual void RestartCurrentLevel()
         {
             OnLevelChange(default, LevelChangeType.RESTART_CURRENT_LEVEL);
         }

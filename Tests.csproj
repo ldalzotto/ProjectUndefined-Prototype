@@ -59,6 +59,7 @@
      <Compile Include="Assets\Tests\TestController\TestControllerConfiguration.cs" />
      <Compile Include="Assets\Tests\TestController\TestControllerDefinition.cs" />
      <Compile Include="Assets\Tests\TestGameLoop\GameInputManagerMock.cs" />
+     <Compile Include="Assets\Tests\TestGameLoop\LevelTransitionManagerMock.cs" />
      <Compile Include="Assets\Tests\TestGameLoop\TestGameManager.cs" />
      <Compile Include="Assets\Tests\TestGameTimeControl\Definitions\TestGameControlDefinition.cs" />
      <Compile Include="Assets\Tests\TestGameTimeControl\Managers\TestGameControlManager.cs" />

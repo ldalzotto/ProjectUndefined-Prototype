@@ -15,6 +15,9 @@ namespace Tests
 
             /// Mock Input to have no effect
             GameTestMockedInputManager.SetupForTestScene();
+            /// No level transition
+            LevelTransitionManagerMock.SetupForTestScene();
+            /// No persistance
             PersistanceManager.SetInstance(new MockPersistanceManager());
         }
 

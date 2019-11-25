@@ -58,6 +58,10 @@ namespace Tests
             this.TestEntitiesPrefabInstance = GameObject.Instantiate(aTestScenarioDefinition.TestEntitiesPrefab);
             RangeObjectV2Manager.InitializeAllRangeObjects();
             InteractiveObjectV2Manager.Get().InitializeAllInteractiveObjectsInitializer();
+
+            /// By default player has infinite health
+            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(9999999);
+            
             this.SequencedActionPlayer = new SequencedActionPlayer(aTestScenarioDefinition.BuildScenarioActions());
             this.SequencedActionPlayer.Play();
         }
