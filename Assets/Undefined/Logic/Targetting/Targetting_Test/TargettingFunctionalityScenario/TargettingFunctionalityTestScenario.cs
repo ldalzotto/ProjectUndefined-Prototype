@@ -8,8 +8,9 @@ using SequencedAction;
 using Targetting;
 using Tests;
 using Tests.TestScenario;
+using UnityEngine;
 
-namespace UnityEngine
+namespace Targetting_Test
 {
     [Serializable]
     public class TargettingFunctionalityTestScenario : ATestScenarioDefinition

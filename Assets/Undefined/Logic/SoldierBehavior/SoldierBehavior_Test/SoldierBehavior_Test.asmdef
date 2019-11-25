@@ -12,7 +12,8 @@
         "InteractiveObjects_Interfaces",
         "Editor_Common",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "Targetting_Tests"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

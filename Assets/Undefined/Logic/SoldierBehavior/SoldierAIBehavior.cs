@@ -122,7 +122,7 @@ namespace SoliderAIBehavior
         public void DamageDealt(CoreInteractiveObject DamageDealerInteractiveObject)
         {
             /// "If the player is not in sight" 
-            if (this.GetCurrentState() == SoldierAIStateEnum.PATROLLING)
+            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight)
             {
                 Debug.Log(MyLog.Format("Switch to TRACK_UNKNOWN"));
                 this.SetState(SoldierAIStateEnum.TRACK_UNKNOWN);

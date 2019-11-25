@@ -3,23 +3,25 @@
 ## States Overview
 
 ````puml
-            package SoldierAIbehavior {
+            'default
+            top to bottom direction
+            node SoldierAIbehavior {
                 node PATROLLING
             }
            
-            package TrackAndKillPlayerStateManager {
+            node TrackAndKillPlayerStateManager {
                 node MOVE_TOWARDS_PLAYER
                 node GO_ROUND_PLAYER
                 node SHOOTING_AT_PLAYER
                 node MOVE_TO_LAST_SEEN_PLAYER_POSITION
             }
 
-            package TrackUnknownStateManager {
+            node TrackUnknownStateManager {
                 node MOVE_TOWARDS_INTEREST_DIRECTION
             }
 
-            SoldierAIbehavior -left-> MOVE_TO_LAST_SEEN_PLAYER_POSITION : PlayerObject in sight
-            MOVE_TO_LAST_SEEN_PLAYER_POSITION -> PATROLLING : Nothing happened
+            SoldierAIbehavior -> TrackAndKillPlayerStateManager : PlayerObject in sight
+            TrackAndKillPlayerStateManager -> SoldierAIbehavior : Nothing happened
 
             MOVE_TOWARDS_PLAYER -down-> SHOOTING_AT_PLAYER : PlayerObject in sight and close enough
             MOVE_TOWARDS_PLAYER -> GO_ROUND_PLAYER : PlayerObject lost sight \n behind an Obstacle
@@ -33,6 +35,6 @@
 
             MOVE_TO_LAST_SEEN_PLAYER_POSITION -down-> MOVE_TOWARDS_PLAYER : PlayerObject just in sight
 
-            SoldierAIbehavior -down-> MOVE_TOWARDS_INTEREST_DIRECTION : A damage has been received \n PlayerObject not in sight
-            MOVE_TOWARDS_INTEREST_DIRECTION -> PATROLLING : Nothing happened
+            SoldierAIbehavior -> TrackUnknownStateManager : A damage has been received \n PlayerObject not in sight
+            TrackUnknownStateManager --> SoldierAIbehavior : Nothing happened
 ````

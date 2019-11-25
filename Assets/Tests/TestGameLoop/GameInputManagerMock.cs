@@ -114,7 +114,7 @@ namespace Tests
 
         public bool FiringActionReleased()
         {
-            return false;
+            return this.GameTestInputMockedValues.FiringActionReleased;
         }
 
         public bool FiringProjectileDH()
@@ -137,6 +137,7 @@ namespace Tests
         public bool TimeForwardButtonDH;
         public Vector3 LocomotionAxis;
         public bool FiringActionDown;
+        public bool FiringActionReleased;
         public bool FiringPorjectileDH;
 
         public GameTestInputMockedValues()
@@ -151,6 +152,7 @@ namespace Tests
             this.TimeForwardButtonDH = false;
             this.LocomotionAxis = Vector3.zero;
             this.FiringActionDown = false;
+            this.FiringActionReleased = false;
             this.FiringPorjectileDH = false;
         }
     }

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\MoveAroundTestScenario\MoveAroundTestScenario.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\TrackUnknownScenario\TrackUnknownScenario.cs" />
      <None Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\SoldierBehavior_Test.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
@@ -648,6 +649,10 @@
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
       <Name>Editor_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="Targetting_Tests.csproj">
+      <Project>{A9BD8531-3C62-2A79-4B21-3617415121D5}</Project>
+      <Name>Targetting_Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

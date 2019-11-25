@@ -56,6 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\MoveTargetCursorToInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\TargetAndFireToInteractiveObjectAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\TargettingFunctionalityScenario\TargettingFunctionalityTestScenario.cs" />
      <None Include="Assets\Undefined\Logic\Targetting\Targetting_Test\Targetting_Test.asmdef" />
  <Reference Include="UnityEditor.UI">

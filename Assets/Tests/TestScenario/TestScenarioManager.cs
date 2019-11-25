@@ -69,6 +69,8 @@ namespace Tests
         private void ClearTest()
         {
             this.TestControllerConfiguration.TestControllerDefinition.ClearTest = false;
+            this.SequencedActionPlayer.Kill();
+            
             var allInteractiveObjects = InteractiveObjectV2Manager.Get().InteractiveObjects;
 
             List<RangeObjectV2> ExcludedRangesToDestroy = new List<RangeObjectV2>();
@@ -94,7 +96,6 @@ namespace Tests
                 }
                 
             }
-            
             
             MonoBehaviour.Destroy(TestEntitiesPrefabInstance);
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Reset();
