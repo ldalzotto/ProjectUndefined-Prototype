@@ -33,27 +33,7 @@ namespace CameraManagement
         }
 
         #region External Events
-
-        public void SetCameraFollowTarget(Transform followTarget)
-        {
-            this.CameraFollowManager?.SetCameraFollowTarget(followTarget);
-        }
-
-        public void SetTargetAngle(float targetAngle)
-        {
-            this.CameraOrientationManager.SetTargetAngle(targetAngle);
-        }
-
-        public void DisableInput()
-        {
-            this.CameraOrientationManager.DisableInput();
-        }
-
-        public void EnableInput()
-        {
-            this.CameraOrientationManager.EnableInput();
-        }
-
+        
         /// <summary>
         /// Called from <see cref="PlayerInteractiveObjectCreatedEvent"/>.
         /// </summary
@@ -76,6 +56,9 @@ namespace CameraManagement
 
         #region Logical conditions
 
+        /// <summary>
+        /// Camera is considered rotating when the input <see cref="XInput.RotationCameraDH"/> is verified.
+        /// </summary>
         public bool IsCameraRotating()
         {
             return this.CameraOrientationManager.IsRotating;
@@ -113,11 +96,6 @@ namespace CameraManagement
             cameraPivotPoint.position = Vector3.SmoothDamp(cameraPivotPoint.position, targetTrasform.position, ref currentVelocity, this.CameraFollowManagerComponent.DampTime);
         }
 
-        public void SetCameraFollowTarget(Transform followTarget)
-        {
-            this.targetTrasform = followTarget;
-        }
-
         #region Data Retrieval
 
         public Transform GetCameraPivotPointTransform()
@@ -138,7 +116,7 @@ namespace CameraManagement
 
         #region State
 
-        private bool isRotating = false;
+        public bool IsRotating { get; private set; } = false;
         private bool isRotatingTowardsAtarget = false;
         private bool inputEnabled = true;
 
@@ -151,57 +129,41 @@ namespace CameraManagement
             this.CoreInputConfiguration = CoreInputConfiguration;
         }
 
-        public bool IsRotating
-        {
-            get => isRotating;
-        }
-
         public void Tick(float d)
         {
-            Vector3 rotationVector = Vector3.zero;
-            if (this.isRotatingTowardsAtarget)
-            {
-                float initialY = this.cameraPivotPoint.transform.rotation.eulerAngles.y;
-                float deltaAngle = Mathf.Lerp(initialY, this.targetAngle, 0.1f) - initialY;
-                rotationVector = new Vector3(0, Mathf.Abs(deltaAngle) * Mathf.Sign(this.targetAngle - initialY), 0);
-            }
-            else if (this.inputEnabled)
-            {
-                rotationVector = new Vector3(0, (gameInputManager.CurrentInput.LeftRotationCameraDH() - gameInputManager.CurrentInput.RightRotationCameraDH()) * d, 0);
-            }
+            this.IsRotating = this.gameInputManager.CurrentInput.RotationCameraDH();
 
-            if (Mathf.Abs(rotationVector.y) <= 0.001)
+            if (this.IsRotating)
             {
+                Vector3 rotationVector = Vector3.zero;
                 if (this.isRotatingTowardsAtarget)
                 {
-                    cameraPivotPoint.eulerAngles = new Vector3(0, this.targetAngle, 0);
+                    float initialY = this.cameraPivotPoint.transform.rotation.eulerAngles.y;
+                    float deltaAngle = Mathf.Lerp(initialY, this.targetAngle, 0.1f) - initialY;
+                    rotationVector = new Vector3(0, Mathf.Abs(deltaAngle) * Mathf.Sign(this.targetAngle - initialY), 0);
+                }
+                else if (this.inputEnabled)
+                {
+                    rotationVector = new Vector3(0, (gameInputManager.CurrentInput.LeftRotationCamera() - gameInputManager.CurrentInput.RightRotationCamera()) * d, 0);
                 }
 
-                this.isRotatingTowardsAtarget = false;
-                this.isRotating = false;
+                if (Mathf.Abs(rotationVector.y) <= 0.001)
+                {
+                    if (this.isRotatingTowardsAtarget)
+                    {
+                        cameraPivotPoint.eulerAngles = new Vector3(0, this.targetAngle, 0);
+                    }
+
+                    this.isRotatingTowardsAtarget = false;
+                }
+                else
+                {
+                    cameraPivotPoint.eulerAngles += rotationVector;
+                }
             }
-            else
-            {
-                this.isRotating = true;
-                cameraPivotPoint.eulerAngles += rotationVector;
-            }
+          
         }
 
-        public void SetTargetAngle(float targetAngle)
-        {
-            this.targetAngle = targetAngle;
-            this.isRotatingTowardsAtarget = true;
-        }
-
-        public void DisableInput()
-        {
-            this.inputEnabled = false;
-        }
-
-        public void EnableInput()
-        {
-            this.inputEnabled = true;
-        }
     }
 
     public class CameraZoomManager

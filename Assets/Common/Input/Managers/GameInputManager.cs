@@ -73,24 +73,19 @@ namespace Input
                 return new Vector3(Mouse.current.delta.x.ReadValue(), 0, Mouse.current.delta.y.ReadValue()) * Screen.width * this.CoreInputConfiguration.GetCursorMovementMouseSensitivity();
             }
 
-            public float LeftRotationCameraDH()
+            public bool RotationCameraDH()
             {
-                if (this.gameInputV2.InputConditionsMet(InputID.CAMERA_ROTATION_DOWN_HOLD))
-                {
-                    return Mathf.Max(Mouse.current.delta.x.ReadValue(), 0) * Screen.width * this.CoreInputConfiguration.GetCameraMovementMouseSensitivity();
-                }
-
-                return 0f;
+                return this.gameInputV2.InputConditionsMet(InputID.CAMERA_ROTATION_DOWN_HOLD);
+            }
+            
+            public float LeftRotationCamera()
+            {
+                return Mathf.Max(Mouse.current.delta.x.ReadValue(), 0) * Screen.width * this.CoreInputConfiguration.GetCameraMovementMouseSensitivity();
             }
 
-            public float RightRotationCameraDH()
+            public float RightRotationCamera()
             {
-                if (this.gameInputV2.InputConditionsMet(InputID.CAMERA_ROTATION_DOWN_HOLD))
-                {
-                    return -Mathf.Min(Mouse.current.delta.x.ReadValue(), 0) * Screen.width * this.CoreInputConfiguration.GetCameraMovementMouseSensitivity();
-                }
-
-                return 0f;
+                return -Mathf.Min(Mouse.current.delta.x.ReadValue(), 0) * Screen.width * this.CoreInputConfiguration.GetCameraMovementMouseSensitivity();
             }
 
             public bool SwitchSelectionButtonD()
@@ -247,8 +242,9 @@ namespace Input
     {
         Vector3 LocomotionAxis();
         Vector3 CursorDisplacement();
-        float LeftRotationCameraDH();
-        float RightRotationCameraDH();
+        bool RotationCameraDH();
+        float LeftRotationCamera();
+        float RightRotationCamera();
         bool ActionButtonD();
         bool CancelButtonD();
         bool SwitchSelectionButtonD();

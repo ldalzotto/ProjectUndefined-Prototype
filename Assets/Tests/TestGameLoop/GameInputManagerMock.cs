@@ -62,12 +62,17 @@ namespace Tests
             return Vector3.zero;
         }
 
+        public bool RotationCameraDH()
+        {
+            return false;
+        }
+
         public bool InventoryButtonD()
         {
             return false;
         }
 
-        public float LeftRotationCameraDH()
+        public float LeftRotationCamera()
         {
             return 0f;
         }
@@ -82,7 +87,7 @@ namespace Tests
             return false;
         }
 
-        public float RightRotationCameraDH()
+        public float RightRotationCamera()
         {
             return 0f;
         }
