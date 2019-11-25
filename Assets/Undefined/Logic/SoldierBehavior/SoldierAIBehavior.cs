@@ -14,7 +14,8 @@ namespace SoliderAIBehavior
     public enum SoldierAIStateEnum
     {
         PATROLLING,
-        TRACK_AND_KILL_PLAYER
+        TRACK_AND_KILL_PLAYER,
+        TRACK_UNKNOWN
     }
 
     public class SoldierAIBehavior : AIBehavior<SoldierAIStateEnum, SoldierStateManager>
@@ -35,9 +36,10 @@ namespace SoliderAIBehavior
                 {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
                 {
                     SoldierAIStateEnum.TRACK_AND_KILL_PLAYER, new TrackAndKillPlayerStateManager(
-                        AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, destinationAction, ClearpathAction, 
+                        AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, destinationAction, ClearpathAction,
                         AskToFireAFiredProjectileAction_WithTargetPosition, GetWeaponFirePointOriginLocalDefinitionAction, this.OnAskedToExitTrackAndKillPlayerBehavior)
-                }
+                },
+                {SoldierAIStateEnum.TRACK_UNKNOWN, new TrackUnknownStateManager()}
             };
         }
 
@@ -94,8 +96,9 @@ namespace SoliderAIBehavior
         {
             this.SetState(SoldierAIStateEnum.PATROLLING);
         }
+
         #endregion
-        
+
         #region External Agent Events
 
         public void OnDestinationReached()

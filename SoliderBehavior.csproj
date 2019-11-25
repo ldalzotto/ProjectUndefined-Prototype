@@ -63,9 +63,11 @@
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackAndKillPlayerStateManager\StateManagers\MoveToLastSeenPlayerPositionStateManager.cs" />
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackAndKillPlayerStateManager\StateManagers\MoveTowardsPlayerStateManager.cs" />
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackAndKillPlayerStateManager\StateManagers\ShootingAtPlayerStateManager.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackAndKillPlayerStateManager\Systems\WeaponFiringAreaSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackAndKillPlayerStateManager\TrackAndKillPlayerStateManager.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackUnknownStateManager\Systems\TrackUnknownInterestDirectionSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\StateManagers\TrackUnknownStateManager\TrackUnknownStateManager.cs" />
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\Systems\PlayerObjectStateDataSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\Systems\WeaponFiringAreaSystem.cs" />
      <None Include="Assets\Undefined\Logic\SoldierBehavior\SoliderBehavior.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
