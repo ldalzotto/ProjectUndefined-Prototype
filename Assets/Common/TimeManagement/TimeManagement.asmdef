@@ -1,12 +1,7 @@
 {
-    "name": "CameraManagement",
+    "name": "TimeManagement",
     "references": [
-        "CoreGame",
-        "Input",
-        "OdinSerializer",
-        "PlayerObject_Interface",
-        "InteractiveObjects_Interfaces",
-        "TimeManagement"
+        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

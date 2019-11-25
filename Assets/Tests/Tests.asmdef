@@ -20,7 +20,8 @@
         "PlayerObject",
         "PlayerObject_Interface",
         "InteractiveObjects",
-        "RangeObjects"
+        "RangeObjects",
+        "TimeManagement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

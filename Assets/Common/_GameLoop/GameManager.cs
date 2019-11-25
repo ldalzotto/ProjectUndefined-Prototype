@@ -10,6 +10,7 @@ using PlayerObject;
 using RangeObjects;
 using SelectableObject;
 using Targetting;
+using TimeManagement;
 using Tutorial;
 using UnityEngine;
 using VisualFeedback;
@@ -56,8 +57,14 @@ namespace GameLoop
 
         protected virtual void Update()
         {
-            var d = Time.deltaTime;
-
+            
+            var unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+            
+            /// The CameraMovementManager can potentially change TimeManagementManager value, that is why it is updated before everything
+            CameraMovementManager.Get().Tick(unscaled);
+            
+            var d = TimeManagementManager.Get().GetCurrentDeltaTime();
+            
             BeforeTick(d);
 
             TutorialManager.Get().Tick(d);
@@ -65,12 +72,11 @@ namespace GameLoop
 
             BlockingCutscenePlayerManager.Get().Tick(d);
 
-            CameraMovementManager.Get().Tick(d);
             if (!CameraMovementManager.Get().IsCameraRotating())
             {
                 TargetCursorManager.Get().Tick(d);
             }
-
+            
             PlayerActionEntryPoint.Get().Tick(d);
 
             PlayerInteractiveObjectManager.Get().Tick(d);
@@ -96,7 +102,7 @@ namespace GameLoop
 
         private void LateUpdate()
         {
-            var d = Time.deltaTime;
+            var d = TimeManagementManager.Get().GetCurrentDeltaTime();
 
             PlayerInteractiveObjectManager.Get().LateTick(d);
             InteractiveObjectV2Manager.Get().LateTick(d);
@@ -108,7 +114,9 @@ namespace GameLoop
 
         private void FixedUpdate()
         {
-            var d = Time.fixedDeltaTime;
+            TimeManagementManager.Get().UpdateFixedDeltaTime();
+            
+            var d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
 
             PlayerInteractiveObjectManager.Get().FixedTick(d);
             InteractiveObjectV2Manager.Get().FixedTick(d);

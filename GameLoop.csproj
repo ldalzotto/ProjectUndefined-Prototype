@@ -697,6 +697,10 @@
       <Project>{75786E6C-34C8-0B2C-40F8-743BA59E9518}</Project>
       <Name>Health</Name>
     </ProjectReference>
+    <ProjectReference Include="TimeManagement.csproj">
+      <Project>{2953275D-74C6-F7B6-C30A-70EA88C3E8F8}</Project>
+      <Name>TimeManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
