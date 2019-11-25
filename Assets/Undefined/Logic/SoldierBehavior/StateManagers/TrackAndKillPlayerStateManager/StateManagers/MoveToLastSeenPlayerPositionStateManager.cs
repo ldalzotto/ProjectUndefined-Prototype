@@ -9,27 +9,30 @@ namespace SoliderAIBehavior
 {
     /// <summary>
     /// This state moves the PlayerObject to <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
-    /// When the Player is in sight, it automacially switchs state to <see cref="SoldierAIStateEnum.MOVE_TOWARDS_PLAYER"/>.
+    /// When the Player is in sight, it automacially switchs state to <see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/>.
     /// </summary>
     public class MoveToLastSeenPlayerPositionStateManager : SoldierStateManager
     {
-        private SoldierAIBehavior SoldierAIBehaviorRef;
+        private TrackAndKillPlayerBehavior TrackAndKillPlayerbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
+        private Action AskedToExitTrackAndKillPlayerBehaviorAction;
 
-        public MoveToLastSeenPlayerPositionStateManager(SoldierAIBehavior soldierAiBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction)
+        public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction, Action AskedToExitTrackAndKillPlayerBehaviorAction)
         {
-            SoldierAIBehaviorRef = soldierAiBehaviorRef;
+            TrackAndKillPlayerbehaviorRef = trackAndKillPlayerbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             SetDestinationAction = destinationAction;
+            this.AskedToExitTrackAndKillPlayerBehaviorAction = AskedToExitTrackAndKillPlayerBehaviorAction;
         }
 
         public override void OnStateEnter()
         {
             if (MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
-                Debug.Log(MyLog.Format("MoveToLastSeenPlayerPositionStateManager to PATROLLING"));
-                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.PATROLLING);
+                Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
+                this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
             }
         }
 
@@ -53,7 +56,7 @@ namespace SoliderAIBehavior
             if (this.PlayerObjectStateDataSystem.IsPlayerInSight)
             {
                 Debug.Log(MyLog.Format("MoveToLastSeenPlayerPositionStateManager to MOVE_TOWARDS_PLAYER"));
-                this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TOWARDS_PLAYER);
+                this.TrackAndKillPlayerbehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER);
             }
         }
 
@@ -62,7 +65,8 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnDestinationReached()
         {
-            this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.PATROLLING);
+            Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
+            this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
         }
     }
 }

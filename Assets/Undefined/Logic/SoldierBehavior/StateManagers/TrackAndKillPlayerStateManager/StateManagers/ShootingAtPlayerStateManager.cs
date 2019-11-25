@@ -6,11 +6,11 @@ namespace SoliderAIBehavior
 {
     /// <summary>
     /// Orient the <see cref="SoliderEnemy"/> and trigger its <see cref="SoliderEnemy.AskToFireAFiredProjectile()"/> event.
-    /// <see cref="SoldierAIStateEnum.SHOOTING_AT_PLAYER"/>
+    /// <see cref="TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER"/>
     /// </summary>
     class ShootingAtPlayerStateManager : SoldierStateManager
     {
-        private SoldierAIBehavior SoldierAIBehaviorRef;
+        private TrackAndKillPlayerBehavior TrackAndKillAIbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
 
@@ -21,10 +21,10 @@ namespace SoliderAIBehavior
 
         private Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition;
 
-        public ShootingAtPlayerStateManager(SoldierAIBehavior SoldierAIBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
+        public ShootingAtPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
             CoreInteractiveObject associatedInteractiveObject, Action clearPathAction, Action<Vector3> askToFireAFiredProjectileAction_WithTargetPosition)
         {
-            this.SoldierAIBehaviorRef = SoldierAIBehaviorRef;
+            this.TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             ClearPathAction = clearPathAction;
@@ -46,12 +46,12 @@ namespace SoliderAIBehavior
                 if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject(), this.AssociatedInteractiveObject))
                 {
                     Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to GO_ROUND_PLAYER"));
-                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.GO_ROUND_PLAYER);
+                    this.TrackAndKillAIbehaviorRef.SetState(TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER);
                 }
                 else
                 {
                     Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to MOVE_TOWARDS_PLAYER"));
-                    this.SoldierAIBehaviorRef.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+                    this.TrackAndKillAIbehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
                 }
             }
             else

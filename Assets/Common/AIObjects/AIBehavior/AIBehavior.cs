@@ -33,7 +33,7 @@ namespace AIObjects
     /// <typeparam name="SM">The base StateManager type</typeparam>
     public abstract class AIBehavior<S, SM> where S : Enum where SM : StateManager
     {
-        private EnumVariable<S> CurrentState;
+        [VE_Nested] private EnumVariable<S> CurrentState;
         protected Dictionary<S, SM> StateManagersLookup;
 
         protected AIBehavior(S StartState)

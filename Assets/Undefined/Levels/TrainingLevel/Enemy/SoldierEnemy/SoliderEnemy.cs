@@ -20,7 +20,7 @@ namespace TrainingLevel
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
         private SightObjectSystem SightObjectSystem;
-        private SoldierAIBehavior SoldierAIBehavior;
+        [VE_Nested]  private SoldierAIBehavior SoldierAIBehavior;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {

@@ -13,21 +13,8 @@ namespace SoliderAIBehavior
 {
     public enum SoldierAIStateEnum
     {
-        /// <summary>
-        /// /!\ It is often not ecouraged to use this state. The state <see cref="SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION"/>
-        /// is always more appropriate and will automatically switch to <see cref="SoldierAIStateEnum.MOVE_TOWARDS_PLAYER"/> is
-        /// the player is in sight.
-        /// This state must be used only when the player is in sight
-        /// </summary>
-        MOVE_TOWARDS_PLAYER = 0,
-        GO_ROUND_PLAYER = 1,
-
-        /// <summary>
-        /// /!\ Switching to this state is only allowed if <see cref="SoldierAIBehaviorUtil.IsAllowToMoveToShootingAtPlayerState"/> conditions are fulfilled.
-        /// </summary>
-        SHOOTING_AT_PLAYER = 2,
-        PATROLLING = 3,
-        MOVE_TO_LAST_SEEN_PLAYER_POSITION = 4
+        PATROLLING,
+        TRACK_AND_KILL_PLAYER
     }
 
     public class SoldierAIBehavior : AIBehavior<SoldierAIStateEnum, SoldierStateManager>
@@ -43,21 +30,20 @@ namespace SoliderAIBehavior
         {
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
-            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, GetWeaponFirePointOriginLocalDefinitionAction);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
                 {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(this, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
-                {SoldierAIStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, destinationAction)},
-                {SoldierAIStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction_WithTargetPosition)},
-                {SoldierAIStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, this.PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, destinationAction)},
-                {SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, this.PlayerObjectStateDataSystem, destinationAction)}
+                {
+                    SoldierAIStateEnum.TRACK_AND_KILL_PLAYER, new TrackAndKillPlayerStateManager(
+                        AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, destinationAction, ClearpathAction, 
+                        AskToFireAFiredProjectileAction_WithTargetPosition, GetWeaponFirePointOriginLocalDefinitionAction, this.OnAskedToExitTrackAndKillPlayerBehavior)
+                }
             };
         }
 
         public override void Tick(float d)
         {
             this.PlayerObjectStateDataSystem.Tick(d);
-            this.WeaponFiringAreaSystem.Tick(d);
             base.Tick(d);
         }
 
@@ -72,7 +58,6 @@ namespace SoliderAIBehavior
             {
                 stateManager.OnDestroy();
             }
-            this.WeaponFiringAreaSystem.OnDestroy();
         }
 
         #region External Sight Events
@@ -103,6 +88,14 @@ namespace SoliderAIBehavior
 
         #endregion
 
+        #region Internal Sub Behaviors Events
+
+        private void OnAskedToExitTrackAndKillPlayerBehavior()
+        {
+            this.SetState(SoldierAIStateEnum.PATROLLING);
+        }
+        #endregion
+        
         #region External Agent Events
 
         public void OnDestinationReached()
@@ -145,7 +138,8 @@ namespace SoliderAIBehavior
         }
 
         public virtual void OnDestroy()
-        {}
+        {
+        }
     }
 
 

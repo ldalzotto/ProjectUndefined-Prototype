@@ -26,8 +26,8 @@ namespace SoliderAIBehavior
         {
             if (this.PlayerObjectStateDataSystem.IsPlayerInSight)
             {
-                Debug.Log(MyLog.Format("PatrollingStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
-                this.SoldierAIBehavior.SetState(SoldierAIStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+                Debug.Log(MyLog.Format("PatrollingStateManager to TRACK_AND_KILL_PLAYER"));
+                this.SoldierAIBehavior.SetState(SoldierAIStateEnum.TRACK_AND_KILL_PLAYER);
             }
             else
             {
