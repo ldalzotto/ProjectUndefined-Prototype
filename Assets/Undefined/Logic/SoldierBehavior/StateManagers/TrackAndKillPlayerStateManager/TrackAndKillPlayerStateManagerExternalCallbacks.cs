@@ -70,7 +70,7 @@ namespace SoliderAIBehavior
         {
             return new MoveToLastSeenPlayerPositionStateManagerExternalCallbacks(
                 TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction,
-                TrackAndKillPlayerStateManagerExternalCallbacks.ClearAIAgentPathAction);
+                TrackAndKillPlayerStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction);
         }
     }
 }
