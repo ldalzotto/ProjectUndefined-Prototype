@@ -72,7 +72,7 @@ namespace InteractiveObject_Animation
         /// Plays an <see cref="SequencedAnimationInput"/> to the Layer <see cref="AnimationLayerID.ContextActionLayer"/>
         /// </summary>
         /// <param name="ContextActionAnimation">The played animation</param>
-        public void PlayContextAction(SequencedAnimationInput ContextActionAnimation, bool rootMotion, Action OnAnimationFinished = null)
+        public void PlayContextAction(IAnimationInput ContextActionAnimation, bool rootMotion, Action OnAnimationFinished = null)
         {
             this.RootMotionEnabled.SetValue(rootMotion);
             this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[AnimationLayerID.ContextActionLayer].ID, ContextActionAnimation, () => { this.OnAnimationFinished(OnAnimationFinished); });

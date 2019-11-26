@@ -24,7 +24,8 @@
         "RangeObjects",
         "GeometryIntersection",
         "Obstacle",
-        "SoliderBehavior"
+        "SoliderBehavior",
+        "SoldierAnimation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

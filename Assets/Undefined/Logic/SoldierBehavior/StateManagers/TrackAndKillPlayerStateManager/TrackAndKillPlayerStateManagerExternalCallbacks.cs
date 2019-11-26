@@ -18,16 +18,21 @@ namespace SoliderAIBehavior
         /// this callback must be called when parent state manager must exit <see cref="TrackAndKillPlayerStateManager"/> state.
         /// </summary>
         public Action AskedToExitTrackAndKillPlayerBehaviorAction;
+        
+        public Action OnShootingAtPlayerStartAction;
+        public Action OnShootingAtPlayerEndAction;
 
-        public TrackAndKillPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction,
+        public TrackAndKillPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, 
             Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction,
-            Action askedToExitTrackAndKillPlayerBehaviorAction)
+            Action askedToExitTrackAndKillPlayerBehaviorAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
             SetAIAgentDestinationAction = aiAgentDestinationAction;
             ClearAIAgentPathAction = clearAiAgentPathAction;
             AskToFireAFiredProjectile_WithTargetPosition_Action = askToFireAFiredProjectileWithTargetPositionAction;
             GetWeaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
             AskedToExitTrackAndKillPlayerBehaviorAction = askedToExitTrackAndKillPlayerBehaviorAction;
+            OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
+            OnShootingAtPlayerEndAction = onShootingAtPlayerEndAction;
         }
 
         public static implicit operator WeaponFiringAreaSystemExternalCallbacks(TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
@@ -48,7 +53,9 @@ namespace SoliderAIBehavior
         {
             return new ShootingAtPlayerStateManagerExternalCallbacks(
                 TrackAndKillPlayerStateManagerExternalCallbacks.ClearAIAgentPathAction,
-                TrackAndKillPlayerStateManagerExternalCallbacks.AskToFireAFiredProjectile_WithTargetPosition_Action
+                TrackAndKillPlayerStateManagerExternalCallbacks.AskToFireAFiredProjectile_WithTargetPosition_Action,
+                TrackAndKillPlayerStateManagerExternalCallbacks.OnShootingAtPlayerStartAction,
+                TrackAndKillPlayerStateManagerExternalCallbacks.OnShootingAtPlayerEndAction
             );
         }
 

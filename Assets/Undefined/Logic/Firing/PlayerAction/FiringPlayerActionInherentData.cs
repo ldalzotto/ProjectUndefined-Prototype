@@ -11,7 +11,8 @@ namespace Firing
     public class FiringPlayerActionInherentData : PlayerActionInherentData
     {
         public GameObject FiringHorizontalPlanePrefab;
-        public SequencedAnimationInput FiringPoseAnimation;
+        [Inline]
+        public A_AnimationPlayableDefinition FiringPoseAnimationV2;
         public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
         {
             return new FiringPlayerAction(this, PlayerInteractiveObject);

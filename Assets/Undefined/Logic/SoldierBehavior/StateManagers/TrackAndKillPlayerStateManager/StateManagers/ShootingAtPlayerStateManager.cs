@@ -8,11 +8,16 @@ namespace SoliderAIBehavior
     {
         public Action ClearAiAgentPathAction;
         public Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition;
+        public Action OnShootingAtPlayerStartAction;
+        public Action OnShootingAtPlayerEndAction;
 
-        public ShootingAtPlayerStateManagerExternalCallbacks(Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileActionWithTargetPosition)
+        public ShootingAtPlayerStateManagerExternalCallbacks(Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileActionWithTargetPosition, 
+            Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
             ClearAiAgentPathAction = clearAiAgentPathAction;
             AskToFireAFiredProjectileAction_WithTargetPosition = askToFireAFiredProjectileActionWithTargetPosition;
+            OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
+            OnShootingAtPlayerEndAction = onShootingAtPlayerEndAction;
         }
     }
 
@@ -42,7 +47,13 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnStateEnter()
         {
+            this.ShootingAtPlayerStateManagerExternalCallbacks.OnShootingAtPlayerStartAction.Invoke();
             this.ShootingAtPlayerStateManagerExternalCallbacks.ClearAiAgentPathAction.Invoke();
+        }
+
+        public override void OnStateExit()
+        {
+            this.ShootingAtPlayerStateManagerExternalCallbacks.OnShootingAtPlayerEndAction.Invoke();
         }
 
         public override void Tick(float d)

@@ -4,6 +4,7 @@ using Health;
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,6 +22,7 @@ namespace TrainingLevel
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierAIBehavior SoldierAIBehavior;
+        private SoldierAnimationSystem SoldierAnimationSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -41,10 +43,13 @@ namespace TrainingLevel
                     this.SetDestination,
                     this.AIMoveToDestinationSystem.ClearPath,
                     this.AskToFireAFiredProjectile_ToTargetPoint,
-                    () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition
+                    () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
+                    this.OnShootingAtPlayerStart,
+                    this.OnShootingAtPlayerEnd
                 ));
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
+            this.SoldierAnimationSystem = new SoldierAnimationSystem(SoliderEnemyDefinition.SoldierAnimationSystemDefinition, this.AnimationController);
         }
 
         public override void Tick(float d)
@@ -144,6 +149,21 @@ namespace TrainingLevel
 
         #endregion
 
+        
+        #region internal Firing Events
+
+        private void OnShootingAtPlayerStart()
+        {
+            this.SoldierAnimationSystem.OnShootingAtPlayerStart();
+        }
+
+        private void OnShootingAtPlayerEnd()
+        {
+            this.SoldierAnimationSystem.OnShootingAtPlayerEnd();
+        }
+
+        #endregion
+        
         public override void Init()
         {
         }

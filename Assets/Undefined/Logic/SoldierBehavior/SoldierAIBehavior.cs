@@ -29,14 +29,18 @@ namespace SoliderAIBehavior
 
         public Action<Vector3> AskToFireAFiredProjectile_WithTargetPosition_Action;
         public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction;
+        
+        public Action OnShootingAtPlayerStartAction;
+        public Action OnShootingAtPlayerEndAction;
 
-        public SoldierAIBehaviorExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction,
-            Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction)
+        public SoldierAIBehaviorExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
             SetAIAgentDestinationAction = aiAgentDestinationAction;
             ClearAIAgentPathAction = clearAiAgentPathAction;
             AskToFireAFiredProjectile_WithTargetPosition_Action = askToFireAFiredProjectileWithTargetPositionAction;
             GetWeaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
+            OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
+            OnShootingAtPlayerEndAction = onShootingAtPlayerEndAction;
         }
     }
 
@@ -157,7 +161,9 @@ namespace SoliderAIBehavior
                     SoldierAIBehaviorExternalCallbacks.ClearAIAgentPathAction,
                     SoldierAIBehaviorExternalCallbacks.AskToFireAFiredProjectile_WithTargetPosition_Action,
                     SoldierAIBehaviorExternalCallbacks.GetWeaponFirePointOriginLocalDefinitionAction,
-                    SoldierAIBehavior.OnAnySubBehaviorAskedToExit
+                    SoldierAIBehavior.OnAnySubBehaviorAskedToExit,
+                    SoldierAIBehaviorExternalCallbacks.OnShootingAtPlayerStartAction,
+                    SoldierAIBehaviorExternalCallbacks.OnShootingAtPlayerEndAction
                 );
             }
 

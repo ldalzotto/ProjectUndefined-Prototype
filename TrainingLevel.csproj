@@ -733,6 +733,10 @@
       <Project>{CCE8FB12-317B-A034-92B0-DED327F99BF4}</Project>
       <Name>SoliderBehavior</Name>
     </ProjectReference>
+    <ProjectReference Include="SoldierAnimation.csproj">
+      <Project>{28618AAC-574B-FC30-4CD9-D34B9D498D33}</Project>
+      <Name>SoldierAnimation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

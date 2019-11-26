@@ -4,6 +4,7 @@ using Damage;
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -44,6 +45,9 @@ namespace TrainingLevel
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public A_AnimationPlayableDefinition LocomotionAnimation;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public SoldierAnimationSystemDefinition SoldierAnimationSystemDefinition;
 
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {

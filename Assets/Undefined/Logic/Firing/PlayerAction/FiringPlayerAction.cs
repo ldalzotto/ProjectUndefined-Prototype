@@ -29,7 +29,7 @@ namespace Firing
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), targettableInteractiveObjectSelectionManager);
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
-            this.PlayerAnimationSystem = new PlayerAnimationSystem(PlayerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimation);
+            this.PlayerAnimationSystem = new PlayerAnimationSystem(PlayerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimationV2.GetAnimationInput());
             this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
         }
 
@@ -178,7 +178,7 @@ namespace Firing
     {
         private CoreInteractiveObject PlayerCoreInteractiveObject;
 
-        public PlayerAnimationSystem(CoreInteractiveObject PlayerCoreInteractiveObject, SequencedAnimationInput FiringPoseAnimation)
+        public PlayerAnimationSystem(CoreInteractiveObject PlayerCoreInteractiveObject, IAnimationInput FiringPoseAnimation)
         {
             this.PlayerCoreInteractiveObject = PlayerCoreInteractiveObject;
             PlayerCoreInteractiveObject.AnimationController.PlayLocomotionAnimationOverride(FiringPoseAnimation, AnimationLayerID.LocomotionLayer_1);

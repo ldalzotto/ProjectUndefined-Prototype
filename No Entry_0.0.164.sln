@@ -93,6 +93,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeManagement", "TimeManag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelManagement_Interfaces", "LevelManagement_Interfaces.csproj", "{A57781E4-D853-FCD5-B604-158EA14A06F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoldierAnimation", "SoldierAnimation.csproj", "{28618AAC-574B-FC30-4CD9-D34B9D498D33}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor.csproj", "{2DD87826-BED4-3147-BE7B-C30240F79B63}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelines_Editor", "Timelines_Editor.csproj", "{B7BD2216-F0C9-03D9-EF37-5B367A553DB9}"
@@ -289,6 +291,10 @@ Global
 		{A57781E4-D853-FCD5-B604-158EA14A06F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A57781E4-D853-FCD5-B604-158EA14A06F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A57781E4-D853-FCD5-B604-158EA14A06F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28618AAC-574B-FC30-4CD9-D34B9D498D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28618AAC-574B-FC30-4CD9-D34B9D498D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28618AAC-574B-FC30-4CD9-D34B9D498D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28618AAC-574B-FC30-4CD9-D34B9D498D33}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DD87826-BED4-3147-BE7B-C30240F79B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DD87826-BED4-3147-BE7B-C30240F79B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DD87826-BED4-3147-BE7B-C30240F79B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
