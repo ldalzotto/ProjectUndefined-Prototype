@@ -7,6 +7,16 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
+    public struct MoveAroundPlayerStateManagerExternalCallbacks
+    {
+        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
+
+        public MoveAroundPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction)
+        {
+            SetDestinationAction = destinationAction;
+        }
+    }
+    
     /// <summary>
     /// The <see cref="TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER"/> state is entered when the <see cref="SoliderEnemy"/> is
     /// trying to get the Player in sight by moving around the <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
@@ -25,7 +35,7 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
+        private MoveAroundPlayerStateManagerExternalCallbacks MoveAroundPlayerStateManagerExternalCallbacks;
 
         /// <summary>
         /// GameObject created on the fly that is used as a looking target for the <see cref="LookingAtAgentMovementCalculationStrategy"/>.
@@ -33,14 +43,15 @@ namespace SoliderAIBehavior
         /// </summary>
         private GameObject TmpLastPlayerSeenPositionGameObject;
 
+
         public MoveAroundPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
             WeaponFiringAreaSystem WeaponFiringAreaSystem,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction)
+            MoveAroundPlayerStateManagerExternalCallbacks MoveAroundPlayerStateManagerExternalCallbacks)
         {
             TrackAndKillPlayerBehaviorRef = trackAndKillPlayerBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
-            SetDestinationAction = destinationAction;
+            this.MoveAroundPlayerStateManagerExternalCallbacks = MoveAroundPlayerStateManagerExternalCallbacks;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
         }
 
@@ -55,7 +66,7 @@ namespace SoliderAIBehavior
                 this.TmpLastPlayerSeenPositionGameObject = new GameObject("TmpLastPlayerSeenPositionGameObject");
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition.WorldPosition;
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
-                if (this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
+                if (this.MoveAroundPlayerStateManagerExternalCallbacks.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
                         AIMovementSpeedAttenuationFactor.RUN) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));

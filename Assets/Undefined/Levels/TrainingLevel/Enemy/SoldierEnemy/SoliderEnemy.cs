@@ -20,7 +20,7 @@ namespace TrainingLevel
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
         private SightObjectSystem SightObjectSystem;
-        [VE_Nested]  private SoldierAIBehavior SoldierAIBehavior;
+        [VE_Nested] private SoldierAIBehavior SoldierAIBehavior;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -36,11 +36,13 @@ namespace TrainingLevel
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
                 (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation);
-            this.SoldierAIBehavior = new SoldierAIBehavior(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition, (IAgentMovementCalculationStrategy, AIMovementSpeedDefinition) =>
-            {
-                this.SetAISpeedAttenuationFactor(AIMovementSpeedDefinition);
-                return this.SetDestination(IAgentMovementCalculationStrategy);
-            }, this.AIMoveToDestinationSystem.ClearPath, this.AskToFireAFiredProjectile_ToTargetPoint, () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition);
+            this.SoldierAIBehavior = new SoldierAIBehavior(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
+                new SoldierAIBehaviorExternalCallbacks(
+                    this.SetDestination,
+                    this.AIMoveToDestinationSystem.ClearPath,
+                    this.AskToFireAFiredProjectile_ToTargetPoint,
+                    () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition
+                ));
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
         }
@@ -101,7 +103,7 @@ namespace TrainingLevel
                 this.isAskingToBeDestroyed = true;
             }
         }
-        
+
         public override void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)
         {
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);

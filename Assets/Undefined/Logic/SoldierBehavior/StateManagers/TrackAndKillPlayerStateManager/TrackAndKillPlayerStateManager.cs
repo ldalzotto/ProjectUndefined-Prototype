@@ -27,21 +27,16 @@ namespace SoliderAIBehavior
         MOVE_TO_LAST_SEEN_PLAYER_POSITION = 3
     }
 
+
     public class TrackAndKillPlayerStateManager : SoldierStateManager
     {
         private TrackAndKillPlayerBehavior TrackAndKillPlayerBehavior;
 
         public TrackAndKillPlayerStateManager(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             PlayerObjectStateDataSystem PlayerObjectStateDataSystem,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition,
-            Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction,
-            Action AskedToExitTrackAndKillPlayerBehaviorAction)
+            TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
         {
-            this.TrackAndKillPlayerBehavior = new TrackAndKillPlayerBehavior(AssociatedInteractiveObject, SoldierAIBehaviorDefinition,
-                PlayerObjectStateDataSystem,
-                destinationAction, ClearpathAction, AskToFireAFiredProjectileAction_WithTargetPosition,
-                GetWeaponFirePointOriginLocalDefinitionAction,
-                AskedToExitTrackAndKillPlayerBehaviorAction);
+            this.TrackAndKillPlayerBehavior = new TrackAndKillPlayerBehavior(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks);
         }
 
         public override void Tick(float d)
@@ -65,7 +60,7 @@ namespace SoliderAIBehavior
         {
             this.TrackAndKillPlayerBehavior.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
         }
-        
+
         #region Internal Sight Events
 
         public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
@@ -79,7 +74,7 @@ namespace SoliderAIBehavior
         }
 
         #endregion
-            
+
         #region External Agent Events
 
         public override void OnDestinationReached()
@@ -101,18 +96,16 @@ namespace SoliderAIBehavior
 
         public TrackAndKillPlayerBehavior(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             PlayerObjectStateDataSystem PlayerObjectStateDataSystem,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition,
-            Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction,
-            Action AskedToExitTrackAndKillPlayerBehaviorAction) : base(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION)
+            TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks) : base(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION)
         {
-            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, PlayerObjectStateDataSystem, GetWeaponFirePointOriginLocalDefinitionAction);
+            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks);
 
             this.StateManagersLookup = new Dictionary<TrackAndKillPlayerStateEnum, SoldierStateManager>()
             {
-                {TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, destinationAction)},
-                {TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, ClearpathAction, AskToFireAFiredProjectileAction_WithTargetPosition)},
-                {TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, destinationAction)},
-                {TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, PlayerObjectStateDataSystem, destinationAction, AskedToExitTrackAndKillPlayerBehaviorAction)}
+                {TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, TrackAndKillPlayerStateManagerExternalCallbacks)},
+                {TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, TrackAndKillPlayerStateManagerExternalCallbacks)},
+                {TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, TrackAndKillPlayerStateManagerExternalCallbacks)},
+                {TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks)}
             };
         }
 
@@ -125,7 +118,7 @@ namespace SoliderAIBehavior
         public override void OnDestroy()
         {
             base.OnDestroy();
-            
+
             foreach (var stateManager in this.StateManagersLookup.Values)
             {
                 stateManager.OnDestroy();
@@ -133,6 +126,5 @@ namespace SoliderAIBehavior
 
             this.WeaponFiringAreaSystem.OnDestroy();
         }
-        
     }
 }

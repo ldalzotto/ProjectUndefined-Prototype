@@ -7,6 +7,18 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
+    public struct MoveToLastSeenPlayerPositionStateManagerExternalCallbacks
+    {
+        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
+        public Action AskedToExitTrackAndKillPlayerBehaviorAction;
+
+        public MoveToLastSeenPlayerPositionStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action askedToExitTrackAndKillPlayerBehaviorAction)
+        {
+            SetDestinationAction = destinationAction;
+            AskedToExitTrackAndKillPlayerBehaviorAction = askedToExitTrackAndKillPlayerBehaviorAction;
+        }
+    }
+    
     /// <summary>
     /// This state moves the PlayerObject to <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
     /// When the Player is in sight, it automacially switchs state to <see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/>.
@@ -15,16 +27,13 @@ namespace SoliderAIBehavior
     {
         private TrackAndKillPlayerBehavior TrackAndKillPlayerbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
-        private Action AskedToExitTrackAndKillPlayerBehaviorAction;
-
+        private MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks;
         public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action AskedToExitTrackAndKillPlayerBehaviorAction)
+            MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks)
         {
             TrackAndKillPlayerbehaviorRef = trackAndKillPlayerbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
-            SetDestinationAction = destinationAction;
-            this.AskedToExitTrackAndKillPlayerBehaviorAction = AskedToExitTrackAndKillPlayerBehaviorAction;
+            this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks = MoveToLastSeenPlayerPositionStateManagerExternalCallbacks;
         }
 
         public override void OnStateEnter()
@@ -32,7 +41,7 @@ namespace SoliderAIBehavior
             if (MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
-                this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
+                this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
             }
         }
 
@@ -43,7 +52,7 @@ namespace SoliderAIBehavior
         /// <returns></returns>
         private NavMeshPathStatus MoveToLastSeenPlayerPosition()
         {
-            return this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
+            return this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
                     this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldRotation)),
                 AIMovementSpeedAttenuationFactor.RUN);
         }
@@ -66,7 +75,7 @@ namespace SoliderAIBehavior
         public override void OnDestinationReached()
         {
             Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
-            this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
+            this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
         }
     }
 }

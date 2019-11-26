@@ -7,6 +7,16 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
+    public struct MoveTowardsPlayerStateManagerExternalCallbacks
+    {
+        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
+
+        public MoveTowardsPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction)
+        {
+            SetAIAgentDestinationAction = aiAgentDestinationAction;
+        }
+    }
+
     /// <summary>
     /// Moves the <see cref="SoliderEnemy"/> to the position of the <see cref="InteractiveObjectTag.IsPlayer"/> object.
     /// (<see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/>)
@@ -18,22 +28,23 @@ namespace SoliderAIBehavior
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
+        private MoveTowardsPlayerStateManagerExternalCallbacks MoveTowardsPlayerStateManagerExternalCallbacks;
 
         public MoveTowardsPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem, Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction)
+            CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem,
+            MoveTowardsPlayerStateManagerExternalCallbacks MoveTowardsPlayerStateManagerExternalCallbacks)
         {
             TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
-            SetDestinationAction = destinationAction;
+            this.MoveTowardsPlayerStateManagerExternalCallbacks = MoveTowardsPlayerStateManagerExternalCallbacks;
         }
 
         public override void Tick(float d)
         {
-            this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}),
+            this.MoveTowardsPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}),
                 AIMovementSpeedAttenuationFactor.RUN);
             this.SwitchToShootingAtPlayer();
         }
@@ -43,7 +54,7 @@ namespace SoliderAIBehavior
             if (
                 SoldierAIBehaviorUtil.IsAllowToMoveToShootingAtPlayerState(this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem) &&
                 Vector3.Distance(this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition, this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition)
-                    <= this.SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp)
+                <= this.SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp)
             {
                 Debug.Log(MyLog.Format("MoveTowardsPlayerStateManager to GO_ROUND_PLAYER"));
                 this.TrackAndKillAIbehaviorRef.SetState(TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER);

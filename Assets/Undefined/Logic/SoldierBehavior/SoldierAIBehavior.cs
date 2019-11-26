@@ -18,28 +18,43 @@ namespace SoliderAIBehavior
         TRACK_UNKNOWN
     }
 
+    public struct SoldierAIBehaviorExternalCallbacks
+    {
+        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
+
+        /// <summary>
+        /// Clear the path of <see cref="AIObjects.AIMoveToDestinationSystem"/>
+        /// </summary>
+        public Action ClearAIAgentPathAction;
+
+        public Action<Vector3> AskToFireAFiredProjectile_WithTargetPosition_Action;
+        public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction;
+
+        public SoldierAIBehaviorExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction,
+            Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction)
+        {
+            SetAIAgentDestinationAction = aiAgentDestinationAction;
+            ClearAIAgentPathAction = clearAiAgentPathAction;
+            AskToFireAFiredProjectile_WithTargetPosition_Action = askToFireAFiredProjectileWithTargetPositionAction;
+            GetWeaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
+        }
+    }
+
     public class SoldierAIBehavior : AIBehavior<SoldierAIStateEnum, SoldierStateManager>
     {
-        private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
 
         public SoldierAIBehavior(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action ClearpathAction, Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition,
-            Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction
+            SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks
         ) : base(SoldierAIStateEnum.PATROLLING)
         {
-            this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
             {
-                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager( AssociatedInteractiveObject, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
-                {
-                    SoldierAIStateEnum.TRACK_AND_KILL_PLAYER, new TrackAndKillPlayerStateManager(
-                        AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, destinationAction, ClearpathAction,
-                        AskToFireAFiredProjectileAction_WithTargetPosition, GetWeaponFirePointOriginLocalDefinitionAction, this.OnAnySubBehaviorAskedToExit)
-                },
-                {SoldierAIStateEnum.TRACK_UNKNOWN, new TrackUnknownStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, destinationAction, this.OnAnySubBehaviorAskedToExit)}
+                {SoldierAIStateEnum.PATROLLING, new PatrollingStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition.AIPatrolSystemDefinition)},
+                {SoldierAIStateEnum.TRACK_AND_KILL_PLAYER, new TrackAndKillPlayerStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, SoldierAIExternalCallbacksStructureConverter.Map2TrackAndKillPlayerStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks, this))},
+                {SoldierAIStateEnum.TRACK_UNKNOWN, new TrackUnknownStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, SoldierAIExternalCallbacksStructureConverter.Map2TrackUnknownStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks, this))}
             };
         }
 
@@ -132,6 +147,28 @@ namespace SoliderAIBehavior
         }
 
         #endregion
+
+        public static class SoldierAIExternalCallbacksStructureConverter
+        {
+            public static TrackAndKillPlayerStateManagerExternalCallbacks Map2TrackAndKillPlayerStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks, SoldierAIBehavior SoldierAIBehavior)
+            {
+                return new TrackAndKillPlayerStateManagerExternalCallbacks(
+                    SoldierAIBehaviorExternalCallbacks.SetAIAgentDestinationAction,
+                    SoldierAIBehaviorExternalCallbacks.ClearAIAgentPathAction,
+                    SoldierAIBehaviorExternalCallbacks.AskToFireAFiredProjectile_WithTargetPosition_Action,
+                    SoldierAIBehaviorExternalCallbacks.GetWeaponFirePointOriginLocalDefinitionAction,
+                    SoldierAIBehavior.OnAnySubBehaviorAskedToExit
+                );
+            }
+
+            public static TrackUnknownStateManagerExternalCallbacks Map2TrackUnknownStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks, SoldierAIBehavior SoldierAIBehavior)
+            {
+                return new TrackUnknownStateManagerExternalCallbacks(
+                    SoldierAIBehaviorExternalCallbacks.SetAIAgentDestinationAction,
+                    SoldierAIBehavior.OnAnySubBehaviorAskedToExit
+                );
+            }
+        }
     }
 
     /// <summary>

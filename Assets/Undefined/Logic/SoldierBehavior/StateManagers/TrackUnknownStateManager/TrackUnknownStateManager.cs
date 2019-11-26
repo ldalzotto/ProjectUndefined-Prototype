@@ -17,9 +17,9 @@ namespace SoliderAIBehavior
         private TrackUnknownBehavior TrackUnknownBehavior;
 
         public TrackUnknownStateManager(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action OnTrackUnknownStateManagerAskedToExit)
+            TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
         {
-            this.TrackUnknownBehavior = new TrackUnknownBehavior(associatedInteractiveObject, SoldierAIBehaviorDefinition, destinationAction, OnTrackUnknownStateManagerAskedToExit);
+            this.TrackUnknownBehavior = new TrackUnknownBehavior(associatedInteractiveObject, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks);
         }
 
         public override void Tick(float d)
@@ -56,13 +56,12 @@ namespace SoliderAIBehavior
         private TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem;
 
         public TrackUnknownBehavior(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction,
-            Action OnTrackUnknownStateManagerAskedToExit) : base(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION)
+            TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks) : base(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION)
         {
             this.TrackUnknownInterestDirectionSystem = new TrackUnknownInterestDirectionSystem(associatedInteractiveObject);
             this.StateManagersLookup = new Dictionary<TrackUnknownStateEnum, SoldierStateManager>()
             {
-                {TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION, new MoveTowardsInterestDirectionStateManager(associatedInteractiveObject, this.TrackUnknownInterestDirectionSystem, SoldierAIBehaviorDefinition, destinationAction, OnTrackUnknownStateManagerAskedToExit)}
+                {TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION, new MoveTowardsInterestDirectionStateManager(associatedInteractiveObject, this.TrackUnknownInterestDirectionSystem, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks)}
             };
         }
 

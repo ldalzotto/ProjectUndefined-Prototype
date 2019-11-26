@@ -8,6 +8,16 @@ using Weapon;
 
 namespace SoliderAIBehavior
 {
+    public struct WeaponFiringAreaSystemExternalCallbacks
+    {
+        public Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction;
+
+        public WeaponFiringAreaSystemExternalCallbacks(Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction)
+        {
+            this.weaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
+        }
+    }
+    
     /// <summary>
     /// Holds and update informations about the ability to shoot to the Player. This is achieved by creating a trigger WeaponFiringAreaBoxRangeObject between the
     /// <see cref="SoliderEnemy.GetWeaponFirePointOriginLocalAction"/> and the <see cref="PlayerInteractiveObject.GetFiringTargetLocalPosition"/>.
@@ -22,16 +32,16 @@ namespace SoliderAIBehavior
         /// /!\ Must be disposed on destroy
         /// </summary>
         private BoxRangeObjectV2 WeaponFiringAreaBoxRangeObject;
-        private Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction;
+        private WeaponFiringAreaSystemExternalCallbacks WeaponFiringAreaSystemExternalCallbacks;
         
         private List<Collider> InsideWeaponFiringAreaObstacles = new List<Collider>();
 
         public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, 
-            Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction)
+            WeaponFiringAreaSystemExternalCallbacks WeaponFiringAreaSystemExternalCallbacks)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
-            this.weaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
+            this.WeaponFiringAreaSystemExternalCallbacks = WeaponFiringAreaSystemExternalCallbacks;
             this.WeaponFiringAreaBoxRangeObject = new BoxRangeObjectV2(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
             {
                 RangeTypeID = RangeTypeID.NOT_DISPLAYED,
@@ -43,7 +53,7 @@ namespace SoliderAIBehavior
 
         public void Tick(float d)
         {
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.weaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.WeaponFiringAreaSystemExternalCallbacks.weaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
             var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
             this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition() - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);

@@ -4,6 +4,18 @@ using UnityEngine;
 
 namespace SoliderAIBehavior
 {
+    public struct ShootingAtPlayerStateManagerExternalCallbacks
+    {
+        public Action ClearAiAgentPathAction;
+        public Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition;
+
+        public ShootingAtPlayerStateManagerExternalCallbacks(Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileActionWithTargetPosition)
+        {
+            ClearAiAgentPathAction = clearAiAgentPathAction;
+            AskToFireAFiredProjectileAction_WithTargetPosition = askToFireAFiredProjectileActionWithTargetPosition;
+        }
+    }
+
     /// <summary>
     /// Orient the <see cref="SoliderEnemy"/> and trigger its <see cref="SoliderEnemy.AskToFireAFiredProjectile()"/> event.
     /// <see cref="TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER"/>
@@ -14,21 +26,15 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
 
-        /// <summary>
-        /// Clear the path of <see cref="AIObjects.AIMoveToDestinationSystem"/>
-        /// </summary>
-        private Action ClearPathAction;
-
-        private Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition;
+        private ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks;
 
         public ShootingAtPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            CoreInteractiveObject associatedInteractiveObject, Action clearPathAction, Action<Vector3> askToFireAFiredProjectileAction_WithTargetPosition)
+            CoreInteractiveObject associatedInteractiveObject, ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks)
         {
             this.TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
-            ClearPathAction = clearPathAction;
-            AskToFireAFiredProjectileAction_WithTargetPosition = askToFireAFiredProjectileAction_WithTargetPosition;
+            this.ShootingAtPlayerStateManagerExternalCallbacks = ShootingAtPlayerStateManagerExternalCallbacks;
         }
 
         /// <summary>
@@ -36,7 +42,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnStateEnter()
         {
-            this.ClearPathAction.Invoke();
+            this.ShootingAtPlayerStateManagerExternalCallbacks.ClearAiAgentPathAction.Invoke();
         }
 
         public override void Tick(float d)
@@ -74,7 +80,8 @@ namespace SoliderAIBehavior
         /// </summary>
         private void FireProjectile(CoreInteractiveObject PlayerObject)
         {
-            this.AskToFireAFiredProjectileAction_WithTargetPosition.Invoke(PlayerObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(PlayerObject.GetFiringTargetLocalPosition()));
+            this.ShootingAtPlayerStateManagerExternalCallbacks.AskToFireAFiredProjectileAction_WithTargetPosition
+                .Invoke(PlayerObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(PlayerObject.GetFiringTargetLocalPosition()));
         }
     }
 }

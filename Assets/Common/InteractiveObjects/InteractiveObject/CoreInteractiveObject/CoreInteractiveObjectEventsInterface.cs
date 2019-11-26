@@ -14,6 +14,12 @@ namespace InteractiveObjects
             return NavMeshPathStatus.PathInvalid;
         }
 
+        public NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        {
+            this.SetAISpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+            return this.SetDestination(IAgentMovementCalculationStrategy);
+        }
+
         public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
         }
