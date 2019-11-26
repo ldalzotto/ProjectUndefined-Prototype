@@ -26,5 +26,8 @@ namespace PlayerActions
         public int ExecutionAmount;
 
         public float CoolDownTime;
+
+        [Tooltip("Does the Player can move while this PlayerAction is executing ?")]
+        public bool MovementAllowed;
     }
 }

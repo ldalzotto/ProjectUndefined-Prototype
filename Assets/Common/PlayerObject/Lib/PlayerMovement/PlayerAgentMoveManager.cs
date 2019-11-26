@@ -11,10 +11,12 @@ namespace PlayerObject
     {
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         private PlayerSpeedProcessingInput PlayerSpeedProcessingInput;
+        private AIMovementSpeedAttenuationFactor _aiMovementSpeedAttenuationFactorAttenuationFactor;
 
         public PlayerAgentMoveManager(PlayerInteractiveObject PlayerInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3, 
             OnAIInteractiveObjectDestinationReachedDelegate OnDestinationReachedCallback = null)
         {
+            this._aiMovementSpeedAttenuationFactorAttenuationFactor = AIMovementSpeedAttenuationFactor.RUN;
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(PlayerInteractiveObject, TransformMoveManagerComponentV3, OnDestinationReachedCallback, this.AgentSpeedDirectionWithMagnitude);
         }
 
@@ -36,12 +38,23 @@ namespace PlayerObject
 
         private void AgentSpeedDirectionWithMagnitude(Vector3 speedDirectionWithMagnitude)
         {
-            this.PlayerSpeedProcessingInput = new PlayerSpeedProcessingInput(speedDirectionWithMagnitude.normalized, speedDirectionWithMagnitude.magnitude);
+            this.PlayerSpeedProcessingInput = new PlayerSpeedProcessingInput(speedDirectionWithMagnitude.normalized,
+                speedDirectionWithMagnitude.magnitude * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this._aiMovementSpeedAttenuationFactorAttenuationFactor]);
         }
 
         public override float GetPlayerSpeedMagnitude()
         {
             return this.PlayerSpeedProcessingInput.PlayerSpeedMagnitude;
+        }
+        
+        public override void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        {
+            this._aiMovementSpeedAttenuationFactorAttenuationFactor = aiMovementSpeedAttenuationFactor;
+        }
+
+        public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        {
+            return this._aiMovementSpeedAttenuationFactorAttenuationFactor;
         }
 
         public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)

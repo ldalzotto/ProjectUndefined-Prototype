@@ -17,7 +17,7 @@ namespace SoliderAIBehavior
         private TrackUnknownBehavior TrackUnknownBehavior;
 
         public TrackUnknownStateManager(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction, Action OnTrackUnknownStateManagerAskedToExit)
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action OnTrackUnknownStateManagerAskedToExit)
         {
             this.TrackUnknownBehavior = new TrackUnknownBehavior(associatedInteractiveObject, SoldierAIBehaviorDefinition, destinationAction, OnTrackUnknownStateManagerAskedToExit);
         }
@@ -56,7 +56,7 @@ namespace SoliderAIBehavior
         private TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem;
 
         public TrackUnknownBehavior(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction,
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction,
             Action OnTrackUnknownStateManagerAskedToExit) : base(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION)
         {
             this.TrackUnknownInterestDirectionSystem = new TrackUnknownInterestDirectionSystem(associatedInteractiveObject);

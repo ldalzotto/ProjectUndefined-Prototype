@@ -51,7 +51,7 @@ namespace PlayerObject
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
-            
+
             PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
 
@@ -97,36 +97,38 @@ namespace PlayerObject
         {
             base.Tick(d);
             this.StunningDamageDealerReceiverSystem.Tick(d);
-            if (!this.PlayerActionEntryPoint.IsActionExecuting() && !BlockingCutscenePlayer.Playing)
+            PlayerActionTriggering();
+            UpdatePlayerMovement(d);
+            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * playerMoveManager.GetPlayerSpeedMagnitude());
+        }
+
+        /// <summary>
+        /// Starts a new <see cref="PlayerAction"/> if input condition and player inherent conditions are met.
+        /// </summary>
+        private void PlayerActionTriggering()
+        {
+            if (!this.PlayerActionEntryPoint.IsActionExecuting() && !BlockingCutscenePlayer.Playing &&
+                !this.PlayerActionEntryPoint.IsSelectionWheelEnabled() && !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                //TODO -> Temporary disabled selection wheel
-              //  if (!PlayerSelectionWheelManager.AwakeOrSleepWheel())
-              //  {
-                    if (!this.PlayerActionEntryPoint.IsSelectionWheelEnabled() && !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
-                    {
-                        if (this.GameInputManager.CurrentInput.FiringActionDown())
-                        {
-                            this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.BuildPlayerAction(this));
-                        }
-                        else
-                        {
-                            playerMoveManager.Tick(d);
-                        }
-                    }
-                    else
-                    {
-                        playerMoveManager.ResetSpeed();
-                        PlayerSelectionWheelManager.TriggerActionOnInput();
-                    }
-              //  }
+                if (this.GameInputManager.CurrentInput.FiringActionDown())
+                {
+                    this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.BuildPlayerAction(this));
+                }
             }
-            else
+        }
+        
+        private void UpdatePlayerMovement(float d)
+        {
+            if (BlockingCutscenePlayer.Playing || this.PlayerActionEntryPoint.IsSelectionWheelEnabled() || (this.PlayerActionEntryPoint.IsActionExecuting() && !this.PlayerActionEntryPoint.DoesCurrentActionAllowsMovement()))
             {
                 playerMoveManager.ResetSpeed();
             }
-
-            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * playerMoveManager.GetPlayerSpeedMagnitude());
+            else
+            {
+                playerMoveManager.Tick(d);
+            }
         }
+
 
         public override void AfterTicks(float d)
         {
@@ -161,12 +163,18 @@ namespace PlayerObject
             PlayerInteractiveObjectDestinationReachedEvent.Get().OnPlayerInteractiveObjectDestinationReached();
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
+            this.playerMoveManager.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+        }
+
+        public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        {
+            return this.playerMoveManager.GetCurrentSpeedAttenuationFactor();
         }
 
         #endregion
-        
+
         #region Health Events
 
         public override void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)

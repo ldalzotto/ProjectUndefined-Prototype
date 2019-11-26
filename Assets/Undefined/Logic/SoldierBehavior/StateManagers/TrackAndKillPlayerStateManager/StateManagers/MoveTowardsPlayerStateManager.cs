@@ -18,10 +18,10 @@ namespace SoliderAIBehavior
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
+        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
 
         public MoveTowardsPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem, Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction)
+            CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem, Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction)
         {
             TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
@@ -34,7 +34,7 @@ namespace SoliderAIBehavior
         public override void Tick(float d)
         {
             this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}),
-                AIMovementSpeedDefinition.RUN);
+                AIMovementSpeedAttenuationFactor.RUN);
             this.SwitchToShootingAtPlayer();
         }
 

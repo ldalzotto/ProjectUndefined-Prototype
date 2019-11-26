@@ -1,4 +1,5 @@
 ﻿using Input;
+using InteractiveObjects_Interfaces;
 using UnityEngine;
 
 namespace PlayerObject
@@ -9,6 +10,7 @@ namespace PlayerObject
     public class PlayerRigidBodyMoveManager : APlayerMoveManager
     {
         private float SpeedMultiplicationFactor;
+        private AIMovementSpeedAttenuationFactor _aiMovementSpeedAttenuationFactorAttenuationFactor = AIMovementSpeedAttenuationFactor.RUN;
         private Rigidbody PlayerRigidBody;
         private Transform CameraPivotPoint;
         private GameInputManager GameInputManager;
@@ -49,6 +51,16 @@ namespace PlayerObject
             this.playerSpeedProcessingInput = new PlayerSpeedProcessingInput(Vector3.zero, 0f);
         }
 
+        public override void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        {
+            this._aiMovementSpeedAttenuationFactorAttenuationFactor = aiMovementSpeedAttenuationFactor;
+        }
+
+        public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        {
+            return this._aiMovementSpeedAttenuationFactorAttenuationFactor;
+        }
+
         public override void FixedTick(float d)
         {
             //move rigid body rotation
@@ -58,8 +70,9 @@ namespace PlayerObject
                 //rotation will take place at the end of physics step https://docs.unity3d.com/ScriptReference/Rigidbody-rotation.html
             }
 
-            //move rigid body
-            PlayerRigidBody.velocity = playerSpeedProcessingInput.PlayerMovementOrientation * playerSpeedProcessingInput.PlayerSpeedMagnitude * this.SpeedMultiplicationFactor;
+            //move rigid body by taking account speed attenuation factor
+            PlayerRigidBody.velocity = playerSpeedProcessingInput.PlayerMovementOrientation * playerSpeedProcessingInput.PlayerSpeedMagnitude * this.SpeedMultiplicationFactor 
+                                       * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[_aiMovementSpeedAttenuationFactorAttenuationFactor];
         }
     }
 }

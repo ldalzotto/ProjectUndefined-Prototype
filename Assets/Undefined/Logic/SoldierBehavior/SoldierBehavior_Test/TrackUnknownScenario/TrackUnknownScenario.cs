@@ -35,7 +35,7 @@ namespace SoliderBehavior_Test
                 {
                     new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
                     {
-                        new AIMoveToActionV2(this.PlayerObject, Vector3.zero, null, AIMovementSpeedDefinition.RUN, () => new List<ASequencedAction>()
+                        new AIMoveToActionV2(this.PlayerObject, Vector3.zero, null, AIMovementSpeedAttenuationFactor.RUN, () => new List<ASequencedAction>()
                         {
                             BuildWarpPlayerBehindEnemyAction(() => new List<ASequencedAction>()
                             {

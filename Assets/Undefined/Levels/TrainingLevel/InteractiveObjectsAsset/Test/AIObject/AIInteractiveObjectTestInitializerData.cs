@@ -16,7 +16,7 @@ namespace InteractiveObjects
         [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public SightObjectSystemDefinition SightObjectSystemDefinition;
 
-        public AIMovementSpeedDefinition AISpeedWhenAttracted;
+        public AIMovementSpeedAttenuationFactor AISpeedWhenAttracted;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public LocalPuzzleCutsceneTemplate DisarmObjectAnimation;

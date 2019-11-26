@@ -20,7 +20,7 @@ namespace SoliderAIBehavior
 
         #region Callbacks
 
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
+        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
         private Action OnTrackUnknownStateManagerAskedToExit;
 
         #endregion
@@ -29,7 +29,7 @@ namespace SoliderAIBehavior
             CoreInteractiveObject AssociatedInteractiveObject,
             TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem,
             SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction,
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction,
             Action OnTrackUnknownStateManagerAskedToExit)
         {
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
@@ -44,7 +44,7 @@ namespace SoliderAIBehavior
             base.DamageDealt(damageDealerInteractiveObject);
 
             var TargetWorldPositionNavMehshit = this.GetTargetWorldPositionNavMehshit();
-            this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(TargetWorldPositionNavMehshit.position, null)), AIMovementSpeedDefinition.RUN);
+            this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(TargetWorldPositionNavMehshit.position, null)), AIMovementSpeedAttenuationFactor.RUN);
         }
 
         /// <summary>

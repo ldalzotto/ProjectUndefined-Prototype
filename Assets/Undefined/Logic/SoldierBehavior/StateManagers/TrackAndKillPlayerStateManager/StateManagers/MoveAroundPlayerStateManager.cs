@@ -25,7 +25,7 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
+        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
 
         /// <summary>
         /// GameObject created on the fly that is used as a looking target for the <see cref="LookingAtAgentMovementCalculationStrategy"/>.
@@ -35,7 +35,7 @@ namespace SoliderAIBehavior
 
         public MoveAroundPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
             WeaponFiringAreaSystem WeaponFiringAreaSystem,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction)
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction)
         {
             TrackAndKillPlayerBehaviorRef = trackAndKillPlayerBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
@@ -56,7 +56,7 @@ namespace SoliderAIBehavior
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition.WorldPosition;
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
                 if (this.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
-                        AIMovementSpeedDefinition.RUN) == NavMeshPathStatus.PathInvalid)
+                        AIMovementSpeedAttenuationFactor.RUN) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
                     this.TrackAndKillPlayerBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);

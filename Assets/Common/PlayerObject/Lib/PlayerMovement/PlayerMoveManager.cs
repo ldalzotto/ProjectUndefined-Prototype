@@ -52,7 +52,7 @@ namespace PlayerObject
         private void EnableFromInput()
         {
             Debug.Log(MyLog.Format("EnableFromInput"));
-           
+
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
             this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.enabled = false;
@@ -65,7 +65,7 @@ namespace PlayerObject
         private void EnableFromAgent()
         {
             Debug.Log(MyLog.Format("EnableFromAgent"));
-        
+
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
             this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.enabled = true;
@@ -104,6 +104,16 @@ namespace PlayerObject
         public void ResetSpeed()
         {
             this.CurrentPlayerMoveManager.ResetSpeed();
+        }
+
+        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        {
+            this.CurrentPlayerMoveManager.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+        }
+
+        public AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        {
+            return this.CurrentPlayerMoveManager.GetCurrentSpeedAttenuationFactor();
         }
 
         public float GetPlayerSpeedMagnitude()
@@ -165,9 +175,18 @@ namespace PlayerObject
             return default;
         }
 
+        public virtual void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        {
+        }
+
         public virtual NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             return NavMeshPathStatus.PathInvalid;
+        }
+
+        public virtual AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        {
+            return default;
         }
     }
 

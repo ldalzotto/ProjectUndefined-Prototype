@@ -93,9 +93,9 @@ namespace AIObjects
             return this.AIDestinationManager.SetDestination(IAgentMovementCalculationStrategy.GetAIDestination());
         }
 
-        public void SetSpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            aiPositionMoveManager.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
+            aiPositionMoveManager.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
         public void ClearPath()
@@ -268,7 +268,7 @@ namespace AIObjects
         #region State
 
         //Used to change the agent speed
-        private AIMovementSpeedDefinition currentSpeedAttenuationFactor;
+        private AIMovementSpeedAttenuationFactor currentSpeedAttenuationFactor;
         public Vector3 CurrentLocalDirection { get; private set; }
 
         #endregion
@@ -281,12 +281,12 @@ namespace AIObjects
             this.objectAgent = objectAgent;
             this.CurrentLookingTargetRotationFromAIRotationMoveManager = CurrentLookingTargetRotationFromAIRotationMoveManager;
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            currentSpeedAttenuationFactor = AIMovementSpeedDefinition.RUN;
+            currentSpeedAttenuationFactor = AIMovementSpeedAttenuationFactor.RUN;
         }
 
         public void UpdateAgentPosition(float d)
         {
-            objectAgent.speed = this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementDefinitions.AIMovementSpeedAttenuationFactorLookup[currentSpeedAttenuationFactor];
+            objectAgent.speed = this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[currentSpeedAttenuationFactor];
 
             var updatePosition = true;
             // We use a minimal velocity amplitude to avoid precision loss occured by the navmesh agent velocity calculation.
@@ -316,9 +316,9 @@ namespace AIObjects
 
         #region External Events
 
-        public void SetSpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            currentSpeedAttenuationFactor = AIMovementSpeedDefinition;
+            currentSpeedAttenuationFactor = aiMovementSpeedAttenuationFactor;
         }
 
         #endregion

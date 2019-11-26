@@ -32,7 +32,7 @@ namespace AIObjects
         [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(AIMoveToActionInputData.WorldRotationEnabled))]
         private Vector3 worldRotation;
 
-        public AIMovementSpeedDefinition AIMovementSpeed;
+        public AIMovementSpeedAttenuationFactor AIMovementSpeed;
 
         public Nullable<Vector3> GetWorldRotation()
         {

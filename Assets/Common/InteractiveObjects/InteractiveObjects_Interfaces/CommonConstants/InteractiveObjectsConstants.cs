@@ -20,20 +20,20 @@ namespace InteractiveObjects_Interfaces
         AIDestination GetAIDestination();
     }
 
-    public enum AIMovementSpeedDefinition
+    public enum AIMovementSpeedAttenuationFactor
     {
         RUN = 0,
         WALK = 1,
         ZERO = 2
     }
 
-    public static class AIMovementDefinitions
+    public static class AIMovementSpeedAttenuationFactors
     {
-        public static Dictionary<AIMovementSpeedDefinition, float> AIMovementSpeedAttenuationFactorLookup = new Dictionary<AIMovementSpeedDefinition, float>()
+        public static Dictionary<AIMovementSpeedAttenuationFactor, float> AIMovementSpeedAttenuationFactorLookup = new Dictionary<AIMovementSpeedAttenuationFactor, float>()
         {
-            {AIMovementSpeedDefinition.ZERO, 0f},
-            {AIMovementSpeedDefinition.WALK, 0.5f},
-            {AIMovementSpeedDefinition.RUN, 1f}
+            {AIMovementSpeedAttenuationFactor.ZERO, 0f},
+            {AIMovementSpeedAttenuationFactor.WALK, 0.5f},
+            {AIMovementSpeedAttenuationFactor.RUN, 1f}
         };
     }
 }

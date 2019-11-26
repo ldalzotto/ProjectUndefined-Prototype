@@ -64,9 +64,9 @@ namespace InteractiveObjects
             return AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            AIMoveToDestinationSystem.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
+            AIMoveToDestinationSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
     }
 }

@@ -36,11 +36,6 @@ namespace PlayerActions
             PlayerActionExecutionManager.Tick(d);
         }
 
-        public void TickWhenTimeFlows(float d, float timeAttenuation)
-        {
-            PlayerActionsAvailableManager.Tick(d, timeAttenuation);
-        }
-
         public void LateTick(float d)
         {
             PlayerActionExecutionManager.LateTick(d);
@@ -107,6 +102,12 @@ namespace PlayerActions
             return PlayerActionExecutionManager.IsActionExecuting;
         }
 
+        public bool DoesCurrentActionAllowsMovement()
+        {
+            return this.PlayerActionExecutionManager.CurrentAction != null &&
+                   this.PlayerActionExecutionManager.CurrentAction.MovementAllowed();
+        }
+        
         #endregion
 
         #region Data Retrieval
@@ -122,6 +123,7 @@ namespace PlayerActions
         }
 
         #endregion
+
     }
 
 

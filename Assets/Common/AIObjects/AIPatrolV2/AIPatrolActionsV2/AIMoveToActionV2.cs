@@ -13,9 +13,9 @@ namespace AIObjects
         private CoreInteractiveObject InteractiveObject;
         private Vector3 WorldPosition;
         private Vector3? WorldRotation;
-        private AIMovementSpeedDefinition AIMovementSpeed;
+        private AIMovementSpeedAttenuationFactor AIMovementSpeed;
 
-        public AIMoveToActionV2(CoreInteractiveObject InteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation, AIMovementSpeedDefinition AIMovementSpeed, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public AIMoveToActionV2(CoreInteractiveObject InteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation, AIMovementSpeedAttenuationFactor AIMovementSpeed, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
         {
             this.destinationReached = false;
             this.InteractiveObject = InteractiveObject;

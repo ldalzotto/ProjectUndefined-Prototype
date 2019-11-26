@@ -62,7 +62,7 @@ namespace InteractiveObjects
         protected void OnSightObjectSystemJustIntersected(CoreInteractiveObject IntersectedInteractiveObject)
         {
             AIPatrollingState.isPatrolling = false;
-            SetAISpeedAttenuationFactor(AIMovementSpeedDefinition.RUN);
+            SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.RUN);
             SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination {WorldPosition = IntersectedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition}));
         }
 
@@ -87,9 +87,9 @@ namespace InteractiveObjects
             return AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            AIMoveToDestinationSystem.SetSpeedAttenuationFactor(AIMovementSpeedDefinition);
+            AIMoveToDestinationSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
     }
 }

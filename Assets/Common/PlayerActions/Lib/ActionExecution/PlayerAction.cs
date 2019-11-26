@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace PlayerActions
 {
+    /// <summary>
+    /// <see cref="PlayerAction"/> are an expansion of the PlayerObject. <br/>
+    /// They allow to execute custom logic (with game loop callbacks) aside the PlayerObject own logic. <br/>
+    /// Player actions have access to PlayerObject and it's InteractiveObjects methods while PlayerObject has access to <see cref="PlayerActionEntryPoint"/> only. <br/>
+    /// Currently executing PlayerAction has full control over the state of the PlayerObject.
+    /// </summary>
     public abstract class PlayerAction
     {
         private CooldownEventTrackerManager CooldownEventTrackerManager;
@@ -37,7 +43,7 @@ namespace PlayerActions
         {
             return this.isAborted;
         }
-        
+
         public abstract void Tick(float d);
         public abstract void LateTick(float d);
         public abstract void GUITick();
@@ -89,6 +95,11 @@ namespace PlayerActions
         public bool HasStillSomeExecutionAmount()
         {
             return remainingExecutionAmout != 0;
+        }
+
+        public bool MovementAllowed()
+        {
+            return this.CorePlayerActionDefinition.MovementAllowed;
         }
 
         #endregion

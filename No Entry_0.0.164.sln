@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Health", "Health.csproj", "{75786E6C-34C8-0B2C-40F8-743BA59E9518}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoldierBehavior_Test", "SoldierBehavior_Test.csproj", "{57AAD0A0-133F-053B-C254-BDAB91AFBB46}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence.csproj", "{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLoop", "GameLoop.csproj", "{639B2A1B-495A-2DE9-D504-C31C8A831882}"
@@ -84,8 +86,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveObjects_Animation_Tests", "InteractiveObjects_Animation_Tests.csproj", "{042B6C35-7479-099C-7FC6-98F9FB942F5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Targetting", "Targetting.csproj", "{125454DF-138B-94CE-9966-52632EB4DE10}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoldierBehavior_Test", "SoldierBehavior_Test.csproj", "{57AAD0A0-133F-053B-C254-BDAB91AFBB46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerActions_Interfaces", "PlayerActions_Interfaces.csproj", "{250DC794-4661-E9F3-0FB2-D25AF31B44EB}"
 EndProject
@@ -201,6 +201,10 @@ Global
 		{75786E6C-34C8-0B2C-40F8-743BA59E9518}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75786E6C-34C8-0B2C-40F8-743BA59E9518}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75786E6C-34C8-0B2C-40F8-743BA59E9518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -273,10 +277,6 @@ Global
 		{125454DF-138B-94CE-9966-52632EB4DE10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{125454DF-138B-94CE-9966-52632EB4DE10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{125454DF-138B-94CE-9966-52632EB4DE10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57AAD0A0-133F-053B-C254-BDAB91AFBB46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{250DC794-4661-E9F3-0FB2-D25AF31B44EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{250DC794-4661-E9F3-0FB2-D25AF31B44EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{250DC794-4661-E9F3-0FB2-D25AF31B44EB}.Release|Any CPU.ActiveCfg = Release|Any CPU

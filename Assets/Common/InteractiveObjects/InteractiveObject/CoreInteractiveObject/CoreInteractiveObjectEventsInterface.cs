@@ -14,8 +14,13 @@ namespace InteractiveObjects
             return NavMeshPathStatus.PathInvalid;
         }
 
-        public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedDefinition AIMovementSpeedDefinition)
+        public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
+        }
+
+        public virtual AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        {
+            return default;
         }
 
         #endregion

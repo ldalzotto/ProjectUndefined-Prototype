@@ -56,6 +56,11 @@ namespace PlayerActions
             return this.PlayerActionManager.IsActionExecuting();
         }
 
+        public bool DoesCurrentActionAllowsMovement()
+        {
+            return this.PlayerActionManager.DoesCurrentActionAllowsMovement();
+        }
+
         public bool IsSelectionWheelEnabled()
         {
             return this.PlayerActionWheelManager.IsSelectionWheelEnabled();

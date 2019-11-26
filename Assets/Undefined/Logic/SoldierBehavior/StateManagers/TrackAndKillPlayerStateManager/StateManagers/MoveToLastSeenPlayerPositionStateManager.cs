@@ -15,11 +15,11 @@ namespace SoliderAIBehavior
     {
         private TrackAndKillPlayerBehavior TrackAndKillPlayerbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
-        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> SetDestinationAction;
+        private Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
         private Action AskedToExitTrackAndKillPlayerBehaviorAction;
 
         public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            Func<IAgentMovementCalculationStrategy, AIMovementSpeedDefinition, NavMeshPathStatus> destinationAction, Action AskedToExitTrackAndKillPlayerBehaviorAction)
+            Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action AskedToExitTrackAndKillPlayerBehaviorAction)
         {
             TrackAndKillPlayerbehaviorRef = trackAndKillPlayerbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
@@ -45,7 +45,7 @@ namespace SoliderAIBehavior
         {
             return this.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
                     this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldRotation)),
-                AIMovementSpeedDefinition.RUN);
+                AIMovementSpeedAttenuationFactor.RUN);
         }
 
         /// <summary>

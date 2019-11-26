@@ -2,6 +2,7 @@
 using Input;
 using InteractiveObject_Animation;
 using InteractiveObjects;
+using InteractiveObjects_Interfaces;
 using PlayerActions;
 using PlayerObject_Interfaces;
 using Targetting;
@@ -17,17 +18,19 @@ namespace Firing
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
         private PlayerAnimationSystem PlayerAnimationSystem;
+        private PlayerSpeedSystem PlayerSpeedSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
-            CoreInteractiveObject playerCoreInteractiveObject = PlayerInteractiveObject as CoreInteractiveObject;
+            var PlayerCoreInteractiveObject = PlayerInteractiveObject as CoreInteractiveObject;
             var targettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), targettableInteractiveObjectSelectionManager);
-            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, playerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
-            this.ExitActionSystem = new ExitActionSystem(gameInputManager, this.PlayerObjectOrientationSystem);
-            this.PlayerAnimationSystem = new PlayerAnimationSystem(playerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimation);
+            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
+            this.ExitActionSystem = new ExitActionSystem(gameInputManager);
+            this.PlayerAnimationSystem = new PlayerAnimationSystem(PlayerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimation);
+            this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
         }
 
         public override void FirstExecution()
@@ -52,8 +55,9 @@ namespace Firing
 
         public override void Dispose()
         {
-            this.ExitActionSystem.Dispose();
+            this.PlayerObjectOrientationSystem.Dispose();
             this.PlayerAnimationSystem.Dispose();
+            this.PlayerSpeedSystem.Dispose();
         }
 
         public override void LateTick(float d)
@@ -69,7 +73,7 @@ namespace Firing
         }
     }
 
-    class PlayerObjectOrientationSystem
+    struct PlayerObjectOrientationSystem
     {
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
         private GameObject HorizontalPlaneGameObject;
@@ -120,7 +124,7 @@ namespace Firing
         }
     }
 
-    class FiringProjectileTriggerSystem
+    struct FiringProjectileTriggerSystem
     {
         private GameInputManager GameInputManager;
         private CoreInteractiveObject PlayerInteractiveObject;
@@ -153,34 +157,24 @@ namespace Firing
         }
     }
 
-    class ExitActionSystem
+    struct ExitActionSystem
     {
         public bool ActionFinished { get; private set; }
         private GameInputManager GameInputManager;
-        private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
 
-        public ExitActionSystem(GameInputManager gameInputManager, PlayerObjectOrientationSystem PlayerObjectOrientationSystem)
+        public ExitActionSystem(GameInputManager gameInputManager)
         {
+            this.ActionFinished = false;
             GameInputManager = gameInputManager;
-            this.PlayerObjectOrientationSystem = PlayerObjectOrientationSystem;
         }
 
         public void Tick(float d)
         {
             this.ActionFinished = this.GameInputManager.CurrentInput.FiringActionReleased();
-            if (this.ActionFinished)
-            {
-                this.Dispose();
-            }
-        }
-
-        public void Dispose()
-        {
-            this.PlayerObjectOrientationSystem.Dispose();
         }
     }
 
-    class PlayerAnimationSystem
+    struct PlayerAnimationSystem
     {
         private CoreInteractiveObject PlayerCoreInteractiveObject;
 
@@ -193,6 +187,28 @@ namespace Firing
         public void Dispose()
         {
             PlayerCoreInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_1);
+        }
+    }
+
+    /// <summary>
+    /// Because the <see cref="PlayerCoreInteractiveObject"/> can move while <see cref="FiringPlayerAction"/> is running,
+    /// this sysem changes fix the maximum speed of <see cref="PlayerCoreInteractiveObject"/>.
+    /// /!\ Max speed value is resetted when <see cref="FiringPlayerAction"/> is exited (<see cref="Dispose"/>).
+    /// </summary>
+    struct PlayerSpeedSystem
+    {
+        private CoreInteractiveObject PlayerCoreInteractiveObject;
+        private AIMovementSpeedAttenuationFactor InitialAIMovementSpeedAttenuationFactor;
+        public PlayerSpeedSystem(CoreInteractiveObject playerCoreInteractiveObject)
+        {
+            PlayerCoreInteractiveObject = playerCoreInteractiveObject;
+            this.InitialAIMovementSpeedAttenuationFactor = this.PlayerCoreInteractiveObject.GetCurrentSpeedAttenuationFactor();
+            this.PlayerCoreInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.WALK);
+        }
+
+        public void Dispose()
+        {
+            this.PlayerCoreInteractiveObject.SetAISpeedAttenuationFactor(this.InitialAIMovementSpeedAttenuationFactor);
         }
     }
 }
