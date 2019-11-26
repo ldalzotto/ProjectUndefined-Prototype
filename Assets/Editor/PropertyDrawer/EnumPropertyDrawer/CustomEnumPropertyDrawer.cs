@@ -130,6 +130,8 @@ public class CustomEnumPropertyDrawer : PropertyDrawer
                     {
                     }
                 }
+                EditorGUILayout.Space();
+
             }
 
             updateConfigurationView = this.lastFrameEnum == null || (this.lastFrameEnum != null && this.lastFrameEnum.ToString() != targetEnum.ToString());

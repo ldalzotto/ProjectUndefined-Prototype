@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class FoldableArea
 {
-
     private bool isFolded;
     private string foldContent;
 
     private bool canBeDisabled;
     private bool isEnabled;
-   
+
     public FoldableArea(bool canBeDisabled, string foldContent, bool isEnabledStartValue)
     {
         this.canBeDisabled = canBeDisabled;
@@ -18,34 +17,55 @@ public class FoldableArea
         this.isEnabled = isEnabledStartValue;
     }
 
-    public bool IsEnabled { get => isEnabled; }
+    public bool IsEnabled
+    {
+        get => isEnabled;
+    }
 
-    public void Enable() { this.isEnabled = true; }
-    public void Disable() { this.isEnabled = false; }
+    public void Enable()
+    {
+        this.isEnabled = true;
+    }
+
+    public void Disable()
+    {
+        this.isEnabled = false;
+    }
 
     public bool OnGUI(Action guiAction)
     {
-        EditorGUILayout.BeginVertical(EditorStyles.textArea);
+        var foldContentText = "";
+        for (var i = 0; i < EditorGUI.indentLevel; i++)
+        {
+            foldContentText += " ";
+        }
+
+        foldContentText += this.foldContent;
         if (this.canBeDisabled)
         {
-            EditorGUILayout.BeginHorizontal();
-            this.isEnabled = EditorGUILayout.Toggle(this.isEnabled, GUILayout.Width(30f));
-            this.isFolded = EditorGUILayout.Foldout(this.isFolded, this.foldContent, true);
-            EditorGUILayout.EndHorizontal();
+            this.isFolded = EditorGUILayout.BeginFoldoutHeaderGroup(this.isFolded, foldContentText, null, this.ShowContextMenu);
+            EditorGUILayout.EndFoldoutHeaderGroup();
         }
         else
         {
-            this.isFolded = EditorGUILayout.Foldout(this.isFolded, this.foldContent, true);
+            this.isFolded = EditorGUILayout.BeginFoldoutHeaderGroup(this.isFolded, foldContentText);
+            EditorGUILayout.EndFoldoutHeaderGroup(); 
         }
-
+       
         EditorGUI.BeginDisabledGroup(this.canBeDisabled && !this.isEnabled);
         if (this.isFolded)
         {
             guiAction.Invoke();
         }
-        EditorGUI.EndDisabledGroup();
-        EditorGUILayout.EndVertical();
 
+        EditorGUI.EndDisabledGroup();
         return this.isEnabled;
+    }
+
+    private void ShowContextMenu(Rect position)
+    {
+        var menu = new GenericMenu();
+        menu.AddItem(new GUIContent("Enabled"), this.isEnabled, () => { this.isEnabled = !this.isEnabled;} );
+        menu.DropDown(position);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
@@ -12,17 +13,29 @@ public class InlinePropertyDrawer : PropertyDrawer
     private bool folded;
     private Editor inlineEditor;
 
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return -base.GetPropertyHeight(property, label) * 0.15f;
+    }
+
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         try
         {
             Inline byEnumProperty = (Inline) attribute;
-
-            EditorGUI.BeginProperty(position, label, property);
-            EditorGUILayout.BeginVertical(EditorStyles.textArea);
-
             EditorGUI.BeginChangeCheck();
-            this.folded = EditorGUILayout.Foldout(this.folded, property.name, true);
+            string propertyName = "";
+            for (var i = 0; i < EditorGUI.indentLevel; i++)
+            {
+                propertyName += " ";
+            }
+
+            propertyName += property.name;
+            
+            this.folded = EditorGUILayout.BeginFoldoutHeaderGroup(this.folded, propertyName);
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
             if (EditorGUI.EndChangeCheck())
             {
                 if (!this.folded)
@@ -83,9 +96,6 @@ public class InlinePropertyDrawer : PropertyDrawer
                     }
                 }
             }
-
-            EditorGUILayout.EndVertical();
-            EditorGUI.EndProperty();
         }
         catch (Exception e)
         {

@@ -7,6 +7,11 @@ public class FoldablePropertyDrawer : PropertyDrawer
 {
     private FoldableArea foldableArea;
 
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return -base.GetPropertyHeight(property, label) * 0.15f;
+    }
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         Foldable foldableAttribute = (Foldable) attribute;
@@ -47,6 +52,7 @@ public class FoldablePropertyDrawer : PropertyDrawer
                 {
                     EditorGUILayout.PropertyField(childPropery, true);
                 }
+                EditorGUILayout.Space();
             }
             catch (Exception)
             {
