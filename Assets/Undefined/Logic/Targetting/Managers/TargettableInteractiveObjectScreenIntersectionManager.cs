@@ -41,7 +41,7 @@ namespace Targetting
             UpdateCursorIntersection(TargetCursorScreenPosition);
             TargettableInteractiveObjectSelectionManager.Get().Tick();
         }
-        
+
         /// <summary>
         /// Update <see cref="InteractiveObjectsListened"/> value by calculating if the InteractiveObject is visible or not.
         /// TODO -> This step can be extracted to a BurstJob if calculations are too heavy  
@@ -71,7 +71,7 @@ namespace Targetting
                 }
             }
         }
-        
+
         /// <summary>
         /// Update <see cref="InteractiveObjectsOverCursorTarget"/> values by calculating if the <paramref name="TargetCursorScreenPosition"/> is inside
         /// the Screen projected bounds.
@@ -92,7 +92,7 @@ namespace Targetting
 
         private void OnInteractiveObjectCreated(CoreInteractiveObject CoreInteractiveObject)
         {
-            if (CoreInteractiveObject.InteractiveObjectTag.IsTakingDamage)
+            if (CoreInteractiveObject.InteractiveObjectTag.IsTakingDamage && !CoreInteractiveObject.InteractiveObjectTag.IsPlayer)
             {
                 this.InteractiveObjectsListened.Add(CoreInteractiveObject, CoreInteractiveObject.InteractiveGameObject.IsVisible());
                 this.InteractiveObjectsOverCursorTarget.Add(CoreInteractiveObject, new BoolVariable(false, () => this.OnCursorOverObject(CoreInteractiveObject), () => { this.OnCursorNoMoveOverObject(CoreInteractiveObject); }));
@@ -102,12 +102,9 @@ namespace Targetting
 
         private void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
         {
-            if (CoreInteractiveObject.InteractiveObjectTag.IsTakingDamage)
-            {
-                this.InteractiveObjectsListened.Remove(CoreInteractiveObject);
-                this.InteractiveObjectsOverCursorTarget.Remove(CoreInteractiveObject);
-                TargettableInteractiveObjectSelectionManager.Get().OnInteractiveObjectDestroyed(CoreInteractiveObject);
-            }
+            this.InteractiveObjectsListened.Remove(CoreInteractiveObject);
+            this.InteractiveObjectsOverCursorTarget.Remove(CoreInteractiveObject);
+            TargettableInteractiveObjectSelectionManager.Get().OnInteractiveObjectDestroyed(CoreInteractiveObject);
         }
 
         #region Internal Events

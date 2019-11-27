@@ -19,7 +19,7 @@ namespace Targetting
         /// <summary>
         /// /!\ When an operation on this list provokes a change in <see cref="CurrentlyTargettedInteractiveObject"/>. It is crutial
         /// to update first the <see cref="AllSelectableTargettedInteractiveObject"/> then the <see cref="CurrentlyTargettedInteractiveObject"/>.
-        /// This is because of the <see cref="CurrentlyTargettedInteractiveObject"/> change event <see cref="OnCurrentlytargettedObjectChanged"/> that may change
+        /// This is because of the <see cref="CurrentlyTargettedInteractiveObject"/> change event <see cref="OnCurrentlytargettedObjectChanged"/> may change
         /// <see cref="CurrentlyTargettedInteractiveObject"/> value based on current <see cref="AllSelectableTargettedInteractiveObject"/>.
         /// </summary>
         private List<CoreInteractiveObject> AllSelectableTargettedInteractiveObject = new List<CoreInteractiveObject>();
