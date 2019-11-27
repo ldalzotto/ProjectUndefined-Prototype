@@ -118,6 +118,7 @@ namespace GameLoop
             
             var d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
 
+            PlayerActionEntryPoint.Get().FixedTick(d);
             PlayerInteractiveObjectManager.Get().FixedTick(d);
             InteractiveObjectV2Manager.Get().FixedTick(d);
         }

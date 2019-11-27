@@ -38,6 +38,7 @@ namespace AIObjects
             this.destinationReached = false;
         }
 
+        /// This provoques allocation ?
         public override void Tick(float d)
         {
             if (!this.destinationReached)

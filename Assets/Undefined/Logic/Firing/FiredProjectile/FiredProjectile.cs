@@ -18,12 +18,14 @@ namespace Firing
             this.WeaponHolder = weaponHolder;
             parent.CreateLogicCollider(BuildBoxColliderDefinition(FiredProjectileDefinition));
             this.BaseInit(parent, true);
-                     
+
             this.FiredProjectileMovementSystem = new FiredProjectileMovementSystem(FiredProjectileDefinition, this);
-            this._damageDealerEmitterSystem = new DamageDealerEmitterSystem(this, FiredProjectileDefinition.damageDealerEmitterSystemDefinition, this.OnDamageDealtToOther, IgnoredInteractiveObjects: new List<CoreInteractiveObject>() {this.WeaponHolder});
-            this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated((InteractiveObjectPhysicsTriggerInfo => InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle), this.OnObstacleTriggerEnter));
+            this._damageDealerEmitterSystem = new DamageDealerEmitterSystem(this, FiredProjectileDefinition.damageDealerEmitterSystemDefinition, OnDamageDealtToOtherAction: null, IgnoredInteractiveObjects: new List<CoreInteractiveObject>() {this.WeaponHolder});
+            this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(
+                (InteractiveObjectPhysicsTriggerInfo) => FiredProjectileHasTriggerEnter_ShouldItBeDestroyed(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder),
+                this.OnObstacleTriggerEnter));
         }
-        
+
         /// <summary>
         /// Because <see cref="FiredProjectile"/> are often a High Speed Rigid body, we force the RigidBody interpolation mode to Interpolate
         /// </summary>
@@ -50,15 +52,18 @@ namespace Firing
         {
         }
 
-        private void OnDamageDealtToOther(CoreInteractiveObject OtherInteractiveObject)
-        {
-            this.AskToDestroy();
-        }
-
         private void OnObstacleTriggerEnter(CoreInteractiveObject OtherInteractiveObject)
         {
             this.AskToDestroy();
         }
+        
+        #region Logical Conditions
+
+        public static bool FiredProjectileHasTriggerEnter_ShouldItBeDestroyed(CoreInteractiveObject OtherInteractiveObject, CoreInteractiveObject WeaponHolder)
+        {
+            return OtherInteractiveObject != WeaponHolder && (OtherInteractiveObject.InteractiveObjectTag.IsObstacle || OtherInteractiveObject.InteractiveObjectTag.IsTakingDamage);
+        }
+        #endregion
 
         public void AskToDestroy()
         {

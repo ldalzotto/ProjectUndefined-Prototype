@@ -24,6 +24,11 @@ namespace Weapon
         {
             this.FiringProjectileSystem.SpawnFiredProjectile(StartTransform);
         }
+
+        public override float GetFiredProjectileMaxRange()
+        {
+            return this.FiringProjectileSystem.GetProjectileMaxRange();
+        }
     }
 
     class FiringProjectileSystem
@@ -52,6 +57,11 @@ namespace Weapon
                 FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.eulerAngles = StartTransform.WorldRotationEuler;
                 this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(this.WeaponRef, this.WeaponDefinition.RecoilTime);
             }
+        }
+
+        public float GetProjectileMaxRange()
+        {
+            return this.WeaponDefinition.FiredProjectileDefinition.MaxDistance;
         }
     }
 }

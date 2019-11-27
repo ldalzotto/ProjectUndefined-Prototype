@@ -36,6 +36,27 @@ namespace InteractiveObjects
         }
 
         public GameObject InteractiveGameObjectParent { get; private set; }
+        public void Hide()
+        {
+            if (this.Renderers != null)
+            {
+                for (var i = 0; i < this.Renderers.Count; i++)
+                {
+                    this.Renderers[i].enabled = false;
+                }
+            }
+        }
+
+        public void Show()
+        {
+            if (this.Renderers != null)
+            {
+                for (var i = 0; i < this.Renderers.Count; i++)
+                {
+                    this.Renderers[i].enabled = true;
+                }
+            }
+        }
 
         public Bounds GetAverageModelWorldBounds()
         {

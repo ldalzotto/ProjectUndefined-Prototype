@@ -7,6 +7,7 @@ using PlayerActions;
 using PlayerObject_Interfaces;
 using Targetting;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Firing
 {
@@ -19,6 +20,7 @@ namespace Firing
         private ExitActionSystem ExitActionSystem;
         private PlayerAnimationSystem PlayerAnimationSystem;
         private PlayerSpeedSystem PlayerSpeedSystem;
+        private FiringRangeFeedbackSystem _firingRangeFeedbackSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
@@ -31,6 +33,7 @@ namespace Firing
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
             this.PlayerAnimationSystem = new PlayerAnimationSystem(PlayerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimationV2.GetAnimationInput());
             this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
+            this._firingRangeFeedbackSystem = new FiringRangeFeedbackSystem(PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
         }
 
         public override void FirstExecution()
@@ -45,12 +48,16 @@ namespace Firing
 
         public override void Tick(float d)
         {
+            Profiler.BeginSample("FiringPlayerAction");
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
                 this.PlayerObjectOrientationSystem.Tick(d);
                 this.FiringProjectileTriggerSystem.Tick(d);
+                this._firingRangeFeedbackSystem.Tick(d);
             }
+
+            Profiler.EndSample();
         }
 
         public override void Dispose()
@@ -58,6 +65,7 @@ namespace Firing
             this.PlayerObjectOrientationSystem.Dispose();
             this.PlayerAnimationSystem.Dispose();
             this.PlayerSpeedSystem.Dispose();
+            this._firingRangeFeedbackSystem.Dispose();
         }
 
         public override void LateTick(float d)
@@ -199,6 +207,7 @@ namespace Firing
     {
         private CoreInteractiveObject PlayerCoreInteractiveObject;
         private AIMovementSpeedAttenuationFactor InitialAIMovementSpeedAttenuationFactor;
+
         public PlayerSpeedSystem(CoreInteractiveObject playerCoreInteractiveObject)
         {
             PlayerCoreInteractiveObject = playerCoreInteractiveObject;

@@ -11,6 +11,12 @@ namespace CoreGame
             transform.localRotation = Quaternion.identity;
         }
 
+        public static void ResetLocalPositionAndRotation(this Transform transform)
+        {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        }
+
         public static void ResetScale(this Transform transform)
         {
             transform.localScale = Vector3.one;

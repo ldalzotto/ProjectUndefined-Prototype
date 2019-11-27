@@ -25,6 +25,11 @@ namespace PlayerActions
 
         #region Per Frame Methods
 
+        public void FixedTick(float d)
+        {
+            this.PlayerActionManager.FixedTick(d);
+        }
+        
         public void Tick(float d)
         {
             this.PlayerActionManager.Tick(d);

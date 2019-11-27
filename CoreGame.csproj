@@ -99,6 +99,7 @@
      <Compile Include="Assets\Common\~CoreGame\Extensions\QuaternionExtensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Extensions\Vector3Extensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Log\MyLog.cs" />
+     <Compile Include="Assets\Common\~CoreGame\Math\Types\Segment.cs" />
      <Compile Include="Assets\Common\~CoreGame\Math\Types\StartEndSlice.cs" />
      <Compile Include="Assets\Common\~CoreGame\Path\BeziersControlPoints.cs" />
      <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
@@ -108,6 +109,7 @@
      <Compile Include="Assets\Test\OutlineTest\OutlineCommandBuffer.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineRenderFeature.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineTextureRenderPassFeature.cs" />
+     <Compile Include="Assets\Test\PhysicsRaycastTest\PhysicsRaycastTest.cs" />
      <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
      <None Include="Assets\Test\OutlineTest\OutlineShader.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
@@ -129,6 +131,7 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
      <None Include="Assets\_Shader\FX\Smoke\SmokeShaderParticles.shader" />
      <None Include="Assets\_Shader\Noise\noiseSimplex.cginc" />
+     <None Include="Assets\Test\TargetVisualFeedbackTest\TargetVFTest.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <None Include="Assets\_Shader\WaveNoiseV2\WaveNoiseV2.shader" />

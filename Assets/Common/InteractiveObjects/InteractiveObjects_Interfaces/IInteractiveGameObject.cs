@@ -18,6 +18,16 @@ namespace InteractiveObjects_Interfaces
         Collider PhysicsCollider { get; }
         NavMeshAgent Agent { get; }
 
+        /// <summary>
+        /// Hide all renderers only
+        /// </summary>
+        void Hide();
+        
+        /// <summary>
+        /// Show all renderers only
+        /// </summary>
+        void Show();
+        
         Bounds GetAverageModelWorldBounds();
         BoxCollider GetLogicColliderAsBox();
         TransformStruct GetTransform();

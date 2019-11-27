@@ -31,6 +31,11 @@ namespace PlayerActions
             PlayerInteractiveObjectDestroyedEvent.Get().RegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerObjectDestroyed);
         }
 
+        public void FixedTick(float d)
+        {
+            PlayerActionExecutionManager.FixedTick(d);
+        }
+        
         public void Tick(float d)
         {
             PlayerActionExecutionManager.Tick(d);
@@ -144,6 +149,17 @@ namespace PlayerActions
 
         public PlayerAction CurrentAction => currentAction;
 
+        public void FixedTick(float d)
+        {
+            if (this.CurrentAction != null)
+            {
+                if (currentAction.FinishedCondition())
+                    TriggerOnPlayerActionFinichedEventAction.Invoke();
+                else
+                    currentAction.FixedTick(d);
+            }
+        }
+        
         public void Tick(float d)
         {
             if (currentAction != null)

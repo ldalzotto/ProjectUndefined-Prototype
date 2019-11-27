@@ -7,6 +7,7 @@ using PlayerObject;
 using RangeObjects;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Profiling;
 using Weapon;
 
 namespace SoliderAIBehavior
@@ -64,8 +65,10 @@ namespace SoliderAIBehavior
 
         public override void Tick(float d)
         {
+            Profiler.BeginSample("SoldierAIBehavior");
             this.PlayerObjectStateDataSystem.Tick(d);
             base.Tick(d);
+            Profiler.EndSample();
         }
 
         public override void SetState(SoldierAIStateEnum NewState)

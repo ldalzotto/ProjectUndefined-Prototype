@@ -12,7 +12,8 @@
         "Input",
         "Damage",
         "Targetting",
-        "AnimatorPlayable"
+        "AnimatorPlayable",
+        "RangeObjects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

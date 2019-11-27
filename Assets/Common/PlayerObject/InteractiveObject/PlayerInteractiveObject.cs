@@ -204,6 +204,16 @@ namespace PlayerObject
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTargetPoint(WorldDestination);
         }
 
+        public override Vector3 GetWeaponWorldFirePoint()
+        {
+            return this.WeaponHandlingSystem.GetWorldWeaponFirePoint();
+        }
+
+        public override float GetFiredProjectileMaxRange()
+        {
+            return this.WeaponHandlingSystem.GetFiredProjectileMaxRange();
+        }
+
         public override Vector3 GetFiringTargetLocalPosition()
         {
             return this.FiringTargetPositionSystem.GetFiringTargetLocalPosition();

@@ -44,6 +44,10 @@ namespace PlayerActions
             return this.isAborted;
         }
 
+        public virtual void FixedTick(float d)
+        {
+        }
+
         public abstract void Tick(float d);
         public abstract void LateTick(float d);
         public abstract void GUITick();

@@ -25,7 +25,7 @@ namespace Weapon
             var firedProjectileRotation = parent.InteractiveGameObject.GetTransform().WorldRotationEuler;
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
         }
-        
+
         /// <summary>
         /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing to <paramref name="WorldDestination"/>.
         /// </summary>
@@ -36,7 +36,18 @@ namespace Weapon
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
         }
 
-        private Vector3 GetWorldWeaponFirePoint()
+        /// <summary>
+        /// Returns the maximum range of the currenlty equipped <see cref="WeaponReference"/>.
+        /// </summary>
+        public float GetFiredProjectileMaxRange()
+        {
+            return this.WeaponReference.GetFiredProjectileMaxRange();
+        }
+
+        /// <summary>
+        /// Returns the starting point of a fired projectile in world space.
+        /// </summary>
+        public Vector3 GetWorldWeaponFirePoint()
         {
             var parent = WeaponHandlingSystemInitializationData.Parent;
             return parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;

@@ -86,6 +86,24 @@ namespace InteractiveObjects
         }
 
         /// <summary>
+        /// Returns the starting point in world space of a fired projectile.
+        /// /!\ It is implemented only for PlayerInteractiveObject.
+        /// </summary>
+        public virtual Vector3 GetWeaponWorldFirePoint()
+        {
+            return default(Vector3);
+        }
+        
+        /// <summary>
+        /// Returns the max range that can shoot the currently equiped weapon is the associated interactive object is the Player.
+        /// Returns the fired projectile max range if the associated interactive object is a Weapon.
+        /// </summary>
+        public virtual float GetFiredProjectileMaxRange()
+        {
+            return 0f;
+        }
+        
+        /// <summary>
         /// This is the optimum position local position of where objects should aim to hit the associated <see cref="CoreInteractiveObject"/>.
         /// </summary>
         public virtual Vector3 GetFiringTargetLocalPosition()
