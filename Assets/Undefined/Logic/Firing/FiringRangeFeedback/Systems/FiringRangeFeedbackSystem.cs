@@ -44,11 +44,10 @@ namespace Firing
         /// </summary>
         private Segment CalculateFiringTargetPosition()
         {
-            Vector3 SourcePointWorldPos = this.PlayerInteractiveObject.GetWeaponWorldFirePoint();
-            
             /// 1/ Calculate the TargetPointWorldPos by taking into account the CoreInteractiveObject.GetFiredProjectileMaxRange
+            FiringProjectilePathCalculation.CalculateProjectilePath_Forward(this.PlayerInteractiveObject, out Vector3 SourcePointWorldPos, out Quaternion ForwardProjectileRotation);
             Vector3 TargetPointWorldPos = SourcePointWorldPos +
-                                          (this.PlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.forward * this.PlayerInteractiveObject.GetFiredProjectileMaxRange());
+                                          (ForwardProjectileRotation * Vector3.forward * this.PlayerInteractiveObject.GetFiredProjectileMaxRange());
 
             /// 2/ When an interactive object is targetter, the TargetPointWorldPos is adjusted if he is in range.
             if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
@@ -78,7 +77,7 @@ namespace Firing
     class FiringRangeFeedbackRangeObject : CoreInteractiveObject
     {
         private const float BoxWidth = 0.1f;
-        
+
         /// <summary>
         /// A <see cref="BoxRangeObjectV2"/> is used to avoid using <see cref="Physics.RaycastAll"/> that imply memory allocation every frame.
         /// Instead, the <see cref="FiringRangeFeedbackRangeObject"/> will create a <see cref="BoxRangeObjectV2"/>  
@@ -89,7 +88,7 @@ namespace Firing
         /// The listener attached to <see cref="PlayerFiringRangeTrigger"/>
         /// </summary>
         private InteractiveObjectPhysicsEventListenerDelegated PlayerFiringRangeTriggerPhysicsListener;
-        
+
         /// <summary>
         /// /!\ This list is fed by <see cref="PlayerFiringRangeTriggerPhysicsListener"/> in the FixedUpdate.
         /// </summary>

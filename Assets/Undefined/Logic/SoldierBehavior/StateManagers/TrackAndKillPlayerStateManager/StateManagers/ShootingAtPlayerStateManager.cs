@@ -7,11 +7,11 @@ namespace SoliderAIBehavior
     public struct ShootingAtPlayerStateManagerExternalCallbacks
     {
         public Action ClearAiAgentPathAction;
-        public Action<Vector3> AskToFireAFiredProjectileAction_WithTargetPosition;
+        public Action<CoreInteractiveObject> AskToFireAFiredProjectileAction_WithTargetPosition;
         public Action OnShootingAtPlayerStartAction;
         public Action OnShootingAtPlayerEndAction;
 
-        public ShootingAtPlayerStateManagerExternalCallbacks(Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileActionWithTargetPosition, 
+        public ShootingAtPlayerStateManagerExternalCallbacks(Action clearAiAgentPathAction, Action<CoreInteractiveObject> askToFireAFiredProjectileActionWithTargetPosition, 
             Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
             ClearAiAgentPathAction = clearAiAgentPathAction;
@@ -92,7 +92,7 @@ namespace SoliderAIBehavior
         private void FireProjectile(CoreInteractiveObject PlayerObject)
         {
             this.ShootingAtPlayerStateManagerExternalCallbacks.AskToFireAFiredProjectileAction_WithTargetPosition
-                .Invoke(PlayerObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(PlayerObject.GetFiringTargetLocalPosition()));
+                .Invoke(PlayerObject);
         }
     }
 }

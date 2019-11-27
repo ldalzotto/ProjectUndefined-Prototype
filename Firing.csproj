@@ -62,6 +62,7 @@
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeFeedbackConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Systems\FiringRangeFeedbackSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\Lib\FiringProjectilePathCalculation.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerActionInherentData.cs" />
      <None Include="Assets\Undefined\Logic\Firing\Firing.asmdef" />

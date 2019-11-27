@@ -81,7 +81,7 @@ namespace InteractiveObjects
         {
         }
 
-        public virtual void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
+        public virtual void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
         }
 

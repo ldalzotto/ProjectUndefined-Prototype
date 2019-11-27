@@ -1,4 +1,5 @@
 ﻿using System;
+using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +11,7 @@ namespace SoliderAIBehavior
     {
         public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
         public Action ClearAIAgentPathAction;
-        public Action<Vector3> AskToFireAFiredProjectile_WithTargetPosition_Action;
+        public Action<CoreInteractiveObject> AskToFireAFiredProjectile_WithTargetPosition_Action;
         public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction;
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace SoliderAIBehavior
         public Action OnShootingAtPlayerEndAction;
 
         public TrackAndKillPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, 
-            Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction,
+            Action clearAiAgentPathAction, Action<CoreInteractiveObject> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction,
             Action askedToExitTrackAndKillPlayerBehaviorAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
             SetAIAgentDestinationAction = aiAgentDestinationAction;

@@ -28,13 +28,13 @@ namespace SoliderAIBehavior
         /// </summary>
         public Action ClearAIAgentPathAction;
 
-        public Action<Vector3> AskToFireAFiredProjectile_WithTargetPosition_Action;
+        public Action<CoreInteractiveObject> AskToFireAFiredProjectile_WithTargetPosition_Action;
         public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction;
         
         public Action OnShootingAtPlayerStartAction;
         public Action OnShootingAtPlayerEndAction;
 
-        public SoldierAIBehaviorExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, Action clearAiAgentPathAction, Action<Vector3> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
+        public SoldierAIBehaviorExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, Action clearAiAgentPathAction, Action<CoreInteractiveObject> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
             SetAIAgentDestinationAction = aiAgentDestinationAction;
             ClearAIAgentPathAction = clearAiAgentPathAction;

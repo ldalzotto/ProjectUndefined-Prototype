@@ -154,8 +154,8 @@ namespace Firing
                 {
                     var CurrentlyTargettedInteractiveObject = this.TargettableInteractiveObjectSelectionManager.GetCurrentlyTargettedInteractiveObject();
                     /// Projectile direction heads towards the FiringTargetLocation
-                    var firingTargetWorldLocation = CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(CurrentlyTargettedInteractiveObject.GetFiringTargetLocalPosition());
-                    this.PlayerInteractiveObject.AskToFireAFiredProjectile_ToTargetPoint(firingTargetWorldLocation);
+                    /// var firingTargetWorldLocation = CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(CurrentlyTargettedInteractiveObject.GetFiringTargetLocalPosition());
+                    this.PlayerInteractiveObject.AskToFireAFiredProjectile_ToTarget(CurrentlyTargettedInteractiveObject);
                 }
                 else
                 {

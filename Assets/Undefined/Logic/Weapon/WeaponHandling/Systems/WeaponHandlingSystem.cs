@@ -1,4 +1,5 @@
-﻿using InteractiveObjects;
+﻿using Firing;
+using InteractiveObjects;
 using UnityEngine;
 
 namespace Weapon
@@ -20,20 +21,17 @@ namespace Weapon
         public void AskToFireAFiredProjectile_Forward()
         {
             var parent = WeaponHandlingSystemInitializationData.Parent;
-            //Eq (1)
-            var firedProjectilePosition = GetWorldWeaponFirePoint();
-            var firedProjectileRotation = parent.InteractiveGameObject.GetTransform().WorldRotationEuler;
-            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
+            FiringProjectilePathCalculation.CalculateProjectilePath_Forward(WeaponHandlingSystemInitializationData.Parent, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
+            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
         }
 
         /// <summary>
-        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing to <paramref name="WorldDestination"/>.
+        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing to <paramref name="Target"/>.
         /// </summary>
-        public void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
+        public void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
-            var firedProjectilePosition = GetWorldWeaponFirePoint();
-            var firedProjectileRotation = Quaternion.LookRotation((WorldDestination - firedProjectilePosition).normalized).eulerAngles;
-            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation});
+            FiringProjectilePathCalculation.CalculateProjectilePath_ToTargetPoint(WeaponHandlingSystemInitializationData.Parent, Target, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
+            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
         }
 
         /// <summary>

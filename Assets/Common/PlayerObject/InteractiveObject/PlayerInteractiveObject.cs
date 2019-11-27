@@ -199,9 +199,9 @@ namespace PlayerObject
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_Forward();
         }
 
-        public override void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
+        public override void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTargetPoint(WorldDestination);
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
         }
 
         public override Vector3 GetWeaponWorldFirePoint()

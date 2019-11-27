@@ -42,7 +42,7 @@ namespace TrainingLevel
                 new SoldierAIBehaviorExternalCallbacks(
                     this.SetDestination,
                     this.AIMoveToDestinationSystem.ClearPath,
-                    this.AskToFireAFiredProjectile_ToTargetPoint,
+                    this.AskToFireAFiredProjectile_ToTarget,
                     () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                     this.OnShootingAtPlayerStart,
                     this.OnShootingAtPlayerEnd
@@ -137,9 +137,14 @@ namespace TrainingLevel
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_Forward();
         }
 
-        public override void AskToFireAFiredProjectile_ToTargetPoint(Vector3 WorldDestination)
+        public override void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTargetPoint(WorldDestination);
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
+        }
+
+        public override Vector3 GetWeaponWorldFirePoint()
+        {
+            return this.WeaponHandlingSystem.GetWorldWeaponFirePoint();
         }
 
         public override Vector3 GetFiringTargetLocalPosition()
