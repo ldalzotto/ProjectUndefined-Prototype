@@ -23,7 +23,7 @@ namespace SoliderAIBehavior
     /// <see cref="SoliderEnemy.GetWeaponFirePointOriginLocalAction"/> and the <see cref="PlayerInteractiveObject.GetFiringTargetLocalPosition"/>.
     /// Ability to shoot to the Player is provided by ensuring that the WeaponFiringAreaBoxRangeObject doesn't contains Obstacles.
     /// </summary>
-    public class WeaponFiringAreaSystem : AInteractiveObjectPhysicsEventListener
+    public class WeaponFiringAreaSystem
     {
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
@@ -31,24 +31,24 @@ namespace SoliderAIBehavior
         /// The trigger only WeaponFiringAreaBoxRangeObject
         /// /!\ Must be disposed on destroy
         /// </summary>
-        private BoxRangeObjectV2 WeaponFiringAreaBoxRangeObject;
+        private BoxRayRangeObject WeaponFiringAreaBoxRangeObject;
         private WeaponFiringAreaSystemExternalCallbacks WeaponFiringAreaSystemExternalCallbacks;
         
-        private List<Collider> InsideWeaponFiringAreaObstacles = new List<Collider>();
-
         public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, 
             WeaponFiringAreaSystemExternalCallbacks WeaponFiringAreaSystemExternalCallbacks)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             this.WeaponFiringAreaSystemExternalCallbacks = WeaponFiringAreaSystemExternalCallbacks;
-            this.WeaponFiringAreaBoxRangeObject = new BoxRangeObjectV2(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
+            this.WeaponFiringAreaBoxRangeObject = new BoxRayRangeObject(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
             {
                 RangeTypeID = RangeTypeID.NOT_DISPLAYED,
                 IsTakingIntoAccountObstacles = false,
                 BoxRangeTypeDefinition = new BoxRangeTypeDefinition()
-            }, associatedInteractiveObject, "WeaponFiringAreaBoxRangeObject");
-            this.WeaponFiringAreaBoxRangeObject.RegisterPhysicsEventListener(this);
+            }, associatedInteractiveObject,
+                2f,
+                delegate(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo) { return interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle;  }
+                , "WeaponFiringAreaBoxRangeObject");
         }
 
         public void Tick(float d)
@@ -65,24 +65,9 @@ namespace SoliderAIBehavior
 
         public bool AreObstaclesInside()
         {
-            return this.InsideWeaponFiringAreaObstacles.Count > 0;
+            return this.WeaponFiringAreaBoxRangeObject.InsideInteractiveObjects.Count > 0;
         }
-
-        public override bool ColliderSelectionGuard(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo)
-        {
-            return interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle;
-        }
-
-        public override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
-        {
-            this.InsideWeaponFiringAreaObstacles.Add(PhysicsTriggerInfo.Other);
-        }
-
-        public override void OnTriggerExit(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
-        {
-            this.InsideWeaponFiringAreaObstacles.Remove(PhysicsTriggerInfo.Other);
-        }
-
+        
         public void OnDestroy()
         {
             this.WeaponFiringAreaBoxRangeObject.OnDestroy();

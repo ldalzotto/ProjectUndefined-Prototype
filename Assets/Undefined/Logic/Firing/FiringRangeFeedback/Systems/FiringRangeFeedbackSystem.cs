@@ -26,14 +26,15 @@ namespace Firing
             TargettableInteractiveObjectSelectionManager = targettableInteractiveObjectSelectionManager;
             this._firingRangeFeedbackRangeObject = new FiringRangeFeedbackRangeObject(
                 InteractiveGameObjectFactory.Build(new GameObject("FiringRangeFeedbackRangeObject")),
-                FiringRangeFeedbackConfigurationGameObject.Get().firingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab);
+                FiringRangeFeedbackConfigurationGameObject.Get().firingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
+                playerInteractiveObject);
         }
 
         public void Tick(float d)
         {
             var targetSegment = CalculateFiringTargetPosition();
 
-            this._firingRangeFeedbackRangeObject.Tick(d, this.PlayerInteractiveObject, targetSegment);
+            this._firingRangeFeedbackRangeObject.Tick(d, targetSegment);
         }
 
         /// <summary>
@@ -82,30 +83,21 @@ namespace Firing
         /// A <see cref="BoxRangeObjectV2"/> is used to avoid using <see cref="Physics.RaycastAll"/> that imply memory allocation every frame.
         /// Instead, the <see cref="FiringRangeFeedbackRangeObject"/> will create a <see cref="BoxRangeObjectV2"/>  
         /// </summary>
-        private BoxRangeObjectV2 PlayerFiringRangeTrigger;
+        private BoxRayRangeObject PlayerFiringRangeTriggerV2;
 
         /// <summary>
         /// The listener attached to <see cref="PlayerFiringRangeTrigger"/>
         /// </summary>
         private InteractiveObjectPhysicsEventListenerDelegated PlayerFiringRangeTriggerPhysicsListener;
 
-        /// <summary>
-        /// /!\ This list is fed by <see cref="PlayerFiringRangeTriggerPhysicsListener"/> in the FixedUpdate.
-        /// </summary>
-        private List<CoreInteractiveObject> InsideInteractiveObjects = new List<CoreInteractiveObject>();
-
-        public FiringRangeFeedbackRangeObject(IInteractiveGameObject IInteractiveGameObject, GameObject FiredProjectileFeedbackPrefab)
+        public FiringRangeFeedbackRangeObject(IInteractiveGameObject IInteractiveGameObject,
+            GameObject FiredProjectileFeedbackPrefab, CoreInteractiveObject WeaponHolder)
         {
             var firedProjectileModel = MonoBehaviour.Instantiate(FiredProjectileFeedbackPrefab, IInteractiveGameObject.InteractiveGameObjectParent.transform);
             firedProjectileModel.transform.ResetLocalPositionAndRotation();
             BaseInit(IInteractiveGameObject, IsUpdatedInMainManager: false);
-            this.PlayerFiringRangeTriggerPhysicsListener = new InteractiveObjectPhysicsEventListenerDelegated(
-                delegate(InteractiveObjectPhysicsTriggerInfo info) { return true; },
-                delegate(CoreInteractiveObject interactiveObject) { this.InsideInteractiveObjects.Add(interactiveObject); },
-                delegate(CoreInteractiveObject interactiveObject) { this.InsideInteractiveObjects.Remove(interactiveObject); });
 
-            this.PlayerFiringRangeTrigger = new BoxRangeObjectV2(
-                IInteractiveGameObject.InteractiveGameObjectParent,
+            this.PlayerFiringRangeTriggerV2 = new BoxRayRangeObject(IInteractiveGameObject.InteractiveGameObjectParent,
                 new BoxRangeObjectInitialization()
                 {
                     RangeTypeID = RangeTypeID.NOT_DISPLAYED,
@@ -117,43 +109,39 @@ namespace Firing
                     }
                 },
                 this,
-                "PlayerFiringRangeTrigger"
+                BoxWidth,
+                delegate(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo) { return FiredProjectile.FiredProjectileHasTriggerEnter_ShouldItBeDestroyed(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder); }
             );
-            this.PlayerFiringRangeTrigger.RegisterPhysicsEventListener(this.PlayerFiringRangeTriggerPhysicsListener);
         }
 
-        public void Tick(float d, CoreInteractiveObject WeaponHolder, Segment segment)
+        public void Tick(float d, Segment segment)
         {
             base.Tick(d);
 
             /// target point may not be obstructed by obstacles or other objects, so we ray cast to ensure this is not the case
 
-            var adjustedSegment = AdjustedSegment(WeaponHolder, segment);
+            var adjustedSegment = AdjustedSegment(segment);
 
             var gameObjectTransform = this.InteractiveGameObject.InteractiveGameObjectParent.transform;
             gameObjectTransform.transform.position = adjustedSegment.Target;
             gameObjectTransform.rotation = Quaternion.LookRotation((adjustedSegment.Target - adjustedSegment.Source).normalized);
-            this.PlayerFiringRangeTrigger.SetLocalCenter(new Vector3(0, 0, -adjustedSegment.Distance / 2f));
-            this.PlayerFiringRangeTrigger.SetLocalSize(new Vector3(BoxWidth, BoxWidth, adjustedSegment.Distance));
+            this.PlayerFiringRangeTriggerV2.UpdateRayDimensions(adjustedSegment.Distance, true);
         }
 
         /// <summary>
         /// Adjust the <paramref name="segment"/> <see cref="Segment.Target"/> by raycasting in all <see cref="InsideInteractiveObjects"/>. 
         /// </summary>
-        private Segment AdjustedSegment(CoreInteractiveObject WeaponHolder, Segment segment)
+        private Segment AdjustedSegment(Segment segment)
         {
             Segment adjustedSegment = segment;
             var ray = new Ray(segment.Source, (segment.Target - segment.Source).normalized);
-            foreach (var insideInteractiveObject in InsideInteractiveObjects)
+            foreach (var insideInteractiveObject in this.PlayerFiringRangeTriggerV2.InsideInteractiveObjects)
             {
-                if (FiredProjectile.FiredProjectileHasTriggerEnter_ShouldItBeDestroyed(insideInteractiveObject, WeaponHolder))
+                if (insideInteractiveObject.InteractiveGameObject.LogicCollider != null && insideInteractiveObject.InteractiveGameObject.LogicCollider.Raycast(ray, out RaycastHit hit, segment.Distance))
                 {
-                    if (insideInteractiveObject.InteractiveGameObject.LogicCollider != null && insideInteractiveObject.InteractiveGameObject.LogicCollider.Raycast(ray, out RaycastHit hit, segment.Distance))
+                    if (Vector3.Distance(adjustedSegment.Source, hit.point) < adjustedSegment.Distance)
                     {
-                        if (Vector3.Distance(adjustedSegment.Source, hit.point) < adjustedSegment.Distance)
-                        {
-                            adjustedSegment = new Segment(adjustedSegment.Source, hit.point);
-                        }
+                        adjustedSegment = new Segment(adjustedSegment.Source, hit.point);
                     }
                 }
             }
@@ -163,7 +151,7 @@ namespace Firing
 
         public override void Destroy()
         {
-            this.PlayerFiringRangeTrigger.OnDestroy();
+            this.PlayerFiringRangeTriggerV2.OnDestroy();
             base.Destroy();
         }
 
