@@ -44,7 +44,7 @@ namespace RangeObjects
     public class BoxRayRangeObject : BoxRangeObjectV2
     {
         private float RayWidth;
-        public List<CoreInteractiveObject> InsideInteractiveObjects { get; private set; } = new List<CoreInteractiveObject>();
+        public HashSet<CoreInteractiveObject> InsideInteractiveObjects { get; private set; } = new HashSet<CoreInteractiveObject>();
 
         public BoxRayRangeObject(GameObject AssociatedGameObject, BoxRangeObjectInitialization BoxRangeObjectInitialization, CoreInteractiveObject AssociatedInteractiveObject,
             float rayWidth, Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard, string objectName = "")
@@ -56,6 +56,25 @@ namespace RangeObjects
                 onTriggerEnterAction: this.OnTriggerEnter,
                 onTriggerExitAction: this.OnTriggerExit
             ));
+        }
+
+        public void ManuallyDetectInsideColliders()
+        {
+            var boundingBoxDefinition = this.GetBoxBoundingColliderDefinition();
+            var overlappingCollider = Physics.OverlapBox(boundingBoxDefinition.LocalToWorld.MultiplyPoint(boundingBoxDefinition.LocalCenter),
+                boundingBoxDefinition.LocalToWorld.MultiplyPoint(boundingBoxDefinition.LocalSize));
+
+            if (overlappingCollider != null)
+            {
+                for (var i = 0; i < overlappingCollider.Length; i++)
+                {
+                    InteractiveObjectV2Manager.Get().InteractiveObjectsIndexedByLogicCollider.TryGetValue(overlappingCollider[i], out CoreInteractiveObject interactiveObject);
+                    if (interactiveObject != null)
+                    {
+                        this.OnTriggerEnter(interactiveObject);
+                    }
+                }
+            }
         }
 
         public void UpdateRayDimensions(float Distance, bool Inverted = false)

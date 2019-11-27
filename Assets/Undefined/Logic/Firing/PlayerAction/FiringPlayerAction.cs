@@ -29,6 +29,10 @@ namespace Firing
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), targettableInteractiveObjectSelectionManager);
+            
+            /// This is to change InteractiveObject rotation at the first frame of action execution
+            this.PlayerObjectOrientationSystem.Tick(0f);
+            
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
             this.PlayerAnimationSystem = new PlayerAnimationSystem(PlayerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimationV2.GetAnimationInput());

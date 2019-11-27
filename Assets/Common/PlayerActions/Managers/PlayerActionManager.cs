@@ -35,7 +35,7 @@ namespace PlayerActions
         {
             PlayerActionExecutionManager.FixedTick(d);
         }
-        
+
         public void Tick(float d)
         {
             PlayerActionExecutionManager.Tick(d);
@@ -112,7 +112,7 @@ namespace PlayerActions
             return this.PlayerActionExecutionManager.CurrentAction != null &&
                    this.PlayerActionExecutionManager.CurrentAction.MovementAllowed();
         }
-        
+
         #endregion
 
         #region Data Retrieval
@@ -128,7 +128,6 @@ namespace PlayerActions
         }
 
         #endregion
-
     }
 
 
@@ -153,21 +152,23 @@ namespace PlayerActions
         {
             if (this.CurrentAction != null)
             {
+                currentAction.FixedTick(d);
                 if (currentAction.FinishedCondition())
+                {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();
-                else
-                    currentAction.FixedTick(d);
+                }
             }
         }
-        
+
         public void Tick(float d)
         {
             if (currentAction != null)
             {
+                currentAction.Tick(d);
                 if (currentAction.FinishedCondition())
+                {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();
-                else
-                    currentAction.Tick(d);
+                }
             }
         }
 

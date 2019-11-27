@@ -28,6 +28,8 @@ namespace Firing
                 InteractiveGameObjectFactory.Build(new GameObject("FiringRangeFeedbackRangeObject")),
                 FiringRangeFeedbackConfigurationGameObject.Get().firingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
                 playerInteractiveObject);
+
+            this._firingRangeFeedbackRangeObject.InitializeRaybox(CalculateFiringTargetPosition());
         }
 
         public void Tick(float d)
@@ -90,6 +92,7 @@ namespace Firing
         /// </summary>
         private InteractiveObjectPhysicsEventListenerDelegated PlayerFiringRangeTriggerPhysicsListener;
 
+
         public FiringRangeFeedbackRangeObject(IInteractiveGameObject IInteractiveGameObject,
             GameObject FiredProjectileFeedbackPrefab, CoreInteractiveObject WeaponHolder)
         {
@@ -112,6 +115,22 @@ namespace Firing
                 BoxWidth,
                 delegate(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo) { return FiredProjectile.FiredProjectileHasTriggerEnter_ShouldItBeDestroyed(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder); }
             );
+        }
+
+        /// <summary>
+        /// At the first frame were the <see cref="FiringRangeFeedbackRangeObject"/> appears, it's <see cref="PlayerFiringRangeTriggerV2"/> is not initialized with Physics colliders.
+        /// To overcome this, we call <see cref="PlayerFiringRangeTriggerV2.ManuallyDetectInsideColliders"/> that manyally check overlaps around the box.
+        /// /!\ That is why thi method must automatically called after the <see cref="FiringRangeFeedbackRangeObject"/> has been created.
+        /// </summary>
+        public void InitializeRaybox(Segment segment)
+        {
+            /// to update positions and box size
+            this.Tick(0f, segment);
+            this.PlayerFiringRangeTriggerV2.ManuallyDetectInsideColliders();
+
+            /// to update positions and box size while taking into account
+            /// the manually calculated inside colliders
+            this.Tick(0f, segment);
         }
 
         public void Tick(float d, Segment segment)
