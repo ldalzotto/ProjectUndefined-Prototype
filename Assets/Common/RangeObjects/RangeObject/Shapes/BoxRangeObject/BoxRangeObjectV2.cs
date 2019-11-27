@@ -47,14 +47,14 @@ namespace RangeObjects
         public List<CoreInteractiveObject> InsideInteractiveObjects { get; private set; } = new List<CoreInteractiveObject>();
 
         public BoxRayRangeObject(GameObject AssociatedGameObject, BoxRangeObjectInitialization BoxRangeObjectInitialization, CoreInteractiveObject AssociatedInteractiveObject,
-           float rayWidth, Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard, string objectName = "")
+            float rayWidth, Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard, string objectName = "")
             : base(AssociatedGameObject, BoxRangeObjectInitialization, AssociatedInteractiveObject, objectName)
         {
             this.RayWidth = rayWidth;
             this.RegisterPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(
                 InteractiveObjectSelectionGuard,
-                onTriggerEnterAction: delegate(CoreInteractiveObject interactiveObject) { this.InsideInteractiveObjects.Add(interactiveObject); },
-                onTriggerExitAction: delegate(CoreInteractiveObject interactiveObject) { this.InsideInteractiveObjects.Remove(interactiveObject); }
+                onTriggerEnterAction: this.OnTriggerEnter,
+                onTriggerExitAction: this.OnTriggerExit
             ));
         }
 
@@ -67,6 +67,24 @@ namespace RangeObjects
 
             this.SetLocalCenter(new Vector3(0, 0, Distance * 0.5f));
             this.SetLocalSize(new Vector3(this.RayWidth, this.RayWidth, Distance));
+        }
+
+        private void OnTriggerEnter(CoreInteractiveObject interactiveObject)
+        {
+            this.InsideInteractiveObjects.Add(interactiveObject);
+            interactiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
+        }
+
+        private void OnTriggerExit(CoreInteractiveObject interactiveObject)
+        {
+            this.InsideInteractiveObjects.Remove(interactiveObject);
+            interactiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
+        }
+
+        private void OnInteractiveObjectdestroyed(CoreInteractiveObject interactiveObject)
+        {
+            this.InsideInteractiveObjects.Remove(interactiveObject);
+            interactiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
         }
     }
 }

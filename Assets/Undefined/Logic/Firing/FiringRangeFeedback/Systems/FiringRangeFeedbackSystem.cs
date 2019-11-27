@@ -137,7 +137,7 @@ namespace Firing
             var ray = new Ray(segment.Source, (segment.Target - segment.Source).normalized);
             foreach (var insideInteractiveObject in this.PlayerFiringRangeTriggerV2.InsideInteractiveObjects)
             {
-                if (insideInteractiveObject.InteractiveGameObject.LogicCollider != null && insideInteractiveObject.InteractiveGameObject.LogicCollider.Raycast(ray, out RaycastHit hit, segment.Distance))
+                if (insideInteractiveObject.InteractiveGameObject.LogicCollider.Raycast(ray, out RaycastHit hit, segment.Distance))
                 {
                     if (Vector3.Distance(adjustedSegment.Source, hit.point) < adjustedSegment.Distance)
                     {

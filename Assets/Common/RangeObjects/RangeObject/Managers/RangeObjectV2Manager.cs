@@ -14,8 +14,6 @@ namespace RangeObjects
             #region Event Register
 
             RangeEventsManager.Get().RegisterOnRangeObjectCreatedEventListener(OnRangeObjectCreated);
-            RangeEventsManager.Get().RegisterOnRangeObjectDestroyedEventListener(OnRangeObjectDestroyed);
-            InteractiveObjectEventsManagerSingleton.Get().RegisterOnInteractiveObjectDestroyedEventListener(OnInteractiveObjectDestroyed);
 
             #endregion
         }
@@ -39,16 +37,12 @@ namespace RangeObjects
         private void OnRangeObjectCreated(RangeObjectV2 rangeObjectV2)
         {
             RangeObjects.Add(rangeObjectV2);
+            rangeObjectV2.RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
         }
 
         private void OnRangeObjectDestroyed(RangeObjectV2 rangeObjectV2)
         {
             RangeObjects.Remove(rangeObjectV2);
-        }
-
-        private void OnInteractiveObjectDestroyed(CoreInteractiveObject InteractiveObject)
-        {
-            RangeObjectV2ManagerOperations.ClearAllReferencesOfInteractiveObject(InteractiveObject);
         }
 
         public override void OnDestroy()

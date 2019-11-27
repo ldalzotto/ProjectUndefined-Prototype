@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using InteractiveObjects;
+using UnityEngine;
 
 namespace RangeObjects
 {
@@ -86,6 +87,7 @@ namespace RangeObjects
 
         public sealed override void OnTriggerEnter(InteractiveObjectPhysicsTriggerInfo PhysicsTriggerInfo)
         {
+            PhysicsTriggerInfo.OtherInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
             var rangeIntersectionCalculator = new RangeIntersectionCalculator(associatedRangeObject, PhysicsTriggerInfo.OtherInteractiveObject);
             intersectionCalculators.Add(rangeIntersectionCalculator);
             intersectionCalculatorsIndexedByTrackedInteractiveObject[PhysicsTriggerInfo.OtherInteractiveObject] = rangeIntersectionCalculator;
@@ -123,10 +125,11 @@ namespace RangeObjects
             OnJustNotIntersected(justTriggerExitedRangeIntersectionCalculator);
             justTriggerExitedRangeIntersectionCalculator.OnDestroy();
             justTriggerExitedCalculatorsIndexedByTrackedInteractiveObject.Remove(justTriggerExitedRangeIntersectionCalculator.TrackedInteractiveObject);
+            justTriggerExitedRangeIntersectionCalculator.TrackedInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
             justTriggerExitedCalculators.Remove(justTriggerExitedRangeIntersectionCalculator);
         }
 
-        public void RemoveReferencesToInteractiveObject(CoreInteractiveObject InteractiveObjectRefToRemove)
+        private void OnInteractiveObjectDestroyed(CoreInteractiveObject InteractiveObjectRefToRemove)
         {
             intersectionCalculatorsIndexedByTrackedInteractiveObject.TryGetValue(InteractiveObjectRefToRemove, out var RangeIntersectionCalculatorV2ToRemove);
             if (RangeIntersectionCalculatorV2ToRemove != null)

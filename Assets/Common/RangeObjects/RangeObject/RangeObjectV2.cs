@@ -1,4 +1,5 @@
-﻿using GeometryIntersection;
+﻿using System;
+using GeometryIntersection;
 using InteractiveObjects;
 using Obstacle;
 using UnityEngine;
@@ -24,6 +25,14 @@ namespace RangeObjects
         public RangeObstacleListenerSystem RangeObstacleListenerSystem { get; private set; }
         public RangeIntersectionV2System RangeIntersectionV2System { get; private set; }
 
+        
+        /// <summary>
+        /// /!\ <see cref="RangeObjectV2"/> destroy event hook.
+        /// This is the **ONLY** way to detect destroy of range objects.
+        /// This is to allow singular systems to have their own <see cref="RangeObjectV2"/> reference cleanup logic at RangeObject granularity. 
+        /// </summary>
+        private event Action<RangeObjectV2> OnRangeObjectDestroyedEvent; 
+        
         protected void Init(RangeGameObjectV2 RangeGameObjectV2, RangeObjectInitialization RangeObjectInitialization)
         {
             this.RangeGameObjectV2 = RangeGameObjectV2;
@@ -58,7 +67,7 @@ namespace RangeObjects
             this.RangeExternalPhysicsOnlyListenersSystem.OnDestroy();
             //To trigger itnersection events
             this.RangeIntersectionV2System.Tick(0f);
-            this.RangeEventsManager.OnRangeObjectDestroyed(this);
+            this.OnRangeObjectDestroyedEvent?.Invoke(this);
         }
 
         public void ReceiveEvent(SetWorldPositionEvent SetWorldPositionEvent)
@@ -74,6 +83,16 @@ namespace RangeObjects
         public void RegisterPhysicsEventListener(AInteractiveObjectPhysicsEventListener aInteractiveObjectPhysicsEventListener)
         {
             this.RangeExternalPhysicsOnlyListenersSystem.RegisterPhysicsEventListener(aInteractiveObjectPhysicsEventListener);
+        }
+
+        public void RegisterOnRangeObjectDestroyedEventListener(Action<RangeObjectV2> action)
+        {
+            this.OnRangeObjectDestroyedEvent += action;
+        }
+
+        public void UnRegisterOnRangeObjectDestroyedEventListener(Action<RangeObjectV2> action)
+        {
+            this.OnRangeObjectDestroyedEvent -= action;
         }
 
         public ObstacleListenerSystem GetObstacleListener()

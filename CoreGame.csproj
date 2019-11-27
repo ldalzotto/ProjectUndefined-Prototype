@@ -104,6 +104,7 @@
      <Compile Include="Assets\Common\~CoreGame\Path\BeziersControlPoints.cs" />
      <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
+     <Compile Include="Assets\Test\CsEventTest\CsEventTest.cs" />
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
      <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineCommandBuffer.cs" />

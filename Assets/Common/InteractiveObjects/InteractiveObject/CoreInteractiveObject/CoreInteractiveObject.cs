@@ -21,6 +21,13 @@ namespace InteractiveObjects
         [VE_Ignore] public bool IsUpdatedInMainManager;
         [VE_Ignore] private InteractiveInteractiveObjectPhysicsListener interactiveInteractiveObjectPhysicsListener;
 
+        /// <summary>
+        /// /!\ <see cref="CoreInteractiveObject"/> destroy event hook.
+        /// This is the **ONLY** way to detect destroy of interactive object.
+        /// This is to allow singular systems to have their own <see cref="CoreInteractiveObject"/> reference cleanup logic at InteractiveObject granularity. 
+        /// </summary>
+        private event Action<CoreInteractiveObject> OnInteractiveObjectDestroyedEvent;
+        
         protected void BaseInit(IInteractiveGameObject interactiveGameObject, bool IsUpdatedInMainManager = true)
         {
             isAskingToBeDestroyed = false;
@@ -62,6 +69,16 @@ namespace InteractiveObjects
             }
         }
 
+        public void RegisterInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action)
+        {
+            this.OnInteractiveObjectDestroyedEvent += action;
+        }
+
+        public void UnRegisterInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action)
+        {
+            this.OnInteractiveObjectDestroyedEvent -= action;
+        }
+
         public virtual void FixedTick(float d)
         {
         }
@@ -83,8 +100,8 @@ namespace InteractiveObjects
         public virtual void Destroy()
         {
             this.AnimatorPlayable?.Destroy();
-            InteractiveObjectEventsManager.OnInteractiveObjectDestroyed(this);
             this.interactiveInteractiveObjectPhysicsListener?.Destroy();
+            this.OnInteractiveObjectDestroyedEvent?.Invoke(this);
             Object.Destroy(InteractiveGameObject.InteractiveGameObjectParent);
         }
 

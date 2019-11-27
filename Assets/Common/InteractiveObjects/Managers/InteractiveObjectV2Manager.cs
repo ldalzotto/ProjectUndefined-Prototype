@@ -15,7 +15,7 @@ namespace InteractiveObjects
         /// in workflow methods.
         /// </summary>
         public List<CoreInteractiveObject> InteractiveObjects { get; private set; } = new List<CoreInteractiveObject>();
-        
+
         /// <summary>
         /// <see cref="CoreInteractiveObject"/> indexed by it's LogicCollider (<see cref="InteractiveGameObject.LogicCollider"/>).
         /// This lookup table can be used on Physics event to check if the triggered collider is a <see cref="CoreInteractiveObject"/>.
@@ -26,8 +26,7 @@ namespace InteractiveObjects
         {
             #region Event Registering
 
-            InteractiveObjectEventsManagerSingleton.Get().RegisterOnInteractiveObjectCreatedEventListener(OnInteractiveObjectCreated);
-            InteractiveObjectEventsManagerSingleton.Get().RegisterOnInteractiveObjectDestroyedEventListener(OnInteractiveObjectDestroyed);
+            InteractiveObjectEventsManagerSingleton.Get().RegisterOnAllInteractiveObjectCreatedEventListener(OnInteractiveObjectCreated);
 
             #endregion
 
@@ -79,7 +78,6 @@ namespace InteractiveObjects
                 foreach (var InteractiveObjectToDelete in InteractiveObjectsToDelete)
                 {
                     InteractiveObjectToDelete.Destroy();
-                    OnInteractiveObjectDestroyed(InteractiveObjectToDelete);
                 }
         }
 
@@ -95,7 +93,11 @@ namespace InteractiveObjects
         {
             InteractiveObjects.Add(InteractiveObject);
             var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
-            if (interactiveObjectLogicCollider != null) InteractiveObjectsIndexedByLogicCollider.Add(interactiveObjectLogicCollider, InteractiveObject);
+            if (interactiveObjectLogicCollider != null)
+            {
+                InteractiveObjectsIndexedByLogicCollider.Add(interactiveObjectLogicCollider, InteractiveObject);
+            }
+            InteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
         }
 
         private void OnInteractiveObjectDestroyed(CoreInteractiveObject InteractiveObject)

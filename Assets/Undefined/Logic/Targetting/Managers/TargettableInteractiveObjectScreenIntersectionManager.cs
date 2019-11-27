@@ -28,8 +28,7 @@ namespace Targetting
 
         public void InitializeEvents()
         {
-            InteractiveObjectEventsManager.Get().RegisterOnInteractiveObjectCreatedEventListener(this.OnInteractiveObjectCreated);
-            InteractiveObjectEventsManager.Get().RegisterOnInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+            InteractiveObjectEventsManager.Get().RegisterOnAllInteractiveObjectCreatedEventListener(this.OnInteractiveObjectCreated);
         }
 
         /// <summary>
@@ -97,6 +96,7 @@ namespace Targetting
             {
                 this.InteractiveObjectsListened.Add(CoreInteractiveObject, CoreInteractiveObject.InteractiveGameObject.IsVisible());
                 this.InteractiveObjectsOverCursorTarget.Add(CoreInteractiveObject, new BoolVariable(false, () => this.OnCursorOverObject(CoreInteractiveObject), () => { this.OnCursorNoMoveOverObject(CoreInteractiveObject); }));
+                CoreInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
             }
         }
 

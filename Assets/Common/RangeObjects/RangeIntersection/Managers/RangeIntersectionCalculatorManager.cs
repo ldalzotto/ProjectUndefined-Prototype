@@ -20,7 +20,7 @@ namespace RangeObjects
         {
             this.AllRangeIntersectionCalculatorV2.Add(rangeIntersectionCalculator);
             this.CurrentRangeIntersectionCalculatorV2ManagerCounter += 1;
-            RangeEventsManager.Get().RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
+            rangeIntersectionCalculator.GetAssociatedRangeObject().RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
             return this.CurrentRangeIntersectionCalculatorV2ManagerCounter;
         }
 

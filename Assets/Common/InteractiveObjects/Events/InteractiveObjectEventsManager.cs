@@ -5,10 +5,8 @@ namespace InteractiveObjects
 {
     public interface IInteractiveObjectEventsManager
     {
-        void RegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
-        void UnRegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
-        void RegisterOnInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action);
-        void UnRegisterOnInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action);
+        void RegisterOnAllInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
+        void UnRegisterOnAllInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action);
     }
 
     public static class InteractiveObjectEventsManagerSingleton
@@ -21,37 +19,22 @@ namespace InteractiveObjects
 
     public class InteractiveObjectEventsManager : GameSingleton<InteractiveObjectEventsManager>, IInteractiveObjectEventsManager
     {
-        public void RegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action)
+        public void RegisterOnAllInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action)
         {
-            OnInteractiveObjectCreatedEvent += action;
+            OnAllInteractiveObjectCreatedEvent += action;
         }
 
-        public void UnRegisterOnInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action)
+        public void UnRegisterOnAllInteractiveObjectCreatedEventListener(Action<CoreInteractiveObject> action)
         {
-            OnInteractiveObjectCreatedEvent -= action;
+            OnAllInteractiveObjectCreatedEvent -= action;
         }
-
-        public void RegisterOnInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action)
-        {
-            OnInteractiveObjectDestroyedEvent += action;
-        }
-
-        public void UnRegisterOnInteractiveObjectDestroyedEventListener(Action<CoreInteractiveObject> action)
-        {
-            OnInteractiveObjectDestroyedEvent -= action;
-        }
-
-        private event Action<CoreInteractiveObject> OnInteractiveObjectCreatedEvent;
-        private event Action<CoreInteractiveObject> OnInteractiveObjectDestroyedEvent;
+        
+        private event Action<CoreInteractiveObject> OnAllInteractiveObjectCreatedEvent;
 
         public void OnInteractiveObjectCreated(CoreInteractiveObject CoreInteractiveObject)
         {
-            if (OnInteractiveObjectCreatedEvent != null) OnInteractiveObjectCreatedEvent.Invoke(CoreInteractiveObject);
+            if (OnAllInteractiveObjectCreatedEvent != null) OnAllInteractiveObjectCreatedEvent.Invoke(CoreInteractiveObject);
         }
 
-        public void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
-        {
-            if (OnInteractiveObjectDestroyedEvent != null) OnInteractiveObjectDestroyedEvent.Invoke(CoreInteractiveObject);
-        }
     }
 }

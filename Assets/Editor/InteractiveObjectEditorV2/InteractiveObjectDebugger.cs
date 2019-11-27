@@ -82,10 +82,16 @@ public class InteractiveObjectDebugger : EditorWindow
 
     private void OnPlayModeEnter()
     {
-        InteractiveObjectEventsManagerSingleton.Get().RegisterOnInteractiveObjectCreatedEventListener(OnInteractiveObjectCreated);
-        InteractiveObjectEventsManagerSingleton.Get().RegisterOnInteractiveObjectDestroyedEventListener(OnInteractiveObjectDestroyed);
-        RangeEventsManager.Get().RegisterOnRangeObjectCreatedEventListener(OnInteractiveObjectCreated);
-        RangeEventsManager.Get().RegisterOnRangeObjectDestroyedEventListener(OnInteractiveObjectDestroyed);
+        InteractiveObjectEventsManagerSingleton.Get().RegisterOnAllInteractiveObjectCreatedEventListener(delegate(CoreInteractiveObject interactiveObject)
+        {
+            this.OnObjectCreated(interactiveObject);
+            interactiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnObjectDestroyed);
+        });
+        RangeEventsManager.Get().RegisterOnRangeObjectCreatedEventListener(delegate(RangeObjectV2 rangeObject)
+        {
+            this.OnObjectCreated(rangeObject);
+            rangeObject.RegisterOnRangeObjectDestroyedEventListener(this.OnObjectDestroyed);
+        });
     }
 
     private void Tick()
@@ -93,10 +99,10 @@ public class InteractiveObjectDebugger : EditorWindow
         if (Application.isPlaying)
         {
             var allInteractiveObjects = InteractiveObjectV2Manager.Get().InteractiveObjects;
-            foreach (var interactiveObject in allInteractiveObjects) OnInteractiveObjectCreated(interactiveObject);
+            foreach (var interactiveObject in allInteractiveObjects) OnObjectCreated(interactiveObject);
 
             var allRangeObjects = RangeObjectV2Manager.Get().RangeObjects;
-            foreach (var rangeObject in allRangeObjects) OnInteractiveObjectCreated(rangeObject);
+            foreach (var rangeObject in allRangeObjects) OnObjectCreated(rangeObject);
 
             SelectedInteractiveObjectDetail.OnGui();
         }
@@ -107,7 +113,7 @@ public class InteractiveObjectDebugger : EditorWindow
         foreach (var interactiveObjectField in ListenableObjectFields.Values) interactiveObjectField.SceneTick(CommonGameConfigurations);
     }
 
-    private void OnInteractiveObjectCreated(object interactiveObject)
+    private void OnObjectCreated(object interactiveObject)
     {
         ListenableObjectFields.TryGetValue(interactiveObject, out var InteractiveObjectField);
         if (InteractiveObjectField == null)
@@ -138,7 +144,7 @@ public class InteractiveObjectDebugger : EditorWindow
         }
     }
 
-    private void OnInteractiveObjectDestroyed(object CoreInteractiveObject)
+    private void OnObjectDestroyed(object CoreInteractiveObject)
     {
         ListenableObjectFields.TryGetValue(CoreInteractiveObject, out var InteractiveObjectField);
         if (InteractiveObjectField != null)

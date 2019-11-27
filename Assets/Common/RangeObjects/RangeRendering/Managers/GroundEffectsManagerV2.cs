@@ -53,7 +53,6 @@ namespace RangeObjects
             #region Event Registering
 
             RangeEventsManager.Get().RegisterOnRangeObjectCreatedEventListener(OnRangeObjectCreated);
-            RangeEventsManager.Get().RegisterOnRangeObjectDestroyedEventListener(OnRangeObjectDestroyed);
 
             #endregion
         }
@@ -141,6 +140,7 @@ namespace RangeObjects
                     var addedRange = new SphereGroundEffectManager(RangeTypeConfiguration.ConfigurationInherentData[rangeTypeID], SphereRangeObjectRenderingDataProvider);
                     addedRange.OnRangeCreated(SphereRangeObjectRenderingDataProvider);
                     rangeRenderDatas[rangeTypeID].Add(SphereRangeObjectRenderingDataProvider.BoundingCollider.GetInstanceID(), new CircleRangeRenderData(addedRange));
+                    RangeObjectV2.RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
                 }
                 else if (RangeObjectV2.GetType() == typeof(BoxRangeObjectV2))
                 {
@@ -148,6 +148,7 @@ namespace RangeObjects
                     var addedRange = new BoxGroundEffectManager(RangeTypeConfiguration.ConfigurationInherentData[rangeTypeID], BoxRangeObjectRenderingDataProvider);
                     addedRange.OnRangeCreated(BoxRangeObjectRenderingDataProvider);
                     rangeRenderDatas[rangeTypeID].Add(BoxRangeObjectRenderingDataProvider.BoundingCollider.GetInstanceID(), new BoxRangeRenderData(addedRange));
+                    RangeObjectV2.RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
                 }
                 else if (RangeObjectV2.GetType() == typeof(RoundedFrustumRangeObjectV2))
                 {
@@ -155,6 +156,7 @@ namespace RangeObjects
                     var addedRange = new RoundedFrustumGroundEffectManager(RangeTypeConfiguration.ConfigurationInherentData[rangeTypeID], RoundedFrustumRangeObjectRenderingDataProvider);
                     addedRange.OnRangeCreated(RoundedFrustumRangeObjectRenderingDataProvider);
                     rangeRenderDatas[rangeTypeID].Add(RoundedFrustumRangeObjectRenderingDataProvider.BoundingCollider.GetInstanceID(), new RoundedFrustumRenderData(addedRange));
+                    RangeObjectV2.RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
                 }
             }
         }

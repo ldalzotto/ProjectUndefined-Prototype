@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GeometryIntersection;
+using InteractiveObjects;
 using UnityEngine;
 
 namespace Obstacle
@@ -64,14 +65,16 @@ namespace Obstacle
         public void AddNearSquareObstacle(ObstacleInteractiveObject ObstacleInteractiveObject)
         {
             nearSquareObstacles.Add(ObstacleInteractiveObject);
+            ObstacleInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnObstacleInteractiveObjectDestroyed);
         }
 
         public void RemoveNearSquareObstacle(ObstacleInteractiveObject ObstacleInteractiveObject)
         {
             nearSquareObstacles.Remove(ObstacleInteractiveObject);
+            ObstacleInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnObstacleInteractiveObjectDestroyed);
         }
 
-        public void RemoveReferencesToObstacleInteractiveObject(ObstacleInteractiveObject ObstacleInteractiveObject)
+        private void OnObstacleInteractiveObjectDestroyed(CoreInteractiveObject ObstacleInteractiveObject)
         {
             for (var i = this.nearSquareObstacles.Count - 1; i >= 0; i--)
             {
