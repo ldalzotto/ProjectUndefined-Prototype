@@ -58,6 +58,7 @@
   <ItemGroup>
      <Compile Include="Assets\Common\GeometryIntersection\Lib\FrustumPointsPositions.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\Intersection.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Lib\PhysicsIntersection.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\ShapeDefinitions.cs" />
      <None Include="Assets\Common\GeometryIntersection\GeometryIntersection.asmdef" />
  <Reference Include="Unity.Burst">

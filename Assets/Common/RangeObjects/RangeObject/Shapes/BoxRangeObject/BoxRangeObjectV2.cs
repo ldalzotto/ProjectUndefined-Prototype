@@ -48,6 +48,7 @@ namespace RangeObjects
         private float RayWidth;
         public HashSet<CoreInteractiveObject> InsideInteractiveObjects { get; private set; } = new HashSet<CoreInteractiveObject>();
         private Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard;
+
         public BoxRayRangeObject(GameObject AssociatedGameObject, BoxRangeObjectInitialization BoxRangeObjectInitialization, CoreInteractiveObject AssociatedInteractiveObject,
             float rayWidth, Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard, string objectName = "")
             : base(AssociatedGameObject, BoxRangeObjectInitialization, AssociatedInteractiveObject, objectName)
@@ -63,7 +64,7 @@ namespace RangeObjects
 
         public void ManuallyDetectInsideColliders()
         {
-            var overlappingCollider = this.BoxOverlap(this.RangeGameObjectV2.BoundingCollider as BoxCollider);
+            var overlappingCollider = PhysicsIntersection.BoxOverlapColliderWorld(this.RangeGameObjectV2.BoundingCollider as BoxCollider);
             if (overlappingCollider != null)
             {
                 for (var i = 0; i < overlappingCollider.Length; i++)
@@ -80,15 +81,7 @@ namespace RangeObjects
                 }
             }
         }
-        
-        private Collider[] BoxOverlap(BoxCollider boxCollider)
-        {
-            var localToWorld = Matrix4x4.TRS(boxCollider.transform.position, Quaternion.identity, boxCollider.transform.lossyScale);
-            var insideColliders = Physics.OverlapBox(boxCollider.transform.position + boxCollider.center,
-                boxCollider.transform.lossyScale.Mul(boxCollider.size) * 0.5f,
-                boxCollider.transform.rotation);
-            return insideColliders;
-        }
+
 
         public void UpdateRayDimensions(float Distance, bool Inverted = false)
         {

@@ -106,6 +106,7 @@
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <Compile Include="Assets\Test\BoxCastTest\BoxCastTest.cs" />
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
+     <Compile Include="Assets\Test\InstantPhysicsIntersectionTest\InstantPhysicsIntersectionTest.cs" />
      <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineCommandBuffer.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineRenderFeature.cs" />
