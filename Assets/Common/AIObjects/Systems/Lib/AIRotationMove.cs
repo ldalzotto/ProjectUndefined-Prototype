@@ -28,7 +28,11 @@ namespace AIObjects
         {
             if (objectAgent.hasPath && !objectAgent.isStopped)
             {
-                this.CurrentLookingTargetRotation = Quaternion.LookRotation(objectAgent.desiredVelocity.normalized, Vector3.up);
+                if (objectAgent.desiredVelocity != Vector3.zero)
+                {
+                    this.CurrentLookingTargetRotation = Quaternion.LookRotation(objectAgent.desiredVelocity.normalized, Vector3.up);
+                }
+
                 objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, this.CurrentLookingTargetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
             }
             else
