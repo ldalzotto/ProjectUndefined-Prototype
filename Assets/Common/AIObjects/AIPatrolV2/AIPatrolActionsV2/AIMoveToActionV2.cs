@@ -43,13 +43,20 @@ namespace AIObjects
         {
             if (!this.destinationReached)
             {
-                this.InteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination
-                {
-                    WorldPosition = this.WorldPosition,
-                    Rotation = this.WorldRotation.HasValue ? Quaternion.Euler(this.WorldRotation.Value) : default(Nullable<Quaternion>)
-                }));
+                var strategy = ForwardAgentMovementCalculationStrategy();
+                this.InteractiveObject.SetDestination(strategy);
                 this.InteractiveObject.SetAISpeedAttenuationFactor(this.AIMovementSpeed);
             }
+        }
+
+        private ForwardAgentMovementCalculationStrategy ForwardAgentMovementCalculationStrategy()
+        {
+            var strategy = new ForwardAgentMovementCalculationStrategy(new AIDestination
+            {
+                WorldPosition = this.WorldPosition,
+                Rotation = this.WorldRotation.HasValue ? Quaternion.Euler(this.WorldRotation.Value) : default(Nullable<Quaternion>)
+            });
+            return strategy;
         }
 
         public void OnDestinationReached()

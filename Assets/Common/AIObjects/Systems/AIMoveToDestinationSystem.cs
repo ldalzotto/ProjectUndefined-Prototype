@@ -4,6 +4,7 @@ using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Profiling;
 
 namespace AIObjects
 {
@@ -46,6 +47,7 @@ namespace AIObjects
 
         public override void Tick(float d)
         {
+            Profiler.BeginSample("AIMoveToDestinationSystem");
             if (IsEnabled)
             {
                 this.EnableAgent();
@@ -57,6 +59,7 @@ namespace AIObjects
             {
                 this.StopAgent();
             }
+            Profiler.EndSample();
         }
 
         public override void AfterTicks()

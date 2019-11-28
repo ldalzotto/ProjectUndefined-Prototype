@@ -1,5 +1,4 @@
-﻿using CoreGame;
-using InteractiveObjects_Interfaces;
+﻿using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -29,14 +28,7 @@ namespace AIObjects
         {
             if (objectAgent.hasPath && !objectAgent.isStopped)
             {
-                //if target is too close, we look to destination
-                var distanceToDestination = Vector3.Distance(objectAgent.nextPosition, objectAgent.destination);
-
-                if (objectAgent.nextPosition != objectAgent.destination && distanceToDestination <= 5f)
-                    this.CurrentLookingTargetRotation = Quaternion.LookRotation(objectAgent.destination - objectAgent.nextPosition, Vector3.up);
-                else
-                    this.CurrentLookingTargetRotation = Quaternion.LookRotation((objectAgent.path.corners[1] - objectAgent.path.corners[0]).normalized, Vector3.up);
-
+                this.CurrentLookingTargetRotation = Quaternion.LookRotation(objectAgent.desiredVelocity.normalized, Vector3.up);
                 objectAgent.transform.rotation = Quaternion.Slerp(objectAgent.transform.rotation, this.CurrentLookingTargetRotation, this.AITransformMoveManagerComponentV3.RotationSpeed * d);
             }
             else
