@@ -21,8 +21,7 @@
 "Weapon",
 "GeometryIntersection",
 "Targetting",
-"Health",
-"TimeManagement"
+"Health"
 ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,5 +1,4 @@
 ﻿using CoreGame;
-using TimeManagement;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,7 +20,8 @@ namespace Tests
 
         public void Tick()
         {
-            TimeManagementManager.Get().SetTimeScale(this.TestGameControlDefinition.TimeScale);
+            Time.timeScale = this.TestGameControlDefinition.TimeScale;
+            Time.fixedDeltaTime = 0.02f * this.TestGameControlDefinition.TimeScale;
         }
     }
 }

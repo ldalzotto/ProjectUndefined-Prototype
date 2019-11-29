@@ -2,15 +2,10 @@
 using CoreGame;
 using Input;
 using PlayerObject_Interfaces;
-using TimeManagement;
 using UnityEngine;
 
 namespace CameraManagement
 {
-    /// <summary>
-    /// Emit events to <see cref="TimeManagementManager"/> to set timescale when the camera start rotating <see cref="CameraOrientationManager"/>.
-    /// This allow rotation of camera without worrying of time elasping. 
-    /// </summary>
     public class CameraMovementManager : GameSingleton<CameraMovementManager>
     {
         private CameraFollowManager CameraFollowManager;
@@ -25,24 +20,16 @@ namespace CameraManagement
         
         public void Init()
         {
-            #region External Dependencies
-
-            TimeManagementManager TimeManagementManager = TimeManagementManager.Get();
-
-            #endregion
-            
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform;
-            this.CameraOrientationManager = new CameraOrientationManager(cameraPivotPoint, GameInputManager.Get(), InputConfigurationGameObject.Get().CoreInputConfiguration, 
-                OnCameraStartedRotatingCallback: () => TimeManagementManager.SetTimeScale(0f), 
-                OnCameraStoppedRotatingCallback: () => TimeManagementManager.SetTimeScale(1f));
+            this.CameraOrientationManager = new CameraOrientationManager(cameraPivotPoint, GameInputManager.Get(), InputConfigurationGameObject.Get().CoreInputConfiguration);
             this.CameraZoomManager = new CameraZoomManager(Camera.main, GameInputManager.Get());
         }
 
-        public void Tick(float unscaled)
+        public void Tick(float d)
         {
-            this.CameraFollowManager?.Tick(unscaled);
-            this.CameraOrientationManager.Tick(unscaled);
-            this.CameraZoomManager.Tick(unscaled);
+            this.CameraFollowManager?.Tick(d);
+            this.CameraOrientationManager.Tick(d);
+            this.CameraZoomManager.Tick(d);
         }
 
         #region External Events
@@ -74,7 +61,7 @@ namespace CameraManagement
         /// </summary>
         public bool IsCameraRotating()
         {
-            return this.CameraOrientationManager.IsRotating.GetValue();
+            return this.CameraOrientationManager.IsRotating;
         }
 
         #endregion
@@ -119,10 +106,6 @@ namespace CameraManagement
         #endregion
     }
 
-    /// <summary>
-    /// Rotate the camera around it's pivot point.
-    /// Also calls OnCameraStartedRotatingCallback and OnCameraStoppedRotatingCallback when the <see cref="IsRotating"/> value changes.
-    /// </summary>
     public class CameraOrientationManager
     {
         private CoreInputConfiguration CoreInputConfiguration;
@@ -133,27 +116,24 @@ namespace CameraManagement
 
         #region State
 
-        public BoolVariable IsRotating { get; private set; }
+        public bool IsRotating { get; private set; } = false;
         private bool isRotatingTowardsAtarget = false;
         private bool inputEnabled = true;
 
         #endregion
-        
-        public CameraOrientationManager(Transform cameraPivotPoint, GameInputManager gameInputManager, CoreInputConfiguration CoreInputConfiguration, 
-            Action OnCameraStartedRotatingCallback,
-            Action OnCameraStoppedRotatingCallback)
+
+        public CameraOrientationManager(Transform cameraPivotPoint, GameInputManager gameInputManager, CoreInputConfiguration CoreInputConfiguration)
         {
             this.cameraPivotPoint = cameraPivotPoint;
             this.gameInputManager = gameInputManager;
             this.CoreInputConfiguration = CoreInputConfiguration;
-            this.IsRotating = new BoolVariable(false, OnCameraStartedRotatingCallback, OnCameraStoppedRotatingCallback);
         }
 
         public void Tick(float d)
         {
-            this.IsRotating.SetValue(this.gameInputManager.CurrentInput.RotationCameraDH());
+            this.IsRotating = this.gameInputManager.CurrentInput.RotationCameraDH();
 
-            if (this.IsRotating.GetValue())
+            if (this.IsRotating)
             {
                 Vector3 rotationVector = Vector3.zero;
                 if (this.isRotatingTowardsAtarget)

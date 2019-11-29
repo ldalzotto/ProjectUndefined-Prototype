@@ -106,7 +106,6 @@
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <Compile Include="Assets\Test\BoxCastTest\BoxCastTest.cs" />
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
-     <Compile Include="Assets\Test\InstantPhysicsIntersectionTest\InstantPhysicsIntersectionTest.cs" />
      <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineCommandBuffer.cs" />
      <Compile Include="Assets\Test\OutlineTest\OutlineRenderFeature.cs" />
@@ -356,6 +355,9 @@
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.CompilerServices.Unsafe">
+ <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

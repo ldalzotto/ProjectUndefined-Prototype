@@ -680,10 +680,6 @@
       <Project>{B0B86AC7-E423-566C-6E55-58B5FDE37DF9}</Project>
       <Name>RangeObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="TimeManagement.csproj">
-      <Project>{2953275D-74C6-F7B6-C30A-70EA88C3E8F8}</Project>
-      <Name>TimeManagement</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -257,6 +257,9 @@
  <Reference Include="Unity.Burst.Unsafe">
  <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
+ <Reference Include="System.Runtime.CompilerServices.Unsafe">
+ <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
  </Reference>
@@ -696,10 +699,6 @@
     <ProjectReference Include="Health.csproj">
       <Project>{75786E6C-34C8-0B2C-40F8-743BA59E9518}</Project>
       <Name>Health</Name>
-    </ProjectReference>
-    <ProjectReference Include="TimeManagement.csproj">
-      <Project>{2953275D-74C6-F7B6-C30A-70EA88C3E8F8}</Project>
-      <Name>TimeManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
