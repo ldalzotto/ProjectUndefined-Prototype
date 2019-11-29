@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{BE05B82E-10FB-F65D-6508-EB983BDCC994}</ProjectGuid>
+    <ProjectGuid>{1C41B0EC-9EE4-2CF0-1FFA-C23CC0B573CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>GeometryIntersection</AssemblyName>
@@ -62,16 +62,16 @@
      <Compile Include="Assets\Common\GeometryIntersection\Lib\ShapeDefinitions.cs" />
      <None Include="Assets\Common\GeometryIntersection\GeometryIntersection.asmdef" />
  <Reference Include="Unity.Burst">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -260,10 +260,10 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -622,7 +622,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
   </ItemGroup>

@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4B5DEF64-4FDA-7B80-40DB-F36B792B3884}</ProjectGuid>
+    <ProjectGuid>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>AIObjects</AssemblyName>
@@ -69,13 +69,13 @@
      <Compile Include="Assets\Common\AIObjects\Systems\Lib\AIRotationMove.cs" />
      <None Include="Assets\Common\AIObjects\AIObjects.asmdef" />
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -264,10 +264,10 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -626,43 +626,43 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="AnimatorPlayable.csproj">
-      <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
+      <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
       <Name>AnimatorPlayable</Name>
     </ProjectReference>
     <ProjectReference Include="VisualFeedback.csproj">
-      <Project>{7CB22E21-2248-2D5F-191C-57E9A683E3D8}</Project>
+      <Project>{C165EDF6-5BA2-9048-B8F0-2838E3D57D19}</Project>
       <Name>VisualFeedback</Name>
     </ProjectReference>
     <ProjectReference Include="SequencedAction.csproj">
-      <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
+      <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
       <Name>SequencedAction</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
+      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
       <Name>InteractiveObject_Animation</Name>
     </ProjectReference>
     <ProjectReference Include="SequencedAction_Editor_Common.csproj">
-      <Project>{0D0A264B-1D3D-7B14-5E92-5228B7ECB71D}</Project>
+      <Project>{457F267A-1079-F699-ABAB-797956BB7D38}</Project>
       <Name>SequencedAction_Editor_Common</Name>
     </ProjectReference>
   </ItemGroup>

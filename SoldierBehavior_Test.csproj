@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{57AAD0A0-133F-053B-C254-BDAB91AFBB46}</ProjectGuid>
+    <ProjectGuid>{64AC0A18-5061-95D9-ED0D-BEEAFC6A46C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>SoldierBehavior_Test</AssemblyName>
@@ -60,19 +60,19 @@
      <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\TrackUnknownScenario\TrackUnknownScenario.cs" />
      <None Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\SoldierBehavior_Test.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.TestRunner">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -252,7 +252,7 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -611,47 +611,47 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="SoliderBehavior.csproj">
-      <Project>{CCE8FB12-317B-A034-92B0-DED327F99BF4}</Project>
+      <Project>{7854010B-7136-40C3-23B2-6A2D83F888EA}</Project>
       <Name>SoliderBehavior</Name>
     </ProjectReference>
     <ProjectReference Include="Tests.csproj">
-      <Project>{2E0DF170-5586-5B9F-1D17-9336702E6605}</Project>
+      <Project>{CC59B679-8993-C709-3D98-06EE2F965358}</Project>
       <Name>Tests</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="SequencedAction.csproj">
-      <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
+      <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
       <Name>SequencedAction</Name>
     </ProjectReference>
     <ProjectReference Include="AIObjects.csproj">
-      <Project>{4B5DEF64-4FDA-7B80-40DB-F36B792B3884}</Project>
+      <Project>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</Project>
       <Name>AIObjects</Name>
     </ProjectReference>
     <ProjectReference Include="PlayerObject.csproj">
-      <Project>{D724B571-7DAE-8593-0240-BB4D3341B93B}</Project>
+      <Project>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</Project>
       <Name>PlayerObject</Name>
     </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="Targetting_Tests.csproj">
-      <Project>{A9BD8531-3C62-2A79-4B21-3617415121D5}</Project>
+      <Project>{B0A26EA7-AAD9-13B2-487E-C8EB83C405B2}</Project>
       <Name>Targetting_Tests</Name>
     </ProjectReference>
   </ItemGroup>

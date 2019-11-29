@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{D2645906-D846-DC24-BADC-9B49DE344A34}</ProjectGuid>
+    <ProjectGuid>{9F05861D-A30D-BD60-68C3-F863F147FACA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Editor_Common</AssemblyName>
@@ -81,13 +81,13 @@
      <Compile Include="Assets\Editor_Common\PropertyAttributes\VisualElementConversion\VisualElementConversion.cs" />
      <None Include="Assets\Editor_Common\Editor_Common.asmdef" />
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -276,10 +276,10 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -638,7 +638,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
   </ItemGroup>

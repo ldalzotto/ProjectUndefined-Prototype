@@ -52,7 +52,11 @@ namespace AIObjects
             {
                 this.EnableAgent();
                 this.AIDestinationManager.CheckIfDestinationReached(d);
+                
+                Profiler.BeginSample("A_AIRotationMoveManager");
                 this.A_AIRotationMoveManager.UpdateAgentRotation(d);
+                Profiler.EndSample();
+                
                 this.aiPositionMoveManager.UpdateAgentPosition(d);
             }
             else

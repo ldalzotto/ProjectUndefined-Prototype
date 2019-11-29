@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{125454DF-138B-94CE-9966-52632EB4DE10}</ProjectGuid>
+    <ProjectGuid>{D821AE8B-5B34-3933-C79B-A2355D29C0BF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Targetting</AssemblyName>
@@ -63,13 +63,13 @@
      <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargettableInteractiveObjectSelectionManager.cs" />
      <None Include="Assets\Undefined\Logic\Targetting\Targetting.asmdef" />
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -258,10 +258,10 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -620,27 +620,27 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Input.csproj">
-      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
+      <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
     </ProjectReference>
     <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
+      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
       <Name>PlayerObject_Interface</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
   </ItemGroup>

@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{3ED6129A-F77C-7D87-CFDC-573822D6A1E2}</ProjectGuid>
+    <ProjectGuid>{56F1099E-3ADB-DC9F-A753-95F99FDE1472}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>SelectionObjects</AssemblyName>
@@ -66,16 +66,16 @@
      <Compile Include="Assets\Common\SelectableObjects\SelectableObjectsRendering\SelectableObjectRendererManager.cs" />
      <None Include="Assets\Common\SelectableObjects\SelectableObjects.asmdef" />
  <Reference Include="Unity.RenderPipelines.Lightweight.Runtime">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Runtime.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Runtime.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -264,10 +264,10 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -626,43 +626,43 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="SelectableObjects_Interfaces.csproj">
-      <Project>{1A25ED86-E332-816C-7EE6-8D768A3D8986}</Project>
+      <Project>{9D4F68BE-F7D1-1FFB-9838-97E91125FC1D}</Project>
       <Name>SelectableObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="RangeObjects.csproj">
-      <Project>{B0B86AC7-E423-566C-6E55-58B5FDE37DF9}</Project>
+      <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
       <Name>RangeObjects</Name>
     </ProjectReference>
     <ProjectReference Include="LevelManagement.csproj">
-      <Project>{F9A056B6-F4BF-D32F-5783-F99516EBF2DD}</Project>
+      <Project>{69A6BD19-8056-97CD-377C-9C31231CFC6C}</Project>
       <Name>LevelManagement</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
+      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
       <Name>InteractiveObject_Animation</Name>
     </ProjectReference>
     <ProjectReference Include="Input.csproj">
-      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
+      <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
     </ProjectReference>
   </ItemGroup>

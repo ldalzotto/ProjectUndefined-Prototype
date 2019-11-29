@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{D724B571-7DAE-8593-0240-BB4D3341B93B}</ProjectGuid>
+    <ProjectGuid>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>PlayerObject</AssemblyName>
@@ -70,13 +70,13 @@
      <Compile Include="Assets\Common\PlayerObject\PositionPersistance\PlayerPositionPersistenceManager.cs" />
      <None Include="Assets\Common\PlayerObject\PlayerObject.asmdef" />
  <Reference Include="UnityEditor.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -265,10 +265,10 @@
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/No Entry_0.0.164/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -627,71 +627,71 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{42804222-6A23-CC02-C65B-A45131BAA9EB}</Project>
+      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
       <Name>PlayerObject_Interface</Name>
     </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
-      <Project>{948A25C1-0736-7139-A2ED-866DC90C0DB2}</Project>
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{741991FE-D211-F6D8-2B2A-0EB0F573E16F}</Project>
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{AE57611A-DD84-95F8-F8D2-666EC87D1249}</Project>
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="PlayerActions.csproj">
-      <Project>{63AE0CB7-735A-D4CD-7DAE-B8ABD6F2883E}</Project>
+      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
       <Name>PlayerActions</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
-      <Project>{D2645906-D846-DC24-BADC-9B49DE344A34}</Project>
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{4E4DA0A8-F293-7282-F2A8-CC4E9AF71BE7}</Project>
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="Persistence.csproj">
-      <Project>{A4906D6E-AF6D-3124-2AC7-89DF2A42A701}</Project>
+      <Project>{05125174-FA75-D840-9C98-364A15C13DAA}</Project>
       <Name>Persistence</Name>
     </ProjectReference>
     <ProjectReference Include="SequencedAction.csproj">
-      <Project>{DEA32955-3A4C-91B9-1014-A38CB08C83D6}</Project>
+      <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
       <Name>SequencedAction</Name>
     </ProjectReference>
     <ProjectReference Include="AnimatorPlayable.csproj">
-      <Project>{00DCCEBF-15A4-1F84-23B7-1B0D3901D4D1}</Project>
+      <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
       <Name>AnimatorPlayable</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{0E88EFEB-BC03-DBFA-6206-66F073959B55}</Project>
+      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
       <Name>InteractiveObject_Animation</Name>
     </ProjectReference>
     <ProjectReference Include="Input.csproj">
-      <Project>{73912B02-42F4-0831-0126-BFB1D89A0C3F}</Project>
+      <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
     </ProjectReference>
     <ProjectReference Include="Weapon.csproj">
-      <Project>{DD9001CA-9B59-601F-309B-0FEB0284AAD1}</Project>
+      <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
       <Name>Weapon</Name>
     </ProjectReference>
     <ProjectReference Include="AIObjects.csproj">
-      <Project>{4B5DEF64-4FDA-7B80-40DB-F36B792B3884}</Project>
+      <Project>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</Project>
       <Name>AIObjects</Name>
     </ProjectReference>
     <ProjectReference Include="Health.csproj">
-      <Project>{75786E6C-34C8-0B2C-40F8-743BA59E9518}</Project>
+      <Project>{1120D459-F00D-9D61-B928-77E83AE6B731}</Project>
       <Name>Health</Name>
     </ProjectReference>
     <ProjectReference Include="Damage.csproj">
-      <Project>{C8439A5B-3C4B-7B38-580C-E5D09B5E18BB}</Project>
+      <Project>{C8E5E3A4-332C-993B-D996-1C378FBCDB4D}</Project>
       <Name>Damage</Name>
     </ProjectReference>
     <ProjectReference Include="LevelManagement.csproj">
-      <Project>{F9A056B6-F4BF-D32F-5783-F99516EBF2DD}</Project>
+      <Project>{69A6BD19-8056-97CD-377C-9C31231CFC6C}</Project>
       <Name>LevelManagement</Name>
     </ProjectReference>
   </ItemGroup>
