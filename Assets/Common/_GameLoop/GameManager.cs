@@ -60,6 +60,9 @@ namespace GameLoop
 
             BeforeTick(d);
 
+            ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
+            RangeIntersectionCalculationManagerV2.Get().Tick(d);
+            
             TutorialManager.Get().Tick(d);
             PuzzleTutorialEventSenderManager.Get().Tick(d);
 
@@ -76,12 +79,8 @@ namespace GameLoop
             PlayerInteractiveObjectManager.Get().Tick(d);
             PlayerInteractiveObjectManager.Get().AfterTicks(d);
 
-
             WeaponRecoilTimeManager.Get().Tick(d);
-
-            ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
-            RangeIntersectionCalculationManagerV2.Get().Tick(d);
-
+            
             RangeObjectV2Manager.Get().Tick(d);
 
             InteractiveObjectV2Manager.Get().Tick(d);

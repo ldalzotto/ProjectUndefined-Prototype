@@ -19,7 +19,7 @@ namespace SoliderAIBehavior
     }
     
     /// <summary>
-    /// Holds and update informations about the ability to shoot to the Player. This is achieved by creating a trigger WeaponFiringAreaBoxRangeObject between the
+    /// Holds and update informations about the ability to shoot to the Player. This is achieved by creating a trigger <see cref="WeaponFiringAreaBoxRangeObject"/> between the
     /// <see cref="SoliderEnemy.GetWeaponFirePointOriginLocalAction"/> and the <see cref="PlayerInteractiveObject.GetFiringTargetLocalPosition"/>.
     /// Ability to shoot to the Player is provided by ensuring that the WeaponFiringAreaBoxRangeObject doesn't contains Obstacles.
     /// </summary>
