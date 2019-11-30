@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CoreGame;
 using Input;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TimeManagement
 {
@@ -16,6 +17,7 @@ namespace TimeManagement
     {
         private TimeFreezeSystem _timeFreezeSystem;
         private TimeInputSystem TimeInputSystem;
+        private TimePausedIconSystem TimePausedIconSystem;
 
         public TimeManagementManager()
         {
@@ -26,9 +28,10 @@ namespace TimeManagement
             #endregion
 
             _timeFreezeSystem = new TimeFreezeSystem();
+            this.TimePausedIconSystem = new TimePausedIconSystem(TimeManagementConfigurationGameObject.Get().TimeManagementConfiguration);
             TimeInputSystem = new TimeInputSystem(GameInputManager,
-                this._timeFreezeSystem.OnTimeFrozen,
-                this._timeFreezeSystem.OnTimeResettedToNormal);
+                this.OnTimeFrozen,
+                this.OnTimeResettedToNormal);
         }
 
         public void Tick()
@@ -36,6 +39,22 @@ namespace TimeManagement
             this.TimeInputSystem.Tick();
         }
 
+        #region Internal Events
+
+        private void OnTimeFrozen()
+        {
+            this._timeFreezeSystem.OnTimeFrozen();
+            this.TimePausedIconSystem.OnTimeFrozen();
+        }
+
+        private void OnTimeResettedToNormal()
+        {
+            this._timeFreezeSystem.OnTimeResettedToNormal();
+            this.TimePausedIconSystem.OnTimeResettedToNormal();
+        }
+
+        #endregion
+        
         #region External Events
 
         public float GetCurrentDeltaTime()
@@ -107,14 +126,35 @@ namespace TimeManagement
                 this.TimeSlowTriggerValue.SetValue(!this.TimeSlowTriggerValue.GetValue());
             }
         }
-        
+
         #region Logical Conditions
 
         public bool IsTimeFrozen()
         {
             return this.TimeSlowTriggerValue.GetValue();
         }
+
         #endregion
-        
+    }
+
+    class TimePausedIconSystem
+    {
+        private Image InstanciatedPauseIcon;
+
+        public TimePausedIconSystem(TimeManagementConfiguration TimeManagementConfiguration)
+        {
+            this.InstanciatedPauseIcon = MonoBehaviour.Instantiate(TimeManagementConfiguration.TimePausedIconPrefab, CoreGameSingletonInstances.GameCanvas.transform);
+            this.InstanciatedPauseIcon.enabled = false;
+        }
+
+        public void OnTimeFrozen()
+        {
+            this.InstanciatedPauseIcon.enabled = true;
+        }
+
+        public void OnTimeResettedToNormal()
+        {
+            this.InstanciatedPauseIcon.enabled = false;
+        }
     }
 }

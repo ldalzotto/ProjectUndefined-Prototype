@@ -56,6 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Common\TimeManagement\Configuration\TimeManagementConfiguration.cs" />
+     <Compile Include="Assets\Common\TimeManagement\Configuration\TimeManagementConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\TimeManagement\Managers\TimeManagementManager.cs" />
      <None Include="Assets\Common\TimeManagement\TimeManagement.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -622,6 +624,10 @@
     <ProjectReference Include="Input.csproj">
       <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="OdinSerializer.csproj">
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
+      <Name>OdinSerializer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
