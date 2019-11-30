@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{581CC062-EFAD-047B-14A9-B1F614DD9CDE}</ProjectGuid>
+    <ProjectGuid>{2451A9B5-AAEF-3AE7-5873-F9A5616CEF47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>GameLoop</AssemblyName>
+    <AssemblyName>TimeManagement</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,9 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\_GameLoop\AsbtractCoreGameManager.cs" />
-     <Compile Include="Assets\Common\_GameLoop\GameManager.cs" />
-     <None Include="Assets\Common\_GameLoop\GameLoop.asmdef" />
+     <Compile Include="Assets\Common\TimeManagement\Managers\TimeManagementManager.cs" />
+     <None Include="Assets\Common\TimeManagement\TimeManagement.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -620,89 +619,9 @@
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
-    <ProjectReference Include="LevelManagement.csproj">
-      <Project>{69A6BD19-8056-97CD-377C-9C31231CFC6C}</Project>
-      <Name>LevelManagement</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerObject.csproj">
-      <Project>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</Project>
-      <Name>PlayerObject</Name>
-    </ProjectReference>
-    <ProjectReference Include="Persistence.csproj">
-      <Project>{05125174-FA75-D840-9C98-364A15C13DAA}</Project>
-      <Name>Persistence</Name>
-    </ProjectReference>
-    <ProjectReference Include="Timelines.csproj">
-      <Project>{E6A4B069-5EC2-09ED-CB37-42D9149B4E31}</Project>
-      <Name>Timelines</Name>
-    </ProjectReference>
     <ProjectReference Include="Input.csproj">
       <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="RangeObjects.csproj">
-      <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
-      <Name>RangeObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
-      <Name>InteractiveObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
-      <Name>InteractiveObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="CameraManagement.csproj">
-      <Project>{7E99B70D-57F7-0D6B-3D29-B5FCCEB20C49}</Project>
-      <Name>CameraManagement</Name>
-    </ProjectReference>
-    <ProjectReference Include="Tutorial.csproj">
-      <Project>{99AC4B27-79E6-C51C-E104-026AD692345E}</Project>
-      <Name>Tutorial</Name>
-    </ProjectReference>
-    <ProjectReference Include="VisualFeedback.csproj">
-      <Project>{C165EDF6-5BA2-9048-B8F0-2838E3D57D19}</Project>
-      <Name>VisualFeedback</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
-      <Name>PlayerObject_Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
-      <Name>PlayerActions</Name>
-    </ProjectReference>
-    <ProjectReference Include="SelectionObjects.csproj">
-      <Project>{56F1099E-3ADB-DC9F-A753-95F99FDE1472}</Project>
-      <Name>SelectionObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="Obstacle.csproj">
-      <Project>{AF1708AA-DA84-942E-089B-BE31D0291B7B}</Project>
-      <Name>Obstacle</Name>
-    </ProjectReference>
-    <ProjectReference Include="LevelManagement_Interfaces.csproj">
-      <Project>{8DA28C2F-777B-F580-3353-E0009DE74AB0}</Project>
-      <Name>LevelManagement_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="Weapon.csproj">
-      <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
-      <Name>Weapon</Name>
-    </ProjectReference>
-    <ProjectReference Include="GeometryIntersection.csproj">
-      <Project>{1C41B0EC-9EE4-2CF0-1FFA-C23CC0B573CE}</Project>
-      <Name>GeometryIntersection</Name>
-    </ProjectReference>
-    <ProjectReference Include="Targetting.csproj">
-      <Project>{D821AE8B-5B34-3933-C79B-A2355D29C0BF}</Project>
-      <Name>Targetting</Name>
-    </ProjectReference>
-    <ProjectReference Include="Health.csproj">
-      <Project>{1120D459-F00D-9D61-B928-77E83AE6B731}</Project>
-      <Name>Health</Name>
-    </ProjectReference>
-    <ProjectReference Include="TimeManagement.csproj">
-      <Project>{2451A9B5-AAEF-3AE7-5873-F9A5616CEF47}</Project>
-      <Name>TimeManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

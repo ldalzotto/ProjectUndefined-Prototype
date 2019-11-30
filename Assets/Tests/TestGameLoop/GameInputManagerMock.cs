@@ -127,6 +127,11 @@ namespace Tests
             return false;
         }
 
+        public bool FreezeTimeDown()
+        {
+            return false;
+        }
+
         #endregion
     }
 

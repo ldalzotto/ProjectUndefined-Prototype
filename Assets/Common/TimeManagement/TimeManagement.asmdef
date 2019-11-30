@@ -1,0 +1,15 @@
+{
+    "name": "TimeManagement",
+    "references": [
+        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e",
+        "GUID:2cac793607c268b4fabc84d209b279ea"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

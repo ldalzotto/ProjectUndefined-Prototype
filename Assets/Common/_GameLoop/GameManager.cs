@@ -10,6 +10,7 @@ using PlayerObject;
 using RangeObjects;
 using SelectableObject;
 using Targetting;
+using TimeManagement;
 using Tutorial;
 using UnityEngine;
 using VisualFeedback;
@@ -38,7 +39,7 @@ namespace GameLoop
             TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
             RangeObjectV2Manager.Get().InitializeEvents();
             GroundEffectsManagerV2.Get().InitializeEvents();
-            
+
             RangeObjectV2Manager.Get().Init();
             GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             InteractiveObjectV2Manager.Get().Init();
@@ -56,62 +57,74 @@ namespace GameLoop
 
         protected virtual void Update()
         {
-            var d = Time.deltaTime;
+            TimeManagementManager.Get().Tick();
 
-            BeforeTick(d);
+            var d = TimeManagementManager.Get().GetCurrentDeltaTime();
+            var unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
 
-            ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
-            RangeIntersectionCalculationManagerV2.Get().Tick(d);
-            
-            TutorialManager.Get().Tick(d);
-            PuzzleTutorialEventSenderManager.Get().Tick(d);
-
-            BlockingCutscenePlayerManager.Get().Tick(d);
-
-            CameraMovementManager.Get().Tick(d);
+            CameraMovementManager.Get().Tick(unscaled);
             if (!CameraMovementManager.Get().IsCameraRotating())
             {
-                TargetCursorManager.Get().Tick(d);
+                TargetCursorManager.Get().Tick(unscaled);
             }
 
-            PlayerActionEntryPoint.Get().Tick(d);
+            if (!TimeManagementManager.Get().IsTimeFrozen())
+            {
+                BeforeTick(d);
 
-            PlayerInteractiveObjectManager.Get().Tick(d);
-            PlayerInteractiveObjectManager.Get().AfterTicks(d);
+                ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
+                RangeIntersectionCalculationManagerV2.Get().Tick(d);
 
-            WeaponRecoilTimeManager.Get().Tick(d);
-            
-            RangeObjectV2Manager.Get().Tick(d);
+                TutorialManager.Get().Tick(d);
+                PuzzleTutorialEventSenderManager.Get().Tick(d);
 
-            InteractiveObjectV2Manager.Get().Tick(d);
+                BlockingCutscenePlayerManager.Get().Tick(d);
 
-            InteractiveObjectV2Manager.Get().AfterTicks(d);
+                PlayerActionEntryPoint.Get().Tick(d);
 
-            GroundEffectsManagerV2.Get().Tick(d);
-            DottedLineRendererManager.Get().Tick();
-            SelectableObjectManagerV2.Get().Tick(d);
-            CircleFillBarRendererManager.Get().Tick(d);
+                PlayerInteractiveObjectManager.Get().Tick(d);
+                PlayerInteractiveObjectManager.Get().AfterTicks(d);
+
+                WeaponRecoilTimeManager.Get().Tick(d);
+
+                RangeObjectV2Manager.Get().Tick(d);
+
+                InteractiveObjectV2Manager.Get().Tick(d);
+
+                InteractiveObjectV2Manager.Get().AfterTicks(d);
+
+                GroundEffectsManagerV2.Get().Tick(d);
+                DottedLineRendererManager.Get().Tick();
+                SelectableObjectManagerV2.Get().Tick(d);
+                CircleFillBarRendererManager.Get().Tick(d);
+            }
         }
 
         private void LateUpdate()
         {
-            var d = Time.deltaTime;
+            var d = TimeManagementManager.Get().GetCurrentDeltaTime();
 
-            PlayerInteractiveObjectManager.Get().LateTick(d);
-            InteractiveObjectV2Manager.Get().LateTick(d);
-            PlayerActionEntryPoint.Get().LateTick(d);
+            if (!TimeManagementManager.Get().IsTimeFrozen())
+            {
+                PlayerInteractiveObjectManager.Get().LateTick(d);
+                InteractiveObjectV2Manager.Get().LateTick(d);
+                PlayerActionEntryPoint.Get().LateTick(d);
 
-            ObstacleOcclusionCalculationManagerV2.Get().LateTick();
-            RangeIntersectionCalculationManagerV2.Get().LateTick();
+                ObstacleOcclusionCalculationManagerV2.Get().LateTick();
+                RangeIntersectionCalculationManagerV2.Get().LateTick();
+            }
         }
 
         private void FixedUpdate()
         {
-            var d = Time.fixedDeltaTime;
+            var d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
 
-            PlayerActionEntryPoint.Get().FixedTick(d);
-            PlayerInteractiveObjectManager.Get().FixedTick(d);
-            InteractiveObjectV2Manager.Get().FixedTick(d);
+            if (!TimeManagementManager.Get().IsTimeFrozen())
+            {
+                PlayerActionEntryPoint.Get().FixedTick(d);
+                PlayerInteractiveObjectManager.Get().FixedTick(d);
+                InteractiveObjectV2Manager.Get().FixedTick(d);
+            }
         }
 
         private void OnDestroy()

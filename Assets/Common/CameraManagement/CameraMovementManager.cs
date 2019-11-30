@@ -25,11 +25,11 @@ namespace CameraManagement
             this.CameraZoomManager = new CameraZoomManager(Camera.main, GameInputManager.Get());
         }
 
-        public void Tick(float d)
+        public void Tick(float unscaled)
         {
-            this.CameraFollowManager?.Tick(d);
-            this.CameraOrientationManager.Tick(d);
-            this.CameraZoomManager.Tick(d);
+            this.CameraFollowManager?.Tick(unscaled);
+            this.CameraOrientationManager.Tick(unscaled);
+            this.CameraZoomManager.Tick(unscaled);
         }
 
         #region External Events

@@ -39,10 +39,10 @@ namespace Targetting
             this.TargetCursor.transform.position = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         }
 
-        public void Tick(float d)
+        public void Tick(float unscaled)
         {
-            MoveCursor(d);
-            this.TargettableInteractiveObjectScreenIntersectionManager.Tick(d, this.TargetCursor.transform.position);
+            MoveCursor(unscaled);
+            this.TargettableInteractiveObjectScreenIntersectionManager.Tick(unscaled, this.TargetCursor.transform.position);
         }
 
         private void MoveCursor(float d)
