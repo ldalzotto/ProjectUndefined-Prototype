@@ -36,9 +36,30 @@ namespace AIObjects
         [VE_Nested] private EnumVariable<S> CurrentState;
         protected Dictionary<S, SM> StateManagersLookup;
 
-        protected AIBehavior(S StartState)
+        protected virtual void Init(S StartState)
         {
             this.CurrentState = new EnumVariable<S>(StartState, this.OnStateChanged);
+
+            InitializeStatesByCallingCallbacks();
+        }
+
+        /// <summary>
+        /// Initialize all states current values by calling OnStateEnter and OnStateExit
+        /// callbacks if state is active or not
+        /// </summary>
+        private void InitializeStatesByCallingCallbacks()
+        {
+            foreach (var stateManager in StateManagersLookup)
+            {
+                if (EqualityComparer<S>.Default.Equals(stateManager.Key, this.CurrentState.GetValue()))
+                {
+                    stateManager.Value.OnStateEnter();
+                }
+                else
+                {
+                    stateManager.Value.OnStateExit();
+                }
+            }
         }
 
         /// <summary>

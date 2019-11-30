@@ -24,7 +24,8 @@ namespace SoliderAIBehavior
         }
 
         public LastPlayerSeenPosition LastPlayerSeenPosition { get; private set; }
-        public bool IsPlayerInSight { get; private set; }
+        public BoolVariable IsPlayerInSight { get; private set; }
+        public bool HasPlayerBeenSeenAtLeastOneTime;
         private SoldierAIBehavior SoldierAIBehaviorRef;
 
         private Action<CoreInteractiveObject> OnPlayerObjectJustOnSightAction;
@@ -34,14 +35,15 @@ namespace SoliderAIBehavior
         {
             this.OnPlayerObjectJustOnSightAction = OnPlayerObjectJustOnSightAction;
             this.OnPlayerObjectJustOutOfSightAction = OnPlayerObjectJustOutOfSightAction;
+            this.IsPlayerInSight = new BoolVariable(false, () => this.HasPlayerBeenSeenAtLeastOneTime = true);
         }
 
         public void Tick(float d)
         {
-            if (this.IsPlayerInSight)
+            if (this.IsPlayerInSight.GetValue())
             {
-                this.LastPlayerSeenPosition = new LastPlayerSeenPosition(this.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition, 
-                 Quaternion.Euler(this.PlayerObject().InteractiveGameObject.GetTransform().WorldRotationEuler));
+                this.LastPlayerSeenPosition = new LastPlayerSeenPosition(this.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition,
+                    Quaternion.Euler(this.PlayerObject().InteractiveGameObject.GetTransform().WorldRotationEuler));
             }
         }
 
@@ -49,7 +51,7 @@ namespace SoliderAIBehavior
         {
             if (InSightInteractiveObject.InteractiveObjectTag.IsPlayer)
             {
-                this.IsPlayerInSight = true;
+                this.IsPlayerInSight.SetValue(true);
                 this.OnPlayerObjectJustOnSightAction.Invoke(InSightInteractiveObject);
             }
         }
@@ -58,7 +60,7 @@ namespace SoliderAIBehavior
         {
             if (NotInSightInteractiveObject.InteractiveObjectTag.IsPlayer)
             {
-                this.IsPlayerInSight = false;
+                this.IsPlayerInSight.SetValue(false);
                 this.OnPlayerObjectJustOutOfSightAction.Invoke(NotInSightInteractiveObject);
             }
         }

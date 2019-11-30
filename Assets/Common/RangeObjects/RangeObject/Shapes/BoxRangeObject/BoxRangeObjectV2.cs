@@ -74,7 +74,7 @@ namespace RangeObjects
                     {
                         if (this.InteractiveObjectSelectionGuard.Invoke(new InteractiveObjectPhysicsTriggerInfo() {Other = overlappingCollider[i], OtherInteractiveObject = interactiveObject}))
                         {
-                            Debug.Log(MyLog.Format(interactiveObject.InteractiveGameObject.GetAssociatedGameObjectName()));
+                          //  Debug.Log(MyLog.Format(interactiveObject.InteractiveGameObject.GetAssociatedGameObjectName()));
                             this.OnTriggerEnter(interactiveObject);
                         }
                     }
@@ -114,6 +114,26 @@ namespace RangeObjects
         {
             this.InsideInteractiveObjects.Remove(interactiveObject);
             interactiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
+        }
+
+        public void Disable()
+        {
+            if (this.RangeGameObjectV2.RangeGameObject.activeSelf)
+            {
+                this.RangeGameObjectV2.RangeGameObject.SetActive(false);
+                this.InsideInteractiveObjects.Clear();
+            }
+        }
+
+        /// <summary>
+        /// /!\ <see cref="Enable"/> doesn't manually update <see cref="InsideInteractiveObjects"/> (<seealso cref="ManuallyDetectInsideColliders"/>)
+        /// </summary>
+        public void Enable()
+        {
+            if (!this.RangeGameObjectV2.RangeGameObject.activeSelf)
+            {
+                this.RangeGameObjectV2.RangeGameObject.SetActive(true);
+            }
         }
     }
 }

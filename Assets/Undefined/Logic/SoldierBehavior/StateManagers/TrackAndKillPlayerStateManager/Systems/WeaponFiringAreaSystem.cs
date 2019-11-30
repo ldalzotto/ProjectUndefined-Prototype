@@ -73,5 +73,24 @@ namespace SoliderAIBehavior
             this.WeaponFiringAreaBoxRangeObject.OnDestroy();
       //      GameObject.Destroy(this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject);
         }
+
+        /// <summary>
+        /// Enables the <see cref="WeaponFiringAreaBoxRangeObject"/> initializing it's inside colliders and add it from physics world
+        /// Because enabling will probably called multiple frames after <see cref="Disable"/>, a full manual update is performed
+        /// </summary>
+        public void Enable()
+        {
+            this.Tick(0f);
+            this.WeaponFiringAreaBoxRangeObject.Enable();
+            this.WeaponFiringAreaBoxRangeObject.ManuallyDetectInsideColliders();
+        }
+
+        /// <summary>
+        /// Disables the <see cref="WeaponFiringAreaBoxRangeObject"/> clearing all it's inside colliders and remove it from physics world
+        /// </summary>
+        public void Disable()
+        {
+            this.WeaponFiringAreaBoxRangeObject.Disable();
+        }
     }
 }

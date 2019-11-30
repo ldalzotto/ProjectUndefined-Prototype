@@ -19,7 +19,8 @@ namespace SoliderAIBehavior
         public TrackUnknownStateManager(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
         {
-            this.TrackUnknownBehavior = new TrackUnknownBehavior(associatedInteractiveObject, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks);
+            this.TrackUnknownBehavior = new TrackUnknownBehavior();
+            this.TrackUnknownBehavior.Init(associatedInteractiveObject, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks);
         }
 
         public override void Tick(float d)
@@ -55,16 +56,18 @@ namespace SoliderAIBehavior
     {
         private TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem;
 
-        public TrackUnknownBehavior(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks) : base(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION)
+        public void Init(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
+            TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
         {
             this.TrackUnknownInterestDirectionSystem = new TrackUnknownInterestDirectionSystem(associatedInteractiveObject);
             this.StateManagersLookup = new Dictionary<TrackUnknownStateEnum, SoldierStateManager>()
             {
                 {TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION, new MoveTowardsInterestDirectionStateManager(associatedInteractiveObject, this.TrackUnknownInterestDirectionSystem, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks)}
             };
+            
+            base.Init(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION);
         }
-
+        
         /// <summary>
         /// /!\ It is crucial to call <see cref="TrackUnknownInterestDirectionSystem"/> before propagating DamageDealt event because
         /// it may need data from <see cref="TrackUnknownInterestDirectionSystem"/>.

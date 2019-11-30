@@ -38,7 +38,13 @@ namespace TrainingLevel
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
                 (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(unscaledSpeed));
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation);
-            this.SoldierAIBehavior = new SoldierAIBehavior(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
+            this.SoldierAIBehavior = new SoldierAIBehavior();
+
+            this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
+                this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
+            this.SoldierAnimationSystem = new SoldierAnimationSystem(SoliderEnemyDefinition.SoldierAnimationSystemDefinition, this.AnimationController);
+
+            this.SoldierAIBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
                 new SoldierAIBehaviorExternalCallbacks(
                     this.SetDestination,
                     this.AIMoveToDestinationSystem.ClearPath,
@@ -47,9 +53,6 @@ namespace TrainingLevel
                     this.OnShootingAtPlayerStart,
                     this.OnShootingAtPlayerEnd
                 ));
-            this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
-                this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
-            this.SoldierAnimationSystem = new SoldierAnimationSystem(SoliderEnemyDefinition.SoldierAnimationSystemDefinition, this.AnimationController);
         }
 
         public override void Tick(float d)
@@ -154,7 +157,7 @@ namespace TrainingLevel
 
         #endregion
 
-        
+
         #region internal Firing Events
 
         private void OnShootingAtPlayerStart()
@@ -168,7 +171,7 @@ namespace TrainingLevel
         }
 
         #endregion
-        
+
         public override void Init()
         {
         }

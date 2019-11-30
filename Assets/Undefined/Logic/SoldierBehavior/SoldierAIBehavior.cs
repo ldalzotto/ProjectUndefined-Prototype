@@ -50,9 +50,9 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
 
-        public SoldierAIBehavior(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
+        public void Init(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks
-        ) : base(SoldierAIStateEnum.PATROLLING)
+        )
         {
             this.PlayerObjectStateDataSystem = new PlayerObjectStateDataSystem(this.OnPlayerObjectJustOnSight, this.OnPlayerObjectJustOutOfSight);
             this.StateManagersLookup = new Dictionary<SoldierAIStateEnum, SoldierStateManager>()
@@ -61,6 +61,8 @@ namespace SoliderAIBehavior
                 {SoldierAIStateEnum.TRACK_AND_KILL_PLAYER, new TrackAndKillPlayerStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.PlayerObjectStateDataSystem, SoldierAIExternalCallbacksStructureConverter.Map2TrackAndKillPlayerStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks, this))},
                 {SoldierAIStateEnum.TRACK_UNKNOWN, new TrackUnknownStateManager(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, SoldierAIExternalCallbacksStructureConverter.Map2TrackUnknownStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks, this))}
             };
+            
+            base.Init(SoldierAIStateEnum.PATROLLING);
         }
 
         public override void Tick(float d)
@@ -144,7 +146,7 @@ namespace SoliderAIBehavior
         public void DamageDealt(CoreInteractiveObject DamageDealerInteractiveObject)
         {
             /// "If the player is not in sight" 
-            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight)
+            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight.GetValue())
             {
                 Debug.Log(MyLog.Format("Switch to TRACK_UNKNOWN"));
                 this.SetState(SoldierAIStateEnum.TRACK_UNKNOWN);
@@ -239,7 +241,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public static bool IsAllowToMoveToShootingAtPlayerState(PlayerObjectStateDataSystem PlayerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem)
         {
-            return PlayerObjectStateDataSystem.IsPlayerInSight && !WeaponFiringAreaSystem.AreObstaclesInside();
+            return PlayerObjectStateDataSystem.IsPlayerInSight.GetValue() && !WeaponFiringAreaSystem.AreObstaclesInside();
         }
     }
 }

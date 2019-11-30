@@ -58,7 +58,7 @@ namespace SoliderAIBehavior
 
         public override void Tick(float d)
         {
-            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight)
+            if (!this.PlayerObjectStateDataSystem.IsPlayerInSight.GetValue())
             {
                 if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject(), this.AssociatedInteractiveObject))
                 {

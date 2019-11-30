@@ -5,11 +5,17 @@
 ````puml
             'default
             top to bottom direction
+
+            skinparam node {
+                backgroundColor<<start_state>> Lime
+            }
+
             node SoldierAIbehavior {
                 node PATROLLING
             }
            
             node TrackAndKillPlayerStateManager {
+                node LISTENING<<start_state>>
                 node MOVE_TOWARDS_PLAYER
                 node GO_ROUND_PLAYER
                 node SHOOTING_AT_PLAYER
@@ -23,6 +29,8 @@
             SoldierAIbehavior -> TrackAndKillPlayerStateManager : PlayerObject in sight
             TrackAndKillPlayerStateManager -> SoldierAIbehavior : Nothing happened
 
+            LISTENING -> MOVE_TOWARDS_PLAYER : On TrackAndKillPlayerStateManager start 
+            MOVE_TOWARDS_PLAYER -> LISTENING : On TrackAndKillPlayerStateManager exit 
             MOVE_TOWARDS_PLAYER -down-> SHOOTING_AT_PLAYER : PlayerObject in sight and close enough
             MOVE_TOWARDS_PLAYER -> GO_ROUND_PLAYER : PlayerObject lost sight \n behind an Obstacle
             MOVE_TOWARDS_PLAYER -> MOVE_TO_LAST_SEEN_PLAYER_POSITION : PlayerObject lost sight \n not behind an Obstacle

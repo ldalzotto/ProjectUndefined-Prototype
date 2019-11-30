@@ -155,10 +155,14 @@ namespace AnimatorPlayable
 
         public void DestroyLayer(int layerID)
         {
-            this.OrderedByInputHandlerAnimationLayers.Remove(this.AllAnimationLayersCurrentlyPlaying[layerID]);
-            var animationLayerDestroyed = this.AllAnimationLayersCurrentlyPlaying[layerID];
-            this.AllAnimationLayersCurrentlyPlaying.Remove(layerID);
-            animationLayerDestroyed.Destroy(this.AnimationLayerMixerPlayable);
+            this.AllAnimationLayersCurrentlyPlaying.TryGetValue(layerID, out MyAnimationLayer animationLayer);
+            if (animationLayer != null)
+            {
+                this.OrderedByInputHandlerAnimationLayers.Remove(this.AllAnimationLayersCurrentlyPlaying[layerID]);
+                var animationLayerDestroyed = this.AllAnimationLayersCurrentlyPlaying[layerID];
+                this.AllAnimationLayersCurrentlyPlaying.Remove(layerID);
+                animationLayerDestroyed.Destroy(this.AnimationLayerMixerPlayable);
+            }
         }
 
         private void SortLayers()

@@ -61,7 +61,7 @@ namespace InteractiveObject_Animation
         /// <summary>
         /// Plays an <see cref="IAnimationInput"/> to a layer after <see cref="AnimationLayerID.LocomotionLayer"/>.
         /// </summary>
-        public void PlayLocomotionAnimationOverride(IAnimationInput LocomotionAnimation, AnimationLayerID overrideLayer, 
+        public void PlayLocomotionAnimationOverride(IAnimationInput LocomotionAnimation, AnimationLayerID overrideLayer,
             Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
         {
             this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[overrideLayer].ID, LocomotionAnimation,
@@ -87,7 +87,7 @@ namespace InteractiveObject_Animation
         {
             this.AnimatorPlayableObject.DestroyLayer(AnimationLayerStatic.AnimationLayers[animationLayer].ID);
         }
-        
+
         private void OnAnimationFinished(Action parentCallback)
         {
             this.RootMotionEnabled.SetValue(false);

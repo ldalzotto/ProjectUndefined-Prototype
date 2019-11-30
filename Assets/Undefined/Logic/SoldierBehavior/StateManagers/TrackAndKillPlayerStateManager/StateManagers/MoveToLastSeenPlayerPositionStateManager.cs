@@ -18,7 +18,7 @@ namespace SoliderAIBehavior
             AskedToExitTrackAndKillPlayerBehaviorAction = askedToExitTrackAndKillPlayerBehaviorAction;
         }
     }
-    
+
     /// <summary>
     /// This state moves the PlayerObject to <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
     /// When the Player is in sight, it automacially switchs state to <see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/>.
@@ -28,6 +28,7 @@ namespace SoliderAIBehavior
         private TrackAndKillPlayerBehavior TrackAndKillPlayerbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks;
+
         public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
             MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks)
         {
@@ -38,7 +39,8 @@ namespace SoliderAIBehavior
 
         public override void OnStateEnter()
         {
-            if (MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
+            if (!this.PlayerObjectStateDataSystem.HasPlayerBeenSeenAtLeastOneTime
+                 || MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
                 this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
@@ -62,7 +64,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void Tick(float d)
         {
-            if (this.PlayerObjectStateDataSystem.IsPlayerInSight)
+            if (this.PlayerObjectStateDataSystem.IsPlayerInSight.GetValue())
             {
                 Debug.Log(MyLog.Format("MoveToLastSeenPlayerPositionStateManager to MOVE_TOWARDS_PLAYER"));
                 this.TrackAndKillPlayerbehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER);
