@@ -30,6 +30,7 @@ namespace SoliderAIBehavior
 
     public class TrackAndKillPlayerStateManager : SoldierStateManager
     {
+        [VE_Nested]
         private TrackAndKillPlayerBehavior TrackAndKillPlayerBehavior;
 
         public TrackAndKillPlayerStateManager(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,

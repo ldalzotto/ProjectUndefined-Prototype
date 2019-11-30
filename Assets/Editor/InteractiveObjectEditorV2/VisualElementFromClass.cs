@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -68,6 +69,10 @@ public static class VisualElementFromClass
         {
             IListenableVisualElement = new FloatListenableField(obj, field, SanitizeFieldName(field.Name));
         }
+        else if (typeof(Enum).IsAssignableFrom(field.FieldType))
+        {
+            IListenableVisualElement = new EnumListenableField(obj, field, SanitizeFieldName(field.Name));
+        }
         else if (field.FieldType == typeof(BoolVariable))
         {
             var boolVariable = (BoolVariable) field.GetValue(obj);
@@ -81,6 +86,10 @@ public static class VisualElementFromClass
         else if (typeof(RangeObjectV2).IsAssignableFrom(field.FieldType))
         {
             IListenableVisualElement = new RangeObjectV2ListenableField(obj, field);
+        }
+        else if (typeof(IDictionary).IsAssignableFrom(field.FieldType))
+        {
+            IListenableVisualElement = new IDictionaryListenableField(obj, field);
         }
         else if (field.GetCustomAttribute<VE_Array>() != null)
         {
@@ -157,14 +166,25 @@ internal class FoldableElement : Foldout
 {
     private VisualElement InnerElement;
 
-    public FoldableElement(VisualElement innerElement, VisualElement parent)
+    public FoldableElement(VisualElement innerElement, VisualElement parent = null)
+
     {
         value = false;
         InnerElement = innerElement;
-        InnerElement.style.marginLeft = parent.style.marginLeft.value.value + 5f;
-        parent.Add(this);
+
+        if (parent != null)
+        {
+            this.SetParent(parent);
+        }
+
         RegisterCallback<ChangeEvent<bool>>(OnFoldableChange);
         Add(innerElement);
+    }
+
+    public void SetParent(VisualElement parent)
+    {
+        InnerElement.style.marginLeft = parent.style.marginLeft.value.value + 5f;
+        parent.Add(this);
     }
 
     private void OnFoldableChange(ChangeEvent<bool> evt)
@@ -223,6 +243,95 @@ internal class FloatListenableField : ListenableVisualElement<float>
     protected override void OnValueChaged()
     {
         FloatField.value = value;
+    }
+}
+
+internal class EnumListenableField : ListenableVisualElement<Enum>
+{
+    private EnumField EnumField;
+
+
+    public EnumListenableField(object obj, FieldInfo field, string label = "") : base(obj, field)
+    {
+        this.EnumField = new EnumField(string.IsNullOrWhiteSpace(label) ? VisualElementFromClass.SanitizeFieldName(field.Name) : label);
+        Add(this.EnumField);
+    }
+
+    protected override void OnValueChaged()
+    {
+        this.EnumField.value = value;
+    }
+}
+
+internal class IDictionaryListenableField : ListenableVisualElement<IDictionary>
+{
+    private FoldableElement DictionaryFoldoutElement;
+    private VisualElement DictionaryValuesElement;
+
+    private Dictionary<object, object> AddedVisualElementsObjects = new Dictionary<object, object>();
+    private Dictionary<object, VisualElement> KeyToFoldoutElement = new Dictionary<object, VisualElement>();
+    private Dictionary<VisualElement, List<IListenableVisualElement>> DictionaryEntryElements = new Dictionary<VisualElement, List<IListenableVisualElement>>();
+
+    public IDictionaryListenableField(object obj, FieldInfo field, string label = "") : base(obj, field)
+    {
+        this.DictionaryValuesElement = new VisualElement();
+        this.DictionaryFoldoutElement = new FoldableElement(this.DictionaryValuesElement, this);
+        this.DictionaryFoldoutElement.text = string.IsNullOrWhiteSpace(label) ? VisualElementFromClass.SanitizeFieldName(field.Name) : label;
+        this.DictionaryFoldoutElement.Add(this.DictionaryValuesElement);
+        this.Add(this.DictionaryFoldoutElement);
+    }
+
+    protected override void OnValueChaged()
+    {
+        /// Creation of new keys
+
+        foreach (var key in this.value.Keys)
+        {
+            if (!this.AddedVisualElementsObjects.ContainsKey(key))
+            {
+                this.AddedVisualElementsObjects[key] = this.value[key];
+
+                VisualElement entryElement = new VisualElement();
+                FoldableElement entryFoldableElement = new FoldableElement(entryElement, this.DictionaryValuesElement);
+                List<IListenableVisualElement> valueListenabledVisualElements = new List<IListenableVisualElement>();
+                VisualElementFromClass.BuildVisualElement(this.value[key], ref valueListenabledVisualElements);
+                foreach (var valueListenabledVisualElement in valueListenabledVisualElements)
+                {
+                    entryElement.Add(valueListenabledVisualElement as VisualElement);
+                }
+
+                this.DictionaryEntryElements[entryFoldableElement] = valueListenabledVisualElements;
+
+                this.KeyToFoldoutElement[key] = entryFoldableElement;
+                this.DictionaryValuesElement.Add(entryFoldableElement);
+                entryFoldableElement.text = key.ToString();
+            }
+
+            foreach (var dictionaryEntryElementsValues in DictionaryEntryElements.Values)
+            {
+                foreach (var dictionaryEntryElementsValue in dictionaryEntryElementsValues)
+                {
+                    dictionaryEntryElementsValue.Refresh();
+                }
+            }
+        }
+
+
+        /// Destruction of keys removed
+        var referenceKeys = this.value.Keys.Cast<object>().ToList();
+        var veKeysToRemove = this.AddedVisualElementsObjects.Keys.ToList();
+        veKeysToRemove.RemoveAll(
+            delegate(object o) { return referenceKeys.Contains(o); }
+        );
+
+        foreach (var veKeyToRemove in veKeysToRemove)
+        {
+            this.AddedVisualElementsObjects.Remove(veKeyToRemove);
+            this.DictionaryValuesElement.Remove(this.KeyToFoldoutElement[veKeyToRemove]);
+            this.DictionaryEntryElements.Remove(this.KeyToFoldoutElement[veKeyToRemove]);
+            
+            this.KeyToFoldoutElement.Remove(veKeyToRemove);
+        }
     }
 }
 

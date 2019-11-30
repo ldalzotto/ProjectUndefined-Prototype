@@ -73,7 +73,9 @@ namespace AIObjects
         {
             this.CurrentState.SetValue(NewState);
         }
-        
-        public virtual void OnDestroy(){}
+
+        public virtual void OnDestroy()
+        {
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace SoliderAIBehavior
 
     public class TrackUnknownStateManager : SoldierStateManager
     {
-        private TrackUnknownBehavior TrackUnknownBehavior;
+        [VE_Nested] private TrackUnknownBehavior TrackUnknownBehavior;
 
         public TrackUnknownStateManager(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
@@ -73,7 +73,7 @@ namespace SoliderAIBehavior
         public void DamageDealt(CoreInteractiveObject DamageDealerInteractiveObject)
         {
             this.TrackUnknownInterestDirectionSystem.DamageDealt(DamageDealerInteractiveObject);
-            
+
             this.SetState(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION);
             this.GetCurrentStateManager().DamageDealt(DamageDealerInteractiveObject);
         }
