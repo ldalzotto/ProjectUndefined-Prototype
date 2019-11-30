@@ -35,7 +35,8 @@ namespace GameLoop
         protected virtual void Start()
         {
             PlayerInteractiveObjectManager.Get().InitializeEvents();
-            CameraMovementManager.Get().InitializeEvents();
+            CameraMovementJobManager.Get().InitializeEvents();
+            
             TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
             RangeObjectV2Manager.Get().InitializeEvents();
             GroundEffectsManagerV2.Get().InitializeEvents();
@@ -43,8 +44,6 @@ namespace GameLoop
             RangeObjectV2Manager.Get().Init();
             GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
             InteractiveObjectV2Manager.Get().Init();
-
-            CameraMovementManager.Get().Init();
 
             CircleFillBarRendererManager.Get().Init();
             TutorialManager.Get().Init();
@@ -58,12 +57,19 @@ namespace GameLoop
         protected virtual void Update()
         {
             TimeManagementManager.Get().Tick();
-
+            
             var d = TimeManagementManager.Get().GetCurrentDeltaTime();
             var unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
 
-            CameraMovementManager.Get().Tick(unscaled);
-            if (!CameraMovementManager.Get().IsCameraRotating())
+            /// Begin Jobs
+            CameraMovementJobManager.Get().SetupJob(unscaled);
+            ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
+            RangeIntersectionCalculationManagerV2.Get().Tick(d);
+            /// End Jobs
+            
+            CameraMovementJobManager.Get().Tick();
+
+            if (! CameraMovementJobManager.Get().IsCameraRotating())
             {
                 TargetCursorManager.Get().Tick(unscaled);
             }
@@ -72,8 +78,6 @@ namespace GameLoop
             {
                 BeforeTick(d);
 
-                ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
-                RangeIntersectionCalculationManagerV2.Get().Tick(d);
 
                 TutorialManager.Get().Tick(d);
                 PuzzleTutorialEventSenderManager.Get().Tick(d);

@@ -5,7 +5,9 @@
         "Input",
         "OdinSerializer",
         "PlayerObject_Interface",
-        "InteractiveObjects_Interfaces"
+        "InteractiveObjects_Interfaces",
+        "Unity.Burst",
+        "Unity.Mathematics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -56,10 +56,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\CameraManagement\CameraMovementManager.cs" />
+     <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\CameraMovementJob.cs" />
+     <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraFollowSystem.cs" />
+     <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraOrientationSystem.cs" />
+     <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraZoomSystem.cs" />
      <Compile Include="Assets\Common\CameraManagement\Configuration\CameraConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\CameraManagement\Configuration\CameraMovementConfiguration.cs" />
      <None Include="Assets\Common\CameraManagement\CameraManagement.asmdef" />
+ <Reference Include="Unity.Burst">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.Mathematics">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -257,9 +266,6 @@
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
- </Reference>
- <Reference Include="System.Runtime.CompilerServices.Unsafe">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.1.1-preview/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.2.14f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
