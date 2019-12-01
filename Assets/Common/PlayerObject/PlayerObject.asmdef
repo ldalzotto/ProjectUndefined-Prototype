@@ -1,23 +1,23 @@
 {
     "name": "PlayerObject",
     "references": [
-        "PlayerObject_Interface",
-        "CoreGame",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "PlayerActions",
-        "Editor_Common",
-        "OdinSerializer",
-        "Persistence",
-        "SequencedAction",
-        "AnimatorPlayable",
-        "InteractiveObject_Animation",
-        "Input",
-        "Weapon",
-        "AIObjects",
-        "Health",
-        "Damage",
-        "LevelManagement"
+        "GUID:afa9a07f1512c814a8446d8d9433b115",
+        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e",
+        "GUID:e08ecabbc2fc4274ca9042afef829477",
+        "GUID:6f109e35241fab442bce341ff19d91ef",
+        "GUID:0082a9f5e1a411949a2aef9307cbf40c",
+        "GUID:18572ca2bc29c7f49acd7b6782aec78e",
+        "GUID:83a23e85924b27e419c0fada7259185a",
+        "GUID:7944dbf3d5cf0f645801e58e57e93b2c",
+        "GUID:4230db27fcf142a439bd15d769d36c99",
+        "GUID:172a85e5b5a2b84469d67f792caf6890",
+        "GUID:76eb4bbed9fee0043bf1b65ac0b5e7ff",
+        "GUID:2cac793607c268b4fabc84d209b279ea",
+        "GUID:dd7cc0b8787e4694790ab3834a67a326",
+        "GUID:56f14636d6bd2414f8419c75b11f44b5",
+        "GUID:28991b848e0f023479fc35d3dd4c5b4b",
+        "GUID:2d1f68382ad9d564b88a5a327e1749b8",
+        "GUID:bccacc8658655504baf2ed8e512a777a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -26,5 +26,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

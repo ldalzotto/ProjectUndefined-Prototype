@@ -25,7 +25,6 @@
     "includePlatforms": [],
     "excludePlatforms": [
         "Android",
-        "BJM",
         "iOS",
         "LinuxStandalone64",
         "Lumin",
