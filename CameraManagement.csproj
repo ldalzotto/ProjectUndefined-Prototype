@@ -60,6 +60,7 @@
      <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraFollowSystem.cs" />
      <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraOrientationSystem.cs" />
      <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraPanningSystem.cs" />
+     <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraVerticalRotationSystem.cs" />
      <Compile Include="Assets\Common\CameraManagement\CameraMovementJob\Systems\CameraZoomSystem.cs" />
      <Compile Include="Assets\Common\CameraManagement\Configuration\CameraConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\CameraManagement\Configuration\CameraMovementConfiguration.cs" />

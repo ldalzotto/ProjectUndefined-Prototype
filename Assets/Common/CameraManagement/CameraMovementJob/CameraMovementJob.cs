@@ -18,18 +18,8 @@ namespace CameraManagement
         public CameraFollowState CameraFollowState;
         public CameraOrientationState CameraOrientationState;
         public CameraPanningState CameraPanningState;
+        public CameraVerticalRotationState CameraVerticalRotationState;
         public CameraZoomState CameraZoomState;
-
-        public CameraMovementJobState(float d, CameraObject cameraObject, CameraFollowState cameraFollowState,
-            CameraOrientationState cameraOrientationState, CameraPanningState cameraPanningState, CameraZoomState cameraZoomState)
-        {
-            this.d = d;
-            CameraObject = cameraObject;
-            CameraFollowState = cameraFollowState;
-            CameraOrientationState = cameraOrientationState;
-            CameraPanningState = cameraPanningState;
-            CameraZoomState = cameraZoomState;
-        }
 
         public void SetupForJob(float d, Camera camera)
         {
@@ -63,7 +53,7 @@ namespace CameraManagement
 
             this.CameraFinalTransform.pos = cameraPivotPoint.transform.position;
             this.CameraFinalTransform.rot = cameraPivotPoint.transform.rotation;
-            
+
             this.CameraSize = camera.orthographicSize;
             this.WorldToCameraMatrix = camera.worldToCameraMatrix;
             this.CameraProjectionMatrix = camera.projectionMatrix;
@@ -103,6 +93,7 @@ namespace CameraManagement
             var cameraFollowPosition = CameraFollowSystem.CameraFollowTargetMovement(ref CameraMovementJobStateStruct);
             var cameraDeltaRotation = CameraOrientationSystem.CameraRotation(in CameraMovementJobStateStruct);
             var cameraPanningDeltaPosition = CameraPanningSystem.CameraPanningMovement(ref CameraMovementJobStateStruct);
+            var cameraVerticalRotationDelta = CameraVerticalRotationSystem.CameraVerticalRotation(ref CameraMovementJobStateStruct);
             var cameraZoomValue = CameraZoomSystem.CameraZoom(ref CameraMovementJobStateStruct);
 
             var CameraObject = CameraMovementJobStateStruct.CameraObject;
@@ -110,7 +101,7 @@ namespace CameraManagement
             var rotation = math.mul(CameraObject.CameraPivotPointTransformWithoutOffset.rot, cameraDeltaRotation);
 
             CameraObject.CameraPivotPointTransformWithoutOffset = new RigidTransform(rotation, cameraFollowPosition);
-            CameraObject.CameraFinalTransform = new RigidTransform(rotation, cameraFollowPosition + cameraPanningDeltaPosition);
+            CameraObject.CameraFinalTransform = new RigidTransform(math.mul(rotation, cameraVerticalRotationDelta), cameraFollowPosition + cameraPanningDeltaPosition);
             CameraObject.CameraSize = cameraZoomValue;
 
             CameraMovementJobStateStruct.CameraObject = CameraObject;
@@ -136,6 +127,7 @@ namespace CameraManagement
         private CameraFollowSystem _cameraFollowSystem;
         private CameraOrientationSystem _cameraOrientationSystem;
         private CameraPanningSystem CameraPanningSystem;
+        private CameraVerticalRotationSystem CameraVerticalRotationSystem;
         private CameraZoomSystem _cameraZoomSystem;
 
         public CameraMovementJobManager()
@@ -147,6 +139,7 @@ namespace CameraManagement
 
             this._cameraOrientationSystem = new CameraOrientationSystem(GameInputManager.Get());
             this.CameraPanningSystem = new CameraPanningSystem(CameraConfigurationGameObject.Get().CameraMovementConfiguration);
+            this.CameraVerticalRotationSystem = new CameraVerticalRotationSystem(CameraConfigurationGameObject.Get().CameraMovementConfiguration);
             this._cameraZoomSystem = new CameraZoomSystem(this.MainCamera, GameInputManager.Get());
 
             /// Initialize state
@@ -174,6 +167,7 @@ namespace CameraManagement
             this._cameraFollowSystem?.SetupJob(ref CameraMovementJobStateStruct);
             this._cameraOrientationSystem.SetupJob(ref CameraMovementJobStateStruct);
             this.CameraPanningSystem.SetupJob(ref CameraMovementJobStateStruct);
+            this.CameraVerticalRotationSystem.SetupJob(ref CameraMovementJobStateStruct);
             this._cameraZoomSystem.SetupJob(ref CameraMovementJobStateStruct);
 
             this.CameraMovementJob.SetCameraMovementJobState(CameraMovementJobStateStruct);

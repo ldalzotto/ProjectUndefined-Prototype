@@ -15,5 +15,6 @@ namespace CameraManagement
     {
         public CameraFollowManagerComponent CameraFollowManagerComponent;
         public CameraPanningComponent CameraPanningComponent;
+        public CameraVerticalRotationComponent CameraVerticalRotationComponent;
     }
 }
