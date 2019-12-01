@@ -26,9 +26,15 @@ namespace CameraManagement
 
         public void InitState(ref CameraMovementJobState CameraMovementJobState)
         {
+            PopulateCameraMovementState(ref CameraMovementJobState);
         }
 
         public void SetupJob(ref CameraMovementJobState CameraMovementJobState)
+        {
+            PopulateCameraMovementState(ref CameraMovementJobState);
+        }
+
+        private void PopulateCameraMovementState(ref CameraMovementJobState CameraMovementJobState)
         {
             CameraMovementJobState.CameraFollowState.DampingTime = this.CameraFollowManagerComponent.DampTime;
             CameraMovementJobState.CameraFollowState.CameraFollowTargetPosition = targetTrasform.position;
@@ -38,13 +44,13 @@ namespace CameraManagement
         {
             var CameraObject = CameraMovementJobStateStruct.CameraObject;
             var CameraFollowState = CameraMovementJobStateStruct.CameraFollowState;
-            
+
             var smoothedPivotPointPosition = float3SmoothDamp.SmoothDamp(CameraObject.CameraPivotPointTransformWithoutOffset.pos,
                 CameraFollowState.CameraFollowTargetPosition, ref CameraFollowState.CurrentVelocity, CameraFollowState.DampingTime, float.PositiveInfinity,
                 CameraMovementJobStateStruct.d);
 
             CameraMovementJobStateStruct.UpdateCameraFollowState(CameraFollowState);
-            
+
             return smoothedPivotPointPosition;
         }
     }

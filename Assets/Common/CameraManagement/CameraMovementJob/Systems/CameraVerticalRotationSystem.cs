@@ -1,14 +1,13 @@
 ﻿using System;
-using Targetting;
 using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace CameraManagement
 {
     public struct CameraVerticalRotationState
     {
-        [ReadOnly] public float2 TargetCursorScreenPosition;
         [ReadOnly] public float MinAngle;
         [ReadOnly] public float MaxAngle;
         [ReadOnly] public float DampingSpeed;
@@ -28,20 +27,18 @@ namespace CameraManagement
     {
         private CameraMovementConfiguration CameraMovementConfiguration;
 
-        #region External Dependencies
-
-        private TargetCursorManager TargetCursorManager = TargetCursorManager.Get();
-
-        #endregion
-
         public CameraVerticalRotationSystem(CameraMovementConfiguration cameraMovementConfiguration)
         {
             CameraMovementConfiguration = cameraMovementConfiguration;
         }
 
+        public void InitState(ref CameraMovementJobState CameraMovementJobState)
+        {
+            CameraMovementJobState.CameraVerticalRotationState.CurrentDeltaAngle = 0f;
+        }
+
         public void SetupJob(ref CameraMovementJobState CameraMovementJobState)
         {
-            CameraMovementJobState.CameraVerticalRotationState.TargetCursorScreenPosition = this.TargetCursorManager.GetTargetCursorPositionAsDeltaFromCenter();
             CameraMovementJobState.CameraVerticalRotationState.MinAngle = this.CameraMovementConfiguration.CameraVerticalRotationComponent.MinAngle;
             CameraMovementJobState.CameraVerticalRotationState.MaxAngle = this.CameraMovementConfiguration.CameraVerticalRotationComponent.MaxAngle;
             CameraMovementJobState.CameraVerticalRotationState.DampingSpeed = this.CameraMovementConfiguration.CameraVerticalRotationComponent.DampingSpeed;
@@ -49,17 +46,20 @@ namespace CameraManagement
 
         public static quaternion CameraVerticalRotation(ref CameraMovementJobState CameraMovementJobStateStruct)
         {
+            var TargetCursorComponent = CameraMovementJobStateStruct.TargetCursorComponent;
             var CameraObject = CameraMovementJobStateStruct.CameraObject;
             var CameraVerticalRotationState = CameraMovementJobStateStruct.CameraVerticalRotationState;
 
-            var clamperYCursorScreenPosition = 1 - math.clamp(CameraVerticalRotationState.TargetCursorScreenPosition.y, 0, 1);
+            var clampedYCursorScreenPosition = 1 - math.clamp(TargetCursorComponent.TargetCursorScreenPosition.y, 0, 1);
 
-            var targetVerticalAngle = math.lerp(CameraVerticalRotationState.MinAngle, CameraVerticalRotationState.MaxAngle, clamperYCursorScreenPosition);
+            var targetVerticalAngle = math.lerp(CameraVerticalRotationState.MinAngle, CameraVerticalRotationState.MaxAngle, clampedYCursorScreenPosition);
 
-            CameraVerticalRotationState.CurrentDeltaAngle = math.lerp(CameraVerticalRotationState.CurrentDeltaAngle, targetVerticalAngle, CameraVerticalRotationState.DampingSpeed * CameraMovementJobStateStruct.d);
+            CameraVerticalRotationState.CurrentDeltaAngle =
+                math.lerp(CameraVerticalRotationState.CurrentDeltaAngle, targetVerticalAngle,
+                    math.clamp(CameraVerticalRotationState.DampingSpeed * CameraMovementJobStateStruct.d, 0f, 1f));
             CameraMovementJobStateStruct.CameraVerticalRotationState = CameraVerticalRotationState;
-            
-            return quaternion.RotateX(math.radians( CameraVerticalRotationState.CurrentDeltaAngle));
+
+            return quaternion.RotateX(math.radians(CameraVerticalRotationState.CurrentDeltaAngle));
         }
     }
 }
