@@ -14,5 +14,6 @@ namespace CameraManagement
     public class CameraMovementConfiguration : SerializedScriptableObject
     {
         public CameraFollowManagerComponent CameraFollowManagerComponent;
+        public CameraPanningComponent CameraPanningComponent;
     }
 }

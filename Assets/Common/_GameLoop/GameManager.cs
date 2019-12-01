@@ -36,7 +36,7 @@ namespace GameLoop
         {
             PlayerInteractiveObjectManager.Get().InitializeEvents();
             CameraMovementJobManager.Get().InitializeEvents();
-            
+
             TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
             RangeObjectV2Manager.Get().InitializeEvents();
             GroundEffectsManagerV2.Get().InitializeEvents();
@@ -57,19 +57,22 @@ namespace GameLoop
         protected virtual void Update()
         {
             TimeManagementManager.Get().Tick();
-            
+
             var d = TimeManagementManager.Get().GetCurrentDeltaTime();
             var unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
 
             /// Begin Jobs
             CameraMovementJobManager.Get().SetupJob(unscaled);
-            ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
-            RangeIntersectionCalculationManagerV2.Get().Tick(d);
+            if (!TimeManagementManager.Get().IsTimeFrozen())
+            {
+                ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
+                RangeIntersectionCalculationManagerV2.Get().Tick(d);
+            }
             /// End Jobs
-            
+
             CameraMovementJobManager.Get().Tick();
 
-            if (! CameraMovementJobManager.Get().IsCameraRotating())
+            if (!CameraMovementJobManager.Get().IsCameraRotating())
             {
                 TargetCursorManager.Get().Tick(unscaled);
             }

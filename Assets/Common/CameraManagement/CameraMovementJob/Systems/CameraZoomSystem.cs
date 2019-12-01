@@ -15,7 +15,6 @@ namespace CameraManagement
         public const float MinCameraSize = 35f;
         public const float MaxCameraSize = 70f;
 
-        
         private GameInputManager gameInputManager;
         private Camera MainCamera;
 
@@ -27,7 +26,6 @@ namespace CameraManagement
 
         public void InitState(ref CameraMovementJobState CameraMovementJobState)
         {
-            CameraMovementJobState.CameraSize = MainCamera.orthographicSize;
             CameraMovementJobState.CameraZoomState.TargetSize = MainCamera.orthographicSize;
         }
 
@@ -36,13 +34,9 @@ namespace CameraManagement
             CameraMovementJobState.CameraZoomState.DelteZoomFromInput = this.gameInputManager.CurrentInput.CameraZoom();
         }
 
-        public void Tick(CameraMovementJobState CameraMovementJobState)
+        public static float CameraZoom(ref CameraMovementJobState CameraMovementJobStateStruct)
         {
-            this.MainCamera.orthographicSize = CameraMovementJobState.CameraSize;
-        }
-        
-        public static CameraMovementJobState CameraZoom(CameraMovementJobState CameraMovementJobStateStruct)
-        {
+            var CameraObject = CameraMovementJobStateStruct.CameraObject;
             var CameraZoomState = CameraMovementJobStateStruct.CameraZoomState;
 
             var zoomDelta = -1 * CameraZoomState.DelteZoomFromInput * CameraMovementJobStateStruct.d;
@@ -51,11 +45,9 @@ namespace CameraManagement
                 CameraZoomState.TargetSize = math.clamp(CameraZoomState.TargetSize + zoomDelta, MinCameraSize, MaxCameraSize);
             }
 
-            CameraMovementJobStateStruct.CameraSize = math.lerp(CameraMovementJobStateStruct.CameraSize, CameraZoomState.TargetSize, CameraMovementJobStateStruct.d * 4f);
-
             CameraMovementJobStateStruct.CameraZoomState = CameraZoomState;
 
-            return CameraMovementJobStateStruct;
+            return math.lerp(CameraObject.CameraSize, CameraZoomState.TargetSize, CameraMovementJobStateStruct.d * 4f);
         }
     }
 }

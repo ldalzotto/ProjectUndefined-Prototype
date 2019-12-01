@@ -12,12 +12,68 @@ namespace CameraManagement
     public struct CameraMovementJobState
     {
         public float d;
-        public RigidTransform CameraPivotPointTransform;
-        public float CameraSize;
+
+        public CameraObject CameraObject;
 
         public CameraFollowState CameraFollowState;
         public CameraOrientationState CameraOrientationState;
+        public CameraPanningState CameraPanningState;
         public CameraZoomState CameraZoomState;
+
+        public CameraMovementJobState(float d, CameraObject cameraObject, CameraFollowState cameraFollowState,
+            CameraOrientationState cameraOrientationState, CameraPanningState cameraPanningState, CameraZoomState cameraZoomState)
+        {
+            this.d = d;
+            CameraObject = cameraObject;
+            CameraFollowState = cameraFollowState;
+            CameraOrientationState = cameraOrientationState;
+            CameraPanningState = cameraPanningState;
+            CameraZoomState = cameraZoomState;
+        }
+
+        public void SetupForJob(float d, Camera camera)
+        {
+            this.d = d;
+            this.CameraObject.SetupForJob(camera);
+        }
+
+        public void UpdateCameraFollowState(CameraFollowState CameraFollowState)
+        {
+            this.CameraFollowState = CameraFollowState;
+        }
+    }
+
+    public struct CameraObject
+    {
+        /// <summary>
+        /// Ofset of <see cref="CameraPanningState.CameraPanningWorldOffset"/> are not taken into account here
+        /// </summary>
+        public RigidTransform CameraPivotPointTransformWithoutOffset;
+
+        public RigidTransform CameraFinalTransform;
+
+        public float CameraSize;
+        public float4x4 CameraProjectionMatrix;
+        public float4x4 WorldToCameraMatrix;
+
+        public void Initialize(Transform cameraPivotPoint, Camera camera)
+        {
+            this.CameraPivotPointTransformWithoutOffset.pos = cameraPivotPoint.transform.position;
+            this.CameraPivotPointTransformWithoutOffset.rot = cameraPivotPoint.transform.rotation;
+
+            this.CameraFinalTransform.pos = cameraPivotPoint.transform.position;
+            this.CameraFinalTransform.rot = cameraPivotPoint.transform.rotation;
+            
+            this.CameraSize = camera.orthographicSize;
+            this.WorldToCameraMatrix = camera.worldToCameraMatrix;
+            this.CameraProjectionMatrix = camera.projectionMatrix;
+        }
+
+        public void SetupForJob(Camera camera)
+        {
+            this.WorldToCameraMatrix = camera.worldToCameraMatrix;
+            this.CameraProjectionMatrix = camera.projectionMatrix;
+        }
     }
 
     [BurstCompile]
@@ -44,9 +100,20 @@ namespace CameraManagement
         {
             var CameraMovementJobStateStruct = this.CameraMovementJobState[0];
 
-            CameraMovementJobStateStruct = CameraFollowSystem.CameraFollowTargetMovement(CameraMovementJobStateStruct);
-            CameraMovementJobStateStruct = CameraOrientationSystem.CameraRotation(CameraMovementJobStateStruct);
-            CameraMovementJobStateStruct = CameraZoomSystem.CameraZoom(CameraMovementJobStateStruct);
+            var cameraFollowPosition = CameraFollowSystem.CameraFollowTargetMovement(ref CameraMovementJobStateStruct);
+            var cameraDeltaRotation = CameraOrientationSystem.CameraRotation(in CameraMovementJobStateStruct);
+            var cameraPanningDeltaPosition = CameraPanningSystem.CameraPanningMovement(ref CameraMovementJobStateStruct);
+            var cameraZoomValue = CameraZoomSystem.CameraZoom(ref CameraMovementJobStateStruct);
+
+            var CameraObject = CameraMovementJobStateStruct.CameraObject;
+
+            var rotation = math.mul(CameraObject.CameraPivotPointTransformWithoutOffset.rot, cameraDeltaRotation);
+
+            CameraObject.CameraPivotPointTransformWithoutOffset = new RigidTransform(rotation, cameraFollowPosition);
+            CameraObject.CameraFinalTransform = new RigidTransform(rotation, cameraFollowPosition + cameraPanningDeltaPosition);
+            CameraObject.CameraSize = cameraZoomValue;
+
+            CameraMovementJobStateStruct.CameraObject = CameraObject;
 
             this.CameraMovementJobState[0] = CameraMovementJobStateStruct;
         }
@@ -63,22 +130,29 @@ namespace CameraManagement
         private CameraMovementJob CameraMovementJob;
         private JobHandle CameraMovementJobHandle;
 
+        private Transform CameraPivotPointTransform;
+        private Camera MainCamera;
+
         private CameraFollowSystem _cameraFollowSystem;
         private CameraOrientationSystem _cameraOrientationSystem;
+        private CameraPanningSystem CameraPanningSystem;
         private CameraZoomSystem _cameraZoomSystem;
 
         public CameraMovementJobManager()
         {
             this.CameraMovementJob = new CameraMovementJob(new NativeArray<CameraMovementJobState>(1, Allocator.Persistent));
 
-            var CameraPivotPointTransform = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform;
-            this._cameraOrientationSystem = new CameraOrientationSystem(CameraPivotPointTransform, GameInputManager.Get());
-            this._cameraZoomSystem = new CameraZoomSystem(Camera.main, GameInputManager.Get());
+            this.MainCamera = Camera.main;
+            this.CameraPivotPointTransform = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform;
+
+            this._cameraOrientationSystem = new CameraOrientationSystem(GameInputManager.Get());
+            this.CameraPanningSystem = new CameraPanningSystem(CameraConfigurationGameObject.Get().CameraMovementConfiguration);
+            this._cameraZoomSystem = new CameraZoomSystem(this.MainCamera, GameInputManager.Get());
 
             /// Initialize state
             var CameraMovementJobStateStruct = this.CameraMovementJob.GetCameraMovementJobState();
 
-            this._cameraOrientationSystem.InitState(ref CameraMovementJobStateStruct);
+            CameraMovementJobStateStruct.CameraObject.Initialize(CameraPivotPointTransform, MainCamera);
             this._cameraZoomSystem.InitState(ref CameraMovementJobStateStruct);
 
             this.CameraMovementJob.SetCameraMovementJobState(CameraMovementJobStateStruct);
@@ -95,8 +169,11 @@ namespace CameraManagement
             var CameraMovementJobStateStruct = this.CameraMovementJob.GetCameraMovementJobState();
             CameraMovementJobStateStruct.d = d;
 
+            CameraMovementJobStateStruct.CameraObject.SetupForJob(this.MainCamera);
+
             this._cameraFollowSystem?.SetupJob(ref CameraMovementJobStateStruct);
             this._cameraOrientationSystem.SetupJob(ref CameraMovementJobStateStruct);
+            this.CameraPanningSystem.SetupJob(ref CameraMovementJobStateStruct);
             this._cameraZoomSystem.SetupJob(ref CameraMovementJobStateStruct);
 
             this.CameraMovementJob.SetCameraMovementJobState(CameraMovementJobStateStruct);
@@ -110,9 +187,9 @@ namespace CameraManagement
 
             var CameraMovementJobStateStruct = this.CameraMovementJob.GetCameraMovementJobState();
 
-            this._cameraFollowSystem?.Tick(CameraMovementJobStateStruct);
-            this._cameraOrientationSystem.Tick(CameraMovementJobStateStruct);
-            this._cameraZoomSystem.Tick(CameraMovementJobStateStruct);
+            this.CameraPivotPointTransform.transform.position = CameraMovementJobStateStruct.CameraObject.CameraFinalTransform.pos;
+            this.CameraPivotPointTransform.transform.rotation = CameraMovementJobStateStruct.CameraObject.CameraFinalTransform.rot;
+            this.MainCamera.orthographicSize = CameraMovementJobStateStruct.CameraObject.CameraSize;
         }
 
         /// <summary>
@@ -126,7 +203,6 @@ namespace CameraManagement
             cameraPivotPoint.position = IPlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.position;
 
             this._cameraFollowSystem = new CameraFollowSystem(IPlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform,
-                cameraPivotPoint.transform,
                 CameraConfigurationGameObject.Get().CameraMovementConfiguration.CameraFollowManagerComponent);
 
             var CameraMovementJobStateStruct = this.CameraMovementJob.GetCameraMovementJobState();

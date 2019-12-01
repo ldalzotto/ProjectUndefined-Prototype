@@ -59,6 +59,14 @@ namespace Targetting
             return this.TargetCursor.transform.position;
         }
 
+        /// <summary>
+        /// Returns a vector in the range of [-1,1] where [0,0] is the center.
+        /// </summary>
+        public Vector2 GetTargetCursorPositionAsDeltaFromCenter()
+        {
+            return (Camera.main.ScreenToViewportPoint(this.TargetCursor.transform.position) * 2).Add(new Vector3(-1f, -1f, -1f));
+        }
+
 #if UNITY_EDITOR
         /// <summary>
         /// Used for testing purpose.

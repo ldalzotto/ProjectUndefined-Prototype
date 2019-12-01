@@ -6,6 +6,7 @@
         "OdinSerializer",
         "PlayerObject_Interface",
         "InteractiveObjects_Interfaces",
+        "Targetting",
         "Unity.Burst",
         "Unity.Mathematics"
     ],
