@@ -163,9 +163,16 @@
      <Compile Include="Assets\Editor\PropertyDrawer\ObjectPropertyDrawer\InlinePropertyDrawer.cs" />
      <Compile Include="Assets\Editor\PropertyDrawer\ReadOnlyPropertyDrawer\ReadOnlyPropertyDrawer.cs" />
      <Compile Include="Assets\Editor\SceneHandle\SceneHandlerDrawer.cs" />
+     <Compile Include="Assets\Editor\ShaderGUI\ToonShaderEditor.cs" />
      <Compile Include="Assets\Editor\ShaderGUI\WaveNoiseV2ShaderGUI.cs" />
      <Compile Include="Assets\Editor\TexturePacker\TexturePacker.cs" />
      <None Include="Assets\Editor\Editor.asmdef" />
+ <Reference Include="Unity.RenderPipelines.Universal.Editor">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.RenderPipelines.Core.Runtime">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
