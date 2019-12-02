@@ -32,7 +32,10 @@ namespace SoliderBehavior_Test
                     {
                         new AIMoveToActionV2(PlayerInteractiveObject, this.P2.WorldPosition, P2.GetWorldRotation(), P2.AIMovementSpeed, () => new List<ASequencedAction>()
                         {
-                            new AIMoveToActionV2(PlayerInteractiveObject, this.P3.WorldPosition, P3.GetWorldRotation(), P3.AIMovementSpeed, null)
+                            new AIMoveToActionV2(PlayerInteractiveObject, this.P3.WorldPosition, P3.GetWorldRotation(), P3.AIMovementSpeed, () => new List<ASequencedAction>()
+                            {
+                                new AIWarpActionV2(PlayerInteractiveObject, Vector3.zero, null, null)
+                            })
                         })
                     })
                 })
