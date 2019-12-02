@@ -5,14 +5,32 @@
         "GUID:2c9ac6fd995a7d44a998791b9baedf5b",
         "GUID:18572ca2bc29c7f49acd7b6782aec78e",
         "GUID:83a23e85924b27e419c0fada7259185a",
-        "GUID:6f109e35241fab442bce341ff19d91ef"
+        "GUID:6f109e35241fab442bce341ff19d91ef",
+        "GUID:080209e390669574384ade36547fe4a8",
+        "GUID:4230db27fcf142a439bd15d769d36c99"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "iOS",
+        "LinuxStandalone64",
+        "Lumin",
+        "macOSStandalone",
+        "PS4",
+        "Stadia",
+        "Switch",
+        "tvOS",
+        "WSA",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64",
+        "XboxOne"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

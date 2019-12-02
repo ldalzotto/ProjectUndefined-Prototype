@@ -13,9 +13,6 @@ namespace Tests.TestScenario
         public string Title;
         [HideInInspector] public bool DescriptionFoldableEnabled;
         
-        [TextArea]
-        public string Description;
-
         [Foldable(canBeDisabled: false, disablingBoolAttribute: nameof(DescriptionFoldableEnabled))]
         public TestScenarioDescription DescriptionV2;
         /// <summary>
