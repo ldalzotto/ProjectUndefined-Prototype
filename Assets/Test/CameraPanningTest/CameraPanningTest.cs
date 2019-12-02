@@ -62,11 +62,9 @@ public class CameraPanningTest : MonoBehaviour
 
         this.currentDelta = math.lerp(this.currentDelta, worldDirection, Time.deltaTime * 10);
         
-        Debug.Log(camera.worldToCameraMatrix.ToString("F4"));
-        
-        
-        
-        this.CameraPivotPoint.transform.position = this.initialCameraPivotPosition + this.currentDelta;
+//        camera.worldToCameraMatrix = Matrix4x4.Translate(this.currentDelta) * camera.worldToCameraMatrix;
+
+        this.CameraPivotPoint.transform.position =  Matrix4x4.Translate(this.currentDelta).MultiplyPoint(this.CameraPivotPoint.transform.position);
     }
 
     private Vector3 WorldDirection;
