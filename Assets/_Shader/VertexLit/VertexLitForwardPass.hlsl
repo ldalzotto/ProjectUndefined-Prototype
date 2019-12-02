@@ -1,7 +1,7 @@
 ﻿#ifndef LIGHTWEIGHT_VERTEX_FORWARD_LIT_PASS_INCLUDED
 #define LIGHTWEIGHT_VERTEX_FORWARD_LIT_PASS_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Lighting.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 struct Attributes
 {

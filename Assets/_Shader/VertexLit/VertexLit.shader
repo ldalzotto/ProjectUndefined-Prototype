@@ -68,7 +68,7 @@
             // Lightmode matches the ShaderPassName set in LightweightRenderPipeline.cs. SRPDefaultUnlit and passes with
             // no LightMode tag are also rendered by Lightweight Render Pipeline
             Name "ForwardLit"
-            Tags{"LightMode" = "LightweightForward"}
+            Tags{"LightMode" = "UniversalForward"}
 
             Blend[_SrcBlend][_DstBlend]
             ZWrite[_ZWrite]
@@ -118,7 +118,7 @@
             #pragma vertex LitPassVertex
             #pragma fragment LitPassFragment
 
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
             #include "VertexLitForwardPass.hlsl"
             ENDHLSL
         }
@@ -150,8 +150,8 @@
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
 
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/ShadowCasterPass.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
 
@@ -182,8 +182,8 @@
             // GPU Instancing
             #pragma multi_compile_instancing
 
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/DepthOnlyPass.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
             ENDHLSL
         }
 
@@ -211,32 +211,9 @@
 
             #pragma shader_feature _SPECGLOSSMAP
 
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/LitMetaPass.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitMetaPass.hlsl"
 
-            ENDHLSL
-        }
-        Pass
-        {
-            Name "Lightweight2D"
-            Tags{ "LightMode" = "Lightweight2D" }
-
-            Blend[_SrcBlend][_DstBlend]
-            ZWrite[_ZWrite]
-            Cull[_Cull]
-
-            HLSLPROGRAM
-            // Required to compile gles 2.0 with standard srp library
-            #pragma prefer_hlslcc gles
-            #pragma exclude_renderers d3d11_9x
-
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma shader_feature _ALPHATEST_ON
-            #pragma shader_feature _ALPHAPREMULTIPLY_ON
-
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.lightweight/Shaders/Utils/Lightweight2D.hlsl"
             ENDHLSL
         }
 
