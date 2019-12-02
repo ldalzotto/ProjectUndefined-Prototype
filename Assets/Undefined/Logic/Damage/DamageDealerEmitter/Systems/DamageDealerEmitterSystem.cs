@@ -9,26 +9,19 @@ namespace Damage
         private DamageDealerEmitterSystemDefinition _damageDealerEmitterSystemDefinition;
         private CoreInteractiveObject AssociatedInteractiveObjectRef;
 
-        private List<CoreInteractiveObject> IgnoredInteractiveObjects;
         private Action<CoreInteractiveObject> OnDamageDealtToOtherAction;
 
-        public DamageDealerEmitterSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerEmitterSystemDefinition damageDealerEmitterSystemDefinition, Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null,
-            List<CoreInteractiveObject> IgnoredInteractiveObjects = null)
+        public DamageDealerEmitterSystem(CoreInteractiveObject AssociatedInteractiveObject, DamageDealerEmitterSystemDefinition damageDealerEmitterSystemDefinition, 
+            Func<InteractiveObjectPhysicsTriggerInfo, bool> TriggerSelectionGuard = null,
+            Action<CoreInteractiveObject> OnDamageDealtToOtherAction = null)
         {
             this.AssociatedInteractiveObjectRef = AssociatedInteractiveObject;
             this._damageDealerEmitterSystemDefinition = damageDealerEmitterSystemDefinition;
             this.OnDamageDealtToOtherAction = OnDamageDealtToOtherAction;
-            this.IgnoredInteractiveObjects = IgnoredInteractiveObjects;
             AssociatedInteractiveObject.RegisterInteractiveObjectPhysicsEventListener(new DamageDealerSystemPhysicsListener(
-                interactiveObjectSelectionGuard: this.TriggerSelectionGuard,
+                interactiveObjectSelectionGuard: TriggerSelectionGuard,
                 onTriggerEnterAction: this.OnTriggerEnter
             ));
-        }
-
-        private bool TriggerSelectionGuard(InteractiveObjectPhysicsTriggerInfo InteractiveObjectPhysicsTriggerInfo)
-        {
-            return InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsTakingDamage
-                   && (IgnoredInteractiveObjects == null || !IgnoredInteractiveObjects.Contains(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject) );
         }
 
         private void OnTriggerEnter(CoreInteractiveObject Other)

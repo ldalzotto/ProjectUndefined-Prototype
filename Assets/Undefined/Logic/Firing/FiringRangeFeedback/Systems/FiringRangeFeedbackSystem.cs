@@ -113,7 +113,7 @@ namespace Firing
                 },
                 this,
                 BoxWidth,
-                delegate(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo) { return FiredProjectile.FiredProjectileHasTriggerEnter_ShouldItBeDestroyed(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder); }
+                delegate(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo) { return FiredProjectile.FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed(interactiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder); }
             );
         }
 
