@@ -34,7 +34,7 @@ namespace CameraManagement
 
             if (CameraOrientationState.IsRotating)
             {
-                return quaternion.AxisAngle(new float3(0, 1, 0), math.radians((CameraOrientationState.LeftRotationFromInput - CameraOrientationState.RightRotationFromInput)) * CameraMovementJobStateStruct.d);
+                return quaternion.RotateY(math.radians((CameraOrientationState.LeftRotationFromInput - CameraOrientationState.RightRotationFromInput)) * CameraMovementJobStateStruct.d);
             }
             else
             {

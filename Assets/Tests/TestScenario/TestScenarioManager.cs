@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CoreGame;
 using InteractiveObjects;
 using LevelManagement;
@@ -25,12 +26,13 @@ namespace Tests
         private GameObject TestEntitiesPrefabInstance;
 
         private SequencedActionPlayer SequencedActionPlayer;
-
+        private TransformStruct InitialCameraPivotPointTransform;
         private TestControllerConfiguration TestControllerConfiguration = TestControllerConfiguration.Get();
 
         public TestScenarioManager()
         {
             PlayerInteractiveObjectDestinationReachedEvent.Get().RegisterOnPlayerInteractiveObjectDestinationReachedEventListener(this.OnPlayerDestinationReached);
+            this.InitialCameraPivotPointTransform = new TransformStruct(GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform);
         }
 
         public void Tick(float d)
@@ -61,7 +63,7 @@ namespace Tests
 
             /// By default player has infinite health
             PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(9999999, null);
-            
+
             this.SequencedActionPlayer = new SequencedActionPlayer(aTestScenarioDefinition.BuildScenarioActions());
             this.SequencedActionPlayer.Play();
         }
@@ -70,11 +72,11 @@ namespace Tests
         {
             this.TestControllerConfiguration.TestControllerDefinition.ClearTest = false;
             this.SequencedActionPlayer.Kill();
-            
+
             var allInteractiveObjects = InteractiveObjectV2Manager.Get().InteractiveObjects;
 
             List<RangeObjectV2> ExcludedRangesToDestroy = new List<RangeObjectV2>();
-            
+
             for (var i = allInteractiveObjects.Count - 1; i >= 0; i--)
             {
                 //We dont remove the level chunk
@@ -94,11 +96,14 @@ namespace Tests
                 {
                     RangeObjectV2Manager.Get().RangeObjects[i].OnDestroy();
                 }
-                
             }
-            
+
             MonoBehaviour.Destroy(TestEntitiesPrefabInstance);
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Reset();
+
+            ///Reset camera position
+            GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform.position = this.InitialCameraPivotPointTransform.WorldPosition;
+            GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform.eulerAngles = this.InitialCameraPivotPointTransform.WorldRotationEuler;
         }
 
         /// <summary>

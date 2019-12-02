@@ -64,7 +64,7 @@ namespace Tests
 
         public bool RotationCameraDH()
         {
-            return false;
+            return this.GameTestInputMockedValues.RotationCameraDH;
         }
 
         public bool InventoryButtonD()
@@ -89,7 +89,7 @@ namespace Tests
 
         public float RightRotationCamera()
         {
-            return 0f;
+            return this.GameTestInputMockedValues.RightRotationCamera;
         }
 
         public bool SwitchSelectionButtonD()
@@ -104,7 +104,7 @@ namespace Tests
 
         public float CameraZoom()
         {
-            return 0f;
+            return this.GameTestInputMockedValues.CameraZoomDelta;
         }
 
         public bool FiringActionDown()
@@ -144,6 +144,9 @@ namespace Tests
         public bool FiringActionDown;
         public bool FiringActionReleased;
         public bool FiringPorjectileDH;
+        public bool RotationCameraDH;
+        public float RightRotationCamera;
+        public float CameraZoomDelta;
 
         public GameTestInputMockedValues()
         {
@@ -159,6 +162,9 @@ namespace Tests
             this.FiringActionDown = false;
             this.FiringActionReleased = false;
             this.FiringPorjectileDH = false;
+            this.RotationCameraDH = false;
+            this.RightRotationCamera = 0f;
+            this.CameraZoomDelta = 0f;
         }
     }
 }

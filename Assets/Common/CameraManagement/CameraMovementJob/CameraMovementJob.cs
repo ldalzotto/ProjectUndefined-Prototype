@@ -55,6 +55,13 @@ namespace CameraManagement
         public void Initialize(Transform cameraPivotPoint, Camera camera)
         {
             this.CameraPivotPointTransformWithoutOffset.pos = cameraPivotPoint.transform.position;
+
+            var cameraPivotPointRotationEuler = cameraPivotPoint.transform.rotation.eulerAngles;
+            
+            /// The vertical rotation is resetted to ensure that rotation delta are not accumulated. 
+            cameraPivotPointRotationEuler.x = 0f;
+            cameraPivotPoint.transform.rotation = Quaternion.Euler(cameraPivotPointRotationEuler);
+            
             this.CameraPivotPointTransformWithoutOffset.rot = cameraPivotPoint.transform.rotation;
 
             this.CameraSize = camera.orthographicSize;
@@ -101,7 +108,7 @@ namespace CameraManagement
 
             var CameraObject = CameraMovementJobStateStruct.CameraObject;
 
-            var rotation = math.mul(CameraObject.CameraPivotPointTransformWithoutOffset.rot, cameraDeltaRotation);
+            var rotation = math.mul(cameraDeltaRotation, CameraObject.CameraPivotPointTransformWithoutOffset.rot);
 
             CameraObject.CameraPivotPointTransformWithoutOffset = new RigidTransform(rotation, cameraFollowPosition);
             CameraObject.CameraSize = cameraZoomValue;
