@@ -8,7 +8,7 @@
         _BaseColor ("Base color", Color) = (1,1,1,1)
         
         //Rim lightning
-        _RimPower("Rim power", Range(0.0, 1.01)) = 0.0
+        _RimPower("Rim power", Range(-0.1, 1.00)) = -0.1
         _RimOffset("Rim offset", Float) = 1.0
         _RimColor("Rim color", Color) = (1,1,1,1)
         

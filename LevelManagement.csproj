@@ -85,8 +85,8 @@
      <Compile Include="Assets\Common\LevelManagement\Managers\StartLevelManager.cs" />
      <Compile Include="Assets\Common\LevelManagement\TransitionableLevelFX\Script\TransitionableLevelFXType.cs" />
      <None Include="Assets\Common\LevelManagement\LevelManagement.asmdef" />
- <Reference Include="Unity.Postprocessing.Runtime">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
+ <Reference Include="Unity.RenderPipelines.Core.Runtime">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

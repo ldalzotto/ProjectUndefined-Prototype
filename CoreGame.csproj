@@ -154,9 +154,6 @@
      <None Include="Assets\_Shader\ToonUnlit\ToonInput.hlsl" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
- <Reference Include="Unity.Postprocessing.Runtime">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
- </Reference>
  <Reference Include="Unity.InputSystem">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
  </Reference>

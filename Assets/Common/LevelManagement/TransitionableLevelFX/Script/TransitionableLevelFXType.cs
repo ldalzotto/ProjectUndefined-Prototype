@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
 
 namespace LevelManagement
 {
     public class TransitionableLevelFXType : MonoBehaviour
     {
-        private PostProcessVolume postProcessVolume;
+        private Volume postProcessVolume;
         private Light mainDirectionalLight;
 
-        public PostProcessVolume PostProcessVolume
+        public Volume PostProcessVolume
         {
             get => postProcessVolume;
         }
@@ -20,7 +20,7 @@ namespace LevelManagement
 
         public void Init()
         {
-            this.postProcessVolume = GetComponentInChildren<PostProcessVolume>();
+            this.postProcessVolume = GetComponentInChildren<Volume>();
             this.postProcessVolume.gameObject.SetActive(false);
             this.mainDirectionalLight = GetComponentInChildren<Light>();
             this.mainDirectionalLight.gameObject.SetActive(false);
