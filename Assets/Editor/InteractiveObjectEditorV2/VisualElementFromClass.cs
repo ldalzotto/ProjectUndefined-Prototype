@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ICSharpCode.NRefactory.Ast;
 using InteractiveObjects;
 using RangeObjects;
 using UnityEditor.UIElements;
@@ -248,18 +249,17 @@ internal class FloatListenableField : ListenableVisualElement<float>
 
 internal class EnumListenableField : ListenableVisualElement<Enum>
 {
-    private EnumField EnumField;
-
+    private TextField EnumFieldV2;
 
     public EnumListenableField(object obj, FieldInfo field, string label = "") : base(obj, field)
     {
-        this.EnumField = new EnumField(string.IsNullOrWhiteSpace(label) ? VisualElementFromClass.SanitizeFieldName(field.Name) : label);
-        Add(this.EnumField);
+        this.EnumFieldV2 = new TextField(string.IsNullOrWhiteSpace(label) ? VisualElementFromClass.SanitizeFieldName(field.Name) : label);
+        Add(this.EnumFieldV2);
     }
 
     protected override void OnValueChaged()
     {
-        this.EnumField.value = value;
+        this.EnumFieldV2.value = value.ToString();
     }
 }
 
@@ -329,7 +329,7 @@ internal class IDictionaryListenableField : ListenableVisualElement<IDictionary>
             this.AddedVisualElementsObjects.Remove(veKeyToRemove);
             this.DictionaryValuesElement.Remove(this.KeyToFoldoutElement[veKeyToRemove]);
             this.DictionaryEntryElements.Remove(this.KeyToFoldoutElement[veKeyToRemove]);
-            
+
             this.KeyToFoldoutElement.Remove(veKeyToRemove);
         }
     }
@@ -342,12 +342,22 @@ internal class CoreInteractiveObjectListenableField : ListenableVisualElement<Co
     public CoreInteractiveObjectListenableField(object obj, FieldInfo field, string label = "") : base(obj, field)
     {
         ObjectField = new ObjectField(string.IsNullOrWhiteSpace(label) ? VisualElementFromClass.SanitizeFieldName(field.Name) : label);
+
         Add(ObjectField);
     }
 
     protected override void OnValueChaged()
     {
-        ObjectField.value = value.InteractiveGameObject.InteractiveGameObjectParent;
+        try
+        {
+            ObjectField.objectType = this.value.GetType();
+            ObjectField.value = value.InteractiveGameObject.InteractiveGameObjectParent;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
 
