@@ -7,15 +7,15 @@ public class ToonShaderEditor : ShaderGUI
 {
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
+        this.SetupFoldoutHeader(materialEditor);
         this.RetrieveMaterialAttributes(properties);
         this.DisplayEditor(materialEditor);
         this.UpdateMaterialKeywords(materialEditor);
     }
 
-
     #region Surface Options
 
-    private bool surfaceOptionFoldout;
+    private EditorPersistantBoolVariable surfaceOptionFoldout;
     private MaterialProperty surfaceTypeProp;
     private MaterialProperty blendModeProp;
     private MaterialProperty cullingProp;
@@ -27,7 +27,7 @@ public class ToonShaderEditor : ShaderGUI
 
     #region Toon diffuse Options
 
-    private bool toonDiffuseOptionsFoldout;
+    private EditorPersistantBoolVariable toonDiffuseOptionsFoldout;
     private MaterialProperty BaseColor;
     private MaterialProperty BaseMap;
     private MaterialProperty DiffuseRamp;
@@ -36,7 +36,7 @@ public class ToonShaderEditor : ShaderGUI
 
     #region Toon rim options
 
-    private bool toonRimOptionsFoldout;
+    private EditorPersistantBoolVariable toonRimOptionsFoldout;
     private MaterialProperty RimPower;
     private MaterialProperty RimOffset;
     private MaterialProperty RimColor;
@@ -45,7 +45,7 @@ public class ToonShaderEditor : ShaderGUI
 
     #region Toon specular options
 
-    private bool toonSpecularOptionsFoldout;
+    private EditorPersistantBoolVariable toonSpecularOptionsFoldout;
     private MaterialProperty SpecularRamp;
     private MaterialProperty SpecularPower;
     private MaterialProperty SpecularColor;
@@ -54,7 +54,7 @@ public class ToonShaderEditor : ShaderGUI
 
     #region Toon emission options
 
-    private bool toonEmissionOptionsFodlout;
+    private EditorPersistantBoolVariable toonEmissionOptionsFodlout;
     private MaterialProperty EmissionMap;
     private MaterialProperty EmissionColor;
 
@@ -62,12 +62,22 @@ public class ToonShaderEditor : ShaderGUI
 
     #region Advanced Options
 
-    private bool advancedOptionsFoldout;
+    private EditorPersistantBoolVariable advancedOptionsFoldout;
     private MaterialProperty queueOffsetProp;
     private const int queueOffsetRange = 50;
 
     #endregion
 
+    private void SetupFoldoutHeader(MaterialEditor materialEditor)
+    {
+        Material material = materialEditor.target as Material;
+        EditorPersistantBoolVariable.Initialize(ref this.surfaceOptionFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.surfaceOptionFoldout)));
+        EditorPersistantBoolVariable.Initialize(ref this.toonDiffuseOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonDiffuseOptionsFoldout)));
+        EditorPersistantBoolVariable.Initialize(ref this.toonRimOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonRimOptionsFoldout)));
+        EditorPersistantBoolVariable.Initialize(ref this.toonSpecularOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonSpecularOptionsFoldout)));
+        EditorPersistantBoolVariable.Initialize(ref this.toonEmissionOptionsFodlout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonEmissionOptionsFodlout)));
+        EditorPersistantBoolVariable.Initialize(ref this.advancedOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.advancedOptionsFoldout)));
+    }
 
     private void RetrieveMaterialAttributes(MaterialProperty[] properties)
     {
@@ -96,6 +106,7 @@ public class ToonShaderEditor : ShaderGUI
         this.queueOffsetProp = FindProperty("_QueueOffset", properties);
     }
 
+
     private void DisplayEditor(MaterialEditor materialEditor)
     {
         Material material = materialEditor.target as Material;
@@ -110,8 +121,8 @@ public class ToonShaderEditor : ShaderGUI
 
     private void DrawSurfaceOptions(Material material, MaterialEditor materialEditor)
     {
-        this.surfaceOptionFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(this.surfaceOptionFoldout, "Surface Options");
-        if (this.surfaceOptionFoldout)
+        this.surfaceOptionFoldout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.surfaceOptionFoldout.GetValue(), "Surface Options"));
+        if (this.surfaceOptionFoldout.GetValue())
         {
             BaseShaderGUI.DoPopup(ToonShaderEditorStatic.surfaceType, surfaceTypeProp, Enum.GetNames(typeof(BaseShaderGUI.SurfaceType)), materialEditor);
             if ((BaseShaderGUI.SurfaceType) material.GetFloat("_Surface") == BaseShaderGUI.SurfaceType.Transparent)
@@ -150,6 +161,7 @@ public class ToonShaderEditor : ShaderGUI
                     receiveShadowsProp.floatValue = receiveShadows ? 1.0f : 0.0f;
                 EditorGUI.showMixedValue = false;
             }
+
             EditorGUILayout.Space();
         }
 
@@ -158,8 +170,8 @@ public class ToonShaderEditor : ShaderGUI
 
     private void DrawToonDiffuseOptions(Material material, MaterialEditor materialEditor)
     {
-        this.toonDiffuseOptionsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(this.toonDiffuseOptionsFoldout, "Toon Diffuse Options");
-        if (this.toonDiffuseOptionsFoldout)
+        this.toonDiffuseOptionsFoldout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.toonDiffuseOptionsFoldout.GetValue(), "Toon Diffuse Options"));
+        if (this.toonDiffuseOptionsFoldout.GetValue())
         {
             materialEditor.TexturePropertySingleLine(ToonShaderEditorStatic.BaseMapText, this.BaseMap);
             materialEditor.ColorProperty(this.BaseColor, ToonShaderEditorStatic.BaseColorText);
@@ -172,8 +184,8 @@ public class ToonShaderEditor : ShaderGUI
 
     private void DrawToonRimOptions(Material material, MaterialEditor materialEditor)
     {
-        this.toonRimOptionsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(this.toonRimOptionsFoldout, "Toon Rim Options");
-        if (this.toonRimOptionsFoldout)
+        this.toonRimOptionsFoldout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.toonRimOptionsFoldout.GetValue(), "Toon Rim Options"));
+        if (this.toonRimOptionsFoldout.GetValue())
         {
             materialEditor.RangeProperty(this.RimPower, ToonShaderEditorStatic.RimPowerText);
             if (material.IsKeywordEnabled(ToonShaderEditorStatic.RIM_LIGHTNING_ENABLED))
@@ -183,6 +195,7 @@ public class ToonShaderEditor : ShaderGUI
                 materialEditor.ColorProperty(this.RimColor, ToonShaderEditorStatic.RimColorText);
                 EditorGUI.indentLevel -= 1;
             }
+
             EditorGUILayout.Space();
         }
 
@@ -191,8 +204,8 @@ public class ToonShaderEditor : ShaderGUI
 
     private void DrawToonSpecularOptions(Material material, MaterialEditor materialEditor)
     {
-        this.toonSpecularOptionsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(this.toonSpecularOptionsFoldout, "Toon Specular Options");
-        if (this.toonSpecularOptionsFoldout)
+        this.toonSpecularOptionsFoldout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.toonSpecularOptionsFoldout.GetValue(), "Toon Specular Options"));
+        if (this.toonSpecularOptionsFoldout.GetValue())
         {
             materialEditor.TexturePropertySingleLine(ToonShaderEditorStatic.SpecularRampText, this.SpecularRamp);
             if (material.IsKeywordEnabled(ToonShaderEditorStatic.TOON_SPECULAR_ENABLED))
@@ -202,6 +215,7 @@ public class ToonShaderEditor : ShaderGUI
                 materialEditor.ColorProperty(this.SpecularColor, ToonShaderEditorStatic.SpecularColorText);
                 EditorGUI.indentLevel -= 1;
             }
+
             EditorGUILayout.Space();
         }
 
@@ -210,8 +224,8 @@ public class ToonShaderEditor : ShaderGUI
 
     private void DrawToonEmissionOptions(Material material, MaterialEditor materialEditor)
     {
-        this.toonEmissionOptionsFodlout = EditorGUILayout.BeginFoldoutHeaderGroup(this.toonEmissionOptionsFodlout, "Toon Emission Options");
-        if (this.toonEmissionOptionsFodlout)
+        this.toonEmissionOptionsFodlout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.toonEmissionOptionsFodlout.GetValue(), "Toon Emission Options"));
+        if (this.toonEmissionOptionsFodlout.GetValue())
         {
             materialEditor.TexturePropertySingleLine(ToonShaderEditorStatic.EmissionMapText, this.EmissionMap);
             if (material.IsKeywordEnabled(ToonShaderEditorStatic.TOON_EMISSION_ENABLED))
@@ -220,6 +234,7 @@ public class ToonShaderEditor : ShaderGUI
                 materialEditor.ColorProperty(this.EmissionColor, ToonShaderEditorStatic.EmissionColorText);
                 EditorGUI.indentLevel -= 1;
             }
+
             EditorGUILayout.Space();
         }
 
@@ -228,8 +243,8 @@ public class ToonShaderEditor : ShaderGUI
 
     private void DrawAdvancedOptions(Material material, MaterialEditor materialEditor)
     {
-        this.advancedOptionsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(this.advancedOptionsFoldout, "Advanced Options");
-        if (this.advancedOptionsFoldout)
+        this.advancedOptionsFoldout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.advancedOptionsFoldout.GetValue(), "Advanced Options"));
+        if (this.advancedOptionsFoldout.GetValue())
         {
             materialEditor.EnableInstancingField();
             if (queueOffsetProp != null)
@@ -241,6 +256,7 @@ public class ToonShaderEditor : ShaderGUI
                     queueOffsetProp.floatValue = queue;
                 EditorGUI.showMixedValue = false;
             }
+
             EditorGUILayout.Space();
         }
 

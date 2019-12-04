@@ -79,7 +79,7 @@ public class CustomEnumPropertyDrawer : PropertyDrawer
                         if (so != null)
                         {
                             this.CachedConfigurationEditor = DynamicEditorCreation.Get().CreateEditor(so);
-                            this.ConfigurationFoldableArea = new FoldableArea(false, so.name, false);
+                            this.ConfigurationFoldableArea = new FoldableArea(false, so.name, false, new EditorPersistantBoolVariable(EditorPersistantBoolVariable.BuildKeyFromObject(so, so.name)));
                         }
                         else
                         {

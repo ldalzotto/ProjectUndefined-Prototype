@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class FoldableArea
 {
-    private bool isFolded;
+    private IFoldableAreaFoldoutValueStrategy IFoldableAreaFoldoutValueStrategy;
     private string foldContent;
 
     private bool canBeDisabled;
     private bool isEnabled;
 
-    public FoldableArea(bool canBeDisabled, string foldContent, bool isEnabledStartValue)
+    public FoldableArea(bool canBeDisabled, string foldContent, bool isEnabledStartValue, EditorPersistantBoolVariable isFoldedPersistedBoolVariable = null)
     {
         this.canBeDisabled = canBeDisabled;
         this.foldContent = foldContent;
         this.isEnabled = isEnabledStartValue;
+        if (isFoldedPersistedBoolVariable == null)
+        {
+            this.IFoldableAreaFoldoutValueStrategy = new NonPersistedFoldableArea();
+        }
+        else
+        {
+            this.IFoldableAreaFoldoutValueStrategy = new FoldableAreaPersistance(isFoldedPersistedBoolVariable);
+        }
     }
 
     public bool IsEnabled
@@ -43,17 +51,17 @@ public class FoldableArea
         foldContentText += this.foldContent;
         if (this.canBeDisabled)
         {
-            this.isFolded = EditorGUILayout.BeginFoldoutHeaderGroup(this.isFolded, foldContentText, null, this.ShowContextMenu);
+            this.IFoldableAreaFoldoutValueStrategy.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.IFoldableAreaFoldoutValueStrategy.GetValue(), foldContentText, null, this.ShowContextMenu));
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
         else
         {
-            this.isFolded = EditorGUILayout.BeginFoldoutHeaderGroup(this.isFolded, foldContentText);
-            EditorGUILayout.EndFoldoutHeaderGroup(); 
+            this.IFoldableAreaFoldoutValueStrategy.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.IFoldableAreaFoldoutValueStrategy.GetValue(), foldContentText));
+            EditorGUILayout.EndFoldoutHeaderGroup();
         }
-       
+
         EditorGUI.BeginDisabledGroup(this.canBeDisabled && !this.isEnabled);
-        if (this.isFolded)
+        if (this.IFoldableAreaFoldoutValueStrategy.GetValue())
         {
             guiAction.Invoke();
         }
@@ -65,7 +73,48 @@ public class FoldableArea
     private void ShowContextMenu(Rect position)
     {
         var menu = new GenericMenu();
-        menu.AddItem(new GUIContent("Enabled"), this.isEnabled, () => { this.isEnabled = !this.isEnabled;} );
+        menu.AddItem(new GUIContent("Enabled"), this.isEnabled, () => { this.isEnabled = !this.isEnabled; });
         menu.DropDown(position);
+    }
+}
+
+interface IFoldableAreaFoldoutValueStrategy
+{
+    bool GetValue();
+    void SetValue(bool value);
+}
+
+class FoldableAreaPersistance : IFoldableAreaFoldoutValueStrategy
+{
+    private EditorPersistantBoolVariable isFoldedPersisted;
+
+    public FoldableAreaPersistance(EditorPersistantBoolVariable isFoldedPersisted)
+    {
+        this.isFoldedPersisted = isFoldedPersisted;
+    }
+
+    public bool GetValue()
+    {
+        return this.isFoldedPersisted.GetValue();
+    }
+
+    public void SetValue(bool value)
+    {
+        this.isFoldedPersisted.SetValue(value);
+    }
+}
+
+class NonPersistedFoldableArea : IFoldableAreaFoldoutValueStrategy
+{
+    private bool value;
+
+    public bool GetValue()
+    {
+        return this.value;
+    }
+
+    public void SetValue(bool value)
+    {
+        this.value = value;
     }
 }

@@ -102,6 +102,8 @@
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\ObjectsCreation\_Generics\GenericConfigurationCreation\Module\EditorInformations.cs" />
      <Compile Include="Assets\Editor\CreationWizard_PuzzleGame\ObjectsCreation\_Generics\GenericConfigurationCreation\Module\GenericConfiugrationCreation.cs" />
      <Compile Include="Assets\Editor\DynamicEditorCreation\DynamicEditorCreation.cs" />
+     <Compile Include="Assets\Editor\EditorPersistance\EditorPersistantBoolVariable\EditorPersistantBoolDatabase.cs" />
+     <Compile Include="Assets\Editor\EditorPersistance\EditorPersistantBoolVariable\EditorPersistantBoolVariable.cs" />
      <Compile Include="Assets\Editor\EditorTool\LightSettingsPaster.cs" />
      <Compile Include="Assets\Editor\GameConfigurationTools\GameConfigurationRefresher\GameConfigurationRefresher.cs" />
      <Compile Include="Assets\Editor\GameConfigurationTools\GameConfigurationRefresher\GameConfigurationRefresherProfile.cs" />

@@ -17,28 +17,24 @@ public class IncludeConfigurationPropertyDrawer : PropertyDrawer
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        IncludeConfiguration IncludeConfigurationEnum = (IncludeConfiguration)attribute;
+        IncludeConfiguration IncludeConfigurationEnum = (IncludeConfiguration) attribute;
         if (property.propertyType == SerializedPropertyType.Enum)
         {
             var targetEnum = SerializableObjectHelper.GetBaseProperty<Enum>(property);
             if (this.CachedConfigurationEditor == null || this.lastFrameEnum.ToString() != targetEnum.ToString())
             {
-                var configuration = (IConfigurationSerialization)AssetFinder.SafeAssetFind("t:" + IncludeConfigurationEnum.ConfigurationType.Name)[0];
+                var configuration = (IConfigurationSerialization) AssetFinder.SafeAssetFind("t:" + IncludeConfigurationEnum.ConfigurationType.Name)[0];
                 var so = configuration.GetEntry(targetEnum);
                 this.CachedConfigurationEditor = DynamicEditorCreation.Get().CreateEditor(so);
-                this.FoldableArea = new FoldableArea(false, so.name, false);
+                this.FoldableArea = new FoldableArea(false, so.name, false, new EditorPersistantBoolVariable(EditorPersistantBoolVariable.BuildKeyFromObject(so, so.name)));
             }
 
             if (CachedConfigurationEditor != null)
             {
-                this.FoldableArea.OnGUI(() =>
-                {
-                    this.CachedConfigurationEditor.OnInspectorGUI();
-                });
+                this.FoldableArea.OnGUI(() => { this.CachedConfigurationEditor.OnInspectorGUI(); });
             }
+
             this.lastFrameEnum = targetEnum;
         }
-
-
     }
 }

@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 [CustomPropertyDrawer(typeof(Inline))]
 public class InlinePropertyDrawer : PropertyDrawer
 {
-    private bool folded;
+    private EditorPersistantBoolVariable folded;
     private Editor inlineEditor;
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -18,11 +18,12 @@ public class InlinePropertyDrawer : PropertyDrawer
         return -base.GetPropertyHeight(property, label) * 0.15f;
     }
 
-
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         try
         {
+            EditorPersistantBoolVariable.Initialize(ref this.folded, EditorPersistantBoolVariable.BuildKeyFromObject(property.serializedObject.targetObject, property.name));
+
             Inline byEnumProperty = (Inline) attribute;
             EditorGUI.BeginChangeCheck();
             string propertyName = "";
@@ -32,13 +33,13 @@ public class InlinePropertyDrawer : PropertyDrawer
             }
 
             propertyName += property.name;
-            
-            this.folded = EditorGUILayout.BeginFoldoutHeaderGroup(this.folded, propertyName);
+
+            this.folded.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.folded.GetValue(), propertyName));
             EditorGUILayout.EndFoldoutHeaderGroup();
 
             if (EditorGUI.EndChangeCheck())
             {
-                if (!this.folded)
+                if (!this.folded.GetValue())
                 {
                     if (this.inlineEditor != null)
                     {
@@ -48,7 +49,7 @@ public class InlinePropertyDrawer : PropertyDrawer
                 }
             }
 
-            if (this.folded)
+            if (this.folded.GetValue())
             {
                 EditorGUI.indentLevel += 1;
                 EditorGUILayout.PropertyField(property);
@@ -99,7 +100,6 @@ public class InlinePropertyDrawer : PropertyDrawer
         }
         catch (Exception e)
         {
-            Debug.LogError(e);
         }
     }
 

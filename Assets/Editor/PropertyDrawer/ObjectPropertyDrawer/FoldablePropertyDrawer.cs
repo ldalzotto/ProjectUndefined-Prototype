@@ -52,6 +52,7 @@ public class FoldablePropertyDrawer : PropertyDrawer
                 {
                     EditorGUILayout.PropertyField(childPropery, true);
                 }
+
                 EditorGUILayout.Space();
             }
             catch (Exception)
