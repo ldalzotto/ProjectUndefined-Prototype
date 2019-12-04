@@ -12,3 +12,4 @@ Pristine
 *LightingData.asset*
 **/node_modules/
 Documentation
+*.blend[1-9]
