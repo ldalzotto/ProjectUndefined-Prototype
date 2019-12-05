@@ -27,6 +27,10 @@ namespace CoreGame
 #if UNITY_EDITOR
         public static void SetInstance(T t)
         {
+            if (Instance != null)
+            {
+                Instance.OnDestroy();
+            }
             Instance = t;
         }
 #endif

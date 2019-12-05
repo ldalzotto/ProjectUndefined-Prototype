@@ -58,6 +58,7 @@
   <ItemGroup>
      <Compile Include="Assets\Tests\TestController\TestControllerConfiguration.cs" />
      <Compile Include="Assets\Tests\TestController\TestControllerDefinition.cs" />
+     <Compile Include="Assets\Tests\TestGameLoop\CameraMovementJobManagerMocked.cs" />
      <Compile Include="Assets\Tests\TestGameLoop\GameInputManagerMock.cs" />
      <Compile Include="Assets\Tests\TestGameLoop\LevelTransitionManagerMock.cs" />
      <Compile Include="Assets\Tests\TestGameLoop\TestGameManager.cs" />
@@ -676,6 +677,10 @@
     <ProjectReference Include="RangeObjects.csproj">
       <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
       <Name>RangeObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="CameraManagement.csproj">
+      <Project>{7E99B70D-57F7-0D6B-3D29-B5FCCEB20C49}</Project>
+      <Name>CameraManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

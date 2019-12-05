@@ -651,6 +651,10 @@
       <Project>{B0A26EA7-AAD9-13B2-487E-C8EB83C405B2}</Project>
       <Name>Targetting_Tests</Name>
     </ProjectReference>
+    <ProjectReference Include="CameraManagement.csproj">
+      <Project>{7E99B70D-57F7-0D6B-3D29-B5FCCEB20C49}</Project>
+      <Name>CameraManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

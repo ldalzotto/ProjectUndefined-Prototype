@@ -11,6 +11,10 @@ namespace PlayerObject_Interfaces
         {
             this.OnPlayerInteractiveObjectDestroyedEvent += action;
         }
+        public void UnRegisterPlayerInteractiveObjectDestroyedEvent(Action action)
+        {
+            this.OnPlayerInteractiveObjectDestroyedEvent -= action;
+        }
 
         public void OnPlayerInteractiveObjectDestroyed()
         {

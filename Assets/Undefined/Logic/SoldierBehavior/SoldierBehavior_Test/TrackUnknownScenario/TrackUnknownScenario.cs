@@ -6,6 +6,7 @@ using InteractiveObjects_Interfaces;
 using PlayerObject;
 using SequencedAction;
 using Targetting_Test;
+using Tests;
 using Tests.TestScenario;
 using UnityEngine;
 
@@ -22,6 +23,11 @@ namespace SoliderBehavior_Test
 
         [WireCircleWorld(PositionFieldName = nameof(Fire1PlayerPosition))]
         public Vector3 Fire1PlayerPosition;
+
+        public override void BeforeObjectInitialization()
+        {
+            CameraMovementJobManagerMocked.SetupForTestScene();
+        }
 
         public override List<ASequencedAction> BuildScenarioActions()
         {

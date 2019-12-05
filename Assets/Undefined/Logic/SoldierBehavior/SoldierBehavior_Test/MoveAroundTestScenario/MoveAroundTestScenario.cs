@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AIObjects;
 using PlayerObject;
 using SequencedAction;
+using Tests;
 using Tests.TestScenario;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace SoliderBehavior_Test
         public AIMoveToActionInputData P2;
         [WireCircleWorld(PositionFieldName = nameof(P3))] [WireArrow(OriginFieldName = nameof(P3))]
         public AIMoveToActionInputData P3;
+
         public override List<ASequencedAction> BuildScenarioActions()
         {
             var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;

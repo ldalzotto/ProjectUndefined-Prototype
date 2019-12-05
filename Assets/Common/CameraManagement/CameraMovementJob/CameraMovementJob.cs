@@ -57,11 +57,11 @@ namespace CameraManagement
             this.CameraPivotPointTransformWithoutOffset.pos = cameraPivotPoint.transform.position;
 
             var cameraPivotPointRotationEuler = cameraPivotPoint.transform.rotation.eulerAngles;
-            
+
             /// The vertical rotation is resetted to ensure that rotation delta are not accumulated. 
             cameraPivotPointRotationEuler.x = 0f;
             cameraPivotPoint.transform.rotation = Quaternion.Euler(cameraPivotPointRotationEuler);
-            
+
             this.CameraPivotPointTransformWithoutOffset.rot = cameraPivotPoint.transform.rotation;
 
             this.CameraSize = camera.orthographicSize;
@@ -116,7 +116,7 @@ namespace CameraManagement
             CameraMovementJobStateStruct.CameraObject = CameraObject;
 
             this.CameraMovementJobState[0] = CameraMovementJobStateStruct;
-            
+
             transform.position = cameraFollowPosition + cameraPanningDeltaPosition;
             transform.rotation = math.mul(rotation, cameraVerticalRotationDelta);
         }
@@ -124,7 +124,10 @@ namespace CameraManagement
 
         public void Dispose()
         {
-            this.CameraMovementJobState.Dispose();
+            if (this.CameraMovementJobState.IsCreated)
+            {
+                this.CameraMovementJobState.Dispose();
+            }
         }
     }
 
@@ -177,7 +180,7 @@ namespace CameraManagement
             PlayerInteractiveObjectDestroyedEvent.Get().RegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerInteractiveObjectDestroyed);
         }
 
-        public void SetupJob(float d)
+        public virtual void SetupJob(float d)
         {
             var CameraMovementJobStateStruct = this.CameraMovementJob.GetCameraMovementJobState();
             CameraMovementJobStateStruct.d = d;
@@ -197,7 +200,7 @@ namespace CameraManagement
             this.CameraMovementJobHandle = this.CameraMovementJob.Schedule(this.CameraPivotPointTransform);
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
             this.CameraMovementJobHandle.Complete();
 
@@ -209,7 +212,7 @@ namespace CameraManagement
         /// <summary>
         /// Called from <see cref="PlayerInteractiveObjectCreatedEvent"/>.
         /// </summary
-        private void OnPlayerInteractiveObjectCreated(IPlayerInteractiveObject IPlayerInteractiveObject)
+        protected virtual void OnPlayerInteractiveObjectCreated(IPlayerInteractiveObject IPlayerInteractiveObject)
         {
             //set initial position
             this.CameraPivotPointTransform[0].position = IPlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.position;
@@ -248,8 +251,15 @@ namespace CameraManagement
         public override void OnDestroy()
         {
             base.OnDestroy();
-            this.CameraPivotPointTransform.Dispose();
+            if (this.CameraPivotPointTransform.isCreated)
+            {
+                this.CameraPivotPointTransform.Dispose();
+            }
+
             this.CameraMovementJob.Dispose();
+
+            PlayerInteractiveObjectCreatedEvent.Get().UnRegisterPlayerInteractiveObjectCreatedEvent(this.OnPlayerInteractiveObjectCreated);
+            PlayerInteractiveObjectDestroyedEvent.Get().UnRegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerInteractiveObjectDestroyed);
         }
     }
 }

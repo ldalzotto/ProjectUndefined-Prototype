@@ -13,7 +13,8 @@
         "Editor_Common",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Targetting_Tests"
+        "Targetting_Tests",
+        "CameraManagement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

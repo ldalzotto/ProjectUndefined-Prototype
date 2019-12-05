@@ -22,6 +22,10 @@ namespace Tests.TestScenario
         /// </summary>
         public GameObject TestEntitiesPrefab;
 
+        public virtual void BeforeObjectInitialization()
+        {
+        }
+
         public abstract List<ASequencedAction> BuildScenarioActions();
     }
 

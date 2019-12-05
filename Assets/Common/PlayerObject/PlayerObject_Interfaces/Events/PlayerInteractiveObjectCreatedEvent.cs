@@ -12,6 +12,11 @@ namespace PlayerObject_Interfaces
             this.OnPlayerInteractiveObjectCreatedEvent += action;
         }
 
+        public void UnRegisterPlayerInteractiveObjectCreatedEvent(Action<IPlayerInteractiveObject> action)
+        {
+            this.OnPlayerInteractiveObjectCreatedEvent -= action;
+        }
+
         public void OnPlayerInteractiveObjectCreated(IPlayerInteractiveObject IPlayerInteractiveObject)
         {
             this.OnPlayerInteractiveObjectCreatedEvent?.Invoke(IPlayerInteractiveObject);

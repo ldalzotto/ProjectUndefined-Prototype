@@ -58,6 +58,7 @@ namespace Tests
             this.TestControllerConfiguration.TestControllerDefinition.StartTest = false;
             var aTestScenarioDefinition = this.TestControllerConfiguration.TestControllerDefinition.aTestScenarioDefinition;
             this.TestEntitiesPrefabInstance = GameObject.Instantiate(aTestScenarioDefinition.TestEntitiesPrefab);
+            aTestScenarioDefinition.BeforeObjectInitialization();
             RangeObjectV2Manager.InitializeAllRangeObjects();
             InteractiveObjectV2Manager.Get().InitializeAllInteractiveObjectsInitializer();
 
