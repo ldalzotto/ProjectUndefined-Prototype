@@ -63,17 +63,6 @@
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierF\SoliderEnemyDefinition_F_PatrollingPath.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectActionInherentData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\AggressiveAI\AggressiveAIObject.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\AggressiveAI\AggressiveObjectInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\RootAnimationTest\RootAnimationAITestObject.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\RootAnimationTest\RootAnimationAITestObjectInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\RootAnimationTest\RootAnimationCutsceneTemplate.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AIInteractiveObjectTest.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AIInteractiveObjectTestInitializerData.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AIPatrolGraphTest.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AIObject\AITestDisarmLocalCutscene.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AttractiveObject\TestAttractiveObject.cs" />
-     <Compile Include="Assets\Undefined\Levels\TrainingLevel\InteractiveObjectsAsset\Test\AttractiveObject\TestAttractiveObjectInitializerData.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\AttractiveObject\AttractiveObjectSystem.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\AttractiveObject\AttractiveObjectSystemDefinition.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\DisarmObject\DisarmSystemDefinition.cs" />

@@ -124,6 +124,11 @@ namespace InteractiveObjects
             return InteractiveGameObjectParent.transform.localToWorldMatrix;
         }
 
+        public Matrix4x4 GetWorldToLocal()
+        {
+            return InteractiveGameObjectParent.transform.worldToLocalMatrix;
+        }
+
         public BoxDefinition GetLogicColliderBoxDefinition()
         {
             return new BoxDefinition(GetLogicColliderAsBox());

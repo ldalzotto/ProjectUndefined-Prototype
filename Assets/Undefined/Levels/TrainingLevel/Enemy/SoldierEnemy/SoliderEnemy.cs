@@ -19,6 +19,7 @@ namespace TrainingLevel
         private WeaponHandlingSystem WeaponHandlingSystem;
         private FiringTargetPositionSystem FiringTargetPositionSystem;
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
+        [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierAIBehavior SoldierAIBehavior;
@@ -35,8 +36,8 @@ namespace TrainingLevel
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                 SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached,
-                (unscaledSpeed) => this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(unscaledSpeed));
+            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, AIMovementSpeedAttenuationFactor.RUN, ObjectSpeedCalculationType.AGENT);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
             this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation);
             this.SoldierAIBehavior = new SoldierAIBehavior();
 
@@ -69,9 +70,10 @@ namespace TrainingLevel
 
         public override void AfterTicks(float d)
         {
+            this.ObjectMovementSpeedSystem.AfterTicks();
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                this.AIMoveToDestinationSystem.AfterTicks();
+                this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalDirectionSpeedAttenuated());
             }
 
             base.AfterTicks(d);
@@ -125,7 +127,7 @@ namespace TrainingLevel
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            this.AIMoveToDestinationSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
         private void OnAIDestinationReached()

@@ -1,5 +1,6 @@
 ﻿using System;
 using Input;
+using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -154,12 +155,20 @@ namespace PlayerObject
 
     public abstract class APlayerMoveManager
     {
+        protected ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
+
+        protected APlayerMoveManager(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3)
+        {
+            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(associatedInteractiveObject, aiTransformMoveManagerComponentV3, AIMovementSpeedAttenuationFactor.RUN, ObjectSpeedCalculationType.MANUAL);
+        }
+
         public virtual void Tick(float d)
         {
         }
 
         public virtual void AfterTicks()
         {
+            this.ObjectMovementSpeedSystem.AfterTicks();
         }
 
         public virtual void FixedTick(float d)
@@ -168,15 +177,17 @@ namespace PlayerObject
 
         public virtual void ResetSpeed()
         {
+            this.ObjectMovementSpeedSystem.ResetSpeed();
         }
 
-        public virtual float GetPlayerSpeedMagnitude()
+        public float GetPlayerSpeedMagnitude()
         {
-            return default;
+            return this.ObjectMovementSpeedSystem.GetSpeedMagnitude();
         }
 
-        public virtual void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
+            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
         public virtual NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
@@ -184,22 +195,9 @@ namespace PlayerObject
             return NavMeshPathStatus.PathInvalid;
         }
 
-        public virtual AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
+        public AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
         {
-            return default;
-        }
-    }
-
-
-    public struct PlayerSpeedProcessingInput
-    {
-        public Vector3 PlayerMovementOrientation;
-        public float PlayerSpeedMagnitude;
-
-        public PlayerSpeedProcessingInput(Vector3 playerMovementOrientation, float playerSpeedMagnitude)
-        {
-            this.PlayerMovementOrientation = playerMovementOrientation;
-            this.PlayerSpeedMagnitude = playerSpeedMagnitude;
+            return this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor();
         }
     }
 }

@@ -66,6 +66,7 @@
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectInitializer.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectPhysicsEventListener.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Managers\InteractiveObjectV2Manager.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\Systems\ObjectMovementSpeedSystem.cs" />
      <None Include="Assets\Common\InteractiveObjects\InteractiveObjects.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

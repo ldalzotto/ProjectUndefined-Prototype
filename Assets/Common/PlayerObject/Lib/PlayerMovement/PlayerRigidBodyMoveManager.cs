@@ -1,6 +1,8 @@
 ﻿using Input;
+using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
+using UnityEngine.Jobs;
 
 namespace PlayerObject
 {
@@ -9,32 +11,26 @@ namespace PlayerObject
     /// </summary>
     public class PlayerRigidBodyMoveManager : APlayerMoveManager
     {
-        private float SpeedMultiplicationFactor;
-        private AIMovementSpeedAttenuationFactor _aiMovementSpeedAttenuationFactorAttenuationFactor = AIMovementSpeedAttenuationFactor.RUN;
         private Rigidbody PlayerRigidBody;
         private Transform CameraPivotPoint;
         private GameInputManager GameInputManager;
-        private PlayerSpeedProcessingInput playerSpeedProcessingInput;
 
-        public PlayerRigidBodyMoveManager(float SpeedMultiplicationFactor, Rigidbody playerRigidBody, Transform cameraPivotPoint)
+        public PlayerRigidBodyMoveManager(CoreInteractiveObject PlayerInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
+            Transform cameraPivotPoint)
+            : base(PlayerInteractiveObject, TransformMoveManagerComponentV3)
         {
-            this.SpeedMultiplicationFactor = SpeedMultiplicationFactor;
-            PlayerRigidBody = playerRigidBody;
+            PlayerRigidBody = PlayerInteractiveObject.InteractiveGameObject.PhysicsRigidbody;
             this.GameInputManager = GameInputManager.Get();
             this.CameraPivotPoint = cameraPivotPoint;
         }
 
-        public override float GetPlayerSpeedMagnitude()
-        {
-            return this.playerSpeedProcessingInput.PlayerSpeedMagnitude;
-        }
-        
         public override void Tick(float d)
         {
-            this.playerSpeedProcessingInput = ComputePlayerSpeedProcessingInput();
+            base.Tick(d);
+            this.ComputePlayerSpeed();
         }
 
-        private PlayerSpeedProcessingInput ComputePlayerSpeedProcessingInput()
+        private void ComputePlayerSpeed()
         {
             var currentCameraAngle = CameraPivotPoint.transform.eulerAngles.y;
 
@@ -43,36 +39,21 @@ namespace PlayerObject
 
             var playerMovementOrientation = projectedDisplacement.normalized;
 
-            return new PlayerSpeedProcessingInput(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
+            this.ObjectMovementSpeedSystem.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
         }
 
-        public override void ResetSpeed()
-        {
-            this.playerSpeedProcessingInput = new PlayerSpeedProcessingInput(Vector3.zero, 0f);
-        }
-
-        public override void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            this._aiMovementSpeedAttenuationFactorAttenuationFactor = aiMovementSpeedAttenuationFactor;
-        }
-
-        public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
-        {
-            return this._aiMovementSpeedAttenuationFactorAttenuationFactor;
-        }
 
         public override void FixedTick(float d)
         {
             //move rigid body rotation
-            if (playerSpeedProcessingInput.PlayerMovementOrientation.sqrMagnitude > .05)
+            if (Mathf.Abs(this.ObjectMovementSpeedSystem.GetSpeedMagnitude()) >= .05)
             {
-                PlayerRigidBody.rotation = Quaternion.LookRotation(playerSpeedProcessingInput.PlayerMovementOrientation);
+                PlayerRigidBody.rotation = Quaternion.LookRotation(this.ObjectMovementSpeedSystem.GetWorldDirection());
                 //rotation will take place at the end of physics step https://docs.unity3d.com/ScriptReference/Rigidbody-rotation.html
             }
 
             //move rigid body by taking account speed attenuation factor
-            PlayerRigidBody.velocity = playerSpeedProcessingInput.PlayerMovementOrientation * playerSpeedProcessingInput.PlayerSpeedMagnitude * this.SpeedMultiplicationFactor 
-                                       * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[_aiMovementSpeedAttenuationFactorAttenuationFactor];
+            PlayerRigidBody.velocity = this.ObjectMovementSpeedSystem.GetVelocity();
         }
     }
 }

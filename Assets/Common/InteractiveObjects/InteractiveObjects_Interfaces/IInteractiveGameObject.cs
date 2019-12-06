@@ -32,6 +32,7 @@ namespace InteractiveObjects_Interfaces
         BoxCollider GetLogicColliderAsBox();
         TransformStruct GetTransform();
         Matrix4x4 GetLocalToWorld();
+        Matrix4x4 GetWorldToLocal();
         BoxDefinition GetLogicColliderBoxDefinition();
         string GetAssociatedGameObjectName();
 

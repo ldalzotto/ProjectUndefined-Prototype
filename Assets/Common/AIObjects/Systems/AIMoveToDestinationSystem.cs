@@ -23,7 +23,6 @@ namespace AIObjects
         private AIDestinationManager AIDestinationManager;
         [VE_Nested] private AIPositionMoveManager aiPositionMoveManager;
         private A_AIRotationMoveManager A_AIRotationMoveManager;
-        private AISpeedEventDispatcher AISpeedEventDispatcher;
 
         #region State
 
@@ -34,15 +33,16 @@ namespace AIObjects
 
 
         public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
-            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached = null, Action<Vector3> OnAgentUnscaledSpeedMagnitudeCalculatedAction = null)
+            Func<AIMovementSpeedAttenuationFactor> AIMovementSpeedAttenuationFactorProvider,
+            OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached = null)
         {
             this.IsEnabled = true;
             this.objectAgent = CoreInteractiveObject.InteractiveGameObject.Agent;
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.A_AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3);
+            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.A_AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3,
+                AIMovementSpeedAttenuationFactorProvider);
             this.AIDestinationManager = new AIDestinationManager(this.objectAgent, OnAIInteractiveObjectDestinationReached, this.aiPositionMoveManager);
             this.A_AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, AITransformMoveManagerComponentV3, this.AIDestinationManager);
-            this.AISpeedEventDispatcher = new AISpeedEventDispatcher(CoreInteractiveObject, AITransformMoveManagerComponentV3, OnAgentUnscaledSpeedMagnitudeCalculatedAction);
         }
 
         public override void Tick(float d)
@@ -52,26 +52,19 @@ namespace AIObjects
             {
                 this.EnableAgent();
                 this.AIDestinationManager.CheckIfDestinationReached(d);
-                
+
                 Profiler.BeginSample("A_AIRotationMoveManager");
                 this.A_AIRotationMoveManager.UpdateAgentRotation(d);
                 Profiler.EndSample();
-                
+
                 this.aiPositionMoveManager.UpdateAgentPosition(d);
             }
             else
             {
                 this.StopAgent();
             }
-            Profiler.EndSample();
-        }
 
-        public override void AfterTicks()
-        {
-            if (IsEnabled)
-            {
-                AISpeedEventDispatcher.AfterTicks(this.AIDestinationManager.CurrentDestination.HasValue, this.aiPositionMoveManager.CurrentLocalDirection);
-            }
+            Profiler.EndSample();
         }
 
         public NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
@@ -98,11 +91,6 @@ namespace AIObjects
 
             this.LastIAgentMovementCalculationStrategyType = IAgentMovementCalculationStrategy.GetType();
             return this.AIDestinationManager.SetDestination(IAgentMovementCalculationStrategy.GetAIDestination());
-        }
-
-        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            aiPositionMoveManager.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
         public void ClearPath()
@@ -274,26 +262,25 @@ namespace AIObjects
 
         #region State
 
-        //Used to change the agent speed
-        private AIMovementSpeedAttenuationFactor currentSpeedAttenuationFactor;
-        public Vector3 CurrentLocalDirection { get; private set; }
+        public Vector3 LastFrameWorldPosition { get; private set; }
 
         #endregion
 
         private NavMeshAgent objectAgent;
         private Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager;
-
-        public AIPositionMoveManager(NavMeshAgent objectAgent, Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3)
+        private Func<AIMovementSpeedAttenuationFactor> AIMovementSpeedAttenuationFactorProvider;
+        public AIPositionMoveManager(NavMeshAgent objectAgent, Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3, 
+            Func<AIMovementSpeedAttenuationFactor> AIMovementSpeedAttenuationFactorProvider)
         {
             this.objectAgent = objectAgent;
             this.CurrentLookingTargetRotationFromAIRotationMoveManager = CurrentLookingTargetRotationFromAIRotationMoveManager;
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            currentSpeedAttenuationFactor = AIMovementSpeedAttenuationFactor.RUN;
+            this.AIMovementSpeedAttenuationFactorProvider = AIMovementSpeedAttenuationFactorProvider;
         }
 
         public void UpdateAgentPosition(float d)
         {
-            objectAgent.speed = this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[currentSpeedAttenuationFactor];
+            objectAgent.speed = this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.AIMovementSpeedAttenuationFactorProvider.Invoke()];
 
             var updatePosition = true;
             // We use a minimal velocity amplitude to avoid precision loss occured by the navmesh agent velocity calculation.
@@ -305,52 +292,17 @@ namespace AIObjects
                     && Quaternion.Angle(objectAgent.transform.rotation, this.CurrentLookingTargetRotationFromAIRotationMoveManager.Invoke()) <= this.AITransformMoveManagerComponentV3.TransformPositionUpdateConstraints.MinAngleThatAllowThePositionUpdate;
             }
 
+
+            this.LastFrameWorldPosition = objectAgent.transform.position;
             if (updatePosition)
             {
-                var WorldDirection = (objectAgent.nextPosition - objectAgent.transform.position).normalized;
-                this.CurrentLocalDirection =
-                    new Vector3(Vector3.Project(WorldDirection, objectAgent.transform.right).magnitude,
-                        Vector3.Project(WorldDirection, objectAgent.transform.up).magnitude,
-                        Vector3.Project(WorldDirection, objectAgent.transform.forward).magnitude).normalized;
                 objectAgent.transform.position = objectAgent.nextPosition;
             }
             else
             {
-                this.CurrentLocalDirection = Vector3.zero;
                 objectAgent.nextPosition = objectAgent.transform.position;
             }
         }
-
-        #region External Events
-
-        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            currentSpeedAttenuationFactor = aiMovementSpeedAttenuationFactor;
-        }
-
-        #endregion
     }
 
-
-    internal class AISpeedEventDispatcher
-    {
-        private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
-        private CoreInteractiveObject AssociatedInteractiveObject;
-
-        private Action<Vector3> OnAgentLocalDirectionCalculated;
-
-        public AISpeedEventDispatcher(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
-            Action<Vector3> onAgentLocalDirectionCalculated)
-        {
-            AssociatedInteractiveObject = associatedInteractiveObject;
-            this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            this.OnAgentLocalDirectionCalculated = onAgentLocalDirectionCalculated;
-        }
-
-        public void AfterTicks(bool currentlyHasADestination, Vector3 CurrentLocalDirection)
-        {
-            var currentSpeed = (currentlyHasADestination ? AssociatedInteractiveObject.InteractiveGameObject.Agent.speed : 0) / this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor;
-            this.OnAgentLocalDirectionCalculated?.Invoke(CurrentLocalDirection.normalized * currentSpeed);
-        }
-    }
 }
