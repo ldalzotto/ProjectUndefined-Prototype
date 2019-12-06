@@ -15,12 +15,15 @@ namespace PlayerObject
         private Transform CameraPivotPoint;
         private GameInputManager GameInputManager;
 
+        private ObjectMovementSpeedSystem ObjectMovementSpeedSystemRef;
+
         public PlayerRigidBodyMoveManager(CoreInteractiveObject PlayerInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
+            ObjectMovementSpeedSystem ObjectMovementSpeedSystemRef,
             Transform cameraPivotPoint)
-            : base(PlayerInteractiveObject, TransformMoveManagerComponentV3)
         {
             PlayerRigidBody = PlayerInteractiveObject.InteractiveGameObject.PhysicsRigidbody;
             this.GameInputManager = GameInputManager.Get();
+            this.ObjectMovementSpeedSystemRef = ObjectMovementSpeedSystemRef;
             this.CameraPivotPoint = cameraPivotPoint;
         }
 
@@ -39,21 +42,21 @@ namespace PlayerObject
 
             var playerMovementOrientation = projectedDisplacement.normalized;
 
-            this.ObjectMovementSpeedSystem.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
+            this.ObjectMovementSpeedSystemRef.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
         }
 
 
         public override void FixedTick(float d)
         {
             //move rigid body rotation
-            if (Mathf.Abs(this.ObjectMovementSpeedSystem.GetSpeedMagnitude()) >= .05)
+            if (Mathf.Abs(this.ObjectMovementSpeedSystemRef.GetSpeedMagnitude()) >= .05)
             {
-                PlayerRigidBody.rotation = Quaternion.LookRotation(this.ObjectMovementSpeedSystem.GetWorldDirection());
+                PlayerRigidBody.rotation = Quaternion.LookRotation(this.ObjectMovementSpeedSystemRef.GetWorldSpeedDirection());
                 //rotation will take place at the end of physics step https://docs.unity3d.com/ScriptReference/Rigidbody-rotation.html
             }
 
-            //move rigid body by taking account speed attenuation factor
-            PlayerRigidBody.velocity = this.ObjectMovementSpeedSystem.GetVelocity();
+            //move rigid body
+            PlayerRigidBody.velocity = this.ObjectMovementSpeedSystemRef.GetVelocity();
         }
     }
 }

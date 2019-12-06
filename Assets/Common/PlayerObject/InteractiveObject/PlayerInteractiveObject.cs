@@ -37,6 +37,7 @@ namespace PlayerObject
         #endregion
 
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
+        [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
         public PlayerMoveManager PlayerMoveManager => this.playerMoveManager;
         [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
@@ -74,11 +75,14 @@ namespace PlayerObject
 
             #endregion
 
-            var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
+            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, AIMovementSpeedAttenuationFactor.RUN,
+                ObjectSpeedCalculationType.MANUAL);
 
-            this.playerMoveManager = new PlayerMoveManager(this,
-                new PlayerRigidBodyMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, cameraPivotPoint.transform),
-                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.OnDestinationReached));
+            var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
+            this.playerMoveManager = new PlayerMoveManager(this, this.ObjectMovementSpeedSystem,
+                new PlayerRigidBodyMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.ObjectMovementSpeedSystem, cameraPivotPoint.transform),
+                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.ObjectMovementSpeedSystem, this.OnDestinationReached));
+
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
             PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, this.GameInputManager,
                 PlayerActionEntryPoint.Get());
@@ -93,13 +97,26 @@ namespace PlayerObject
 
         public PlayerInteractiveObjectInitializerData PlayerInteractiveObjectInitializerData { get; private set; }
 
+        public override void FixedTick(float d)
+        {
+            base.FixedTick(d);
+            playerMoveManager.FixedTick(d);
+            PlayerBodyPhysicsEnvironment.FixedTick(d);
+        }
+
         public override void Tick(float d)
         {
             base.Tick(d);
             this.StunningDamageDealerReceiverSystem.Tick(d);
             PlayerActionTriggering();
             UpdatePlayerMovement(d);
-            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * playerMoveManager.GetPlayerSpeedMagnitude());
+            this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * this.ObjectMovementSpeedSystem.GetSpeedMagnitude());
+        }
+
+        public override void AfterTicks(float d)
+        {
+            this.ObjectMovementSpeedSystem.AfterTicks();
+            this.playerMoveManager.AfterTicks();
         }
 
         /// <summary>
@@ -129,19 +146,6 @@ namespace PlayerObject
             }
         }
 
-
-        public override void AfterTicks(float d)
-        {
-            this.playerMoveManager.AfterTicks();
-        }
-
-        public override void FixedTick(float d)
-        {
-            base.FixedTick(d);
-            playerMoveManager.FixedTick(d);
-            PlayerBodyPhysicsEnvironment.FixedTick(d);
-        }
-
         public override void Destroy()
         {
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
@@ -165,12 +169,12 @@ namespace PlayerObject
 
         public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            this.playerMoveManager.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
         public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
         {
-            return this.playerMoveManager.GetCurrentSpeedAttenuationFactor();
+            return this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor();
         }
 
         #endregion

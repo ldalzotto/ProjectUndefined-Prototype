@@ -29,6 +29,7 @@ namespace PlayerObject
         private APlayerMoveManager CurrentPlayerMoveManager;
 
         private PlayerInteractiveObject PlayerInteractiveObjectRef;
+        private ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef;
 
         #region External Dependencies
 
@@ -36,10 +37,11 @@ namespace PlayerObject
 
         #endregion
 
-        public PlayerMoveManager(PlayerInteractiveObject PlayerInteractiveObjectRef,
+        public PlayerMoveManager(PlayerInteractiveObject PlayerInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
             PlayerRigidBodyMoveManager PlayerRigidBodyMoveManager, PlayerAgentMoveManager PlayerAgentMoveManager)
         {
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
+            this.PlayerObjectMovementSpeedSystemRef = PlayerObjectMovementSpeedSystemRef;
             this.PlayerRigidBodyMoveManager = PlayerRigidBodyMoveManager;
             this.PlayerAgentMoveManager = PlayerAgentMoveManager;
             this.PlayerMoveManagerState = new PlayerMoveManagerState(
@@ -54,6 +56,8 @@ namespace PlayerObject
         {
             Debug.Log(MyLog.Format("EnableFromInput"));
 
+            this.PlayerObjectMovementSpeedSystemRef.ResetSpeed();
+            this.PlayerObjectMovementSpeedSystemRef.SetObjectSpeedCalculationType(ObjectSpeedCalculationType.MANUAL);
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
             this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.enabled = false;
@@ -67,6 +71,8 @@ namespace PlayerObject
         {
             Debug.Log(MyLog.Format("EnableFromAgent"));
 
+            this.PlayerObjectMovementSpeedSystemRef.ResetSpeed();
+            this.PlayerObjectMovementSpeedSystemRef.SetObjectSpeedCalculationType(ObjectSpeedCalculationType.AGENT);
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
             this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.enabled = true;
@@ -107,21 +113,6 @@ namespace PlayerObject
             this.CurrentPlayerMoveManager.ResetSpeed();
         }
 
-        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            this.CurrentPlayerMoveManager.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
-        }
-
-        public AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
-        {
-            return this.CurrentPlayerMoveManager.GetCurrentSpeedAttenuationFactor();
-        }
-
-        public float GetPlayerSpeedMagnitude()
-        {
-            return this.CurrentPlayerMoveManager.GetPlayerSpeedMagnitude();
-        }
-
         public void ForceSwitchToAgent()
         {
             this.PlayerMoveManagerState.EnableAgent();
@@ -155,12 +146,6 @@ namespace PlayerObject
 
     public abstract class APlayerMoveManager
     {
-        protected ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
-
-        protected APlayerMoveManager(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3)
-        {
-            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(associatedInteractiveObject, aiTransformMoveManagerComponentV3, AIMovementSpeedAttenuationFactor.RUN, ObjectSpeedCalculationType.MANUAL);
-        }
 
         public virtual void Tick(float d)
         {
@@ -168,7 +153,6 @@ namespace PlayerObject
 
         public virtual void AfterTicks()
         {
-            this.ObjectMovementSpeedSystem.AfterTicks();
         }
 
         public virtual void FixedTick(float d)
@@ -177,27 +161,11 @@ namespace PlayerObject
 
         public virtual void ResetSpeed()
         {
-            this.ObjectMovementSpeedSystem.ResetSpeed();
-        }
-
-        public float GetPlayerSpeedMagnitude()
-        {
-            return this.ObjectMovementSpeedSystem.GetSpeedMagnitude();
-        }
-
-        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
         public virtual NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             return NavMeshPathStatus.PathInvalid;
-        }
-
-        public AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
-        {
-            return this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor();
         }
     }
 }

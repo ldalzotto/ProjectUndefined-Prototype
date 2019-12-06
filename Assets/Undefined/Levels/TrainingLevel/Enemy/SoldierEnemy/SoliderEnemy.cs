@@ -73,7 +73,7 @@ namespace TrainingLevel
             this.ObjectMovementSpeedSystem.AfterTicks();
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalDirectionSpeedAttenuated());
+                this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
             }
 
             base.AfterTicks(d);
