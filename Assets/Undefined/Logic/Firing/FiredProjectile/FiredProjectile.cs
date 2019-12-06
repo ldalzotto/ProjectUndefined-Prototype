@@ -11,6 +11,12 @@ namespace Firing
     {
         private FiredProjectileMovementSystem FiredProjectileMovementSystem;
         private DamageDealerEmitterSystem _damageDealerEmitterSystem;
+        
+        /// <summary>
+        /// The <see cref="WeaponHolder"/> is the interactive object that is considered to be the object that has
+        /// fired this projectile.
+        /// This value is used to disable friendly fire for example (<see cref="FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed"/>).
+        /// </summary>
         private CoreInteractiveObject WeaponHolder;
 
         public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition, CoreInteractiveObject weaponHolder)
