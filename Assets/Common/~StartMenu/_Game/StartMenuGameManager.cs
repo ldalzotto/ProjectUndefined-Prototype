@@ -1,4 +1,5 @@
-﻿using GameLoop;
+﻿using System;
+using GameLoop;
 using Input;
 using LevelManagement;
 using UnityEngine;
@@ -13,6 +14,11 @@ namespace StartMenu
             this.OnAwake(LevelType.STARTMENU);
             StartMenuSingletonInstances.GameProgressionStateManager.Init();
             StartMenuManager.Get().Init();
+        }
+
+        private void Start()
+        {
+            base.OnStart();
         }
 
         private void Update()

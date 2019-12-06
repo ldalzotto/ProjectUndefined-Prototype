@@ -42,6 +42,14 @@ namespace GameLoop
             }
         }
 
+        /// <summary>
+        /// /!\ No initialisation logic must be placed here. Initialisation logic must be in <see cref="OnAwake"/>.
+        /// </summary>
+        protected void OnStart()
+        {
+            this.DestroyUnityRenderingDebugUpdater();
+        }
+
         protected void BeforeTick(float d)
         {
             PersistanceManager.Get().Tick(d);
@@ -52,6 +60,22 @@ namespace GameLoop
         {
             yield return new WaitForEndOfFrame();
             ATimelinesManager.Get().InitTimelinesAtEndOfFrame();
+        }
+
+        /// <summary>
+        /// We must destroy the debug updater object because it has conflicts with the new input system.
+        /// When the new input system will be realeased, we can remove this method. 
+        /// </summary>
+        private void DestroyUnityRenderingDebugUpdater()
+        {
+            if (Debug.isDebugBuild)
+            {
+                var debugUpdaterObject = GameObject.Find("[Debug Updater]");
+                if (debugUpdaterObject != null)
+                {
+                    GameObject.Destroy(debugUpdaterObject);
+                }
+            }
         }
     }
 }

@@ -23,11 +23,13 @@ namespace Tests
 
         protected override void Start()
         {
+            base.OnStart();
+
             /// Preventing switching to the "Game" window in editor.
             UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
 
             base.Start();
-            
+
             PlayerInteractiveObjectCreatedEvent.Get().RegisterPlayerInteractiveObjectCreatedEvent((p) =>
             {
                 /// Player is forced to be controlled by agent

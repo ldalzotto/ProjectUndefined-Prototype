@@ -1,15 +1,13 @@
 {
     "name": "CoreGame",
     "references": [
-        "Unity.Postprocessing.Runtime",
         "Editor_Common",
         "OdinSerializer",
-        "GameConfigurationID",
         "SequencedAction",
         "Unity.InputSystem",
-        "Unity.RenderPipelines.Lightweight.Runtime",
         "Unity.TextMeshPro",
-        "Unity.Mathematics"
+        "Unity.Mathematics",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -18,5 +16,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

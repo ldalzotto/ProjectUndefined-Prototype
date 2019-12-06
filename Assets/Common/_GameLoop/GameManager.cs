@@ -34,6 +34,8 @@ namespace GameLoop
 
         protected virtual void Start()
         {
+            base.OnStart();
+            
             PlayerInteractiveObjectManager.Get().InitializeEvents();
             CameraMovementJobManager.Get().InitializeEvents();
 
