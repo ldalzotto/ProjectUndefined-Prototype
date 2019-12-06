@@ -9,8 +9,11 @@ namespace Tests
     public class GameTestMockedInputManager : GameInputManager
     {
         public static GameTestMockedInputManager MockedInstance;
+        private GameInputSystemUpdater GameInputSystemUpdater;
+
         public GameTestMockedInputManager()
         {
+            this.GameInputSystemUpdater = new GameInputSystemUpdater();
             this.currentInput = new GameTestMockedXInput();
         }
 
@@ -23,6 +26,21 @@ namespace Tests
         public override void Init(CursorLockMode CursorLockMode)
         {
             this.currentInput = new GameTestMockedXInput();
+        }
+
+        public override void FixedTick()
+        {
+            this.GameInputSystemUpdater.FixedTick();
+        }
+
+        public override void Tick()
+        {
+            this.GameInputSystemUpdater.Tick();
+        }
+
+        public override void LateTick()
+        {
+            this.GameInputSystemUpdater.LateTick();
         }
 
         public override Dictionary<Key, KeyControl> GetKeyToKeyControlLookup()
@@ -39,7 +57,7 @@ namespace Tests
     public class GameTestMockedXInput : XInput
     {
         public GameTestInputMockedValues GameTestInputMockedValues = new GameTestInputMockedValues();
-        
+
         #region Interface implementation
 
         public bool ActionButtonD()

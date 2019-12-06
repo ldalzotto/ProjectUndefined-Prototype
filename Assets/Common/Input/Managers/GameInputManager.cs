@@ -10,7 +10,7 @@ namespace Input
     public class GameInputManager : GameSingleton<GameInputManager>
     {
         private GameInputSystemUpdater GameInputSystemUpdater;
-        
+
         protected XInput currentInput;
 
         public XInput CurrentInput
@@ -25,17 +25,17 @@ namespace Input
             Cursor.lockState = CursorLockMode;
         }
 
-        public void FixedTick()
+        public virtual void FixedTick()
         {
             this.GameInputSystemUpdater.FixedTick();
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
             this.GameInputSystemUpdater.Tick();
         }
 
-        public void LateTick()
+        public virtual void LateTick()
         {
             this.GameInputSystemUpdater.LateTick();
         }
@@ -162,7 +162,7 @@ namespace Input
     /// buffer loss.
     /// This is achieved by tracking the update state <see cref="InputUpdatedThisFrame"/> that is resetted in the <see cref="LateTick"/> and set to true on either <see cref="Tick"/> or <see cref="LateTick"/>. 
     /// </summary>
-    class GameInputSystemUpdater
+    public class GameInputSystemUpdater
     {
         private bool InputUpdatedThisFrame;
 
