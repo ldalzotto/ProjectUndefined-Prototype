@@ -24,6 +24,7 @@ namespace PlayerObject
         private FiringTargetPositionSystem FiringTargetPositionSystem;
         private HealthSystem HealthSystem;
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
+        private LowHealthPlayerSystem LowHealthPlayerSystem;
 
         #endregion
 
@@ -50,6 +51,8 @@ namespace PlayerObject
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
+            this.LowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
+
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
 
@@ -167,9 +170,19 @@ namespace PlayerObject
             PlayerInteractiveObjectDestinationReachedEvent.Get().OnPlayerInteractiveObjectDestinationReached();
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor, ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
         {
-            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor, objectSpeedAttenuationLockToken);
+        }
+
+        public override void LockSpeed(ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
+        {
+            this.ObjectMovementSpeedSystem.LockSpeed(objectSpeedAttenuationLockToken);
+        }
+
+        public override void UnlockSpeed()
+        {
+            this.ObjectMovementSpeedSystem.UnlockSpeed();
         }
 
         public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()

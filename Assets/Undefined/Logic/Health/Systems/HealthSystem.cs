@@ -49,6 +49,11 @@ namespace Health
             return this.HealthSystemDefinition.StartHealth;
         }
 
+        public float GetHealthInPercent01()
+        {
+            return this.CurrentHealth.GetValue() / this.HealthSystemDefinition.StartHealth;
+        }
+
         #endregion
     }
 }

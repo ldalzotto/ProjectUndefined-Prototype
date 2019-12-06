@@ -36,5 +36,7 @@ namespace PlayerObject
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public StunningDamageDealerReceiverSystemDefinition StunningDamageDealerReceiverSystemDefinition;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)] public LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
     }
 }

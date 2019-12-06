@@ -63,6 +63,8 @@
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObject.cs" />
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectDefinition.cs" />
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectInitializer.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\LowHealth\LowHealthPlayerSystem.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Lib\LowHealth\LowHealthPlayerSystemDefinition.cs" />
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerBodyPhysicsEnvironment.cs" />
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerAgentMoveManager.cs" />
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerMoveManager.cs" />

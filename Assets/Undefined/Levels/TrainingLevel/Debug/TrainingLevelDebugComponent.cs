@@ -17,6 +17,8 @@ public class TrainingLevelDebugComponent : MonoBehaviour
 
     public bool DestroyAllObstacles;
     public bool RestartLevel;
+
+    public bool RestoreHealth;
     private void Update()
     {
         if (FireProjectileToInteractiveObject)
@@ -47,6 +49,12 @@ public class TrainingLevelDebugComponent : MonoBehaviour
         {
             LevelTransitionManager.Get().RestartCurrentLevel();
             RestartLevel = false;
+        }
+
+        if (RestoreHealth)
+        {
+            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(40, null);
+            RestoreHealth = false;
         }
     }
 

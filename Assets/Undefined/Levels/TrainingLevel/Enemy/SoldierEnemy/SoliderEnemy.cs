@@ -106,7 +106,7 @@ namespace TrainingLevel
             }
         }
 
-        public override void OnHealthChanged(float oldVlaue, float newValue)
+        private void OnHealthChanged(float oldVlaue, float newValue)
         {
             if (newValue <= 0f)
             {
@@ -125,7 +125,7 @@ namespace TrainingLevel
             return this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor, ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
         {
             this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
