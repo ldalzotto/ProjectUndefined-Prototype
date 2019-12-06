@@ -51,7 +51,7 @@ namespace Tests
         {
         }
 
-        public override void Tick(float d)
+        public override void Tick()
         {
         }
 

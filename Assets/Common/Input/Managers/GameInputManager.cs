@@ -9,6 +9,8 @@ namespace Input
 {
     public class GameInputManager : GameSingleton<GameInputManager>
     {
+        private GameInputSystemUpdater GameInputSystemUpdater;
+        
         protected XInput currentInput;
 
         public XInput CurrentInput
@@ -18,8 +20,24 @@ namespace Input
 
         public virtual void Init(CursorLockMode CursorLockMode)
         {
+            this.GameInputSystemUpdater = new GameInputSystemUpdater();
             currentInput = new GameInput(new GameInputV2(InputConfigurationGameObject.Get().InputConfiguration), InputConfigurationGameObject.Get().CoreInputConfiguration);
             Cursor.lockState = CursorLockMode;
+        }
+
+        public void FixedTick()
+        {
+            this.GameInputSystemUpdater.FixedTick();
+        }
+
+        public void Tick()
+        {
+            this.GameInputSystemUpdater.Tick();
+        }
+
+        public void LateTick()
+        {
+            this.GameInputSystemUpdater.LateTick();
         }
 
         private class GameInput : XInput
@@ -77,7 +95,7 @@ namespace Input
             {
                 return this.gameInputV2.InputConditionsMet(InputID.CAMERA_ROTATION_DOWN_HOLD);
             }
-            
+
             public float LeftRotationCamera()
             {
                 return Mathf.Max(Mouse.current.delta.x.ReadValue(), 0) * Screen.width * this.CoreInputConfiguration.GetCameraMovementMouseSensitivity();
@@ -137,6 +155,49 @@ namespace Input
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// The internal state of <see cref="InputSystem"/> must be updated only once per frame. Because multiple update would lead to possible press/release
+    /// buffer loss.
+    /// This is achieved by tracking the update state <see cref="InputUpdatedThisFrame"/> that is resetted in the <see cref="LateTick"/> and set to true on either <see cref="Tick"/> or <see cref="LateTick"/>. 
+    /// </summary>
+    class GameInputSystemUpdater
+    {
+        private bool InputUpdatedThisFrame;
+
+        public GameInputSystemUpdater()
+        {
+            InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsManually;
+            this.InputUpdatedThisFrame = false;
+        }
+
+        public void FixedTick()
+        {
+            this.TickInputSystem();
+        }
+
+        public void Tick()
+        {
+            this.TickInputSystem();
+        }
+
+        /// <summary>
+        /// Because internal update must be done only once per frame, update is performed only if <see cref="InputUpdatedThisFrame"/> is false.
+        /// </summary>
+        private void TickInputSystem()
+        {
+            if (!this.InputUpdatedThisFrame)
+            {
+                InputSystem.Update();
+                this.InputUpdatedThisFrame = true;
+            }
+        }
+
+        public void LateTick()
+        {
+            this.InputUpdatedThisFrame = false;
+        }
     }
 
     class GameInputV2

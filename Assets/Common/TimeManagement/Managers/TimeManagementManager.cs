@@ -12,6 +12,7 @@ namespace TimeManagement
     /// Holds the current delta time value.
     /// Every call to <see cref="Time"/> unity API must replaced by <see cref="TimeManagementManager"/>.
     /// This allow full control of slow motion effect.
+    /// /!\ Manager entry points can be called from either <see cref="FixedTick"/> or <see cref="Tick"/>. This is because inputs can be checked in the Physics step too.
     /// </summary>
     public class TimeManagementManager : GameSingleton<TimeManagementManager>
     {
@@ -34,9 +35,19 @@ namespace TimeManagement
                 this.OnTimeResettedToNormal);
         }
 
+        public void FixedTick()
+        {
+            this.TimeInputSystem.FixedTick();
+        }
+
         public void Tick()
         {
             this.TimeInputSystem.Tick();
+        }
+
+        public void LateTick()
+        {
+            this.TimeInputSystem.LateTick();
         }
 
         #region Internal Events
@@ -54,7 +65,7 @@ namespace TimeManagement
         }
 
         #endregion
-        
+
         #region External Events
 
         public float GetCurrentDeltaTime()
@@ -76,6 +87,9 @@ namespace TimeManagement
 
         #region Logical Conditions
 
+        /// <summary>
+        /// /!\ This method can be called either from FixedTick or Tick.
+        /// </summary>
         public bool IsTimeFrozen()
         {
             return this.TimeInputSystem.IsTimeFrozen();
@@ -106,24 +120,51 @@ namespace TimeManagement
             Time.fixedDeltaTime = this.InitialPhysicsDeltaTime * Time.timeScale;
         }
     }
-
+    
+    /// <summary>
+    /// Because time condition can be checked in the physics step, the internal state of <see cref="TimeInputSystem"/> must be updated only once per frame. Because multiple update would lead to possible press/release
+    /// buffer loss.
+    /// This is achieved by tracking the update state <see cref="HasBeenUpdatedThisFrame"/> that is resetted in the <see cref="LateTick"/> and set to true on either <see cref="Tick"/> or <see cref="LateTick"/>. 
+    /// </summary>
     class TimeInputSystem
     {
+        private bool HasBeenUpdatedThisFrame;
         private GameInputManager GameInputManager;
 
         private BoolVariable TimeSlowTriggerValue;
 
         public TimeInputSystem(GameInputManager GameInputManager, Action OnTrimeTriggerToTrue, Action OnTimeTriggerToFalse)
         {
+            this.HasBeenUpdatedThisFrame = false;
             this.TimeSlowTriggerValue = new BoolVariable(false, OnTrimeTriggerToTrue, OnTimeTriggerToFalse);
             this.GameInputManager = GameInputManager;
         }
 
+        public void FixedTick()
+        {
+            this.InternalTick();
+        }
+
         public void Tick()
         {
-            if (this.GameInputManager.CurrentInput.FreezeTimeDown())
+            this.InternalTick();
+        }
+
+        public void LateTick()
+        {
+            this.HasBeenUpdatedThisFrame = false;
+        }
+
+        private void InternalTick()
+        {
+            if (!HasBeenUpdatedThisFrame)
             {
-                this.TimeSlowTriggerValue.SetValue(!this.TimeSlowTriggerValue.GetValue());
+                if (this.GameInputManager.CurrentInput.FreezeTimeDown())
+                {
+                    this.TimeSlowTriggerValue.SetValue(!this.TimeSlowTriggerValue.GetValue());
+                }
+
+                this.HasBeenUpdatedThisFrame = true;
             }
         }
 

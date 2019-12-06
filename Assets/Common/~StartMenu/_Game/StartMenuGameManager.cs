@@ -23,8 +23,7 @@ namespace StartMenu
 
         private void Update()
         {
-            var d = Time.deltaTime;
-            this.BeforeTick(d);
+            base.BeforeTickGameLogic(out float d, out float unscaled);
             StartMenuManager.Get().Tick(d);
         }
     }

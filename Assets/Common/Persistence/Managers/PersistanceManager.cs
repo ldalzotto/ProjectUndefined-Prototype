@@ -29,7 +29,7 @@ namespace Persistence
             }
         }
 
-        public virtual void Tick(float d)
+        public virtual void Tick()
         {
             if (this.NoMorePersistanceEvent)
             {

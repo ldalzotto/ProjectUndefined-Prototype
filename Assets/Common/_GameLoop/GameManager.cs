@@ -35,7 +35,7 @@ namespace GameLoop
         protected virtual void Start()
         {
             base.OnStart();
-            
+
             PlayerInteractiveObjectManager.Get().InitializeEvents();
             CameraMovementJobManager.Get().InitializeEvents();
 
@@ -56,12 +56,21 @@ namespace GameLoop
             TargetCursorManager.Get();
         }
 
+        private void FixedUpdate()
+        {
+            base.BeforeFixedTickGameLogic(out float d, out float unscaled);
+
+            if (!TimeManagementManager.Get().IsTimeFrozen())
+            {
+                PlayerActionEntryPoint.Get().FixedTick(d);
+                PlayerInteractiveObjectManager.Get().FixedTick(d);
+                InteractiveObjectV2Manager.Get().FixedTick(d);
+            }
+        }
+
         protected virtual void Update()
         {
-            TimeManagementManager.Get().Tick();
-
-            var d = TimeManagementManager.Get().GetCurrentDeltaTime();
-            var unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+            base.BeforeTickGameLogic(out float d, out float unscaled);
 
             /// Begin Jobs
             CameraMovementJobManager.Get().SetupJob(unscaled);
@@ -81,9 +90,6 @@ namespace GameLoop
 
             if (!TimeManagementManager.Get().IsTimeFrozen())
             {
-                BeforeTick(d);
-
-
                 TutorialManager.Get().Tick(d);
                 PuzzleTutorialEventSenderManager.Get().Tick(d);
 
@@ -111,7 +117,7 @@ namespace GameLoop
 
         private void LateUpdate()
         {
-            var d = TimeManagementManager.Get().GetCurrentDeltaTime();
+            base.BeforeLateTickGameLogic(out float d, out float unscaled);
 
             if (!TimeManagementManager.Get().IsTimeFrozen())
             {
@@ -121,18 +127,6 @@ namespace GameLoop
 
                 ObstacleOcclusionCalculationManagerV2.Get().LateTick();
                 RangeIntersectionCalculationManagerV2.Get().LateTick();
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            var d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
-
-            if (!TimeManagementManager.Get().IsTimeFrozen())
-            {
-                PlayerActionEntryPoint.Get().FixedTick(d);
-                PlayerInteractiveObjectManager.Get().FixedTick(d);
-                InteractiveObjectV2Manager.Get().FixedTick(d);
             }
         }
 

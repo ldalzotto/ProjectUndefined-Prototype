@@ -4,6 +4,7 @@ using Input;
 using LevelManagement;
 using Persistence;
 using Timelines;
+using TimeManagement;
 using UnityEngine;
 
 namespace GameLoop
@@ -50,10 +51,44 @@ namespace GameLoop
             this.DestroyUnityRenderingDebugUpdater();
         }
 
-        protected void BeforeTick(float d)
+        /// <summary>
+        /// /!\ This method must be called before EVERYTHING else in the FixedTick update.
+        /// </summary>
+        protected void BeforeFixedTickGameLogic(out float d, out float unscaled)
         {
-            PersistanceManager.Get().Tick(d);
+            GameInputManager.Get().FixedTick();
+            TimeManagementManager.Get().FixedTick();
+
+            d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
+            unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+        }
+
+        /// <summary>
+        /// /!\ This method must be called before EVERYTHING else in the Tick update.
+        /// </summary>
+        protected void BeforeTickGameLogic(out float d, out float unscaled)
+        {
+            GameInputManager.Get().Tick();
+            PersistanceManager.Get().Tick();
+
+            TimeManagementManager.Get().Tick();
+
+            d = TimeManagementManager.Get().GetCurrentDeltaTime();
+            unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+
             if (levelType != LevelType.STARTMENU) LevelChunkFXTransitionManager.Get().Tick(d);
+        }
+
+        /// <summary>
+        /// /!\ This method must be called before EVERYTHING else in the LateTick update.
+        /// </summary>
+        protected void BeforeLateTickGameLogic(out float d, out float unscaled)
+        {
+            GameInputManager.Get().LateTick();
+            TimeManagementManager.Get().LateTick();
+
+            d = TimeManagementManager.Get().GetCurrentDeltaTime();
+            unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
         }
 
         private IEnumerator InitializeTimelinesAtEndOfFrame()
