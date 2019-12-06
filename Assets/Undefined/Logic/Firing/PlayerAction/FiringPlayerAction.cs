@@ -182,7 +182,8 @@ namespace Firing
 
         public void Tick(float d)
         {
-            this.ActionFinished = this.GameInputManager.CurrentInput.FiringActionReleased();
+            /// We use the FiringActionDownHold to be sure to not miss the frame where button has been released.
+            this.ActionFinished = !this.GameInputManager.CurrentInput.FiringActionDownHold();
         }
     }
 

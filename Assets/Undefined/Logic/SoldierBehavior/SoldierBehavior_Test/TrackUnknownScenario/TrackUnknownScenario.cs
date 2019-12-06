@@ -47,7 +47,7 @@ namespace SoliderBehavior_Test
                             {
                                 new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
                                 {
-                                    new AIWarpActionV2(this.PlayerObject, Vector3.zero, null , null)
+                                    new AIWarpActionV2(this.PlayerObject, Vector3.zero, null, null)
                                 })
                             })
                         })

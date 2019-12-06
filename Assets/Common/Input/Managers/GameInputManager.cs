@@ -103,9 +103,9 @@ namespace Input
                 return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_DOWN);
             }
 
-            public bool FiringActionReleased()
+            public bool FiringActionDownHold()
             {
-                return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_RELEASED);
+                return this.gameInputV2.InputConditionsMet(InputID.FIRING_ACTION_DOWN_HOLD);
             }
 
             public bool FiringProjectileDH()
@@ -255,7 +255,7 @@ namespace Input
         bool SwitchSelectionButtonD();
         float CameraZoom();
         bool FiringActionDown();
-        bool FiringActionReleased();
+        bool FiringActionDownHold();
         bool FiringProjectileDH();
         bool MenuExitD();
         bool FreezeTimeDown();
