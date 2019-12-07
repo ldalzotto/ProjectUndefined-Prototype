@@ -33,6 +33,7 @@ namespace Input
         FIRING_PROJECTILE_DOWN_HOLD = 16,
         MENU_EXIT_DOWN = 17,
         FREEZE_TIME_DOWN = 18,
-        FIRING_ACTION_DOWN_HOLD = 19
+        FIRING_ACTION_DOWN_HOLD = 19,
+        DEFLECT_PROJECTILE_DOWN = 20
     }
 }

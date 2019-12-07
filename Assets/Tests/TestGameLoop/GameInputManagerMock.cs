@@ -150,6 +150,11 @@ namespace Tests
             return false;
         }
 
+        public bool DeflectProjectileDown()
+        {
+            return false;
+        }
+
         #endregion
     }
 

@@ -1,0 +1,23 @@
+{
+    "name": "PlayerLowHealth",
+    "references": [
+        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e",
+        "GUID:83a23e85924b27e419c0fada7259185a",
+        "GUID:e08ecabbc2fc4274ca9042afef829477",
+        "GUID:28991b848e0f023479fc35d3dd4c5b4b",
+        "GUID:76eb4bbed9fee0043bf1b65ac0b5e7ff",
+        "GUID:18572ca2bc29c7f49acd7b6782aec78e",
+        "GUID:172a85e5b5a2b84469d67f792caf6890",
+        "GUID:6f109e35241fab442bce341ff19d91ef",
+        "GUID:786c158fa6ef32c42a6034e31ad30c7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</ProjectGuid>
+    <ProjectGuid>{CF4D92CE-727D-F764-271F-4C6A824102E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>PlayerObject</AssemblyName>
+    <AssemblyName>PlayerLowHealth</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,19 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\PlayerObject\BlockingCutscene\BlockingCutscenePlayerManager.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerConfigurationGameObject.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerGlobalConfiguration\PlayerGlobalConfiguration.cs" />
-     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\Managers\PlayerInteractiveObjectManager.cs" />
-     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObject.cs" />
-     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectDefinition.cs" />
-     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectInitializer.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerBodyPhysicsEnvironment.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerAgentMoveManager.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerMoveManager.cs" />
-     <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerRigidBodyMoveManager.cs" />
-     <Compile Include="Assets\Common\PlayerObject\PositionPersistance\PlayerPositionPersistenceManager.cs" />
-     <None Include="Assets\Common\PlayerObject\PlayerObject.asmdef" />
+     <Compile Include="Assets\Common\PlayerLowHealth\Configuration\LowHealthPlayerSystemDefinition.cs" />
+     <Compile Include="Assets\Common\PlayerLowHealth\Systems\LowHealthPlayerSystem.cs" />
+     <None Include="Assets\Common\PlayerLowHealth\PlayerLowHealth.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -623,77 +613,41 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
-      <Name>PlayerObject_Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
-      <Name>InteractiveObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
-      <Name>InteractiveObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
-      <Name>PlayerActions</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
-      <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
-    <ProjectReference Include="Persistence.csproj">
-      <Project>{05125174-FA75-D840-9C98-364A15C13DAA}</Project>
-      <Name>Persistence</Name>
-    </ProjectReference>
-    <ProjectReference Include="SequencedAction.csproj">
-      <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
-      <Name>SequencedAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="AnimatorPlayable.csproj">
-      <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
-      <Name>AnimatorPlayable</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
-      <Name>InteractiveObject_Animation</Name>
-    </ProjectReference>
-    <ProjectReference Include="Input.csproj">
-      <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
-      <Name>Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="Weapon.csproj">
-      <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
-      <Name>Weapon</Name>
-    </ProjectReference>
-    <ProjectReference Include="AIObjects.csproj">
-      <Project>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</Project>
-      <Name>AIObjects</Name>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
+      <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="Health.csproj">
       <Project>{1120D459-F00D-9D61-B928-77E83AE6B731}</Project>
       <Name>Health</Name>
     </ProjectReference>
-    <ProjectReference Include="Damage.csproj">
-      <Project>{C8E5E3A4-332C-993B-D996-1C378FBCDB4D}</Project>
-      <Name>Damage</Name>
+    <ProjectReference Include="InteractiveObject_Animation.csproj">
+      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
+      <Name>InteractiveObject_Animation</Name>
     </ProjectReference>
-    <ProjectReference Include="LevelManagement.csproj">
-      <Project>{69A6BD19-8056-97CD-377C-9C31231CFC6C}</Project>
-      <Name>LevelManagement</Name>
+    <ProjectReference Include="Editor_Common.csproj">
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
+      <Name>Editor_Common</Name>
     </ProjectReference>
-    <ProjectReference Include="PlayerLowHealth.csproj">
-      <Project>{CF4D92CE-727D-F764-271F-4C6A824102E8}</Project>
-      <Name>PlayerLowHealth</Name>
+    <ProjectReference Include="AnimatorPlayable.csproj">
+      <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
+      <Name>AnimatorPlayable</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProjectileDeflection.csproj">
+      <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
+      <Name>ProjectileDeflection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,6 +6,7 @@ using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using LevelManagement;
 using PlayerActions;
+using PlayerLowHealth;
 using PlayerObject_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -111,6 +112,7 @@ namespace PlayerObject
         {
             base.Tick(d);
             this.StunningDamageDealerReceiverSystem.Tick(d);
+            this.LowHealthPlayerSystem.Tick(d);
             PlayerActionTriggering();
             UpdatePlayerMovement(d);
             this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * this.ObjectMovementSpeedSystem.GetSpeedMagnitude());

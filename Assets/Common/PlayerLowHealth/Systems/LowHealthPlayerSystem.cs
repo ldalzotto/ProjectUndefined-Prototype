@@ -2,8 +2,9 @@
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using ProjectileDeflection;
 
-namespace PlayerObject
+namespace PlayerLowHealth
 {
     public class LowHealthPlayerSystem
     {
@@ -13,9 +14,14 @@ namespace PlayerObject
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystemRef;
         private HealthSystem HealthSystemRef;
 
-
         private BoolVariable IsLowHealth;
 
+        #region Inline Systems
+
+        private ProjectileDeflectionSystem ProjectileDeflectionSystem;
+
+        #endregion
+        
         public LowHealthPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject, BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystemRef,
             HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition)
         {
@@ -23,10 +29,18 @@ namespace PlayerObject
             this.BaseObjectAnimatorPlayableSystemRef = BaseObjectAnimatorPlayableSystemRef;
             this.HealthSystemRef = HealthSystem;
             this.LowHealthPlayerSystemDefinition = LowHealthPlayerSystemDefinition;
+            this.ProjectileDeflectionSystem = new ProjectileDeflectionSystem();
             this.IsLowHealth = new BoolVariable(false, this.OnLowHealthStarted, this.OnLowHealthEnded);
             HealthSystem.RegisterOnHealthValueChangedEventListener(this.OnHealthValueChanged);
         }
 
+        public void Tick(float d)
+        {
+            if (this.IsLowHealth.GetValue())
+            {
+                this.ProjectileDeflectionSystem.Tick(d);
+            }   
+        }
 
         private void OnHealthValueChanged(float OldValue, float newValue)
         {

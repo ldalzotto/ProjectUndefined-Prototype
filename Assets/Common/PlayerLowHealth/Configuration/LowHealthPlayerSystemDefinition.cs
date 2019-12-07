@@ -4,7 +4,7 @@ using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using UnityEngine;
 
-namespace PlayerObject
+namespace PlayerLowHealth
 {
     [Serializable]
     public class LowHealthPlayerSystemDefinition : SerializedScriptableObject
