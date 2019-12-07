@@ -114,6 +114,8 @@ namespace InteractiveObjects
         {
             return default(Vector3);
         }
+        
+        public virtual void DeflectProjectile(CoreInteractiveObject NewWeaponHolder){}
 
         #endregion
     }

@@ -24,7 +24,8 @@ namespace InteractiveObjects_Interfaces
     {
         RUN = 0,
         WALK = 1,
-        ZERO = 2
+        ZERO = 2,
+        WALK_INJURED = 3
     }
 
     public static class AIMovementSpeedAttenuationFactors
@@ -33,6 +34,7 @@ namespace InteractiveObjects_Interfaces
         {
             {AIMovementSpeedAttenuationFactor.ZERO, 0f},
             {AIMovementSpeedAttenuationFactor.WALK, 0.5f},
+            {AIMovementSpeedAttenuationFactor.WALK_INJURED, 0.6f},
             {AIMovementSpeedAttenuationFactor.RUN, 1f}
         };
     }

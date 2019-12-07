@@ -147,6 +147,11 @@ namespace GeometryIntersection
             this.LocalSize = BoxCollider.size;
             this.LocalToWorld = BoxCollider.transform.localToWorldMatrix;
         }
+
+        public Vector3 GetWorldCenter()
+        {
+            return this.LocalToWorld.MultiplyPoint(this.LocalCenter);
+        }
         
     }
 

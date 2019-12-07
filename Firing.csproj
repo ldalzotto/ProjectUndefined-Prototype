@@ -59,6 +59,7 @@
      <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectile.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectileDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\Systems\FiredProjectileMovementSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\Systems\ProjectileWeaponHoldingSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeFeedbackConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Systems\FiringRangeFeedbackSystem.cs" />

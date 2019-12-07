@@ -29,7 +29,7 @@ namespace PlayerLowHealth
             this.BaseObjectAnimatorPlayableSystemRef = BaseObjectAnimatorPlayableSystemRef;
             this.HealthSystemRef = HealthSystem;
             this.LowHealthPlayerSystemDefinition = LowHealthPlayerSystemDefinition;
-            this.ProjectileDeflectionSystem = new ProjectileDeflectionSystem();
+            this.ProjectileDeflectionSystem = new ProjectileDeflectionSystem(AssociatedInteractiveObject);
             this.IsLowHealth = new BoolVariable(false, this.OnLowHealthStarted, this.OnLowHealthEnded);
             HealthSystem.RegisterOnHealthValueChangedEventListener(this.OnHealthValueChanged);
         }

@@ -9,28 +9,24 @@ namespace Firing
 {
     public class FiredProjectile : CoreInteractiveObject
     {
+        private ProjectileWeaponHoldingSystem ProjectileWeaponHoldingSystem;
         private FiredProjectileMovementSystem FiredProjectileMovementSystem;
         private DamageDealerEmitterSystem _damageDealerEmitterSystem;
-        
-        /// <summary>
-        /// The <see cref="WeaponHolder"/> is the interactive object that is considered to be the object that has
-        /// fired this projectile.
-        /// This value is used to disable friendly fire for example (<see cref="FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed"/>).
-        /// </summary>
-        private CoreInteractiveObject WeaponHolder;
 
         public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition, CoreInteractiveObject weaponHolder)
         {
-            this.WeaponHolder = weaponHolder;
+            this.interactiveObjectTag = new InteractiveObjectTag() {IsDealingDamage = true};
+            
             parent.CreateLogicCollider(BuildBoxColliderDefinition(FiredProjectileDefinition));
             this.BaseInit(parent, true);
 
+            this.ProjectileWeaponHoldingSystem = new ProjectileWeaponHoldingSystem(weaponHolder);
             this.FiredProjectileMovementSystem = new FiredProjectileMovementSystem(FiredProjectileDefinition, this);
             this._damageDealerEmitterSystem = new DamageDealerEmitterSystem(this, FiredProjectileDefinition.damageDealerEmitterSystemDefinition,
-                TriggerSelectionGuard: (InteractiveObjectPhysicsTriggerInfo) => FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder),
+                TriggerSelectionGuard: (InteractiveObjectPhysicsTriggerInfo) => FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject, this.ProjectileWeaponHoldingSystem.GetWeaponHolder()),
                 OnDamageDealtToOtherAction: null);
             this.RegisterInteractiveObjectPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(
-                (InteractiveObjectPhysicsTriggerInfo) => FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject, WeaponHolder),
+                (InteractiveObjectPhysicsTriggerInfo) => FiredProjectileHasTriggerEnter_DealsDamage_And_MustBeDestroyed(InteractiveObjectPhysicsTriggerInfo.OtherInteractiveObject, this.ProjectileWeaponHoldingSystem.GetWeaponHolder()),
                 this.OnObstacleTriggerEnter));
         }
 
@@ -63,6 +59,12 @@ namespace Firing
         private void OnObstacleTriggerEnter(CoreInteractiveObject OtherInteractiveObject)
         {
             this.AskToDestroy();
+        }
+
+        public override void DeflectProjectile(CoreInteractiveObject NewWeaponHolder)
+        {
+            this.ProjectileWeaponHoldingSystem.SwitchWeaponHolder(NewWeaponHolder);
+            this.InteractiveGameObject.InteractiveGameObjectParent.transform.forward = -this.InteractiveGameObject.InteractiveGameObjectParent.transform.forward;
         }
 
         #region Logical Conditions
