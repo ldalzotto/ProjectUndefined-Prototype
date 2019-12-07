@@ -19,6 +19,7 @@ namespace InteractiveObject_Animation
     {
         LocomotionLayer,
         LocomotionLayer_1,
+        LocomotionLayer_2,
         ContextActionLayer
     }
 
@@ -28,6 +29,7 @@ namespace InteractiveObject_Animation
         {
             {AnimationLayerID.LocomotionLayer, new AnimationLayer(0)},
             {AnimationLayerID.LocomotionLayer_1, new AnimationLayer(1)},
+            {AnimationLayerID.LocomotionLayer_2, new AnimationLayer(2)},
             {AnimationLayerID.ContextActionLayer, new AnimationLayer(10)}
         };
     }

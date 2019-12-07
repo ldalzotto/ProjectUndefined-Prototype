@@ -194,12 +194,12 @@ namespace Firing
         public PlayerAnimationSystem(CoreInteractiveObject PlayerCoreInteractiveObject, IAnimationInput FiringPoseAnimation)
         {
             this.PlayerCoreInteractiveObject = PlayerCoreInteractiveObject;
-            PlayerCoreInteractiveObject.AnimationController.PlayLocomotionAnimationOverride(FiringPoseAnimation, AnimationLayerID.LocomotionLayer_1);
+            PlayerCoreInteractiveObject.AnimationController.PlayLocomotionAnimationOverride(FiringPoseAnimation, AnimationLayerID.LocomotionLayer_2);
         }
 
         public void Dispose()
         {
-            PlayerCoreInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_1);
+            PlayerCoreInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_2);
         }
     }
 
