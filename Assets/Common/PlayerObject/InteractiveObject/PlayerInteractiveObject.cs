@@ -52,7 +52,7 @@ namespace PlayerObject
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
-            this.LowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.baseObjectAnimatorPlayableSystem, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
+            this.LowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.baseObjectAnimatorPlayableSystem, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition, PlayerInteractiveObjectDefinition.ProjectileDeflectionDefinition);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);

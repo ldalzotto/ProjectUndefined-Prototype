@@ -23,13 +23,13 @@ namespace PlayerLowHealth
         #endregion
         
         public LowHealthPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject, BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystemRef,
-            HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition)
+            HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition, ProjectileDeflectionDefinition ProjectileDeflectionDefinition)
         {
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.BaseObjectAnimatorPlayableSystemRef = BaseObjectAnimatorPlayableSystemRef;
             this.HealthSystemRef = HealthSystem;
             this.LowHealthPlayerSystemDefinition = LowHealthPlayerSystemDefinition;
-            this.ProjectileDeflectionSystem = new ProjectileDeflectionSystem(AssociatedInteractiveObject);
+            this.ProjectileDeflectionSystem = new ProjectileDeflectionSystem(AssociatedInteractiveObject, ProjectileDeflectionDefinition);
             this.IsLowHealth = new BoolVariable(false, this.OnLowHealthStarted, this.OnLowHealthEnded);
             HealthSystem.RegisterOnHealthValueChangedEventListener(this.OnHealthValueChanged);
         }

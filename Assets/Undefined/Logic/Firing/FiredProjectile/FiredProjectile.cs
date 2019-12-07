@@ -61,10 +61,9 @@ namespace Firing
             this.AskToDestroy();
         }
 
-        public override void DeflectProjectile(CoreInteractiveObject NewWeaponHolder)
+        public override void SwitchWeaponHolder(CoreInteractiveObject NewWeaponHolder)
         {
             this.ProjectileWeaponHoldingSystem.SwitchWeaponHolder(NewWeaponHolder);
-            this.InteractiveGameObject.InteractiveGameObjectParent.transform.forward = -this.InteractiveGameObject.InteractiveGameObjectParent.transform.forward;
         }
 
         #region Logical Conditions

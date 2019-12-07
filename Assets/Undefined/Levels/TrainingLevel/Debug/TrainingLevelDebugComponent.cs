@@ -19,7 +19,7 @@ public class TrainingLevelDebugComponent : MonoBehaviour
     public bool RestartLevel;
 
     public bool RestoreHealth;
-    public bool DeflectAllWithPlayerAsHolder;
+
     private void Update()
     {
         if (FireProjectileToInteractiveObject)
@@ -41,9 +41,8 @@ public class TrainingLevelDebugComponent : MonoBehaviour
             for (var i = ObstacleInteractiveObjectManager.Get().AllObstacleInteractiveObjects.Count - 1; i >= 0; i--)
             {
                 var currentInteractiveObject = ObstacleInteractiveObjectManager.Get().AllObstacleInteractiveObjects[i];
-               currentInteractiveObject.Destroy();
+                currentInteractiveObject.Destroy();
             }
-            
         }
 
         if (RestartLevel)
@@ -56,15 +55,6 @@ public class TrainingLevelDebugComponent : MonoBehaviour
         {
             PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(40, null);
             RestoreHealth = false;
-        }
-
-        if (DeflectAllWithPlayerAsHolder)
-        {
-            foreach (var interactiveObject in InteractiveObjectV2Manager.Get().InteractiveObjects)
-            {
-                interactiveObject.DeflectProjectile(PlayerInteractiveObjectManager.Get().PlayerInteractiveObject);
-            }
-            DeflectAllWithPlayerAsHolder = false;
         }
     }
 

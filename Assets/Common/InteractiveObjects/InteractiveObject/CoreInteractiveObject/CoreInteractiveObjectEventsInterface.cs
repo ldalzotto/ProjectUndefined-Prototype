@@ -115,7 +115,10 @@ namespace InteractiveObjects
             return default(Vector3);
         }
         
-        public virtual void DeflectProjectile(CoreInteractiveObject NewWeaponHolder){}
+        /// <summary>
+        /// When the associated interactive object belongs to a weapon, then it's weapon reference is changed by <paramref name="NewWeaponHolder"/>.
+        /// </summary>
+        public virtual void SwitchWeaponHolder(CoreInteractiveObject NewWeaponHolder){}
 
         #endregion
     }

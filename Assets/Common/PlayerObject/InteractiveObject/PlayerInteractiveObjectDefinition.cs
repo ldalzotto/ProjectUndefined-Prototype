@@ -6,6 +6,7 @@ using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using PlayerActions;
 using PlayerLowHealth;
+using ProjectileDeflection;
 using Weapon;
 
 namespace PlayerObject
@@ -38,6 +39,10 @@ namespace PlayerObject
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public StunningDamageDealerReceiverSystemDefinition StunningDamageDealerReceiverSystemDefinition;
 
-        [Inline(CreateAtSameLevelIfAbsent = true)] public LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
+
+     [DrawNested]   [Inline(CreateAtSameLevelIfAbsent = true)]
+        public ProjectileDeflectionDefinition ProjectileDeflectionDefinition;
     }
 }

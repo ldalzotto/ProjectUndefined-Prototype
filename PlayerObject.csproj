@@ -695,6 +695,10 @@
       <Project>{CF4D92CE-727D-F764-271F-4C6A824102E8}</Project>
       <Name>PlayerLowHealth</Name>
     </ProjectReference>
+    <ProjectReference Include="ProjectileDeflection.csproj">
+      <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
+      <Name>ProjectileDeflection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
