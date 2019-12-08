@@ -21,15 +21,15 @@ namespace InteractiveObjects
             return this.SetDestination(IAgentMovementCalculationStrategy);
         }
 
-        public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor, ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken = ObjectSpeedAttenuationLockToken.NONE)
+        public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
         }
 
-        public virtual void LockSpeed(ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
+        public virtual void ConstrainSpeed(IObjectSpeedAttenuationConstraint objectSpeedAttenuationConstraint)
         {
         }
 
-        public virtual void UnlockSpeed()
+        public virtual void RemoveSpeedConstraints()
         {
         }
 

@@ -184,19 +184,19 @@ namespace PlayerObject
             PlayerInteractiveObjectDestinationReachedEvent.Get().OnPlayerInteractiveObjectDestinationReached();
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor, ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
-            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor, objectSpeedAttenuationLockToken);
+            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
 
-        public override void LockSpeed(ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
+        public override void ConstrainSpeed(IObjectSpeedAttenuationConstraint objectSpeedAttenuationConstraint)
         {
-            this.ObjectMovementSpeedSystem.LockSpeed(objectSpeedAttenuationLockToken);
+            this.ObjectMovementSpeedSystem.ConstrainSpeed(objectSpeedAttenuationConstraint);
         }
 
-        public override void UnlockSpeed()
+        public override void RemoveSpeedConstraints()
         {
-            this.ObjectMovementSpeedSystem.UnlockSpeed();
+            this.ObjectMovementSpeedSystem.RemoveSpeedConstraints();
         }
 
         public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()

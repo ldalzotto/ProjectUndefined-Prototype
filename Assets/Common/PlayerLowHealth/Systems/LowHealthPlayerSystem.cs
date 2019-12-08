@@ -66,14 +66,14 @@ namespace PlayerLowHealth
 
         private void OnLowHealthStarted()
         {
-            this.AssociatedInteractiveObject.LockSpeed(ObjectSpeedAttenuationLockToken.LOW_HEALTH);
-            this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor, ObjectSpeedAttenuationLockToken.LOW_HEALTH);
+            this.AssociatedInteractiveObject.ConstrainSpeed(new NotAboveSpeedAttenuationConstraint(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor));
+            this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor);
             this.BaseObjectAnimatorPlayableSystemRef.PlayLocomotionAnimationOverride(this.LowHealthPlayerSystemDefinition.OnLowHealthLocomotionAnimation, AnimationLayerID.LocomotionLayer_1);
         }
 
         private void OnLowHealthEnded()
         {
-            this.AssociatedInteractiveObject.UnlockSpeed();
+            this.AssociatedInteractiveObject.RemoveSpeedConstraints();
             this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.RUN);
             this.AssociatedInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_1);
         }

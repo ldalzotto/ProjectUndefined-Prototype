@@ -125,7 +125,7 @@ namespace TrainingLevel
             return this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor, ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
+        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
             this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }

@@ -22,15 +22,6 @@ namespace InteractiveObjects
     }
 
     /// <summary>
-    /// Token that allow locking of <see cref="ObjectMovementSpeedSystemState.CurrentMovementSpeedAttenuationFactor"/> value subsequent modifications.
-    /// </summary>
-    public enum ObjectSpeedAttenuationLockToken
-    {
-        NONE = 0,
-        LOW_HEALTH = 1
-    }
-
-    /// <summary>
     /// Responsible of calculating any informations relative to speed.
     /// </summary>
     public class ObjectMovementSpeedSystem
@@ -43,14 +34,8 @@ namespace InteractiveObjects
         #endregion
 
         private ObjectSpeedCalculationType ObjectSpeedCalculationType;
-        
-        /// <summary>
-        /// When the <see cref="objectSpeedAttenuationLockToken"/> value is different than <see cref="ObjectSpeedAttenuationLockToken.NONE"/>, then
-        /// when <see cref="SetSpeedAttenuationFactor"/> is called with a token value different thant the actual, the speed attenuation factor won't be
-        /// changed.
-        /// </summary>
-        private ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken;
 
+        [VE_Nested] private ObjectSpeedAttenuationValueSystem ObjectSpeedAttenuationValueSystem;
         private ObjectSpeedCalculationSystem ObjectSpeedCalculationSystem;
 
         public ObjectMovementSpeedSystem(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3,
@@ -60,17 +45,15 @@ namespace InteractiveObjects
             AITransformMoveManagerComponentV3 = aiTransformMoveManagerComponentV3;
             this.ObjectSpeedCalculationSystem = new ObjectSpeedCalculationSystem();
             this.ObjectSpeedCalculationType = InitialObjectSpeedCalculationType;
-            this.objectSpeedAttenuationLockToken = ObjectSpeedAttenuationLockToken.NONE;
+            this.ObjectSpeedAttenuationValueSystem = new ObjectSpeedAttenuationValueSystem(InitialMovementSpeedAttenuationFactor);
 
             this.ObjectMovementSpeedSystemState = new ObjectMovementSpeedSystemState()
             {
                 LastFrameWorldPosition = this.AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.position,
-                CurrentMovementSpeedAttenuationFactor = InitialMovementSpeedAttenuationFactor
             };
         }
 
-        [VE_Nested]
-        private ObjectMovementSpeedSystemState ObjectMovementSpeedSystemState;
+        [VE_Nested] private ObjectMovementSpeedSystemState ObjectMovementSpeedSystemState;
 
         /// <summary>
         /// Calulcation of the <see cref="ObjectMovementSpeedSystemState.LocalSpeedDirection"/> after every objects have been updated.
@@ -102,9 +85,9 @@ namespace InteractiveObjects
         public void ManualCalculation(Vector3 worldSpeedDirection, float normalizedSpeedMagnitude)
         {
             this.ObjectMovementSpeedSystemState.localSpeedDirection = this.AssociatedInteractiveObject.InteractiveGameObject.GetWorldToLocal().MultiplyVector(worldSpeedDirection);
-            
+
             /// Speed magnitude is rescaled with CurrentMovementSpeedAttenuationFactor because input is normalized.
-            this.ObjectMovementSpeedSystemState.SpeedMagnitude = normalizedSpeedMagnitude * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.ObjectMovementSpeedSystemState.CurrentMovementSpeedAttenuationFactor];
+            this.ObjectMovementSpeedSystemState.SpeedMagnitude = normalizedSpeedMagnitude * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.GetSpeedAttenuationFactor()];
         }
 
         public void ResetSpeed()
@@ -113,23 +96,22 @@ namespace InteractiveObjects
             this.ObjectMovementSpeedSystemState.SpeedMagnitude = 0f;
         }
 
-        public void LockSpeed(ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken)
+        /// <summary>
+        /// <see cref="ObjectSpeedAttenuationValueSystem.SetRule"/>
+        /// </summary>
+        public void ConstrainSpeed(IObjectSpeedAttenuationConstraint objectSpeedAttenuationConstraint)
         {
-            this.objectSpeedAttenuationLockToken = objectSpeedAttenuationLockToken;
+            this.ObjectSpeedAttenuationValueSystem.SetRule(objectSpeedAttenuationConstraint);
         }
 
-        public void UnlockSpeed()
+        public void RemoveSpeedConstraints()
         {
-            this.objectSpeedAttenuationLockToken = ObjectSpeedAttenuationLockToken.NONE;
+            this.ObjectSpeedAttenuationValueSystem.SetRule(new NoneSpeedAttenuationConstraint());
         }
 
-        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor SpeedAttenuationFactor, ObjectSpeedAttenuationLockToken objectSpeedAttenuationLockToken = ObjectSpeedAttenuationLockToken.NONE)
+        public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor SpeedAttenuationFactor)
         {
-            /// If the current object speed attenuation isn't locked
-            if (this.objectSpeedAttenuationLockToken == ObjectSpeedAttenuationLockToken.NONE || this.objectSpeedAttenuationLockToken == objectSpeedAttenuationLockToken)
-            {
-                this.ObjectMovementSpeedSystemState.CurrentMovementSpeedAttenuationFactor = SpeedAttenuationFactor;
-            }
+            this.ObjectSpeedAttenuationValueSystem.SetSpeedAttenuationFactor(SpeedAttenuationFactor);
         }
 
         public void SetObjectSpeedCalculationType(ObjectSpeedCalculationType ObjectSpeedCalculationType)
@@ -141,7 +123,7 @@ namespace InteractiveObjects
 
         public AIMovementSpeedAttenuationFactor GetSpeedAttenuationFactor()
         {
-            return this.ObjectMovementSpeedSystemState.CurrentMovementSpeedAttenuationFactor;
+            return this.ObjectSpeedAttenuationValueSystem.CurrentMovementSpeedAttenuationFactor;
         }
 
         public Vector3 GetWorldSpeedDirection()
@@ -155,7 +137,7 @@ namespace InteractiveObjects
         public Vector3 GetVelocity()
         {
             return this.GetWorldSpeedDirection() * this.ObjectMovementSpeedSystemState.SpeedMagnitude * this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor
-                   * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.ObjectMovementSpeedSystemState.CurrentMovementSpeedAttenuationFactor];
+                   * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.GetSpeedAttenuationFactor()];
         }
 
         /// <summary>
@@ -165,7 +147,7 @@ namespace InteractiveObjects
         /// </summary>
         public Vector3 GetLocalSpeedDirectionAttenuated()
         {
-            var speedAttenuationFactorValue = AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.ObjectMovementSpeedSystemState.CurrentMovementSpeedAttenuationFactor];
+            var speedAttenuationFactorValue = AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.GetSpeedAttenuationFactor()];
             return this.ObjectMovementSpeedSystemState.localSpeedDirection.Mul(speedAttenuationFactorValue);
         }
 
@@ -176,10 +158,9 @@ namespace InteractiveObjects
 
         #endregion
     }
-    
+
     struct ObjectMovementSpeedSystemState
     {
-        public AIMovementSpeedAttenuationFactor CurrentMovementSpeedAttenuationFactor;
         public Vector3 LastFrameWorldPosition;
         public Vector3 localSpeedDirection;
         public float SpeedMagnitude;
@@ -203,5 +184,4 @@ namespace InteractiveObjects
             return SpeedMagnitude;
         }
     }
-    
 }
