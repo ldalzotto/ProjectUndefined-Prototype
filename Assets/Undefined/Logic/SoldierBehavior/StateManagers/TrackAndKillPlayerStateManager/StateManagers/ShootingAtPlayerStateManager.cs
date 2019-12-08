@@ -31,14 +31,16 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
 
+        private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks;
 
         public ShootingAtPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            CoreInteractiveObject associatedInteractiveObject, ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks)
+            CoreInteractiveObject associatedInteractiveObject,WeaponFiringAreaSystem WeaponFiringAreaSystem, ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks)
         {
             this.TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
+            this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
             this.ShootingAtPlayerStateManagerExternalCallbacks = ShootingAtPlayerStateManagerExternalCallbacks;
         }
 
@@ -60,7 +62,7 @@ namespace SoliderAIBehavior
         {
             if (!this.PlayerObjectStateDataSystem.IsPlayerInSight.GetValue())
             {
-                if (SoldierAIBehaviorUtil.InteractiveObjectBeyondObstacle(this.PlayerObjectStateDataSystem.PlayerObject(), this.AssociatedInteractiveObject))
+                if (this.WeaponFiringAreaSystem.AreObstaclesInside())
                 {
                     Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to GO_ROUND_PLAYER"));
                     this.TrackAndKillAIbehaviorRef.SetState(TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER);
@@ -73,9 +75,18 @@ namespace SoliderAIBehavior
             }
             else
             {
-                var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
-                OrientToTarget(PlayerObject);
-                FireProjectile(PlayerObject);
+                if (this.WeaponFiringAreaSystem.AreObstaclesInside())
+                {
+                    Debug.Log(MyLog.Format("ShootingAtPlayerStateManager to GO_ROUND_PLAYER"));
+                    this.TrackAndKillAIbehaviorRef.SetState(TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER);
+                }
+                else
+                {
+                    var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
+                    OrientToTarget(PlayerObject);
+                    FireProjectile(PlayerObject);
+                }
+               
             }
         }
 

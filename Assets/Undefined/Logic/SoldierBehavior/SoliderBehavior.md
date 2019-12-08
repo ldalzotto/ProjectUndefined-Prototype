@@ -35,7 +35,7 @@
             MOVE_TOWARDS_PLAYER -> GO_ROUND_PLAYER : PlayerObject lost sight \n behind an Obstacle
             MOVE_TOWARDS_PLAYER -> MOVE_TO_LAST_SEEN_PLAYER_POSITION : PlayerObject lost sight \n not behind an Obstacle
 
-            SHOOTING_AT_PLAYER -> GO_ROUND_PLAYER : PlayerObject lost sight \n behind an Obstacle
+            SHOOTING_AT_PLAYER -> GO_ROUND_PLAYER : PlayerObject lost sight \n or weapon vision behind an Obstacle
             SHOOTING_AT_PLAYER -> MOVE_TO_LAST_SEEN_PLAYER_POSITION : PlayerObject lost sight
 
             GO_ROUND_PLAYER -> SHOOTING_AT_PLAYER : PlayerObject has been found

@@ -84,7 +84,7 @@ namespace SoliderAIBehavior
         public override void Tick(float d)
         {
             //If the PlayerObject is seen and can shoot.
-            if (SoldierAIBehaviorUtil.IsAllowToMoveToShootingAtPlayerState(this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem))
+            if (SoldierAIBehaviorUtil.PlayerInSightButNoObstaclesBetween(this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem))
             {
                 Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to SHOOTING_AT_PLAYER"));
                 this.TrackAndKillPlayerBehaviorRef.SetState(TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER);
