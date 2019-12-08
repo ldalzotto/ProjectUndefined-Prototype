@@ -42,7 +42,7 @@ namespace PlayerObject
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
 
-     [DrawNested]   [Inline(CreateAtSameLevelIfAbsent = true)]
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public ProjectileDeflectionDefinition ProjectileDeflectionDefinition;
     }
 }

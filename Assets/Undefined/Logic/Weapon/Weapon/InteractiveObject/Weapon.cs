@@ -55,7 +55,7 @@ namespace Weapon
                 // Eq (2)
                 FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.position = StartTransform.WorldPosition;
                 FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.eulerAngles = StartTransform.WorldRotationEuler;
-                this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(this.WeaponRef, this.WeaponDefinition.RecoilTime);
+                this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(FiredProjectile, this.WeaponRef, this.WeaponDefinition.RecoilTime);
             }
         }
 

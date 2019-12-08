@@ -18,8 +18,12 @@ namespace PlayerLowHealth
 
         #region Inline Systems
 
-        private ProjectileDeflectionSystem ProjectileDeflectionSystem;
+        private ProjectileDeflectionSystem projectileDeflectionSystem;
 
+        public ProjectileDeflectionSystem ProjectileDeflectionSystem
+        {
+            get { return this.projectileDeflectionSystem; }
+        }
         #endregion
         
         public LowHealthPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject, BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystemRef,
@@ -29,16 +33,16 @@ namespace PlayerLowHealth
             this.BaseObjectAnimatorPlayableSystemRef = BaseObjectAnimatorPlayableSystemRef;
             this.HealthSystemRef = HealthSystem;
             this.LowHealthPlayerSystemDefinition = LowHealthPlayerSystemDefinition;
-            this.ProjectileDeflectionSystem = new ProjectileDeflectionSystem(AssociatedInteractiveObject, ProjectileDeflectionDefinition);
+            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(AssociatedInteractiveObject, ProjectileDeflectionDefinition);
             this.IsLowHealth = new BoolVariable(false, this.OnLowHealthStarted, this.OnLowHealthEnded);
             HealthSystem.RegisterOnHealthValueChangedEventListener(this.OnHealthValueChanged);
         }
 
         public void Tick(float d)
         {
-            if (this.IsLowHealth.GetValue())
+            if (this.IsHealthConsideredLow())
             {
-                this.ProjectileDeflectionSystem.Tick(d);
+                this.projectileDeflectionSystem.Tick(d);
             }   
         }
 
@@ -60,5 +64,14 @@ namespace PlayerLowHealth
             this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.RUN);
             this.AssociatedInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_1);
         }
+
+        #region Logical Conditiions
+
+        public bool IsHealthConsideredLow()
+        {
+            return this.IsLowHealth.GetValue();
+        }
+
+        #endregion
     }
 }

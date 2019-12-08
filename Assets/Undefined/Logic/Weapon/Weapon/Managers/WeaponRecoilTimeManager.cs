@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoreGame;
+using InteractiveObjects;
 
 namespace Weapon
 {
@@ -7,13 +8,18 @@ namespace Weapon
     {
         private Dictionary<Weapon, WeaponRecoilTimeSystem> WeaponRecoilTimeSystems = new Dictionary<Weapon, WeaponRecoilTimeSystem>();
 
+        public void InitializeEvents()
+        {
+            SpawnFiringProjectileEvent.Get().RegisterSpawnFiringProjectileEventListener(this.OnFiredProjectileSpawned);
+        }
+
         public void OnWeaponCreated(Weapon weapon)
         {
             var WeaponRecoilTimeSystem = new WeaponRecoilTimeSystem();
             this.WeaponRecoilTimeSystems[weapon] = WeaponRecoilTimeSystem;
         }
 
-        public void OnFiredProjectileSpawned(Weapon sourceWeapon, float newRecoilTime)
+        private void OnFiredProjectileSpawned(CoreInteractiveObject projectile, Weapon sourceWeapon, float newRecoilTime)
         {
             this.WeaponRecoilTimeSystems[sourceWeapon].Reset(newRecoilTime);
         }

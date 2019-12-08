@@ -54,5 +54,14 @@ namespace ProjectileDeflection
             overlappedInteractiveObject.SwitchWeaponHolder(this.AssociatedInteractiveObject);
             overlappedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.forward = -overlappedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.forward;
         }
+
+        #region Data Retrieval
+
+        public float GetProjectileDetectionRadius()
+        {
+            return this.ProjectileDeflectionDefinition.ProjectileDetectionRadius;
+        }
+
+        #endregion
     }
 }

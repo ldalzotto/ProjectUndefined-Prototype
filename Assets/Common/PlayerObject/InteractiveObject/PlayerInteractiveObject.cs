@@ -25,7 +25,12 @@ namespace PlayerObject
         private FiringTargetPositionSystem FiringTargetPositionSystem;
         private HealthSystem HealthSystem;
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
-        private LowHealthPlayerSystem LowHealthPlayerSystem;
+        private LowHealthPlayerSystem lowHealthPlayerSystem;
+
+        public LowHealthPlayerSystem LowHealthPlayerSystem
+        {
+            get { return this.lowHealthPlayerSystem; }
+        }
 
         #endregion
 
@@ -52,7 +57,7 @@ namespace PlayerObject
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
-            this.LowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.baseObjectAnimatorPlayableSystem, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition, PlayerInteractiveObjectDefinition.ProjectileDeflectionDefinition);
+            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.baseObjectAnimatorPlayableSystem, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition, PlayerInteractiveObjectDefinition.ProjectileDeflectionDefinition);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);

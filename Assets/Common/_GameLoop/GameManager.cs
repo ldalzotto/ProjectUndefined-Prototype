@@ -42,6 +42,7 @@ namespace GameLoop
             TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
             RangeObjectV2Manager.Get().InitializeEvents();
             GroundEffectsManagerV2.Get().InitializeEvents();
+            WeaponRecoilTimeManager.Get().InitializeEvents();
 
             RangeObjectV2Manager.Get().Init();
             GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);

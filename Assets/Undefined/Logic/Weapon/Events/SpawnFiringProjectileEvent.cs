@@ -1,12 +1,27 @@
-﻿using CoreGame;
+﻿using System;
+using CoreGame;
+using InteractiveObjects;
 
 namespace Weapon
 {
     public class SpawnFiringProjectileEvent : GameSingleton<SpawnFiringProjectileEvent>
     {
-        public void OnFiringProjectileSpawned(Weapon sourceWeapon, float recoilTime)
+        public delegate void SpawnFiringProjectileEventDelegate(CoreInteractiveObject ProjectileObject, Weapon sourceWeapon, float recoilTime);
+        private event SpawnFiringProjectileEventDelegate evt;
+
+        public void RegisterSpawnFiringProjectileEventListener(SpawnFiringProjectileEventDelegate SpawnFiringProjectileEventDelegate)
         {
-            WeaponRecoilTimeManager.Get().OnFiredProjectileSpawned(sourceWeapon, recoilTime);
+            this.evt += SpawnFiringProjectileEventDelegate;
+        }
+        
+        public void UnRegisterSpawnFiringProjectileEventListener(SpawnFiringProjectileEventDelegate SpawnFiringProjectileEventDelegate)
+        {
+            this.evt -= SpawnFiringProjectileEventDelegate;
+        }
+        
+        public void OnFiringProjectileSpawned(CoreInteractiveObject ProjectileObject, Weapon sourceWeapon, float recoilTime)
+        {
+            this.evt?.Invoke(ProjectileObject, sourceWeapon, recoilTime);
         }
     }
 }

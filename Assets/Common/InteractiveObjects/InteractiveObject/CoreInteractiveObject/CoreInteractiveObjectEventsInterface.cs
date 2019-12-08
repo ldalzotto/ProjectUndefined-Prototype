@@ -1,4 +1,5 @@
-﻿using System.CodeDom;
+﻿using System;
+using System.CodeDom;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -85,10 +86,8 @@ namespace InteractiveObjects
         {
         }
 
-        public virtual void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
-        {
-        }
-
+        public virtual void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target){}
+        
         /// <summary>
         /// Returns the starting point in world space of a fired projectile.
         /// /!\ It is implemented only for PlayerInteractiveObject.
@@ -114,11 +113,13 @@ namespace InteractiveObjects
         {
             return default(Vector3);
         }
-        
+
         /// <summary>
         /// When the associated interactive object belongs to a weapon, then it's weapon reference is changed by <paramref name="NewWeaponHolder"/>.
         /// </summary>
-        public virtual void SwitchWeaponHolder(CoreInteractiveObject NewWeaponHolder){}
+        public virtual void SwitchWeaponHolder(CoreInteractiveObject NewWeaponHolder)
+        {
+        }
 
         #endregion
     }

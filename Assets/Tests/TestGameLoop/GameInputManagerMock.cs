@@ -152,7 +152,7 @@ namespace Tests
 
         public bool DeflectProjectileDown()
         {
-            return false;
+            return this.GameTestInputMockedValues.DeflectProjectileD;
         }
 
         #endregion
@@ -170,6 +170,7 @@ namespace Tests
         public bool RotationCameraDH;
         public float RightRotationCamera;
         public float CameraZoomDelta;
+        public bool DeflectProjectileD;
 
         public GameTestInputMockedValues()
         {
@@ -188,6 +189,7 @@ namespace Tests
             this.RotationCameraDH = false;
             this.RightRotationCamera = 0f;
             this.CameraZoomDelta = 0f;
+            this.DeflectProjectileD = false;
         }
     }
 }
