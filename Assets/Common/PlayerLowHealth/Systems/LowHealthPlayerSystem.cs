@@ -38,12 +38,25 @@ namespace PlayerLowHealth
             HealthSystem.RegisterOnHealthValueChangedEventListener(this.OnHealthValueChanged);
         }
 
+        public void FixedTick(float d)
+        {
+            if (this.IsHealthConsideredLow())
+            {
+                this.projectileDeflectionSystem.FixedTick(d);
+            }   
+        }
+
         public void Tick(float d)
         {
             if (this.IsHealthConsideredLow())
             {
                 this.projectileDeflectionSystem.Tick(d);
             }   
+        }
+
+        public void LateTick(float d)
+        {
+            this.projectileDeflectionSystem.LateTick(d);
         }
 
         private void OnHealthValueChanged(float OldValue, float newValue)

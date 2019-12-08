@@ -23,32 +23,61 @@ namespace ProjectileDeflection
 
         private CoreInteractiveObject AssociatedInteractiveObject;
 
+        /// <summary>
+        /// The <see cref="ProjectileDeflectionSystem"/> must be updated at the earliest possible time.
+        /// </summary>
+        private bool UpdatedThisFrame;
+
         public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionDefinition ProjectileDeflectionDefinition)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.ProjectileDeflectionDefinition = ProjectileDeflectionDefinition;
+            this.UpdatedThisFrame = false;
+        }
+
+        public void FixedTick(float d)
+        {
+            TickDeflection();
         }
 
         public void Tick(float d)
         {
-            if (GameInputManager.CurrentInput.DeflectProjectileDown())
+            TickDeflection();
+        }
+
+        public void LateTick(float d)
+        {
+            this.UpdatedThisFrame = false;
+        }
+        
+        private void TickDeflection()
+        {
+            if (!this.UpdatedThisFrame)
             {
-                var overlappedColliders = Physics.OverlapSphere(this.AssociatedInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter(), this.ProjectileDeflectionDefinition.ProjectileDetectionRadius);
-                if (overlappedColliders != null && overlappedColliders.Length > 0)
+                this.UpdatedThisFrame = true;
+                if (GameInputManager.CurrentInput.DeflectProjectileDown())
                 {
-                    for (var i = 0; i < overlappedColliders.Length; i++)
+                    var overlappedColliders = Physics.OverlapSphere(this.AssociatedInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter(), this.ProjectileDeflectionDefinition.ProjectileDetectionRadius);
+                    if (overlappedColliders != null && overlappedColliders.Length > 0)
                     {
-                        this.InteractiveObjectV2Manager.InteractiveObjectsIndexedByLogicCollider.TryGetValue(overlappedColliders[i], out CoreInteractiveObject overlappedInteractiveObject);
-                        if (overlappedInteractiveObject != null && overlappedInteractiveObject.InteractiveObjectTag.IsDealingDamage)
+                        for (var i = 0; i < overlappedColliders.Length; i++)
                         {
-                            /// Deflecting
-                            DeflectProjectile(overlappedInteractiveObject);
+                            this.InteractiveObjectV2Manager.InteractiveObjectsIndexedByLogicCollider.TryGetValue(overlappedColliders[i], out CoreInteractiveObject overlappedInteractiveObject);
+                            if (overlappedInteractiveObject != null && overlappedInteractiveObject.InteractiveObjectTag.IsDealingDamage)
+                            {
+                                /// Deflecting
+                                DeflectProjectile(overlappedInteractiveObject);
+                            }
                         }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// /!\ We have to make sure that the projectile deflection check is called before the projectile position is updated. Otherwise,
+        /// the deflect will only be taken into account the next frame.
+        /// </summary>
         private void DeflectProjectile(CoreInteractiveObject overlappedInteractiveObject)
         {
             overlappedInteractiveObject.SwitchWeaponHolder(this.AssociatedInteractiveObject);

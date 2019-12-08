@@ -109,6 +109,7 @@ namespace PlayerObject
         public override void FixedTick(float d)
         {
             base.FixedTick(d);
+            this.LowHealthPlayerSystem.FixedTick(d);
             playerMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
@@ -127,6 +128,12 @@ namespace PlayerObject
         {
             this.ObjectMovementSpeedSystem.AfterTicks();
             this.playerMoveManager.AfterTicks();
+        }
+
+        public override void LateTick(float d)
+        {
+            base.LateTick(d);
+            this.LowHealthPlayerSystem.LateTick(d);
         }
 
         /// <summary>
