@@ -62,6 +62,7 @@ namespace ProjectileDeflection
                     {
                         for (var i = 0; i < overlappedColliders.Length; i++)
                         {
+                            Debug.DrawLine(this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition, overlappedColliders[i].transform.position, Color.clear, 1f);
                             this.InteractiveObjectV2Manager.InteractiveObjectsIndexedByLogicCollider.TryGetValue(overlappedColliders[i], out CoreInteractiveObject overlappedInteractiveObject);
                             if (overlappedInteractiveObject != null && overlappedInteractiveObject.InteractiveObjectTag.IsDealingDamage)
                             {

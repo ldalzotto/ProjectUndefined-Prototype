@@ -61,6 +61,7 @@
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemy.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierEnemy\SoliderEnemyDefinition.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierF\SoliderEnemyDefinition_F_PatrollingPath.cs" />
+     <Compile Include="Assets\Undefined\Levels\TrainingLevel\Enemy\SoldierI\SoliderEnemyDefinition_I_PatrollingPath.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectAction.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\GrabObject\PlayerActions\GrabObjectActionInherentData.cs" />
      <Compile Include="Assets\Undefined\Levels\TrainingLevel\Systems\AttractiveObject\AttractiveObjectSystem.cs" />
