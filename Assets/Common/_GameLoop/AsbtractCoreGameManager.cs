@@ -48,7 +48,6 @@ namespace GameLoop
         /// </summary>
         protected void OnStart()
         {
-            this.DestroyUnityRenderingDebugUpdater();
         }
 
         /// <summary>
@@ -101,7 +100,8 @@ namespace GameLoop
         /// We must destroy the debug updater object because it has conflicts with the new input system.
         /// When the new input system will be realeased, we can remove this method. 
         /// </summary>
-        private void DestroyUnityRenderingDebugUpdater()
+        [RuntimeInitializeOnLoadMethod]
+        static void DestroyUnityRenderingDebugUpdater()
         {
             if (Debug.isDebugBuild)
             {
