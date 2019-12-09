@@ -71,9 +71,14 @@ namespace Firing
             this.ProjectileWeaponHoldingSystem.SwitchWeaponHolder(NewWeaponHolder);
         }
 
-        public override ProjectileDeflectedPropertiesStruct OnInteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject)
+        public override ProjectileDeflectedPropertiesStruct OnInteractiveObjectAskingToBeDeflected(CoreInteractiveObject DelfectionActorObject, out bool success)
         {
-            DeflectionCalculations.ForwardDeflection(DelfectionActorObject, this);
+            success = this.ProjectileWeaponHoldingSystem.GetWeaponHolder() != DelfectionActorObject;
+            if (success)
+            {
+                DeflectionCalculations.ForwardDeflection(DelfectionActorObject, this);
+            }
+
             return this.FiredProjectileDefinition.ProjectileDeflectedProperties;
         }
 

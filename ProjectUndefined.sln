@@ -101,9 +101,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraManagement_Test", "Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerActions_Interfaces", "PlayerActions_Interfaces.csproj", "{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelManagement_Interfaces", "LevelManagement_Interfaces.csproj", "{8DA28C2F-777B-F580-3353-E0009DE74AB0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectileDeflection_Interface", "ProjectileDeflection_Interface.csproj", "{0DF0C192-6A11-E879-ADF9-537F34408904}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelManagement_Interfaces", "LevelManagement_Interfaces.csproj", "{8DA28C2F-777B-F580-3353-E0009DE74AB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor.csproj", "{C2B84BB1-A401-F2D5-62B7-55A3CE6A4316}"
 EndProject
@@ -317,14 +317,14 @@ Global
 		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA28C2F-777B-F580-3353-E0009DE74AB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2B84BB1-A401-F2D5-62B7-55A3CE6A4316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2B84BB1-A401-F2D5-62B7-55A3CE6A4316}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2B84BB1-A401-F2D5-62B7-55A3CE6A4316}.Release|Any CPU.ActiveCfg = Release|Any CPU

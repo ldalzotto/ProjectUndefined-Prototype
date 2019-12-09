@@ -128,8 +128,9 @@ namespace InteractiveObjects
 
         #region deflection events
 
-        public virtual ProjectileDeflectedPropertiesStruct OnInteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject)
+        public virtual ProjectileDeflectedPropertiesStruct OnInteractiveObjectAskingToBeDeflected(CoreInteractiveObject DelfectionActorObject, out bool success)
         {
+            success = false;
             return default(ProjectileDeflectedPropertiesStruct);
         }
 

@@ -76,8 +76,11 @@ namespace ProjectileDeflection
                                 /// Deflecting
                                 /// /!\ We have to make sure that the projectile deflection check is called before the projectile position is updated. Otherwise,
                                 /// the deflect will only be taken into account the next frame.
-                                var InteractiveObjectDeflectionResult = overlappedInteractiveObject.OnInteractiveObjectDeflected(this.AssociatedInteractiveObject);
-                                this.OnProjectileSuccessfullyDeflected?.Invoke(InteractiveObjectDeflectionResult);
+                                var InteractiveObjectDeflectionResult = overlappedInteractiveObject.OnInteractiveObjectAskingToBeDeflected(this.AssociatedInteractiveObject, out bool success);
+                                if (success)
+                                {
+                                    this.OnProjectileSuccessfullyDeflected?.Invoke(InteractiveObjectDeflectionResult);
+                                }
                             }
                         }
                     }
