@@ -21,10 +21,20 @@ namespace StartMenu
             base.OnStart();
         }
 
+        private void FixedUpdate()
+        {
+            base.BeforeFixedTickGameLogic(out float d, out float unscaled);
+        }
+
         private void Update()
         {
             base.BeforeTickGameLogic(out float d, out float unscaled);
             StartMenuManager.Get().Tick(d);
+        }
+
+        private void LateUpdate()
+        {
+            base.BeforeLateTickGameLogic(out float d, out float unscaled);
         }
     }
 }
