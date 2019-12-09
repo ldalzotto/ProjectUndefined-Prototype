@@ -16,7 +16,7 @@ namespace SoliderAIBehavior
             SetDestinationAction = destinationAction;
         }
     }
-    
+
     /// <summary>
     /// The <see cref="TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER"/> state is entered when the <see cref="SoliderEnemy"/> is
     /// trying to get the Player in sight by moving around the <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
@@ -60,11 +60,17 @@ namespace SoliderAIBehavior
             var LastPlayerSeenPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition;
             var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition.WorldPosition;
 
+            /// The last player seen position is offsetted by the AI->LPS to avoid borderline case where the Player is behind an obstacles
+            /// but ComputeSightDirection doesn't return intersection because the Player is just at the limit of the obstacle.
+            var offsettedLastPlayerSeenPosition = LastPlayerSeenPosition.WorldPosition +
+                                                  (LastPlayerSeenPosition.WorldPosition - this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition).normalized;
+
             /// If we found a SightDirection without Obstacle
-            if (ComputeSightDirection(AItoLVPDistance, LastPlayerSeenPosition.WorldPosition, out var SightDirection))
+            if (ComputeSightDirection(AItoLVPDistance, offsettedLastPlayerSeenPosition, out var SightDirection))
             {
                 this.TmpLastPlayerSeenPositionGameObject = new GameObject("TmpLastPlayerSeenPositionGameObject");
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition.WorldPosition;
+
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
                 if (this.MoveAroundPlayerStateManagerExternalCallbacks.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
                         AIMovementSpeedAttenuationFactor.RUN) == NavMeshPathStatus.PathInvalid)
@@ -119,21 +125,53 @@ namespace SoliderAIBehavior
         /// <summary>
         /// SightDirection computation is done by sampling different directions from the Player and checking if
         /// there is Obstacles in this direction.
-        /// When a direction with no Obstacle is found, then the final direction is offsetter by <see cref="DeltaAngleWhenSightDirectionIsComputed"/>.
+        /// The final direction is offsettet by <see cref="DeltaAngleWhenSightDirectionIsComputed"/>.
+        /// /!\ The retained valid sight direction must be the closests possible than the direction AI -> LSP.
+        /// "Positive" means when the sample angle is positive.
         /// </summary>
         /// <param name="AItoLVPDistance">The distance between <see cref="SoliderEnemy"/> and the Player.</param>
         /// <param name="SightDirection">The direction that will be used to set the next destination of the <see cref="SoliderEnemy"/>.</param>
-        /// <returns></returns>
         private static bool ComputeSightDirection(Vector3 AItoLVPDistance, Vector3 LastPlayerSeenPosition, out Vector3 SightDirection)
         {
             SightDirection = Vector3.zero;
+
+            Vector3 PositiveSightDirection = Vector3.zero;
+            Vector3 NeagtiveSightDirection = Vector3.zero;
+
+            int positiveRaySuccessfulSample = 0;
+            int negativeRaySuccessfulSample = 0;
+
             for (var SampleNumber = 1; SampleNumber <= 5; SampleNumber++)
             {
-                if (ComputeSightDirectionForTheQueriedDirection(AItoLVPDistance, LastPlayerSeenPosition, SampleNumber * 10, ref SightDirection))
-                    return true;
+                /// We cast rays in the two opposite directions.
+                /// This is to not discard the potential next obstacles intersection that will come with future samples. 
+                bool positiveRay = ComputeSightDirectionForTheQueriedDirection(AItoLVPDistance, LastPlayerSeenPosition, SampleNumber * 10, ref PositiveSightDirection);
+                bool negativeRay = ComputeSightDirectionForTheQueriedDirection(AItoLVPDistance, LastPlayerSeenPosition, -1 * SampleNumber * 10, ref NeagtiveSightDirection);
 
-                if (ComputeSightDirectionForTheQueriedDirection(AItoLVPDistance, LastPlayerSeenPosition, -1 * SampleNumber * 10, ref SightDirection))
-                    return true;
+                if (positiveRay)
+                {
+                    positiveRaySuccessfulSample += 1;
+                }
+
+                if (negativeRay)
+                {
+                    negativeRaySuccessfulSample += 1;
+                }
+
+                /// When positive and negative samples are not the same, this means that the AI has a line of sight on one of them.
+                if (positiveRay != negativeRay)
+                {
+                    if (positiveRay)
+                    {
+                        SightDirection = PositiveSightDirection;
+                        return true;
+                    }
+                    else if (negativeRay)
+                    {
+                        SightDirection = NeagtiveSightDirection;
+                        return true;
+                    }
+                }
             }
 
             return false;
@@ -163,7 +201,20 @@ namespace SoliderAIBehavior
         /// <param name="QueriedDirection">The direction of the raycast</param>
         private static bool RaycastFromLastPlayerSeenPosition(Vector3 LastPlayerSeenPosition, Vector3 QueriedDirection)
         {
-            return Physics.Raycast(LastPlayerSeenPosition, QueriedDirection.normalized, QueriedDirection.magnitude, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
+            bool raycastResult = Physics.Raycast(LastPlayerSeenPosition, QueriedDirection.normalized, out RaycastHit hit, QueriedDirection.magnitude, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_OBSTACLES));
+
+#if UNITY_EDITOR
+            if (raycastResult)
+            {
+                Debug.DrawLine(LastPlayerSeenPosition, LastPlayerSeenPosition + QueriedDirection, Color.red);
+            }
+            else
+            {
+                Debug.DrawLine(LastPlayerSeenPosition, LastPlayerSeenPosition + QueriedDirection, Color.green);
+            }
+#endif
+
+            return raycastResult;
         }
 
         #endregion

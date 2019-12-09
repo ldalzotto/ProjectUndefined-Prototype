@@ -23,7 +23,7 @@ public class DynamicEditorCreation
 
     private void OnPlayModeStateChanged(PlayModeStateChange state)
     {
-        if (state == PlayModeStateChange.ExitingEditMode)
+        if (state == PlayModeStateChange.ExitingEditMode || state == PlayModeStateChange.ExitingPlayMode)
         {
             ClearCreatedEditors();
         }

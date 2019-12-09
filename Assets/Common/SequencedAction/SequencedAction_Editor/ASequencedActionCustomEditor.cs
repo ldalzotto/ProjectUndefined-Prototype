@@ -23,7 +23,6 @@ namespace SequencedAction_Editor
         {
             if (this.SceneHandleDrawAttribute != null)
             {
-                DynamicEditorCreation.Get().CreatedEditors.Remove(this);
                 this.UnRegisterCallback();
             }
         }
@@ -32,7 +31,6 @@ namespace SequencedAction_Editor
         {
             if (this.SceneHandleDrawAttribute != null)
             {
-                DynamicEditorCreation.Get().CreatedEditors.Remove(this);
                 this.UnRegisterCallback();
             }
         }
