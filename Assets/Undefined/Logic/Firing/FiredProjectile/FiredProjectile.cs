@@ -3,20 +3,25 @@ using System.Runtime.Serialization;
 using Damage;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using ProjectileDeflection;
+using ProjectileDeflection_Interface;
 using UnityEngine;
 
 namespace Firing
 {
     public class FiredProjectile : CoreInteractiveObject
     {
+        private FiredProjectileDefinition FiredProjectileDefinition;
+
         private ProjectileWeaponHoldingSystem ProjectileWeaponHoldingSystem;
         private FiredProjectileMovementSystem FiredProjectileMovementSystem;
         private DamageDealerEmitterSystem _damageDealerEmitterSystem;
 
         public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition, CoreInteractiveObject weaponHolder)
         {
+            this.FiredProjectileDefinition = FiredProjectileDefinition;
             this.interactiveObjectTag = new InteractiveObjectTag() {IsDealingDamage = true};
-            
+
             parent.CreateLogicCollider(BuildBoxColliderDefinition(FiredProjectileDefinition));
             this.BaseInit(parent, true);
 
@@ -64,6 +69,12 @@ namespace Firing
         public override void SwitchWeaponHolder(CoreInteractiveObject NewWeaponHolder)
         {
             this.ProjectileWeaponHoldingSystem.SwitchWeaponHolder(NewWeaponHolder);
+        }
+
+        public override ProjectileDeflectedPropertiesStruct OnInteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject)
+        {
+            DeflectionCalculations.ForwardDeflection(DelfectionActorObject, this);
+            return this.FiredProjectileDefinition.ProjectileDeflectedProperties;
         }
 
         #region Logical Conditions

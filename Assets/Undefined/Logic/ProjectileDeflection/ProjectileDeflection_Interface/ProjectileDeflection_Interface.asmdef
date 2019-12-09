@@ -1,10 +1,7 @@
 {
-    "name": "InteractiveObjects_Interfaces",
+    "name": "ProjectileDeflection_Interface",
     "references": [
-        "CoreGame",
-        "Editor_Common",
-        "GeometryIntersection",
-        "OdinSerializer"
+        "GUID:83a23e85924b27e419c0fada7259185a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

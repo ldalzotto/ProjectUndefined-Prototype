@@ -1,4 +1,4 @@
-﻿{
+{
     "name": "Firing",
     "references": [
         "CoreGame",
@@ -13,7 +13,9 @@
         "Damage",
         "Targetting",
         "AnimatorPlayable",
-        "RangeObjects"
+        "RangeObjects",
+        "ProjectileDeflection",
+        "ProjectileDeflection_Interface"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -22,5 +24,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

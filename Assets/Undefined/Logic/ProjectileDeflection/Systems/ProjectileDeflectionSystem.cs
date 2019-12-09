@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.AccessControl;
+﻿using System;
 using Input;
 using InteractiveObjects;
+using ProjectileDeflection_Interface;
 using UnityEngine;
 
 namespace ProjectileDeflection
@@ -19,7 +18,13 @@ namespace ProjectileDeflection
 
         #endregion
 
-        private ProjectileDeflectionDefinition ProjectileDeflectionDefinition;
+        #region Callbacks
+
+        private Action<ProjectileDeflectedPropertiesStruct> OnProjectileSuccessfullyDeflected;
+
+        #endregion
+
+        private ProjectileDeflectionActorDefinition _projectileDeflectionActorDefinition;
 
         private CoreInteractiveObject AssociatedInteractiveObject;
 
@@ -28,10 +33,12 @@ namespace ProjectileDeflection
         /// </summary>
         private bool UpdatedThisFrame;
 
-        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionDefinition ProjectileDeflectionDefinition)
+        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition,
+            Action<ProjectileDeflectedPropertiesStruct> OnProjectileSuccessfullyDeflected = null)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
-            this.ProjectileDeflectionDefinition = ProjectileDeflectionDefinition;
+            this._projectileDeflectionActorDefinition = projectileDeflectionActorDefinition;
+            this.OnProjectileSuccessfullyDeflected = OnProjectileSuccessfullyDeflected;
             this.UpdatedThisFrame = false;
         }
 
@@ -49,7 +56,7 @@ namespace ProjectileDeflection
         {
             this.UpdatedThisFrame = false;
         }
-        
+
         private void TickDeflection()
         {
             if (!this.UpdatedThisFrame)
@@ -57,7 +64,7 @@ namespace ProjectileDeflection
                 this.UpdatedThisFrame = true;
                 if (GameInputManager.CurrentInput.DeflectProjectileDown())
                 {
-                    var overlappedColliders = Physics.OverlapSphere(this.AssociatedInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter(), this.ProjectileDeflectionDefinition.ProjectileDetectionRadius);
+                    var overlappedColliders = Physics.OverlapSphere(this.AssociatedInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter(), this._projectileDeflectionActorDefinition.ProjectileDetectionRadius);
                     if (overlappedColliders != null && overlappedColliders.Length > 0)
                     {
                         for (var i = 0; i < overlappedColliders.Length; i++)
@@ -67,7 +74,10 @@ namespace ProjectileDeflection
                             if (overlappedInteractiveObject != null && overlappedInteractiveObject.InteractiveObjectTag.IsDealingDamage)
                             {
                                 /// Deflecting
-                                DeflectProjectile(overlappedInteractiveObject);
+                                /// /!\ We have to make sure that the projectile deflection check is called before the projectile position is updated. Otherwise,
+                                /// the deflect will only be taken into account the next frame.
+                                var InteractiveObjectDeflectionResult = overlappedInteractiveObject.OnInteractiveObjectDeflected(this.AssociatedInteractiveObject);
+                                this.OnProjectileSuccessfullyDeflected?.Invoke(InteractiveObjectDeflectionResult);
                             }
                         }
                     }
@@ -75,21 +85,11 @@ namespace ProjectileDeflection
             }
         }
 
-        /// <summary>
-        /// /!\ We have to make sure that the projectile deflection check is called before the projectile position is updated. Otherwise,
-        /// the deflect will only be taken into account the next frame.
-        /// </summary>
-        private void DeflectProjectile(CoreInteractiveObject overlappedInteractiveObject)
-        {
-            overlappedInteractiveObject.SwitchWeaponHolder(this.AssociatedInteractiveObject);
-            overlappedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.forward = -overlappedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.forward;
-        }
-
         #region Data Retrieval
 
         public float GetProjectileDetectionRadius()
         {
-            return this.ProjectileDeflectionDefinition.ProjectileDetectionRadius;
+            return this._projectileDeflectionActorDefinition.ProjectileDetectionRadius;
         }
 
         #endregion

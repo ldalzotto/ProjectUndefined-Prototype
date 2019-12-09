@@ -2,6 +2,7 @@
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using OdinSerializer;
+using ProjectileDeflection_Interface;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -21,6 +22,9 @@ namespace Firing
         [FormerlySerializedAs("DamageDealerSystemDefinition")] [Inline(CreateAtSameLevelIfAbsent = true)]
         public DamageDealerEmitterSystemDefinition damageDealerEmitterSystemDefinition;
 
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public ProjectileDeflectedProperties ProjectileDeflectedProperties;
+        
         public FiredProjectile BuildFiredProjectile(CoreInteractiveObject WeaponHolder)
         {
             var FiredProjectileModel = Instantiate(this.FiredProjectileModelPrefab);

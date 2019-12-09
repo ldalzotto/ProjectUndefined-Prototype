@@ -9,6 +9,7 @@ namespace Weapon
     {
         public GameObject WeaponModelPrefab;
         public float RecoilTime;
+        [Inline()]
         public FiredProjectileDefinition FiredProjectileDefinition;
 
         public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)

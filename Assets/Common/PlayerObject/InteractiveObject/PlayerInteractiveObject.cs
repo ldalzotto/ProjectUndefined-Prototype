@@ -8,6 +8,8 @@ using LevelManagement;
 using PlayerActions;
 using PlayerLowHealth;
 using PlayerObject_Interfaces;
+using ProjectileDeflection;
+using ProjectileDeflection_Interface;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon;
@@ -27,10 +29,10 @@ namespace PlayerObject
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
         private LowHealthPlayerSystem lowHealthPlayerSystem;
 
-        public LowHealthPlayerSystem LowHealthPlayerSystem
-        {
-            get { return this.lowHealthPlayerSystem; }
-        }
+        public LowHealthPlayerSystem LowHealthPlayerSystem => this.lowHealthPlayerSystem;
+
+        private ProjectileDeflectionSystem projectileDeflectionSystem;
+        public ProjectileDeflectionSystem ProjectileDeflectionSystem => this.projectileDeflectionSystem;
 
         #endregion
 
@@ -57,8 +59,8 @@ namespace PlayerObject
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
-            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.baseObjectAnimatorPlayableSystem, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition, PlayerInteractiveObjectDefinition.ProjectileDeflectionDefinition);
-
+            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.baseObjectAnimatorPlayableSystem, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
+            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition, this.OnProjectileSuccessfullyDeflected);
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
 
@@ -109,7 +111,11 @@ namespace PlayerObject
         public override void FixedTick(float d)
         {
             base.FixedTick(d);
-            this.LowHealthPlayerSystem.FixedTick(d);
+            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
+            {
+                this.projectileDeflectionSystem.FixedTick(d);
+            }
+
             playerMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
@@ -118,7 +124,11 @@ namespace PlayerObject
         {
             base.Tick(d);
             this.StunningDamageDealerReceiverSystem.Tick(d);
-            this.LowHealthPlayerSystem.Tick(d);
+            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
+            {
+                this.projectileDeflectionSystem.Tick(d);
+            }
+
             PlayerActionTriggering();
             UpdatePlayerMovement(d);
             this.baseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(Vector3.forward * this.ObjectMovementSpeedSystem.GetSpeedMagnitude());
@@ -133,7 +143,7 @@ namespace PlayerObject
         public override void LateTick(float d)
         {
             base.LateTick(d);
-            this.LowHealthPlayerSystem.LateTick(d);
+            this.projectileDeflectionSystem.LateTick(d);
         }
 
         /// <summary>
@@ -248,6 +258,15 @@ namespace PlayerObject
         public override Vector3 GetFiringTargetLocalPosition()
         {
             return this.FiringTargetPositionSystem.GetFiringTargetLocalPosition();
+        }
+
+        #endregion
+
+        #region Deflection Events
+
+        private void OnProjectileSuccessfullyDeflected(ProjectileDeflectedPropertiesStruct ProjectileDeflectedPropertiesStruct)
+        {
+            this.DealDamage(ProjectileDeflectedPropertiesStruct.HealthRecovered, null);
         }
 
         #endregion

@@ -7,6 +7,7 @@ using OdinSerializer;
 using PlayerActions;
 using PlayerLowHealth;
 using ProjectileDeflection;
+using UnityEngine.Serialization;
 using Weapon;
 
 namespace PlayerObject
@@ -42,7 +43,7 @@ namespace PlayerObject
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
 
-        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
-        public ProjectileDeflectionDefinition ProjectileDeflectionDefinition;
+        [FormerlySerializedAs("ProjectileDeflectionDefinition")] [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition;
     }
 }

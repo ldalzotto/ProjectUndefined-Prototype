@@ -56,7 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionActorDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\DeflectionCalculations.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionSystem.cs" />
      <None Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -640,6 +641,10 @@
     <ProjectReference Include="GeometryIntersection.csproj">
       <Project>{1C41B0EC-9EE4-2CF0-1FFA-C23CC0B573CE}</Project>
       <Name>GeometryIntersection</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProjectileDeflection_Interface.csproj">
+      <Project>{0DF0C192-6A11-E879-ADF9-537F34408904}</Project>
+      <Name>ProjectileDeflection_Interface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
