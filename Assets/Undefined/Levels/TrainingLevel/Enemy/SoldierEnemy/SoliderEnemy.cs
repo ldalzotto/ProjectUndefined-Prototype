@@ -22,7 +22,7 @@ namespace TrainingLevel
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
         private SightObjectSystem SightObjectSystem;
-        [VE_Nested] private SoldierAIBehavior SoldierAIBehavior;
+        [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
         private SoldierAnimationSystem SoldierAnimationSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
@@ -38,14 +38,14 @@ namespace TrainingLevel
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, AIMovementSpeedAttenuationFactor.RUN, ObjectSpeedCalculationType.AGENT);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
-            this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation);
-            this.SoldierAIBehavior = new SoldierAIBehavior();
+            this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.LowerLocomotionAnimation);
+            this._soldierStateBehavior = new SoldierStateBehavior();
 
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
-                this.SoldierAIBehavior.OnInteractiveObjectJustOnSight, null, this.SoldierAIBehavior.OnInteractiveObjectJustOutOfSight);
+                this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
             this.SoldierAnimationSystem = new SoldierAnimationSystem(SoliderEnemyDefinition.SoldierAnimationSystemDefinition, this.AnimationController);
 
-            this.SoldierAIBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
+            this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
                 new SoldierAIBehaviorExternalCallbacks(
                     this.SetDestination,
                     this.AIMoveToDestinationSystem.ClearPath,
@@ -61,7 +61,7 @@ namespace TrainingLevel
             this._stunningDamageDealerReceiverSystem.Tick(d);
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                this.SoldierAIBehavior.Tick(d);
+                this._soldierStateBehavior.Tick(d);
                 this.AIMoveToDestinationSystem.Tick(d);
             }
 
@@ -82,7 +82,7 @@ namespace TrainingLevel
         public override void Destroy()
         {
             this.SightObjectSystem.OnDestroy();
-            this.SoldierAIBehavior.OnDestroy();
+            this._soldierStateBehavior.OnDestroy();
             base.Destroy();
         }
 
@@ -117,7 +117,7 @@ namespace TrainingLevel
         public override void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)
         {
             this._stunningDamageDealerReceiverSystem.DealDamage(Damage);
-            this.SoldierAIBehavior.DamageDealt(DamageDealerInteractiveObject);
+            this._soldierStateBehavior.DamageDealt(DamageDealerInteractiveObject);
         }
 
         public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
@@ -132,7 +132,7 @@ namespace TrainingLevel
 
         private void OnAIDestinationReached()
         {
-            this.SoldierAIBehavior.OnDestinationReached();
+            this._soldierStateBehavior.OnDestinationReached();
         }
 
         #region Projectile Events

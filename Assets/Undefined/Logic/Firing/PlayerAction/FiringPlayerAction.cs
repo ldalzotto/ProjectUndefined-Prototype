@@ -13,17 +13,19 @@ namespace Firing
 {
     public class FiringPlayerAction : PlayerAction
     {
+        private IPlayerInteractiveObject IPlayerInteractiveObject;
         private FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
-        private PlayerAnimationSystem PlayerAnimationSystem;
         private PlayerSpeedSystem PlayerSpeedSystem;
         private FiringRangeFeedbackSystem _firingRangeFeedbackSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
+            this.IPlayerInteractiveObject = PlayerInteractiveObject;
+            
             var PlayerCoreInteractiveObject = PlayerInteractiveObject as CoreInteractiveObject;
             var targettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
             var gameInputManager = GameInputManager.Get();
@@ -35,9 +37,10 @@ namespace Firing
             
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
-            this.PlayerAnimationSystem = new PlayerAnimationSystem(PlayerCoreInteractiveObject, FiringPlayerActionInherentData.FiringPoseAnimationV2.GetAnimationInput());
             this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
             this._firingRangeFeedbackSystem = new FiringRangeFeedbackSystem(PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
+            
+            PlayerInteractiveObject.OnPlayerStartTargetting(this.FiringPlayerActionInherentData.FiringPoseAnimationV2);
         }
 
         public override void FirstExecution()
@@ -67,9 +70,10 @@ namespace Firing
         public override void Dispose()
         {
             this.PlayerObjectOrientationSystem.Dispose();
-            this.PlayerAnimationSystem.Dispose();
             this.PlayerSpeedSystem.Dispose();
             this._firingRangeFeedbackSystem.Dispose();
+            
+            this.IPlayerInteractiveObject.OnPlayerStoppedTargetting();
         }
 
         public override void LateTick(float d)
@@ -184,22 +188,6 @@ namespace Firing
         {
             /// We use the FiringActionDownHold to be sure to not miss the frame where button has been released.
             this.ActionFinished = !this.GameInputManager.CurrentInput.FiringActionDownHold();
-        }
-    }
-
-    struct PlayerAnimationSystem
-    {
-        private CoreInteractiveObject PlayerCoreInteractiveObject;
-
-        public PlayerAnimationSystem(CoreInteractiveObject PlayerCoreInteractiveObject, IAnimationInput FiringPoseAnimation)
-        {
-            this.PlayerCoreInteractiveObject = PlayerCoreInteractiveObject;
-            PlayerCoreInteractiveObject.AnimationController.PlayLocomotionAnimationOverride(FiringPoseAnimation, AnimationLayerID.LocomotionLayer_2);
-        }
-
-        public void Dispose()
-        {
-            PlayerCoreInteractiveObject.AnimationController.DestroyAnimationLayer(AnimationLayerID.LocomotionLayer_2);
         }
     }
 

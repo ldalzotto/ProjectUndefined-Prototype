@@ -27,14 +27,14 @@ namespace SoliderAIBehavior
     /// </summary>
     class ShootingAtPlayerStateManager : SoldierStateManager
     {
-        private TrackAndKillPlayerBehavior TrackAndKillAIbehaviorRef;
+        private TrackAndKillPlayerStateBehavior TrackAndKillAIbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
 
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks;
 
-        public ShootingAtPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
+        public ShootingAtPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
             CoreInteractiveObject associatedInteractiveObject,WeaponFiringAreaSystem WeaponFiringAreaSystem, ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks)
         {
             this.TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;

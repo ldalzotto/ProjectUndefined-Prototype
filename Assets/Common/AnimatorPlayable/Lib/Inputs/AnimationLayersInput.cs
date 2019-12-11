@@ -25,6 +25,7 @@ namespace AnimatorPlayable
         public List<BlendedAnimationClipInput> BlendedAnimationClips;
         public BlendedAnimationSpeedCurve BlendedAnimationSpeedCurve;
         public bool IsAdditive;
+        public AvatarMask AvatarMask;
     }
 
     [Serializable]
@@ -32,6 +33,7 @@ namespace AnimatorPlayable
     {
         public AnimationInputType AnimationInputType { get; private set; } = AnimationInputType.TWODBLENDED;
         public List<TwoDBlendTreeAnimationClipInput> TwoDBlendTreeAnimationClipInputs;
+        public AvatarMask AvatarMask;
     }
 
     [Serializable]
@@ -42,6 +44,8 @@ namespace AnimatorPlayable
         public float BeginTransitionTime;
         public float EndTransitionTime;
         public List<UniqueAnimationClipInput> UniqueAnimationClips;
+        public AvatarMask AvatarMask;
+        public bool IsAdditive;
     }
 
     [Serializable]

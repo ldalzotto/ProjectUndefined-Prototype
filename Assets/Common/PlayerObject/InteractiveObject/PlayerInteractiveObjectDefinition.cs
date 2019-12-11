@@ -2,6 +2,7 @@
 using AnimatorPlayable;
 using Damage;
 using Health;
+using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using PlayerActions;
@@ -29,8 +30,8 @@ namespace PlayerObject
         public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
-        public A_AnimationPlayableDefinition LocomotionAnimation;
-
+        public CommonBipedAnimatorBehaviorDefinition CommonBipedAnimatorBehaviorDefinition;
+        
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public PlayerActionInherentData FiringPlayerActionInherentData;
 

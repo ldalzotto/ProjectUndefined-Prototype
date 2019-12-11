@@ -59,20 +59,14 @@ namespace AnimatorPlayable
             }
 
             BlendedAnimationLayer BlendedAnimationLayer = new BlendedAnimationLayer(this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, layerID,
-                BlendedAnimationInput.BlendedAnimationClips.ConvertAll(i => i.ToBlendedAnimationClip()), BlendedAnimationInput.BlendedAnimationSpeedCurve);
-            BlendedAnimationLayer.Inputhandler = PlayableExtensions.AddInput(this.AnimationLayerMixerPlayable, BlendedAnimationLayer.AnimationMixerPlayable, 0);
-            this.AnimationLayerMixerPlayable.SetLayerAdditive((uint) layerID, BlendedAnimationInput.IsAdditive);
+                BlendedAnimationInput, InputWeightProvider);
+
             this.AllAnimationLayersCurrentlyPlaying[layerID] = BlendedAnimationLayer;
             this.OrderedByInputHandlerAnimationLayers.Add(BlendedAnimationLayer);
 
             this.SortLayers();
 
             PlayableExtensions.SetInputWeight(this.AnimationLayerMixerPlayable, this.AllAnimationLayersCurrentlyPlaying[layerID].Inputhandler, 1f);
-
-            if (InputWeightProvider != null)
-            {
-                BlendedAnimationLayer.RegisterInputWeightProvider(InputWeightProvider);
-            }
         }
 
         private void PlayTwoDBlendedAnimation(int layerID, TwoDAnimationInput TwoDAnimationInput, Func<Vector2> TwoDInputWiehgtProvider)
@@ -82,20 +76,14 @@ namespace AnimatorPlayable
                 this.DestroyLayer(layerID);
             }
 
-            TwoDBlendTree TwoDBlendTree = new TwoDBlendTree(layerID, this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable,
-                TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.ConvertAll(i => new TwoDBlendTreeAnimationClip(i.AnimationClip, i.TreePosition, i.Speed)));
-            TwoDBlendTree.Inputhandler = PlayableExtensions.AddInput(this.AnimationLayerMixerPlayable, TwoDBlendTree.AnimationMixerPlayable, 0);
+            TwoDBlendTree TwoDBlendTree = new TwoDBlendTree(layerID, this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, TwoDAnimationInput, TwoDInputWiehgtProvider);
+
             this.AllAnimationLayersCurrentlyPlaying[layerID] = TwoDBlendTree;
             this.OrderedByInputHandlerAnimationLayers.Add(TwoDBlendTree);
 
             this.SortLayers();
 
             PlayableExtensions.SetInputWeight(this.AnimationLayerMixerPlayable, this.AllAnimationLayersCurrentlyPlaying[layerID].Inputhandler, 1f);
-
-            if (TwoDAnimationInput != null)
-            {
-                TwoDBlendTree.Register2DTwoDInputWheigtProvider(TwoDInputWiehgtProvider);
-            }
         }
 
         private void PlaySequencedAnimation(int layerID, SequencedAnimationInput SequencedAnimationInput, Action OnAnimationEnd)
@@ -105,21 +93,14 @@ namespace AnimatorPlayable
                 this.DestroyLayer(layerID);
             }
 
-            var SequencedAnimationLayer = new SequencedAnimationLayer(this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, layerID,
-                SequencedAnimationInput.UniqueAnimationClips.ConvertAll(clip => clip.ToUniqueAnimationClip()),
-                SequencedAnimationInput.isInfinite, SequencedAnimationInput.BeginTransitionTime, SequencedAnimationInput.EndTransitionTime);
-            SequencedAnimationLayer.Inputhandler = PlayableExtensions.AddInput(this.AnimationLayerMixerPlayable, SequencedAnimationLayer.AnimationMixerPlayable, 0);
+            var SequencedAnimationLayer = new SequencedAnimationLayer(this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, layerID, SequencedAnimationInput, OnAnimationEnd);
+
             this.AllAnimationLayersCurrentlyPlaying[layerID] = SequencedAnimationLayer;
             this.OrderedByInputHandlerAnimationLayers.Add(SequencedAnimationLayer);
 
             this.SortLayers();
 
             PlayableExtensions.SetInputWeight(this.AnimationLayerMixerPlayable, SequencedAnimationLayer.Inputhandler, 1f);
-
-            if (OnAnimationEnd != null)
-            {
-                SequencedAnimationLayer.ReigsterOnSequencedAnimationEnd(OnAnimationEnd);
-            }
         }
 
         public void Tick(float d)
@@ -162,6 +143,18 @@ namespace AnimatorPlayable
                 var animationLayerDestroyed = this.AllAnimationLayersCurrentlyPlaying[layerID];
                 this.AllAnimationLayersCurrentlyPlaying.Remove(layerID);
                 animationLayerDestroyed.Destroy(this.AnimationLayerMixerPlayable);
+
+                /*
+                /// We must update Input handler reference because one layer has been destroyed
+                int destroyedInputHandler = animationLayerDestroyed.Inputhandler;
+                for (var i = 0; i < this.OrderedByInputHandlerAnimationLayers.Count; i++)
+                {
+                    if (this.OrderedByInputHandlerAnimationLayers[i].Inputhandler > destroyedInputHandler)
+                    {
+                        this.OrderedByInputHandlerAnimationLayers[i].Inputhandler -= 1;
+                    }
+                }
+                */
             }
         }
 
@@ -169,7 +162,7 @@ namespace AnimatorPlayable
         {
             if (this.AllAnimationLayersCurrentlyPlaying.Count > 1)
             {
-                bool layerRefreshNeeded = false;
+                //   bool layerRefreshNeeded = false;
                 bool isSorted = false;
                 while (!isSorted)
                 {
@@ -180,26 +173,25 @@ namespace AnimatorPlayable
                         {
                             if (this.OrderedByInputHandlerAnimationLayers[i].LayerID > this.OrderedByInputHandlerAnimationLayers[i + 1].LayerID)
                             {
+                                this.SwitchLayers(this.OrderedByInputHandlerAnimationLayers[i].LayerID, this.OrderedByInputHandlerAnimationLayers[i + 1].LayerID);
+
                                 var tmp = this.OrderedByInputHandlerAnimationLayers[i + 1];
                                 this.OrderedByInputHandlerAnimationLayers[i + 1] = this.OrderedByInputHandlerAnimationLayers[i];
                                 this.OrderedByInputHandlerAnimationLayers[i] = tmp;
-
-                                var tmpInputHandler = this.OrderedByInputHandlerAnimationLayers[i + 1].Inputhandler;
-                                this.OrderedByInputHandlerAnimationLayers[i + 1].Inputhandler = this.OrderedByInputHandlerAnimationLayers[i].Inputhandler;
-                                this.OrderedByInputHandlerAnimationLayers[i].Inputhandler = tmpInputHandler;
                                 isSorted = false;
-                                layerRefreshNeeded = true;
                                 break;
                             }
                         }
                     }
                 }
 
+                /*
                 if (layerRefreshNeeded)
                 {
-                    foreach (var animationLayer in AllAnimationLayersCurrentlyPlaying)
+                    foreach (var animationLayer in OrderedByInputHandlerAnimationLayers)
                     {
-                        this.AnimationLayerMixerPlayable.DisconnectInput(animationLayer.Value.Inputhandler);
+                        Debug.Log("Disconnect : " + animationLayer.Inputhandler);
+                        this.AnimationLayerMixerPlayable.DisconnectInput(animationLayer.Inputhandler);
                     }
 
                     foreach (var orderedByInputHandlerAnimationLayer in this.OrderedByInputHandlerAnimationLayers)
@@ -207,16 +199,50 @@ namespace AnimatorPlayable
                         this.AnimationLayerMixerPlayable.ConnectInput(orderedByInputHandlerAnimationLayer.Inputhandler, orderedByInputHandlerAnimationLayer.GetEntryPointMixerPlayable(), 0);
                     }
                 }
+                */
             }
         }
 
         private void SwitchLayers(int leftLayerID, int rightLayerID)
         {
+            var isLeftLayerAdditive = this.AllAnimationLayersCurrentlyPlaying[leftLayerID].IsLayerAdditive();
+            var leftLayerMark = this.AllAnimationLayersCurrentlyPlaying[leftLayerID].GetLayerAvatarMask();
+
+            var isRightLiayerAdditive = this.AllAnimationLayersCurrentlyPlaying[rightLayerID].IsLayerAdditive();
+            var rightLayermask = this.AllAnimationLayersCurrentlyPlaying[rightLayerID].GetLayerAvatarMask();
+
+            var leftWeight = this.AnimationLayerMixerPlayable.GetInputWeight(this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler);
+            var rightWeight = this.AnimationLayerMixerPlayable.GetInputWeight(this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler);
+
             this.AnimationLayerMixerPlayable.DisconnectInput(this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler);
             this.AnimationLayerMixerPlayable.DisconnectInput(this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler);
 
             this.AnimationLayerMixerPlayable.ConnectInput(this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler, AllAnimationLayersCurrentlyPlaying[leftLayerID].GetEntryPointMixerPlayable(), 0);
             this.AnimationLayerMixerPlayable.ConnectInput(this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler, AllAnimationLayersCurrentlyPlaying[rightLayerID].GetEntryPointMixerPlayable(), 0);
+
+            this.AnimationLayerMixerPlayable.SetInputWeight(this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler, rightWeight);
+            this.AnimationLayerMixerPlayable.SetInputWeight(this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler, leftWeight);
+            
+            this.AnimationLayerMixerPlayable.SetLayerAdditive((uint) this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler, isRightLiayerAdditive);
+            this.AnimationLayerMixerPlayable.SetLayerAdditive((uint) this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler, isLeftLayerAdditive);
+
+            if (rightLayermask != null)
+            {
+                this.AnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler, rightLayermask);
+            }
+            else
+            {
+                this.AnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler, new AvatarMask());
+            }
+
+            if (leftLayerMark != null)
+            {
+                this.AnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler, leftLayerMark);
+            }
+            else
+            {
+                this.AnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler, new AvatarMask());
+            }
 
             var leftLayerInputHandler = AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler;
             AllAnimationLayersCurrentlyPlaying[leftLayerID].Inputhandler = this.AllAnimationLayersCurrentlyPlaying[rightLayerID].Inputhandler;
@@ -236,17 +262,12 @@ namespace AnimatorPlayable
         public abstract void Tick(float d);
         public abstract bool AskedToBeDestoyed();
 
-        public virtual void RegisterInputWeightProvider(Func<float> InputWeightProvider)
-        {
-        }
-
-        public virtual void ReigsterOnSequencedAnimationEnd(Action OnSequencedAnimationEnd)
-        {
-        }
-
         protected AnimationLayerMixerPlayable ParentAnimationLayerMixerPlayable;
 
         public abstract AnimationMixerPlayable GetEntryPointMixerPlayable();
+
+        public abstract AvatarMask GetLayerAvatarMask();
+        public abstract bool IsLayerAdditive();
 
         protected MyAnimationLayer(int LayerID, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable)
         {
@@ -256,8 +277,9 @@ namespace AnimatorPlayable
 
         public virtual void Destroy(AnimationLayerMixerPlayable AnimationLayerMixerPlayable)
         {
-            PlayableExtensions.DisconnectInput(AnimationLayerMixerPlayable, this.Inputhandler);
-            AnimationLayerMixerPlayable.SetInputCount(AnimationLayerMixerPlayable.GetInputCount() - 1);
+            AnimationLayerMixerPlayable.DisconnectInput(this.Inputhandler);
+            //    PlayableExtensions.DisconnectInput(AnimationLayerMixerPlayable, this.Inputhandler);
+            //     AnimationLayerMixerPlayable.SetInputCount(AnimationLayerMixerPlayable.GetInputCount() - 1);
         }
     }
 }

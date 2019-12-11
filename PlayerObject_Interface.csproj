@@ -623,6 +623,10 @@
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
+    <ProjectReference Include="AnimatorPlayable.csproj">
+      <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
+      <Name>AnimatorPlayable</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

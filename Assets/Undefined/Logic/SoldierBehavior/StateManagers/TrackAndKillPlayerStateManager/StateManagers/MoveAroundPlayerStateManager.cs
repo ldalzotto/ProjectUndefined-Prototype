@@ -26,12 +26,12 @@ namespace SoliderAIBehavior
         /// <summary>
         /// When the SightDirection has been found <see cref="ComputeSightDirectionForTheQueriedDirection"/>, the final SightDirection orientation
         /// is offsted by this constant. This is to avoid the Agent to move around the player and stop at the exact line of sight to the Player.
-        /// Stopping at the exact line of sight to the Player may cause that when the <see cref="TrackAndKillPlayerBehavior"/> switches state
+        /// Stopping at the exact line of sight to the Player may cause that when the <see cref="TrackAndKillPlayerStateBehavior"/> switches state
         /// to <see cref="TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER"/>, the projectile volume is not entering in contact with an obstacle.
         /// </summary>
         private const float DeltaAngleWhenSightDirectionIsComputed = 20f;
 
-        private TrackAndKillPlayerBehavior TrackAndKillPlayerBehaviorRef;
+        private TrackAndKillPlayerStateBehavior _trackAndKillPlayerStateBehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
@@ -44,11 +44,11 @@ namespace SoliderAIBehavior
         private GameObject TmpLastPlayerSeenPositionGameObject;
 
 
-        public MoveAroundPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
+        public MoveAroundPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerStateBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
             WeaponFiringAreaSystem WeaponFiringAreaSystem,
             MoveAroundPlayerStateManagerExternalCallbacks MoveAroundPlayerStateManagerExternalCallbacks)
         {
-            TrackAndKillPlayerBehaviorRef = trackAndKillPlayerBehaviorRef;
+            _trackAndKillPlayerStateBehaviorRef = trackAndKillPlayerStateBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.MoveAroundPlayerStateManagerExternalCallbacks = MoveAroundPlayerStateManagerExternalCallbacks;
@@ -76,13 +76,13 @@ namespace SoliderAIBehavior
                         AIMovementSpeedAttenuationFactor.RUN) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
-                    this.TrackAndKillPlayerBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+                    this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
                 }
             }
             else
             {
                 Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
-                this.TrackAndKillPlayerBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+                this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
             }
         }
 
@@ -93,18 +93,18 @@ namespace SoliderAIBehavior
             if (SoldierAIBehaviorUtil.PlayerInSightButNoObstaclesBetween(this.PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem))
             {
                 Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to SHOOTING_AT_PLAYER"));
-                this.TrackAndKillPlayerBehaviorRef.SetState(TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER);
+                this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER);
             }
         }
 
         /// <summary>
-        /// If this method is called, this means that the <see cref="TrackAndKillPlayerBehavior"/> haven't seen the Player after it's movement.
+        /// If this method is called, this means that the <see cref="TrackAndKillPlayerStateBehavior"/> haven't seen the Player after it's movement.
         /// We consider that the Player is lost -> switch to <see cref="TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION"/>.
         /// </summary>
         public override void OnDestinationReached()
         {
             Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
-            this.TrackAndKillPlayerBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+            this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
         }
 
         public override void OnStateExit()

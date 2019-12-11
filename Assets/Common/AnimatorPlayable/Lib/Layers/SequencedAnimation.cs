@@ -13,9 +13,7 @@ namespace AnimatorPlayable
 
         public AnimationMixerPlayable AnimationMixerPlayable { get; private set; }
 
-        private bool isInfinite;
-        private float BeginTransitionTime;
-        private float EndTransitionTime;
+        private SequencedAnimationInput SequencedAnimationInput;
 
         private bool IsTransitioningIn;
         private bool IsTransitioningOut;
@@ -24,31 +22,43 @@ namespace AnimatorPlayable
 
         private Action OnSequencedAnimationEnd;
 
-        public SequencedAnimationLayer(PlayableGraph playableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable,
-            int layerId, List<UniqueAnimationClip> uniqueAnimationClips, bool isInfinite, float BeginTransitionTime, float EndTransitionTime) : base(layerId, parentAnimationLayerMixerPlayable)
+        public SequencedAnimationLayer(PlayableGraph playableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable, int layerId,
+            SequencedAnimationInput SequencedAnimationInput, Action OnAnimationEnd) : base(layerId, parentAnimationLayerMixerPlayable)
         {
-            this.isInfinite = isInfinite;
-            this.UniqueAnimationClips = uniqueAnimationClips;
-            this.BeginTransitionTime = BeginTransitionTime;
-            this.EndTransitionTime = EndTransitionTime;
+            this.SequencedAnimationInput = SequencedAnimationInput;
+            this.UniqueAnimationClips = SequencedAnimationInput.UniqueAnimationClips.ConvertAll(clip => clip.ToUniqueAnimationClip());
             this.IsTransitioningIn = false;
             this.IsTransitioningOut = false;
             this.HasEnded = false;
 
             this.AnimationMixerPlayable = AnimationMixerPlayable.Create(playableGraph);
-            this.AssociatedAnimationClipsPlayable = new AnimationClipPlayable[uniqueAnimationClips.Count];
+            this.AssociatedAnimationClipsPlayable = new AnimationClipPlayable[this.UniqueAnimationClips.Count];
 
-            for (var i = 0; i < uniqueAnimationClips.Count; i++)
+            this.Inputhandler = PlayableExtensions.AddInput(this.ParentAnimationLayerMixerPlayable, this.AnimationMixerPlayable, 0);
+
+            if (SequencedAnimationInput.AvatarMask != null)
             {
-                this.AssociatedAnimationClipsPlayable[i] = AnimationClipPlayable.Create(playableGraph, uniqueAnimationClips[i].AnimationClip);
-                PlayableExtensions.SetDuration(this.AssociatedAnimationClipsPlayable[i], uniqueAnimationClips[i].AnimationClip.length);
+                this.ParentAnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.Inputhandler, SequencedAnimationInput.AvatarMask);
+            }
+
+            this.ParentAnimationLayerMixerPlayable.SetLayerAdditive((uint) this.Inputhandler, SequencedAnimationInput.IsAdditive);
+
+            if (OnAnimationEnd != null)
+            {
+                this.OnSequencedAnimationEnd = OnAnimationEnd;
+            }
+
+            for (var i = 0; i < this.UniqueAnimationClips.Count; i++)
+            {
+                this.AssociatedAnimationClipsPlayable[i] = AnimationClipPlayable.Create(playableGraph, this.UniqueAnimationClips[i].AnimationClip);
+                PlayableExtensions.SetDuration(this.AssociatedAnimationClipsPlayable[i], this.UniqueAnimationClips[i].AnimationClip.length);
                 this.AssociatedAnimationClipsPlayable[i].SetApplyFootIK(false);
                 this.AssociatedAnimationClipsPlayable[i].SetApplyPlayableIK(false);
                 this.AssociatedAnimationClipsPlayable[i].Pause();
-                uniqueAnimationClips[i].InputHandler = PlayableExtensions.AddInput(this.AnimationMixerPlayable, this.AssociatedAnimationClipsPlayable[i], 0);
+                this.UniqueAnimationClips[i].InputHandler = PlayableExtensions.AddInput(this.AnimationMixerPlayable, this.AssociatedAnimationClipsPlayable[i], 0);
             }
 
-            if (this.BeginTransitionTime > 0f)
+            if (this.SequencedAnimationInput.BeginTransitionTime > 0f)
             {
                 this.IsTransitioningIn = true;
             }
@@ -62,11 +72,11 @@ namespace AnimatorPlayable
             float virtualClipElapsedTime = 0f;
 
 
-            for (var i = 0; i < uniqueAnimationClips.Count; i++)
+            for (var i = 0; i < this.UniqueAnimationClips.Count; i++)
             {
                 if (i == 0)
                 {
-                    virtualClipElapsedTime = this.BeginTransitionTime;
+                    virtualClipElapsedTime = this.SequencedAnimationInput.BeginTransitionTime;
                     this.UniqueAnimationClips[i].TransitionBlending = this.UniqueAnimationClips[i].TransitionBlending.SetWeightTimePoints(
                         AnimationWeightStartIncreasingTime: virtualClipElapsedTime,
                         AnimationWeightEndIncreasingTime: virtualClipElapsedTime,
@@ -104,11 +114,6 @@ namespace AnimatorPlayable
             PlayableExtensions.SetTime(this.AnimationMixerPlayable, 0);
         }
 
-        public override void ReigsterOnSequencedAnimationEnd(Action OnSequencedAnimationEnd)
-        {
-            this.OnSequencedAnimationEnd = OnSequencedAnimationEnd;
-        }
-
         public override void Tick(float d)
         {
             if (!this.HasEnded)
@@ -116,7 +121,7 @@ namespace AnimatorPlayable
                 var elapsedTime = PlayableExtensions.GetTime(this.AnimationMixerPlayable);
                 if (this.IsTransitioningIn)
                 {
-                    float weightSetted = Mathf.Clamp01((float) elapsedTime / this.BeginTransitionTime);
+                    float weightSetted = Mathf.Clamp01((float) elapsedTime / this.SequencedAnimationInput.BeginTransitionTime);
                     SetAnimationMixerPlayableWeight(this.AnimationMixerPlayable, this.AssociatedAnimationClipsPlayable[0], this.UniqueAnimationClips[0].InputHandler, 1f);
                     this.AssociatedAnimationClipsPlayable[0].Pause();
                     PlayableExtensions.SetInputWeight(this.ParentAnimationLayerMixerPlayable, this.Inputhandler, weightSetted);
@@ -129,7 +134,7 @@ namespace AnimatorPlayable
                 }
                 else if (this.IsTransitioningOut)
                 {
-                    float weightSetted = Mathf.Clamp01(((this.EndTransitionTime - ((float) elapsedTime - this.TransitioningOutStartTime)) / this.EndTransitionTime));
+                    float weightSetted = Mathf.Clamp01(((this.SequencedAnimationInput.EndTransitionTime - ((float) elapsedTime - this.TransitioningOutStartTime)) / this.SequencedAnimationInput.EndTransitionTime));
 
                     this.AssociatedAnimationClipsPlayable[this.AssociatedAnimationClipsPlayable.Length - 1].SetTime(this.AssociatedAnimationClipsPlayable[this.AssociatedAnimationClipsPlayable.Length - 1].GetDuration());
                     PlayableExtensions.SetInputWeight(this.ParentAnimationLayerMixerPlayable, this.Inputhandler, weightSetted);
@@ -162,7 +167,7 @@ namespace AnimatorPlayable
 
                     if (!atLeastOneClipIsPlaying)
                     {
-                        if (this.EndTransitionTime > 0f && !this.isInfinite)
+                        if (this.SequencedAnimationInput.EndTransitionTime > 0f && !this.SequencedAnimationInput.isInfinite)
                         {
                             //  Debug.Break();
                             this.IsTransitioningOut = true;
@@ -197,12 +202,22 @@ namespace AnimatorPlayable
 
         public override bool AskedToBeDestoyed()
         {
-            return this.HasEnded && !this.isInfinite;
+            return this.HasEnded && !this.SequencedAnimationInput.isInfinite;
         }
 
         public override AnimationMixerPlayable GetEntryPointMixerPlayable()
         {
             return this.AnimationMixerPlayable;
+        }
+
+        public override AvatarMask GetLayerAvatarMask()
+        {
+            return this.SequencedAnimationInput.AvatarMask;
+        }
+
+        public override bool IsLayerAdditive()
+        {
+            return this.SequencedAnimationInput.IsAdditive;
         }
 
         public override void Destroy(AnimationLayerMixerPlayable AnimationLayerMixerPlayable)

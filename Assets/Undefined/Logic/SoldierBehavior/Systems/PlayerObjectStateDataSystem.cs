@@ -26,7 +26,7 @@ namespace SoliderAIBehavior
         public LastPlayerSeenPosition LastPlayerSeenPosition { get; private set; }
         public BoolVariable IsPlayerInSight { get; private set; }
         public bool HasPlayerBeenSeenAtLeastOneTime;
-        private SoldierAIBehavior SoldierAIBehaviorRef;
+        private SoldierStateBehavior _soldierStateBehaviorRef;
 
         private Action<CoreInteractiveObject> OnPlayerObjectJustOnSightAction;
         private Action<CoreInteractiveObject> OnPlayerObjectJustOutOfSightAction;

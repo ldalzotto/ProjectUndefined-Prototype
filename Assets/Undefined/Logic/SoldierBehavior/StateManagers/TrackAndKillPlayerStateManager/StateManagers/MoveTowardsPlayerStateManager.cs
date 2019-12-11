@@ -23,14 +23,14 @@ namespace SoliderAIBehavior
     /// </summary>
     class MoveTowardsPlayerStateManager : SoldierStateManager
     {
-        private TrackAndKillPlayerBehavior TrackAndKillAIbehaviorRef;
+        private TrackAndKillPlayerStateBehavior TrackAndKillAIbehaviorRef;
         private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private MoveTowardsPlayerStateManagerExternalCallbacks MoveTowardsPlayerStateManagerExternalCallbacks;
 
-        public MoveTowardsPlayerStateManager(TrackAndKillPlayerBehavior trackAndKillAIbehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
+        public MoveTowardsPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillAIbehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem,
             MoveTowardsPlayerStateManagerExternalCallbacks MoveTowardsPlayerStateManagerExternalCallbacks)
         {

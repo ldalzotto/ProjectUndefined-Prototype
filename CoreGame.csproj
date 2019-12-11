@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Common\~CoreGame\Behavior\StateBehavior.cs" />
      <Compile Include="Assets\Common\~CoreGame\Configuration\GameConfiguration.cs" />
      <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForEndOfAnimation.cs" />
      <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForListOfAsyncOperation.cs" />
@@ -111,6 +112,7 @@
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
      <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
      <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
+     <Compile Include="Assets\Test\PlayableGraphConnectionTest\PlayableGraphConnectionTest.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\_Shader\ToonUnlit\ToonLibrary\ToonSpecular.hlsl" />

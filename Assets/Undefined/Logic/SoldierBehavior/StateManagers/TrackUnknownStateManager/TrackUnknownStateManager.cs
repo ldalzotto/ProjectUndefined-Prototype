@@ -14,26 +14,26 @@ namespace SoliderAIBehavior
 
     public class TrackUnknownStateManager : SoldierStateManager
     {
-        [VE_Nested] private TrackUnknownBehavior TrackUnknownBehavior;
+        [VE_Nested] private TrackUnknownStateBehavior _trackUnknownStateBehavior;
 
         public TrackUnknownStateManager(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
         {
-            this.TrackUnknownBehavior = new TrackUnknownBehavior();
-            this.TrackUnknownBehavior.Init(associatedInteractiveObject, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks);
+            this._trackUnknownStateBehavior = new TrackUnknownStateBehavior();
+            this._trackUnknownStateBehavior.Init(associatedInteractiveObject, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks);
         }
 
         public override void Tick(float d)
         {
             base.Tick(d);
-            this.TrackUnknownBehavior.Tick(d);
+            this._trackUnknownStateBehavior.Tick(d);
         }
 
         #region External Health Events
 
         public override void DamageDealt(CoreInteractiveObject DamageDealerInteractiveObject)
         {
-            this.TrackUnknownBehavior.DamageDealt(DamageDealerInteractiveObject);
+            this._trackUnknownStateBehavior.DamageDealt(DamageDealerInteractiveObject);
         }
 
         #endregion
@@ -43,16 +43,16 @@ namespace SoliderAIBehavior
         public override void OnDestinationReached()
         {
             base.OnDestinationReached();
-            this.TrackUnknownBehavior.OnDestinationReached();
+            this._trackUnknownStateBehavior.OnDestinationReached();
         }
 
         #endregion
     }
 
     /// <summary>
-    /// The <see cref="SoldierAIBehavior"/> will move in direction of interest direction calculated by <see cref="TrackUnknownInterestDirectionSystem"/>.
+    /// The <see cref="SoldierStateBehavior"/> will move in direction of interest direction calculated by <see cref="TrackUnknownInterestDirectionSystem"/>.
     /// </summary>
-    public class TrackUnknownBehavior : AIBehavior<TrackUnknownStateEnum, SoldierStateManager>
+    public class TrackUnknownStateBehavior : StateBehavior<TrackUnknownStateEnum, SoldierStateManager>
     {
         private TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem;
 

@@ -18,8 +18,10 @@ namespace InteractiveObject_Animation
     public enum AnimationLayerID
     {
         LocomotionLayer,
+        LocomotionLayer_Lower,
         LocomotionLayer_1,
         LocomotionLayer_2,
+        LocomotionLayer_3,
         ContextActionLayer
     }
 
@@ -28,8 +30,9 @@ namespace InteractiveObject_Animation
         public static Dictionary<AnimationLayerID, AnimationLayer> AnimationLayers = new Dictionary<AnimationLayerID, AnimationLayer>()
         {
             {AnimationLayerID.LocomotionLayer, new AnimationLayer(0)},
-            {AnimationLayerID.LocomotionLayer_1, new AnimationLayer(1)},
-            {AnimationLayerID.LocomotionLayer_2, new AnimationLayer(2)},
+            {AnimationLayerID.LocomotionLayer_Lower, new AnimationLayer(1)},
+            {AnimationLayerID.LocomotionLayer_1, new AnimationLayer(2)},
+            {AnimationLayerID.LocomotionLayer_2, new AnimationLayer(3)},
             {AnimationLayerID.ContextActionLayer, new AnimationLayer(10)}
         };
     }

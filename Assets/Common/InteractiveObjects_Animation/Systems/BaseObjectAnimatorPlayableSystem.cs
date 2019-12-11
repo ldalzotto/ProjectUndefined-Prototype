@@ -10,10 +10,11 @@ namespace InteractiveObject_Animation
 
         private Vector2 normalizedObjectSpeed;
 
-        public BaseObjectAnimatorPlayableSystem(AnimationController AnimationController, A_AnimationPlayableDefinition LocomotionAnimationDefinition)
+        public BaseObjectAnimatorPlayableSystem(AnimationController AnimationController, A_AnimationPlayableDefinition UpperBodyLocomotion, A_AnimationPlayableDefinition LowerBodyLocomotion)
         {
             this.AnimationControllerRef = AnimationController;
-            this.AnimationControllerRef.PlayLocomotionAnimation(LocomotionAnimationDefinition.GetAnimationInput(), TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
+            this.AnimationControllerRef.PlayLocomotionAnimationOverride(UpperBodyLocomotion.GetAnimationInput(), AnimationLayerID.LocomotionLayer, TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
+            this.AnimationControllerRef.PlayLocomotionAnimationOverride(LowerBodyLocomotion.GetAnimationInput(), AnimationLayerID.LocomotionLayer_Lower, TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
         }
 
         public void PlayLocomotionAnimationOverride(A_AnimationPlayableDefinition LocomotionAnimationDefinition, AnimationLayerID overrideLayer)

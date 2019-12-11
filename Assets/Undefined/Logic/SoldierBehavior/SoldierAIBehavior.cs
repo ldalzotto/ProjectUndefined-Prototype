@@ -45,7 +45,7 @@ namespace SoliderAIBehavior
         }
     }
 
-    public class SoldierAIBehavior : AIBehavior<SoldierAIStateEnum, SoldierStateManager>
+    public class SoldierStateBehavior : StateBehavior<SoldierAIStateEnum, SoldierStateManager>
     {
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
@@ -119,7 +119,7 @@ namespace SoliderAIBehavior
 
         /// <summary>
         /// When a <see cref="SoldierStateManager"/> call this event, this means that nothings has happened and he wants
-        /// to return to <see cref="SoldierAIBehavior"/> default state.
+        /// to return to <see cref="SoldierStateBehavior"/> default state.
         /// </summary>
         private void OnAnySubBehaviorAskedToExit()
         {
@@ -159,24 +159,24 @@ namespace SoliderAIBehavior
 
         public static class SoldierAIExternalCallbacksStructureConverter
         {
-            public static TrackAndKillPlayerStateManagerExternalCallbacks Map2TrackAndKillPlayerStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks, SoldierAIBehavior SoldierAIBehavior)
+            public static TrackAndKillPlayerStateManagerExternalCallbacks Map2TrackAndKillPlayerStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks, SoldierStateBehavior soldierStateBehavior)
             {
                 return new TrackAndKillPlayerStateManagerExternalCallbacks(
                     SoldierAIBehaviorExternalCallbacks.SetAIAgentDestinationAction,
                     SoldierAIBehaviorExternalCallbacks.ClearAIAgentPathAction,
                     SoldierAIBehaviorExternalCallbacks.AskToFireAFiredProjectile_WithTargetPosition_Action,
                     SoldierAIBehaviorExternalCallbacks.GetWeaponFirePointOriginLocalDefinitionAction,
-                    SoldierAIBehavior.OnAnySubBehaviorAskedToExit,
+                    soldierStateBehavior.OnAnySubBehaviorAskedToExit,
                     SoldierAIBehaviorExternalCallbacks.OnShootingAtPlayerStartAction,
                     SoldierAIBehaviorExternalCallbacks.OnShootingAtPlayerEndAction
                 );
             }
 
-            public static TrackUnknownStateManagerExternalCallbacks Map2TrackUnknownStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks, SoldierAIBehavior SoldierAIBehavior)
+            public static TrackUnknownStateManagerExternalCallbacks Map2TrackUnknownStateManagerExternalCallbacks(SoldierAIBehaviorExternalCallbacks SoldierAIBehaviorExternalCallbacks, SoldierStateBehavior soldierStateBehavior)
             {
                 return new TrackUnknownStateManagerExternalCallbacks(
                     SoldierAIBehaviorExternalCallbacks.SetAIAgentDestinationAction,
-                    SoldierAIBehavior.OnAnySubBehaviorAskedToExit
+                    soldierStateBehavior.OnAnySubBehaviorAskedToExit
                 );
             }
         }
@@ -185,7 +185,7 @@ namespace SoliderAIBehavior
     /// <summary>
     /// Base class of all Solider AI <see cref="StateManager"/>. It defines common events functions that can be implemented
     /// by any <see cref="StateManager"/>.
-    /// This is to avoid having branching condition when an event is emitted to <see cref="SoldierAIBehavior"/>
+    /// This is to avoid having branching condition when an event is emitted to <see cref="SoldierStateBehavior"/>
     /// </summary>
     public abstract class SoldierStateManager : StateManager
     {

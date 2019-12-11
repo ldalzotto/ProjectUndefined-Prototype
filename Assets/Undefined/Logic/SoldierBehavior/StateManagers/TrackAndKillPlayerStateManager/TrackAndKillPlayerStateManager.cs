@@ -32,50 +32,50 @@ namespace SoliderAIBehavior
     public class TrackAndKillPlayerStateManager : SoldierStateManager
     {
         [VE_Nested]
-        private TrackAndKillPlayerBehavior TrackAndKillPlayerBehavior;
+        private TrackAndKillPlayerStateBehavior _trackAndKillPlayerStateBehavior;
 
         public TrackAndKillPlayerStateManager(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             PlayerObjectStateDataSystem PlayerObjectStateDataSystem,
             TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
         {
-            this.TrackAndKillPlayerBehavior = new TrackAndKillPlayerBehavior();
-            this.TrackAndKillPlayerBehavior.Init(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks);
+            this._trackAndKillPlayerStateBehavior = new TrackAndKillPlayerStateBehavior();
+            this._trackAndKillPlayerStateBehavior.Init(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks);
         }
 
         public override void Tick(float d)
         {
             base.Tick(d);
-            this.TrackAndKillPlayerBehavior.Tick(d);
+            this._trackAndKillPlayerStateBehavior.Tick(d);
         }
 
         /// <summary>
-        /// Incrementing the <see cref="TrackAndKillPlayerBehavior"/> to it's first state
+        /// Incrementing the <see cref="_trackAndKillPlayerStateBehavior"/> to it's first state
         /// </summary>
         public override void OnStateEnter()
         {
-            this.TrackAndKillPlayerBehavior.OnParentStateManagerEnter();
-            this.TrackAndKillPlayerBehavior.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
+            this._trackAndKillPlayerStateBehavior.OnParentStateManagerEnter();
+            this._trackAndKillPlayerStateBehavior.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
         }
 
         /// <summary>
-        /// Resetting <see cref="TrackAndKillPlayerBehavior"/> to it's starting state
+        /// Resetting <see cref="_trackAndKillPlayerStateBehavior"/> to it's starting state
         /// </summary>
         public override void OnStateExit()
         {
-            this.TrackAndKillPlayerBehavior.OnParentStateManagerExit();
-            this.TrackAndKillPlayerBehavior.SetState(TrackAndKillPlayerStateEnum.LISTENING);
+            this._trackAndKillPlayerStateBehavior.OnParentStateManagerExit();
+            this._trackAndKillPlayerStateBehavior.SetState(TrackAndKillPlayerStateEnum.LISTENING);
         }
 
         #region Internal Sight Events
 
         public override void OnPlayerObjectJustOnSight(CoreInteractiveObject InSightInteractiveObject)
         {
-            this.TrackAndKillPlayerBehavior.GetCurrentStateManager().OnPlayerObjectJustOnSight(InSightInteractiveObject);
+            this._trackAndKillPlayerStateBehavior.GetCurrentStateManager().OnPlayerObjectJustOnSight(InSightInteractiveObject);
         }
 
         public override void OnPlayerObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)
         {
-            this.TrackAndKillPlayerBehavior.GetCurrentStateManager().OnPlayerObjectJustOutOfSight(NotInSightInteractiveObject);
+            this._trackAndKillPlayerStateBehavior.GetCurrentStateManager().OnPlayerObjectJustOutOfSight(NotInSightInteractiveObject);
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace SoliderAIBehavior
 
         public override void OnDestinationReached()
         {
-            this.TrackAndKillPlayerBehavior.GetCurrentStateManager().OnDestinationReached();
+            this._trackAndKillPlayerStateBehavior.GetCurrentStateManager().OnDestinationReached();
         }
 
         #endregion
@@ -95,7 +95,7 @@ namespace SoliderAIBehavior
     /// <see cref="TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION"/>.
     /// And shoot to it when in range <see cref="TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER"/>.
     /// </summary>
-    public class TrackAndKillPlayerBehavior : AIBehavior<TrackAndKillPlayerStateEnum, SoldierStateManager>
+    public class TrackAndKillPlayerStateBehavior : StateBehavior<TrackAndKillPlayerStateEnum, SoldierStateManager>
     {
         
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
@@ -8,19 +9,20 @@ namespace AnimatorPlayable
     public class BlendedAnimationLayer : MyAnimationLayer
     {
         public List<BlendedAnimationClip> BlendedAnimationClips;
-        private BlendedAnimationSpeedCurve BlendedAnimationSpeedCurve;
+        private BlendedAnimationInput BlendedAnimationInput;
         public AnimationMixerPlayable AnimationMixerPlayable { get; private set; }
         private Func<float> inputWeightProvider;
 
         public BlendedAnimationLayer(PlayableGraph PlayableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable,
-            int layerId, List<BlendedAnimationClip> blendedAnimationClips, BlendedAnimationSpeedCurve BlendedAnimationSpeedCurve) : base(layerId, parentAnimationLayerMixerPlayable)
+            int layerId, BlendedAnimationInput BlendedAnimationInput, Func<float> InputWeightProvider) : base(layerId, parentAnimationLayerMixerPlayable)
         {
-            BlendedAnimationClips = blendedAnimationClips;
-            this.BlendedAnimationSpeedCurve = BlendedAnimationSpeedCurve;
+            this.BlendedAnimationInput = BlendedAnimationInput;
+            this.BlendedAnimationClips = BlendedAnimationInput.BlendedAnimationClips.ConvertAll(i => i.ToBlendedAnimationClip());
+     
             //create a playable mixer
             this.AnimationMixerPlayable = AnimationMixerPlayable.Create(PlayableGraph);
 
-            foreach (var blendedAnimationClip in blendedAnimationClips)
+            foreach (var blendedAnimationClip in  this.BlendedAnimationClips)
             {
                 var animationClipPlayable = AnimationClipPlayable.Create(PlayableGraph, blendedAnimationClip.AnimationClip);
                 animationClipPlayable.SetApplyFootIK(false);
@@ -31,52 +33,60 @@ namespace AnimatorPlayable
             }
 
             //calculate blendings
-            for (var i = 0; i < blendedAnimationClips.Count; i++)
+            for (var i = 0; i <  this.BlendedAnimationClips.Count; i++)
             {
                 if (i == 0)
                 {
-                    blendedAnimationClips[i].Blending = blendedAnimationClips[i].Blending.SetWeightTimePoints(
+                    this.BlendedAnimationClips[i].Blending =  this.BlendedAnimationClips[i].Blending.SetWeightTimePoints(
                         AnimationWeightStartIncreasingTime: 0f,
-                        AnimationWeightEndIncreasingTime: blendedAnimationClips[i].WeightTime,
-                        AnimationWeightStartDecreasingTime: blendedAnimationClips[i].WeightTime,
-                        AnimationWeightEndDecreasingTime: blendedAnimationClips[i + 1].WeightTime
+                        AnimationWeightEndIncreasingTime:  this.BlendedAnimationClips[i].WeightTime,
+                        AnimationWeightStartDecreasingTime:  this.BlendedAnimationClips[i].WeightTime,
+                        AnimationWeightEndDecreasingTime:  this.BlendedAnimationClips[i + 1].WeightTime
                     );
                 }
-                else if (i == blendedAnimationClips.Count - 1)
+                else if (i ==  this.BlendedAnimationClips.Count - 1)
                 {
-                    blendedAnimationClips[i].Blending = blendedAnimationClips[i].Blending.SetWeightTimePoints(
-                        AnimationWeightStartIncreasingTime: blendedAnimationClips[i - 1].WeightTime,
-                        AnimationWeightEndIncreasingTime: blendedAnimationClips[i].WeightTime,
-                        AnimationWeightStartDecreasingTime: blendedAnimationClips[i].WeightTime,
+                    this.BlendedAnimationClips[i].Blending =  this.BlendedAnimationClips[i].Blending.SetWeightTimePoints(
+                        AnimationWeightStartIncreasingTime:  this.BlendedAnimationClips[i - 1].WeightTime,
+                        AnimationWeightEndIncreasingTime:  this.BlendedAnimationClips[i].WeightTime,
+                        AnimationWeightStartDecreasingTime:  this.BlendedAnimationClips[i].WeightTime,
                         AnimationWeightEndDecreasingTime: 1f
                     );
                 }
                 else
                 {
-                    blendedAnimationClips[i].Blending = blendedAnimationClips[i].Blending.SetWeightTimePoints(
-                        AnimationWeightStartIncreasingTime: blendedAnimationClips[i - 1].WeightTime,
-                        AnimationWeightEndIncreasingTime: blendedAnimationClips[i].WeightTime,
-                        AnimationWeightStartDecreasingTime: blendedAnimationClips[i].WeightTime,
-                        AnimationWeightEndDecreasingTime: blendedAnimationClips[i + 1].WeightTime
+                    this.BlendedAnimationClips[i].Blending =  this.BlendedAnimationClips[i].Blending.SetWeightTimePoints(
+                        AnimationWeightStartIncreasingTime:  this.BlendedAnimationClips[i - 1].WeightTime,
+                        AnimationWeightEndIncreasingTime:  this.BlendedAnimationClips[i].WeightTime,
+                        AnimationWeightStartDecreasingTime:  this.BlendedAnimationClips[i].WeightTime,
+                        AnimationWeightEndDecreasingTime:  this.BlendedAnimationClips[i + 1].WeightTime
                     );
                 }
             }
+            
+            this.Inputhandler = PlayableExtensions.AddInput(parentAnimationLayerMixerPlayable, this.AnimationMixerPlayable, 0);
+            parentAnimationLayerMixerPlayable.SetLayerAdditive((uint) layerId, BlendedAnimationInput.IsAdditive);
+            if (BlendedAnimationInput.AvatarMask != null)
+            {
+                parentAnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) layerId, BlendedAnimationInput.AvatarMask);
+            }
+            
+            if (InputWeightProvider != null)
+            {
+                this.inputWeightProvider = InputWeightProvider;
+            }
+
         }
 
         private float oldWeightEvaluation = -1f;
-
-        public override void RegisterInputWeightProvider(Func<float> InputWeightProvider)
-        {
-            this.inputWeightProvider = InputWeightProvider;
-        }
 
         public override void Tick(float d)
         {
             if (this.oldWeightEvaluation != this.inputWeightProvider())
             {
-                if (this.BlendedAnimationSpeedCurve.BlendedSpeedCurveEnabled)
+                if (this.BlendedAnimationInput.BlendedAnimationSpeedCurve.BlendedSpeedCurveEnabled)
                 {
-                    float sampledSpeed = this.BlendedAnimationSpeedCurve.SpeedCurve.Evaluate(this.inputWeightProvider());
+                    float sampledSpeed = this.BlendedAnimationInput.BlendedAnimationSpeedCurve.SpeedCurve.Evaluate(this.inputWeightProvider());
                     foreach (var blendedAnimationClip in BlendedAnimationClips)
                     {
                         blendedAnimationClip.SetSpeed(sampledSpeed);
@@ -100,6 +110,16 @@ namespace AnimatorPlayable
         public override AnimationMixerPlayable GetEntryPointMixerPlayable()
         {
             return this.AnimationMixerPlayable;
+        }
+
+        public override AvatarMask GetLayerAvatarMask()
+        {
+            return this.BlendedAnimationInput.AvatarMask;
+        }
+
+        public override bool IsLayerAdditive()
+        {
+            return false;
         }
     }
 }

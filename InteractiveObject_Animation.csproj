@@ -60,6 +60,8 @@
      <Compile Include="Assets\Common\InteractiveObjects_Animation\AnimationController\AnimationController.cs" />
      <Compile Include="Assets\Common\InteractiveObjects_Animation\AnimationLayer.cs" />
      <Compile Include="Assets\Common\InteractiveObjects_Animation\Systems\BaseObjectAnimatorPlayableSystem.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects_Animation\Systems\CommonBipedAnimatorBehavior.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects_Animation\Systems\CommonBipedAnimatorBehaviorDefinition.cs" />
      <Compile Include="Assets\Common\InteractiveObjects_Animation\Systems\LocalCutscenePlayerSystem.cs" />
      <None Include="Assets\Common\InteractiveObjects_Animation\InteractiveObject_Animation.asmdef" />
  <Reference Include="UnityEditor.UI">

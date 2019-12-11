@@ -25,11 +25,11 @@ namespace SoliderAIBehavior
     /// </summary>
     public class MoveToLastSeenPlayerPositionStateManager : SoldierStateManager
     {
-        private TrackAndKillPlayerBehavior TrackAndKillPlayerbehaviorRef;
+        private TrackAndKillPlayerStateBehavior TrackAndKillPlayerbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks;
 
-        public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
+        public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
             MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks)
         {
             TrackAndKillPlayerbehaviorRef = trackAndKillPlayerbehaviorRef;

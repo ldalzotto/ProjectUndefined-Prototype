@@ -10,15 +10,18 @@ namespace AnimatorPlayable
     {
         public AnimationMixerPlayable AnimationMixerPlayable { get; private set; }
 
+        private TwoDAnimationInput TwoDAnimationInput;
+        
         private List<TwoDBlendTreeAnimationClip> TwoDBlendTreeAnimationClips;
         private Vector2[] TwoDBlendTreeAnimationClipsPositions;
         private float[] Weights;
         private Func<Vector2> TwoDInputWheigtProvider;
 
         public TwoDBlendTree(int layerId, PlayableGraph PlayableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable,
-            List<TwoDBlendTreeAnimationClip> TwoDBlendTreeAnimationClips) : base(layerId, parentAnimationLayerMixerPlayable)
+            TwoDAnimationInput TwoDAnimationInput, Func<Vector2> TwoDInputWiehgtProvider) : base(layerId, parentAnimationLayerMixerPlayable)
         {
-            this.TwoDBlendTreeAnimationClips = TwoDBlendTreeAnimationClips;
+            this.TwoDAnimationInput = TwoDAnimationInput;
+            this.TwoDBlendTreeAnimationClips = TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.ConvertAll(i => new TwoDBlendTreeAnimationClip(i.AnimationClip, i.TreePosition, i.Speed));
             this.TwoDBlendTreeAnimationClipsPositions = this.TwoDBlendTreeAnimationClips.ConvertAll(c => c.TreePosition).ToArray();
             this.Weights = new float[this.TwoDBlendTreeAnimationClipsPositions.Length];
 
@@ -35,12 +38,13 @@ namespace AnimatorPlayable
                 PlayableExtensions.Play(animationClipPlayable);
                 TwoDBlendTreeAnimationClip.AnimationClipPlayable = animationClipPlayable;
             }
-        }
 
-
-        public void Register2DTwoDInputWheigtProvider(Func<Vector2> TwoDInputWheigtProvider)
-        {
-            this.TwoDInputWheigtProvider = TwoDInputWheigtProvider;
+            this.Inputhandler = PlayableExtensions.AddInput(parentAnimationLayerMixerPlayable, this.AnimationMixerPlayable, 0);
+            if (TwoDAnimationInput.AvatarMask != null)
+            {
+                parentAnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.Inputhandler, TwoDAnimationInput.AvatarMask);
+            }
+            this.TwoDInputWheigtProvider = TwoDInputWiehgtProvider;
         }
 
         public override void Tick(float d)
@@ -60,6 +64,16 @@ namespace AnimatorPlayable
         public override AnimationMixerPlayable GetEntryPointMixerPlayable()
         {
             return this.AnimationMixerPlayable;
+        }
+
+        public override AvatarMask GetLayerAvatarMask()
+        {
+            return this.TwoDAnimationInput.AvatarMask;
+        }
+
+        public override bool IsLayerAdditive()
+        {
+            return false;
         }
     }
 
