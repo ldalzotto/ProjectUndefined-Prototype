@@ -14,14 +14,11 @@ public class PlayableGraphConnectionTest : MonoBehaviour
 
     public bool Switch;
 
-    /*
     public bool Add;
     public bool Destroy;
     public int Index;
-*/
 
-    private AnimationMixerPlayable InitialFirst;
-    private AnimationClipPlayable InitialSecond;
+    private List<IPlayable> Layers = new List<IPlayable>();
 
     void Start()
     {
@@ -34,14 +31,19 @@ public class PlayableGraphConnectionTest : MonoBehaviour
         var playableOutput = AnimationPlayableOutput.Create(this.PlayableGraph, "Animation", animator);
         playableOutput.SetSourcePlayable(this.AnimationLayerMixerPlayable);
 
-        this.InitialFirst = AnimationMixerPlayable.Create(this.PlayableGraph);
-        this.InitialFirst.AddInput(AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip), 0);
-        this.InitialFirst.AddInput(AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip), 0);
+        this.Layers.Add(AnimationMixerPlayable.Create(this.PlayableGraph));
+        ((AnimationMixerPlayable) this.Layers[0]).AddInput(AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip), 0);
+        ((AnimationMixerPlayable) this.Layers[0]).AddInput(AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip), 0);
 
-        this.InitialSecond = AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip);
+        this.Layers.Add(AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip));
 
-        this.AnimationLayerMixerPlayable.AddInput(this.InitialFirst, 0);
-        this.AnimationLayerMixerPlayable.AddInput(this.InitialSecond, 0);
+
+        this.Layers.Add(AnimationMixerPlayable.Create(this.PlayableGraph));
+        ((AnimationMixerPlayable) this.Layers[2]).AddInput(AnimationClipPlayable.Create(this.PlayableGraph, this.FakeClip), 0);
+
+        this.AnimationLayerMixerPlayable.AddInput((Playable) this.Layers[0], 0);
+        this.AnimationLayerMixerPlayable.AddInput((Playable) this.Layers[1], 0);
+        this.AnimationLayerMixerPlayable.AddInput((Playable) this.Layers[2], 0);
 
         this.PlayableGraph.Play();
     }
@@ -55,13 +57,16 @@ public class PlayableGraphConnectionTest : MonoBehaviour
             this.AnimationLayerMixerPlayable.DisconnectInput(0);
             this.AnimationLayerMixerPlayable.DisconnectInput(1);
 
-            this.AnimationLayerMixerPlayable.ConnectInput(0, this.InitialSecond, 0);
-            this.AnimationLayerMixerPlayable.ConnectInput(1, this.InitialFirst, 0);
-            
-            //this.AnimationLayerMixerPlayable.SetInputCount(0);
+            this.AnimationLayerMixerPlayable.ConnectInput(0, (Playable) this.Layers[1], 0);
+            this.AnimationLayerMixerPlayable.ConnectInput(1, (Playable) this.Layers[0], 0);
+        }
 
-            //this.AnimationLayerMixerPlayable.AddInput(this.InitialSecond, 0);
-            //this.AnimationLayerMixerPlayable.AddInput(this.InitialFirst, 0);
+        if (this.Destroy)
+        {
+            this.Destroy = false;
+            var inputCount = this.AnimationLayerMixerPlayable.GetInputCount();
+            this.AnimationLayerMixerPlayable.GetGraph().Disconnect(this.AnimationLayerMixerPlayable, this.Index);
+            this.AnimationLayerMixerPlayable.SetInputCount(inputCount - 1);
         }
 
         /*
