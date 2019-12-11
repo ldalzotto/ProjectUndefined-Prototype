@@ -25,7 +25,7 @@ namespace AnimatorPlayable
             this.GlobalPlayableGraph.Play();
         }
 
-        public void PlayAnimation(int layerID, IAnimationInput animationInput, Action OnAnimationEnd = null, Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
+        public void PlayAnimation(int layerID, IAnimationInput animationInput, Action OnAnimationEnd = null, Func<float> InputWeightProvider = null)
         {
             if (animationInput.AnimationInputType == AnimationInputType.SEQUENCED)
             {
@@ -37,7 +37,7 @@ namespace AnimatorPlayable
             }
             else if (animationInput.AnimationInputType == AnimationInputType.TWODBLENDED)
             {
-                this.PlayTwoDBlendedAnimation(layerID, animationInput as TwoDAnimationInput, TwoDInputWheigtProvider);
+                this.PlayTwoDBlendedAnimation(layerID, animationInput as TwoDAnimationInput);
             }
         }
 
@@ -69,14 +69,14 @@ namespace AnimatorPlayable
             PlayableExtensions.SetInputWeight(this.AnimationLayerMixerPlayable, this.AllAnimationLayersCurrentlyPlaying[layerID].Inputhandler, 1f);
         }
 
-        private void PlayTwoDBlendedAnimation(int layerID, TwoDAnimationInput TwoDAnimationInput, Func<Vector2> TwoDInputWiehgtProvider)
+        private void PlayTwoDBlendedAnimation(int layerID, TwoDAnimationInput TwoDAnimationInput)
         {
             if (this.AllAnimationLayersCurrentlyPlaying.ContainsKey(layerID))
             {
                 this.DestroyLayer(layerID);
             }
 
-            TwoDBlendTree TwoDBlendTree = new TwoDBlendTree(layerID, this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, TwoDAnimationInput, TwoDInputWiehgtProvider);
+            TwoDBlendTree TwoDBlendTree = new TwoDBlendTree(layerID, this.GlobalPlayableGraph, this.AnimationLayerMixerPlayable, TwoDAnimationInput);
 
             this.AllAnimationLayersCurrentlyPlaying[layerID] = TwoDBlendTree;
             this.OrderedByInputHandlerAnimationLayers.Add(TwoDBlendTree);
@@ -132,6 +132,11 @@ namespace AnimatorPlayable
         public void SetSpeed(float speed)
         {
             this.AnimationLayerMixerPlayable.SetSpeed(speed);
+        }
+
+        public void SetTwoDInputWeight(int layerId, Vector2 inputWeight)
+        {
+            this.AllAnimationLayersCurrentlyPlaying[layerId].SetTwoDInputWeight(inputWeight);
         }
 
         public void DestroyLayer(int layerID)
@@ -274,12 +279,12 @@ namespace AnimatorPlayable
             this.LayerID = LayerID;
             ParentAnimationLayerMixerPlayable = parentAnimationLayerMixerPlayable;
         }
+        
+        public virtual void SetTwoDInputWeight(Vector2 inputWeihgt){}
 
         public virtual void Destroy(AnimationLayerMixerPlayable AnimationLayerMixerPlayable)
         {
             AnimationLayerMixerPlayable.DisconnectInput(this.Inputhandler);
-            //    PlayableExtensions.DisconnectInput(AnimationLayerMixerPlayable, this.Inputhandler);
-            //     AnimationLayerMixerPlayable.SetInputCount(AnimationLayerMixerPlayable.GetInputCount() - 1);
         }
     }
 }

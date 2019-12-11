@@ -48,29 +48,29 @@ namespace InteractiveObject_Animation
             }
         }
 
-        public void PlayAnimationV2(int LayerID, IAnimationInput Animation, Action OnAnimationEnd = null, Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
+        public void PlayAnimationV2(int LayerID, IAnimationInput Animation, Action OnAnimationEnd = null, Func<float> InputWeightProvider = null)
         {
-            this.AnimatorPlayableObject.PlayAnimation(LayerID, Animation, OnAnimationEnd, InputWeightProvider, TwoDInputWheigtProvider);
+            this.AnimatorPlayableObject.PlayAnimation(LayerID, Animation, OnAnimationEnd, InputWeightProvider);
         }
 
         /// <summary>
         /// Plays an <see cref="IAnimationInput"/> to the layer <see cref="AnimationLayerID.LocomotionLayer"/>
         /// </summary>
         /// <param name="LocomotionAnimation">The played animation</param>
-        public void PlayLocomotionAnimation(IAnimationInput LocomotionAnimation, Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
+        public void PlayLocomotionAnimation(IAnimationInput LocomotionAnimation, Func<float> InputWeightProvider = null)
         {
             this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[AnimationLayerID.LocomotionLayer].ID, LocomotionAnimation,
-                InputWeightProvider: InputWeightProvider, TwoDInputWheigtProvider: TwoDInputWheigtProvider);
+                InputWeightProvider: InputWeightProvider);
         }
 
         /// <summary>
         /// Plays an <see cref="IAnimationInput"/> to a layer after <see cref="AnimationLayerID.LocomotionLayer"/>.
         /// </summary>
         public void PlayLocomotionAnimationOverride(IAnimationInput LocomotionAnimation, AnimationLayerID overrideLayer,
-            Func<float> InputWeightProvider = null, Func<Vector2> TwoDInputWheigtProvider = null)
+            Func<float> InputWeightProvider = null)
         {
             this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[overrideLayer].ID, LocomotionAnimation,
-                InputWeightProvider: InputWeightProvider, TwoDInputWheigtProvider: TwoDInputWheigtProvider);
+                InputWeightProvider: InputWeightProvider);
         }
 
         /// <summary>
@@ -92,11 +92,17 @@ namespace InteractiveObject_Animation
         {
             this.AnimatorPlayableObject.DestroyLayer(AnimationLayerStatic.AnimationLayers[animationLayer].ID);
         }
+
         public void DestroyAnimationLayerV2(int animationLayer)
         {
             this.AnimatorPlayableObject.DestroyLayer(animationLayer);
         }
-        
+
+        public void SetTwoDInputWeight(int layerID, Vector2 inputWeight)
+        {
+            this.AnimatorPlayableObject.SetTwoDInputWeight(layerID, inputWeight);
+        }
+
         private void OnAnimationFinished(Action parentCallback)
         {
             this.RootMotionEnabled.SetValue(false);

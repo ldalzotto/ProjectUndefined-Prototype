@@ -115,11 +115,9 @@ namespace PlayerObject
         public A_AnimationPlayableDefinition InjuredLocomotionAnimation { get; set; }
     }
 
-    abstract class PlayerObjectLocomotionStateManager : StateManager
+    public abstract class PlayerObjectLocomotionStateManager : StateManager
     {
-        public virtual void SetUnscaledObjectLocalDirection(Vector3 localDirection)
-        {
-        }
+       public virtual void SetUnscaledObjectLocalDirection(Vector3 localDirection){}
     }
 
     class PlayerObjectLocomotionDummyStateManager : PlayerObjectLocomotionStateManager
@@ -136,25 +134,20 @@ namespace PlayerObject
             this.LocomotionSystem = LocomotionSystem;
             AnimationControllerRef = animationControllerRef;
         }
-
-        private Vector2 normalizedObjectSpeed;
-
+        
         public override void OnStateEnter()
         {
-            base.OnStateEnter();
-            this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), this.LocomotionSystem.DefaultLocomotionAnimation.GetAnimationInput(),
-                TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
+            this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), this.LocomotionSystem.DefaultLocomotionAnimation.GetAnimationInput());
         }
 
         public override void OnStateExit()
         {
-            base.OnStateExit();
             this.AnimationControllerRef.DestroyAnimationLayerV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION));
         }
 
         public override void SetUnscaledObjectLocalDirection(Vector3 localDirection)
         {
-            this.normalizedObjectSpeed = new Vector2(localDirection.x, localDirection.z);
+            this.AnimationControllerRef.SetTwoDInputWeight(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), new Vector2(localDirection.x, localDirection.z));
         }
     }
 
@@ -169,24 +162,19 @@ namespace PlayerObject
             AnimationControllerRef = animationControllerRef;
         }
 
-        private Vector2 normalizedObjectSpeed;
-
         public override void OnStateEnter()
         {
-            base.OnStateEnter();
-            this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), this.LocomotionSystem.InjuredLocomotionAnimation.GetAnimationInput(),
-                TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
+            this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), this.LocomotionSystem.InjuredLocomotionAnimation.GetAnimationInput());
         }
 
         public override void OnStateExit()
         {
-            base.OnStateExit();
             this.AnimationControllerRef.DestroyAnimationLayerV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION));
         }
 
         public override void SetUnscaledObjectLocalDirection(Vector3 localDirection)
         {
-            this.normalizedObjectSpeed = new Vector2(localDirection.x, localDirection.z);
+            this.AnimationControllerRef.SetTwoDInputWeight(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), new Vector2(localDirection.x, localDirection.z));
         }
     }
 
@@ -262,13 +250,11 @@ namespace PlayerObject
 
         public override void OnStateEnter()
         {
-            base.OnStateEnter();
             this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.TARGETTING_UPPER_BODY_POSE), this.OverridingSystem.StartTargettingPoseAnimation.GetAnimationInput());
         }
 
         public override void OnStateExit()
         {
-            base.OnStateExit();
             this.AnimationControllerRef.DestroyAnimationLayerV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.TARGETTING_UPPER_BODY_POSE));
         }
     }

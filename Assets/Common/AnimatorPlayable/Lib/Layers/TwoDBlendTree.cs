@@ -15,10 +15,11 @@ namespace AnimatorPlayable
         private List<TwoDBlendTreeAnimationClip> TwoDBlendTreeAnimationClips;
         private Vector2[] TwoDBlendTreeAnimationClipsPositions;
         private float[] Weights;
-        private Func<Vector2> TwoDInputWheigtProvider;
+
+        private Vector2 TwoDInputWeight;
 
         public TwoDBlendTree(int layerId, PlayableGraph PlayableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable,
-            TwoDAnimationInput TwoDAnimationInput, Func<Vector2> TwoDInputWiehgtProvider) : base(layerId, parentAnimationLayerMixerPlayable)
+            TwoDAnimationInput TwoDAnimationInput) : base(layerId, parentAnimationLayerMixerPlayable)
         {
             this.TwoDAnimationInput = TwoDAnimationInput;
             this.TwoDBlendTreeAnimationClips = TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.ConvertAll(i => new TwoDBlendTreeAnimationClip(i.AnimationClip, i.TreePosition, i.Speed));
@@ -44,12 +45,11 @@ namespace AnimatorPlayable
             {
                 parentAnimationLayerMixerPlayable.SetLayerMaskFromAvatarMask((uint) this.Inputhandler, TwoDAnimationInput.AvatarMask);
             }
-            this.TwoDInputWheigtProvider = TwoDInputWiehgtProvider;
         }
 
         public override void Tick(float d)
         {
-            FreeformDirectionalInterpolator.SampleWeightsPolar(this.TwoDInputWheigtProvider.Invoke(), this.TwoDBlendTreeAnimationClipsPositions, ref this.Weights);
+            FreeformDirectionalInterpolator.SampleWeightsPolar(this.TwoDInputWeight, this.TwoDBlendTreeAnimationClipsPositions, ref this.Weights);
             for (var i = 0; i < this.Weights.Length; i++)
             {
                 this.AnimationMixerPlayable.SetInputWeight(this.TwoDBlendTreeAnimationClips[i].InputHandler, this.Weights[i]);
@@ -59,6 +59,11 @@ namespace AnimatorPlayable
         public override bool AskedToBeDestoyed()
         {
             return false;
+        }
+
+        public override void SetTwoDInputWeight(Vector2 inputWeihgt)
+        {
+            this.TwoDInputWeight = inputWeihgt;
         }
 
         public override AnimationMixerPlayable GetEntryPointMixerPlayable()
@@ -76,60 +81,5 @@ namespace AnimatorPlayable
             return false;
         }
     }
-
-    /*
-    public class TwoDBlendTree : MyAnimationLayer
-    {
-        public AnimationMixerPlayable AnimationMixerPlayable { get; private set; }
-
-        private List<TwoDBlendTreeAnimationClip> TwoDBlendTreeAnimationClips;
-        private Vector2[] TwoDBlendTreeAnimationClipsPositions;
-        private float[] Weights;
-        private Func<Vector2> TwoDInputWheigtProvider;
-
-        public TwoDBlendTree(int LayerID, PlayableGraph PlayableGraph, List<TwoDBlendTreeAnimationClip> TwoDBlendTreeAnimationClips,
-            AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable) : base(LayerID, parentAnimationLayerMixerPlayable)
-        {
-            this.AnimationMixerPlayable = AnimationMixerPlayable.Create(PlayableGraph);
-            this.TwoDBlendTreeAnimationClips = TwoDBlendTreeAnimationClips;
-            this.TwoDBlendTreeAnimationClipsPositions = this.TwoDBlendTreeAnimationClips.ConvertAll(c => c.TreePosition).ToArray();
-            this.Weights = new float[this.TwoDBlendTreeAnimationClipsPositions.Length];
-            foreach (var TwoDBlendTreeAnimationClip in TwoDBlendTreeAnimationClips)
-            {
-                var animationClipPlayable = AnimationClipPlayable.Create(PlayableGraph, TwoDBlendTreeAnimationClip.AnimationClip);
-                animationClipPlayable.SetApplyFootIK(false);
-                animationClipPlayable.SetApplyPlayableIK(false);
-                TwoDBlendTreeAnimationClip.InputHandler = PlayableExtensions.AddInput(this.AnimationMixerPlayable, animationClipPlayable, 0);
-                PlayableExtensions.Play(animationClipPlayable);
-                TwoDBlendTreeAnimationClip.AnimationClipPlayable = animationClipPlayable;
-            }
-
-            this.AnimationMixerPlayable.Play();
-        }
-
-        public void Register2DTwoDInputWheigtProvider(Func<Vector2> TwoDInputWheigtProvider)
-        {
-            this.TwoDInputWheigtProvider = TwoDInputWheigtProvider;
-        }
-
-        public override void Tick(float d)
-        {
-            FreeformDirectionalInterpolator.SampleWeightsPolar(this.TwoDInputWheigtProvider.Invoke(), this.TwoDBlendTreeAnimationClipsPositions, ref this.Weights);
-            for (var i = 0; i < this.Weights.Length; i++)
-            {
-                this.AnimationMixerPlayable.SetInputWeight(this.TwoDBlendTreeAnimationClips[i].InputHandler, this.Weights[i]);
-            }
-        }
-
-        public override bool AskedToBeDestoyed()
-        {
-            return false;
-        }
-
-        public override AnimationMixerPlayable GetEntryPointMixerPlayable()
-        {
-            return this.AnimationMixerPlayable;
-        }
-    }
-    */
+    
 }

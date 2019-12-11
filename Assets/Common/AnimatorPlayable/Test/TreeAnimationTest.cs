@@ -12,17 +12,14 @@ namespace UnityEngine.Rendering
         private void Start()
         {
             this.AnimatorPlayableObject = new AnimatorPlayableObject("Test", this.GetComponent<Animator>());
-            this.AnimatorPlayableObject.PlayAnimation(0, TwoDBlendTreePlayableDefinition.GetAnimationInput(), null, null, TwoDInputWheigtProvider);
+            this.AnimatorPlayableObject.PlayAnimation(0, TwoDBlendTreePlayableDefinition.GetAnimationInput(), null, null);
         }
 
         private void Update()
         {
+            this.AnimatorPlayableObject.SetTwoDInputWeight(0, this.Input);
             this.AnimatorPlayableObject.Tick(Time.deltaTime);
         }
 
-        private Vector2 TwoDInputWheigtProvider()
-        {
-            return this.Input;
-        }
     }
 }

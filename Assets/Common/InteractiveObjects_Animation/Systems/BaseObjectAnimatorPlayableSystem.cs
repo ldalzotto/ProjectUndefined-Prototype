@@ -8,23 +8,16 @@ namespace InteractiveObject_Animation
     {
         private AnimationController AnimationControllerRef;
 
-        private Vector2 normalizedObjectSpeed;
-
-        public BaseObjectAnimatorPlayableSystem(AnimationController AnimationController, A_AnimationPlayableDefinition UpperBodyLocomotion, A_AnimationPlayableDefinition LowerBodyLocomotion)
+        public BaseObjectAnimatorPlayableSystem(AnimationController AnimationController, A_AnimationPlayableDefinition BipedLocomotion)
         {
             this.AnimationControllerRef = AnimationController;
-            this.AnimationControllerRef.PlayLocomotionAnimationOverride(UpperBodyLocomotion.GetAnimationInput(), AnimationLayerID.LocomotionLayer, TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
-            this.AnimationControllerRef.PlayLocomotionAnimationOverride(LowerBodyLocomotion.GetAnimationInput(), AnimationLayerID.LocomotionLayer_Lower, TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
-        }
-
-        public void PlayLocomotionAnimationOverride(A_AnimationPlayableDefinition LocomotionAnimationDefinition, AnimationLayerID overrideLayer)
-        {
-            this.AnimationControllerRef.PlayLocomotionAnimationOverride(LocomotionAnimationDefinition.GetAnimationInput(), overrideLayer, TwoDInputWheigtProvider: () => this.normalizedObjectSpeed);
+            this.AnimationControllerRef.PlayAnimationV2(AnimationLayerStatic.AnimationLayers[AnimationLayerID.LocomotionLayer].ID, BipedLocomotion.GetAnimationInput());
         }
 
         public void SetUnscaledObjectLocalDirection(Vector3 localDirection)
         {
-            this.normalizedObjectSpeed = new Vector2(localDirection.x, localDirection.z);
+            Debug.Log(MyLog.Format(new Vector2(localDirection.x, localDirection.z)));
+            this.AnimationControllerRef.SetTwoDInputWeight(AnimationLayerStatic.AnimationLayers[AnimationLayerID.LocomotionLayer].ID, new Vector2(localDirection.x, localDirection.z));
         }
     }
 }

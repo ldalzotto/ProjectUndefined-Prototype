@@ -6,17 +6,17 @@ namespace InteractiveObject_Animation
 {
     public class TwoDObjectAnimationPlayableSystem
     {
-        private Vector2 CurrentSpeed;
+        private AnimatorPlayableObject AnimatorPlayableObjectRef;
 
         public TwoDObjectAnimationPlayableSystem(AnimatorPlayableObject AnimatorPlayableObject, A_AnimationPlayableDefinition Blendtree)
         {
-            AnimatorPlayableObject.PlayAnimation(0, Blendtree.GetAnimationInput(),
-                TwoDInputWheigtProvider: () => this.CurrentSpeed);
+            this.AnimatorPlayableObjectRef = AnimatorPlayableObject;
+            AnimatorPlayableObject.PlayAnimation(0, Blendtree.GetAnimationInput());
         }
 
         public void SetCurrentSpeed(Vector2 CurrentSpeed)
         {
-            this.CurrentSpeed = CurrentSpeed;
+            this.AnimatorPlayableObjectRef.SetTwoDInputWeight(0, CurrentSpeed);
         }
     }
 }

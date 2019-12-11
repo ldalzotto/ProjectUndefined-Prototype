@@ -29,8 +29,7 @@ namespace PlayerObject
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
 
-        [Inline(CreateAtSameLevelIfAbsent = true)]
-        public CommonBipedAnimatorBehaviorDefinition CommonBipedAnimatorBehaviorDefinition;
+        [Inline()] public A_AnimationPlayableDefinition BaseLocomotionAnimationDefinition;
         
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
         public PlayerActionInherentData FiringPlayerActionInherentData;
