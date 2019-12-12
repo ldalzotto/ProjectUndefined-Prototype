@@ -32,6 +32,7 @@ namespace AnimatorPlayable
     public class TwoDAnimationInput : IAnimationInput
     {
         public AnimationInputType AnimationInputType { get; private set; } = AnimationInputType.TWODBLENDED;
+        [ReorderableList()]
         public List<TwoDBlendTreeAnimationClipInput> TwoDBlendTreeAnimationClipInputs;
         public AvatarMask AvatarMask;
     }
