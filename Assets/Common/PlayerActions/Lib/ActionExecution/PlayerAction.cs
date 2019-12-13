@@ -48,7 +48,8 @@ namespace PlayerActions
         {
         }
 
-        public abstract void Tick(float d);
+        public abstract void BeforePlayerTick(float d);
+        public abstract void AfterPlayerTick(float d);
         public abstract void LateTick(float d);
         public abstract void GUITick();
         public abstract void GizmoTick();

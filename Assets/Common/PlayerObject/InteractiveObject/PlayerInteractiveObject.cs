@@ -118,13 +118,14 @@ namespace PlayerObject
                 this.projectileDeflectionSystem.FixedTick(d);
             }
 
+            PlayerActionTriggering();
+
             playerMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
 
         public override void Tick(float d)
         {
-            base.Tick(d);
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
             {
@@ -133,19 +134,22 @@ namespace PlayerObject
 
             PlayerActionTriggering();
             UpdatePlayerMovement(d);
-            this.PlayerObjectAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
         }
 
         public override void AfterTicks(float d)
         {
             this.ObjectMovementSpeedSystem.AfterTicks();
             this.playerMoveManager.AfterTicks();
+
+            this.PlayerObjectAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
+            base.UpdateAniamtions(d);
         }
 
         public override void LateTick(float d)
         {
             base.LateTick(d);
             this.projectileDeflectionSystem.LateTick(d);
+            this.playerMoveManager.LateTick(d);
         }
 
         /// <summary>
@@ -163,6 +167,9 @@ namespace PlayerObject
             }
         }
 
+        /// <summary>
+        /// /!\ The update of player movements must be applied after every logic (that may apply <see cref="PlayerMovementConstraint"/>).
+        /// </summary>
         private void UpdatePlayerMovement(float d)
         {
             if (BlockingCutscenePlayer.Playing || this.PlayerActionEntryPoint.IsSelectionWheelEnabled() || (this.PlayerActionEntryPoint.IsActionExecuting() && !this.PlayerActionEntryPoint.DoesCurrentActionAllowsMovement()))
@@ -293,6 +300,11 @@ namespace PlayerObject
         public void OnPlayerStoppedTargetting()
         {
             this.PlayerObjectAnimationStateManager.EndTargetting();
+        }
+
+        public void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint)
+        {
+            this.playerMoveManager.SetConstraintForThisFrame(PlayerMovementConstraint);
         }
 
         #endregion

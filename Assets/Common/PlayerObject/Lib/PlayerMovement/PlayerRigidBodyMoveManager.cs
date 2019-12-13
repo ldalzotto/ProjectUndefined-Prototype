@@ -1,6 +1,7 @@
 ﻿using Input;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using PlayerObject_Interfaces;
 using UnityEngine;
 using UnityEngine.Jobs;
 
@@ -25,38 +26,73 @@ namespace PlayerObject
             this.GameInputManager = GameInputManager.Get();
             this.ObjectMovementSpeedSystemRef = ObjectMovementSpeedSystemRef;
             this.CameraPivotPoint = cameraPivotPoint;
+            this.CurrentConstraint = new NoConstraint();
+        }
+
+        private bool physicsUpdated = false;
+
+        public override void FixedTick(float d)
+        {
+            this.DoCalculations();
         }
 
         public override void Tick(float d)
         {
             base.Tick(d);
-            this.ComputePlayerSpeed();
+            this.DoCalculations();
         }
 
-        private void ComputePlayerSpeed()
+        public override void LateTick(float d)
+        {
+            this.physicsUpdated = false;
+        }
+
+        private void DoCalculations()
+        {
+            if (!this.physicsUpdated)
+            {
+                this.physicsUpdated = true;
+
+                var inputDisplacementVector = UpdateDisplacementFromInput(out Vector3 playerMovementOrientation);
+
+                ApplyPlayerMovementConstraints();
+
+                this.ObjectMovementSpeedSystemRef.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
+
+                if (Time.inFixedTimeStep)
+                {
+                    //move rigid body
+                    PlayerRigidBody.velocity = this.ObjectMovementSpeedSystemRef.GetVelocity();
+                }
+            }
+        }
+
+        private void ApplyPlayerMovementConstraints()
+        {
+            this.CurrentConstraint.ApplyConstraint(ref this.PlayerRigidBody);
+            
+            /// Constraints are consumed every frame.
+            this.CurrentConstraint = new NoConstraint();
+        }
+
+        private Vector3 UpdateDisplacementFromInput(out Vector3 playerMovementOrientation)
         {
             var currentCameraAngle = CameraPivotPoint.transform.eulerAngles.y;
 
             var inputDisplacementVector = GameInputManager.CurrentInput.LocomotionAxis();
             var projectedDisplacement = Quaternion.Euler(0, currentCameraAngle, 0) * inputDisplacementVector;
 
-            var playerMovementOrientation = projectedDisplacement.normalized;
-
-            this.ObjectMovementSpeedSystemRef.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
-        }
+            playerMovementOrientation = projectedDisplacement.normalized;
 
 
-        public override void FixedTick(float d)
-        {
             //move rigid body rotation
-            if (Mathf.Abs(this.ObjectMovementSpeedSystemRef.GetSpeedMagnitude()) >= .05)
+            if (Mathf.Abs(projectedDisplacement.magnitude) >= .05)
             {
-                PlayerRigidBody.rotation = Quaternion.LookRotation(this.ObjectMovementSpeedSystemRef.GetWorldSpeedDirection());
+                PlayerRigidBody.transform.rotation = Quaternion.LookRotation(playerMovementOrientation);
                 //rotation will take place at the end of physics step https://docs.unity3d.com/ScriptReference/Rigidbody-rotation.html
             }
 
-            //move rigid body
-            PlayerRigidBody.velocity = this.ObjectMovementSpeedSystemRef.GetVelocity();
+            return inputDisplacementVector;
         }
     }
 }

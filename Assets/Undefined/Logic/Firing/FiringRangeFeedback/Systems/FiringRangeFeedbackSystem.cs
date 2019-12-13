@@ -10,33 +10,41 @@ using UnityEngine;
 namespace Firing
 {
     /// <summary>
-    /// Spawns a <see cref="_firingRangeFeedbackRangeObject"/> that will show where the Player is aiming at.
-    /// This is visualized by the model of <see cref="_firingRangeFeedbackRangeObject"/>.
+    /// Spawns a <see cref="firingRangeFeedbackRangeObject"/> that will show where the Player is aiming at.
+    /// This is visualized by the model of <see cref="firingRangeFeedbackRangeObject"/>.
     /// </summary>
     public struct FiringRangeFeedbackSystem
     {
+        public bool IsInitialized;
+
         private CoreInteractiveObject PlayerInteractiveObject;
         private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
 
-        private FiringRangeFeedbackRangeObject _firingRangeFeedbackRangeObject;
+        private FiringRangeFeedbackRangeObject firingRangeFeedbackRangeObject;
 
         public FiringRangeFeedbackSystem(CoreInteractiveObject playerInteractiveObject, TargettableInteractiveObjectSelectionManager targettableInteractiveObjectSelectionManager)
         {
+            IsInitialized = true;
             PlayerInteractiveObject = playerInteractiveObject;
             TargettableInteractiveObjectSelectionManager = targettableInteractiveObjectSelectionManager;
-            this._firingRangeFeedbackRangeObject = new FiringRangeFeedbackRangeObject(
+            this.firingRangeFeedbackRangeObject = new FiringRangeFeedbackRangeObject(
                 InteractiveGameObjectFactory.Build(new GameObject("FiringRangeFeedbackRangeObject")),
                 FiringRangeFeedbackConfigurationGameObject.Get().firingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
                 playerInteractiveObject);
 
-            this._firingRangeFeedbackRangeObject.InitializeRaybox(CalculateFiringTargetPosition());
+            this.firingRangeFeedbackRangeObject.InitializeRaybox(CalculateFiringTargetPosition());
         }
 
-        public void Tick(float d)
+        /// <summary>
+        /// The <see cref="FiringRangeFeedbackSystem"/> is updated after the player is updated because <see cref="PlayerObjectOrientationSystem"/> may apply player movement position constraints
+        /// that are computed during player object update.
+        /// The firing range feedback is thus calculated after player position has been updated. 
+        /// </summary>
+        public void AfterPlayerTick(float d)
         {
             var targetSegment = CalculateFiringTargetPosition();
 
-            this._firingRangeFeedbackRangeObject.Tick(d, targetSegment);
+            this.firingRangeFeedbackRangeObject.Tick(d, targetSegment);
         }
 
         /// <summary>
@@ -68,7 +76,7 @@ namespace Firing
 
         public void Dispose()
         {
-            this._firingRangeFeedbackRangeObject.Destroy();
+            this.firingRangeFeedbackRangeObject.Destroy();
         }
     }
 

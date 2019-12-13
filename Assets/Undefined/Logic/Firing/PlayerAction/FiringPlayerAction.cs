@@ -16,30 +16,34 @@ namespace Firing
         private IPlayerInteractiveObject IPlayerInteractiveObject;
         private FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
+        #region External Dependencies
+
+        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
+
+        #endregion
+
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
         private PlayerSpeedSystem PlayerSpeedSystem;
-        private FiringRangeFeedbackSystem _firingRangeFeedbackSystem;
+        private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
         {
             this.IPlayerInteractiveObject = PlayerInteractiveObject;
-            
+
             var PlayerCoreInteractiveObject = PlayerInteractiveObject as CoreInteractiveObject;
-            var targettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
-            this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), targettableInteractiveObjectSelectionManager);
-            
+            this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get(), this.TargettableInteractiveObjectSelectionManager);
+
             /// This is to change InteractiveObject rotation at the first frame of action execution
             this.PlayerObjectOrientationSystem.Tick(0f);
-            
-            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
+
+            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, this.TargettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
             this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
-            this._firingRangeFeedbackSystem = new FiringRangeFeedbackSystem(PlayerCoreInteractiveObject, targettableInteractiveObjectSelectionManager);
-            
+
             PlayerInteractiveObject.OnPlayerStartTargetting(this.FiringPlayerActionInherentData.FiringPoseAnimationV2);
         }
 
@@ -53,7 +57,15 @@ namespace Firing
             return this.ExitActionSystem.ActionFinished || base.FinishedCondition();
         }
 
-        public override void Tick(float d)
+        public override void FixedTick(float d)
+        {
+            if (!this.ExitActionSystem.ActionFinished)
+            {
+                this.PlayerObjectOrientationSystem.FixedTick(d);
+            }
+        }
+
+        public override void BeforePlayerTick(float d)
         {
             Profiler.BeginSample("FiringPlayerAction");
             this.ExitActionSystem.Tick(d);
@@ -61,24 +73,42 @@ namespace Firing
             {
                 this.PlayerObjectOrientationSystem.Tick(d);
                 this.FiringProjectileTriggerSystem.Tick(d);
-                this._firingRangeFeedbackSystem.Tick(d);
             }
 
             Profiler.EndSample();
+        }
+
+        public override void AfterPlayerTick(float d)
+        {
+            this.ExitActionSystem.Tick(d);
+            if (!this.ExitActionSystem.ActionFinished)
+            {
+                /// The FiringRangeFeedbackSystem is not initialized in the constructor to be sure that FiringRangeFeedbackSystem position initialization takes into account the computed position of the player
+                /// for the current frame.
+                if (!this.FiringRangeFeedbackSystem.IsInitialized)
+                {
+                    this.FiringRangeFeedbackSystem = new FiringRangeFeedbackSystem(this.IPlayerInteractiveObject as CoreInteractiveObject, this.TargettableInteractiveObjectSelectionManager);
+                }
+
+                this.FiringRangeFeedbackSystem.AfterPlayerTick(d);
+            }
+        }
+
+
+        public override void LateTick(float d)
+        {
+            this.PlayerObjectOrientationSystem.LateTick(d);
         }
 
         public override void Dispose()
         {
             this.PlayerObjectOrientationSystem.Dispose();
             this.PlayerSpeedSystem.Dispose();
-            this._firingRangeFeedbackSystem.Dispose();
-            
+            this.FiringRangeFeedbackSystem.Dispose();
+
             this.IPlayerInteractiveObject.OnPlayerStoppedTargetting();
         }
 
-        public override void LateTick(float d)
-        {
-        }
 
         public override void GUITick()
         {
@@ -96,6 +126,9 @@ namespace Firing
         private TargetCursorManager _targetCursorManagerRef;
         private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
 
+        private bool UpdatedThisFrame;
+
+
         public PlayerObjectOrientationSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorManager targetCursorManagerRef,
             TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager)
         {
@@ -104,16 +137,41 @@ namespace Firing
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
             this._targetCursorManagerRef = targetCursorManagerRef;
             this.TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager;
+            this.UpdatedThisFrame = false;
+        }
+
+
+        public void FixedTick(float d)
+        {
+            if (!UpdatedThisFrame)
+            {
+                UpdatedThisFrame = true;
+                UpdatePlayerRotationConstraint();
+            }
         }
 
         public void Tick(float d)
+        {
+            if (!UpdatedThisFrame)
+            {
+                UpdatedThisFrame = true;
+                UpdatePlayerRotationConstraint();
+            }
+        }
+
+        public void LateTick(float d)
+        {
+            this.UpdatedThisFrame = false;
+        }
+
+        private void UpdatePlayerRotationConstraint()
         {
             if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
             {
                 var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform;
                 var rotationAngle = Quaternion.LookRotation((this.TargettableInteractiveObjectSelectionManager.GetCurrentlyTargettedInteractiveObject().InteractiveGameObject.GetTransform().WorldPosition - playerTransform.position).normalized,
                     playerTransform.up).eulerAngles;
-                playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle.y, playerTransform.eulerAngles.z);
+                this.PlayerInteractiveObjectRef.SetConstraintForThisFrame(new LookDirectionConstraint(Quaternion.Euler(new Vector3(playerTransform.eulerAngles.x, rotationAngle.y, playerTransform.eulerAngles.z))));
             }
             else
             {
@@ -126,7 +184,8 @@ namespace Firing
                     var lookDirection = (projectedPosition - playerTransform.position).normalized;
 
                     var rotationAngle = Vector3.SignedAngle(Vector3.forward, lookDirection, playerTransform.up);
-                    playerTransform.eulerAngles = new Vector3(playerTransform.eulerAngles.x, rotationAngle, playerTransform.eulerAngles.z);
+
+                    this.PlayerInteractiveObjectRef.SetConstraintForThisFrame(new LookDirectionConstraint(Quaternion.Euler(new Vector3(playerTransform.eulerAngles.x, rotationAngle, playerTransform.eulerAngles.z))));
                 }
             }
         }

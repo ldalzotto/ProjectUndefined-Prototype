@@ -65,7 +65,7 @@ namespace TrainingLevel
                 this.AIMoveToDestinationSystem.Tick(d);
             }
 
-            base.Tick(d);
+            base.UpdateAniamtions(d);
         }
 
         public override void AfterTicks(float d)

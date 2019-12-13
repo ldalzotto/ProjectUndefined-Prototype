@@ -38,11 +38,16 @@ namespace PlayerActions
         {
         }
 
+        public override void AfterPlayerTick(float d)
+        {
+            
+        }
+
         public override void LateTick(float d)
         {
         }
 
-        public override void Tick(float d)
+        public override void BeforePlayerTick(float d)
         {
         }
     }

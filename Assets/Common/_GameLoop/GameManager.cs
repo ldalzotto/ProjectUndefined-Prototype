@@ -96,10 +96,12 @@ namespace GameLoop
 
                 BlockingCutscenePlayerManager.Get().Tick(d);
 
-                PlayerActionEntryPoint.Get().Tick(d);
+                PlayerActionEntryPoint.Get().BeforePlayerTick(d);
 
                 PlayerInteractiveObjectManager.Get().Tick(d);
                 PlayerInteractiveObjectManager.Get().AfterTicks(d);
+
+                PlayerActionEntryPoint.Get().AfterPlayerTick(d);
 
                 WeaponRecoilTimeManager.Get().Tick(d);
 

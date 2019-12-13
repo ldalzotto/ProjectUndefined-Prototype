@@ -30,10 +30,15 @@ namespace PlayerActions
             this.PlayerActionManager.FixedTick(d);
         }
         
-        public void Tick(float d)
+        public void BeforePlayerTick(float d)
         {
-            this.PlayerActionManager.Tick(d);
+            this.PlayerActionManager.BeforePlayerTick(d);
             this.PlayerActionWheelManager.Tick(d);
+        }
+
+        public void AfterPlayerTick(float d)
+        {
+            this.PlayerActionManager.AfterPlayerTick(d);
         }
 
         public void LateTick(float d)

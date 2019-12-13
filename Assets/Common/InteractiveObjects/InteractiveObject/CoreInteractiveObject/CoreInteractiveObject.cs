@@ -83,10 +83,14 @@ namespace InteractiveObjects
         {
         }
 
-        public virtual void Tick(float d)
+        protected void UpdateAniamtions(float d)
         {
             this.AnimatorPlayable?.Tick(d);
             this.AnimationController.Tick(d);
+        }
+
+        public virtual void Tick(float d)
+        {
         }
 
         public virtual void AfterTicks(float d)

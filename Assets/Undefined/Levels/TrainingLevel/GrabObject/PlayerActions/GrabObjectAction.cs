@@ -25,8 +25,13 @@ namespace RTPuzzle
         }
 
 
-        public override void Tick(float d)
+        public override void BeforePlayerTick(float d)
         {
+        }
+
+        public override void AfterPlayerTick(float d)
+        {
+            
         }
 
         public override void Dispose()

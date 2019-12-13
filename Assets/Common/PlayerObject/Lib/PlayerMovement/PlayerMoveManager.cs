@@ -1,7 +1,9 @@
 ﻿using System;
+using CoreGame;
 using Input;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using PlayerObject_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -108,6 +110,11 @@ namespace PlayerObject
             this.CurrentPlayerMoveManager.FixedTick(d);
         }
 
+        public void LateTick(float d)
+        {
+            this.CurrentPlayerMoveManager.LateTick(d);
+        }
+
         public void ResetSpeed()
         {
             this.CurrentPlayerMoveManager.ResetSpeed();
@@ -116,6 +123,11 @@ namespace PlayerObject
         public void ForceSwitchToAgent()
         {
             this.PlayerMoveManagerState.EnableAgent();
+        }
+        
+        public void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint)
+        {
+            this.CurrentPlayerMoveManager.SetConstraintForThisFrame(PlayerMovementConstraint);
         }
     }
 
@@ -146,6 +158,13 @@ namespace PlayerObject
 
     public abstract class APlayerMoveManager
     {
+        /// <summary>
+        /// The current player movement constraint <see cref="PlayerMovementConstraint"/>.
+        /// /!\ <see cref="CurrentConstraint"/> is consumed every frame. This means that for a constraint to be applied in an interval of time,
+        /// <see cref="SetConstraintForThisFrame"/> must be called every frame.
+        /// This value is setted via <see cref="SetConstraintForThisFrame"/>.
+        /// </summary>
+        protected PlayerMovementConstraint CurrentConstraint;
 
         public virtual void Tick(float d)
         {
@@ -158,14 +177,22 @@ namespace PlayerObject
         public virtual void FixedTick(float d)
         {
         }
+        
+        public virtual void LateTick(float d){}
 
         public virtual void ResetSpeed()
         {
         }
 
+        public void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint)
+        {
+            this.CurrentConstraint = PlayerMovementConstraint;
+        }
+        
         public virtual NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             return NavMeshPathStatus.PathInvalid;
         }
     }
+    
 }

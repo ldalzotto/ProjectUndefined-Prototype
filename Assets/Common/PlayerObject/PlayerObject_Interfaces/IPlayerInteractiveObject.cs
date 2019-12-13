@@ -9,5 +9,7 @@ namespace PlayerObject_Interfaces
 
         void OnPlayerStartTargetting(A_AnimationPlayableDefinition StartTargettingPoseAnimation);
         void OnPlayerStoppedTargetting();
+
+        void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint);
     }
 }

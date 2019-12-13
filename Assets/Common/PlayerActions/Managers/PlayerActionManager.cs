@@ -36,11 +36,16 @@ namespace PlayerActions
             PlayerActionExecutionManager.FixedTick(d);
         }
 
-        public void Tick(float d)
+        public void BeforePlayerTick(float d)
         {
-            PlayerActionExecutionManager.Tick(d);
+            PlayerActionExecutionManager.BeforePlayerTick(d);
         }
 
+        public void AfterPlayerTick(float d)
+        {
+            PlayerActionExecutionManager.AfterPlayerTick(d);
+        }
+        
         public void LateTick(float d)
         {
             PlayerActionExecutionManager.LateTick(d);
@@ -160,11 +165,23 @@ namespace PlayerActions
             }
         }
 
-        public void Tick(float d)
+        public void BeforePlayerTick(float d)
         {
             if (currentAction != null)
             {
-                currentAction.Tick(d);
+                currentAction.BeforePlayerTick(d);
+                if (currentAction.FinishedCondition())
+                {
+                    TriggerOnPlayerActionFinichedEventAction.Invoke();
+                }
+            }
+        }
+
+        public void AfterPlayerTick(float d)
+        {
+            if (currentAction != null)
+            {
+                currentAction.AfterPlayerTick(d);
                 if (currentAction.FinishedCondition())
                 {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();
