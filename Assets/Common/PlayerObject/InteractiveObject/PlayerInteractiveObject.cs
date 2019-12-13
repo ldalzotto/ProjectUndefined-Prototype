@@ -141,7 +141,6 @@ namespace PlayerObject
             this.ObjectMovementSpeedSystem.AfterTicks();
             this.playerMoveManager.AfterTicks();
 
-            Debug.Log(MyLog.Format(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated().ToString("F4")));
             this.PlayerObjectAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
             base.UpdateAniamtions(d);
         }
