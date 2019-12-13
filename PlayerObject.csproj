@@ -56,7 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Common\PlayerObject\Animation\PlayerLocomotionMaskedPoseOverrideState\PlayerLocomotionMaskedPoseOverrideState.cs" />
      <Compile Include="Assets\Common\PlayerObject\Animation\PlayerObjectAnimationStateManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Animation\PlayerObjectLocomotionState\PlayerObjectLocomotionState.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Animation\PlayerObjectLocomotionState\Systems\PlayerLocomotionSystem.cs" />
      <Compile Include="Assets\Common\PlayerObject\BlockingCutscene\BlockingCutscenePlayerManager.cs" />
      <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerGlobalConfiguration\PlayerGlobalConfiguration.cs" />

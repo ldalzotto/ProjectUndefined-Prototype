@@ -64,8 +64,6 @@ namespace TrainingLevel
                 this._soldierStateBehavior.Tick(d);
                 this.AIMoveToDestinationSystem.Tick(d);
             }
-
-            base.UpdateAniamtions(d);
         }
 
         public override void AfterTicks(float d)
@@ -77,6 +75,7 @@ namespace TrainingLevel
             }
 
             base.AfterTicks(d);
+            base.UpdateAniamtions(d);
         }
 
         public override void Destroy()
