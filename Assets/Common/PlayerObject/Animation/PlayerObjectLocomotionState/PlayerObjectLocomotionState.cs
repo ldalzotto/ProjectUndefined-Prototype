@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AnimatorPlayable;
+using DefaultNamespace;
 using InteractiveObject_Animation;
 using UnityEngine;
 
@@ -56,57 +57,60 @@ namespace PlayerObject
     {
     }
 
+
+
     class PlayerObjectLocomotionMovingStatemanager : PlayerObjectLocomotionStateManager
     {
-        private PlayerLocomotionSystem _playerLocomotionSystem;
-        private AnimationController AnimationControllerRef;
+        private LocomotionAnimationStateSystem LocomotionAnimationStateSystem;
+
+        private PlayerLocomotionSystem PlayerLocomotionSystem;
 
         public PlayerObjectLocomotionMovingStatemanager(PlayerLocomotionSystem playerLocomotionSystem, AnimationController animationControllerRef)
         {
-            this._playerLocomotionSystem = playerLocomotionSystem;
-            AnimationControllerRef = animationControllerRef;
+            this.LocomotionAnimationStateSystem = new LocomotionAnimationStateSystem(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), animationControllerRef);
+            this.PlayerLocomotionSystem = playerLocomotionSystem;
         }
 
         public override void OnStateEnter()
         {
-            this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), this._playerLocomotionSystem.DefaultLocomotionAnimation.GetAnimationInput());
+            this.LocomotionAnimationStateSystem.PlayAnimation(this.PlayerLocomotionSystem.DefaultLocomotionAnimation);
         }
 
         public override void OnStateExit()
         {
-            this.AnimationControllerRef.DestroyAnimationLayerV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION));
+            this.LocomotionAnimationStateSystem.KillAnimation();
         }
 
         public override void SetUnscaledObjectLocalDirection(Vector3 localDirection)
         {
-            this.AnimationControllerRef.SetTwoDInputWeight(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), new Vector2(localDirection.x, localDirection.z));
+            this.LocomotionAnimationStateSystem.SetUnscaledObjectLocalDirection(localDirection);
         }
     }
 
     class PlayerObjectLocomotionMovingInjuredStatemanager : PlayerObjectLocomotionStateManager
     {
+        private LocomotionAnimationStateSystem LocomotionAnimationStateSystem;
         private PlayerLocomotionSystem _playerLocomotionSystem;
-        private AnimationController AnimationControllerRef;
 
         public PlayerObjectLocomotionMovingInjuredStatemanager(PlayerLocomotionSystem playerLocomotionSystem, AnimationController animationControllerRef)
         {
             this._playerLocomotionSystem = playerLocomotionSystem;
-            AnimationControllerRef = animationControllerRef;
+            this.LocomotionAnimationStateSystem = new LocomotionAnimationStateSystem(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), animationControllerRef);
         }
 
         public override void OnStateEnter()
         {
-            this.AnimationControllerRef.PlayAnimationV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), this._playerLocomotionSystem.InjuredLocomotionAnimation.GetAnimationInput());
+            this.LocomotionAnimationStateSystem.PlayAnimation(this._playerLocomotionSystem.InjuredLocomotionAnimation);
         }
 
         public override void OnStateExit()
         {
-            this.AnimationControllerRef.DestroyAnimationLayerV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION));
+            this.LocomotionAnimationStateSystem.KillAnimation();
         }
 
         public override void SetUnscaledObjectLocalDirection(Vector3 localDirection)
         {
-            this.AnimationControllerRef.SetTwoDInputWeight(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.LOCOMOTION), new Vector2(localDirection.x, localDirection.z));
+            this.LocomotionAnimationStateSystem.SetUnscaledObjectLocalDirection(localDirection);
         }
     }
 

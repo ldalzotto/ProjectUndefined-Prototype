@@ -56,8 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\SoldierAnimation\SoldierAnimationSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\SoldierAnimation\SoldierAnimationSystemDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierAnimation\SoldierObjectLocomotionState\SoldierObjectLocomotionState.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierAnimation\SoldierTargettingUpperBodyState\SoldierTargettingUpperBodyState.cs" />
+     <Compile Include="Assets\Undefined\Logic\SoldierAnimation\SoliderEnemyAnimationStateManager.cs" />
      <None Include="Assets\Undefined\Logic\SoldierAnimation\SoldierAnimation.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

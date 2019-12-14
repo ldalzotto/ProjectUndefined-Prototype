@@ -53,45 +53,6 @@ namespace InteractiveObject_Animation
             this.AnimatorPlayableObject.PlayAnimation(LayerID, Animation, OnAnimationEnd, InputWeightProvider);
         }
 
-        /// <summary>
-        /// Plays an <see cref="IAnimationInput"/> to the layer <see cref="AnimationLayerID.LocomotionLayer"/>
-        /// </summary>
-        /// <param name="LocomotionAnimation">The played animation</param>
-        public void PlayLocomotionAnimation(IAnimationInput LocomotionAnimation, Func<float> InputWeightProvider = null)
-        {
-            this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[AnimationLayerID.LocomotionLayer].ID, LocomotionAnimation,
-                InputWeightProvider: InputWeightProvider);
-        }
-
-        /// <summary>
-        /// Plays an <see cref="IAnimationInput"/> to a layer after <see cref="AnimationLayerID.LocomotionLayer"/>.
-        /// </summary>
-        public void PlayLocomotionAnimationOverride(IAnimationInput LocomotionAnimation, AnimationLayerID overrideLayer,
-            Func<float> InputWeightProvider = null)
-        {
-            this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[overrideLayer].ID, LocomotionAnimation,
-                InputWeightProvider: InputWeightProvider);
-        }
-
-        /// <summary>
-        /// Plays an <see cref="SequencedAnimationInput"/> to the Layer <see cref="AnimationLayerID.ContextActionLayer"/>
-        /// </summary>
-        /// <param name="ContextActionAnimation">The played animation</param>
-        public void PlayContextAction(IAnimationInput ContextActionAnimation, bool rootMotion, Action OnAnimationFinished = null)
-        {
-            this.RootMotionEnabled.SetValue(rootMotion);
-            this.AnimatorPlayableObject.PlayAnimation(AnimationLayerStatic.AnimationLayers[AnimationLayerID.ContextActionLayer].ID, ContextActionAnimation, () => { this.OnAnimationFinished(OnAnimationFinished); });
-        }
-
-        public void KillContextAction(SequencedAnimationInput ContextActionAnimation)
-        {
-            this.AnimatorPlayableObject.DestroyLayer(AnimationLayerStatic.AnimationLayers[AnimationLayerID.ContextActionLayer].ID);
-        }
-
-        public void DestroyAnimationLayer(AnimationLayerID animationLayer)
-        {
-            this.AnimatorPlayableObject.DestroyLayer(AnimationLayerStatic.AnimationLayers[animationLayer].ID);
-        }
 
         public void DestroyAnimationLayerV2(int animationLayer)
         {

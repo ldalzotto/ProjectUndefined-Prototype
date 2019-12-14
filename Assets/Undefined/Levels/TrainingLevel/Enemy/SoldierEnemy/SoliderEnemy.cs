@@ -1,7 +1,6 @@
 ﻿using AIObjects;
 using Damage;
 using Health;
-using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using SoldierAnimation;
@@ -20,10 +19,9 @@ namespace TrainingLevel
         private FiringTargetPositionSystem FiringTargetPositionSystem;
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
-        private BaseObjectAnimatorPlayableSystem BaseObjectAnimatorPlayableSystem;
+        private SoliderEnemyAnimationStateManager SoliderEnemyAnimationStateManager;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
-        private SoldierAnimationSystem SoldierAnimationSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -38,12 +36,11 @@ namespace TrainingLevel
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, AIMovementSpeedAttenuationFactor.RUN, ObjectSpeedCalculationType.AGENT);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
-            this.BaseObjectAnimatorPlayableSystem = new BaseObjectAnimatorPlayableSystem(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation);
+            this.SoliderEnemyAnimationStateManager = new SoliderEnemyAnimationStateManager(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.SoldierAnimationSystemDefinition);
             this._soldierStateBehavior = new SoldierStateBehavior();
 
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
-            this.SoldierAnimationSystem = new SoldierAnimationSystem(SoliderEnemyDefinition.SoldierAnimationSystemDefinition, this.AnimationController);
 
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
                 new SoldierAIBehaviorExternalCallbacks(
@@ -71,10 +68,11 @@ namespace TrainingLevel
             this.ObjectMovementSpeedSystem.AfterTicks();
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                this.BaseObjectAnimatorPlayableSystem.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
+                this.SoliderEnemyAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
             }
 
             base.AfterTicks(d);
+            this.SoliderEnemyAnimationStateManager.Tick(d);
             base.UpdateAniamtions(d);
         }
 
@@ -163,12 +161,12 @@ namespace TrainingLevel
 
         private void OnShootingAtPlayerStart()
         {
-            this.SoldierAnimationSystem.OnShootingAtPlayerStart();
+            this.SoliderEnemyAnimationStateManager.StartTargetting();
         }
 
         private void OnShootingAtPlayerEnd()
         {
-            this.SoldierAnimationSystem.OnShootingAtPlayerEnd();
+            this.SoliderEnemyAnimationStateManager.StopTargetting();
         }
 
         #endregion
