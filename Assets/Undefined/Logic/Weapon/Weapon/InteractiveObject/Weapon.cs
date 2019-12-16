@@ -1,4 +1,5 @@
-﻿using InteractiveObjects;
+﻿using InteractiveObject_Animation;
+using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 
 namespace Weapon
@@ -6,18 +7,26 @@ namespace Weapon
     public class Weapon : CoreInteractiveObject
     {
         private FiringProjectileSystem FiringProjectileSystem;
+        private WeaponPositioningSystem WeaponPositioningSystem;
         public CoreInteractiveObject WeaponHolder { get; private set; }
 
         public Weapon(IInteractiveGameObject IInteractiveGameObject, WeaponDefinition WeaponDefinition, CoreInteractiveObject weaponHolder)
         {
             this.WeaponHolder = weaponHolder;
+            this.BaseInit(IInteractiveGameObject, true);
+            
             this.FiringProjectileSystem = new FiringProjectileSystem(this, WeaponDefinition);
-            this.BaseInit(IInteractiveGameObject, false);
+            this.WeaponPositioningSystem = new WeaponPositioningSystem(this, this.WeaponHolder);
         }
 
         public override void Init()
         {
             WeaponCreatedEvent.Get().OnWeaponCreated(this);
+        }
+
+        public override void Tick(float d)
+        {
+            this.WeaponPositioningSystem.Tick(d);
         }
 
         public void SpawnFiredProjectile(TransformStruct StartTransform)
@@ -30,6 +39,7 @@ namespace Weapon
             return this.FiringProjectileSystem.GetProjectileMaxRange();
         }
     }
+
 
     class FiringProjectileSystem
     {
@@ -62,6 +72,26 @@ namespace Weapon
         public float GetProjectileMaxRange()
         {
             return this.WeaponDefinition.FiredProjectileDefinition.MaxDistance;
+        }
+    }
+
+    /// <summary>
+    /// /!\ This system supposes that the WeaponHolder has an animator with the <see cref="BipedArmatureName.ItemHold_L"/> bone.
+    /// Thus must be changed when we want to attach weapon to anything than Biped.
+    /// </summary>
+    struct WeaponPositioningSystem
+    {
+        private CopyInteractiveObjectTransformConstraint CopyConstraint;
+
+        public WeaponPositioningSystem(Weapon AssociatedWeapon, CoreInteractiveObject WeaponHolder)
+        {
+            this.CopyConstraint = new CopyInteractiveObjectTransformConstraint(AssociatedWeapon.InteractiveGameObject,
+                WeaponHolder.InteractiveGameObject.Animator.gameObject.FindChildObjectRecursively(BipedArmatureConstants.GetBipedBoneName(BipedArmatureName.ItemHold_L)).transform);
+        }
+
+        public void Tick(float d)
+        {
+            this.CopyConstraint.ApplyConstraint();
         }
     }
 }

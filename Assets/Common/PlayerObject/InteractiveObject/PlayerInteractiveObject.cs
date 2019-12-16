@@ -184,6 +184,7 @@ namespace PlayerObject
 
         public override void Destroy()
         {
+            this.WeaponHandlingSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
             base.Destroy();
         }

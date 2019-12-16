@@ -58,6 +58,8 @@
   <ItemGroup>
      <Compile Include="Assets\Common\InteractiveObjects_Animation\AnimationController\AnimationController.cs" />
      <Compile Include="Assets\Common\InteractiveObjects_Animation\AnimationStateSystems\LocomotionAnimationStateSystem.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects_Animation\Constants\BipedArmatureConstants.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects_Animation\Constraints\CopyInteractiveObjectTransformConstraint.cs" />
      <Compile Include="Assets\Common\InteractiveObjects_Animation\Systems\LocalCutscenePlayerSystem.cs" />
      <None Include="Assets\Common\InteractiveObjects_Animation\InteractiveObject_Animation.asmdef" />
  <Reference Include="UnityEditor.UI">

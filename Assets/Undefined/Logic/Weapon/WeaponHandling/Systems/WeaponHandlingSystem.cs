@@ -50,6 +50,11 @@ namespace Weapon
             var parent = WeaponHandlingSystemInitializationData.Parent;
             return parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;
         }
+
+        public void Destroy()
+        {
+            this.WeaponReference.Destroy();
+        }
     }
 
     public class WeaponHandlingSystemInitializationData

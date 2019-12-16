@@ -80,6 +80,7 @@ namespace TrainingLevel
         {
             this.SightObjectSystem.OnDestroy();
             this._soldierStateBehavior.OnDestroy();
+            this.WeaponHandlingSystem.Destroy();
             base.Destroy();
         }
 

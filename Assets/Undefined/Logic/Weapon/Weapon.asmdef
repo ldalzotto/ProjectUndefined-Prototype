@@ -2,11 +2,12 @@
     "name": "Weapon",
     "references": [
         "OdinSerializer",
-"Editor_Common",
+        "Editor_Common",
         "InteractiveObjects",
         "Firing",
         "InteractiveObjects_Interfaces",
-        "CoreGame"
+        "CoreGame",
+        "InteractiveObject_Animation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
