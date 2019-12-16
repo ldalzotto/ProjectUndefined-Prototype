@@ -9,11 +9,13 @@
         
         //Rim lightning
         _RimPower("Rim power", Range(-0.1, 1.00)) = -0.1
+        _RimMap("Rim map", 2D) = "white" {}
         _RimOffset("Rim offset", Float) = 1.0
-        _RimColor("Rim color", Color) = (1,1,1,1)
+        [HDR] _RimColor("Rim color", Color) = (1,1,1,1)
         
         //Specular
         _SpecularRamp("Specular Ramp", 2D) = "white" {}
+        _SpecularMap("Specular Map", 2D) = "white" {}
         _SpecularPower("Specular Power", Float) = 0.0
         _SpecularColor("Specular Color", Color) = (1,1,1,1)
         

@@ -61,7 +61,7 @@ ToonLightningData InitializeToonLightningData(Varyings varyings){
     #else
         toonLightningData.shadowCoords = float4(0, 0, 0, 0);
     #endif
-    #ifdef TOON_EMISSION_ENABLED
+    #if defined(TOON_EMISSION_ENABLED) || defined(TOON_SPECULAR_ENABLED) || defined(RIM_LIGHTNING_ENABLED)
     toonLightningData.uv = varyings.uv;
     #endif
     toonLightningData.bakedGI = SAMPLE_GI(varyings.lightmapUV, varyings.vertexSH, toonLightningData.worldNormal);

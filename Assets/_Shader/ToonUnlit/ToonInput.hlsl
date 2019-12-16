@@ -13,10 +13,12 @@ half4 _BaseColor;
 half _Cutoff;
 
 half _RimPower;
+float4 _RimMap_ST;
 half _RimOffset;
 half4 _RimColor;
 
 float4 _SpecularRamp_ST;
+float4 _SpecularMask_ST;
 half _SpecularPower;
 half3 _SpecularColor;
 
@@ -27,7 +29,9 @@ CBUFFER_END
 
 TEXTURE2D(_BaseMap);       SAMPLER(sampler_BaseMap);
 TEXTURE2D(_DiffuseRamp);   SAMPLER(sampler_DiffuseRamp);
+TEXTURE2D(_RimMap);        SAMPLER(sampler_RimMap);
 TEXTURE2D(_SpecularRamp);  SAMPLER(sampler_SpecularRamp);
+TEXTURE2D(_SpecularMap);   SAMPLER(sampler_SpecularMap);
 TEXTURE2D(_EmissionMap);   SAMPLER(sampler_EmissionMap);
 
 half4 SampleBaseMap(float2 uv){
@@ -38,9 +42,18 @@ half4 SampleDiffuseRamp(float2 uv){
     return SAMPLE_TEXTURE2D(_DiffuseRamp, sampler_DiffuseRamp, uv);
 }
 
+#ifdef RIM_LIGHTNING_ENABLED
+half4 SampleRimMap(float2 uv){
+    return SAMPLE_TEXTURE2D(_RimMap, sampler_RimMap, uv);
+}
+#endif
+
 #ifdef TOON_SPECULAR_ENABLED
 half4 SampleSpecularRamp(float2 uv){
     return SAMPLE_TEXTURE2D(_SpecularRamp, sampler_SpecularRamp, uv);
+}
+half4 SampleSpecularMap(float2 uv){
+    return SAMPLE_TEXTURE2D(_SpecularMap, sampler_SpecularMap, uv);
 }
 #endif
 

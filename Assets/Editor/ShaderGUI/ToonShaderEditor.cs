@@ -37,6 +37,7 @@ public class ToonShaderEditor : ShaderGUI
     #region Toon rim options
 
     private EditorPersistantBoolVariable toonRimOptionsFoldout;
+    private MaterialProperty RimMap;
     private MaterialProperty RimPower;
     private MaterialProperty RimOffset;
     private MaterialProperty RimColor;
@@ -47,6 +48,7 @@ public class ToonShaderEditor : ShaderGUI
 
     private EditorPersistantBoolVariable toonSpecularOptionsFoldout;
     private MaterialProperty SpecularRamp;
+    private MaterialProperty SpecularMap;
     private MaterialProperty SpecularPower;
     private MaterialProperty SpecularColor;
 
@@ -93,10 +95,12 @@ public class ToonShaderEditor : ShaderGUI
         this.DiffuseRamp = FindProperty("_DiffuseRamp", properties);
 
         this.RimPower = FindProperty("_RimPower", properties);
+        this.RimMap = FindProperty("_RimMap", properties);
         this.RimOffset = FindProperty("_RimOffset", properties);
         this.RimColor = FindProperty("_RimColor", properties);
 
         this.SpecularRamp = FindProperty("_SpecularRamp", properties);
+        this.SpecularMap = FindProperty("_SpecularMap", properties);
         this.SpecularPower = FindProperty("_SpecularPower", properties);
         this.SpecularColor = FindProperty("_SpecularColor", properties);
 
@@ -192,6 +196,7 @@ public class ToonShaderEditor : ShaderGUI
             {
                 EditorGUI.indentLevel += 1;
                 materialEditor.FloatProperty(this.RimOffset, ToonShaderEditorStatic.RomOffsetText);
+                materialEditor.TexturePropertySingleLine(ToonShaderEditorStatic.RimMapText, this.RimMap);
                 materialEditor.ColorProperty(this.RimColor, ToonShaderEditorStatic.RimColorText);
                 EditorGUI.indentLevel -= 1;
             }
@@ -211,6 +216,7 @@ public class ToonShaderEditor : ShaderGUI
             if (material.IsKeywordEnabled(ToonShaderEditorStatic.TOON_SPECULAR_ENABLED))
             {
                 EditorGUI.indentLevel += 1;
+                materialEditor.TexturePropertySingleLine(ToonShaderEditorStatic.SpecularMapText, this.SpecularMap);
                 materialEditor.FloatProperty(this.SpecularPower, ToonShaderEditorStatic.SpecularPowerText);
                 materialEditor.ColorProperty(this.SpecularColor, ToonShaderEditorStatic.SpecularColorText);
                 EditorGUI.indentLevel -= 1;
@@ -309,11 +315,13 @@ public static class ToonShaderEditorStatic
 
     public static string RIM_LIGHTNING_ENABLED = "RIM_LIGHTNING_ENABLED";
     public static string RimPowerText = "Rim power";
+    public static GUIContent RimMapText = new GUIContent("Rim map");
     public static string RomOffsetText = "Rim offset";
     public static string RimColorText = "Rim color";
 
     public static string TOON_SPECULAR_ENABLED = "TOON_SPECULAR_ENABLED";
     public static GUIContent SpecularRampText = new GUIContent("Specular ramp");
+    public static GUIContent SpecularMapText = new GUIContent("Specular map");
     public static string SpecularPowerText = "Specular power";
     public static string SpecularColorText = "Specular color";
 

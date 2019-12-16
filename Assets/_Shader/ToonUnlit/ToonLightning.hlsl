@@ -24,7 +24,7 @@ struct ToonLightningData {
 #if defined(RIM_LIGHTNING_ENABLED) || defined(TOON_SPECULAR_ENABLED)
     half3 worldViewDirection; // From Varyings
 #endif
-#ifdef TOON_EMISSION_ENABLED
+#if defined(TOON_EMISSION_ENABLED) || defined(TOON_SPECULAR_ENABLED) || defined(RIM_LIGHTNING_ENABLED)
     float2 uv; // From Varyings
 #endif
     float4 shadowCoords; // From Varyings
@@ -36,11 +36,11 @@ void ToonLight(ToonLightningData ToonLightningData, Light light, inout half3 dif
     diffuseColor += ToonDiffuse(ToonLightningData.worldNormal, light.direction, light.color, lightAttenuation);
     
 #ifdef RIM_LIGHTNING_ENABLED
-    rimColor += ToonRim(ToonLightningData.worldNormal, ToonLightningData.worldViewDirection, light.color, lightAttenuation);
+    rimColor += ToonRim(ToonLightningData.uv, ToonLightningData.worldNormal, ToonLightningData.worldViewDirection, light.color, lightAttenuation);
 #endif
 
 #ifdef TOON_SPECULAR_ENABLED
-    specularColor += ToonSpecular(ToonLightningData.worldViewDirection, ToonLightningData.worldNormal, light.direction, light.color, lightAttenuation);
+    specularColor += ToonSpecular(ToonLightningData.uv, ToonLightningData.worldViewDirection, ToonLightningData.worldNormal, light.direction, light.color, lightAttenuation);
 #endif
 }
 
