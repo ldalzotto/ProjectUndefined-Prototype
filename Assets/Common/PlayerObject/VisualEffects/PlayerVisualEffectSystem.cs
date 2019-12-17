@@ -1,6 +1,5 @@
 ﻿using InteractiveObject_Animation;
 using InteractiveObjects;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace PlayerObject
