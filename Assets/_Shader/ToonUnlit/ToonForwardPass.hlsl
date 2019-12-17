@@ -84,14 +84,8 @@ Varyings LitToonVertex(Attributes input)
 
     output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
 
-#ifdef _NORMALMAP
-    output.normalWS = half4(normalInput.normalWS, viewDirWS.x);
-    output.tangentWS = half4(normalInput.tangentWS, viewDirWS.y);
-    output.bitangentWS = half4(normalInput.bitangentWS, viewDirWS.z);
-#else
     output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
-    output.viewDirWS = viewDirWS;
-#endif
+    output.viewDirWS = SafeNormalize(viewDirWS);
     
     OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
     OUTPUT_SH(output.normalWS.xyz, output.vertexSH);

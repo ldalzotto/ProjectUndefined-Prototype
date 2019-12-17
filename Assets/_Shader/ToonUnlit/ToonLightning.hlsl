@@ -70,7 +70,6 @@ half4 ToonFragment(ToonLightningData ToonLightningData){
 #endif
 
     half3 finalColor = (diffuseColor * ToonLightningData.diffuse.xyz * _BaseColor.xyz) + rimColor + specularColor + emissionColor;
-
     return half4(finalColor, alpha);
 }
 
