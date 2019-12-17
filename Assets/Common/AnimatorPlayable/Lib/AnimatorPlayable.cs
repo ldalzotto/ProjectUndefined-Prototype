@@ -178,6 +178,15 @@ namespace AnimatorPlayable
                 }
             }
         }
+        
+        public void StopLayer(int animationLayer)
+        {
+            this.AllAnimationLayersCurrentlyPlaying.TryGetValue(animationLayer, out MyAnimationLayer stoppedLayer);
+            if (stoppedLayer != null)
+            {
+                stoppedLayer.Stop();
+            }
+        }
 
         private void SortLayers()
         {
@@ -261,6 +270,7 @@ namespace AnimatorPlayable
         {
             this.GlobalPlayableGraph.Destroy();
         }
+
     }
 
     public abstract class MyAnimationLayer
@@ -291,5 +301,7 @@ namespace AnimatorPlayable
         {
             AnimationLayerMixerPlayable.DisconnectInput(this.Inputhandler);
         }
+
+        public abstract void Stop();
     }
 }

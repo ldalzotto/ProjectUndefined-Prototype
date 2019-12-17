@@ -66,6 +66,11 @@ namespace AnimatorPlayable
             this.TwoDInputWeight = inputWeihgt;
         }
 
+        public override void Stop()
+        {
+            
+        }
+
         public override AnimationMixerPlayable GetEntryPointMixerPlayable()
         {
             return this.AnimationMixerPlayable;

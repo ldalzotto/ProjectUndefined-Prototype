@@ -51,7 +51,8 @@ namespace PlayerObject
     public enum PlayerObjectAnimationLayers
     {
         LOCOMOTION,
-        TARGETTING_UPPER_BODY_POSE
+        TARGETTING_UPPER_BODY_POSE,
+        LOW_HEALTH_VISUAL_EFFET
     }
 
     public static class PlayerObjectAnimationLayersOrders
@@ -64,7 +65,8 @@ namespace PlayerObject
         static Dictionary<PlayerObjectAnimationLayers, int> PlayerObjectAnimationLayersOrder = new Dictionary<PlayerObjectAnimationLayers, int>()
         {
             {PlayerObjectAnimationLayers.LOCOMOTION, 0},
-            {PlayerObjectAnimationLayers.TARGETTING_UPPER_BODY_POSE, 1}
+            {PlayerObjectAnimationLayers.TARGETTING_UPPER_BODY_POSE, 1},
+            {PlayerObjectAnimationLayers.LOW_HEALTH_VISUAL_EFFET, 999}
         };
     }
 }

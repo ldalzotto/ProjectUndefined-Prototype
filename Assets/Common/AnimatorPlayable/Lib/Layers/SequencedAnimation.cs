@@ -19,7 +19,7 @@ namespace AnimatorPlayable
         private bool IsTransitioningOut;
         private float TransitioningOutStartTime;
         private bool HasEnded;
-
+        
         private Action OnSequencedAnimationEnd;
 
         public SequencedAnimationLayer(PlayableGraph playableGraph, AnimationLayerMixerPlayable parentAnimationLayerMixerPlayable, int layerId,
@@ -113,7 +113,7 @@ namespace AnimatorPlayable
 
             PlayableExtensions.SetTime(this.AnimationMixerPlayable, 0);
         }
-
+        
         public override void Tick(float d)
         {
             if (!this.HasEnded)
@@ -173,6 +173,18 @@ namespace AnimatorPlayable
                             this.IsTransitioningOut = true;
                             this.TransitioningOutStartTime = (float) elapsedTime;
                         }
+                        else if (this.SequencedAnimationInput.isInfinite)
+                        {
+                            this.HasEnded = false;
+                            this.AnimationMixerPlayable.SetTime(0f);
+                            for (var i = 0; i < this.AssociatedAnimationClipsPlayable.Length; i++)
+                            {
+                                this.AssociatedAnimationClipsPlayable[i].SetTime(0f);
+                                this.AssociatedAnimationClipsPlayable[i].Pause();
+                                this.AssociatedAnimationClipsPlayable[i].SetDone(false);
+                            }
+                            this.AssociatedAnimationClipsPlayable[0].Play();
+                        }
                         else
                         {
                             this.HasEnded = true;
@@ -229,5 +241,13 @@ namespace AnimatorPlayable
                 this.OnSequencedAnimationEnd.Invoke();
             }
         }
+        
+        
+        public override void Stop()
+        {
+            this.IsTransitioningIn = false;
+            this.IsTransitioningOut = true;
+        }
+
     }
 }

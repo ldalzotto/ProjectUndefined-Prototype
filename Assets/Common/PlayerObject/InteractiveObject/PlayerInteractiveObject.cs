@@ -2,7 +2,6 @@
 using Damage;
 using Health;
 using Input;
-using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using LevelManagement;
@@ -35,6 +34,8 @@ namespace PlayerObject
         private ProjectileDeflectionSystem projectileDeflectionSystem;
         public ProjectileDeflectionSystem ProjectileDeflectionSystem => this.projectileDeflectionSystem;
 
+        private PlayerVisualEffectSystem PlayerVisualEffectSystem;
+
         #endregion
 
         #region External Dependencies
@@ -63,6 +64,8 @@ namespace PlayerObject
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition,
                 OnLowHealthStartedCallback: this.OnLowHealthStarted, OnLowHealthEndedCallback: this.OnLowHealthEnded);
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition, this.OnProjectileSuccessfullyDeflected);
+            this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
+
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
 
@@ -148,6 +151,7 @@ namespace PlayerObject
         public override void LateTick(float d)
         {
             base.LateTick(d);
+            this.PlayerVisualEffectSystem.LateTick(d);
             this.projectileDeflectionSystem.LateTick(d);
             this.playerMoveManager.LateTick(d);
         }
@@ -244,11 +248,13 @@ namespace PlayerObject
         private void OnLowHealthStarted()
         {
             this.PlayerObjectAnimationStateManager.OnLowHealthStarted(this.PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition.OnLowHealthLocomotionAnimation);
+            this.PlayerVisualEffectSystem.OnLowHealthStarted();
         }
 
         private void OnLowHealthEnded()
         {
             this.PlayerObjectAnimationStateManager.OnLowHealthEnded();
+            this.PlayerVisualEffectSystem.OnLowHealthEnded();
         }
 
         #endregion

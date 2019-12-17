@@ -121,5 +121,9 @@ namespace AnimatorPlayable
         {
             return false;
         }
+
+        public override void Stop()
+        {
+        }
     }
 }

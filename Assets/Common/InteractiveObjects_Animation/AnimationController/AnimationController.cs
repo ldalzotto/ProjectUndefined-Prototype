@@ -53,6 +53,11 @@ namespace InteractiveObject_Animation
             this.AnimatorPlayableObject.PlayAnimation(LayerID, Animation, OnAnimationEnd, InputWeightProvider);
         }
 
+        public void StopAnimationLayer(int animationLayer)
+        {
+            this.AnimatorPlayableObject.StopLayer(animationLayer);
+        }
+
 
         public void DestroyAnimationLayerV2(int animationLayer)
         {

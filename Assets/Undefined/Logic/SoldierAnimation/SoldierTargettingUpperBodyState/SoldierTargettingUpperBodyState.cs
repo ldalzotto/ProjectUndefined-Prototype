@@ -62,7 +62,7 @@ namespace SoldierAnimation
 
         public override void OnStateExit()
         {
-            this.AnimationControllerRef.DestroyAnimationLayerV2(SoliderEnemyAnimationLayersOrders.GetLayerNumber(SoliderEnemyAnimationLayers.TARGETTING_UPPER_BODY_POSE));
+            this.AnimationControllerRef.StopAnimationLayer(SoliderEnemyAnimationLayersOrders.GetLayerNumber(SoliderEnemyAnimationLayers.TARGETTING_UPPER_BODY_POSE));
         }
     }
 }

@@ -83,7 +83,7 @@ namespace PlayerObject
 
         public override void OnStateExit()
         {
-            this.AnimationControllerRef.DestroyAnimationLayerV2(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.TARGETTING_UPPER_BODY_POSE));
+            this.AnimationControllerRef.StopAnimationLayer(PlayerObjectAnimationLayersOrders.GetLayerNumber(PlayerObjectAnimationLayers.TARGETTING_UPPER_BODY_POSE));
         }
     }
 

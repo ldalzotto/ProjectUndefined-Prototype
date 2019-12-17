@@ -7,7 +7,7 @@ namespace UnityEngine.Rendering
     {
         private AnimatorPlayableObject AnimatorPlayableObject;
         public Vector2 Input;
-        public TwoDBlendTreePlayableDefinition TwoDBlendTreePlayableDefinition;
+        public A_AnimationPlayableDefinition TwoDBlendTreePlayableDefinition;
 
         private void Start()
         {
