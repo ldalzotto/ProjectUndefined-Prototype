@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Input;
 using InteractiveObjects;
 using ProjectileDeflection_Interface;
+using RangeObjects;
 using UnityEngine;
 
 namespace ProjectileDeflection
@@ -25,8 +27,21 @@ namespace ProjectileDeflection
         #endregion
 
         private ProjectileDeflectionActorDefinition _projectileDeflectionActorDefinition;
-
         private CoreInteractiveObject AssociatedInteractiveObject;
+
+        /// <summary>
+        /// When the Player try to deflect projectiles, object deflection results are stored temporaly to be processed after the deflect step. <see cref="ProcessDeflectionResults"/>
+        /// /!\ This is really important because the events called in the process ov event may lead to modification of <see cref="ObjectsInsideDeflectionRangeSystem"/> while <see cref="ComputeDeflectedInteractiveObject"/>
+        /// is already iterating over interactive objects inside <see cref="ObjectsInsideDeflectionRangeSystem"/>.
+        /// </summary>
+        private List<ProjectileDeflectedPropertiesStruct> SuccessfullyProjectileDeflectedPropertiesBuffered = new List<ProjectileDeflectedPropertiesStruct>();
+
+        #region Systems
+
+        private ProjectileDeflectionFeedbackIconSystem ProjectileDeflectionFeedbackIconSystem;
+        private ObjectsInsideDeflectionRangeSystem ObjectsInsideDeflectionRangeSystem;
+
+        #endregion
 
         /// <summary>
         /// The <see cref="ProjectileDeflectionSystem"/> must be updated at the earliest possible time.
@@ -39,17 +54,28 @@ namespace ProjectileDeflection
             AssociatedInteractiveObject = associatedInteractiveObject;
             this._projectileDeflectionActorDefinition = projectileDeflectionActorDefinition;
             this.OnProjectileSuccessfullyDeflected = OnProjectileSuccessfullyDeflected;
+            this.ProjectileDeflectionFeedbackIconSystem = new ProjectileDeflectionFeedbackIconSystem();
+            this.ObjectsInsideDeflectionRangeSystem = new ObjectsInsideDeflectionRangeSystem(associatedInteractiveObject, this._projectileDeflectionActorDefinition,
+                OnInteractiveObjectJusInsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustInsideDeflectionRange(interactiveObject); },
+                OnInteractiveObjectJustOutsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustOutsideDeflectionRange(interactiveObject); });
             this.UpdatedThisFrame = false;
         }
 
         public void FixedTick(float d)
         {
-            TickDeflection();
+            TickDeflection(d);
         }
 
         public void Tick(float d)
         {
-            TickDeflection();
+            this.ObjectsInsideDeflectionRangeSystem.Tick(d);
+            TickDeflection(d);
+            this.ProjectileDeflectionFeedbackIconSystem.Tick(d);
+        }
+        
+        public void TickTimeFrozen(float d)
+        {
+            this.ProjectileDeflectionFeedbackIconSystem.TickTimeFrozen(d);
         }
 
         public void LateTick(float d)
@@ -57,35 +83,61 @@ namespace ProjectileDeflection
             this.UpdatedThisFrame = false;
         }
 
-        private void TickDeflection()
+        /// <summary>
+        /// /!\ We have to make sure that the projectile deflection check is called before the projectile position is updated. Otherwise,
+        /// the deflect will only be taken into account the next frame.
+        /// </summary>
+        private void TickDeflection(float d)
         {
             if (!this.UpdatedThisFrame)
             {
                 this.UpdatedThisFrame = true;
+
+                this.ObjectsInsideDeflectionRangeSystem.Tick(d);
+
                 if (GameInputManager.CurrentInput.DeflectProjectileDown())
                 {
-                    var overlappedColliders = Physics.OverlapSphere(this.AssociatedInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter(), this._projectileDeflectionActorDefinition.ProjectileDetectionRadius);
-                    if (overlappedColliders != null && overlappedColliders.Length > 0)
-                    {
-                        for (var i = 0; i < overlappedColliders.Length; i++)
-                        {
-                            Debug.DrawLine(this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition, overlappedColliders[i].transform.position, Color.clear, 1f);
-                            this.InteractiveObjectV2Manager.InteractiveObjectsIndexedByLogicCollider.TryGetValue(overlappedColliders[i], out CoreInteractiveObject overlappedInteractiveObject);
-                            if (overlappedInteractiveObject != null && overlappedInteractiveObject.InteractiveObjectTag.IsDealingDamage)
-                            {
-                                /// Deflecting
-                                /// /!\ We have to make sure that the projectile deflection check is called before the projectile position is updated. Otherwise,
-                                /// the deflect will only be taken into account the next frame.
-                                var InteractiveObjectDeflectionResult = overlappedInteractiveObject.OnInteractiveObjectAskingToBeDeflected(this.AssociatedInteractiveObject, out bool success);
-                                if (success)
-                                {
-                                    this.OnProjectileSuccessfullyDeflected?.Invoke(InteractiveObjectDeflectionResult);
-                                }
-                            }
-                        }
-                    }
+                    ComputeDeflectedInteractiveObject();
+                    ProcessDeflectionResults();
                 }
             }
+        }
+
+        /// <summary>
+        /// Call core interactive object event <see cref="CoreInteractiveObject.OnInteractiveObjectAskingToBeDeflected"/> for every deflectable objects in
+        /// <see cref="ObjectsInsideDeflectionRangeSystem"/>.
+        /// Deflection results is stored in the buffer <see cref="SuccessfullyProjectileDeflectedPropertiesBuffered"/> to be processed after the iteration in <see cref="ProcessDeflectionResults"/>.
+        /// </summary>
+        private void ComputeDeflectedInteractiveObject()
+        {
+            foreach (var insideInteractiveObject in this.ObjectsInsideDeflectionRangeSystem.GetInsideDeflectableInteractiveObjects())
+            {
+                var InteractiveObjectDeflectionResult = insideInteractiveObject.OnInteractiveObjectAskingToBeDeflected(this.AssociatedInteractiveObject, out bool success);
+                if (success)
+                {
+                    this.SuccessfullyProjectileDeflectedPropertiesBuffered.Add(InteractiveObjectDeflectionResult);
+                }
+            }
+        }
+
+        private void ProcessDeflectionResults()
+        {
+            /// SuccessfullyProjectileDeflectedProperties are buffered because
+            if (this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count > 0)
+            {
+                for (var i = this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count - 1; i >= 0; i--)
+                {
+                    Debug.Log(MyLog.Format(this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count + "  " + i));
+                    this.OnProjectileSuccessfullyDeflected?.Invoke(this.SuccessfullyProjectileDeflectedPropertiesBuffered[i]);
+                    this.SuccessfullyProjectileDeflectedPropertiesBuffered.RemoveAt(i);
+                }
+            }
+        }
+
+
+        public void Destroy()
+        {
+            this.ObjectsInsideDeflectionRangeSystem.Destroy();
         }
 
         #region Data Retrieval
@@ -96,5 +148,27 @@ namespace ProjectileDeflection
         }
 
         #endregion
+
+        #region External Events
+
+        /// <summary>
+        /// Projectile deflection is only needed when the health is low.
+        /// </summary>
+        public void OnLowHealthStarted()
+        {
+            this.ObjectsInsideDeflectionRangeSystem.OnLowHealthStarted();
+        }
+
+        /// <summary>
+        /// Projectile deflection is no more needed when the health is no more low.
+        /// </summary>
+        public void OnLowHealthEnded()
+        {
+            this.ObjectsInsideDeflectionRangeSystem.OnLowHealthEnded();
+        }
+
+        #endregion
+
+     
     }
 }

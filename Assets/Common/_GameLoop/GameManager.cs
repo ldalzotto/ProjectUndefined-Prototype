@@ -116,6 +116,11 @@ namespace GameLoop
                 SelectableObjectManagerV2.Get().Tick(d);
                 CircleFillBarRendererManager.Get().Tick(d);
             }
+            else
+            {
+                PlayerInteractiveObjectManager.Get().TickTimeFrozen(d);
+                InteractiveObjectV2Manager.Get().TickTimeFrozen(d);
+            }
         }
 
         private void LateUpdate()

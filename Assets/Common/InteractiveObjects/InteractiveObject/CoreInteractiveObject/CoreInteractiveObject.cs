@@ -27,7 +27,7 @@ namespace InteractiveObjects
         /// This is to allow singular systems to have their own <see cref="CoreInteractiveObject"/> reference cleanup logic at InteractiveObject granularity. 
         /// </summary>
         private event Action<CoreInteractiveObject> OnInteractiveObjectDestroyedEvent;
-        
+
         protected void BaseInit(IInteractiveGameObject interactiveGameObject, bool IsUpdatedInMainManager = true)
         {
             isAskingToBeDestroyed = false;
@@ -94,6 +94,10 @@ namespace InteractiveObjects
         }
 
         public virtual void AfterTicks(float d)
+        {
+        }
+
+        public virtual void TickTimeFrozen(float d)
         {
         }
 

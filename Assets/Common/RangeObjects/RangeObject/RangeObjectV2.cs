@@ -25,14 +25,14 @@ namespace RangeObjects
         public RangeObstacleListenerSystem RangeObstacleListenerSystem { get; private set; }
         public RangeIntersectionV2System RangeIntersectionV2System { get; private set; }
 
-        
+
         /// <summary>
         /// /!\ <see cref="RangeObjectV2"/> destroy event hook.
         /// This is the **ONLY** way to detect destroy of range objects.
         /// This is to allow singular systems to have their own <see cref="RangeObjectV2"/> reference cleanup logic at RangeObject granularity. 
         /// </summary>
-        private event Action<RangeObjectV2> OnRangeObjectDestroyedEvent; 
-        
+        private event Action<RangeObjectV2> OnRangeObjectDestroyedEvent;
+
         protected void Init(RangeGameObjectV2 RangeGameObjectV2, RangeObjectInitialization RangeObjectInitialization)
         {
             this.RangeGameObjectV2 = RangeGameObjectV2;
@@ -55,7 +55,7 @@ namespace RangeObjects
             Profiler.EndSample();
         }
 
-        public void OnDestroy()
+        public virtual void OnDestroy()
         {
             //we call listeners callbacks
             this.RangeIntersectionV2System.OnDestroy();
@@ -68,6 +68,8 @@ namespace RangeObjects
             //To trigger itnersection events
             this.RangeIntersectionV2System.Tick(0f);
             this.OnRangeObjectDestroyedEvent?.Invoke(this);
+            
+            GameObject.Destroy(this.RangeGameObjectV2.RangeGameObject);
         }
 
         public void ReceiveEvent(SetWorldPositionEvent SetWorldPositionEvent)
@@ -104,22 +106,6 @@ namespace RangeObjects
         {
             return this.RangeGameObjectV2.GetTransform();
         }
-    }
-
-    public class SphereRangeObjectV2 : RangeObjectV2
-    {
-        private SphereRangeObjectInitialization SphereRangeObjectInitialization;
-
-        public SphereRangeObjectV2(GameObject AssociatedGameObject, SphereRangeObjectInitialization SphereRangeObjectInitialization, CoreInteractiveObject AssociatedInteractiveObject, string objectName = "")
-        {
-            this.RangeType = RangeType.SPHERE;
-            this.SphereRangeObjectInitialization = SphereRangeObjectInitialization;
-            var RangeGameObjectV2 = new RangeGameObjectV2(AssociatedGameObject, this.SphereRangeObjectInitialization, this, AssociatedInteractiveObject, objectName);
-            this.SphereBoundingCollider = (SphereCollider) RangeGameObjectV2.BoundingCollider;
-            base.Init(RangeGameObjectV2, SphereRangeObjectInitialization);
-        }
-
-        public SphereCollider SphereBoundingCollider { get; private set; }
     }
 
     public class FrustumRangeObjectV2 : RangeObjectV2

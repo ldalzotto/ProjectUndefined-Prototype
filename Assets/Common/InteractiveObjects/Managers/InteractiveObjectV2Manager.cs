@@ -65,20 +65,16 @@ namespace InteractiveObjects
                 if (InteractiveObjects[InteractiveObjectIndex].IsUpdatedInMainManager)
                     InteractiveObjects[InteractiveObjectIndex].AfterTicks(d);
 
-            List<CoreInteractiveObject> InteractiveObjectsToDelete = null;
+            DestroyInteractiveObjectsTaggedAsToBeDestroyed();
+        }
+
+        public void TickTimeFrozen(float d)
+        {
             for (var InteractiveObjectIndex = 0; InteractiveObjectIndex < InteractiveObjects.Count; InteractiveObjectIndex++)
-                if (InteractiveObjects[InteractiveObjectIndex].IsAskingToBeDestroyed)
-                {
-                    if (InteractiveObjectsToDelete == null) InteractiveObjectsToDelete = new List<CoreInteractiveObject>();
+                if (InteractiveObjects[InteractiveObjectIndex].IsUpdatedInMainManager)
+                    InteractiveObjects[InteractiveObjectIndex].TickTimeFrozen(d);
 
-                    InteractiveObjectsToDelete.Add(InteractiveObjects[InteractiveObjectIndex]);
-                }
-
-            if (InteractiveObjectsToDelete != null)
-                foreach (var InteractiveObjectToDelete in InteractiveObjectsToDelete)
-                {
-                    InteractiveObjectToDelete.Destroy();
-                }
+            DestroyInteractiveObjectsTaggedAsToBeDestroyed();
         }
 
         public void LateTick(float d)
@@ -97,6 +93,7 @@ namespace InteractiveObjects
             {
                 InteractiveObjectsIndexedByLogicCollider.Add(interactiveObjectLogicCollider, InteractiveObject);
             }
+
             InteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
         }
 
@@ -105,6 +102,24 @@ namespace InteractiveObjects
             InteractiveObjects.Remove(InteractiveObject);
             var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
             if (interactiveObjectLogicCollider != null) InteractiveObjectsIndexedByLogicCollider.Remove(interactiveObjectLogicCollider);
+        }
+
+        private void DestroyInteractiveObjectsTaggedAsToBeDestroyed()
+        {
+            List<CoreInteractiveObject> InteractiveObjectsToDelete = null;
+            for (var InteractiveObjectIndex = 0; InteractiveObjectIndex < InteractiveObjects.Count; InteractiveObjectIndex++)
+                if (InteractiveObjects[InteractiveObjectIndex].IsAskingToBeDestroyed)
+                {
+                    if (InteractiveObjectsToDelete == null) InteractiveObjectsToDelete = new List<CoreInteractiveObject>();
+
+                    InteractiveObjectsToDelete.Add(InteractiveObjects[InteractiveObjectIndex]);
+                }
+
+            if (InteractiveObjectsToDelete != null)
+                foreach (var InteractiveObjectToDelete in InteractiveObjectsToDelete)
+                {
+                    InteractiveObjectToDelete.Destroy();
+                }
         }
 
         public override void OnDestroy()

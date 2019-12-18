@@ -139,6 +139,14 @@ namespace PlayerObject
             UpdatePlayerMovement(d);
         }
 
+        public override void TickTimeFrozen(float d)
+        {
+            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
+            {
+                this.projectileDeflectionSystem.TickTimeFrozen(d);
+            }
+        }
+
         public override void AfterTicks(float d)
         {
             this.ObjectMovementSpeedSystem.AfterTicks();
@@ -189,6 +197,7 @@ namespace PlayerObject
         public override void Destroy()
         {
             this.WeaponHandlingSystem.Destroy();
+            this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
             base.Destroy();
         }
@@ -248,12 +257,14 @@ namespace PlayerObject
         private void OnLowHealthStarted()
         {
             this.PlayerObjectAnimationStateManager.OnLowHealthStarted(this.PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition.OnLowHealthLocomotionAnimation);
+            this.projectileDeflectionSystem.OnLowHealthStarted();
             this.PlayerVisualEffectSystem.OnLowHealthStarted();
         }
 
         private void OnLowHealthEnded()
         {
             this.PlayerObjectAnimationStateManager.OnLowHealthEnded();
+            this.projectileDeflectionSystem.OnLowHealthEnded();
             this.PlayerVisualEffectSystem.OnLowHealthEnded();
         }
 

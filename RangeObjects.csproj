@@ -75,6 +75,9 @@
      <Compile Include="Assets\Common\RangeObjects\RangeObject\RangeGameObjectV2.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\RangeObjectV2.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Shapes\BoxRangeObject\BoxRangeObjectV2.cs" />
+     <Compile Include="Assets\Common\RangeObjects\RangeObject\Shapes\BoxRangeObject\BoxRayRangeObject.cs" />
+     <Compile Include="Assets\Common\RangeObjects\RangeObject\Shapes\SphereRangeObject\SphereOverlapRangeObject.cs" />
+     <Compile Include="Assets\Common\RangeObjects\RangeObject\Shapes\SphereRangeObject\SphereRangeObjectV2.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeObject\Systems\RangeObjectV2Systems.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeRendering\Components\GroundEffectIgnoredGroundObjectType.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeRendering\Components\GroundEffectType.cs" />

@@ -57,7 +57,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionActorDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionGlobalConfiguration\ProjectileDeflectionGlobalConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\DeflectionCalculations.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\ProjectileDeflectionFeedbackIcon.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ObjectsInsideDeflectionRangeSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionFeedbackIconSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionSystem.cs" />
      <None Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -645,6 +650,10 @@
     <ProjectReference Include="ProjectileDeflection_Interface.csproj">
       <Project>{0DF0C192-6A11-E879-ADF9-537F34408904}</Project>
       <Name>ProjectileDeflection_Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="RangeObjects.csproj">
+      <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
+      <Name>RangeObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
