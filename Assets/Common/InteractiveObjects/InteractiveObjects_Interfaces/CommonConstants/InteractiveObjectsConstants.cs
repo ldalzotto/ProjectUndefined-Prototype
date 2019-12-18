@@ -34,7 +34,7 @@ namespace InteractiveObjects_Interfaces
         {
             {AIMovementSpeedAttenuationFactor.ZERO, 0f},
             {AIMovementSpeedAttenuationFactor.WALK, 0.5f},
-            {AIMovementSpeedAttenuationFactor.WALK_INJURED, 0.60f},
+            {AIMovementSpeedAttenuationFactor.WALK_INJURED, 0.65f},
             {AIMovementSpeedAttenuationFactor.RUN, 1f}
         };
     }
