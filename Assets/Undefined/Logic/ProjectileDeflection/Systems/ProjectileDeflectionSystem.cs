@@ -10,6 +10,10 @@ namespace ProjectileDeflection
 {
     /// <summary>
     /// Responsible of deflecting projectiles when conditions are met.
+    /// The <see cref="ProjectileDeflectionSystem"/> is associated to an "Actor" (referenced by <see cref="AssociatedInteractiveObject"/>).
+    /// It is up to the <see cref="ProjectileDeflectionSystem"/> to notify other <see cref="CoreInteractiveObject"/> that they have been deflected (by calling <see cref="CoreInteractiveObject.OnInteractiveObjectAskingToBeDeflected"/>
+    /// to deflected projectiles.)
+    /// Deflection trajectory calculations are handled by <see cref="DeflectionCalculations"/>.
     /// </summary>
     public class ProjectileDeflectionSystem
     {
@@ -127,7 +131,6 @@ namespace ProjectileDeflection
             {
                 for (var i = this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count - 1; i >= 0; i--)
                 {
-                    Debug.Log(MyLog.Format(this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count + "  " + i));
                     this.OnProjectileSuccessfullyDeflected?.Invoke(this.SuccessfullyProjectileDeflectedPropertiesBuffered[i]);
                     this.SuccessfullyProjectileDeflectedPropertiesBuffered.RemoveAt(i);
                 }

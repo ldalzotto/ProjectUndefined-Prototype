@@ -13,7 +13,9 @@ namespace RangeObjects
     public class BoxRayRangeObject : BoxRangeObjectV2
     {
         private float RayWidth;
-        public HashSet<CoreInteractiveObject> InsideInteractiveObjects { get; private set; } = new HashSet<CoreInteractiveObject>();
+
+        private InteractiveObjectLocalContainerSystem InteractiveObjectLocalContainerSystem;
+        
         private Func<InteractiveObjectPhysicsTriggerInfo, bool> InteractiveObjectSelectionGuard;
 
         public BoxRayRangeObject(GameObject AssociatedGameObject, BoxRangeObjectInitialization BoxRangeObjectInitialization, CoreInteractiveObject AssociatedInteractiveObject,
@@ -21,6 +23,7 @@ namespace RangeObjects
             : base(AssociatedGameObject, BoxRangeObjectInitialization, AssociatedInteractiveObject, objectName)
         {
             this.InteractiveObjectSelectionGuard = InteractiveObjectSelectionGuard;
+            this.InteractiveObjectLocalContainerSystem = new InteractiveObjectLocalContainerSystem(null, null);
             this.RayWidth = rayWidth;
             this.RegisterPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(
                 InteractiveObjectSelectionGuard,
@@ -67,32 +70,20 @@ namespace RangeObjects
 
         private void OnTriggerEnter(CoreInteractiveObject interactiveObject)
         {
-            this.InsideInteractiveObjects.Add(interactiveObject);
-            interactiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
+            this.InteractiveObjectLocalContainerSystem.AddInteractiveObject(interactiveObject);
         }
 
         private void OnTriggerExit(CoreInteractiveObject interactiveObject)
         {
-            if (this.InsideInteractiveObjects.Remove(interactiveObject))
-            {
-                interactiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
-            }
+           this.InteractiveObjectLocalContainerSystem.RemoveInteractiveObject(interactiveObject);
         }
-
-        private void OnInteractiveObjectdestroyed(CoreInteractiveObject interactiveObject)
-        {
-            if (this.InsideInteractiveObjects.Remove(interactiveObject))
-            {
-                interactiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectdestroyed);
-            }
-        }
-
+        
         public void Disable()
         {
             if (this.RangeGameObjectV2.RangeGameObject.activeSelf)
             {
                 this.RangeGameObjectV2.RangeGameObject.SetActive(false);
-                this.InsideInteractiveObjects.Clear();
+                this.InteractiveObjectLocalContainerSystem.OnDestroy();
             }
         }
 
@@ -106,5 +97,14 @@ namespace RangeObjects
                 this.RangeGameObjectV2.RangeGameObject.SetActive(true);
             }
         }
+
+        #region Data Retrieval
+
+        public HashSet<CoreInteractiveObject> GetInsideInteractiveObjects()
+        {
+            return this.InteractiveObjectLocalContainerSystem.InsideInteractiveObjects;
+        }
+
+        #endregion
     }
 }

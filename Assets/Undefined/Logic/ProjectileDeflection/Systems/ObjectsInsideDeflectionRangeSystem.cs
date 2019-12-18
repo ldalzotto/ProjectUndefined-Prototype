@@ -81,9 +81,9 @@ namespace ProjectileDeflection
 
         #region Data Retrieval
 
-        public List<CoreInteractiveObject> GetInsideDeflectableInteractiveObjects()
+        public HashSet<CoreInteractiveObject> GetInsideDeflectableInteractiveObjects()
         {
-            return this.SphereOverlapRangeObject.InsideInteractiveObjectsList;
+            return this.SphereOverlapRangeObject.GetInsideInteractiveObjects();
         }
 
         #endregion

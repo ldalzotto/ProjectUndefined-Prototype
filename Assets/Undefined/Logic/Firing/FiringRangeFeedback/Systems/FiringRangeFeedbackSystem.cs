@@ -162,7 +162,7 @@ namespace Firing
         {
             Segment adjustedSegment = segment;
             var ray = new Ray(segment.Source, (segment.Target - segment.Source).normalized);
-            foreach (var insideInteractiveObject in this.PlayerFiringRangeTriggerV2.InsideInteractiveObjects)
+            foreach (var insideInteractiveObject in this.PlayerFiringRangeTriggerV2.GetInsideInteractiveObjects())
             {
                 if (insideInteractiveObject.InteractiveGameObject.LogicCollider.Raycast(ray, out RaycastHit hit, segment.Distance))
                 {

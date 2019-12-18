@@ -128,6 +128,11 @@ namespace InteractiveObjects
 
         #region deflection events
 
+        public virtual bool AskIfProjectileCanBeDeflected(CoreInteractiveObject DelfectionActorObject)
+        {
+            return false;
+        }
+
         public virtual ProjectileDeflectedPropertiesStruct OnInteractiveObjectAskingToBeDeflected(CoreInteractiveObject DelfectionActorObject, out bool success)
         {
             success = false;
