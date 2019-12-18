@@ -37,9 +37,9 @@ namespace Health
             this.OnHealthValueChangedEvent?.Invoke(OldValue, newValue);
         }
 
-        public void ChangeHealth(float HealthReduction)
+        public void ChangeHealth(float HealthDelta)
         {
-            this.CurrentHealth.SetValue(this.CurrentHealth.GetValue() + HealthReduction);
+            this.CurrentHealth.SetValue(this.CurrentHealth.GetValue() + HealthDelta);
         }
 
         #region DataRetrieval

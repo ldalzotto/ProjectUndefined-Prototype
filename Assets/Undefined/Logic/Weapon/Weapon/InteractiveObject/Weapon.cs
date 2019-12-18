@@ -14,7 +14,7 @@ namespace Weapon
         {
             this.WeaponHolder = weaponHolder;
             this.BaseInit(IInteractiveGameObject, true);
-            
+
             this.FiringProjectileSystem = new FiringProjectileSystem(this, WeaponDefinition);
             this.WeaponPositioningSystem = new WeaponPositioningSystem(this, this.WeaponHolder);
         }
@@ -81,17 +81,31 @@ namespace Weapon
     /// </summary>
     struct WeaponPositioningSystem
     {
+        private bool isEnabled;
         private CopyInteractiveObjectTransformConstraint CopyConstraint;
 
         public WeaponPositioningSystem(Weapon AssociatedWeapon, CoreInteractiveObject WeaponHolder)
         {
-            this.CopyConstraint = new CopyInteractiveObjectTransformConstraint(AssociatedWeapon.InteractiveGameObject,
-                WeaponHolder.InteractiveGameObject.Animator.gameObject.FindChildObjectRecursively(BipedArmatureConstants.GetBipedBoneName(BipedArmatureName.ItemHold_L)).transform);
+            this.isEnabled = default(bool);
+            this.CopyConstraint = default(CopyInteractiveObjectTransformConstraint);
+            if (WeaponHolder.InteractiveGameObject.Animator != null)
+            {
+                var itemholdLeftBone = WeaponHolder.InteractiveGameObject.Animator.gameObject.FindChildObjectRecursively(BipedArmatureConstants.GetBipedBoneName(BipedArmatureName.ItemHold_L));
+                if (itemholdLeftBone != null)
+                {
+                    this.isEnabled = true;
+                    this.CopyConstraint = new CopyInteractiveObjectTransformConstraint(AssociatedWeapon.InteractiveGameObject,
+                        itemholdLeftBone.transform);
+                }
+            }
         }
 
         public void Tick(float d)
         {
-            this.CopyConstraint.ApplyConstraint();
+            if (this.isEnabled)
+            {
+                this.CopyConstraint.ApplyConstraint();
+            }
         }
     }
 }
