@@ -54,7 +54,11 @@ namespace PlayerObject
         {
             if (this.IsOnLowHealth)
             {
-                this.PlayerBodyRenderer.material.SetVector("_EmissionColor", this.PlayerBodyRenderer.material.GetVector("_EmissionColor").normalized * this.PlayerOnLowHealthVisualEffectComponent.EmissionIntensity);
+                var materials = this.PlayerBodyRenderer.materials;
+                for (var i = 0; i < materials.Length; i++)
+                {
+                    materials[i].SetVector("_EmissionColor", materials[i].GetVector("_EmissionColor").normalized * this.PlayerOnLowHealthVisualEffectComponent.EmissionIntensity);
+                }
             }
         }
 
@@ -76,7 +80,11 @@ namespace PlayerObject
 
         private void ResetPlayerEmissionColor()
         {
-            this.PlayerBodyRenderer.material.SetVector("_EmissionColor", this.PlayerBodyRenderer.material.GetVector("_EmissionColor").normalized);
+            var materials = this.PlayerBodyRenderer.materials;
+            for (var i = 0; i < materials.Length; i++)
+            {
+                materials[i].SetVector("_EmissionColor", materials[i].GetVector("_EmissionColor").normalized);
+            }
         }
     }
 }

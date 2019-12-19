@@ -35,14 +35,6 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Armature/Root/Head_Control/Head_Control_end
     m_Weight: 1
-  - m_Path: Armature/Root/ItemHolding.L
-    m_Weight: 1
-  - m_Path: Armature/Root/ItemHolding.L/ItemHolding.L_end
-    m_Weight: 1
-  - m_Path: Armature/Root/ItemHolding.R
-    m_Weight: 1
-  - m_Path: Armature/Root/ItemHolding.R/ItemHolding.R_end
-    m_Weight: 1
   - m_Path: Armature/Root/Leg Control.L
     m_Weight: 0
   - m_Path: Armature/Root/Leg Control.L/Foot Roll Control.L
@@ -108,11 +100,15 @@ AvatarMask:
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.L/Lower Arm.L/Hand.L/Figers.L
     m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.L/Lower Arm.L/Hand.L/Figers.L/Figers.L_end
-    m_Weight: 0
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/Chest/Upper Arm.L/Lower Arm.L/Hand.L/ItemHolding.L
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/Chest/Upper Arm.L/Lower Arm.L/Hand.L/ItemHolding.L/ItemHolding.L_end
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.L/Lower Arm.L/Hand.L/Thumb.L
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.L/Lower Arm.L/Hand.L/Thumb.L/Thumb.L_end
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.R
     m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.R/Lower Arm.R
@@ -123,18 +119,22 @@ AvatarMask:
     m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.R/Lower Arm.R/Hand.R/Figers.R/Figers.R_end
     m_Weight: 1
+  - m_Path: Armature/Root/Torso/Chest/Upper Arm.R/Lower Arm.R/Hand.R/ItemHolding.R
+    m_Weight: 1
+  - m_Path: Armature/Root/Torso/Chest/Upper Arm.R/Lower Arm.R/Hand.R/ItemHolding.R/ItemHolding.R_end
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.R/Lower Arm.R/Hand.R/Thumb.R
     m_Weight: 1
   - m_Path: Armature/Root/Torso/Chest/Upper Arm.R/Lower Arm.R/Hand.R/Thumb.R/Thumb.R_end
     m_Weight: 1
   - m_Path: Armature/Root/Torso/Upper Leg.Control.L
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Upper Leg.Control.L/Upper Leg.Control.L_end
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Upper Leg.Control.R
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Torso/Upper Leg.Control.R/Upper Leg.Control.R_end
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Armature/Root/Upper Leg.L
     m_Weight: 0
   - m_Path: Armature/Root/Upper Leg.L/Lower Leg.L
