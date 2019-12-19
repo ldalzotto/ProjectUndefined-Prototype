@@ -3,6 +3,7 @@
     "references": [
         "CoreGame",
         "InteractiveObjects",
+        "AnimatorPlayable",
         "InteractiveObjects_Interfaces",
         "Editor_Common",
         "OdinSerializer",

@@ -93,6 +93,7 @@ namespace ProjectileDeflection
 
                 if (GameInputManager.CurrentInput.DeflectProjectileDown())
                 {
+                    OnProjectileDeflectionAttemptEvent.Get().OnProjectileDeflectionAttempt();
                     ComputeDeflectedInteractiveObject();
                     ProcessDeflectionResults();
                 }

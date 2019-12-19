@@ -68,6 +68,7 @@ namespace PlayerObject
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
+            OnProjectileDeflectionAttemptEvent.Get().RegisterOnProjectileDeflectionAttemptEventListener(this.OnProjectileDeflectionAttempt);
 
             PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
@@ -199,6 +200,7 @@ namespace PlayerObject
             this.WeaponHandlingSystem.Destroy();
             this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
+            OnProjectileDeflectionAttemptEvent.Get().UnRegisterOnProjectileDeflectionAttemptEvent(this.OnProjectileDeflectionAttempt);
             base.Destroy();
         }
 
@@ -314,6 +316,15 @@ namespace PlayerObject
         public void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint)
         {
             this.playerMoveManager.SetConstraintForThisFrame(PlayerMovementConstraint);
+        }
+
+        #endregion
+
+        #region Deflection Events
+
+        private void OnProjectileDeflectionAttempt()
+        {
+            this.PlayerObjectAnimationStateManager.OnProjectileDeflectionAttempt(this.PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition.ProjectileDeflectMovementAnimation);
         }
 
         #endregion
