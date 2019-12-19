@@ -11,7 +11,7 @@ namespace ProjectileDeflection
     /// <summary>
     /// Responsible of deflecting projectiles when conditions are met.
     /// The <see cref="ProjectileDeflectionSystem"/> is associated to an "Actor" (referenced by <see cref="AssociatedInteractiveObject"/>).
-    /// It is up to the <see cref="ProjectileDeflectionSystem"/> to notify other <see cref="CoreInteractiveObject"/> that they have been deflected (by calling <see cref="CoreInteractiveObject.OnInteractiveObjectAskingToBeDeflected"/>
+    /// It is up to the <see cref="ProjectileDeflectionSystem"/> to notify other <see cref="CoreInteractiveObject"/> that they have been deflected (by calling <see cref="CoreInteractiveObject.InteractiveObjectDeflected"/>
     /// to deflected projectiles.)
     /// Deflection trajectory calculations are handled by <see cref="DeflectionCalculations"/>.
     /// </summary>
@@ -24,21 +24,15 @@ namespace ProjectileDeflection
 
         #endregion
 
-        #region Callbacks
-
-        private Action<ProjectileDeflectedPropertiesStruct> OnProjectileSuccessfullyDeflected;
-
-        #endregion
-
         private ProjectileDeflectionActorDefinition _projectileDeflectionActorDefinition;
         private CoreInteractiveObject AssociatedInteractiveObject;
 
         /// <summary>
         /// When the Player try to deflect projectiles, object deflection results are stored temporaly to be processed after the deflect step. <see cref="ProcessDeflectionResults"/>
-        /// /!\ This is really important because the events called in the process ov event may lead to modification of <see cref="ObjectsInsideDeflectionRangeSystem"/> while <see cref="ComputeDeflectedInteractiveObject"/>
+        /// /!\ This is really important because the events called in the processing of events may lead to modification of <see cref="ObjectsInsideDeflectionRangeSystem"/> while <see cref="ComputeDeflectedInteractiveObject"/>
         /// is already iterating over interactive objects inside <see cref="ObjectsInsideDeflectionRangeSystem"/>.
         /// </summary>
-        private List<ProjectileDeflectedPropertiesStruct> SuccessfullyProjectileDeflectedPropertiesBuffered = new List<ProjectileDeflectedPropertiesStruct>();
+        private List<CoreInteractiveObject> SuccessfullyProjectileDeflectedPropertiesBuffered = new List<CoreInteractiveObject>();
 
         #region Systems
 
@@ -52,13 +46,11 @@ namespace ProjectileDeflection
         /// </summary>
         private bool UpdatedThisFrame;
 
-        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition,
-            Action<ProjectileDeflectedPropertiesStruct> OnProjectileSuccessfullyDeflected = null)
+        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             this._projectileDeflectionActorDefinition = projectileDeflectionActorDefinition;
-            this.OnProjectileSuccessfullyDeflected = OnProjectileSuccessfullyDeflected;
-            this.ProjectileDeflectionFeedbackIconSystem = new ProjectileDeflectionFeedbackIconSystem();
+            this.ProjectileDeflectionFeedbackIconSystem = new ProjectileDeflectionFeedbackIconSystem(associatedInteractiveObject);
             this.ObjectsInsideDeflectionRangeSystem = new ObjectsInsideDeflectionRangeSystem(associatedInteractiveObject, this._projectileDeflectionActorDefinition,
                 OnInteractiveObjectJusInsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustInsideDeflectionRange(interactiveObject); },
                 OnInteractiveObjectJustOutsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustOutsideDeflectionRange(interactiveObject); });
@@ -76,7 +68,7 @@ namespace ProjectileDeflection
             TickDeflection(d);
             this.ProjectileDeflectionFeedbackIconSystem.Tick(d);
         }
-        
+
         public void TickTimeFrozen(float d)
         {
             this.ProjectileDeflectionFeedbackIconSystem.TickTimeFrozen(d);
@@ -116,10 +108,9 @@ namespace ProjectileDeflection
         {
             foreach (var insideInteractiveObject in this.ObjectsInsideDeflectionRangeSystem.GetInsideDeflectableInteractiveObjects())
             {
-                var InteractiveObjectDeflectionResult = insideInteractiveObject.OnInteractiveObjectAskingToBeDeflected(this.AssociatedInteractiveObject, out bool success);
-                if (success)
+                if (insideInteractiveObject.AskIfProjectileCanBeDeflected(this.AssociatedInteractiveObject))
                 {
-                    this.SuccessfullyProjectileDeflectedPropertiesBuffered.Add(InteractiveObjectDeflectionResult);
+                    this.SuccessfullyProjectileDeflectedPropertiesBuffered.Add(insideInteractiveObject);
                 }
             }
         }
@@ -131,7 +122,7 @@ namespace ProjectileDeflection
             {
                 for (var i = this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count - 1; i >= 0; i--)
                 {
-                    this.OnProjectileSuccessfullyDeflected?.Invoke(this.SuccessfullyProjectileDeflectedPropertiesBuffered[i]);
+                    this.SuccessfullyProjectileDeflectedPropertiesBuffered[i].InteractiveObjectDeflected(this.AssociatedInteractiveObject);
                     this.SuccessfullyProjectileDeflectedPropertiesBuffered.RemoveAt(i);
                 }
             }
@@ -171,7 +162,5 @@ namespace ProjectileDeflection
         }
 
         #endregion
-
-     
     }
 }

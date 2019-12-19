@@ -59,7 +59,6 @@
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionActorDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionGlobalConfiguration\ProjectileDeflectionGlobalConfiguration.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\DeflectionCalculations.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\ProjectileDeflectionFeedbackIcon.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ObjectsInsideDeflectionRangeSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionFeedbackIconSystem.cs" />

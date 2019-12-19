@@ -14,7 +14,6 @@
         "Targetting",
         "AnimatorPlayable",
         "RangeObjects",
-        "ProjectileDeflection",
         "ProjectileDeflection_Interface"
     ],
     "includePlatforms": [],

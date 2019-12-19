@@ -673,10 +673,6 @@
       <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
       <Name>RangeObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="ProjectileDeflection.csproj">
-      <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
-      <Name>ProjectileDeflection</Name>
-    </ProjectReference>
     <ProjectReference Include="ProjectileDeflection_Interface.csproj">
       <Project>{0DF0C192-6A11-E879-ADF9-537F34408904}</Project>
       <Name>ProjectileDeflection_Interface</Name>

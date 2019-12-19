@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Damage;
+﻿using Damage;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
-using ProjectileDeflection;
 using ProjectileDeflection_Interface;
 using UnityEngine;
 
@@ -71,16 +68,28 @@ namespace Firing
             this.ProjectileWeaponHoldingSystem.SwitchWeaponHolder(NewWeaponHolder);
         }
 
-        public override ProjectileDeflectedPropertiesStruct OnInteractiveObjectAskingToBeDeflected(CoreInteractiveObject DelfectionActorObject, out bool success)
+        #region Deflection Events
+
+        public override bool AskIfProjectileCanBeDeflected(CoreInteractiveObject DelfectionActorObject)
         {
-            success = this.ProjectileWeaponHoldingSystem.GetWeaponHolder() != DelfectionActorObject;
-            if (success)
+            return this.interactiveObjectTag.IsDealingDamage && this.ProjectileWeaponHoldingSystem.GetWeaponHolder() != DelfectionActorObject;
+        }
+
+        /// <summary>
+        /// <see cref="FiredProjectile"/> deflection also check if the object is deflectable <see cref="AskIfProjectileCanBeDeflected"/>. By design,
+        /// it should not be useful because the DeflectionSystem (the caller of <see cref="InteractiveObjectDeflected"/>) already check this condition. But this is added here for safety.
+        /// </summary>
+        public override void InteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject)
+        {
+            if (this.AskIfProjectileCanBeDeflected(DelfectionActorObject))
             {
                 DeflectionCalculations.ForwardDeflection(DelfectionActorObject, this);
+                DelfectionActorObject.DealDamage(this.FiredProjectileDefinition.ProjectileDeflectedProperties.HealthRecovered, null);
             }
-
-            return this.FiredProjectileDefinition.ProjectileDeflectedProperties;
         }
+
+        #endregion
+
 
         #region Logical Conditions
 

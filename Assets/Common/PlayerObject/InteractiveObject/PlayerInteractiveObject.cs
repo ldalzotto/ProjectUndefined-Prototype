@@ -63,7 +63,7 @@ namespace PlayerObject
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition,
                 OnLowHealthStartedCallback: this.OnLowHealthStarted, OnLowHealthEndedCallback: this.OnLowHealthEnded);
-            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition, this.OnProjectileSuccessfullyDeflected);
+            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             /// To display the associated HealthSystem value to UI.
@@ -295,15 +295,6 @@ namespace PlayerObject
         public override Vector3 GetFiringTargetLocalPosition()
         {
             return this.FiringTargetPositionSystem.GetFiringTargetLocalPosition();
-        }
-
-        #endregion
-
-        #region Deflection Events
-
-        private void OnProjectileSuccessfullyDeflected(ProjectileDeflectedPropertiesStruct ProjectileDeflectedPropertiesStruct)
-        {
-            this.DealDamage(ProjectileDeflectedPropertiesStruct.HealthRecovered, null);
         }
 
         #endregion

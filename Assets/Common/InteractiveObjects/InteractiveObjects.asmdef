@@ -2,15 +2,14 @@
     "name": "InteractiveObjects",
     "references": [
         "GUID:bf33ead00b68e7843b03838c3c92d67b",
-        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e",
-        "GUID:83a23e85924b27e419c0fada7259185a",
-        "GUID:18572ca2bc29c7f49acd7b6782aec78e",
-        "GUID:6f109e35241fab442bce341ff19d91ef",
-        "GUID:76eb4bbed9fee0043bf1b65ac0b5e7ff",
-        "GUID:172a85e5b5a2b84469d67f792caf6890",
-        "GUID:4230db27fcf142a439bd15d769d36c99",
-        "GUID:bf3f2a346a37ed642851567e54bd2452",
-        "GUID:c7fd0f9f77242d341ba51753903addf0"
+        "CoreGame",
+        "OdinSerializer",
+        "Editor_Common",
+        "InteractiveObjects_Interfaces",
+        "InteractiveObject_Animation",
+        "AnimatorPlayable",
+        "SequencedAction",
+        "GeometryIntersection"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

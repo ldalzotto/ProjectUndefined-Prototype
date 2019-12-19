@@ -1,7 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using InteractiveObjects_Interfaces;
-using ProjectileDeflection_Interface;
+﻿using InteractiveObjects_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -128,16 +125,17 @@ namespace InteractiveObjects
 
         #region deflection events
 
+        /// <param name="DelfectionActorObject">It's the InteractiveObject that has triggered the deflection of the concerned InteractiveObject.</param>
         public virtual bool AskIfProjectileCanBeDeflected(CoreInteractiveObject DelfectionActorObject)
         {
             return false;
         }
-
-        public virtual ProjectileDeflectedPropertiesStruct OnInteractiveObjectAskingToBeDeflected(CoreInteractiveObject DelfectionActorObject, out bool success)
-        {
-            success = false;
-            return default(ProjectileDeflectedPropertiesStruct);
-        }
+        
+        /// <summary>
+        /// Effective deflection of the concerned InteractiveObject
+        /// </summary>
+        /// <param name="DelfectionActorObject">It's the InteractiveObject that has triggered the deflection of the concerned InteractiveObject.</param>
+        public virtual void InteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject){}
 
         #endregion
     }

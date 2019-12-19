@@ -1,7 +1,7 @@
 ﻿using InteractiveObjects;
 using ProjectileDeflection_Interface;
 
-namespace ProjectileDeflection
+namespace ProjectileDeflection_Interface
 {
     public static class DeflectionCalculations
     {

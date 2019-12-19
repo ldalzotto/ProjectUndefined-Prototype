@@ -7,20 +7,5 @@ namespace ProjectileDeflection_Interface
     public class ProjectileDeflectedProperties : SerializedScriptableObject
     {
         public float HealthRecovered;
-
-        public static implicit operator ProjectileDeflectedPropertiesStruct(ProjectileDeflectedProperties ProjectileDeflectedProperties)
-        {
-            return new ProjectileDeflectedPropertiesStruct(ProjectileDeflectedProperties.HealthRecovered);
-        }
-    }
-
-    public struct ProjectileDeflectedPropertiesStruct
-    {
-        public float HealthRecovered;
-
-        public ProjectileDeflectedPropertiesStruct(float healthRecovered)
-        {
-            HealthRecovered = healthRecovered;
-        }
     }
 }

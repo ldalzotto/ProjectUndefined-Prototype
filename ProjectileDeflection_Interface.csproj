@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\Definition\ProjectileDeflectedProperties.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\Lib\DeflectionCalculations.cs" />
      <None Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\ProjectileDeflection_Interface.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
@@ -612,6 +613,14 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
+      <Name>InteractiveObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>

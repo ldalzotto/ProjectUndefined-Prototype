@@ -1,7 +1,9 @@
 {
     "name": "ProjectileDeflection_Interface",
     "references": [
-        "GUID:83a23e85924b27e419c0fada7259185a"
+        "InteractiveObjects",
+        "InteractiveObjects_Interfaces",
+        "OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
