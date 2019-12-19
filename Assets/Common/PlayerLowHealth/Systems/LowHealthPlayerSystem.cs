@@ -3,6 +3,7 @@ using Health;
 using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using PlayerLowHealth_Interfaces;
 
 namespace PlayerLowHealth
 {
@@ -15,20 +16,10 @@ namespace PlayerLowHealth
 
         private BoolVariable IsLowHealth;
 
-        #region Callbacks
-
-        private Action OnLowHealthStartedCallback;
-        private Action OnLowHealthEndedCallback;
-
-        #endregion
 
         public LowHealthPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject,
-            HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition,
-            Action OnLowHealthStartedCallback = null, Action OnLowHealthEndedCallback = null)
+            HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition)
         {
-            this.OnLowHealthStartedCallback = OnLowHealthStartedCallback;
-            this.OnLowHealthEndedCallback = OnLowHealthEndedCallback;
-            
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.HealthSystemRef = HealthSystem;
             this.LowHealthPlayerSystemDefinition = LowHealthPlayerSystemDefinition;
@@ -45,14 +36,14 @@ namespace PlayerLowHealth
         {
             this.AssociatedInteractiveObject.ConstrainSpeed(new NotAboveSpeedAttenuationConstraint(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor));
             this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor);
-            this.OnLowHealthStartedCallback?.Invoke();
+            PlayerLowHealthStartedEvent.Get().OnPlayerLowHealthStarted();
         }
 
         private void OnLowHealthEnded()
         {
             this.AssociatedInteractiveObject.RemoveSpeedConstraints();
             this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.RUN);
-            this.OnLowHealthEndedCallback?.Invoke();
+            PlayerLowHealthEndedEvent.Get().OnPlayerLowHealthEnded();
         }
 
         #region Logical Conditiions

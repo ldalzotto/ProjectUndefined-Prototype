@@ -711,6 +711,10 @@
       <Project>{0DF0C192-6A11-E879-ADF9-537F34408904}</Project>
       <Name>ProjectileDeflection_Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="PlayerLowHealth_Interfaces.csproj">
+      <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
+      <Name>PlayerLowHealth_Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

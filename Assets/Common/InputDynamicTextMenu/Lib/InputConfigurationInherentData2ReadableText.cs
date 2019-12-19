@@ -12,9 +12,9 @@ namespace InputDynamicTextMenu
         {
             {InputID.CAMERA_ROTATION_DOWN_HOLD, "Camera rotation trigger"},
             {InputID.CAMERA_ZOOM, "Camera zoom"},
-            {InputID.FIRING_ACTION_DOWN, "Entering firirng mode"},
+            {InputID.FIRING_ACTION_DOWN, "Entering firing mode"},
             {InputID.FIRING_PROJECTILE_DOWN_HOLD, "Firing"},
-            {InputID.DEFLECT_PROJECTILE_DOWN, "Deflection"}
+            {InputID.DEFLECT_PROJECTILE_DOWN, "Deflect projectile"}
         };
 
         public static string ConvertInputToReadableText(InputID inputId)

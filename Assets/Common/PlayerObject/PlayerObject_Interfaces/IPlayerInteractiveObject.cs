@@ -7,9 +7,6 @@ namespace PlayerObject_Interfaces
     {
         IInteractiveGameObject InteractiveGameObject { get; }
 
-        void OnPlayerStartTargetting(A_AnimationPlayableDefinition StartTargettingPoseAnimation);
-        void OnPlayerStoppedTargetting();
-
         void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint);
     }
 }

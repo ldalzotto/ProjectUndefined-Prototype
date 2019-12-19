@@ -7,6 +7,7 @@ using InteractiveObjects_Interfaces;
 using LevelManagement;
 using PlayerActions;
 using PlayerLowHealth;
+using PlayerLowHealth_Interfaces;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
 using ProjectileDeflection_Interface;
@@ -61,15 +62,20 @@ namespace PlayerObject
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
-            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition,
-                OnLowHealthStartedCallback: this.OnLowHealthStarted, OnLowHealthEndedCallback: this.OnLowHealthEnded);
+            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
             OnProjectileDeflectionAttemptEvent.Get().RegisterOnProjectileDeflectionAttemptEventListener(this.OnProjectileDeflectionAttempt);
-
+            
+            PlayerStartTargettingEvent.Get().RegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
+            PlayerStoppedTargettingEvent.Get().RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
+            
+            PlayerLowHealthStartedEvent.Get().RegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
+            PlayerLowHealthEndedEvent.Get().RegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
+            
             PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
 
@@ -200,6 +206,12 @@ namespace PlayerObject
             this.WeaponHandlingSystem.Destroy();
             this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
+            PlayerStartTargettingEvent.Get().UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
+            PlayerStoppedTargettingEvent.Get().UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
+            
+            PlayerLowHealthStartedEvent.Get().UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
+            PlayerLowHealthEndedEvent.Get().UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
+            
             OnProjectileDeflectionAttemptEvent.Get().UnRegisterOnProjectileDeflectionAttemptEvent(this.OnProjectileDeflectionAttempt);
             base.Destroy();
         }

@@ -645,6 +645,10 @@
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="PlayerLowHealth_Interfaces.csproj">
+      <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
+      <Name>PlayerLowHealth_Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

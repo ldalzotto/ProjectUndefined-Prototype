@@ -44,7 +44,7 @@ namespace Firing
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
             this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
 
-            PlayerInteractiveObject.OnPlayerStartTargetting(this.FiringPlayerActionInherentData.FiringPoseAnimationV2);
+            PlayerStartTargettingEvent.Get().OnPlayerStartTargetting(this.FiringPlayerActionInherentData.FiringPoseAnimationV2);
         }
 
         public override void FirstExecution()
@@ -106,7 +106,7 @@ namespace Firing
             this.PlayerSpeedSystem.Dispose();
             this.FiringRangeFeedbackSystem.Dispose();
 
-            this.IPlayerInteractiveObject.OnPlayerStoppedTargetting();
+            PlayerStoppedTargettingEvent.Get().OnPlayerStoppedTargetting();
         }
 
 

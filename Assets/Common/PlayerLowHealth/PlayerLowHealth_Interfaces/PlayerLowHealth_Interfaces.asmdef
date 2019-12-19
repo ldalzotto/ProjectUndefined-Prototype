@@ -1,14 +1,7 @@
 {
-    "name": "InputDynamicTextMenu",
+    "name": "PlayerLowHealth_Interfaces",
     "references": [
-        "Input",
-        "CoreGame",
-        "Unity.InputSystem",
-        "Unity.TextMeshPro",
-        "OdinSerializer",
-        "PlayerObject_Interface",
-        "AnimatorPlayable",
-        "PlayerLowHealth_Interfaces"
+        "CoreGame"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
