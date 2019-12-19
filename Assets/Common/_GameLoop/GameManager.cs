@@ -2,6 +2,7 @@ using CameraManagement;
 using CoreGame;
 using Health;
 using Input;
+using InputDynamicTextMenu;
 using InteractiveObjects;
 using LevelManagement;
 using Obstacle;
@@ -55,6 +56,8 @@ namespace GameLoop
             HealthUIManager.Get().Init();
             PlayerActionEntryPoint.Get().Init();
             TargetCursorManager.Get();
+
+            InputDynamicTextMenuManager.Get();
         }
 
         private void FixedUpdate()

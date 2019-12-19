@@ -147,19 +147,6 @@ namespace Input
             }
         }
 
-        #region Data Retrieval
-
-        public virtual Dictionary<Key, KeyControl> GetKeyToKeyControlLookup()
-        {
-            return ((GameInput) this.currentInput).GameInputV2.KeyToKeyControlLookup;
-        }
-
-        public Dictionary<MouseButton, ButtonControl> GetMouseButtonControlLookup()
-        {
-            return ((GameInput) this.currentInput).GameInputV2.MouseButtonControlLookup;
-        }
-
-        #endregion
     }
 
     /// <summary>
@@ -207,40 +194,16 @@ namespace Input
 
     class GameInputV2
     {
-        private Dictionary<Key, KeyControl> keyToKeyControlLookup;
-        private Dictionary<MouseButton, ButtonControl> mouseButtonControlLookup;
-        private Dictionary<MouseScroll, Vector2Control> mouseScrollControlLookup;
 
+        private InputControlLookup InputControlLookupRef;
         private InputConfiguration InputConfiguration;
 
         public GameInputV2(InputConfiguration inputConfiguration)
         {
-            this.keyToKeyControlLookup = new Dictionary<Key, KeyControl>();
-            this.mouseButtonControlLookup = new Dictionary<MouseButton, ButtonControl>();
-            this.mouseScrollControlLookup = new Dictionary<MouseScroll, Vector2Control>();
-
-            foreach (var keyBoardKeyControl in Keyboard.current.allKeys)
-            {
-                this.keyToKeyControlLookup[keyBoardKeyControl.keyCode] = keyBoardKeyControl;
-            }
-
-            this.mouseButtonControlLookup[MouseButton.LEFT_BUTTON] = Mouse.current.leftButton;
-            this.mouseButtonControlLookup[MouseButton.RIGHT_BUTTON] = Mouse.current.rightButton;
-            this.mouseScrollControlLookup[MouseScroll.SCROLL] = Mouse.current.scroll;
-
+            this.InputControlLookupRef = InputControlLookup.Get();
             InputConfiguration = inputConfiguration;
         }
-
-        public Dictionary<Key, KeyControl> KeyToKeyControlLookup
-        {
-            get => keyToKeyControlLookup;
-        }
-
-        public Dictionary<MouseButton, ButtonControl> MouseButtonControlLookup
-        {
-            get => mouseButtonControlLookup;
-        }
-
+        
         public bool InputConditionsMet(InputID inputID)
         {
             return Convert.ToBoolean(InputConditionsMetFloat(inputID));
@@ -255,7 +218,7 @@ namespace Input
 
                 if (inputConfigurationInherentData.AttributedMouseScroll != MouseScroll.NONE)
                 {
-                    inputConditionsMet = this.mouseScrollControlLookup[inputConfigurationInherentData.AttributedMouseScroll].y.ReadValue();
+                    inputConditionsMet = this.InputControlLookupRef.mouseScrollControlLookup[inputConfigurationInherentData.AttributedMouseScroll].y.ReadValue();
                     if (inputConditionsMet != 0f)
                     {
                         return inputConditionsMet;
@@ -266,15 +229,15 @@ namespace Input
                 {
                     if (inputConfigurationInherentData.Down)
                     {
-                        inputConditionsMet = Convert.ToSingle(this.keyToKeyControlLookup[attibutedKey].wasPressedThisFrame);
+                        inputConditionsMet = Convert.ToSingle(this.InputControlLookupRef.keyToKeyControlLookup[attibutedKey].wasPressedThisFrame);
                     }
                     else if (inputConfigurationInherentData.DownHold)
                     {
-                        inputConditionsMet = Convert.ToSingle(this.keyToKeyControlLookup[attibutedKey].wasPressedThisFrame || this.keyToKeyControlLookup[attibutedKey].isPressed);
+                        inputConditionsMet = Convert.ToSingle(this.InputControlLookupRef.keyToKeyControlLookup[attibutedKey].wasPressedThisFrame || this.InputControlLookupRef.keyToKeyControlLookup[attibutedKey].isPressed);
                     }
                     else if (inputConfigurationInherentData.Released)
                     {
-                        inputConditionsMet = Convert.ToSingle(this.keyToKeyControlLookup[attibutedKey].wasReleasedThisFrame);
+                        inputConditionsMet = Convert.ToSingle(this.InputControlLookupRef.keyToKeyControlLookup[attibutedKey].wasReleasedThisFrame);
                     }
 
                     if (inputConditionsMet != 0f)
@@ -287,15 +250,15 @@ namespace Input
                 {
                     if (inputConfigurationInherentData.Down)
                     {
-                        inputConditionsMet = Convert.ToSingle(this.mouseButtonControlLookup[attrubuteMouseButton].wasPressedThisFrame);
+                        inputConditionsMet = Convert.ToSingle(this.InputControlLookupRef.mouseButtonControlLookup[attrubuteMouseButton].wasPressedThisFrame);
                     }
                     else if (inputConfigurationInherentData.DownHold)
                     {
-                        inputConditionsMet = Convert.ToSingle(this.mouseButtonControlLookup[attrubuteMouseButton].wasPressedThisFrame || this.mouseButtonControlLookup[attrubuteMouseButton].isPressed);
+                        inputConditionsMet = Convert.ToSingle(this.InputControlLookupRef.mouseButtonControlLookup[attrubuteMouseButton].wasPressedThisFrame || this.InputControlLookupRef.mouseButtonControlLookup[attrubuteMouseButton].isPressed);
                     }
                     else if (inputConfigurationInherentData.Released)
                     {
-                        inputConditionsMet = Convert.ToSingle(this.mouseButtonControlLookup[attrubuteMouseButton].wasReleasedThisFrame);
+                        inputConditionsMet = Convert.ToSingle(this.InputControlLookupRef.mouseButtonControlLookup[attrubuteMouseButton].wasReleasedThisFrame);
                     }
 
                     if (inputConditionsMet != 0f)

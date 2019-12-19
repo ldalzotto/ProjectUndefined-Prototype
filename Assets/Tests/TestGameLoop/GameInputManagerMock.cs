@@ -43,11 +43,6 @@ namespace Tests
             this.GameInputSystemUpdater.LateTick();
         }
 
-        public override Dictionary<Key, KeyControl> GetKeyToKeyControlLookup()
-        {
-            return new Dictionary<Key, KeyControl>();
-        }
-
         public GameTestMockedXInput GetGameTestMockedXInput()
         {
             return (GameTestMockedXInput) this.currentInput;

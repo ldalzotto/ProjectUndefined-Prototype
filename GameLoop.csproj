@@ -701,6 +701,10 @@
       <Project>{2451A9B5-AAEF-3AE7-5873-F9A5616CEF47}</Project>
       <Name>TimeManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="InputDynamicTextMenu.csproj">
+      <Project>{E151F532-72A3-81F9-640C-8C372720BA96}</Project>
+      <Name>InputDynamicTextMenu</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

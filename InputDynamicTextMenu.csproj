@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E9586FA3-31EC-F553-839D-6472FEC15A78}</ProjectGuid>
+    <ProjectGuid>{E151F532-72A3-81F9-640C-8C372720BA96}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Input</AssemblyName>
+    <AssemblyName>InputDynamicTextMenu</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,16 +56,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\Input\Input\CoreInputConfiguration.cs" />
-     <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputConfiguration.cs" />
-     <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputConfigurationInherentData.cs" />
-     <Compile Include="Assets\Common\Input\Input\InputConfiguration\InputID.cs" />
-     <Compile Include="Assets\Common\Input\Input\InputConfigurationGameObject.cs" />
-     <Compile Include="Assets\Common\Input\Managers\GameInputManager.cs" />
-     <Compile Include="Assets\Common\Input\Managers\InputControlLookup.cs" />
-     <None Include="Assets\Common\Input\Input.asmdef" />
+     <Compile Include="Assets\Common\InputDynamicTextMenu\Configuration\InputDynamicTextMenuConfiguration.cs" />
+     <Compile Include="Assets\Common\InputDynamicTextMenu\Configuration\InputDynamicTextMenuConfigurationGameObject.cs" />
+     <Compile Include="Assets\Common\InputDynamicTextMenu\InputTextModules\AInputTextModule.cs" />
+     <Compile Include="Assets\Common\InputDynamicTextMenu\Lib\InputConfigurationInherentData2ReadableText.cs" />
+     <Compile Include="Assets\Common\InputDynamicTextMenu\Managers\InputDynamicTextMenuManager.cs" />
+     <None Include="Assets\Common\InputDynamicTextMenu\InputDynamicTextMenu.asmdef" />
  <Reference Include="Unity.InputSystem">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
@@ -621,13 +622,13 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Input.csproj">
+      <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
+      <Name>Input</Name>
+    </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
-      <Name>Editor_Common</Name>
     </ProjectReference>
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
