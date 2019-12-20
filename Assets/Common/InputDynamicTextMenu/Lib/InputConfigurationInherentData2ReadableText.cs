@@ -72,11 +72,11 @@ namespace InputDynamicTextMenu
             {
                 if (InputConfigurationInherentData.DownHold)
                 {
-                    returnString += " Hold";
+                    returnString += "<b><color=\"yellow\">" + " Hold" + "</color></b>";
                 }
                 else if (InputConfigurationInherentData.Released)
                 {
-                    returnString += " Released";
+                    returnString += "<b><color=\"yellow\">" + " Released" + "</color></b>";
                 }
             }
 
@@ -86,22 +86,25 @@ namespace InputDynamicTextMenu
 
         public static string GetInputControlName(InputControl inputControl)
         {
+            string returnValue = string.Empty;
             if (!string.IsNullOrEmpty(inputControl.shortDisplayName) && inputControl.shortDisplayName != "Null")
             {
-                return inputControl.shortDisplayName;
+                returnValue = inputControl.shortDisplayName;
             }
             else if (!string.IsNullOrEmpty(inputControl.displayName) && inputControl.displayName != "Null")
             {
-                return inputControl.displayName;
+                returnValue = inputControl.displayName;
             }
             else if (!string.IsNullOrEmpty(inputControl.name) && inputControl.name != "Null")
             {
-                return inputControl.name;
+                returnValue = inputControl.name;
             }
             else
             {
-                return string.Empty;
+                returnValue = string.Empty;
             }
+
+            return "<b><color=\"red\">" + returnValue + "</color></b>";
         }
     }
 }
