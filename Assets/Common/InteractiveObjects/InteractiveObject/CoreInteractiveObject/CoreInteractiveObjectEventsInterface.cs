@@ -73,6 +73,15 @@ namespace InteractiveObjects
         {
         }
 
+        /// <summary>
+        /// Must be used if we want to heal the <see cref="CoreInteractiveObject"/>.
+        /// /!\ Calling <see cref="DealDamage"/> with negative value may potentially trigger dealing damage associated events and may
+        /// cause unexpected behavior.
+        /// </summary>
+        public virtual void OnRecoverHealth(float recoveredHealthAmount)
+        {
+        }
+
         #endregion
 
         #region Projectile Events
@@ -130,12 +139,14 @@ namespace InteractiveObjects
         {
             return false;
         }
-        
+
         /// <summary>
         /// Effective deflection of the concerned InteractiveObject
         /// </summary>
         /// <param name="DelfectionActorObject">It's the InteractiveObject that has triggered the deflection of the concerned InteractiveObject.</param>
-        public virtual void InteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject){}
+        public virtual void InteractiveObjectDeflected(CoreInteractiveObject DelfectionActorObject)
+        {
+        }
 
         #endregion
     }

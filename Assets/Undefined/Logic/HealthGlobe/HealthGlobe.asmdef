@@ -1,11 +1,10 @@
 {
-    "name": "Health",
+    "name": "HealthGlobe",
     "references": [
-        "CoreGame",
-        "RangeObjects",
+        "Health",
+        "OdinSerializer",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
-        "OdinSerializer",
         "Editor_Common"
     ],
     "includePlatforms": [],
@@ -15,5 +14,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

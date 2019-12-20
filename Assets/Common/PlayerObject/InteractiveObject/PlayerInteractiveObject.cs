@@ -69,13 +69,13 @@ namespace PlayerObject
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
             OnProjectileDeflectionAttemptEvent.Get().RegisterOnProjectileDeflectionAttemptEventListener(this.OnProjectileDeflectionAttempt);
-            
+
             PlayerStartTargettingEvent.Get().RegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
             PlayerStoppedTargettingEvent.Get().RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
-            
+
             PlayerLowHealthStartedEvent.Get().RegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             PlayerLowHealthEndedEvent.Get().RegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
-            
+
             PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
 
@@ -208,10 +208,10 @@ namespace PlayerObject
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
             PlayerStartTargettingEvent.Get().UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
             PlayerStoppedTargettingEvent.Get().UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
-            
+
             PlayerLowHealthStartedEvent.Get().UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             PlayerLowHealthEndedEvent.Get().UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
-            
+
             OnProjectileDeflectionAttemptEvent.Get().UnRegisterOnProjectileDeflectionAttemptEvent(this.OnProjectileDeflectionAttempt);
             base.Destroy();
         }
@@ -258,6 +258,11 @@ namespace PlayerObject
         public override void DealDamage(float Damage, CoreInteractiveObject DamageDealerInteractiveObject)
         {
             this.StunningDamageDealerReceiverSystem.DealDamage(Damage);
+        }
+
+        public override void OnRecoverHealth(float recoveredHealthAmount)
+        {
+            this.HealthSystem.ChangeHealth(recoveredHealthAmount);
         }
 
         private void OnHealthValueChanged(float oldValue, float newValue)

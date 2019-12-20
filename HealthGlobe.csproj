@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{1120D459-F00D-9D61-B928-77E83AE6B731}</ProjectGuid>
+    <ProjectGuid>{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Health</AssemblyName>
+    <AssemblyName>HealthGlobe</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,15 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Configuration\HealthUIConfiguration.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Configuration\HealthUIConfigurationGameObject.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Managers\HealthUIManager.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\HealthUI\Types\HealthUIFullBarType.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\Systems\HealthSystem\HealthSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\Systems\HealthSystem\HealthSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\Systems\RecoveringHealthEmitterSystem\RecoveringHealthEmitterSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Health\Systems\RecoveringHealthEmitterSystem\RecoveringHealthEmitterSystemDefinition.cs" />
-     <None Include="Assets\Undefined\Logic\Health\Health.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObjectDefinition.cs" />
+     <None Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobe.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -619,13 +613,13 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="CoreGame.csproj">
-      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
-      <Name>CoreGame</Name>
+    <ProjectReference Include="Health.csproj">
+      <Project>{1120D459-F00D-9D61-B928-77E83AE6B731}</Project>
+      <Name>Health</Name>
     </ProjectReference>
-    <ProjectReference Include="RangeObjects.csproj">
-      <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
-      <Name>RangeObjects</Name>
+    <ProjectReference Include="OdinSerializer.csproj">
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
+      <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
       <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
@@ -634,10 +628,6 @@
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
-      <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>

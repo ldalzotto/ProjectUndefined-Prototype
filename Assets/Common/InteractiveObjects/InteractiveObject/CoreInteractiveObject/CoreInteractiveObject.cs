@@ -131,9 +131,34 @@ namespace InteractiveObjects
     {
         public bool IsAttractiveObject;
         public bool IsAi;
+        
+        /// <summary>
+        /// Will be included by the RangeSystem to calculate the Range obstacle occlusion.
+        /// An obstacle is considered non traversable and act as an obstruction entity.
+        /// Examples :
+        ///     Firing range take into account obstacles to ensure that the projectile will reach it's target.
+        ///     Projectiles are destroyed if entered in contact with obstacles.
+        /// </summary>
         public bool IsObstacle;
+        
         public bool IsPlayer;
+        
+        /// <summary>
+        /// The associated interactive object is considered hostile to others. On trigger, it will
+        /// try to damage other objects.
+        /// Examples :
+        ///     Deflection projectiles only delflects objects tagged.
+        /// </summary>
         public bool IsDealingDamage;
+        
+        /// <summary>
+        /// The associated interactive object is considered to interact with pprojectile and weapons.
+        /// It generally have health. This means that damage can be taken and health can be recovered.
+        /// Examples :
+        ///     Projectiles are dealing damage to object tagged.
+        ///     Health globes allow health recovery on object tagged.
+        ///     The player targetting visual feedback takes into account this tag to position the visual feedback.
+        /// </summary>
         public bool IsTakingDamage;
     }
 }
