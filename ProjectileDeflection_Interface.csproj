@@ -629,6 +629,14 @@
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
+    <ProjectReference Include="Editor_Common.csproj">
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
+      <Name>Editor_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="HealthGlobe.csproj">
+      <Project>{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}</Project>
+      <Name>HealthGlobe</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

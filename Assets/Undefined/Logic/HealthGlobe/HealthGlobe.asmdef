@@ -1,10 +1,12 @@
 {
     "name": "HealthGlobe",
     "references": [
+        "CoreGame",
         "Health",
         "OdinSerializer",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
+        "RangeObjects",
         "Editor_Common"
     ],
     "includePlatforms": [],

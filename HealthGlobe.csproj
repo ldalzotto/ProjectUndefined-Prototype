@@ -56,8 +56,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\Configuration\GlobalHealthGlobeConfiguration.cs" />
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\Configuration\GlobalHealthGlobeConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObject.cs" />
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObjectDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeSpawn\Definition\HealthGlobeSpawnDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeSpawn\Lib\HealthGlobeSpawn.cs" />
      <None Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobe.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
@@ -613,6 +617,10 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="CoreGame.csproj">
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
+      <Name>CoreGame</Name>
+    </ProjectReference>
     <ProjectReference Include="Health.csproj">
       <Project>{1120D459-F00D-9D61-B928-77E83AE6B731}</Project>
       <Name>Health</Name>
@@ -628,6 +636,10 @@
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="RangeObjects.csproj">
+      <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
+      <Name>RangeObjects</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>

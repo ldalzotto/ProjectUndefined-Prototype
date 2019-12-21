@@ -1,4 +1,5 @@
 ﻿using Damage;
+using HealthGlobe;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using ProjectileDeflection_Interface;
@@ -84,7 +85,8 @@ namespace Firing
             if (this.AskIfProjectileCanBeDeflected(DelfectionActorObject))
             {
                 DeflectionCalculations.ForwardDeflection(DelfectionActorObject, this);
-                DelfectionActorObject.DealDamage(this.FiredProjectileDefinition.ProjectileDeflectedProperties.HealthRecovered, null);
+                HealthGlobeSpawnCalculation.HealthGlobeSpawn(DelfectionActorObject, this.FiredProjectileDefinition.ProjectileDeflectedProperties.HealthGlobeRecoveryDefinition);
+                //    DelfectionActorObject.OnRecoverHealth(this.FiredProjectileDefinition.ProjectileDeflectedProperties.HealthRecovered);
             }
         }
 

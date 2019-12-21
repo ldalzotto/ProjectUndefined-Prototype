@@ -4,7 +4,9 @@
         "CoreGame",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
-        "OdinSerializer"
+        "OdinSerializer",
+        "Editor_Common",
+        "HealthGlobe"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

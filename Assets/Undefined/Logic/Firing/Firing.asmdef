@@ -14,7 +14,8 @@
         "Targetting",
         "AnimatorPlayable",
         "RangeObjects",
-        "ProjectileDeflection_Interface"
+        "ProjectileDeflection_Interface",
+        "HealthGlobe"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

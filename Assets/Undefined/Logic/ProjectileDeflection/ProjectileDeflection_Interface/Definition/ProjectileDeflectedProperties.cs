@@ -1,11 +1,15 @@
 ﻿using System;
+using HealthGlobe;
 using OdinSerializer;
 
 namespace ProjectileDeflection_Interface
 {
     [Serializable]
+    [SceneHandleDraw]
     public class ProjectileDeflectedProperties : SerializedScriptableObject
     {
-        public float HealthRecovered;
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        [DrawNested]
+        public HealthGlobeSpawnDefinition HealthGlobeRecoveryDefinition;
     }
 }

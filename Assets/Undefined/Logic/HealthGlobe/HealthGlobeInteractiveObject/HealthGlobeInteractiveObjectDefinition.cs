@@ -1,7 +1,6 @@
 ﻿using System;
 using Health;
 using InteractiveObjects;
-using OdinSerializer;
 using UnityEngine;
 
 namespace HealthGlobe

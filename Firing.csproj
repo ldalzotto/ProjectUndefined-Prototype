@@ -678,6 +678,10 @@
       <Project>{0DF0C192-6A11-E879-ADF9-537F34408904}</Project>
       <Name>ProjectileDeflection_Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="HealthGlobe.csproj">
+      <Project>{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}</Project>
+      <Name>HealthGlobe</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
