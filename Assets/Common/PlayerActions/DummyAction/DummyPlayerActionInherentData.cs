@@ -8,7 +8,8 @@ namespace PlayerActions
     [CreateAssetMenu(fileName = "DummyPlayerActionInherentData", menuName = "Test/DummyPlayerActionInherentData", order = 1)]
     public class DummyPlayerActionInherentData : PlayerActionInherentData
     {
-        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
+        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null,
+            Action OnPlayerActionEndCallback = null)
         {
             return new DummyPlayerAction(CorePlayerActionDefinition);
         }

@@ -39,10 +39,10 @@ namespace PlayerObject
 
         #endregion
 
-        public PlayerMoveManager(PlayerInteractiveObject PlayerInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
+        public PlayerMoveManager(PlayerInteractiveObject playerInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
             PlayerRigidBodyMoveManager PlayerRigidBodyMoveManager, PlayerAgentMoveManager PlayerAgentMoveManager)
         {
-            this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
+            this.PlayerInteractiveObjectRef = playerInteractiveObjectRef;
             this.PlayerObjectMovementSpeedSystemRef = PlayerObjectMovementSpeedSystemRef;
             this.PlayerRigidBodyMoveManager = PlayerRigidBodyMoveManager;
             this.PlayerAgentMoveManager = PlayerAgentMoveManager;

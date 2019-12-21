@@ -13,9 +13,9 @@ namespace Firing
         public GameObject FiringHorizontalPlanePrefab;
         [Inline]
         public A_AnimationPlayableDefinition FiringPoseAnimationV2;
-        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
+        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null)
         {
-            return new FiringPlayerAction(this, PlayerInteractiveObject);
+            return new FiringPlayerAction(this, PlayerInteractiveObject, OnPlayerActionStartedCallback, OnPlayerActionEndCallback);
         }
     }
 }

@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\Definition\ProjectileDeflectedProperties.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\Events\OnProjectileDeflectionAttemptEvent.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\Lib\DeflectionCalculations.cs" />
      <None Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection_Interface\ProjectileDeflection_Interface.asmdef" />
  <Reference Include="UnityEditor.UI">

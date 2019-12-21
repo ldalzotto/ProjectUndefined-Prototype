@@ -61,6 +61,7 @@
      <Compile Include="Assets\Common\PlayerActions\DummyAction\DummyPlayerActionInherentData.cs" />
      <Compile Include="Assets\Common\PlayerActions\EntryPoint\PlayerActionEntryPoint.cs" />
      <Compile Include="Assets\Common\PlayerActions\Lib\ActionExecution\PlayerAction.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Lib\EventListener\PlayerActionEventListener.cs" />
      <Compile Include="Assets\Common\PlayerActions\Managers\PlayerActionManager.cs" />
      <Compile Include="Assets\Common\PlayerActions\Managers\PlayerActionWheelManager.cs" />
      <None Include="Assets\Common\PlayerActions\PlayerActions.asmdef" />

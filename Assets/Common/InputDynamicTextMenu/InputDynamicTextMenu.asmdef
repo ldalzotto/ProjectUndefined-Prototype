@@ -6,9 +6,13 @@
         "Unity.InputSystem",
         "Unity.TextMeshPro",
         "OdinSerializer",
+        "PlayerObject",
         "PlayerObject_Interface",
         "AnimatorPlayable",
-        "PlayerLowHealth_Interfaces"
+        "InteractiveObjects",
+        "PlayerLowHealth_Interfaces",
+        "Firing",
+        "PlayerActions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

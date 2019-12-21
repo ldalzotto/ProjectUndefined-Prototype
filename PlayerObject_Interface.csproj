@@ -59,7 +59,6 @@
      <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerInteractiveObjectCreatedEvent.cs" />
      <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerInteractiveObjectDestinationReachedEvent.cs" />
      <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerInteractiveObjectDestroyedEvent.cs" />
-     <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Events\PlayerTargettingEvent.cs" />
      <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\IPlayerInteractiveObject.cs" />
      <Compile Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\Lib\PlayerMovementConstraint.cs" />
      <None Include="Assets\Common\PlayerObject\PlayerObject_Interfaces\PlayerObject_Interfaces.asmdef" />

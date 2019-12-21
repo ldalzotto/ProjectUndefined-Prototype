@@ -1,4 +1,5 @@
-﻿using AnimatorPlayable;
+﻿using System;
+using AnimatorPlayable;
 using Input;
 using InteractiveObject_Animation;
 using InteractiveObjects;
@@ -28,7 +29,9 @@ namespace Firing
         private PlayerSpeedSystem PlayerSpeedSystem;
         private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
-        public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition)
+        public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject,
+            Action OnPlayerActionStartedCallback,
+            Action OnPlayerActionEndCallback) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
             this.IPlayerInteractiveObject = PlayerInteractiveObject;
 
@@ -43,8 +46,6 @@ namespace Firing
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, this.TargettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
             this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
-
-            PlayerStartTargettingEvent.Get().OnPlayerStartTargetting(this.FiringPlayerActionInherentData.FiringPoseAnimationV2);
         }
 
         public override void FirstExecution()
@@ -106,7 +107,7 @@ namespace Firing
             this.PlayerSpeedSystem.Dispose();
             this.FiringRangeFeedbackSystem.Dispose();
 
-            PlayerStoppedTargettingEvent.Get().OnPlayerStoppedTargetting();
+            base.Dispose();
         }
 
 

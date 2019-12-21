@@ -1,9 +1,7 @@
 ﻿using System;
 using Health;
-using InteractiveObject_Animation;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
-using PlayerLowHealth_Interfaces;
 
 namespace PlayerLowHealth
 {
@@ -16,6 +14,12 @@ namespace PlayerLowHealth
 
         private BoolVariable IsLowHealth;
 
+        #region Events callbacks
+
+        private event Action OnPlayerLowHealthStartedEvent;
+        private event Action OnPlayerLowHealthEndedEvent;
+
+        #endregion
 
         public LowHealthPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject,
             HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition)
@@ -36,14 +40,14 @@ namespace PlayerLowHealth
         {
             this.AssociatedInteractiveObject.ConstrainSpeed(new NotAboveSpeedAttenuationConstraint(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor));
             this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor);
-            PlayerLowHealthStartedEvent.Get().OnPlayerLowHealthStarted();
+            this.OnPlayerLowHealthStartedEvent?.Invoke();
         }
 
         private void OnLowHealthEnded()
         {
             this.AssociatedInteractiveObject.RemoveSpeedConstraints();
             this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.RUN);
-            PlayerLowHealthEndedEvent.Get().OnPlayerLowHealthEnded();
+            this.OnPlayerLowHealthEndedEvent?.Invoke();
         }
 
         #region Logical Conditiions
@@ -51,6 +55,30 @@ namespace PlayerLowHealth
         public bool IsHealthConsideredLow()
         {
             return this.IsLowHealth.GetValue();
+        }
+
+        #endregion
+
+        #region Events registering
+
+        public void RegisterPlayerLowHealthStartedEvent(Action action)
+        {
+            this.OnPlayerLowHealthStartedEvent += action;
+        }
+
+        public void UnRegisterPlayerLowHealthStartedEvent(Action action)
+        {
+            this.OnPlayerLowHealthStartedEvent -= action;
+        }
+
+        public void RegisterPlayerLowHealthEndedEvent(Action action)
+        {
+            this.OnPlayerLowHealthEndedEvent += action;
+        }
+
+        public void UnRegisterPlayerLowHealthEndedEvent(Action action)
+        {
+            this.OnPlayerLowHealthEndedEvent -= action;
         }
 
         #endregion

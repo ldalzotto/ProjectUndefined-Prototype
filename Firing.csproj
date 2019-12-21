@@ -64,8 +64,9 @@
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Systems\FiringRangeFeedbackSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\Lib\FiringProjectilePathCalculation.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\PlayerAction\FiringPlayerActionInherentData.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\InteractiveObjectExposedMethods\IEM_IPlayerFiringRegisteringEventsExposedMethod.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringPlayerAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringPlayerActionInherentData.cs" />
      <None Include="Assets\Undefined\Logic\Firing\Firing.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

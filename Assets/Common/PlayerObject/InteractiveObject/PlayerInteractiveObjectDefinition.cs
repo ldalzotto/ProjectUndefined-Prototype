@@ -1,6 +1,7 @@
 ﻿using System;
 using AnimatorPlayable;
 using Damage;
+using Firing;
 using Health;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
@@ -30,9 +31,9 @@ namespace PlayerObject
         public FiringTargetPositionSystemDefinition FiringTargetPositionSystemDefinition;
 
         [Inline()] public A_AnimationPlayableDefinition BaseLocomotionAnimationDefinition;
-        
+
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
-        public PlayerActionInherentData FiringPlayerActionInherentData;
+        public FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public HealthSystemDefinition HealthSystemDefinition;
@@ -45,7 +46,7 @@ namespace PlayerObject
 
         [FormerlySerializedAs("ProjectileDeflectionDefinition")] [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition;
-        
+
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public PlayerVisualEffectSystemDefinition PlayerVisualEffectSystemDefinition;
     }

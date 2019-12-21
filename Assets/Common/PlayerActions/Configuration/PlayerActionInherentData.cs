@@ -11,7 +11,8 @@ namespace PlayerActions
     {
         public CorePlayerActionDefinition CorePlayerActionDefinition;
 
-        public abstract PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject);
+        public abstract PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null,
+            Action OnPlayerActionEndCallback = null);
     }
 
     [Serializable]

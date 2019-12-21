@@ -1,3 +1,4 @@
+using System;
 using SelectionWheel;
 using UnityEngine;
 
@@ -25,7 +26,22 @@ namespace PlayerActions
         private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
 
 
-        protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition)
+        #region WorkflowEvents callback
+
+        /// <summary>
+        /// Callback called when <see cref="FirstExecution"/> is called.
+        /// </summary>
+        private Action OnPlayerActionStartedCallback;
+        
+        /// <summary>
+        /// Callback called when <see cref="Dispose"/> is called.
+        /// </summary>
+        private Action OnPlayerActionEndCallback;
+
+        #endregion
+
+        protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition, Action OnPlayerActionStartedCallback = null,
+            Action OnPlayerActionEndCallback = null)
         {
             PlayerActionType = CorePlayerActionDefinition.PlayerActionType;
             var SelectionWheelNodeConfiguration = SelectionWheelNodeConfigurationGameObject.Get().SelectionWheelNodeConfiguration;
@@ -37,6 +53,9 @@ namespace PlayerActions
             onCooldownTimeElapsed = this.CorePlayerActionDefinition.CoolDownTime * 2;
             remainingExecutionAmout = this.CorePlayerActionDefinition.ExecutionAmount;
             this.isAborted = false;
+
+            this.OnPlayerActionStartedCallback = OnPlayerActionStartedCallback;
+            this.OnPlayerActionEndCallback = OnPlayerActionEndCallback;
         }
 
         public virtual bool FinishedCondition()
@@ -54,11 +73,15 @@ namespace PlayerActions
         public abstract void GUITick();
         public abstract void GizmoTick();
 
-        public abstract void Dispose();
+        public virtual void Dispose()
+        {
+            this.OnPlayerActionEndCallback?.Invoke();
+        }
 
         public virtual void FirstExecution()
         {
             CooldownEventTrackerManager = new CooldownEventTrackerManager();
+            this.OnPlayerActionStartedCallback?.Invoke();
         }
 
         public void Abort()

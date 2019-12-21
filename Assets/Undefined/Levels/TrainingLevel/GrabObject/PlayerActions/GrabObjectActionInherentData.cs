@@ -11,9 +11,10 @@ namespace RTPuzzle
     {
         public PlayerActionInherentData AddedPlayerActionInherentData;
 
-        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject)
+        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null,
+            Action OnPlayerActionEndCallback = null)
         {
-            return new GrabObjectAction(this.AddedPlayerActionInherentData.BuildPlayerAction(PlayerInteractiveObject), this.CorePlayerActionDefinition);
+            return new GrabObjectAction(this.AddedPlayerActionInherentData.BuildPlayerAction(PlayerInteractiveObject, OnPlayerActionEndCallback), this.CorePlayerActionDefinition);
         }
     }
 }

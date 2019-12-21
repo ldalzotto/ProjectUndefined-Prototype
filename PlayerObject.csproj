@@ -687,6 +687,10 @@
       <Project>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</Project>
       <Name>AIObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="Firing.csproj">
+      <Project>{49D37C45-08B6-E13E-25B7-CF264207D493}</Project>
+      <Name>Firing</Name>
+    </ProjectReference>
     <ProjectReference Include="Health.csproj">
       <Project>{1120D459-F00D-9D61-B928-77E83AE6B731}</Project>
       <Name>Health</Name>

@@ -41,12 +41,19 @@ namespace ProjectileDeflection
 
         #endregion
 
+        #region Callbacks
+
+        private Action OnProjectileDeflectionAttemptCallback;
+
+        #endregion
+
         /// <summary>
         /// The <see cref="ProjectileDeflectionSystem"/> must be updated at the earliest possible time.
         /// </summary>
         private bool UpdatedThisFrame;
 
-        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition)
+        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition,
+            Action OnProjectileDeflectionAttemptCallback = null)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             this._projectileDeflectionActorDefinition = projectileDeflectionActorDefinition;
@@ -55,6 +62,7 @@ namespace ProjectileDeflection
                 OnInteractiveObjectJusInsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustInsideDeflectionRange(interactiveObject); },
                 OnInteractiveObjectJustOutsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustOutsideDeflectionRange(interactiveObject); });
             this.UpdatedThisFrame = false;
+            this.OnProjectileDeflectionAttemptCallback = OnProjectileDeflectionAttemptCallback;
         }
 
         public void FixedTick(float d)
@@ -93,7 +101,7 @@ namespace ProjectileDeflection
 
                 if (GameInputManager.CurrentInput.DeflectProjectileDown())
                 {
-                    OnProjectileDeflectionAttemptEvent.Get().OnProjectileDeflectionAttempt();
+                    this.OnProjectileDeflectionAttemptCallback?.Invoke();
                     ComputeDeflectedInteractiveObject();
                     ProcessDeflectionResults();
                 }

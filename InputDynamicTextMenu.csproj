@@ -634,6 +634,10 @@
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
+    <ProjectReference Include="PlayerObject.csproj">
+      <Project>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</Project>
+      <Name>PlayerObject</Name>
+    </ProjectReference>
     <ProjectReference Include="PlayerObject_Interface.csproj">
       <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
       <Name>PlayerObject_Interface</Name>
@@ -642,9 +646,21 @@
       <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
       <Name>AnimatorPlayable</Name>
     </ProjectReference>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
+      <Name>InteractiveObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="PlayerLowHealth_Interfaces.csproj">
       <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
       <Name>PlayerLowHealth_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="Firing.csproj">
+      <Project>{49D37C45-08B6-E13E-25B7-CF264207D493}</Project>
+      <Name>Firing</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerActions.csproj">
+      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
+      <Name>PlayerActions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

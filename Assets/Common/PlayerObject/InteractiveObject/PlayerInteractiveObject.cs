@@ -1,5 +1,7 @@
-﻿using AnimatorPlayable;
+﻿using System;
+using AnimatorPlayable;
 using Damage;
+using Firing;
 using Health;
 using Input;
 using InteractiveObjects;
@@ -7,17 +9,15 @@ using InteractiveObjects_Interfaces;
 using LevelManagement;
 using PlayerActions;
 using PlayerLowHealth;
-using PlayerLowHealth_Interfaces;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
-using ProjectileDeflection_Interface;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon;
 
 namespace PlayerObject
 {
-    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject
+    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject, IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
@@ -48,6 +48,12 @@ namespace PlayerObject
 
         #endregion
 
+        #region Events Listener
+
+        private PlayerActionEventListener FiringPlayerActionEventListener;
+
+        #endregion
+
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
@@ -63,18 +69,20 @@ namespace PlayerObject
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
-            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition);
+            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,
+                OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
-            OnProjectileDeflectionAttemptEvent.Get().RegisterOnProjectileDeflectionAttemptEventListener(this.OnProjectileDeflectionAttempt);
 
-            PlayerStartTargettingEvent.Get().RegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
-            PlayerStoppedTargettingEvent.Get().RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
+            this.FiringPlayerActionEventListener = new PlayerActionEventListener(PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData);
 
-            PlayerLowHealthStartedEvent.Get().RegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
-            PlayerLowHealthEndedEvent.Get().RegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
+            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStartEvent(this.OnPlayerStartTargetting);
+            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStopEvent(this.OnPlayerStoppedTargetting);
+
+            this.lowHealthPlayerSystem.RegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
+            this.lowHealthPlayerSystem.RegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
 
             PlayerInteractiveObjectCreatedEvent.Get().OnPlayerInteractiveObjectCreated(this);
         }
@@ -181,7 +189,8 @@ namespace PlayerObject
             {
                 if (this.GameInputManager.CurrentInput.FiringActionDown())
                 {
-                    this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.BuildPlayerAction(this));
+                    this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.BuildPlayerAction(this,
+                        OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart, OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped));
                 }
             }
         }
@@ -206,13 +215,13 @@ namespace PlayerObject
             this.WeaponHandlingSystem.Destroy();
             this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
-            PlayerStartTargettingEvent.Get().UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
-            PlayerStoppedTargettingEvent.Get().UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
 
-            PlayerLowHealthStartedEvent.Get().UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
-            PlayerLowHealthEndedEvent.Get().UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
+            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStartEvent(this.OnPlayerStartTargetting);
+            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStopEvent(this.OnPlayerStoppedTargetting);
 
-            OnProjectileDeflectionAttemptEvent.Get().UnRegisterOnProjectileDeflectionAttemptEvent(this.OnProjectileDeflectionAttempt);
+            this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
+            this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
+
             base.Destroy();
         }
 
@@ -273,6 +282,10 @@ namespace PlayerObject
             }
         }
 
+        #endregion
+
+        #region Low Health Events
+
         private void OnLowHealthStarted()
         {
             this.PlayerObjectAnimationStateManager.OnLowHealthStarted(this.PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition.OnLowHealthLocomotionAnimation);
@@ -285,6 +298,27 @@ namespace PlayerObject
             this.PlayerObjectAnimationStateManager.OnLowHealthEnded();
             this.projectileDeflectionSystem.OnLowHealthEnded();
             this.PlayerVisualEffectSystem.OnLowHealthEnded();
+        }
+
+
+        public void RegisterPlayerLowHealthStartedEvent(Action action)
+        {
+            this.lowHealthPlayerSystem.RegisterPlayerLowHealthStartedEvent(action);
+        }
+
+        public void UnRegisterPlayerLowHealthStartedEvent(Action action)
+        {
+            this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthStartedEvent(action);
+        }
+
+        public void RegisterPlayerLowHealthEndedEvent(Action action)
+        {
+            this.lowHealthPlayerSystem.RegisterPlayerLowHealthEndedEvent(action);
+        }
+
+        public void UnRegisterPlayerLowHealthEndedEvent(Action action)
+        {
+            this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(action);
         }
 
         #endregion
@@ -320,14 +354,40 @@ namespace PlayerObject
 
         #region Player Targetting Events
 
-        public void OnPlayerStartTargetting(A_AnimationPlayableDefinition StartTargettingPoseAnimation)
+        public void OnPlayerStartTargetting(PlayerActionInherentData FiringPlayerActionInherentData)
         {
-            this.PlayerObjectAnimationStateManager.StartTargetting(StartTargettingPoseAnimation);
+            if (FiringPlayerActionInherentData is FiringPlayerActionInherentData FiringPlayerActionInherentDataCasted)
+            {
+                this.PlayerObjectAnimationStateManager.StartTargetting(FiringPlayerActionInherentDataCasted.FiringPoseAnimationV2);
+            }
         }
 
-        public void OnPlayerStoppedTargetting()
+        public void OnPlayerStoppedTargetting(PlayerActionInherentData FiringPlayerActionInherentData)
         {
-            this.PlayerObjectAnimationStateManager.EndTargetting();
+            if (FiringPlayerActionInherentData is FiringPlayerActionInherentData)
+            {
+                this.PlayerObjectAnimationStateManager.EndTargetting();
+            }
+        }
+
+        public void RegisterOnPlayerStartTargettingEvent(Action<PlayerActionInherentData> action)
+        {
+            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStartEvent(action);
+        }
+
+        public void UnRegisterOnPlayerStartTargettingEvent(Action<PlayerActionInherentData> action)
+        {
+            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStartEvent(action);
+        }
+
+        public void RegisterOnPlayerStoppedTargettingEvent(Action<PlayerActionInherentData> action)
+        {
+            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStopEvent(action);
+        }
+
+        public void UnRegisterOnPlayerStoppedTargettingEvent(Action<PlayerActionInherentData> action)
+        {
+            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStopEvent(action);
         }
 
         public void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint)

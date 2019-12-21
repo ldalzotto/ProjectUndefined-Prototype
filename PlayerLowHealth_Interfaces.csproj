@@ -56,8 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\PlayerLowHealth\PlayerLowHealth_Interfaces\Events\PlayerLowHealthEndedEvent.cs" />
-     <Compile Include="Assets\Common\PlayerLowHealth\PlayerLowHealth_Interfaces\Events\PlayerLowHealthStartedEvent.cs" />
+     <Compile Include="Assets\Common\PlayerLowHealth\PlayerLowHealth_Interfaces\InteractiveObjectExposedMethods\IEM_PlayerLowHealthInteractiveObjectExposedMethods.cs" />
      <None Include="Assets\Common\PlayerLowHealth\PlayerLowHealth_Interfaces\PlayerLowHealth_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
