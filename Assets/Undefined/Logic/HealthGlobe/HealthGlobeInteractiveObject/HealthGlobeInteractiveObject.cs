@@ -11,7 +11,7 @@ namespace HealthGlobe
 
         #region Systems
 
-        private BeziersMovementSystemV2 SpawnBeziersMovementSystem;
+        private BeziersMovementSystem SpawnBeziersMovementSystem;
         
         /// <summary>
         /// /!\ The <see cref="RecoveringHealthEmitterSystem"/> is disabled until the <see cref="SpawnBeziersMovementSystem"/> has ended.
@@ -27,7 +27,7 @@ namespace HealthGlobe
             this.HealthGlobeInteractiveObjectDefinition = HealthGlobeInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, IsUpdatedInMainManager);
 
-            this.SpawnBeziersMovementSystem = new BeziersMovementSystemV2(BeziersControlPointsBuildInput, this.OnHealthGlobeSpawnBeziersMovementEnded);
+            this.SpawnBeziersMovementSystem = new BeziersMovementSystem(BeziersControlPointsBuildInput, this.OnHealthGlobeSpawnBeziersMovementEnded);
             this.SpawnBeziersMovementSystem.StartBeziersMovement();
         }
 
@@ -44,6 +44,7 @@ namespace HealthGlobe
 
         public override void Destroy()
         {
+            this.SpawnBeziersMovementSystem.Destroy();
             this.RecoveringHealthEmitterSystem?.Destroy();
             base.Destroy();
         }

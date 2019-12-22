@@ -1,6 +1,5 @@
 using CameraManagement;
 using CoreGame;
-using CoreGame.System;
 using Health;
 using Input;
 using InputDynamicTextMenu;
@@ -82,6 +81,7 @@ namespace GameLoop
 
             if (!TimeManagementManager.Get().IsTimeFrozen())
             {
+                BeziersMovementJobManager.Get().SetupJob(d);
                 ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
                 RangeIntersectionCalculationManagerV2.Get().Tick(d);
             }
@@ -125,7 +125,8 @@ namespace GameLoop
                 PlayerInteractiveObjectManager.Get().TickTimeFrozen(d);
                 InteractiveObjectV2Manager.Get().TickTimeFrozen(d);
             }
-            
+
+            BeziersMovementJobManager.Get().EnsureCalculationIsDone();
         }
 
         private void LateUpdate()

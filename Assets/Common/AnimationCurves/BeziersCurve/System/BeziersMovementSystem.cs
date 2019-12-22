@@ -1,59 +1,69 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using CoreGame;
-using CoreGame.System;
 using Unity.Collections;
 using UnityEngine;
 
 public class BeziersMovementSystem
 {
-    public static int UniqueBeziersMovementSystemIDCounter = 0;
-    public int UniqueBeziersMovementSystemID { get; private set; }
-
+    private BeziersMovementPositionState BeziersMovementPositionState;
     private BeziersControlPointsBuildInput BeziersControlPointsBuildInput;
 
-    private Vector3 CurrentBeziersPathPosition;
+    private BoolVariable isCurrentlyMoving;
 
-    public BeziersMovementSystem(BeziersControlPointsBuildInput BeziersControlPointsBuildInput)
+    public BeziersMovementSystem(BeziersControlPointsBuildInput BeziersControlPointsBuildInput, Action OnMovementStop = null)
     {
-        this.UniqueBeziersMovementSystemID = UniqueBeziersMovementSystemIDCounter;
-        UniqueBeziersMovementSystemIDCounter += 1;
         this.BeziersControlPointsBuildInput = BeziersControlPointsBuildInput;
-        BeziersMovementSystemManagerV2.Get().OnBeziersMovementSystemCreated(this);
+        this.isCurrentlyMoving = new BoolVariable(false, onJustSetToFalse: OnMovementStop);
+        BeziersMovementJobManager.Get().OnBeziersMovementSystemCreated(this);
     }
-
-    private bool isCurrentlyMoving;
+    
+    public void Tick(float d)
+    {
+        if (this.isCurrentlyMoving.GetValue())
+        {
+            BeziersMovementJobManager.Get().EnsureCalculationIsDone();
+            if (this.BeziersMovementPositionState.MovementEnded)
+            {
+                this.StopBeziersMovement();
+            }
+        }
+    }
 
     public void Destroy()
     {
-        BeziersMovementSystemManagerV2.Get().OnBeziersMovementSystemDestroyed(this);
+        BeziersMovementJobManager.Get().OnBeziersMovementSystemDestroyed(this);
     }
-
+    
     public void StartBeziersMovement()
     {
-        BeziersMovementSystemManagerV2.Get().OnBeziersMovementStarted(this, new BeziersMovementPositionState(new BeziersControlPoints(this.BeziersControlPointsBuildInput), 3));
-        this.ProcessBeziersMovementPositionCalculationsJobResult();
-        this.isCurrentlyMoving = true;
+        this.BeziersMovementPositionState = new BeziersMovementPositionState(new BeziersControlPoints(this.BeziersControlPointsBuildInput), this.BeziersControlPointsBuildInput.Speed);
+        this.isCurrentlyMoving.SetValue(true);
     }
 
     public void StopBeziersMovement()
     {
-        this.isCurrentlyMoving = false;
-        BeziersMovementSystemManagerV2.Get().OnBeziersMovementStopped(this);
-        this.Destroy();
+        this.isCurrentlyMoving.SetValue(false);
     }
 
-    public void ProcessBeziersMovementPositionCalculationsJobResult()
+    #region Job Related
+
+    public void ScheduleJob(ref NativeArray<BeziersMovementPositionState> BeziersMovementPositionStates, int index)
     {
-        this.CurrentBeziersPathPosition = BeziersMovementSystemManagerV2.Get().GetCurrentPosition(this);
+        BeziersMovementPositionStates[index] = this.BeziersMovementPositionState;
     }
+
+    public void ProcessResults(ref NativeArray<BeziersMovementPositionState> beziersMovementPositionStates, int i)
+    {
+        this.BeziersMovementPositionState = beziersMovementPositionStates[i];
+    }
+
+    #endregion
 
     #region Logical Condition
 
     public bool IsCurrentlyMoving()
     {
-        return this.isCurrentlyMoving;
+        return this.isCurrentlyMoving.GetValue();
     }
 
     #endregion
@@ -62,7 +72,7 @@ public class BeziersMovementSystem
 
     public Vector3 GetBeziersPathPosition()
     {
-        return this.CurrentBeziersPathPosition;
+        return this.BeziersMovementPositionState.CurrentPosition;
     }
 
     #endregion
@@ -86,10 +96,11 @@ public struct BeziersMovementPositionState
         this.MovementEnded = false;
     }
 
-    public void JOB_TickEvaluate(float d)
+    public BeziersMovementPositionState JOB_TickEvaluate(float d)
     {
         this.CurrentTime = Mathf.Min(this.CurrentTime + (d * this.Speed), 1f);
         this.MovementEnded = this.CurrentTime == 1f;
         this.CurrentPosition = this.BeziersControlPoints.ResolvePoint(this.CurrentTime);
+        return this;
     }
 }
