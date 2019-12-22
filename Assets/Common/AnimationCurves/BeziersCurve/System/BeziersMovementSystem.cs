@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreGame;
 using Unity.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class BeziersMovementSystem
@@ -8,18 +9,25 @@ public class BeziersMovementSystem
     private BeziersMovementPositionState BeziersMovementPositionState;
     private BeziersControlPointsBuildInput BeziersControlPointsBuildInput;
 
-    private BoolVariable isCurrentlyMoving;
+    private bool isCurrentlyMoving;
 
-    public BeziersMovementSystem(BeziersControlPointsBuildInput BeziersControlPointsBuildInput, Action OnMovementStop = null)
+    #region Events Callback
+
+    private event Action<BeziersMovementSystem> OnMovementStartEvent;
+    private event Action<BeziersMovementSystem> OnMovementEndEvent;
+
+    #endregion
+
+    public BeziersMovementSystem(BeziersControlPointsBuildInput BeziersControlPointsBuildInput, Action<BeziersMovementSystem> OnMovementStop = null)
     {
         this.BeziersControlPointsBuildInput = BeziersControlPointsBuildInput;
-        this.isCurrentlyMoving = new BoolVariable(false, onJustSetToFalse: OnMovementStop);
+        this.OnMovementEndEvent += OnMovementStop;
         BeziersMovementJobManager.Get().OnBeziersMovementSystemCreated(this);
     }
-    
+
     public void Tick(float d)
     {
-        if (this.isCurrentlyMoving.GetValue())
+        if (this.isCurrentlyMoving)
         {
             BeziersMovementJobManager.Get().EnsureCalculationIsDone();
             if (this.BeziersMovementPositionState.MovementEnded)
@@ -33,17 +41,43 @@ public class BeziersMovementSystem
     {
         BeziersMovementJobManager.Get().OnBeziersMovementSystemDestroyed(this);
     }
-    
+
     public void StartBeziersMovement()
     {
         this.BeziersMovementPositionState = new BeziersMovementPositionState(new BeziersControlPoints(this.BeziersControlPointsBuildInput), this.BeziersControlPointsBuildInput.Speed);
-        this.isCurrentlyMoving.SetValue(true);
+        this.isCurrentlyMoving = true;
+        this.OnMovementStartEvent?.Invoke(this);
     }
 
     public void StopBeziersMovement()
     {
-        this.isCurrentlyMoving.SetValue(false);
+        this.isCurrentlyMoving = false;
+        this.OnMovementEndEvent?.Invoke(this);
     }
+
+    #region Event Register
+
+    public void RegisterOnMovementStartEvent(Action<BeziersMovementSystem> action)
+    {
+        this.OnMovementStartEvent += action;
+    }
+
+    public void UnRegisterOnMovementStartEvent(Action<BeziersMovementSystem> action)
+    {
+        this.OnMovementStartEvent -= action;
+    }
+
+    public void RegisterOnMovementEndEvent(Action<BeziersMovementSystem> action)
+    {
+        this.OnMovementEndEvent += action;
+    }
+
+    public void UnRegisterOnMovementEndEvent(Action<BeziersMovementSystem> action)
+    {
+        this.OnMovementEndEvent -= action;
+    }
+
+    #endregion
 
     #region Job Related
 
@@ -55,15 +89,6 @@ public class BeziersMovementSystem
     public void ProcessResults(ref NativeArray<BeziersMovementPositionState> beziersMovementPositionStates, int i)
     {
         this.BeziersMovementPositionState = beziersMovementPositionStates[i];
-    }
-
-    #endregion
-
-    #region Logical Condition
-
-    public bool IsCurrentlyMoving()
-    {
-        return this.isCurrentlyMoving.GetValue();
     }
 
     #endregion

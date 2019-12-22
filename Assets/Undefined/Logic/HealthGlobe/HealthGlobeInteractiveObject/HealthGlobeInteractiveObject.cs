@@ -53,7 +53,7 @@ namespace HealthGlobe
         /// This event is called from <see cref="SpawnBeziersMovementSystem"/> and creates the <see cref="RecoveringHealthEmitterSystem"/> that allow player to recover
         /// health.
         /// </summary>
-        private void OnHealthGlobeSpawnBeziersMovementEnded()
+        private void OnHealthGlobeSpawnBeziersMovementEnded(BeziersMovementSystem BeziersMovementSystem)
         {
             this.RecoveringHealthEmitterSystem = new RecoveringHealthEmitterSystem(this, HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition,
                 OnHealthRecoveredCallback: this.OnHealthRecovered);

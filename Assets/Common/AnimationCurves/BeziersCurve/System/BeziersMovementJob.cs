@@ -10,13 +10,26 @@ public class BeziersMovementJobManager : GameSingleton<BeziersMovementJobManager
 
     public void OnBeziersMovementSystemCreated(BeziersMovementSystem BeziersMovementSystem)
     {
-        this.AllBeziersMovementSystemsRunning.Add(BeziersMovementSystem);
+        BeziersMovementSystem.RegisterOnMovementStartEvent(this.OnBeziersMovementStarted);
+        BeziersMovementSystem.RegisterOnMovementEndEvent(this.OnBeziersMovementEnded);
     }
 
     public void OnBeziersMovementSystemDestroyed(BeziersMovementSystem BeziersMovementSystem)
     {
+        BeziersMovementSystem.UnRegisterOnMovementStartEvent(this.OnBeziersMovementStarted);
+        BeziersMovementSystem.UnRegisterOnMovementEndEvent(this.OnBeziersMovementEnded);
+    }
+
+    private void OnBeziersMovementStarted(BeziersMovementSystem BeziersMovementSystem)
+    {
+        this.AllBeziersMovementSystemsRunning.Add(BeziersMovementSystem);
+    }
+
+    public void OnBeziersMovementEnded(BeziersMovementSystem BeziersMovementSystem)
+    {
         this.AllBeziersMovementSystemsRunning.Remove(BeziersMovementSystem);
     }
+
 
     private BeziersMovementJob BeziersMovementJob;
     private bool CalculatedThisFrame;
@@ -73,6 +86,9 @@ public struct BeziersMovementJob : IJobParallelFor
             BeziersMovementSystems[i].ProcessResults(ref this.BeziersMovementPositionStates, i);
         }
 
-        this.BeziersMovementPositionStates.Dispose();
+        if (this.BeziersMovementPositionStates.IsCreated)
+        {
+            this.BeziersMovementPositionStates.Dispose();
+        }
     }
 }
