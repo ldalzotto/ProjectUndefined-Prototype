@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputDynamicTextMenu", "Inp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthGlobe", "HealthGlobe.csproj", "{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimationCurves", "AnimationCurves.csproj", "{E3CEF5F0-08F5-15E6-CD23-E3D41F22B0F6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoldierBehavior_Test", "SoldierBehavior_Test.csproj", "{64AC0A18-5061-95D9-ED0D-BEEAFC6A46C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoldierAnimation", "SoldierAnimation.csproj", "{E5028A06-DC12-C9D4-BA85-709C2A9676FE}"
@@ -239,6 +241,10 @@ Global
 		{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3CEF5F0-08F5-15E6-CD23-E3D41F22B0F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3CEF5F0-08F5-15E6-CD23-E3D41F22B0F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3CEF5F0-08F5-15E6-CD23-E3D41F22B0F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3CEF5F0-08F5-15E6-CD23-E3D41F22B0F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64AC0A18-5061-95D9-ED0D-BEEAFC6A46C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64AC0A18-5061-95D9-ED0D-BEEAFC6A46C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64AC0A18-5061-95D9-ED0D-BEEAFC6A46C9}.Release|Any CPU.ActiveCfg = Release|Any CPU

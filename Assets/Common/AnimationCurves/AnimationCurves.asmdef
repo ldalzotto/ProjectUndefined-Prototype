@@ -1,14 +1,10 @@
 {
-    "name": "HealthGlobe",
+    "name": "AnimationCurves",
     "references": [
         "CoreGame",
-        "Health",
-        "OdinSerializer",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "RangeObjects",
-        "Editor_Common",
-        "AnimationCurves"
+        "Unity.Burst",
+        "Unity.Mathematics",
+        "Unity.Collections"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

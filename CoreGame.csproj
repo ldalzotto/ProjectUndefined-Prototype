@@ -77,7 +77,6 @@
      <Compile Include="Assets\Common\~CoreGame\Math\Types\StartEndSlice.cs" />
      <Compile Include="Assets\Common\~CoreGame\Math\float3SmoothDamp.cs" />
      <Compile Include="Assets\Common\~CoreGame\Math\float4x4Extensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Path\BeziersControlPoints.cs" />
      <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Constants\LayerConstants.cs" />
@@ -365,6 +364,9 @@
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.CompilerServices.Unsafe">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.4.0-preview.6/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.NRefactory">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.6/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>

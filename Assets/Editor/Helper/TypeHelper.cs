@@ -42,7 +42,6 @@ public class TypeHelper
                 .Union(typeof(RangeObjectV2).Assembly.GetTypes())
                 .Union(typeof(LevelManager).Assembly.GetTypes())
                 .Union(typeof(TutorialManager).Assembly.GetTypes())
-                .Union(typeof(DottedLineManager).Assembly.GetTypes())
                 .Union(typeof(TimelineConfiguration).Assembly.GetTypes())
                 .Union(typeof(InputConfiguration).Assembly.GetTypes())
                 .Where(t => typeof(IConfigurationSerialization).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface).ToArray();

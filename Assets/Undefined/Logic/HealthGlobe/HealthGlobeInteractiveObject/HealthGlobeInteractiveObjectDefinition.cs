@@ -13,7 +13,8 @@ namespace HealthGlobe
 
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new HealthGlobeInteractiveObject(this, InteractiveGameObjectFactory.Build(interactiveGameObject));
+            return null;
+            //return new HealthGlobeInteractiveObject(this, InteractiveGameObjectFactory.Build(interactiveGameObject));
         }
     }
 }

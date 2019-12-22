@@ -1,4 +1,5 @@
-﻿using Health;
+﻿using CoreGame;
+using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 
@@ -6,14 +7,28 @@ namespace HealthGlobe
 {
     public class HealthGlobeInteractiveObject : CoreInteractiveObject
     {
+        private HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition;
+
+        #region Systems
+
+        private BeziersMovementSystemV2 SpawnBeziersMovementSystem;
+        
+        /// <summary>
+        /// /!\ The <see cref="RecoveringHealthEmitterSystem"/> is disabled until the <see cref="SpawnBeziersMovementSystem"/> has ended.
+        /// For every operation, we must check <see cref="RecoveringHealthEmitterSystem"/> nullity.
+        /// </summary>
         private RecoveringHealthEmitterSystem RecoveringHealthEmitterSystem;
 
+        #endregion
+
         public HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition,
-            IInteractiveGameObject interactiveGameObject, bool IsUpdatedInMainManager = true)
+            IInteractiveGameObject interactiveGameObject, BeziersControlPointsBuildInput BeziersControlPointsBuildInput, bool IsUpdatedInMainManager = true)
         {
+            this.HealthGlobeInteractiveObjectDefinition = HealthGlobeInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, IsUpdatedInMainManager);
-            this.RecoveringHealthEmitterSystem = new RecoveringHealthEmitterSystem(this, HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition,
-                OnHealthRecoveredCallback: this.OnHealthRecovered);
+
+            this.SpawnBeziersMovementSystem = new BeziersMovementSystemV2(BeziersControlPointsBuildInput, this.OnHealthGlobeSpawnBeziersMovementEnded);
+            this.SpawnBeziersMovementSystem.StartBeziersMovement();
         }
 
         public override void Init()
@@ -22,14 +37,25 @@ namespace HealthGlobe
 
         public override void Tick(float d)
         {
-            base.Tick(d);
-            this.RecoveringHealthEmitterSystem.Tick(d);
+            this.SpawnBeziersMovementSystem.Tick(d);
+            this.InteractiveGameObject.InteractiveGameObjectParent.transform.position = this.SpawnBeziersMovementSystem.GetBeziersPathPosition();
+            this.RecoveringHealthEmitterSystem?.Tick(d);
         }
 
         public override void Destroy()
         {
-            this.RecoveringHealthEmitterSystem.Destroy();
+            this.RecoveringHealthEmitterSystem?.Destroy();
             base.Destroy();
+        }
+
+        /// <summary>
+        /// This event is called from <see cref="SpawnBeziersMovementSystem"/> and creates the <see cref="RecoveringHealthEmitterSystem"/> that allow player to recover
+        /// health.
+        /// </summary>
+        private void OnHealthGlobeSpawnBeziersMovementEnded()
+        {
+            this.RecoveringHealthEmitterSystem = new RecoveringHealthEmitterSystem(this, HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition,
+                OnHealthRecoveredCallback: this.OnHealthRecovered);
         }
 
         private void OnHealthRecovered()

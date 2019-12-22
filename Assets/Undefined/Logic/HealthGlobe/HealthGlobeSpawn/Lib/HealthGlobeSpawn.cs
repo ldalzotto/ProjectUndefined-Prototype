@@ -38,7 +38,7 @@ namespace HealthGlobe
 
                     HealthGlobeSpawnInitializationData.WorldPosition = hit.position;
                     HealthGlobeSpawnInitializationData.HealthRecovered = HealthGlobeSpawnDefinition.RecoveredHealth;
-                    SpawnHealthGlobeGameObject.SpawnHealthGlobeWithDefaultModel(HealthGlobeSpawnInitializationData);
+                    SpawnHealthGlobeGameObject.SpawnHealthGlobeWithDefaultModel(SourceInteractiveObject, HealthGlobeSpawnInitializationData);
                 }
 
                 /// End Calculating positions
@@ -54,11 +54,16 @@ namespace HealthGlobe
 
     public static class SpawnHealthGlobeGameObject
     {
-        public static CoreInteractiveObject SpawnHealthGlobeWithDefaultModel(HealthGlobeSpawnInitializationData HealthGlobeSpawnInitializationData)
+        public static CoreInteractiveObject SpawnHealthGlobeWithDefaultModel(CoreInteractiveObject SourceInteractiveObject,
+            HealthGlobeSpawnInitializationData HealthGlobeSpawnInitializationData)
         {
             var GlobalHealthGlobeConfiguration = GlobalHealthGlobeConfigurationGameObject.Get().GlobalHealthGlobeConfiguration;
             var healthGlobeGO = GameObject.Instantiate(GlobalHealthGlobeConfiguration.HealthGlobeDefaultModelPrefab);
-            healthGlobeGO.transform.position = HealthGlobeSpawnInitializationData.WorldPosition;
+
+            var BeziersControlPointsBuildInput = new BeziersControlPointsBuildInput(
+                SourceInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center, HealthGlobeSpawnInitializationData.WorldPosition, Vector3.up, BeziersControlPointsShape.CURVED, Random.Range(2.5f, 3f));
+
+            //      healthGlobeGO.transform.position = HealthGlobeSpawnInitializationData.WorldPosition;
             healthGlobeGO.transform.rotation = Quaternion.Euler(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f));
             var IInteractiveGameObject = InteractiveGameObjectFactory.Build(healthGlobeGO);
             var HealthGlobeInteractiveObjectDefinition = new HealthGlobeInteractiveObjectDefinition();
@@ -67,7 +72,7 @@ namespace HealthGlobe
             RecoveringHealthEmitterSystemDefinition.RecveringHealthTriggerDefinition = GlobalHealthGlobeConfiguration.HealthGlobeDefaultRangeDefinition;
             HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition = RecoveringHealthEmitterSystemDefinition;
 
-            return new HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinition, IInteractiveGameObject);
+            return new HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinition, IInteractiveGameObject, BeziersControlPointsBuildInput);
         }
     }
 }

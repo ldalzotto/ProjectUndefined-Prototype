@@ -61,19 +61,6 @@
      <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfiguration.cs" />
      <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\RenderPipelineFeature\CircleFillBarRenderPassFeature.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\Configuration\VisualFeedbackConfigurationGameObject.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineConfiguration.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineID.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineInherentData.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Configuration\DottedLineStaticConfiguration.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LinePositioning\ILinePositioning.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LinePositioning\LineFollowTransformPositioning.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LineTypes\DottedLine.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Lib\LineTypes\DottedLineGameObject.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Managers\DottedLineManager.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Managers\DottedLineRendererManager.cs" />
-     <Compile Include="Assets\Common\VisualFeedback\LineVisualFeedback\Systems\LineVisualFeedbackSystem.cs" />
-     <None Include="Assets\Common\VisualFeedback\LineVisualFeedback\Shader\DottedLineShader.shader" />
      <None Include="Assets\Common\VisualFeedback\VisualFeedback.asmdef" />
  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
@@ -272,6 +259,9 @@
  </Reference>
  <Reference Include="Unity.Burst.Unsafe">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Runtime.CompilerServices.Unsafe">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.collections@0.4.0-preview.6/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.NRefactory">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.6/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>

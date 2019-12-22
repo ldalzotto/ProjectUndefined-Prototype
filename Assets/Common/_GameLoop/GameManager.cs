@@ -1,5 +1,6 @@
 using CameraManagement;
 using CoreGame;
+using CoreGame.System;
 using Health;
 using Input;
 using InputDynamicTextMenu;
@@ -78,6 +79,7 @@ namespace GameLoop
 
             /// Begin Jobs
             CameraMovementJobManager.Get().SetupJob(unscaled);
+
             if (!TimeManagementManager.Get().IsTimeFrozen())
             {
                 ObstacleOcclusionCalculationManagerV2.Get().Tick(d);
@@ -115,7 +117,6 @@ namespace GameLoop
                 InteractiveObjectV2Manager.Get().AfterTicks(d);
 
                 GroundEffectsManagerV2.Get().Tick(d);
-                DottedLineRendererManager.Get().Tick();
                 SelectableObjectManagerV2.Get().Tick(d);
                 CircleFillBarRendererManager.Get().Tick(d);
             }
@@ -124,6 +125,7 @@ namespace GameLoop
                 PlayerInteractiveObjectManager.Get().TickTimeFrozen(d);
                 InteractiveObjectV2Manager.Get().TickTimeFrozen(d);
             }
+            
         }
 
         private void LateUpdate()
