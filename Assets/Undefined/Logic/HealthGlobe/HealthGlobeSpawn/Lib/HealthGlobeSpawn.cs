@@ -63,13 +63,8 @@ namespace HealthGlobe
             var BeziersControlPointsBuildInput = new BeziersControlPointsBuildInput(
                 SourceInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center, HealthGlobeSpawnInitializationData.WorldPosition, Vector3.up, BeziersControlPointsShape.CURVED, Random.Range(2.5f, 3f));
 
-            var IInteractiveGameObject = InteractiveGameObjectFactory.Build(HealthGlobeInteractiveObjectInitializerTemplate.gameObject);
-
-            /// Converting definition to struct to not modify the template
-            var HealthGlobeInteractiveObjectDefinition = (HealthGlobeInteractiveObjectDefinitionStruct) HealthGlobeInteractiveObjectInitializerTemplate.HealthGlobeInteractiveObjectDefinition;
-            HealthGlobeInteractiveObjectDefinition.SetRecoveredHealthValue(HealthGlobeSpawnInitializationData.HealthRecovered);
-
-            return new HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinition, IInteractiveGameObject, BeziersControlPointsBuildInput);
+            HealthGlobeInteractiveObjectInitializerTemplate.SetupBeforeObjectCreation(HealthGlobeSpawnInitializationData.HealthRecovered, BeziersControlPointsBuildInput);
+            return HealthGlobeInteractiveObjectInitializerTemplate.Init(); 
         }
     }
 }

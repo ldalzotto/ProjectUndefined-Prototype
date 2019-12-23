@@ -1,4 +1,5 @@
-﻿using InteractiveObjects;
+﻿using CoreGame;
+using InteractiveObjects;
 using UnityEngine;
 
 namespace HealthGlobe
@@ -11,7 +12,21 @@ namespace HealthGlobe
     [SceneHandleDraw]
     public class HealthGlobeInteractiveObjectInitializer : InteractiveObjectInitializer
     {
-        [DrawNested]
-        public HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition;
+        [DrawNested] public HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition;
+
+        private HealthGlobeInteractiveObjectDefinitionStruct RuntimeHealthGlobeInteractiveObjectDefinition;
+        private BeziersControlPointsBuildInput BeziersControlPointsBuildInput;
+
+        public void SetupBeforeObjectCreation(float RecoveredHealth, BeziersControlPointsBuildInput BeziersControlPointsBuildInput)
+        {
+            this.RuntimeHealthGlobeInteractiveObjectDefinition = this.HealthGlobeInteractiveObjectDefinition;
+            this.RuntimeHealthGlobeInteractiveObjectDefinition.SetRecoveredHealthValue(RecoveredHealth);
+            this.BeziersControlPointsBuildInput = BeziersControlPointsBuildInput;
+        }
+
+        protected override CoreInteractiveObject InitializationLogic()
+        {
+            return new HealthGlobeInteractiveObject(this.RuntimeHealthGlobeInteractiveObjectDefinition, InteractiveGameObjectFactory.Build(this.gameObject), this.BeziersControlPointsBuildInput);
+        }
     }
 }
