@@ -7,12 +7,12 @@ namespace HealthGlobe
 {
     public class HealthGlobeInteractiveObject : CoreInteractiveObject
     {
-        private HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition;
+        private HealthGlobeInteractiveObjectDefinitionStruct HealthGlobeInteractiveObjectDefinitionStruct;
 
         #region Systems
 
         private BeziersMovementSystem SpawnBeziersMovementSystem;
-        
+
         /// <summary>
         /// /!\ The <see cref="RecoveringHealthEmitterSystem"/> is disabled until the <see cref="SpawnBeziersMovementSystem"/> has ended.
         /// For every operation, we must check <see cref="RecoveringHealthEmitterSystem"/> nullity.
@@ -21,10 +21,10 @@ namespace HealthGlobe
 
         #endregion
 
-        public HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition,
+        public HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinitionStruct healthGlobeInteractiveObjectDefinitionStruct,
             IInteractiveGameObject interactiveGameObject, BeziersControlPointsBuildInput BeziersControlPointsBuildInput, bool IsUpdatedInMainManager = true)
         {
-            this.HealthGlobeInteractiveObjectDefinition = HealthGlobeInteractiveObjectDefinition;
+            this.HealthGlobeInteractiveObjectDefinitionStruct = healthGlobeInteractiveObjectDefinitionStruct;
             base.BaseInit(interactiveGameObject, IsUpdatedInMainManager);
 
             this.SpawnBeziersMovementSystem = new BeziersMovementSystem(BeziersControlPointsBuildInput, this.OnHealthGlobeSpawnBeziersMovementEnded);
@@ -55,7 +55,7 @@ namespace HealthGlobe
         /// </summary>
         private void OnHealthGlobeSpawnBeziersMovementEnded(BeziersMovementSystem BeziersMovementSystem)
         {
-            this.RecoveringHealthEmitterSystem = new RecoveringHealthEmitterSystem(this, HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition,
+            this.RecoveringHealthEmitterSystem = new RecoveringHealthEmitterSystem(this, HealthGlobeInteractiveObjectDefinitionStruct.RecoveringHealthEmitterSystemDefinitionStruct,
                 OnHealthRecoveredCallback: this.OnHealthRecovered);
         }
 

@@ -10,7 +10,7 @@ namespace Health
     /// </summary>
     public class RecoveringHealthEmitterSystem
     {
-        private RecoveringHealthEmitterSystemDefinition RecoveringHealthEmitterSystemDefinition;
+        private RecoveringHealthEmitterSystemDefinitionStruct RecoveringHealthEmitterSystemDefinitionStruct;
 
         private RangeObjectV2 RecoveringHealthRangeTrigger;
 
@@ -23,13 +23,13 @@ namespace Health
 
         #endregion
 
-        public RecoveringHealthEmitterSystem(CoreInteractiveObject AssociatedInteractiveObject, RecoveringHealthEmitterSystemDefinition RecoveringHealthEmitterSystemDefinition,
+        public RecoveringHealthEmitterSystem(CoreInteractiveObject AssociatedInteractiveObject, RecoveringHealthEmitterSystemDefinitionStruct recoveringHealthEmitterSystemDefinitionStruct,
             Action OnHealthRecoveredCallback = null)
         {
-            this.RecoveringHealthEmitterSystemDefinition = RecoveringHealthEmitterSystemDefinition;
+            this.RecoveringHealthEmitterSystemDefinitionStruct = recoveringHealthEmitterSystemDefinitionStruct;
             this.OnHealthRecoveredCallback = OnHealthRecoveredCallback;
             this.RecoveringHealthRangeTrigger = RangeObjectV2Builder.Build(AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent,
-                RecoveringHealthEmitterSystemDefinition.RecveringHealthTriggerDefinition, AssociatedInteractiveObject,
+                recoveringHealthEmitterSystemDefinitionStruct.RecveringHealthTriggerDefinition, AssociatedInteractiveObject,
                 "RecoveringHealthRangeTrigger");
             this.RecoveringHealthRangeTrigger.RegisterPhysicsEventListener(new InteractiveObjectPhysicsEventListenerDelegated(this.PhysicsEventGuard,
                 onTriggerEnterAction: this.OnTriggerEnter));
@@ -52,7 +52,7 @@ namespace Health
 
         private void OnTriggerEnter(CoreInteractiveObject CoreInteractiveObject)
         {
-            CoreInteractiveObject.OnRecoverHealth(this.RecoveringHealthEmitterSystemDefinition.RecoveredHealth);
+            CoreInteractiveObject.OnRecoverHealth(this.RecoveringHealthEmitterSystemDefinitionStruct.RecoveredHealth);
             this.OnHealthRecoveredCallback?.Invoke();
         }
     }

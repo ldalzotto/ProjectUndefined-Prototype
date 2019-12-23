@@ -30,7 +30,10 @@ namespace RangeObjects
     [Serializable]
     public class SphereRangeTypeDefinition : ARangeTypeDefinitionV2
     {
-        [WireCircle(R = 1f, G = 1f, B = 0f)] public float Radius;
+        [WireCircleWorld(R = 1f, G = 1f, B = 0f, UseTransform = true, PositionOffsetFieldName = nameof(SphereRangeTypeDefinition.Center), RadiusFieldName = nameof(SphereRangeTypeDefinition.Radius))]
+        public float Radius;
+
+        public Vector3 Center;
     }
 
     [SceneHandleDraw]

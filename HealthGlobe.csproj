@@ -60,6 +60,7 @@
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\Configuration\GlobalHealthGlobeConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObject.cs" />
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObjectDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeInteractiveObject\HealthGlobeInteractiveObjectInitializer.cs" />
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeSpawn\Definition\HealthGlobeSpawnDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobeSpawn\Lib\HealthGlobeSpawn.cs" />
      <None Include="Assets\Undefined\Logic\HealthGlobe\HealthGlobe.asmdef" />

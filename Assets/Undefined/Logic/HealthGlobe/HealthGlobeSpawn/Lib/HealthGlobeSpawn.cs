@@ -58,19 +58,16 @@ namespace HealthGlobe
             HealthGlobeSpawnInitializationData HealthGlobeSpawnInitializationData)
         {
             var GlobalHealthGlobeConfiguration = GlobalHealthGlobeConfigurationGameObject.Get().GlobalHealthGlobeConfiguration;
-            var healthGlobeGO = GameObject.Instantiate(GlobalHealthGlobeConfiguration.HealthGlobeDefaultModelPrefab);
+            var HealthGlobeInteractiveObjectInitializerTemplate = GameObject.Instantiate(GlobalHealthGlobeConfiguration.HealthGlobeTemplatePrefab);
 
             var BeziersControlPointsBuildInput = new BeziersControlPointsBuildInput(
                 SourceInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center, HealthGlobeSpawnInitializationData.WorldPosition, Vector3.up, BeziersControlPointsShape.CURVED, Random.Range(2.5f, 3f));
 
-            //      healthGlobeGO.transform.position = HealthGlobeSpawnInitializationData.WorldPosition;
-            healthGlobeGO.transform.rotation = Quaternion.Euler(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f));
-            var IInteractiveGameObject = InteractiveGameObjectFactory.Build(healthGlobeGO);
-            var HealthGlobeInteractiveObjectDefinition = new HealthGlobeInteractiveObjectDefinition();
-            var RecoveringHealthEmitterSystemDefinition = new RecoveringHealthEmitterSystemDefinition();
-            RecoveringHealthEmitterSystemDefinition.RecoveredHealth = HealthGlobeSpawnInitializationData.HealthRecovered;
-            RecoveringHealthEmitterSystemDefinition.RecveringHealthTriggerDefinition = GlobalHealthGlobeConfiguration.HealthGlobeDefaultRangeDefinition;
-            HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition = RecoveringHealthEmitterSystemDefinition;
+            var IInteractiveGameObject = InteractiveGameObjectFactory.Build(HealthGlobeInteractiveObjectInitializerTemplate.gameObject);
+
+            /// Converting definition to struct to not modify the template
+            var HealthGlobeInteractiveObjectDefinition = (HealthGlobeInteractiveObjectDefinitionStruct) HealthGlobeInteractiveObjectInitializerTemplate.HealthGlobeInteractiveObjectDefinition;
+            HealthGlobeInteractiveObjectDefinition.SetRecoveredHealthValue(HealthGlobeSpawnInitializationData.HealthRecovered);
 
             return new HealthGlobeInteractiveObject(HealthGlobeInteractiveObjectDefinition, IInteractiveGameObject, BeziersControlPointsBuildInput);
         }

@@ -10,6 +10,7 @@ namespace RangeObjects
         {
             var sphereCollider = RangeGameObject.RangeGameObject.AddComponent<SphereCollider>();
             sphereCollider.radius = SphereRangeObjectInitialization.SphereRangeTypeDefinition.Radius;
+            sphereCollider.center = SphereRangeObjectInitialization.SphereRangeTypeDefinition.Center;
             sphereCollider.isTrigger = true;
             return sphereCollider;
         }
