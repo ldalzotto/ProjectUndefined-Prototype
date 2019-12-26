@@ -65,10 +65,14 @@
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveInteractiveObjectPhysicsListener.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectInitializer.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObject\InteractiveObjectPhysicsEventListener.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjectSpeedAttenuation\AInteractiveObjectSpeedAttenuationSystem.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjectSpeedAttenuation\SpeedAttenuationConstraint\IObjectSpeedAttenuationConstraint.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjectSpeedAttenuation\StateManager\SpeedAttenuationGenericStateManagers.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjectSpeedAttenuation\Systems\UnConstrainedObjectSpeedAttenuationValueSystem.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Managers\InteractiveObjectV2Manager.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Systems\InteractiveObjectLocalContainerSystem.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Systems\ObjectMovementSpeedSystem.cs" />
-     <Compile Include="Assets\Common\InteractiveObjects\Systems\ObjectSpeedAttenuationValueSystem.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\Test\SpeedSmartSetterTest\SpeedSmartSetterTest.cs" />
      <None Include="Assets\Common\InteractiveObjects\InteractiveObjects.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

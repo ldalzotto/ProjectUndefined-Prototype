@@ -55,6 +55,7 @@ namespace PlayerObject
         #endregion
 
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
+        [VE_Ignore] private PlayerSpeedAttenuationSystem PlayerSpeedAttenuationSystem;
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
         public PlayerMoveManager PlayerMoveManager => this.playerMoveManager;
@@ -68,7 +69,7 @@ namespace PlayerObject
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
-            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this, this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
+            this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,
                 OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
@@ -106,7 +107,8 @@ namespace PlayerObject
 
             #endregion
 
-            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, AIMovementSpeedAttenuationFactor.RUN,
+            this.PlayerSpeedAttenuationSystem = new PlayerSpeedAttenuationSystem();
+            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.PlayerSpeedAttenuationSystem,
                 ObjectSpeedCalculationType.MANUAL);
 
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
@@ -227,10 +229,18 @@ namespace PlayerObject
 
         #region Agents events
 
-        public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+#if UNITY_EDITOR
+        public NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             return this.playerMoveManager.SetDestination(IAgentMovementCalculationStrategy);
         }
+
+
+        public void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        {
+            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
+        }
+#endif
 
         /// <summary>
         /// This event is called from the <see cref="PlayerMoveManager"/> when it is directed by <see cref="PlayerAgentMoveManager"/>.
@@ -238,26 +248,6 @@ namespace PlayerObject
         private void OnDestinationReached()
         {
             PlayerInteractiveObjectDestinationReachedEvent.Get().OnPlayerInteractiveObjectDestinationReached();
-        }
-
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
-        }
-
-        public override void ConstrainSpeed(IObjectSpeedAttenuationConstraint objectSpeedAttenuationConstraint)
-        {
-            this.ObjectMovementSpeedSystem.ConstrainSpeed(objectSpeedAttenuationConstraint);
-        }
-
-        public override void RemoveSpeedConstraints()
-        {
-            this.ObjectMovementSpeedSystem.RemoveSpeedConstraints();
-        }
-
-        public override AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
-        {
-            return this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor();
         }
 
         #endregion
@@ -288,6 +278,7 @@ namespace PlayerObject
 
         private void OnLowHealthStarted()
         {
+            this.PlayerSpeedAttenuationSystem.OnLowHealthStarted();
             this.PlayerObjectAnimationStateManager.OnLowHealthStarted(this.PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition.OnLowHealthLocomotionAnimation);
             this.projectileDeflectionSystem.OnLowHealthStarted();
             this.PlayerVisualEffectSystem.OnLowHealthStarted();
@@ -295,6 +286,7 @@ namespace PlayerObject
 
         private void OnLowHealthEnded()
         {
+            this.PlayerSpeedAttenuationSystem.OnLowHealthEnded();
             this.PlayerObjectAnimationStateManager.OnLowHealthEnded();
             this.projectileDeflectionSystem.OnLowHealthEnded();
             this.PlayerVisualEffectSystem.OnLowHealthEnded();
@@ -358,6 +350,7 @@ namespace PlayerObject
         {
             if (FiringPlayerActionInherentData is FiringPlayerActionInherentData FiringPlayerActionInherentDataCasted)
             {
+                this.PlayerSpeedAttenuationSystem.StartTargetting();
                 this.PlayerObjectAnimationStateManager.StartTargetting(FiringPlayerActionInherentDataCasted.FiringPoseAnimationV2);
             }
         }
@@ -366,6 +359,7 @@ namespace PlayerObject
         {
             if (FiringPlayerActionInherentData is FiringPlayerActionInherentData)
             {
+                this.PlayerSpeedAttenuationSystem.StopTargetting();
                 this.PlayerObjectAnimationStateManager.EndTargetting();
             }
         }

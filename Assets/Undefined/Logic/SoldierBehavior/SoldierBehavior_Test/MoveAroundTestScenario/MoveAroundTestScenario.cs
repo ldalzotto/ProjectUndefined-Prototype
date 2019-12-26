@@ -20,6 +20,7 @@ namespace SoliderBehavior_Test
 
         [WireCircleWorld(PositionFieldName = nameof(P2))] [WireArrow(OriginFieldName = nameof(P2))] [WireArrowLink(SourceFieldName = nameof(P2), TargetFieldName = nameof(P3))]
         public AIMoveToActionInputData P2;
+
         [WireCircleWorld(PositionFieldName = nameof(P3))] [WireArrow(OriginFieldName = nameof(P3))]
         public AIMoveToActionInputData P3;
 
@@ -30,16 +31,19 @@ namespace SoliderBehavior_Test
             {
                 new AIWarpActionV2(PlayerInteractiveObject, Spawn, default(Nullable<Vector3>), () => new List<ASequencedAction>()
                 {
-                    new AIMoveToActionV2(PlayerInteractiveObject, this.P1.WorldPosition, this.P1.GetWorldRotation(), P1.AIMovementSpeed, () => new List<ASequencedAction>()
-                    {
-                        new AIMoveToActionV2(PlayerInteractiveObject, this.P2.WorldPosition, P2.GetWorldRotation(), P2.AIMovementSpeed, () => new List<ASequencedAction>()
+                    new AIMoveToActionV2(this.P1.WorldPosition, this.P1.GetWorldRotation(), P1.AIMovementSpeed,
+                        (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor, () => new List<ASequencedAction>()
                         {
-                            new AIMoveToActionV2(PlayerInteractiveObject, this.P3.WorldPosition, P3.GetWorldRotation(), P3.AIMovementSpeed, () => new List<ASequencedAction>()
-                            {
-                                new AIWarpActionV2(PlayerInteractiveObject, Vector3.zero, null, null)
-                            })
+                            new AIMoveToActionV2(this.P2.WorldPosition, this.P2.GetWorldRotation(), P2.AIMovementSpeed,
+                                (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor, () => new List<ASequencedAction>()
+                                {
+                                    new AIMoveToActionV2(this.P3.WorldPosition, this.P3.GetWorldRotation(), P3.AIMovementSpeed,
+                                        (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor, () => new List<ASequencedAction>()
+                                        {
+                                            new AIWarpActionV2(PlayerInteractiveObject, Vector3.zero, null, null)
+                                        })
+                                })
                         })
-                    })
                 })
             };
         }

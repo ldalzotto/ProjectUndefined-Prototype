@@ -18,7 +18,7 @@ namespace AIObjects
         [MultiplePointMovementNested]
         public AIMoveToActionInputData StandingStillPoint;
 
-        public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject)
+        public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
         {
             return new List<ASequencedAction>()
             {
@@ -26,7 +26,7 @@ namespace AIObjects
                 {
                     new BranchInfiniteLoopAction(new List<ASequencedAction>()
                     {
-                        this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.StandingStillPoint, null)
+                        this.CreateAIMoveToActionV2(this.StandingStillPoint, AIPatrolGraphRuntimeCallbacks, null)
                     })
                 })
             };

@@ -9,11 +9,14 @@ namespace SoliderAIBehavior
 {
     public struct MoveTowardsPlayerStateManagerExternalCallbacks
     {
-        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
 
-        public MoveTowardsPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction)
+        public MoveTowardsPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
+            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction)
         {
-            SetAIAgentDestinationAction = aiAgentDestinationAction;
+            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
+            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
         }
     }
 
@@ -44,8 +47,8 @@ namespace SoliderAIBehavior
 
         public override void Tick(float d)
         {
-            this.MoveTowardsPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}),
-                AIMovementSpeedAttenuationFactor.RUN);
+            this.MoveTowardsPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+            this.MoveTowardsPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}));
             this.SwitchToShootingAtPlayer();
         }
 

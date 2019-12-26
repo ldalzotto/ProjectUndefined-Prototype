@@ -17,13 +17,14 @@ public class SoliderEnemyDefinition_F_PatrollingPath : AIPatrolGraphV2
 
     [WireCircleWorldAttribute(UseTransform = false, PositionFieldName = nameof(P2), Radius = 1f)] [WireArrow(OriginFieldName = nameof(P2))] [WireArrowLink(SourceFieldName = nameof(P2), TargetFieldName = nameof(P3))] [MultiplePointMovementNested]
     public AIMoveToActionInputData P2;
-    
+
     [WireCircleWorldAttribute(UseTransform = false, PositionFieldName = nameof(P3), Radius = 1f)] [WireArrow(OriginFieldName = nameof(P3))] [WireArrowLink(SourceFieldName = nameof(P3), TargetFieldName = nameof(P4))] [MultiplePointMovementNested]
     public AIMoveToActionInputData P3;
-    
+
     [WireCircleWorldAttribute(UseTransform = false, PositionFieldName = nameof(P4), Radius = 1f)] [WireArrow(OriginFieldName = nameof(P4))] [WireArrowLink(SourceFieldName = nameof(P4), TargetFieldName = nameof(P1))] [MultiplePointMovementNested]
     public AIMoveToActionInputData P4;
-    public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject)
+
+    public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
     {
         return new List<ASequencedAction>()
         {
@@ -32,13 +33,13 @@ public class SoliderEnemyDefinition_F_PatrollingPath : AIPatrolGraphV2
                 new BranchInfiniteLoopAction(
                     new List<ASequencedAction>()
                     {
-                        this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.P2, () => new List<ASequencedAction>()
+                        this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
                         {
-                            this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.P3, () => new List<ASequencedAction>()
+                            this.CreateAIMoveToActionV2(this.P3, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
                             {
-                                this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.P4, () => new List<ASequencedAction>()
+                                this.CreateAIMoveToActionV2(this.P4, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
                                 {
-                                    this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.P1, null)
+                                    this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks, null)
                                 })
                             })
                         })

@@ -10,12 +10,16 @@ namespace SoliderAIBehavior
 {
     public struct MoveTowardsInterestDirectionStateManagerExternalCallbacks
     {
-        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
         public Action OnTrackUnknownStateManagerAskedToExit;
 
-        public MoveTowardsInterestDirectionStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, Action onTrackUnknownStateManagerAskedToExit)
+        public MoveTowardsInterestDirectionStateManagerExternalCallbacks(
+            Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
+            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction, Action onTrackUnknownStateManagerAskedToExit)
         {
-            SetAIAgentDestinationAction = aiAgentDestinationAction;
+            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
+            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
             OnTrackUnknownStateManagerAskedToExit = onTrackUnknownStateManagerAskedToExit;
         }
     }
@@ -31,6 +35,7 @@ namespace SoliderAIBehavior
         private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
 
         private MoveTowardsInterestDirectionStateManagerExternalCallbacks MoveTowardsInterestDirectionStateManagerExternalCallbacks;
+
         public MoveTowardsInterestDirectionStateManager(
             CoreInteractiveObject AssociatedInteractiveObject,
             TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem,
@@ -48,7 +53,8 @@ namespace SoliderAIBehavior
             base.DamageDealt(damageDealerInteractiveObject);
 
             var TargetWorldPositionNavMehshit = this.GetTargetWorldPositionNavMehshit();
-            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(TargetWorldPositionNavMehshit.position, null)), AIMovementSpeedAttenuationFactor.RUN);
+            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(TargetWorldPositionNavMehshit.position, null)));
         }
 
         /// <summary>

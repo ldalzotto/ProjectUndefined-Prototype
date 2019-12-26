@@ -1,4 +1,5 @@
-﻿using InteractiveObjects;
+﻿using System;
+using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using SequencedAction;
 
@@ -8,9 +9,13 @@ namespace AIObjects
     {
         private SequencedActionPlayer SequencedActionPlayer;
 
-        public AIPatrolSystem(CoreInteractiveObject AssociatedCoreInteractiveObject, AIPatrolSystemDefinition AIPatrolSystemDefinition)
+        public AIPatrolSystem(CoreInteractiveObject AssociatedInteractiveObject,
+            AIPatrolSystemDefinition AIPatrolSystemDefinition,
+            Action<IAgentMovementCalculationStrategy> coreInteractiveObjectDestinationCallback = null, Action<AIMovementSpeedAttenuationFactor> aiSpeedAttenuationFactorCallback = null)
         {
-            SequencedActionPlayer = new SequencedActionPlayer(AIPatrolSystemDefinition.AIPatrolGraph.AIPatrolGraphActions(AssociatedCoreInteractiveObject), null, null);
+            SequencedActionPlayer = new SequencedActionPlayer(AIPatrolSystemDefinition.AIPatrolGraph.AIPatrolGraphActions(
+                AssociatedInteractiveObject, new AIPatrolGraphRuntimeCallbacks(coreInteractiveObjectDestinationCallback, aiSpeedAttenuationFactorCallback)),
+                null, null);
             SequencedActionPlayer.Play();
         }
 

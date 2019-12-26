@@ -73,6 +73,7 @@
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerMoveManager.cs" />
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerMovement\PlayerRigidBodyMoveManager.cs" />
      <Compile Include="Assets\Common\PlayerObject\PositionPersistance\PlayerPositionPersistenceManager.cs" />
+     <Compile Include="Assets\Common\PlayerObject\Speed\PlayerSpeedAttenuationSystem.cs" />
      <Compile Include="Assets\Common\PlayerObject\VisualEffects\PlayerOnLowHealthVisualEffectComponent.cs" />
      <Compile Include="Assets\Common\PlayerObject\VisualEffects\PlayerVisualEffectSystem.cs" />
      <Compile Include="Assets\Common\PlayerObject\VisualEffects\PlayerVisualEffectSystemDefinition.cs" />

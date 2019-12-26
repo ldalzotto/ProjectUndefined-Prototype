@@ -9,7 +9,6 @@ namespace PlayerLowHealth
     {
         private LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
 
-        private CoreInteractiveObject AssociatedInteractiveObject;
         private HealthSystem HealthSystemRef;
 
         private BoolVariable IsLowHealth;
@@ -21,10 +20,8 @@ namespace PlayerLowHealth
 
         #endregion
 
-        public LowHealthPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject,
-            HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition)
+        public LowHealthPlayerSystem(HealthSystem HealthSystem, LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition)
         {
-            this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.HealthSystemRef = HealthSystem;
             this.LowHealthPlayerSystemDefinition = LowHealthPlayerSystemDefinition;
             this.IsLowHealth = new BoolVariable(false, this.OnLowHealthStarted, this.OnLowHealthEnded);
@@ -38,15 +35,11 @@ namespace PlayerLowHealth
 
         private void OnLowHealthStarted()
         {
-            this.AssociatedInteractiveObject.ConstrainSpeed(new NotAboveSpeedAttenuationConstraint(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor));
-            this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(this.LowHealthPlayerSystemDefinition.OnLowhealthSpeedAttenuationFactor);
             this.OnPlayerLowHealthStartedEvent?.Invoke();
         }
 
         private void OnLowHealthEnded()
         {
-            this.AssociatedInteractiveObject.RemoveSpeedConstraints();
-            this.AssociatedInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.RUN);
             this.OnPlayerLowHealthEndedEvent?.Invoke();
         }
 

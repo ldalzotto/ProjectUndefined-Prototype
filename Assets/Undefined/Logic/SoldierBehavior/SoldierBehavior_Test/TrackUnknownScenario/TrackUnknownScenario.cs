@@ -19,7 +19,7 @@ namespace SoliderBehavior_Test
         private const string EnemyObjectName = "Enemy";
 
         private CoreInteractiveObject EnemyObject;
-        private CoreInteractiveObject PlayerObject;
+        private PlayerInteractiveObject PlayerObject;
 
         [WireCircleWorld(PositionFieldName = nameof(Fire1PlayerPosition))]
         public Vector3 Fire1PlayerPosition;
@@ -41,16 +41,19 @@ namespace SoliderBehavior_Test
                 {
                     new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
                     {
-                        new AIMoveToActionV2(this.PlayerObject, Vector3.zero, null, AIMovementSpeedAttenuationFactor.RUN, () => new List<ASequencedAction>()
-                        {
-                            BuildWarpPlayerBehindEnemyAction(() => new List<ASequencedAction>()
+                        new AIMoveToActionV2(Vector3.zero, null, AIMovementSpeedAttenuationFactor.RUN,
+                            (strategy) => { this.PlayerObject.SetDestination(strategy); },
+                            this.PlayerObject.SetAISpeedAttenuationFactor,
+                            () => new List<ASequencedAction>()
                             {
-                                new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
+                                BuildWarpPlayerBehindEnemyAction(() => new List<ASequencedAction>()
                                 {
-                                    new AIWarpActionV2(this.PlayerObject, Vector3.zero, null, null)
+                                    new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
+                                    {
+                                        new AIWarpActionV2(this.PlayerObject, Vector3.zero, null, null)
+                                    })
                                 })
                             })
-                        })
                     })
                 })
             };

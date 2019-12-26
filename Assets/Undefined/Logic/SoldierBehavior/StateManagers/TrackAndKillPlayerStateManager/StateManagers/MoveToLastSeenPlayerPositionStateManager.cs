@@ -9,12 +9,16 @@ namespace SoliderAIBehavior
 {
     public struct MoveToLastSeenPlayerPositionStateManagerExternalCallbacks
     {
-        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
         public Action AskedToExitTrackAndKillPlayerBehaviorAction;
 
-        public MoveToLastSeenPlayerPositionStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction, Action askedToExitTrackAndKillPlayerBehaviorAction)
+        public MoveToLastSeenPlayerPositionStateManagerExternalCallbacks(
+            Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
+            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction, Action askedToExitTrackAndKillPlayerBehaviorAction)
         {
-            SetDestinationAction = destinationAction;
+            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
+            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
             AskedToExitTrackAndKillPlayerBehaviorAction = askedToExitTrackAndKillPlayerBehaviorAction;
         }
     }
@@ -40,7 +44,7 @@ namespace SoliderAIBehavior
         public override void OnStateEnter()
         {
             if (!this.PlayerObjectStateDataSystem.HasPlayerBeenSeenAtLeastOneTime
-                 || MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
+                || MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
                 this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
@@ -54,9 +58,9 @@ namespace SoliderAIBehavior
         /// <returns></returns>
         private NavMeshPathStatus MoveToLastSeenPlayerPosition()
         {
-            return this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.SetDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
-                    this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldRotation)),
-                AIMovementSpeedAttenuationFactor.RUN);
+            this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+            return this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
+                this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldRotation)));
         }
 
         /// <summary>

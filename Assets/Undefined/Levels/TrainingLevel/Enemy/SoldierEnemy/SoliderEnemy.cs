@@ -34,7 +34,7 @@ namespace TrainingLevel
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                 SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
-            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, AIMovementSpeedAttenuationFactor.RUN, ObjectSpeedCalculationType.AGENT);
+            this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, new UnConstrainedObjectSpeedAttenuationValueSystem(AIMovementSpeedAttenuationFactor.RUN), ObjectSpeedCalculationType.AGENT);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
             this.SoliderEnemyAnimationStateManager = new SoliderEnemyAnimationStateManager(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.SoldierAnimationSystemDefinition);
             this._soldierStateBehavior = new SoldierStateBehavior();
@@ -45,6 +45,7 @@ namespace TrainingLevel
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
                 new SoldierAIBehaviorExternalCallbacks(
                     this.SetDestination,
+                    this.SetAISpeedAttenuationFactor,
                     this.AIMoveToDestinationSystem.ClearPath,
                     this.AskToFireAFiredProjectile_ToTarget,
                     () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
@@ -118,12 +119,14 @@ namespace TrainingLevel
             this._soldierStateBehavior.DamageDealt(DamageDealerInteractiveObject);
         }
 
-        public override NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
+        #region Agent related events
+
+        private NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
         {
             return this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
 
-        public override void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
+        private void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
         {
             this.ObjectMovementSpeedSystem.SetSpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
         }
@@ -132,6 +135,8 @@ namespace TrainingLevel
         {
             this._soldierStateBehavior.OnDestinationReached();
         }
+
+        #endregion
 
         #region Projectile Events
 

@@ -26,7 +26,6 @@ namespace Firing
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
-        private PlayerSpeedSystem PlayerSpeedSystem;
         private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
         public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, IPlayerInteractiveObject PlayerInteractiveObject,
@@ -45,7 +44,6 @@ namespace Firing
 
             this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, PlayerCoreInteractiveObject, this.TargettableInteractiveObjectSelectionManager);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
-            this.PlayerSpeedSystem = new PlayerSpeedSystem(PlayerCoreInteractiveObject);
         }
 
         public override void FirstExecution()
@@ -104,7 +102,6 @@ namespace Firing
         public override void Dispose()
         {
             this.PlayerObjectOrientationSystem.Dispose();
-            this.PlayerSpeedSystem.Dispose();
             this.FiringRangeFeedbackSystem.Dispose();
 
             base.Dispose();
@@ -250,27 +247,5 @@ namespace Firing
             this.ActionFinished = !this.GameInputManager.CurrentInput.FiringActionDownHold();
         }
     }
-
-    /// <summary>
-    /// Because the <see cref="PlayerCoreInteractiveObject"/> can move while <see cref="FiringPlayerAction"/> is running,
-    /// this sysem changes fix the maximum speed of <see cref="PlayerCoreInteractiveObject"/>.
-    /// /!\ Max speed value is resetted when <see cref="FiringPlayerAction"/> is exited (<see cref="Dispose"/>).
-    /// </summary>
-    struct PlayerSpeedSystem
-    {
-        private CoreInteractiveObject PlayerCoreInteractiveObject;
-        private AIMovementSpeedAttenuationFactor InitialAIMovementSpeedAttenuationFactor;
-
-        public PlayerSpeedSystem(CoreInteractiveObject playerCoreInteractiveObject)
-        {
-            PlayerCoreInteractiveObject = playerCoreInteractiveObject;
-            this.InitialAIMovementSpeedAttenuationFactor = this.PlayerCoreInteractiveObject.GetCurrentSpeedAttenuationFactor();
-            this.PlayerCoreInteractiveObject.SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor.WALK);
-        }
-
-        public void Dispose()
-        {
-            this.PlayerCoreInteractiveObject.SetAISpeedAttenuationFactor(this.InitialAIMovementSpeedAttenuationFactor);
-        }
-    }
+    
 }

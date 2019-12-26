@@ -9,9 +9,4 @@ namespace AIObjects
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public AIPatrolGraphV2 AIPatrolGraph;
     }
-
-    public class AIPatrollingState
-    {
-        public bool isPatrolling;
-    }
 }

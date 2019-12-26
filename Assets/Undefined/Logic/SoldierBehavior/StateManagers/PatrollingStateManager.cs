@@ -1,6 +1,9 @@
-﻿using AIObjects;
+﻿using System;
+using AIObjects;
 using InteractiveObjects;
+using InteractiveObjects_Interfaces;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
@@ -12,9 +15,10 @@ namespace SoliderAIBehavior
     {
         private AIPatrolSystem AIPatrolSystem;
 
-        public PatrollingStateManager(CoreInteractiveObject AssociatedInteractiveObject, AIPatrolSystemDefinition AIPatrolSystemDefinition)
+        public PatrollingStateManager(CoreInteractiveObject AssociatedInteractiveObject, AIPatrolSystemDefinition AIPatrolSystemDefinition,
+            Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> coreInteractiveObjectDestinationCallback, Action<AIMovementSpeedAttenuationFactor> aiSpeedAttenuationFactorCallback)
         {
-            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolSystemDefinition);
+            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolSystemDefinition, (strategy) => { coreInteractiveObjectDestinationCallback.Invoke(strategy); }, aiSpeedAttenuationFactorCallback);
         }
 
         public override void Tick(float d)

@@ -19,9 +19,10 @@ public class SoliderEnemyDefinition_A_PatrollingPath : AIPatrolGraphV2
 
     [WireCircleWorldAttribute(UseTransform = false, PositionFieldName = nameof(P2), Radius = 1f)] [WireArrow(OriginFieldName = nameof(P2))] [WireArrowLink(SourceFieldName = nameof(P2), TargetFieldName = nameof(P1))] [MultiplePointMovementNested]
     public AIMoveToActionInputData P2;
+
     public float P2_SecondsToWait;
 
-    public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject)
+    public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
     {
         return new List<ASequencedAction>()
         {
@@ -32,11 +33,11 @@ public class SoliderEnemyDefinition_A_PatrollingPath : AIPatrolGraphV2
                     {
                         new WaitForSecondsAction(this.P1_SecondsToWait, () => new List<ASequencedAction>()
                             {
-                                this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.P2, () => new List<ASequencedAction>()
+                                this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
                                 {
                                     new WaitForSecondsAction(this.P2_SecondsToWait, () => new List<ASequencedAction>()
                                     {
-                                        this.CreateAIMoveToActionV2(InvolvedInteractiveObject, this.P1, null)
+                                        this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks, null)
                                     })
                                 })
                             }

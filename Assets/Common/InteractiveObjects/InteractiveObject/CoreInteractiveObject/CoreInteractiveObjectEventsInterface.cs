@@ -7,37 +7,6 @@ namespace InteractiveObjects
 {
     public abstract partial class CoreInteractiveObject
     {
-        #region AI Events
-
-        public virtual NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy)
-        {
-            return NavMeshPathStatus.PathInvalid;
-        }
-
-        public NavMeshPathStatus SetDestination(IAgentMovementCalculationStrategy IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-            this.SetAISpeedAttenuationFactor(aiMovementSpeedAttenuationFactor);
-            return this.SetDestination(IAgentMovementCalculationStrategy);
-        }
-
-        public virtual void SetAISpeedAttenuationFactor(AIMovementSpeedAttenuationFactor aiMovementSpeedAttenuationFactor)
-        {
-        }
-
-        public virtual void ConstrainSpeed(IObjectSpeedAttenuationConstraint objectSpeedAttenuationConstraint)
-        {
-        }
-
-        public virtual void RemoveSpeedConstraints()
-        {
-        }
-
-        public virtual AIMovementSpeedAttenuationFactor GetCurrentSpeedAttenuationFactor()
-        {
-            return default;
-        }
-
-        #endregion
 
         #region Attractive Object Events
 

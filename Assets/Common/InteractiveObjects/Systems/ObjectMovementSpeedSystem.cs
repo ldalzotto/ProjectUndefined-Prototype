@@ -1,5 +1,4 @@
-﻿using System;
-using CoreGame;
+﻿using CoreGame;
 using InteractiveObjects_Interfaces;
 using UnityEngine;
 
@@ -35,17 +34,17 @@ namespace InteractiveObjects
 
         private ObjectSpeedCalculationType ObjectSpeedCalculationType;
 
-        [VE_Nested] private ObjectSpeedAttenuationValueSystem ObjectSpeedAttenuationValueSystem;
+        [VE_Nested] private IObjectSpeedAttenuationValueSystem ObjectSpeedAttenuationValueSystem;
         private ObjectSpeedCalculationSystem ObjectSpeedCalculationSystem;
 
         public ObjectMovementSpeedSystem(CoreInteractiveObject associatedInteractiveObject, TransformMoveManagerComponentV3 aiTransformMoveManagerComponentV3,
-            AIMovementSpeedAttenuationFactor InitialMovementSpeedAttenuationFactor, ObjectSpeedCalculationType InitialObjectSpeedCalculationType)
+            IObjectSpeedAttenuationValueSystem ObjectSpeedAttenuationValueSystem, ObjectSpeedCalculationType InitialObjectSpeedCalculationType)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             AITransformMoveManagerComponentV3 = aiTransformMoveManagerComponentV3;
             this.ObjectSpeedCalculationSystem = new ObjectSpeedCalculationSystem();
             this.ObjectSpeedCalculationType = InitialObjectSpeedCalculationType;
-            this.ObjectSpeedAttenuationValueSystem = new ObjectSpeedAttenuationValueSystem(InitialMovementSpeedAttenuationFactor);
+            this.ObjectSpeedAttenuationValueSystem = ObjectSpeedAttenuationValueSystem;
 
             this.ObjectMovementSpeedSystemState = new ObjectMovementSpeedSystemState()
             {
@@ -95,20 +94,7 @@ namespace InteractiveObjects
             this.ObjectMovementSpeedSystemState.localSpeedDirection = Vector3.zero;
             this.ObjectMovementSpeedSystemState.SpeedMagnitude = 0f;
         }
-
-        /// <summary>
-        /// <see cref="ObjectSpeedAttenuationValueSystem.SetRule"/>
-        /// </summary>
-        public void ConstrainSpeed(IObjectSpeedAttenuationConstraint objectSpeedAttenuationConstraint)
-        {
-            this.ObjectSpeedAttenuationValueSystem.SetRule(objectSpeedAttenuationConstraint);
-        }
-
-        public void RemoveSpeedConstraints()
-        {
-            this.ObjectSpeedAttenuationValueSystem.SetRule(new NoneSpeedAttenuationConstraint());
-        }
-
+        
         public void SetSpeedAttenuationFactor(AIMovementSpeedAttenuationFactor SpeedAttenuationFactor)
         {
             this.ObjectSpeedAttenuationValueSystem.SetSpeedAttenuationFactor(SpeedAttenuationFactor);
@@ -123,7 +109,7 @@ namespace InteractiveObjects
 
         public AIMovementSpeedAttenuationFactor GetSpeedAttenuationFactor()
         {
-            return this.ObjectSpeedAttenuationValueSystem.CurrentMovementSpeedAttenuationFactor;
+            return this.ObjectSpeedAttenuationValueSystem.CurrentMovementSpeedAttenuationFactor();
         }
 
         public Vector3 GetWorldSpeedDirection()

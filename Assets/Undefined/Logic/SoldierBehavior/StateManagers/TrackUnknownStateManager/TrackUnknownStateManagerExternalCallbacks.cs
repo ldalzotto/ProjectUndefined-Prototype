@@ -6,12 +6,15 @@ namespace SoliderAIBehavior
 {
     public struct TrackUnknownStateManagerExternalCallbacks
     {
-        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
         public Action OnTrackUnknownStateManagerAskedToExit;
 
-        public TrackUnknownStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, Action onTrackUnknownStateManagerAskedToExit)
+        public TrackUnknownStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction, 
+            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction, Action onTrackUnknownStateManagerAskedToExit)
         {
-            SetAIAgentDestinationAction = aiAgentDestinationAction;
+            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
+            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
             OnTrackUnknownStateManagerAskedToExit = onTrackUnknownStateManagerAskedToExit;
         }
 
@@ -19,6 +22,7 @@ namespace SoliderAIBehavior
         {
             return new MoveTowardsInterestDirectionStateManagerExternalCallbacks(
                 TrackUnknownStateManagerExternalCallbacks.SetAIAgentDestinationAction,
+                TrackUnknownStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction,
                 TrackUnknownStateManagerExternalCallbacks.OnTrackUnknownStateManagerAskedToExit
             );
         }

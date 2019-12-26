@@ -10,18 +10,27 @@ namespace AIObjects
     public class AIMoveToActionV2 : ASequencedAction, IActionAbortedOnDestinationReached
     {
         private bool destinationReached;
-        private CoreInteractiveObject InteractiveObject;
         private Vector3 WorldPosition;
         private Vector3? WorldRotation;
         private AIMovementSpeedAttenuationFactor AIMovementSpeed;
 
-        public AIMoveToActionV2(CoreInteractiveObject InteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation, AIMovementSpeedAttenuationFactor AIMovementSpeed, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        #region Callbacks
+
+        private Action<IAgentMovementCalculationStrategy> SetCoreInteractiveObjectDestinationCallback;
+        private Action<AIMovementSpeedAttenuationFactor> SetAISpeedAttenuationFactorCallback;
+
+        #endregion
+
+        public AIMoveToActionV2(Vector3 WorldPosition, Vector3? WorldRotation, AIMovementSpeedAttenuationFactor AIMovementSpeed,
+            Action<IAgentMovementCalculationStrategy> SetCoreInteractiveObjectDestinationCallback,
+            Action<AIMovementSpeedAttenuationFactor> SetAISpeedAttenuationFactorCallback, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
         {
             this.destinationReached = false;
-            this.InteractiveObject = InteractiveObject;
             this.WorldPosition = WorldPosition;
-            this.WorldRotation = WorldRotation; 
+            this.WorldRotation = WorldRotation;
             this.AIMovementSpeed = AIMovementSpeed;
+            this.SetCoreInteractiveObjectDestinationCallback = SetCoreInteractiveObjectDestinationCallback;
+            this.SetAISpeedAttenuationFactorCallback = SetAISpeedAttenuationFactorCallback;
         }
 
         public override void AfterFinishedEventProcessed()
@@ -38,14 +47,14 @@ namespace AIObjects
             this.destinationReached = false;
         }
 
-        /// This provoques allocation ?
+        /// This provoque allocation ?
         public override void Tick(float d)
         {
             if (!this.destinationReached)
             {
                 var strategy = ForwardAgentMovementCalculationStrategy();
-                this.InteractiveObject.SetDestination(strategy);
-                this.InteractiveObject.SetAISpeedAttenuationFactor(this.AIMovementSpeed);
+                this.SetCoreInteractiveObjectDestinationCallback?.Invoke(strategy);
+                this.SetAISpeedAttenuationFactorCallback?.Invoke(this.AIMovementSpeed);
             }
         }
 

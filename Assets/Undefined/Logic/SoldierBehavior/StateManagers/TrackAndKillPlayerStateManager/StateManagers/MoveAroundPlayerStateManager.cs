@@ -9,11 +9,14 @@ namespace SoliderAIBehavior
 {
     public struct MoveAroundPlayerStateManagerExternalCallbacks
     {
-        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetDestinationAction;
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
 
-        public MoveAroundPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> destinationAction)
+        public MoveAroundPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
+            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction)
         {
-            SetDestinationAction = destinationAction;
+            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
+            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
         }
     }
 
@@ -72,8 +75,8 @@ namespace SoliderAIBehavior
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition.WorldPosition;
 
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
-                if (this.MoveAroundPlayerStateManagerExternalCallbacks.SetDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform),
-                        AIMovementSpeedAttenuationFactor.RUN) == NavMeshPathStatus.PathInvalid)
+                this.MoveAroundPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+                if (this.MoveAroundPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform)) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
                     this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);

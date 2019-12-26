@@ -9,7 +9,8 @@ namespace SoliderAIBehavior
 {
  public struct TrackAndKillPlayerStateManagerExternalCallbacks
     {
-        public Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
         public Action ClearAIAgentPathAction;
         public Action<CoreInteractiveObject> AskToFireAFiredProjectile_WithTargetPosition_Action;
         public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction;
@@ -23,11 +24,13 @@ namespace SoliderAIBehavior
         public Action OnShootingAtPlayerStartAction;
         public Action OnShootingAtPlayerEndAction;
 
-        public TrackAndKillPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, AIMovementSpeedAttenuationFactor, NavMeshPathStatus> aiAgentDestinationAction, 
+        public TrackAndKillPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction, 
+            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction,
             Action clearAiAgentPathAction, Action<CoreInteractiveObject> askToFireAFiredProjectileWithTargetPositionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction,
             Action askedToExitTrackAndKillPlayerBehaviorAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
         {
-            SetAIAgentDestinationAction = aiAgentDestinationAction;
+            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
+            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
             ClearAIAgentPathAction = clearAiAgentPathAction;
             AskToFireAFiredProjectile_WithTargetPosition_Action = askToFireAFiredProjectileWithTargetPositionAction;
             GetWeaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
@@ -46,7 +49,8 @@ namespace SoliderAIBehavior
         public static implicit operator MoveTowardsPlayerStateManagerExternalCallbacks(TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
         {
             return new MoveTowardsPlayerStateManagerExternalCallbacks(
-                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction
+                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction,
+                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction
             );
         }
 
@@ -63,7 +67,8 @@ namespace SoliderAIBehavior
         public static implicit operator MoveAroundPlayerStateManagerExternalCallbacks(TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
         {
             return new MoveAroundPlayerStateManagerExternalCallbacks(
-                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction
+                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction,
+                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction
             );
         }
 
@@ -71,6 +76,7 @@ namespace SoliderAIBehavior
         {
             return new MoveToLastSeenPlayerPositionStateManagerExternalCallbacks(
                 TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction,
+                TrackAndKillPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction,
                 TrackAndKillPlayerStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction);
         }
     }
