@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Health
 {
@@ -39,7 +40,7 @@ namespace Health
 
         public void ChangeHealth(float HealthDelta)
         {
-            this.CurrentHealth.SetValue(this.CurrentHealth.GetValue() + HealthDelta);
+            this.CurrentHealth.SetValue(Mathf.Min(this.CurrentHealth.GetValue() + HealthDelta, this.GetMaxHealth()));
         }
 
         #region DataRetrieval
