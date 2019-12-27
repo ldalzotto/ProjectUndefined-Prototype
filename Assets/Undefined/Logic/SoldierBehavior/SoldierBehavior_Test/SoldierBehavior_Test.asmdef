@@ -14,7 +14,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Targetting_Tests",
-        "CameraManagement"
+        "CameraManagement",
+        "SequencedAction_Editor_Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

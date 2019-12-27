@@ -657,6 +657,10 @@
       <Project>{7E99B70D-57F7-0D6B-3D29-B5FCCEB20C49}</Project>
       <Name>CameraManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="SequencedAction_Editor_Common.csproj">
+      <Project>{457F267A-1079-F699-ABAB-797956BB7D38}</Project>
+      <Name>SequencedAction_Editor_Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
