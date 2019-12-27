@@ -16,6 +16,12 @@ namespace Firing
             StartOrientation = Quaternion.LookRotation((firingTargetWorldLocation - StartWorldPosition).normalized);
         }
 
+        public static void CalculateProjectilePath_ToDirection(CoreInteractiveObject WeaponHolder, Vector3 NormalizedWorldDirection, out Vector3 StartWorldPosition, out Quaternion StartOrientation)
+        {
+            StartWorldPosition = WeaponHolder.GetWeaponWorldFirePoint();
+            StartOrientation = Quaternion.LookRotation(NormalizedWorldDirection);
+        }
+
         /// <summary>
         /// Calculates the initial orientation and position of a FiredProjectile when shooting forward
         /// </summary>

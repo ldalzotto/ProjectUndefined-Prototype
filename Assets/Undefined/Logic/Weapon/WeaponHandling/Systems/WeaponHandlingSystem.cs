@@ -4,7 +4,14 @@ using UnityEngine;
 
 namespace Weapon
 {
-    public class WeaponHandlingSystem
+    public interface IWeaponHandlingSystem_DataRetrieval
+    {
+        float GetFiredProjectileMaxRange();
+        float GetFiredProjectileTravelSpeed();
+        Vector3 GetWorldWeaponFirePoint();
+    }
+
+    public class WeaponHandlingSystem : IWeaponHandlingSystem_DataRetrieval
     {
         public WeaponHandlingSystemInitializationData WeaponHandlingSystemInitializationData;
         private Weapon WeaponReference;
@@ -34,12 +41,23 @@ namespace Weapon
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
         }
 
+        public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
+        {
+            FiringProjectilePathCalculation.CalculateProjectilePath_ToDirection(WeaponHandlingSystemInitializationData.Parent, NormalizedWorldDirection, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
+            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
+        }
+
         /// <summary>
         /// Returns the maximum range of the currenlty equipped <see cref="WeaponReference"/>.
         /// </summary>
         public float GetFiredProjectileMaxRange()
         {
             return this.WeaponReference.GetFiredProjectileMaxRange();
+        }
+
+        public float GetFiredProjectileTravelSpeed()
+        {
+            return this.WeaponReference.GetFiredProjectileTravelSpeed();
         }
 
         /// <summary>

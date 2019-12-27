@@ -227,6 +227,15 @@ namespace PlayerObject
             base.Destroy();
         }
 
+        #region Speed Data Retrieval
+
+        public override Vector3 GetWorldSpeedScaled()
+        {
+            return this.ObjectMovementSpeedSystem.GetVelocity();
+        }
+
+        #endregion
+        
         #region Agents events
 
 #if UNITY_EDITOR

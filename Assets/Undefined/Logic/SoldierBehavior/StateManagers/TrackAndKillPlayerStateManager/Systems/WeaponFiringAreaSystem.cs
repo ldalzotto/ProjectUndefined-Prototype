@@ -34,14 +34,19 @@ namespace SoliderAIBehavior
         /// </summary>
         private BoxRayRangeObject WeaponFiringAreaBoxRangeObject;
 
+        private Transform EndOfRayTransformPoint;
+
         private IFiringProjectileCallback IFiringProjectileCallback;
+        private IWeaponDataRetrieval IWeaponDataRetrieval;
         
         public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            IFiringProjectileCallback IFiringProjectileCallback)
+            IFiringProjectileCallback IFiringProjectileCallback, IWeaponDataRetrieval IWeaponDataRetrieval)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             this.IFiringProjectileCallback = IFiringProjectileCallback;
+            this.IWeaponDataRetrieval = IWeaponDataRetrieval;
+
             this.WeaponFiringAreaBoxRangeObject = new BoxRayRangeObject(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
                 {
                     RangeTypeID = RangeTypeID.NOT_DISPLAYED,
@@ -51,16 +56,25 @@ namespace SoliderAIBehavior
                 2f,
                 delegate(InteractiveObjectPhysicsTriggerInfo interactiveObjectPhysicsTriggerInfo) { return interactiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsObstacle; }
                 , "WeaponFiringAreaBoxRangeObject");
+            this.EndOfRayTransformPoint = new GameObject("WeaponFiringAreaBoxRangeObject_EndOfRayTransform").transform;
+            this.EndOfRayTransformPoint.transform.parent = associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform;
         }
 
         public void Tick(float d)
         {
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
+            var AssociatedInteractiveObjectFiringShootPosition = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
             var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition() - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);
+            var PlayerObjectFiringTargetWorldPosition = PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition();
+            
+            var projectileTravelTimeToPlayer = Vector3.Distance(PlayerObjectFiringTargetWorldPosition, AssociatedInteractiveObjectFiringShootPosition) / this.IWeaponDataRetrieval.GetIWeaponHandlingSystem_DataRetrievalAction.GetFiredProjectileTravelSpeed();
+            var PredictedPlayerObjectFiringTargetWorldPosition = PlayerObjectFiringTargetWorldPosition + (PlayerObject.GetWorldSpeedScaled() * projectileTravelTimeToPlayer);
 
-            var DistanceSoldierPlayer = Vector3.Distance((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition()), this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition);
+            this.EndOfRayTransformPoint.position = PredictedPlayerObjectFiringTargetWorldPosition;
+            
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PredictedPlayerObjectFiringTargetWorldPosition - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);
+            var DistanceSoldierPlayer = Vector3.Distance(PredictedPlayerObjectFiringTargetWorldPosition, this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition);
             this.WeaponFiringAreaBoxRangeObject.SetLocalCenter(new Vector3(0, 0, DistanceSoldierPlayer * 0.5f));
             this.WeaponFiringAreaBoxRangeObject.SetLocalSize(new Vector3(2, 2, DistanceSoldierPlayer));
         }
@@ -70,10 +84,20 @@ namespace SoliderAIBehavior
             return this.WeaponFiringAreaBoxRangeObject.GetInsideInteractiveObjects().Count > 0;
         }
 
+        public Vector3 GetWorldRayForwardDirection()
+        {
+            return this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.forward;
+        }
+
+        public Transform GetPredictedTransform()
+        {
+            return this.EndOfRayTransformPoint;
+        }
+
         public void OnDestroy()
         {
             this.WeaponFiringAreaBoxRangeObject.OnDestroy();
-            //      GameObject.Destroy(this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject);
+            GameObject.Destroy(this.EndOfRayTransformPoint.gameObject);
         }
 
         /// <summary>
@@ -82,6 +106,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public void Enable()
         {
+            this.EndOfRayTransformPoint.gameObject.SetActive(true);
             this.Tick(0f);
             this.WeaponFiringAreaBoxRangeObject.Enable();
             this.WeaponFiringAreaBoxRangeObject.ManuallyDetectInsideColliders();
@@ -92,6 +117,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public void Disable()
         {
+            this.EndOfRayTransformPoint.gameObject.SetActive(false);
             this.WeaponFiringAreaBoxRangeObject.Disable();
         }
     }

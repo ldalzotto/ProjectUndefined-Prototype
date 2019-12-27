@@ -49,9 +49,11 @@ namespace TrainingLevel
                     this.SetAISpeedAttenuationFactor,
                     this.AIMoveToDestinationSystem.ClearPath,
                     this.AskToFireAFiredProjectile_ToTarget,
+                    this.AskToFireAFiredProjectile_ToDirection,
                     () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                     this.OnShootingAtPlayerStart,
-                    this.OnShootingAtPlayerEnd
+                    this.OnShootingAtPlayerEnd,
+                    this.WeaponHandlingSystem
                 ));
         }
 
@@ -149,6 +151,11 @@ namespace TrainingLevel
         public override void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
+        }
+
+        public void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
         }
 
         public override Vector3 GetWeaponWorldFirePoint()

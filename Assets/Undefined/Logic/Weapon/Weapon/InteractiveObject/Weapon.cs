@@ -38,6 +38,11 @@ namespace Weapon
         {
             return this.FiringProjectileSystem.GetProjectileMaxRange();
         }
+
+        public float GetFiredProjectileTravelSpeed()
+        {
+            return this.FiringProjectileSystem.GetProjectileTravelSpeed();
+        }
     }
 
 
@@ -72,6 +77,11 @@ namespace Weapon
         public float GetProjectileMaxRange()
         {
             return this.WeaponDefinition.FiredProjectileDefinition.MaxDistance;
+        }
+
+        public float GetProjectileTravelSpeed()
+        {
+            return this.WeaponDefinition.GetFiredProjectileTravelSpeed();
         }
     }
 

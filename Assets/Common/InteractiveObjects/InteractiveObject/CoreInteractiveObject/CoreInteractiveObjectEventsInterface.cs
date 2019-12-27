@@ -8,30 +8,11 @@ namespace InteractiveObjects
     public abstract partial class CoreInteractiveObject
     {
 
-        #region Attractive Object Events
+        #region Speed Data Retrieval
 
-        public virtual void OnOtherAttractiveObjectJustIntersected(CoreInteractiveObject OtherInteractiveObject)
+        public virtual Vector3 GetWorldSpeedScaled()
         {
-        }
-
-        public virtual void OnOtherAttractiveObjectIntersectedNothing(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        public virtual void OnOtherAttractiveObjectNoMoreIntersected(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        #endregion
-
-        #region Disarm Object Events
-
-        public virtual void OnOtherDisarmObjectTriggerEnter(CoreInteractiveObject OtherInteractiveObject)
-        {
-        }
-
-        public virtual void OnOtherDisarmobjectTriggerExit(CoreInteractiveObject OtherInteractiveObject)
-        {
+            return default(Vector3);
         }
 
         #endregion
@@ -51,7 +32,7 @@ namespace InteractiveObjects
         public virtual void OnRecoverHealth(float recoveredHealthAmount)
         {
         }
-
+        
         #endregion
 
         #region Projectile Events

@@ -83,35 +83,30 @@ namespace SoliderAIBehavior
                     if (Vector3.Distance(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition, this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition) <= this.SoldierAIBehaviorDefinition.MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer)
                     {
                         this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.ZERO);
-                        this.ISetAIAgentDestinationActionCallback.ClearAIAgentPathAction.Invoke();
+                        this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(
+                            new LookingAtAgentMovementCalculationStrategy(new AIDestination(this.AssociatedInteractiveObject.InteractiveGameObject.Agent.transform.position, null), this.WeaponFiringAreaSystem.GetPredictedTransform()));
                     }
                     else
                     {
                         this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.WALK);
-                        this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition, null)));
+                        this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(
+                            new LookingAtAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition, null), this.WeaponFiringAreaSystem.GetPredictedTransform()));
                     }
 
-                    var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
-                    OrientToTarget(PlayerObject);
-                    FireProjectile(PlayerObject);
+//                    OrientToTarget(this.PlayerObjectStateDataSystem.PlayerObject());
+                    FireProjectile();
                 }
             }
-        }
-
-        private void OrientToTarget(CoreInteractiveObject PlayerObject)
-        {
-            this.AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation =
-                Quaternion.LookRotation((PlayerObject.InteractiveGameObject.GetTransform().WorldPosition - this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition).normalized, Vector3.up);
         }
 
         /// <summary>
         /// The firing projectile method can be called every frame without worrying about spwaning multiples projectiles. <br/>
         /// Effective projectile spawn is ensured by <see cref="Weapon.WeaponRecoilTimeManager"/>.
         /// </summary>
-        private void FireProjectile(CoreInteractiveObject PlayerObject)
+        private void FireProjectile()
         {
-            this.IFiringProjectileCallback.AskToFireAFiredProjectile_WithTargetPosition_Action
-                .Invoke(PlayerObject);
+            var targettingDirection = this.WeaponFiringAreaSystem.GetWorldRayForwardDirection();
+            this.IFiringProjectileCallback.AskToFireAFiredprojectile_WithWorldDirection_Action.Invoke(targettingDirection);
         }
     }
 }

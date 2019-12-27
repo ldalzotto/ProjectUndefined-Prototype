@@ -99,7 +99,7 @@ namespace SoliderAIBehavior
             PlayerObjectStateDataSystem PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2 SoldierAIBehaviorExternalCallbacksV2,
             Action AskTrackAndKillPlayerStateBehaviorExitAction)
         {
-            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2);
+            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2);
             this.StateManagersLookup = new Dictionary<TrackAndKillPlayerStateEnum, SoldierStateManager>()
             {
                 {TrackAndKillPlayerStateEnum.LISTENING, new ListeningStateManager()},
