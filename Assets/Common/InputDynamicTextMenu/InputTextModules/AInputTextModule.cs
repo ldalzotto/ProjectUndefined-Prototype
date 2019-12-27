@@ -49,6 +49,14 @@ namespace InputDynamicTextMenu
         }
     }
 
+    public class TimeStopModule : AInputTextModule
+    {
+        public TimeStopModule(RectTransform ParentTransform) : base(ParentTransform)
+        {
+            this.InstanciatedText.text = InputConfigurationInherentData2ReadableText.ConvertInputToReadableText(InputID.FREEZE_TIME_DOWN);
+        }
+    }
+
     public class FiringModeEnterTextModule : AInputTextModule
     {
         public FiringModeEnterTextModule(RectTransform ParentTransform) : base(ParentTransform)

@@ -14,6 +14,7 @@ namespace InputDynamicTextMenu
 
         private LocomotionTextModule LocomotionTextModule;
         private CameraTextModule CameraTextModule;
+        private TimeStopModule TimeStopModule;
         private FiringModeEnterTextModule FiringModeEnterTextModule;
         private OnTargettingTextModule OnTargettingTextModule;
         private DelflectionTextModule DelflectionTextModule;
@@ -28,6 +29,7 @@ namespace InputDynamicTextMenu
 
             this.LocomotionTextModule = new LocomotionTextModule(containerRectTransform);
             this.CameraTextModule = new CameraTextModule(containerRectTransform);
+            this.TimeStopModule = new TimeStopModule(containerRectTransform);
             this.FiringModeEnterTextModule = new FiringModeEnterTextModule(containerRectTransform);
             this.OnTargettingTextModule = new OnTargettingTextModule(containerRectTransform);
             this.OnTargettingTextModule.Disable();
