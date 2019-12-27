@@ -41,7 +41,7 @@ namespace AIObjects
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
             this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.A_AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3,
                 AIMovementSpeedAttenuationFactorProvider);
-            this.AIDestinationManager = new AIDestinationManager(this.objectAgent, OnAIInteractiveObjectDestinationReached, this.aiPositionMoveManager);
+            this.AIDestinationManager = new AIDestinationManager(this.objectAgent, OnAIInteractiveObjectDestinationReached);
             this.A_AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, AITransformMoveManagerComponentV3, this.AIDestinationManager);
         }
 
@@ -53,10 +53,7 @@ namespace AIObjects
                 this.EnableAgent();
                 this.AIDestinationManager.CheckIfDestinationReached(d);
 
-                Profiler.BeginSample("A_AIRotationMoveManager");
                 this.A_AIRotationMoveManager.UpdateAgentRotation(d);
-                Profiler.EndSample();
-
                 this.aiPositionMoveManager.UpdateAgentPosition(d);
             }
             else
@@ -146,14 +143,11 @@ namespace AIObjects
         [VE_Nested] private AIDestination? currentDestination;
         public AIDestination? CurrentDestination => currentDestination;
 
-        private AIPositionMoveManager aiPositionMoveManagerRef;
-
-        public AIDestinationManager(NavMeshAgent objectAgent, OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached, AIPositionMoveManager aiPositionMoveManagerRef)
+        public AIDestinationManager(NavMeshAgent objectAgent, OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached)
         {
             this.objectAgent = objectAgent;
             this.OnAIInteractiveObjectDestinationReached = OnAIInteractiveObjectDestinationReached;
             this.lastSettedWorldDestination = new Vector3(9999999, 99999999, 9999999);
-            this.aiPositionMoveManagerRef = aiPositionMoveManagerRef;
         }
 
         /// <summary>

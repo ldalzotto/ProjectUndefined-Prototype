@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
-
     /// <summary>
     /// Moves the <see cref="SoliderEnemy"/> to the position of the <see cref="InteractiveObjectTag.IsPlayer"/> object.
     /// (<see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/>)

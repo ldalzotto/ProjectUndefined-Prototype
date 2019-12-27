@@ -52,6 +52,10 @@ namespace SoliderAIBehavior
             if (InSightInteractiveObject.InteractiveObjectTag.IsPlayer)
             {
                 this.IsPlayerInSight.SetValue(true);
+
+                /// Initial values intialization before executing custom logic on this event. 
+                this.Tick(0f);
+
                 this.OnPlayerObjectJustOnSightAction.Invoke(InSightInteractiveObject);
             }
         }
