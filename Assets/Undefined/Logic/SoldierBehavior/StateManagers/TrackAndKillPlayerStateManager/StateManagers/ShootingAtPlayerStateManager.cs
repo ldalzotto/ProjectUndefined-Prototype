@@ -1,5 +1,7 @@
 ﻿using System;
+using AIObjects;
 using InteractiveObjects;
+using InteractiveObjects_Interfaces;
 using UnityEngine;
 
 namespace SoliderAIBehavior
@@ -13,6 +15,7 @@ namespace SoliderAIBehavior
         private TrackAndKillPlayerStateBehavior TrackAndKillAIbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
+        private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
 
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
 
@@ -25,13 +28,14 @@ namespace SoliderAIBehavior
         #endregion
 
         public ShootingAtPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            CoreInteractiveObject associatedInteractiveObject, WeaponFiringAreaSystem WeaponFiringAreaSystem,
+            CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition, WeaponFiringAreaSystem WeaponFiringAreaSystem,
             ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, IFiringProjectileCallback IFiringProjectileCallback,
             IShootingAtPlayerWorkflowCallback IShootingAtPlayerWorkflowCallback)
         {
             this.TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
+            this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
             this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
             this.IFiringProjectileCallback = IFiringProjectileCallback;
@@ -76,6 +80,17 @@ namespace SoliderAIBehavior
                 }
                 else
                 {
+                    if (Vector3.Distance(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition, this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition) <= this.SoldierAIBehaviorDefinition.MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer)
+                    {
+                        this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.ZERO);
+                        this.ISetAIAgentDestinationActionCallback.ClearAIAgentPathAction.Invoke();
+                    }
+                    else
+                    {
+                        this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.WALK);
+                        this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition, null)));
+                    }
+
                     var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
                     OrientToTarget(PlayerObject);
                     FireProjectile(PlayerObject);

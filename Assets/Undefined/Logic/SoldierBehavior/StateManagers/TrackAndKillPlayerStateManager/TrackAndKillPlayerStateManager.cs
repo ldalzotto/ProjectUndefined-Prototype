@@ -104,7 +104,7 @@ namespace SoliderAIBehavior
             {
                 {TrackAndKillPlayerStateEnum.LISTENING, new ListeningStateManager()},
                 {TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2)},
-                {TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2)},
+                {TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, SoldierAIBehaviorDefinition, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2)},
                 {TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2)},
                 {TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2, AskTrackAndKillPlayerStateBehaviorExitAction)}
             };

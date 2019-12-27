@@ -1,6 +1,7 @@
 ﻿using System;
 using AIObjects;
 using OdinSerializer;
+using UnityEngine.Serialization;
 
 namespace SoliderAIBehavior
 {
@@ -19,6 +20,13 @@ namespace SoliderAIBehavior
         /// </summary>
         [WireCircleWorld(R = 0f, G = 1f, B = 1f, UseTransform = true, RadiusFieldName = nameof(SoldierAIBehaviorDefinition.MaxDistancePlayerCatchUp))]
         public float MaxDistancePlayerCatchUp;
+
+        /// <summary>
+        /// The distance from which the AI will stop while on state <see cref="SoldierAIStateEnum.SHOOTING_AT_PLAYER"/> and moving towards player.
+        /// </summary>
+        [FormerlySerializedAs("DistanceToStopWhenMovingWhileShootingAtPlayer")]
+        [WireCircleWorld(R = 0f, G = 1f, B = 1f, UseTransform = true, RadiusFieldName = nameof(SoldierAIBehaviorDefinition.MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer))]
+        public float MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer = 10;
 
         /// <summary>
         /// The maximum distance crossed when the <see cref="SoldierAIBehavior"/> enters in state <see cref="MoveTowardsInterestDirectionStateManager"/>.
