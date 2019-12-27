@@ -21,7 +21,8 @@ namespace SoliderAIBehavior
     /// <summary>
     /// Holds and update informations about the ability to shoot to the Player. This is achieved by creating a trigger <see cref="WeaponFiringAreaBoxRangeObject"/> between the
     /// <see cref="SoliderEnemy.GetWeaponFirePointOriginLocalAction"/> and the <see cref="PlayerInteractiveObject.GetFiringTargetLocalPosition"/>.
-    /// Ability to shoot to the Player is provided by ensuring that the WeaponFiringAreaBoxRangeObject doesn't contains Obstacles.
+    /// The <see cref="WeaponFiringAreaBoxRangeObject"/> is then adjusted from the Player speed and fired projectile speed to a predicted position (<see cref="PreshotPlayerPosition"/>).
+    /// The ability to shoot to the Player is provided by ensuring that the WeaponFiringAreaBoxRangeObject doesn't contains Obstacles.
     /// </summary>
     public class WeaponFiringAreaSystem
     {
@@ -34,11 +35,15 @@ namespace SoliderAIBehavior
         /// </summary>
         private BoxRayRangeObject WeaponFiringAreaBoxRangeObject;
 
+        /// <summary>
+        /// A trasform object representing the end of the <see cref="WeaponFiringAreaBoxRangeObject"/>. This transform is used
+        /// by <see cref="ShootingAtPlayerStateManager"/> as a LookinTowards constraint.
+        /// </summary>
         private Transform EndOfRayTransformPoint;
 
         private IFiringProjectileCallback IFiringProjectileCallback;
         private IWeaponDataRetrieval IWeaponDataRetrieval;
-        
+
         public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem,
             IFiringProjectileCallback IFiringProjectileCallback, IWeaponDataRetrieval IWeaponDataRetrieval)
         {
@@ -62,21 +67,33 @@ namespace SoliderAIBehavior
 
         public void Tick(float d)
         {
+            var PredictedPlayerObjectFiringTargetWorldPosition = this.PreshotPlayerPosition();
+
+            this.EndOfRayTransformPoint.position = PredictedPlayerObjectFiringTargetWorldPosition;
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PredictedPlayerObjectFiringTargetWorldPosition - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);
+            var DistanceSoldierPlayer = Vector3.Distance(PredictedPlayerObjectFiringTargetWorldPosition, this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition);
+
+            this.WeaponFiringAreaBoxRangeObject.SetLocalCenter(new Vector3(0, 0, DistanceSoldierPlayer * 0.5f));
+            this.WeaponFiringAreaBoxRangeObject.SetLocalSize(new Vector3(2, 2, DistanceSoldierPlayer));
+        }
+
+        /// <summary>
+        /// Taking into account the <see cref="AssociatedInteractiveObject"/> firing projectile travel speed and the <see cref="PlayerObjectStateDataSystem"/> InteractiveObject speed,
+        /// calculates a predicted position of the Player where the AI will aim for that will read the target if it continues to move at the same speed,
+        /// along the same direction.
+        /// </summary>
+        private Vector3 PreshotPlayerPosition()
+        {
             var AssociatedInteractiveObjectFiringShootPosition = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition + this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
             var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
             var PlayerObjectFiringTargetWorldPosition = PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition();
-            
-            var projectileTravelTimeToPlayer = Vector3.Distance(PlayerObjectFiringTargetWorldPosition, AssociatedInteractiveObjectFiringShootPosition) / this.IWeaponDataRetrieval.GetIWeaponHandlingSystem_DataRetrievalAction.GetFiredProjectileTravelSpeed();
-            var PredictedPlayerObjectFiringTargetWorldPosition = PlayerObjectFiringTargetWorldPosition + (PlayerObject.GetWorldSpeedScaled() * projectileTravelTimeToPlayer);
 
-            this.EndOfRayTransformPoint.position = PredictedPlayerObjectFiringTargetWorldPosition;
-            
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PredictedPlayerObjectFiringTargetWorldPosition - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);
-            var DistanceSoldierPlayer = Vector3.Distance(PredictedPlayerObjectFiringTargetWorldPosition, this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition);
-            this.WeaponFiringAreaBoxRangeObject.SetLocalCenter(new Vector3(0, 0, DistanceSoldierPlayer * 0.5f));
-            this.WeaponFiringAreaBoxRangeObject.SetLocalSize(new Vector3(2, 2, DistanceSoldierPlayer));
+            var projectileTravelTimeToPlayer = Vector3.Distance(PlayerObjectFiringTargetWorldPosition, AssociatedInteractiveObjectFiringShootPosition) / this.IWeaponDataRetrieval.GetIWeaponHandlingSystem_DataRetrievalAction.GetFiredProjectileTravelSpeed();
+
+            var PredictedPlayerObjectFiringTargetWorldPosition = PlayerObjectFiringTargetWorldPosition + (PlayerObject.GetWorldSpeedScaled() * projectileTravelTimeToPlayer);
+            return PredictedPlayerObjectFiringTargetWorldPosition;
         }
 
         public bool AreObstaclesInside()

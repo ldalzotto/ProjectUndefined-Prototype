@@ -10,6 +10,9 @@ namespace InteractiveObjects
 
         #region Speed Data Retrieval
 
+        /// <summary>
+        /// Returns the world space speed used by the physics engine.
+        /// </summary>
         public virtual Vector3 GetWorldSpeedScaled()
         {
             return default(Vector3);

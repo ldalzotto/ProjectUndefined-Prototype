@@ -41,6 +41,9 @@ namespace Weapon
             this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
         }
 
+        /// <summary>
+        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing in the <see cref="NormalizedWorldDirection"/> direction. 
+        /// </summary>
         public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
         {
             FiringProjectilePathCalculation.CalculateProjectilePath_ToDirection(WeaponHandlingSystemInitializationData.Parent, NormalizedWorldDirection, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);

@@ -84,16 +84,18 @@ namespace SoliderAIBehavior
                     {
                         this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.ZERO);
                         this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(
-                            new LookingAtAgentMovementCalculationStrategy(new AIDestination(this.AssociatedInteractiveObject.InteractiveGameObject.Agent.transform.position, null), this.WeaponFiringAreaSystem.GetPredictedTransform()));
+                            new LookingAtAgentMovementCalculationStrategy(new AIDestination(this.AssociatedInteractiveObject.InteractiveGameObject.Agent.transform.position, null)
+                                , this.WeaponFiringAreaSystem.GetPredictedTransform()));
                     }
                     else
                     {
                         this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.WALK);
+
+                        /// Agent movement is set as a LookingAtAgentMovementCalculationStrategy to make the AI move while facing the target
                         this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(
                             new LookingAtAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition, null), this.WeaponFiringAreaSystem.GetPredictedTransform()));
                     }
 
-//                    OrientToTarget(this.PlayerObjectStateDataSystem.PlayerObject());
                     FireProjectile();
                 }
             }
