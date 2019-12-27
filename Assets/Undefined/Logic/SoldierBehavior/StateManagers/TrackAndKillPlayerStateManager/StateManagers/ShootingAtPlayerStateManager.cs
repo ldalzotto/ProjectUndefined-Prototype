@@ -4,23 +4,6 @@ using UnityEngine;
 
 namespace SoliderAIBehavior
 {
-    public struct ShootingAtPlayerStateManagerExternalCallbacks
-    {
-        public Action ClearAiAgentPathAction;
-        public Action<CoreInteractiveObject> AskToFireAFiredProjectileAction_WithTargetPosition;
-        public Action OnShootingAtPlayerStartAction;
-        public Action OnShootingAtPlayerEndAction;
-
-        public ShootingAtPlayerStateManagerExternalCallbacks(Action clearAiAgentPathAction, Action<CoreInteractiveObject> askToFireAFiredProjectileActionWithTargetPosition, 
-            Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction)
-        {
-            ClearAiAgentPathAction = clearAiAgentPathAction;
-            AskToFireAFiredProjectileAction_WithTargetPosition = askToFireAFiredProjectileActionWithTargetPosition;
-            OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
-            OnShootingAtPlayerEndAction = onShootingAtPlayerEndAction;
-        }
-    }
-
     /// <summary>
     /// Orient the <see cref="SoliderEnemy"/> and trigger its <see cref="SoliderEnemy.AskToFireAFiredProjectile()"/> event.
     /// <see cref="TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER"/>
@@ -32,16 +15,27 @@ namespace SoliderAIBehavior
         private CoreInteractiveObject AssociatedInteractiveObject;
 
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
-        private ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks;
+
+        #region Callbacks
+
+        private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
+        private IFiringProjectileCallback IFiringProjectileCallback;
+        private IShootingAtPlayerWorkflowCallback IShootingAtPlayerWorkflowCallback;
+
+        #endregion
 
         public ShootingAtPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillAIbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            CoreInteractiveObject associatedInteractiveObject,WeaponFiringAreaSystem WeaponFiringAreaSystem, ShootingAtPlayerStateManagerExternalCallbacks ShootingAtPlayerStateManagerExternalCallbacks)
+            CoreInteractiveObject associatedInteractiveObject, WeaponFiringAreaSystem WeaponFiringAreaSystem,
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, IFiringProjectileCallback IFiringProjectileCallback,
+            IShootingAtPlayerWorkflowCallback IShootingAtPlayerWorkflowCallback)
         {
             this.TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
-            this.ShootingAtPlayerStateManagerExternalCallbacks = ShootingAtPlayerStateManagerExternalCallbacks;
+            this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
+            this.IFiringProjectileCallback = IFiringProjectileCallback;
+            this.IShootingAtPlayerWorkflowCallback = IShootingAtPlayerWorkflowCallback;
         }
 
         /// <summary>
@@ -49,13 +43,13 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnStateEnter()
         {
-            this.ShootingAtPlayerStateManagerExternalCallbacks.OnShootingAtPlayerStartAction.Invoke();
-            this.ShootingAtPlayerStateManagerExternalCallbacks.ClearAiAgentPathAction.Invoke();
+            this.IShootingAtPlayerWorkflowCallback.OnShootingAtPlayerStartAction.Invoke();
+            this.ISetAIAgentDestinationActionCallback.ClearAIAgentPathAction.Invoke();
         }
 
         public override void OnStateExit()
         {
-            this.ShootingAtPlayerStateManagerExternalCallbacks.OnShootingAtPlayerEndAction.Invoke();
+            this.IShootingAtPlayerWorkflowCallback.OnShootingAtPlayerEndAction.Invoke();
         }
 
         public override void Tick(float d)
@@ -86,7 +80,6 @@ namespace SoliderAIBehavior
                     OrientToTarget(PlayerObject);
                     FireProjectile(PlayerObject);
                 }
-               
             }
         }
 
@@ -102,7 +95,7 @@ namespace SoliderAIBehavior
         /// </summary>
         private void FireProjectile(CoreInteractiveObject PlayerObject)
         {
-            this.ShootingAtPlayerStateManagerExternalCallbacks.AskToFireAFiredProjectileAction_WithTargetPosition
+            this.IFiringProjectileCallback.AskToFireAFiredProjectile_WithTargetPosition_Action
                 .Invoke(PlayerObject);
         }
     }

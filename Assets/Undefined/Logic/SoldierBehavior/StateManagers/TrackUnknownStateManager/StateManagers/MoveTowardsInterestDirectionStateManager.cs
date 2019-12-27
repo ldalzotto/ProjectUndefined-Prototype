@@ -8,22 +8,6 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
-    public struct MoveTowardsInterestDirectionStateManagerExternalCallbacks
-    {
-        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
-        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
-        public Action OnTrackUnknownStateManagerAskedToExit;
-
-        public MoveTowardsInterestDirectionStateManagerExternalCallbacks(
-            Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
-            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction, Action onTrackUnknownStateManagerAskedToExit)
-        {
-            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
-            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
-            OnTrackUnknownStateManagerAskedToExit = onTrackUnknownStateManagerAskedToExit;
-        }
-    }
-
     /// <summary>
     /// The <see cref="SoldierAIBehavior"/> moves towards <see cref="TrackUnknownInterestDirectionSystem"/> interest direction to potentially
     /// see a point of intereset (sight events will be triggered by <see cref="SoldierAIBehavior.PlayerObjectStateDataSystem"/>).
@@ -34,18 +18,20 @@ namespace SoliderAIBehavior
         private TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem;
         private SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition;
 
-        private MoveTowardsInterestDirectionStateManagerExternalCallbacks MoveTowardsInterestDirectionStateManagerExternalCallbacks;
-
+        private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
+        private Action OnTrackUnknownStateManagerAskedToExit;
+        
         public MoveTowardsInterestDirectionStateManager(
             CoreInteractiveObject AssociatedInteractiveObject,
             TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem,
             SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            MoveTowardsInterestDirectionStateManagerExternalCallbacks MoveTowardsInterestDirectionStateManagerExternalCallbacks)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, Action OnTrackUnknownStateManagerAskedToExit)
         {
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.TrackUnknownInterestDirectionSystem = TrackUnknownInterestDirectionSystem;
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
-            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks = MoveTowardsInterestDirectionStateManagerExternalCallbacks;
+            this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
+            this.OnTrackUnknownStateManagerAskedToExit = OnTrackUnknownStateManagerAskedToExit;
         }
 
         public override void DamageDealt(CoreInteractiveObject damageDealerInteractiveObject)
@@ -53,8 +39,8 @@ namespace SoliderAIBehavior
             base.DamageDealt(damageDealerInteractiveObject);
 
             var TargetWorldPositionNavMehshit = this.GetTargetWorldPositionNavMehshit();
-            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
-            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(TargetWorldPositionNavMehshit.position, null)));
+            this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+            this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(TargetWorldPositionNavMehshit.position, null)));
         }
 
         /// <summary>
@@ -62,7 +48,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnDestinationReached()
         {
-            this.MoveTowardsInterestDirectionStateManagerExternalCallbacks.OnTrackUnknownStateManagerAskedToExit.Invoke();
+            this.OnTrackUnknownStateManagerAskedToExit.Invoke();
         }
 
         private NavMeshHit GetTargetWorldPositionNavMehshit()

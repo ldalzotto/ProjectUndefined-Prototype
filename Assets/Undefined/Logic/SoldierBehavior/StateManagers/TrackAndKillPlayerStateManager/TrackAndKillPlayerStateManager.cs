@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using AIObjects;
 using InteractiveObjects;
-using InteractiveObjects_Interfaces;
-using UnityEngine;
-using UnityEngine.AI;
-using Weapon;
 
 namespace SoliderAIBehavior
 {
     public enum TrackAndKillPlayerStateEnum
     {
         LISTENING = 0,
+
         /// <summary>
         /// /!\ It is often not ecouraged to use this state. The state <see cref="TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION"/>
         /// is always more appropriate and will automatically switch to <see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/> if
@@ -31,15 +27,15 @@ namespace SoliderAIBehavior
 
     public class TrackAndKillPlayerStateManager : SoldierStateManager
     {
-        [VE_Nested]
-        private TrackAndKillPlayerStateBehavior _trackAndKillPlayerStateBehavior;
+        [VE_Nested] private TrackAndKillPlayerStateBehavior _trackAndKillPlayerStateBehavior;
 
         public TrackAndKillPlayerStateManager(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             PlayerObjectStateDataSystem PlayerObjectStateDataSystem,
-            TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
+            SoldierAIBehaviorExternalCallbacksV2 SoldierAIBehaviorExternalCallbacksV2,
+            Action AskTrackAndKillPlayerStateBehaviorExitAction)
         {
             this._trackAndKillPlayerStateBehavior = new TrackAndKillPlayerStateBehavior();
-            this._trackAndKillPlayerStateBehavior.Init(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks);
+            this._trackAndKillPlayerStateBehavior.Init(AssociatedInteractiveObject, SoldierAIBehaviorDefinition, PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2, AskTrackAndKillPlayerStateBehaviorExitAction);
         }
 
         public override void Tick(float d)
@@ -97,21 +93,20 @@ namespace SoliderAIBehavior
     /// </summary>
     public class TrackAndKillPlayerStateBehavior : StateBehavior<TrackAndKillPlayerStateEnum, SoldierStateManager>
     {
-        
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
 
         public void Init(CoreInteractiveObject AssociatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            PlayerObjectStateDataSystem PlayerObjectStateDataSystem,
-            TrackAndKillPlayerStateManagerExternalCallbacks TrackAndKillPlayerStateManagerExternalCallbacks)
+            PlayerObjectStateDataSystem PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2 SoldierAIBehaviorExternalCallbacksV2,
+            Action AskTrackAndKillPlayerStateBehaviorExitAction)
         {
-            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks);
+            this.WeaponFiringAreaSystem = new WeaponFiringAreaSystem(AssociatedInteractiveObject, PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2);
             this.StateManagersLookup = new Dictionary<TrackAndKillPlayerStateEnum, SoldierStateManager>()
             {
                 {TrackAndKillPlayerStateEnum.LISTENING, new ListeningStateManager()},
-                {TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, TrackAndKillPlayerStateManagerExternalCallbacks)},
-                {TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, TrackAndKillPlayerStateManagerExternalCallbacks)},
-                {TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, TrackAndKillPlayerStateManagerExternalCallbacks)},
-                {TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, PlayerObjectStateDataSystem, TrackAndKillPlayerStateManagerExternalCallbacks)}
+                {TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER, new MoveTowardsPlayerStateManager(this, SoldierAIBehaviorDefinition, AssociatedInteractiveObject, PlayerObjectStateDataSystem, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2)},
+                {TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER, new ShootingAtPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2, SoldierAIBehaviorExternalCallbacksV2)},
+                {TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER, new MoveAroundPlayerStateManager(this, PlayerObjectStateDataSystem, AssociatedInteractiveObject, this.WeaponFiringAreaSystem, SoldierAIBehaviorExternalCallbacksV2)},
+                {TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION, new MoveToLastSeenPlayerPositionStateManager(this, PlayerObjectStateDataSystem, SoldierAIBehaviorExternalCallbacksV2, AskTrackAndKillPlayerStateBehaviorExitAction)}
             };
             base.Init(TrackAndKillPlayerStateEnum.LISTENING);
         }
@@ -131,7 +126,7 @@ namespace SoliderAIBehavior
         {
             this.WeaponFiringAreaSystem.Disable();
         }
-        
+
         public override void OnDestroy()
         {
             base.OnDestroy();
@@ -143,6 +138,5 @@ namespace SoliderAIBehavior
 
             this.WeaponFiringAreaSystem.OnDestroy();
         }
-        
     }
 }

@@ -109,6 +109,7 @@
      <Compile Include="Assets\Test\BoxCastTest\BoxCastTest.cs" />
      <Compile Include="Assets\Test\CameraPanningTest\CameraPanningTest.cs" />
      <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
+     <Compile Include="Assets\Test\InputOldNewCursorPositionTest\StructConv.cs" />
      <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
      <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
      <Compile Include="Assets\Test\PlayableGraphConnectionTest\PlayableGraphConnectionTest.cs" />

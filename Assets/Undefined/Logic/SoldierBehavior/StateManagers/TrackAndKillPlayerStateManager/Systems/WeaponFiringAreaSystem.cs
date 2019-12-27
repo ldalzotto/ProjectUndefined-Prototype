@@ -34,14 +34,14 @@ namespace SoliderAIBehavior
         /// </summary>
         private BoxRayRangeObject WeaponFiringAreaBoxRangeObject;
 
-        private WeaponFiringAreaSystemExternalCallbacks WeaponFiringAreaSystemExternalCallbacks;
-
+        private IFiringProjectileCallback IFiringProjectileCallback;
+        
         public WeaponFiringAreaSystem(CoreInteractiveObject associatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            WeaponFiringAreaSystemExternalCallbacks WeaponFiringAreaSystemExternalCallbacks)
+            IFiringProjectileCallback IFiringProjectileCallback)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
-            this.WeaponFiringAreaSystemExternalCallbacks = WeaponFiringAreaSystemExternalCallbacks;
+            this.IFiringProjectileCallback = IFiringProjectileCallback;
             this.WeaponFiringAreaBoxRangeObject = new BoxRayRangeObject(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new BoxRangeObjectInitialization()
                 {
                     RangeTypeID = RangeTypeID.NOT_DISPLAYED,
@@ -55,7 +55,7 @@ namespace SoliderAIBehavior
 
         public void Tick(float d)
         {
-            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.WeaponFiringAreaSystemExternalCallbacks.weaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
+            this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.localPosition = this.IFiringProjectileCallback.GetWeaponFirePointOriginLocalDefinitionAction.Invoke().WeaponFirePointOriginLocal;
             var PlayerObject = this.PlayerObjectStateDataSystem.PlayerObject();
             var PlayerObjectWorldPosition = PlayerObject.InteractiveGameObject.GetTransform().WorldPosition;
             this.WeaponFiringAreaBoxRangeObject.RangeGameObjectV2.RangeGameObject.transform.rotation = Quaternion.LookRotation((PlayerObjectWorldPosition + PlayerObject.GetFiringTargetLocalPosition() - this.WeaponFiringAreaBoxRangeObject.GetTransform().WorldPosition).normalized);

@@ -17,10 +17,11 @@ namespace SoliderAIBehavior
         [VE_Nested] private TrackUnknownStateBehavior _trackUnknownStateBehavior;
 
         public TrackUnknownStateManager(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
+            SoldierAIBehaviorExternalCallbacksV2 SoldierAIBehaviorExternalCallbacksV2,
+            Action AskTrackUnknownStateManagerToExitAction)
         {
             this._trackUnknownStateBehavior = new TrackUnknownStateBehavior();
-            this._trackUnknownStateBehavior.Init(associatedInteractiveObject, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks);
+            this._trackUnknownStateBehavior.Init(associatedInteractiveObject, SoldierAIBehaviorDefinition, SoldierAIBehaviorExternalCallbacksV2, AskTrackUnknownStateManagerToExitAction);
         }
 
         public override void Tick(float d)
@@ -57,12 +58,13 @@ namespace SoliderAIBehavior
         private TrackUnknownInterestDirectionSystem TrackUnknownInterestDirectionSystem;
 
         public void Init(CoreInteractiveObject associatedInteractiveObject, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
-            TrackUnknownStateManagerExternalCallbacks TrackUnknownStateManagerExternalCallbacks)
+            SoldierAIBehaviorExternalCallbacksV2 SoldierAIBehaviorExternalCallbacksV2,
+            Action AskTrackUnknownStateManagerToExitAction)
         {
             this.TrackUnknownInterestDirectionSystem = new TrackUnknownInterestDirectionSystem(associatedInteractiveObject);
             this.StateManagersLookup = new Dictionary<TrackUnknownStateEnum, SoldierStateManager>()
             {
-                {TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION, new MoveTowardsInterestDirectionStateManager(associatedInteractiveObject, this.TrackUnknownInterestDirectionSystem, SoldierAIBehaviorDefinition, TrackUnknownStateManagerExternalCallbacks)}
+                {TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION, new MoveTowardsInterestDirectionStateManager(associatedInteractiveObject, this.TrackUnknownInterestDirectionSystem, SoldierAIBehaviorDefinition, SoldierAIBehaviorExternalCallbacksV2, AskTrackUnknownStateManagerToExitAction)}
             };
             
             base.Init(TrackUnknownStateEnum.MOVE_TOWARDS_INTEREST_DIRECTION);

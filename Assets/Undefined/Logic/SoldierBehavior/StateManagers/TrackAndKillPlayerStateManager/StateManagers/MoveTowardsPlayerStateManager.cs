@@ -7,18 +7,6 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
-    public struct MoveTowardsPlayerStateManagerExternalCallbacks
-    {
-        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
-        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
-
-        public MoveTowardsPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
-            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction)
-        {
-            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
-            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
-        }
-    }
 
     /// <summary>
     /// Moves the <see cref="SoliderEnemy"/> to the position of the <see cref="InteractiveObjectTag.IsPlayer"/> object.
@@ -31,24 +19,24 @@ namespace SoliderAIBehavior
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
-        private MoveTowardsPlayerStateManagerExternalCallbacks MoveTowardsPlayerStateManagerExternalCallbacks;
+        private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
 
         public MoveTowardsPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillAIbehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem,
-            MoveTowardsPlayerStateManagerExternalCallbacks MoveTowardsPlayerStateManagerExternalCallbacks)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback)
         {
             TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
-            this.MoveTowardsPlayerStateManagerExternalCallbacks = MoveTowardsPlayerStateManagerExternalCallbacks;
+            this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
         }
 
         public override void Tick(float d)
         {
-            this.MoveTowardsPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
-            this.MoveTowardsPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}));
+            this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+            this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = this.PlayerObjectStateDataSystem.PlayerObject().InteractiveGameObject.GetTransform().WorldPosition}));
             this.SwitchToShootingAtPlayer();
         }
 

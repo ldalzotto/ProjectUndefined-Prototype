@@ -7,22 +7,6 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
-    public struct MoveToLastSeenPlayerPositionStateManagerExternalCallbacks
-    {
-        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
-        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
-        public Action AskedToExitTrackAndKillPlayerBehaviorAction;
-
-        public MoveToLastSeenPlayerPositionStateManagerExternalCallbacks(
-            Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
-            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction, Action askedToExitTrackAndKillPlayerBehaviorAction)
-        {
-            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
-            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
-            AskedToExitTrackAndKillPlayerBehaviorAction = askedToExitTrackAndKillPlayerBehaviorAction;
-        }
-    }
-
     /// <summary>
     /// This state moves the PlayerObject to <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
     /// When the Player is in sight, it automacially switchs state to <see cref="TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER"/>.
@@ -31,14 +15,16 @@ namespace SoliderAIBehavior
     {
         private TrackAndKillPlayerStateBehavior TrackAndKillPlayerbehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
-        private MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks;
+        private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
+        private Action AskedToExitTrackAndKillPlayerBehaviorAction;
 
         public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            MoveToLastSeenPlayerPositionStateManagerExternalCallbacks MoveToLastSeenPlayerPositionStateManagerExternalCallbacks)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, Action AskedToExitTrackAndKillPlayerBehaviorAction)
         {
             TrackAndKillPlayerbehaviorRef = trackAndKillPlayerbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
-            this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks = MoveToLastSeenPlayerPositionStateManagerExternalCallbacks;
+            this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
+            this.AskedToExitTrackAndKillPlayerBehaviorAction = AskedToExitTrackAndKillPlayerBehaviorAction;
         }
 
         public override void OnStateEnter()
@@ -47,7 +33,7 @@ namespace SoliderAIBehavior
                 || MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
-                this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
+                this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
             }
         }
 
@@ -58,8 +44,8 @@ namespace SoliderAIBehavior
         /// <returns></returns>
         private NavMeshPathStatus MoveToLastSeenPlayerPosition()
         {
-            this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
-            return this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
+            this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+            return this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new ForwardAgentMovementCalculationStrategy(new AIDestination(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition,
                 this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldRotation)));
         }
 
@@ -81,7 +67,7 @@ namespace SoliderAIBehavior
         public override void OnDestinationReached()
         {
             Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
-            this.MoveToLastSeenPlayerPositionStateManagerExternalCallbacks.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
+            this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
         }
     }
 }

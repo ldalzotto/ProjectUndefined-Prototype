@@ -16,9 +16,10 @@ namespace SoliderAIBehavior
         private AIPatrolSystem AIPatrolSystem;
 
         public PatrollingStateManager(CoreInteractiveObject AssociatedInteractiveObject, AIPatrolSystemDefinition AIPatrolSystemDefinition,
-            Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> coreInteractiveObjectDestinationCallback, Action<AIMovementSpeedAttenuationFactor> aiSpeedAttenuationFactorCallback)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback)
         {
-            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolSystemDefinition, (strategy) => { coreInteractiveObjectDestinationCallback.Invoke(strategy); }, aiSpeedAttenuationFactorCallback);
+            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolSystemDefinition, ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction_NoReturn,
+                ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction);
         }
 
         public override void Tick(float d)

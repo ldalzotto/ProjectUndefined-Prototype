@@ -7,19 +7,6 @@ using UnityEngine.AI;
 
 namespace SoliderAIBehavior
 {
-    public struct MoveAroundPlayerStateManagerExternalCallbacks
-    {
-        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction;
-        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction;
-
-        public MoveAroundPlayerStateManagerExternalCallbacks(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction,
-            Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction)
-        {
-            this.SetAIAgentDestinationAction = SetAIAgentDestinationAction;
-            this.SetAIAgentSpeedAttenuationAction = SetAIAgentSpeedAttenuationAction;
-        }
-    }
-
     /// <summary>
     /// The <see cref="TrackAndKillPlayerStateEnum.GO_ROUND_PLAYER"/> state is entered when the <see cref="SoliderEnemy"/> is
     /// trying to get the Player in sight by moving around the <see cref="PlayerObjectStateDataSystem.LastPlayerSeenPosition"/>.
@@ -38,8 +25,8 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
-        private MoveAroundPlayerStateManagerExternalCallbacks MoveAroundPlayerStateManagerExternalCallbacks;
-
+        private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
+        
         /// <summary>
         /// GameObject created on the fly that is used as a looking target for the <see cref="LookingAtAgentMovementCalculationStrategy"/>.
         /// /!\ It must be detroyed when <see cref="OnStateExit"/> is called.
@@ -49,12 +36,12 @@ namespace SoliderAIBehavior
 
         public MoveAroundPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerStateBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
             WeaponFiringAreaSystem WeaponFiringAreaSystem,
-            MoveAroundPlayerStateManagerExternalCallbacks MoveAroundPlayerStateManagerExternalCallbacks)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback)
         {
             _trackAndKillPlayerStateBehaviorRef = trackAndKillPlayerStateBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
-            this.MoveAroundPlayerStateManagerExternalCallbacks = MoveAroundPlayerStateManagerExternalCallbacks;
+            this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
         }
 
@@ -75,8 +62,8 @@ namespace SoliderAIBehavior
                 this.TmpLastPlayerSeenPositionGameObject.transform.position = LastPlayerSeenPosition.WorldPosition;
 
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
-                this.MoveAroundPlayerStateManagerExternalCallbacks.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
-                if (this.MoveAroundPlayerStateManagerExternalCallbacks.SetAIAgentDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform)) == NavMeshPathStatus.PathInvalid)
+                this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+                if (this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform)) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
                     this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);

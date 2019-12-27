@@ -43,8 +43,9 @@ namespace TrainingLevel
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
 
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
-                new SoldierAIBehaviorExternalCallbacks(
+                new SoldierAIBehaviorExternalCallbacksV2(
                     this.SetDestination,
+                    (IAgentMovementCalculationStrategy => this.SetDestination(IAgentMovementCalculationStrategy)),
                     this.SetAISpeedAttenuationFactor,
                     this.AIMoveToDestinationSystem.ClearPath,
                     this.AskToFireAFiredProjectile_ToTarget,
