@@ -12,6 +12,10 @@ namespace AIObjects
     {
         public abstract ASequencedAction[] AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks);
 
+        protected AIWarpActionV2 CreateAIWarpAction(CoreInteractiveObject InvolvedInteractiveObject, AIMoveToActionInputData AIMoveToActionInputData)
+        {
+            return new AIWarpActionV2(InvolvedInteractiveObject, AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation());
+        }
         protected AIMoveToActionV2 CreateAIMoveToActionV2(AIMoveToActionInputData AIMoveToActionInputData, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
         {
             return new AIMoveToActionV2(AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation(), AIMoveToActionInputData.AIMovementSpeed,
