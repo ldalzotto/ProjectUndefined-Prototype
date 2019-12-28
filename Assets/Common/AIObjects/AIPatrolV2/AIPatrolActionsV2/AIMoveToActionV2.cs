@@ -23,7 +23,7 @@ namespace AIObjects
 
         public AIMoveToActionV2(Vector3 WorldPosition, Vector3? WorldRotation, AIMovementSpeedAttenuationFactor AIMovementSpeed,
             Action<IAgentMovementCalculationStrategy> SetCoreInteractiveObjectDestinationCallback,
-            Action<AIMovementSpeedAttenuationFactor> SetAISpeedAttenuationFactorCallback, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+            Action<AIMovementSpeedAttenuationFactor> SetAISpeedAttenuationFactorCallback)
         {
             this.destinationReached = false;
             this.WorldPosition = WorldPosition;

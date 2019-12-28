@@ -14,7 +14,7 @@ namespace ProjectileDeflection_Test
     [Serializable]
     public class ProjectileDeflectionTestScenario : ATestScenarioDefinition
     {
-        public override List<ASequencedAction> BuildScenarioActions()
+        public override ASequencedAction[] BuildScenarioActions()
         {
             /// By default player has infinite health
             PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(-99999999, null);
@@ -22,9 +22,9 @@ namespace ProjectileDeflection_Test
             var playerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
             var enemyObject = InteractiveObjectV2Manager.Get().InteractiveObjects.Find(o => o.InteractiveGameObject.GetAssociatedGameObjectName() == "GameObject");
 
-            return new List<ASequencedAction>()
+            return new ASequencedAction[]
             {
-                new ProjectileDeflectionTestScenarioAction(enemyObject, playerObject, null)
+                new ProjectileDeflectionTestScenarioAction(enemyObject, playerObject)
             };
         }
     }
@@ -38,7 +38,7 @@ namespace ProjectileDeflection_Test
         private Coroutine cor;
         private bool ended;
 
-        public ProjectileDeflectionTestScenarioAction(CoreInteractiveObject EnemyObject, PlayerInteractiveObject PlayerInteractiveObject, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public ProjectileDeflectionTestScenarioAction(CoreInteractiveObject EnemyObject, PlayerInteractiveObject PlayerInteractiveObject)
         {
             this.EnemyObject = EnemyObject;
             this.PlayerInteractiveObject = PlayerInteractiveObject;

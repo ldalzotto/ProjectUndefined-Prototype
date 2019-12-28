@@ -100,7 +100,7 @@ namespace Tutorial
             }
 
             this.tutorialPlayer = new SequencedActionManager(this.OnTutorialStepFinished);
-            tutorialPlayer.OnAddActions(new List<ASequencedAction>() {AbstractTutorialTextAction});
+            tutorialPlayer.OnAddActions(new ASequencedAction[] {AbstractTutorialTextAction});
         }
 
         public void Tick(float d)

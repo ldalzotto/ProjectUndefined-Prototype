@@ -21,29 +21,17 @@ namespace SoliderBehavior_Test
 
         public float P2_SecondsToWait;
 
-        public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
+        public override ASequencedAction[] AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
         {
-            return new List<ASequencedAction>()
+            return new ASequencedAction[]
             {
-                new AIWarpActionV2(InvolvedInteractiveObject, this.P1.WorldPosition, this.P1.GetWorldRotation(), () => new List<ASequencedAction>()
-                {
-                    new BranchInfiniteLoopAction(
-                        new List<ASequencedAction>()
-                        {
-                            new WaitForSecondsAction(this.P1_SecondsToWait, () => new List<ASequencedAction>()
-                                {
-                                    this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
-                                    {
-                                        new WaitForSecondsAction(this.P2_SecondsToWait, () => new List<ASequencedAction>()
-                                        {
-                                            this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks, null)
-                                        })
-                                    })
-                                }
-                            )
-                        }
-                    )
-                })
+                new AIWarpActionV2(InvolvedInteractiveObject, this.P1.WorldPosition, this.P1.GetWorldRotation())
+                    .Then(new BranchInfiniteLoopAction(
+                        new WaitForSecondsAction(this.P1_SecondsToWait)
+                            .Then(this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks)
+                                .Then(new WaitForSecondsAction(this.P2_SecondsToWait)
+                                    .Then(this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks))))
+                    ))
             };
         }
     }

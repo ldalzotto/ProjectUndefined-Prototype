@@ -8,7 +8,7 @@ namespace SequencedAction
     {
         [NonSerialized] private float secondsToWait;
         private float currentTimer;
-        public WaitForSecondsAction(float SecondsToWait, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public WaitForSecondsAction(float SecondsToWait)
         {
             this.secondsToWait = SecondsToWait;
         }

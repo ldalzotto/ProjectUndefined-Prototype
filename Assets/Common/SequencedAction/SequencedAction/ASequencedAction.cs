@@ -10,12 +10,12 @@ namespace SequencedAction
         public abstract void AfterFinishedEventProcessed();
         public abstract void Tick(float d);
 
-        private List<ASequencedAction> NextActions;
-        private Func<List<ASequencedAction>> nextActionsDeffered;
+        private ASequencedAction[] NextActions;
 
-        public ASequencedAction(Func<List<ASequencedAction>> nextActionsDeffered)
+        public ASequencedAction Then(params ASequencedAction[] nextActions)
         {
-            this.nextActionsDeffered = nextActionsDeffered;
+            this.NextActions = nextActions;
+            return this;
         }
 
         public void OnTick(float d)
@@ -39,23 +39,18 @@ namespace SequencedAction
 
         private bool isFinished;
 
-        public virtual void SetNextContextAction(List<ASequencedAction> nextActions)
+        public virtual void SetNextContextAction(ASequencedAction[] nextActions)
         {
             this.NextActions = nextActions;
         }
 
-        public List<ASequencedAction> GetNextActions()
+        public ASequencedAction[] GetNextActions()
         {
-            if (this.nextActionsDeffered == null)
+            if (this.NextActions == null)
             {
                 return null;
             }
-
-            if (this.NextActions == null)
-            {
-                this.NextActions = nextActionsDeffered.Invoke();
-            }
-
+            
             return this.NextActions;
         }
 

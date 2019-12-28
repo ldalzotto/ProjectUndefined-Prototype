@@ -6,18 +6,18 @@ namespace SequencedAction
     [Serializable]
     public class BranchInfiniteLoopAction : ASequencedAction
     {
-        [NonSerialized] private List<ASequencedAction> loopActions;
+        [NonSerialized] private ASequencedAction[] loopActions;
         [NonSerialized] private SequencedActionPlayer loopActionPlayer;
 
-        public BranchInfiniteLoopAction(List<ASequencedAction> loopActions) : base(null)
+        public BranchInfiniteLoopAction(params ASequencedAction[] loopActions)
         {
             this.loopActions = loopActions;
         }
-
-        public override void SetNextContextAction(List<ASequencedAction> nextActions)
+        
+        public override void SetNextContextAction(ASequencedAction[] nextActions)
         {
             this.loopActions = nextActions;
-            base.SetNextContextAction(new List<ASequencedAction>());
+            base.SetNextContextAction(new ASequencedAction[]{});
         }
 
         [NonSerialized] private bool hasEnded;

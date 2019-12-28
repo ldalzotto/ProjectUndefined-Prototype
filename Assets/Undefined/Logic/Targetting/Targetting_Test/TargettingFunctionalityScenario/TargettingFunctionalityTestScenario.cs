@@ -17,7 +17,7 @@ namespace Targetting_Test
     {
         public const string TestTargettedObjectName = "Test_Targetted_Object";
 
-        public override List<ASequencedAction> BuildScenarioActions()
+        public override ASequencedAction[] BuildScenarioActions()
         {
             CoreInteractiveObject targettedObject = null;
             foreach (var io in InteractiveObjects.InteractiveObjectV2Manager.Get().InteractiveObjects)
@@ -28,9 +28,9 @@ namespace Targetting_Test
                 }
             }
 
-            return new List<ASequencedAction>()
+            return new ASequencedAction[]
             {
-                new Target_FireInteractiveObject_AndWait_Action(targettedObject, new Target_FireInteractiveObject_AndWait_ActionDefintion(() => false), null)
+                new Target_FireInteractiveObject_AndWait_Action(targettedObject, new Target_FireInteractiveObject_AndWait_ActionDefintion(() => false))
             };
         }
     }

@@ -24,28 +24,17 @@ public class SoliderEnemyDefinition_F_PatrollingPath : AIPatrolGraphV2
     [WireCircleWorldAttribute(UseTransform = false, PositionFieldName = nameof(P4), Radius = 1f)] [WireArrow(OriginFieldName = nameof(P4))] [WireArrowLink(SourceFieldName = nameof(P4), TargetFieldName = nameof(P1))] [MultiplePointMovementNested]
     public AIMoveToActionInputData P4;
 
-    public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
+    public override ASequencedAction[] AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
     {
-        return new List<ASequencedAction>()
+        return new ASequencedAction[]
         {
-            new AIWarpActionV2(InvolvedInteractiveObject, this.P1.WorldPosition, this.P1.GetWorldRotation(), () => new List<ASequencedAction>()
-            {
-                new BranchInfiniteLoopAction(
-                    new List<ASequencedAction>()
-                    {
-                        this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
-                        {
-                            this.CreateAIMoveToActionV2(this.P3, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
-                            {
-                                this.CreateAIMoveToActionV2(this.P4, AIPatrolGraphRuntimeCallbacks, () => new List<ASequencedAction>()
-                                {
-                                    this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks, null)
-                                })
-                            })
-                        })
-                    }
-                )
-            })
+            new AIWarpActionV2(InvolvedInteractiveObject, this.P1.WorldPosition, this.P1.GetWorldRotation())
+                .Then(new BranchInfiniteLoopAction(
+                    this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks)
+                        .Then(this.CreateAIMoveToActionV2(this.P3, AIPatrolGraphRuntimeCallbacks)
+                            .Then(this.CreateAIMoveToActionV2(this.P4, AIPatrolGraphRuntimeCallbacks)
+                                .Then(this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks))))
+                ))
         };
     }
 }

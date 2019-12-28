@@ -13,7 +13,7 @@ namespace Targetting_Test
     {
         private CoreInteractiveObject Target;
 
-        public MoveTargetCursorToInteractiveObjectAction(CoreInteractiveObject Target, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public MoveTargetCursorToInteractiveObjectAction(CoreInteractiveObject Target)
         {
             this.Target = Target;
         }

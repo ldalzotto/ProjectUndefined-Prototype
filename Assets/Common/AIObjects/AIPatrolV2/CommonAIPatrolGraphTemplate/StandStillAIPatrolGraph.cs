@@ -13,22 +13,16 @@ namespace AIObjects
     [SceneHandleDraw]
     public class StandStillAIPatrolGraph : AIPatrolGraphV2
     {
-        [WireCircleWorldAttribute(R = 0f, G = 1f, B = 0f, UseTransform = false, PositionFieldName = nameof(StandingStillPoint), Radius = 1f)]
-        [WireArrow(R = 0f, G = 1f, B = 0f, OriginFieldName = nameof(StandingStillPoint))]
-        [MultiplePointMovementNested]
+        [WireCircleWorldAttribute(R = 0f, G = 1f, B = 0f, UseTransform = false, PositionFieldName = nameof(StandingStillPoint), Radius = 1f)] [WireArrow(R = 0f, G = 1f, B = 0f, OriginFieldName = nameof(StandingStillPoint))] [MultiplePointMovementNested]
         public AIMoveToActionInputData StandingStillPoint;
 
-        public override List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
+        public override ASequencedAction[] AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
         {
-            return new List<ASequencedAction>()
+            return new ASequencedAction[]
             {
-                new AIWarpActionV2(InvolvedInteractiveObject, this.StandingStillPoint.WorldPosition, this.StandingStillPoint.GetWorldRotation(), () => new List<ASequencedAction>()
-                {
-                    new BranchInfiniteLoopAction(new List<ASequencedAction>()
-                    {
-                        this.CreateAIMoveToActionV2(this.StandingStillPoint, AIPatrolGraphRuntimeCallbacks, null)
-                    })
-                })
+                new AIWarpActionV2(InvolvedInteractiveObject, this.StandingStillPoint.WorldPosition, this.StandingStillPoint.GetWorldRotation())
+                    .Then(new AIWarpActionV2(InvolvedInteractiveObject, this.StandingStillPoint.WorldPosition, this.StandingStillPoint.GetWorldRotation())
+                        .Then(new BranchInfiniteLoopAction(this.CreateAIMoveToActionV2(this.StandingStillPoint, AIPatrolGraphRuntimeCallbacks))))
             };
         }
     }

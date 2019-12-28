@@ -13,10 +13,6 @@ namespace SequencedAction
             set => sequencedActionsToInterrupt = value;
         }
 
-        public CutsceneWorkflowAbortAction(Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
-        {
-        }
-
         public override void AfterFinishedEventProcessed()
         {
         }

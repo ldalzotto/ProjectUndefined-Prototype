@@ -29,40 +29,29 @@ namespace SoliderBehavior_Test
             CameraMovementJobManagerMocked.SetupForTestScene();
         }
 
-        public override List<ASequencedAction> BuildScenarioActions()
+        public override ASequencedAction[] BuildScenarioActions()
         {
             this.EnemyObject = InteractiveObjectV2Manager.Get().InteractiveObjects.Find(o => o.InteractiveGameObject.GetAssociatedGameObjectName() == EnemyObjectName);
 
             this.PlayerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
 
-            return new List<ASequencedAction>()
+            return new ASequencedAction[]
             {
-                new AIWarpActionV2(this.PlayerObject, this.Fire1PlayerPosition, null, () => new List<ASequencedAction>()
-                {
-                    new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
-                    {
-                        new AIMoveToActionV2(Vector3.zero, null, AIMovementSpeedAttenuationFactor.RUN,
-                            (strategy) => { this.PlayerObject.SetDestination(strategy); },
-                            this.PlayerObject.SetAISpeedAttenuationFactor,
-                            () => new List<ASequencedAction>()
-                            {
-                                BuildWarpPlayerBehindEnemyAction(() => new List<ASequencedAction>()
-                                {
-                                    new TargetAndFireToInteractiveObjectAction(this.EnemyObject, () => new List<ASequencedAction>()
-                                    {
-                                        new AIWarpActionV2(this.PlayerObject, Vector3.zero, null, null)
-                                    })
-                                })
-                            })
-                    })
-                })
+                new AIWarpActionV2(this.PlayerObject, this.Fire1PlayerPosition, null)
+                    .Then(new TargetAndFireToInteractiveObjectAction(this.EnemyObject)
+                        .Then(new AIMoveToActionV2(Vector3.zero, null, AIMovementSpeedAttenuationFactor.RUN, (strategy) => { this.PlayerObject.SetDestination(strategy); }, this.PlayerObject.SetAISpeedAttenuationFactor).Then(BuildWarpPlayerBehindEnemyAction())
+                            .Then(new TargetAndFireToInteractiveObjectAction(this.EnemyObject)
+                                .Then(new AIWarpActionV2(this.PlayerObject, Vector3.zero, null))
+                            )
+                        )
+                    )
             };
         }
 
-        private AIWarpActionV2 BuildWarpPlayerBehindEnemyAction(Func<List<ASequencedAction>> nextActionsDeferred)
+        private AIWarpActionV2 BuildWarpPlayerBehindEnemyAction()
         {
             var enemyTransform = this.EnemyObject.InteractiveGameObject.InteractiveGameObjectParent.transform;
-            return new AIWarpActionV2(this.PlayerObject, enemyTransform.position - (enemyTransform.forward * 5f), null, nextActionsDeferred);
+            return new AIWarpActionV2(this.PlayerObject, enemyTransform.position - (enemyTransform.forward * 5f), null);
         }
     }
 }

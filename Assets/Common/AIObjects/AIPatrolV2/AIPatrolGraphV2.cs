@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using SequencedAction;
@@ -11,13 +10,13 @@ namespace AIObjects
     [Serializable]
     public abstract class AIPatrolGraphV2 : ASequencedActionGraph
     {
-        public abstract List<ASequencedAction> AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks);
+        public abstract ASequencedAction[] AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks);
 
-        protected AIMoveToActionV2 CreateAIMoveToActionV2(AIMoveToActionInputData AIMoveToActionInputData, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks, Func<List<ASequencedAction>> nextActionsDeffered)
+        protected AIMoveToActionV2 CreateAIMoveToActionV2(AIMoveToActionInputData AIMoveToActionInputData, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
         {
             return new AIMoveToActionV2(AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation(), AIMoveToActionInputData.AIMovementSpeed,
                 AIPatrolGraphRuntimeCallbacks.SetCoreInteractiveObjectDestinationCallback,
-                AIPatrolGraphRuntimeCallbacks.SetAISpeedAttenuationFactorCallback, nextActionsDeffered);
+                AIPatrolGraphRuntimeCallbacks.SetAISpeedAttenuationFactorCallback);
         }
     }
 

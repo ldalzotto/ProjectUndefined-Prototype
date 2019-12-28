@@ -12,8 +12,7 @@ namespace AIObjects
         private Vector3 WorldPosition;
         private Vector3? WorldRotation;
 
-        public AIWarpActionV2(CoreInteractiveObject InteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation,
-            Func<List<ASequencedAction>> nextActionsDeferred) : base(nextActionsDeferred)
+        public AIWarpActionV2(CoreInteractiveObject InteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation)
         {
             this.InteractiveObject = InteractiveObject;
             this.WorldPosition = WorldPosition;

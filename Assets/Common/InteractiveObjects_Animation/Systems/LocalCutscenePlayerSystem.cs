@@ -15,7 +15,7 @@ namespace InteractiveObject_Animation
             if (CurrentPlayingCutscene != null) CurrentPlayingCutscene.Tick(d);
         }
 
-        public void PlayCutscene(List<ASequencedAction> SequencedActions, Action OnCutsceneEnded = null, Action OnCutsceneKilled = null)
+        public void PlayCutscene(ASequencedAction[] SequencedActions, Action OnCutsceneEnded = null, Action OnCutsceneKilled = null)
         {
             //A local cutscene is already playing
             if (CurrentPlayingCutscene != null) CurrentPlayingCutscene.Kill();

@@ -82,7 +82,7 @@ namespace SequencedAction
             ProcessTick(0f, action);
         }
 
-        public void OnAddActions(List<ASequencedAction> actions)
+        public void OnAddActions(ASequencedAction[] actions)
         {
             foreach (var action in actions)
             {

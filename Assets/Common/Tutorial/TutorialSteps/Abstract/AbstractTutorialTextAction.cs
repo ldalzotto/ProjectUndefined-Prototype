@@ -13,10 +13,6 @@ namespace Tutorial
         [NonSerialized] private bool discussionEnded = false;
         [NonSerialized] protected ITutorialTextActionManager TutorialTextActionManager;
 
-        public AbstractTutorialTextAction(Func<List<ASequencedAction>> nextActionsDeferred) : base(nextActionsDeferred)
-        {
-        }
-
         public override bool ComputeFinishedConditions()
         {
             return this.discussionEnded;

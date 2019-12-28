@@ -26,22 +26,17 @@ namespace SoliderBehavior_Test
         public Vector3 PlayerTargetPosition;
 
 
-        public override List<ASequencedAction> BuildScenarioActions()
+        public override ASequencedAction[] BuildScenarioActions()
         {
             this.EnemyObject = InteractiveObjectV2Manager.Get().InteractiveObjects.Find(o => o.InteractiveGameObject.GetAssociatedGameObjectName() == EnemyObjectName);
-
             this.PlayerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
 
-            return new List<ASequencedAction>()
+            return new ASequencedAction[]
             {
-                new AIWarpActionV2(this.PlayerObject, this.PlayerStartPosition, null, () => new List<ASequencedAction>()
-                {
-                    new WaitForSecondsAction(1.5f, () => new List<ASequencedAction>()
-                    {
-                        new AIMoveToActionV2(this.PlayerTargetPosition, null, AIMovementSpeedAttenuationFactor.RUN, (strategy) => { this.PlayerObject.SetDestination(strategy); }
-                            , this.PlayerObject.SetAISpeedAttenuationFactor, null)
-                    })
-                })
+                new AIWarpActionV2(this.PlayerObject, this.PlayerStartPosition, null)
+                    .Then(new WaitForSecondsAction(1.5f)
+                        .Then(new AIMoveToActionV2(this.PlayerTargetPosition, null, AIMovementSpeedAttenuationFactor.RUN, (strategy) => { this.PlayerObject.SetDestination(strategy); }, this.PlayerObject.SetAISpeedAttenuationFactor))
+                    )
             };
         }
     }

@@ -24,27 +24,20 @@ namespace SoliderBehavior_Test
         [WireCircleWorld(PositionFieldName = nameof(P3))] [WireArrow(OriginFieldName = nameof(P3))]
         public AIMoveToActionInputData P3;
 
-        public override List<ASequencedAction> BuildScenarioActions()
+        public override ASequencedAction[] BuildScenarioActions()
         {
             var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
-            return new List<ASequencedAction>()
+
+            return new ASequencedAction[]
             {
-                new AIWarpActionV2(PlayerInteractiveObject, Spawn, default(Nullable<Vector3>), () => new List<ASequencedAction>()
-                {
-                    new AIMoveToActionV2(this.P1.WorldPosition, this.P1.GetWorldRotation(), P1.AIMovementSpeed,
-                        (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor, () => new List<ASequencedAction>()
-                        {
-                            new AIMoveToActionV2(this.P2.WorldPosition, this.P2.GetWorldRotation(), P2.AIMovementSpeed,
-                                (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor, () => new List<ASequencedAction>()
-                                {
-                                    new AIMoveToActionV2(this.P3.WorldPosition, this.P3.GetWorldRotation(), P3.AIMovementSpeed,
-                                        (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor, () => new List<ASequencedAction>()
-                                        {
-                                            new AIWarpActionV2(PlayerInteractiveObject, Vector3.zero, null, null)
-                                        })
-                                })
-                        })
-                })
+                new AIWarpActionV2(PlayerInteractiveObject, Spawn, default(Nullable<Vector3>))
+                    .Then(new AIMoveToActionV2(this.P1.WorldPosition, this.P1.GetWorldRotation(), P1.AIMovementSpeed, (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor)
+                        .Then(new AIMoveToActionV2(this.P2.WorldPosition, this.P2.GetWorldRotation(), P2.AIMovementSpeed, (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor)
+                            .Then(new AIMoveToActionV2(this.P3.WorldPosition, this.P3.GetWorldRotation(), P3.AIMovementSpeed, (strategy) => { PlayerInteractiveObject.SetDestination(strategy); }, PlayerInteractiveObject.SetAISpeedAttenuationFactor)
+                                .Then(new AIWarpActionV2(PlayerInteractiveObject, Vector3.zero, null))
+                            )
+                        )
+                    )
             };
         }
     }

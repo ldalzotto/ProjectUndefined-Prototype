@@ -8,10 +8,10 @@ namespace Obstalce_Tests
     [Serializable]
     public class ObstacleFrustumOcclusionTestScenario : ATestScenarioDefinition
     {
-        public override List<ASequencedAction> BuildScenarioActions()
+        public override ASequencedAction[] BuildScenarioActions()
         {
-            //Handles by animator
-            return new List<ASequencedAction>();
+            //Handled by animator
+            return new ASequencedAction[]{};
         }
     }
 }

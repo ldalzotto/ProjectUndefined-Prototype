@@ -31,7 +31,7 @@ namespace Targetting_Test
 
         private Vector2 CurrentTargetViewportPosition;
 
-        public MoveTargetCursorSmoothScreenPosition(MoveTargetCursorSmoothScreenPositionData MoveTargetCursorSmoothScreenPositionData, Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public MoveTargetCursorSmoothScreenPosition(MoveTargetCursorSmoothScreenPositionData MoveTargetCursorSmoothScreenPositionData)
         {
             this.MoveTargetCursorSmoothScreenPositionData = MoveTargetCursorSmoothScreenPositionData;
         }

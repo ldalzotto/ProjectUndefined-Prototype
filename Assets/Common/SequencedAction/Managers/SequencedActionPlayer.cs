@@ -6,12 +6,12 @@ namespace SequencedAction
     public class SequencedActionPlayer
     {
         private SequencedActionManager SequencedActionManager;
-        public List<ASequencedAction> SequencedActions;
+        public ASequencedAction[] SequencedActions;
 
         private Action OnCutsceneEnded;
         private Action OnCutsceneKilled;
 
-        public SequencedActionPlayer(List<ASequencedAction> SequencedActions, Action OnCutsceneEnded = null, Action OnCutsceneKilled = null)
+        public SequencedActionPlayer(ASequencedAction[] SequencedActions, Action OnCutsceneEnded = null, Action OnCutsceneKilled = null)
         {
             this.OnCutsceneEnded = OnCutsceneEnded;
             this.OnCutsceneKilled = OnCutsceneKilled;

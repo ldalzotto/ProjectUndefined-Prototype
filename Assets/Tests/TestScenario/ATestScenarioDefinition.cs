@@ -26,7 +26,7 @@ namespace Tests.TestScenario
         {
         }
 
-        public abstract List<ASequencedAction> BuildScenarioActions();
+        public abstract ASequencedAction[] BuildScenarioActions();
     }
 
     [Serializable]

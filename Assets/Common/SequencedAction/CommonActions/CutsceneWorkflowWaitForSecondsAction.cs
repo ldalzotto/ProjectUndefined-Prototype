@@ -12,13 +12,9 @@ namespace SequencedAction
         [NonSerialized] private bool hasEnded;
         [NonSerialized] private float currentTimeElapsed;
 
-        public CutsceneWorkflowWaitForSecondsAction(float SecondsToWait, Func<List<ASequencedAction>> nextActionsDeferred) : base(nextActionsDeferred)
+        public CutsceneWorkflowWaitForSecondsAction(float SecondsToWait)
         {
             this.SecondsToWait = SecondsToWait;
-        }
-
-        public CutsceneWorkflowWaitForSecondsAction(Func<List<ASequencedAction>> nextActionsDeferred) : base(nextActionsDeferred)
-        {
         }
 
         public override void AfterFinishedEventProcessed()

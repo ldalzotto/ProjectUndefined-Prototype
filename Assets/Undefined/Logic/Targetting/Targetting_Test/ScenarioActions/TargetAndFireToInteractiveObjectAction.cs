@@ -33,8 +33,7 @@ namespace Targetting_Test
     {
         private CoreInteractiveObject Target;
 
-        public TargetAndFireToInteractiveObjectAction(CoreInteractiveObject Target,
-            Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+        public TargetAndFireToInteractiveObjectAction(CoreInteractiveObject Target)
         {
             this.Target = Target;
         }
@@ -98,8 +97,7 @@ namespace Targetting_Test
         private Target_FireInteractiveObject_AndWait_ActionDefintion Target_FireInteractiveObject_AndWait_ActionDefintion;
 
         public Target_FireInteractiveObject_AndWait_Action(CoreInteractiveObject target,
-            Target_FireInteractiveObject_AndWait_ActionDefintion Target_FireInteractiveObject_AndWait_ActionDefintion,
-            Func<List<ASequencedAction>> nextActionsDeffered) : base(nextActionsDeffered)
+            Target_FireInteractiveObject_AndWait_ActionDefintion Target_FireInteractiveObject_AndWait_ActionDefintion)
         {
             this.Target = target;
             this.Target_FireInteractiveObject_AndWait_ActionDefintion = Target_FireInteractiveObject_AndWait_ActionDefintion;

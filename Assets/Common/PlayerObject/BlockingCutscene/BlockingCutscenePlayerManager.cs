@@ -11,7 +11,7 @@ namespace PlayerObject
 
         [VE_Ignore] private SequencedActionManager cutscenePlayer;
 
-        public void Play(List<ASequencedAction> SequencingActions, Action onCutsceneEnd = null)
+        public void Play(ASequencedAction[] SequencingActions, Action onCutsceneEnd = null)
         {
             this.Playing = true;
             this.cutscenePlayer = new SequencedActionManager(OnNoMoreActionToPlay: () =>
