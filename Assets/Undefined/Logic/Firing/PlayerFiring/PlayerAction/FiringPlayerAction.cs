@@ -159,8 +159,11 @@ namespace Firing
             var projectionRay = Camera.main.ScreenPointToRay(this._targetCursorManagerRef.GetTargetCursorScreenPosition());
             if (Physics.Raycast(projectionRay, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER)))
             {
-                this.DottedVisualFeeback.transform.position = hit.point;
-                this.DottedVisualFeeback.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(Camera.main.transform.position - hit.point, Vector3.up).normalized, Vector3.up);
+                if (Physics.Raycast(hit.point, Vector3.down, out RaycastHit groundHit, 100f, 1 << LayerMask.NameToLayer(LayerConstants.PUZZLE_GROUND_LAYER)))
+                {
+                    this.DottedVisualFeeback.transform.position = groundHit.point;
+                }
+
                 this.TargetDirection = (hit.point - (this.PlayerInteractiveObjectRef as CoreInteractiveObject).GetWeaponWorldFirePoint()).normalized;
             }
         }
