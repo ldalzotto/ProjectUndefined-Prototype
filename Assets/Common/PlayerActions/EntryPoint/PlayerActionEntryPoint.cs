@@ -40,6 +40,11 @@ namespace PlayerActions
         {
             this.PlayerActionManager.AfterPlayerTick(d);
         }
+        
+        public void TickTimeFrozen(float d)
+        {
+            this.PlayerActionManager.TickTimeFrozen(d);
+        }
 
         public void LateTick(float d)
         {
@@ -133,5 +138,6 @@ namespace PlayerActions
         }
 
         #endregion
+        
     }
 }

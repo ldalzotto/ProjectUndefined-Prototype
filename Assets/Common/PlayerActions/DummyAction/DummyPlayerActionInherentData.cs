@@ -44,6 +44,11 @@ namespace PlayerActions
             
         }
 
+        public override void TickTimeFrozen(float d)
+        {
+            
+        }
+
         public override void LateTick(float d)
         {
         }

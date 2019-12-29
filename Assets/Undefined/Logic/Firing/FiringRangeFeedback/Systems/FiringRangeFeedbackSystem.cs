@@ -50,7 +50,7 @@ namespace Firing
         /// <summary>
         /// Calculates the firing target position by taking into account :
         /// 1/ The maximum range of the weapon holder <see cref="CoreInteractiveObject.GetFiredProjectileMaxRange"/>
-        /// 2/ If there is an interactiveobject that is currently targetted <see cref="TargettableInteractiveObjectSelectionManager.GetCurrentlyTargettedInteractiveObject"/>
+        /// 2/ If there is an interactiveobject that is currently targetted <see cref="FiringLockSelectionManager.GetCurrentlyTargettedInteractiveObject"/>
         /// the firing target position is adjuste to it's <see cref="CoreInteractiveObject.GetFiringTargetLocalPosition"/> if the targetted <see cref="CoreInteractiveObject"/> is in range.
         /// </summary>
         private Segment CalculateFiringTargetPosition()

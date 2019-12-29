@@ -45,6 +45,10 @@ namespace PlayerActions
         {
             PlayerActionExecutionManager.AfterPlayerTick(d);
         }
+        public void TickTimeFrozen(float d)
+        {
+            PlayerActionExecutionManager.TickTimeFrozen(d);
+        }
         
         public void LateTick(float d)
         {
@@ -189,6 +193,18 @@ namespace PlayerActions
             }
         }
 
+        public void TickTimeFrozen(float d)
+        {
+            if (currentAction != null)
+            {
+                currentAction.TickTimeFrozen(d);
+                if (currentAction.FinishedCondition())
+                {
+                    TriggerOnPlayerActionFinichedEventAction.Invoke();
+                }
+            }
+        }
+        
         public void LateTick(float d)
         {
             if (currentAction != null) currentAction.LateTick(d);

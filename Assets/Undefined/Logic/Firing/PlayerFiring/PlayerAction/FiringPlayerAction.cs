@@ -17,12 +17,7 @@ namespace Firing
         private IPlayerInteractiveObject IPlayerInteractiveObject;
         private FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
-        #region External Dependencies
-
-        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager.Get();
-
-        #endregion
-
+        private FiringLockSelectionManager FiringLockSelectionManager;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
@@ -38,7 +33,9 @@ namespace Firing
             var PlayerCoreInteractiveObject = PlayerInteractiveObject as CoreInteractiveObject;
             var gameInputManager = GameInputManager.Get();
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
-            this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this.TargettableInteractiveObjectSelectionManager, this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get());
+
+            this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get());
+            this.FiringLockSelectionManager = new FiringLockSelectionManager(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(PlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
 
             /// This is to change InteractiveObject rotation at the first frame of action execution
@@ -69,6 +66,7 @@ namespace Firing
         public override void BeforePlayerTick(float d)
         {
             Profiler.BeginSample("FiringPlayerAction");
+            this.FiringLockSelectionManager.Tick();
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
@@ -96,6 +94,16 @@ namespace Firing
             }
         }
 
+        public override void TickTimeFrozen(float d)
+        {
+            if (!this.ExitActionSystem.ActionFinished)
+            {
+                this.FiringLockSelectionManager.Tick();
+                this.FiringPlayerActionTargetSystem.Tick(d);
+                this.FiringRangeFeedbackSystem.AfterPlayerTick(d);
+            }
+        }
+
 
         public override void LateTick(float d)
         {
@@ -104,6 +112,7 @@ namespace Firing
 
         public override void Dispose()
         {
+            this.FiringLockSelectionManager.Dispose();
             this.FiringPlayerActionTargetSystem.Dispose();
             this.FiringRangeFeedbackSystem.Dispose();
 
@@ -122,7 +131,6 @@ namespace Firing
 
     public class FiringPlayerActionTargetSystem
     {
-        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
         private TargetCursorManager _targetCursorManagerRef;
 
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
@@ -133,16 +141,13 @@ namespace Firing
 
         private GameObject DottedVisualFeeback;
 
-        public FiringPlayerActionTargetSystem(TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager,
-            FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorManager targetCursorManagerRef)
+        public FiringPlayerActionTargetSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, IPlayerInteractiveObject PlayerInteractiveObjectRef, TargetCursorManager targetCursorManagerRef)
         {
-            this.TargettableInteractiveObjectSelectionManager = TargettableInteractiveObjectSelectionManager;
             this._targetCursorManagerRef = targetCursorManagerRef;
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
             this.TargetPlaneGameObject = GameObject.Instantiate(firingPlayerActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.TargetPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
             this.DottedVisualFeeback = GameObject.Instantiate(firingPlayerActionInherentDataRef.DottedVisualFeebackPrefab);
-            TargettableInteractiveObjectSelectionManager.RegisterOnNewInteractiveObjectTargetted(this.OnInteractiveObjectTargetted);
 
             this.Tick(0f);
         }
@@ -175,7 +180,6 @@ namespace Firing
 
         public void Dispose()
         {
-            TargettableInteractiveObjectSelectionManager.UnRegisterOnNewInteractiveObjectTargetted(this.OnInteractiveObjectTargetted);
             if (this.TargetPlaneGameObject != null)
             {
                 GameObject.Destroy(this.TargetPlaneGameObject);
@@ -187,7 +191,7 @@ namespace Firing
             }
         }
 
-        private void OnInteractiveObjectTargetted(CoreInteractiveObject CoreInteractiveObject)
+        public void OnInteractiveObjectTargetted(CoreInteractiveObject CoreInteractiveObject)
         {
             if (CoreInteractiveObject != null)
             {

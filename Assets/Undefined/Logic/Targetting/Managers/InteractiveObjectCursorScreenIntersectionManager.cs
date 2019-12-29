@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoreGame;
 using InteractiveObjects;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Targetting
 {
     /// <summary>
-    /// Stores and update all <see cref="CoreInteractiveObject"/> that are currently visible.
+    /// Keep track of all <see cref="CoreInteractiveObject"/> that intersects the target cursor.
+    /// Intersection is done by projecting the interactive object model bounds to screen space and checking intersection with cursor.
     /// </summary>
-    public class TargettableInteractiveObjectScreenIntersectionManager : GameSingleton<TargettableInteractiveObjectScreenIntersectionManager>
+    public class InteractiveObjectCursorScreenIntersectionManager : GameSingleton<InteractiveObjectCursorScreenIntersectionManager>
     {
         /// <summary>
         /// A value of true means that the associated <see cref="CoreInteractiveObject"/> is visible on screen.
@@ -26,25 +27,83 @@ namespace Targetting
         /// </summary>
         private Dictionary<CoreInteractiveObject, BoolVariable> InteractiveObjectsOverCursorTarget = new Dictionary<CoreInteractiveObject, BoolVariable>();
 
+        /// <summary>
+        /// A List that contains all interactive objects that are currently intersecting with the cursor.
+        /// This list is degined only to be read by exeternal sources for initialization. 
+        /// </summary>
+        public List<CoreInteractiveObject> IntersectingInteractiveObjects { get; private set; } = new List<CoreInteractiveObject>();
+
+        private Func<InteractiveObjectTag, bool> InteractiveObjectSelectionGuard;
+
+        public InteractiveObjectCursorScreenIntersectionManager()
+        {
+            this.InteractiveObjectSelectionGuard = (InteractiveObjectTag) => InteractiveObjectTag.IsTakingDamage && !InteractiveObjectTag.IsPlayer;
+        }
+
         public void InitializeEvents()
         {
             InteractiveObjectEventsManager.Get().RegisterOnAllInteractiveObjectCreatedEventListener(this.OnInteractiveObjectCreated);
         }
 
+        #region Internal Events
+
+        private event Action<CoreInteractiveObject> OnCursorOverObjectEvent;
+
+        public void RegisterOnCursorOverObjectEvent(Action<CoreInteractiveObject> action)
+        {
+            this.OnCursorOverObjectEvent += action;
+        }
+
+        public void UnRegisterOnCursorOverObjectEvent(Action<CoreInteractiveObject> action)
+        {
+            this.OnCursorOverObjectEvent -= action;
+        }
+
+        private event Action<CoreInteractiveObject> OnCursorNoMoveOverObjectEvent;
+
+        public void RegisterOnCursorNoMoreOverObjectEvent(Action<CoreInteractiveObject> action)
+        {
+            this.OnCursorNoMoveOverObjectEvent += action;
+        }
+
+        public void UnRegisterOnCursorNoMoveOverObjectEvent(Action<CoreInteractiveObject> action)
+        {
+            this.OnCursorNoMoveOverObjectEvent -= action;
+        }
+
+        /// <summary>
+        /// /!\ This events is only called when <see cref="InteractiveObjectsListened"/> value changes from false to true
+        /// </summary>
+        private void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
+        {
+            this.IntersectingInteractiveObjects.Add(CoreInteractiveObject);
+            this.OnCursorOverObjectEvent?.Invoke(CoreInteractiveObject);
+        }
+
+        /// <summary>
+        /// /!\ This events is only called when <see cref="InteractiveObjectsListened"/> value changes from true to false
+        /// </summary>
+        private void OnCursorNoMoveOverObject(CoreInteractiveObject CoreInteractiveObject)
+        {
+            this.IntersectingInteractiveObjects.Remove(CoreInteractiveObject);
+            this.OnCursorNoMoveOverObjectEvent?.Invoke(CoreInteractiveObject);
+        }
+
+        #endregion
+
         /// <summary>
         /// The manager is only update when the <see cref="TargetCursorSystem"/> is running because it it only at this moment that the player is aiming.
         /// This is to avoid unnecessary calcualtions.
+        /// TODO -> This step can be extracted to a BurstJob if calculations are too heavy  
         /// </summary>
-        public void Tick(float d, Vector2 TargetCursorScreenPosition)
+        public void Tick(float unscaled, Vector2 TargetCursorScreenPosition)
         {
             UpdateInteractiveObjectsScreenVisibility();
             UpdateCursorIntersection(TargetCursorScreenPosition);
-            TargettableInteractiveObjectSelectionManager.Get().Tick();
         }
 
         /// <summary>
         /// Update <see cref="InteractiveObjectsListened"/> value by calculating if the InteractiveObject is visible or not.
-        /// TODO -> This step can be extracted to a BurstJob if calculations are too heavy  
         /// </summary>
         private void UpdateInteractiveObjectsScreenVisibility()
         {
@@ -92,7 +151,7 @@ namespace Targetting
 
         private void OnInteractiveObjectCreated(CoreInteractiveObject CoreInteractiveObject)
         {
-            if (CoreInteractiveObject.InteractiveObjectTag.IsTakingDamage && !CoreInteractiveObject.InteractiveObjectTag.IsPlayer)
+            if (this.InteractiveObjectSelectionGuard.Invoke(CoreInteractiveObject.InteractiveObjectTag))
             {
                 this.InteractiveObjectsListened.Add(CoreInteractiveObject, CoreInteractiveObject.InteractiveGameObject.IsVisible());
                 this.InteractiveObjectsOverCursorTarget.Add(CoreInteractiveObject, new BoolVariable(false, () => this.OnCursorOverObject(CoreInteractiveObject), () => { this.OnCursorNoMoveOverObject(CoreInteractiveObject); }));
@@ -104,27 +163,6 @@ namespace Targetting
         {
             this.InteractiveObjectsListened.Remove(CoreInteractiveObject);
             this.InteractiveObjectsOverCursorTarget.Remove(CoreInteractiveObject);
-            TargettableInteractiveObjectSelectionManager.Get().OnInteractiveObjectDestroyed(CoreInteractiveObject);
         }
-
-        #region Internal Events
-
-        /// <summary>
-        /// /!\ This events is only called when <see cref="InteractiveObjectsListened"/> value changes from false to true
-        /// </summary>
-        private void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
-        {
-            TargettableInteractiveObjectSelectionManager.Get().OnCursorOverObject(CoreInteractiveObject);
-        }
-
-        /// <summary>
-        /// /!\ This events is only called when <see cref="InteractiveObjectsListened"/> value changes from true to false
-        /// </summary>
-        private void OnCursorNoMoveOverObject(CoreInteractiveObject CoreInteractiveObject)
-        {
-            TargettableInteractiveObjectSelectionManager.Get().OnCursorNoMoveOverObject(CoreInteractiveObject);
-        }
-
-        #endregion
     }
 }

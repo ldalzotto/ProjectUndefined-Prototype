@@ -58,9 +58,9 @@
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\FiringLock\FiringLockSelectionManager.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\Managers\InteractiveObjectCursorScreenIntersectionManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargetCursorManager.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargettableInteractiveObjectScreenIntersectionManager.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargettableInteractiveObjectSelectionManager.cs" />
      <None Include="Assets\Undefined\Logic\Targetting\Targetting.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

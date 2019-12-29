@@ -34,6 +34,11 @@ namespace RTPuzzle
             
         }
 
+        public override void TickTimeFrozen(float d)
+        {
+            
+        }
+
         public override void Dispose()
         {
         }

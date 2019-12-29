@@ -22,7 +22,7 @@ namespace Targetting
 
         #region External Dependencies
 
-        private TargettableInteractiveObjectScreenIntersectionManager TargettableInteractiveObjectScreenIntersectionManager = TargettableInteractiveObjectScreenIntersectionManager.Get();
+        private InteractiveObjectCursorScreenIntersectionManager _interactiveObjectCursorScreenIntersectionManager = InteractiveObjectCursorScreenIntersectionManager.Get();
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Targetting
         public void Tick(float unscaled)
         {
             MoveCursor(unscaled);
-            this.TargettableInteractiveObjectScreenIntersectionManager.Tick(unscaled, this.TargetCursor.transform.position);
+            this._interactiveObjectCursorScreenIntersectionManager.Tick(unscaled, this.TargetCursor.transform.position);
         }
 
         private void MoveCursor(float d)

@@ -40,7 +40,7 @@ namespace GameLoop
             PlayerInteractiveObjectManager.Get().InitializeEvents();
             CameraMovementJobManager.Get().InitializeEvents();
 
-            TargettableInteractiveObjectScreenIntersectionManager.Get().InitializeEvents();
+            InteractiveObjectCursorScreenIntersectionManager.Get().InitializeEvents();
             RangeObjectV2Manager.Get().InitializeEvents();
             GroundEffectsManagerV2.Get().InitializeEvents();
             WeaponRecoilTimeManager.Get().InitializeEvents();
@@ -122,6 +122,7 @@ namespace GameLoop
             }
             else
             {
+                PlayerActionEntryPoint.Get().TickTimeFrozen(d);
                 PlayerInteractiveObjectManager.Get().TickTimeFrozen(d);
                 InteractiveObjectV2Manager.Get().TickTimeFrozen(d);
             }

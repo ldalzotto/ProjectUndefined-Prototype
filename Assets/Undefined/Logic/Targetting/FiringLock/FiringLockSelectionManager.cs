@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Targetting
 {
-    public class TargettableInteractiveObjectSelectionManager : GameSingleton<TargettableInteractiveObjectSelectionManager>
+    public class FiringLockSelectionManager
     {
         #region External Dependencies
 
@@ -25,11 +25,35 @@ namespace Targetting
         /// </summary>
         private List<CoreInteractiveObject> AllSelectableTargettedInteractiveObject = new List<CoreInteractiveObject>();
 
-        public TargettableInteractiveObjectSelectionManager()
+        private Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedCallback;
+
+        public FiringLockSelectionManager(Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedCallback)
         {
+            this.OnNewInteractiveObjectTargettedCallback = OnNewInteractiveObjectTargettedCallback;
+
             this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(
                 OnObjectValueChanged: this.OnCurrentlytargettedObjectChanged
             );
+            this.InitializeEvents();
+
+            /// Initialization
+            foreach (var cursorIntersectedInteractiveObject in InteractiveObjectCursorScreenIntersectionManager.Get().IntersectingInteractiveObjects)
+            {
+                this.OnCursorOverObject(cursorIntersectedInteractiveObject);
+            }
+        }
+
+
+        private void InitializeEvents()
+        {
+            InteractiveObjectCursorScreenIntersectionManager.Get().RegisterOnCursorOverObjectEvent(this.OnCursorOverObject);
+            InteractiveObjectCursorScreenIntersectionManager.Get().RegisterOnCursorNoMoreOverObjectEvent(this.OnCursorNoMoreOverObject);
+        }
+
+        public void Dispose()
+        {
+            InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorOverObjectEvent(this.OnCursorOverObject);
+            InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorNoMoveOverObjectEvent(this.OnCursorNoMoreOverObject);
         }
 
         public void Tick()
@@ -51,6 +75,7 @@ namespace Targetting
         public void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
         {
             this.AllSelectableTargettedInteractiveObject.Add(CoreInteractiveObject);
+            CoreInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
 
             /// If the CurrentlyTargettedInteractiveObject is null means that there is currently no target.
             /// Then the value is setted to immediately get the target.
@@ -60,27 +85,12 @@ namespace Targetting
             }
         }
 
-        public void OnCursorNoMoveOverObject(CoreInteractiveObject coreInteractiveObject)
+        public void OnCursorNoMoreOverObject(CoreInteractiveObject coreInteractiveObject)
         {
             this.OnInteractiveObjectDestroyed(coreInteractiveObject);
         }
 
-        private event Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedEvent;
-
-        public void RegisterOnNewInteractiveObjectTargetted(Action<CoreInteractiveObject> action)
-        {
-            this.OnNewInteractiveObjectTargettedEvent += action;
-        }
-
-        public void UnRegisterOnNewInteractiveObjectTargetted(Action<CoreInteractiveObject> action)
-        {
-            this.OnNewInteractiveObjectTargettedEvent -= action;
-        }
-
-        /// <summary>
-        /// /!\ Called only from <see cref="TargettableInteractiveObjectScreenIntersectionManager"/> when a Targettable listened InteractiveObject is destroyed.
-        /// </summary>
-        public void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
+        private void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
         {
             this.AllSelectableTargettedInteractiveObject.Remove(CoreInteractiveObject);
 
@@ -106,7 +116,7 @@ namespace Targetting
                 this.CurrentlyTargettedInteractiveObject.SetValue(this.AllSelectableTargettedInteractiveObject[0]);
             }
 
-            this.OnNewInteractiveObjectTargettedEvent?.Invoke(newObject);
+            this.OnNewInteractiveObjectTargettedCallback.Invoke(newObject);
         }
 
         #endregion
