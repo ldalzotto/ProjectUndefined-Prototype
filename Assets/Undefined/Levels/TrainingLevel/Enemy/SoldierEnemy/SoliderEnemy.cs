@@ -153,7 +153,7 @@ namespace TrainingLevel
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
         }
 
-        public void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
+        public override void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
         }

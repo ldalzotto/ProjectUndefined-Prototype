@@ -50,6 +50,8 @@ namespace InteractiveObjects
         public virtual void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
         }
+        
+        public virtual void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection){}
 
         /// <summary>
         /// Returns the starting point in world space of a fired projectile.

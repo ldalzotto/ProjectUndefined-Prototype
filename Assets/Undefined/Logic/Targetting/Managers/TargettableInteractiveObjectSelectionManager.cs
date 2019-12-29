@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoreGame;
 using Input;
 using InteractiveObjects;
@@ -64,6 +65,18 @@ namespace Targetting
             this.OnInteractiveObjectDestroyed(coreInteractiveObject);
         }
 
+        private event Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedEvent;
+
+        public void RegisterOnNewInteractiveObjectTargetted(Action<CoreInteractiveObject> action)
+        {
+            this.OnNewInteractiveObjectTargettedEvent += action;
+        }
+
+        public void UnRegisterOnNewInteractiveObjectTargetted(Action<CoreInteractiveObject> action)
+        {
+            this.OnNewInteractiveObjectTargettedEvent -= action;
+        }
+
         /// <summary>
         /// /!\ Called only from <see cref="TargettableInteractiveObjectScreenIntersectionManager"/> when a Targettable listened InteractiveObject is destroyed.
         /// </summary>
@@ -92,24 +105,8 @@ namespace Targetting
             {
                 this.CurrentlyTargettedInteractiveObject.SetValue(this.AllSelectableTargettedInteractiveObject[0]);
             }
-        }
 
-        #endregion
-
-        #region Logical Conditions
-
-        public bool IsCurrentlyTargetting()
-        {
-            return this.CurrentlyTargettedInteractiveObject.GetValue() != null;
-        }
-
-        #endregion
-
-        #region Data Retrieval
-
-        public CoreInteractiveObject GetCurrentlyTargettedInteractiveObject()
-        {
-            return this.CurrentlyTargettedInteractiveObject.GetValue();
+            this.OnNewInteractiveObjectTargettedEvent?.Invoke(newObject);
         }
 
         #endregion

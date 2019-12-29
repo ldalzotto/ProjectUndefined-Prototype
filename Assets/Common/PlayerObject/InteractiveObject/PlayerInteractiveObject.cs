@@ -235,7 +235,7 @@ namespace PlayerObject
         }
 
         #endregion
-        
+
         #region Agents events
 
 #if UNITY_EDITOR
@@ -334,6 +334,11 @@ namespace PlayerObject
         public override void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
+        }
+
+        public override void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
+        {
+            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
         }
 
         public override Vector3 GetWeaponWorldFirePoint()

@@ -18,15 +18,15 @@ namespace Firing
         public bool IsInitialized;
 
         private CoreInteractiveObject PlayerInteractiveObject;
-        private TargettableInteractiveObjectSelectionManager TargettableInteractiveObjectSelectionManager;
 
+        private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef;
         private FiringRangeFeedbackRangeObject firingRangeFeedbackRangeObject;
 
-        public FiringRangeFeedbackSystem(CoreInteractiveObject playerInteractiveObject, TargettableInteractiveObjectSelectionManager targettableInteractiveObjectSelectionManager)
+        public FiringRangeFeedbackSystem(CoreInteractiveObject playerInteractiveObject, FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
         {
             IsInitialized = true;
             PlayerInteractiveObject = playerInteractiveObject;
-            TargettableInteractiveObjectSelectionManager = targettableInteractiveObjectSelectionManager;
+            this.FiringPlayerActionTargetSystemRef = FiringPlayerActionTargetSystemRef;
             this.firingRangeFeedbackRangeObject = new FiringRangeFeedbackRangeObject(
                 InteractiveGameObjectFactory.Build(new GameObject("FiringRangeFeedbackRangeObject")),
                 FiringRangeFeedbackConfigurationGameObject.Get().firingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
@@ -55,22 +55,9 @@ namespace Firing
         /// </summary>
         private Segment CalculateFiringTargetPosition()
         {
-            /// 1/ Calculate the TargetPointWorldPos by taking into account the CoreInteractiveObject.GetFiredProjectileMaxRange
-            FiringProjectilePathCalculation.CalculateProjectilePath_Forward(this.PlayerInteractiveObject, out Vector3 SourcePointWorldPos, out Quaternion ForwardProjectileRotation);
+            var SourcePointWorldPos = this.PlayerInteractiveObject.GetWeaponWorldFirePoint();
             Vector3 TargetPointWorldPos = SourcePointWorldPos +
-                                          (ForwardProjectileRotation * Vector3.forward * this.PlayerInteractiveObject.GetFiredProjectileMaxRange());
-
-            /// 2/ When an interactive object is targetter, the TargetPointWorldPos is adjusted if he is in range.
-            if (this.TargettableInteractiveObjectSelectionManager.IsCurrentlyTargetting())
-            {
-                var currentTarget = this.TargettableInteractiveObjectSelectionManager.GetCurrentlyTargettedInteractiveObject();
-                var currentTargetWorldFiringTargetPosition = currentTarget.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(currentTarget.GetFiringTargetLocalPosition());
-                if (Vector3.Distance(currentTargetWorldFiringTargetPosition, SourcePointWorldPos) <= this.PlayerInteractiveObject.GetFiredProjectileMaxRange())
-                {
-                    TargetPointWorldPos = currentTargetWorldFiringTargetPosition;
-                }
-            }
-
+                                          (FiringPlayerActionTargetSystemRef.TargetDirection * this.PlayerInteractiveObject.GetFiredProjectileMaxRange());
             return new Segment(SourcePointWorldPos, TargetPointWorldPos);
         }
 

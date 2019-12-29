@@ -15,7 +15,7 @@ namespace Firing
             var firingTargetWorldLocation = Target.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(Target.GetFiringTargetLocalPosition());
             StartOrientation = Quaternion.LookRotation((firingTargetWorldLocation - StartWorldPosition).normalized);
         }
-
+        
         /// <summary>
         /// Calculates the initial orientation and position of a FiredProjectile shooted in the direction represented by <<paramref name="NormalizedWorldDirection"/>.
         /// </summary>
