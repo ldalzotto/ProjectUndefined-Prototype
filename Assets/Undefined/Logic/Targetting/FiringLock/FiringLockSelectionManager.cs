@@ -116,7 +116,10 @@ namespace Targetting
                 this.CurrentlyTargettedInteractiveObject.SetValue(this.AllSelectableTargettedInteractiveObject[0]);
             }
 
-            this.OnNewInteractiveObjectTargettedCallback.Invoke(newObject);
+            if (newObject != null)
+            {
+                this.OnNewInteractiveObjectTargettedCallback.Invoke(newObject);
+            }
         }
 
         #endregion

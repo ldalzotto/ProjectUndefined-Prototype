@@ -3,6 +3,7 @@ using AnimatorPlayable;
 using PlayerActions;
 using PlayerObject_Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Firing
 {
@@ -11,9 +12,12 @@ namespace Firing
     public class FiringPlayerActionInherentData : PlayerActionInherentData
     {
         public GameObject FiringHorizontalPlanePrefab;
-        public GameObject DottedVisualFeebackPrefab;
-        [Inline]
-        public A_AnimationPlayableDefinition FiringPoseAnimationV2;
+
+        [FormerlySerializedAs("DottedVisualFeebackPrefab")]
+        public GameObject GroundConeVisualFeedbackPrefab;
+
+        [Inline] public A_AnimationPlayableDefinition FiringPoseAnimationV2;
+
         public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null)
         {
             return new FiringPlayerAction(this, PlayerInteractiveObject, OnPlayerActionStartedCallback, OnPlayerActionEndCallback);

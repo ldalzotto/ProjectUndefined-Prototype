@@ -162,6 +162,7 @@ namespace Targetting
         private void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
         {
             this.InteractiveObjectsListened.Remove(CoreInteractiveObject);
+            this.IntersectingInteractiveObjects.Remove(CoreInteractiveObject);
             this.InteractiveObjectsOverCursorTarget.Remove(CoreInteractiveObject);
         }
     }

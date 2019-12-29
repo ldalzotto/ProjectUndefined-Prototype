@@ -135,7 +135,7 @@ namespace Firing
 
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
 
-        private CoreInteractiveObject CurrentlyTargettedInteractiveObject;
+        private ObjectVariable<CoreInteractiveObject> CurrentlyTargettedInteractiveObject;
         private GameObject TargetPlaneGameObject;
         public Vector3 TargetDirection;
 
@@ -147,7 +147,8 @@ namespace Firing
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
             this.TargetPlaneGameObject = GameObject.Instantiate(firingPlayerActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.TargetPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
-            this.DottedVisualFeeback = GameObject.Instantiate(firingPlayerActionInherentDataRef.DottedVisualFeebackPrefab);
+            this.DottedVisualFeeback = GameObject.Instantiate(firingPlayerActionInherentDataRef.GroundConeVisualFeedbackPrefab);
+            this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(this.OnCurrentlyTargettedInteractiveObjectChange);
 
             this.Tick(0f);
         }
@@ -170,9 +171,9 @@ namespace Firing
 
         private void UpdateTargetPlanePosition()
         {
-            if (this.CurrentlyTargettedInteractiveObject != null)
+            if (this.CurrentlyTargettedInteractiveObject.GetValue() != null)
             {
-                this.TargetPlaneGameObject.transform.position = this.CurrentlyTargettedInteractiveObject.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.CurrentlyTargettedInteractiveObject.GetFiringTargetLocalPosition());
+                this.TargetPlaneGameObject.transform.position = this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.CurrentlyTargettedInteractiveObject.GetValue().GetFiringTargetLocalPosition());
             }
             else
             {
@@ -192,20 +193,42 @@ namespace Firing
             {
                 GameObject.Destroy(this.DottedVisualFeeback);
             }
+
+            if (this.CurrentlyTargettedInteractiveObject.GetValue() != null)
+            {
+                this.CurrentlyTargettedInteractiveObject.GetValue().UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+            }
         }
 
         public void OnInteractiveObjectTargetted(CoreInteractiveObject CoreInteractiveObject)
         {
             if (CoreInteractiveObject != null)
             {
-                this.CurrentlyTargettedInteractiveObject = CoreInteractiveObject;
+                this.CurrentlyTargettedInteractiveObject.SetValue(CoreInteractiveObject);
                 this.UpdateTargetPlanePosition();
             }
         }
 
-        #region Data Retrieval
+        private void OnInteractiveObjectDestroyed(CoreInteractiveObject destroyedInteractiveObject)
+        {
+            if (destroyedInteractiveObject == this.CurrentlyTargettedInteractiveObject.GetValue())
+            {
+                this.CurrentlyTargettedInteractiveObject.SetValue(null);
+            }
+        }
 
-        #endregion
+        private void OnCurrentlyTargettedInteractiveObjectChange(CoreInteractiveObject oldCurrentlyTargettedInteractiveObject, CoreInteractiveObject newCurrentlyTargettedInteractiveObject)
+        {
+            if (oldCurrentlyTargettedInteractiveObject != null)
+            {
+                oldCurrentlyTargettedInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+            }
+
+            if (newCurrentlyTargettedInteractiveObject != null)
+            {
+                newCurrentlyTargettedInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+            }
+        }
     }
 
     struct PlayerObjectOrientationSystem
