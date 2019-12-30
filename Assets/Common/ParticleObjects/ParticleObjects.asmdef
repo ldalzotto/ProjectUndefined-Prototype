@@ -1,13 +1,9 @@
 {
-    "name": "Health",
+    "name": "ParticleObjects",
     "references": [
         "CoreGame",
-        "RangeObjects",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "OdinSerializer",
-        "ParticleObjects",
-        "Editor_Common"
+        "Editor_Common",
+        "OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -16,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

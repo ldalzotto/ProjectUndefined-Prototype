@@ -1,13 +1,15 @@
 {
     "name": "Migrations",
     "references": [
-        "GUID:069be6bdb41f91a41b8f1fe8eb5e357e",
-        "GUID:2c9ac6fd995a7d44a998791b9baedf5b",
-        "GUID:18572ca2bc29c7f49acd7b6782aec78e",
-        "GUID:83a23e85924b27e419c0fada7259185a",
-        "GUID:6f109e35241fab442bce341ff19d91ef",
-        "GUID:080209e390669574384ade36547fe4a8",
-        "GUID:4230db27fcf142a439bd15d769d36c99"
+        "CoreGame",
+        "Editor",
+        "Editor_Common",
+        "OdinSerializer",
+        "InteractiveObjects_Interfaces",
+        "Tests",
+        "SequencedAction",
+        "Health",
+        "ParticleObjects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

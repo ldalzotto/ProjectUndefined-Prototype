@@ -1,4 +1,5 @@
 ﻿using System;
+using InteractiveObjects;
 using UnityEngine;
 
 namespace Health
@@ -7,14 +8,16 @@ namespace Health
     {
         private FloatVariable CurrentHealth;
         private HealthSystemDefinition HealthSystemDefinition;
+        private CoreInteractiveObject AssociatedInteractiveObject;
 
         /// <summary>
         /// An event is created when <see cref="CurrentHealth"/> value change to allow multiple process to hook at value. 
         /// </summary>
         private event OnValueChangedDelegate OnHealthValueChangedEvent;
 
-        public HealthSystem(HealthSystemDefinition HealthSystemDefinition, OnValueChangedDelegate OnHealthValueChangedAction = null)
+        public HealthSystem(CoreInteractiveObject AssociatedInteractiveObject, HealthSystemDefinition HealthSystemDefinition, OnValueChangedDelegate OnHealthValueChangedAction = null)
         {
+            this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.HealthSystemDefinition = HealthSystemDefinition;
 
             /// By default, the constructor OnValueChangedDelegate is registered to OnValueChangedEvent
@@ -41,6 +44,10 @@ namespace Health
         public void ChangeHealth(float HealthDelta)
         {
             this.CurrentHealth.SetValue(Mathf.Min(this.CurrentHealth.GetValue() + HealthDelta, this.GetMaxHealth()));
+            if (this.HealthSystemDefinition.HealthRecoveryParticleEffect != null && HealthDelta > 0)
+            {
+                this.HealthSystemDefinition.HealthRecoveryParticleEffect.BuildParticleObject(string.Empty, this.AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform, Vector3.zero);
+            }
         }
 
         #region DataRetrieval

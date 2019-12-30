@@ -67,7 +67,7 @@ namespace PlayerObject
             base.BaseInit(interactiveGameObject, false);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
-            this.HealthSystem = new HealthSystem(PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
+            this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,

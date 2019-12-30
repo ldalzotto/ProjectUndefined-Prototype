@@ -712,6 +712,10 @@
       <Project>{E3CEF5F0-08F5-15E6-CD23-E3D41F22B0F6}</Project>
       <Name>AnimationCurves</Name>
     </ProjectReference>
+    <ProjectReference Include="ParticleObjects.csproj">
+      <Project>{3D641700-EE7B-B0CD-C1A4-30A6770EF780}</Project>
+      <Name>ParticleObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

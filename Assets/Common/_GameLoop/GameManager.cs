@@ -6,6 +6,7 @@ using InputDynamicTextMenu;
 using InteractiveObjects;
 using LevelManagement;
 using Obstacle;
+using ParticleObjects;
 using PlayerActions;
 using PlayerObject;
 using RangeObjects;
@@ -113,8 +114,9 @@ namespace GameLoop
                 RangeObjectV2Manager.Get().Tick(d);
 
                 InteractiveObjectV2Manager.Get().Tick(d);
-
                 InteractiveObjectV2Manager.Get().AfterTicks(d);
+
+                ParticleObjectsManager.Get().Tick(d);
 
                 GroundEffectsManagerV2.Get().Tick(d);
                 SelectableObjectManagerV2.Get().Tick(d);
