@@ -56,7 +56,6 @@ namespace SoliderAIBehavior
         {
             if (this.PlayerObjectStateDataSystem.IsPlayerInSight.GetValue())
             {
-                Debug.Log(MyLog.Format("MoveToLastSeenPlayerPositionStateManager to MOVE_TOWARDS_PLAYER"));
                 this.TrackAndKillPlayerbehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TOWARDS_PLAYER);
             }
         }
@@ -66,7 +65,6 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnDestinationReached()
         {
-            Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
             this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
         }
     }

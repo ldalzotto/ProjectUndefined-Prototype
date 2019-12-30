@@ -17,7 +17,7 @@ namespace Firing
         private IPlayerInteractiveObject IPlayerInteractiveObject;
         private FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
-        private FiringLockSelectionManager FiringLockSelectionManager;
+        private FiringLockSelectionSystem _firingLockSelectionSystem;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
@@ -35,7 +35,7 @@ namespace Firing
             this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
 
             this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this.FiringPlayerActionInherentData, PlayerInteractiveObject, TargetCursorManager.Get());
-            this.FiringLockSelectionManager = new FiringLockSelectionManager(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
+            this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(PlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
 
             /// This is to change InteractiveObject rotation at the first frame of action execution
@@ -66,7 +66,7 @@ namespace Firing
         public override void BeforePlayerTick(float d)
         {
             Profiler.BeginSample("FiringPlayerAction");
-            this.FiringLockSelectionManager.Tick();
+            this._firingLockSelectionSystem.Tick();
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
@@ -98,7 +98,7 @@ namespace Firing
         {
             if (!this.ExitActionSystem.ActionFinished)
             {
-                this.FiringLockSelectionManager.Tick();
+                this._firingLockSelectionSystem.Tick();
                 this.FiringPlayerActionTargetSystem.Tick(d);
                 this.FiringRangeFeedbackSystem.AfterPlayerTick(d);
             }
@@ -112,7 +112,7 @@ namespace Firing
 
         public override void Dispose()
         {
-            this.FiringLockSelectionManager.Dispose();
+            this._firingLockSelectionSystem.Dispose();
             this.FiringPlayerActionTargetSystem.Dispose();
             this.FiringRangeFeedbackSystem.Dispose();
 
@@ -173,6 +173,7 @@ namespace Firing
         {
             if (this.CurrentlyTargettedInteractiveObject.GetValue() != null)
             {
+                Debug.Log(this.TargetPlaneGameObject);
                 this.TargetPlaneGameObject.transform.position = this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.CurrentlyTargettedInteractiveObject.GetValue().GetFiringTargetLocalPosition());
             }
             else

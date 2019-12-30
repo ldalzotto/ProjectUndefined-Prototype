@@ -7,14 +7,22 @@ using UnityEngine;
 
 namespace Targetting
 {
-    public class FiringLockSelectionManager
+    /// <summary>
+    /// This system tracks intersected interactive objects calculated by <see cref="InteractiveObjectCursorScreenIntersectionManager"/> (by registering to it's events).
+    /// And provides the <see cref="CurrentlyTargettedInteractiveObject"/>.
+    /// It handles Interactive object deletion and switches between interactive objects. All changes of <see cref="CurrentlyTargettedInteractiveObject"/> are notified via the callback <see cref="OnNewInteractiveObjectTargettedCallback"/>.
+    /// </summary>
+    public class FiringLockSelectionSystem
     {
         #region External Dependencies
 
-        private GameInputManager GameInputManager = GameInputManager.Get();
+        private GameInputManager GameInputManager;
 
         #endregion
 
+        /// <summary>
+        /// The currently selected interactive object.
+        /// </summary>
         private ObjectVariable<CoreInteractiveObject> CurrentlyTargettedInteractiveObject;
 
         /// <summary>
@@ -23,13 +31,20 @@ namespace Targetting
         /// This is because of the <see cref="CurrentlyTargettedInteractiveObject"/> change event <see cref="OnCurrentlytargettedObjectChanged"/> may change
         /// <see cref="CurrentlyTargettedInteractiveObject"/> value based on current <see cref="AllSelectableTargettedInteractiveObject"/>.
         /// </summary>
-        private List<CoreInteractiveObject> AllSelectableTargettedInteractiveObject = new List<CoreInteractiveObject>();
+        private List<CoreInteractiveObject> AllSelectableTargettedInteractiveObject;
 
+        /// <summary>
+        /// The event callback called when the <see cref="CurrentlyTargettedInteractiveObject"/> value has changed.
+        /// /!\ This callback is also called on initialisation when the constructor is called. 
+        /// </summary>
         private Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedCallback;
 
-        public FiringLockSelectionManager(Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedCallback)
+        public FiringLockSelectionSystem(Action<CoreInteractiveObject> OnNewInteractiveObjectTargettedCallback)
         {
+            this.GameInputManager = GameInputManager.Get();
+            this.AllSelectableTargettedInteractiveObject = new List<CoreInteractiveObject>();
             this.OnNewInteractiveObjectTargettedCallback = OnNewInteractiveObjectTargettedCallback;
+            this.CurrentlyTargettedInteractiveObject = default;
 
             this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(
                 OnObjectValueChanged: this.OnCurrentlytargettedObjectChanged
@@ -54,6 +69,11 @@ namespace Targetting
         {
             InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorOverObjectEvent(this.OnCursorOverObject);
             InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorNoMoveOverObjectEvent(this.OnCursorNoMoreOverObject);
+
+            foreach (var selectableTargettedInteractiveObject in AllSelectableTargettedInteractiveObject)
+            {
+                selectableTargettedInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+            }
         }
 
         public void Tick()
@@ -72,7 +92,7 @@ namespace Targetting
 
         #region External Events
 
-        public void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
+        private void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
         {
             this.AllSelectableTargettedInteractiveObject.Add(CoreInteractiveObject);
             CoreInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
@@ -85,7 +105,7 @@ namespace Targetting
             }
         }
 
-        public void OnCursorNoMoreOverObject(CoreInteractiveObject coreInteractiveObject)
+        private void OnCursorNoMoreOverObject(CoreInteractiveObject coreInteractiveObject)
         {
             this.OnInteractiveObjectDestroyed(coreInteractiveObject);
         }
@@ -111,6 +131,11 @@ namespace Targetting
         /// </summary>
         private void OnCurrentlytargettedObjectChanged(CoreInteractiveObject oldObject, CoreInteractiveObject newObject)
         {
+            if (oldObject != null)
+            {
+                oldObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+            }
+
             if (newObject == null && this.AllSelectableTargettedInteractiveObject.Count > 0)
             {
                 this.CurrentlyTargettedInteractiveObject.SetValue(this.AllSelectableTargettedInteractiveObject[0]);

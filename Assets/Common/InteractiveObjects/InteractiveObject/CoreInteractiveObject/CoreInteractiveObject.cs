@@ -2,6 +2,7 @@
 using AnimatorPlayable;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace InteractiveObjects
@@ -109,6 +110,7 @@ namespace InteractiveObjects
         {
             this.AnimatorPlayable?.Destroy();
             this.interactiveInteractiveObjectPhysicsListener?.Destroy();
+
             this.OnInteractiveObjectDestroyedEvent?.Invoke(this);
             Object.Destroy(InteractiveGameObject.InteractiveGameObjectParent);
         }
@@ -131,7 +133,7 @@ namespace InteractiveObjects
     {
         public bool IsAttractiveObject;
         public bool IsAi;
-        
+
         /// <summary>
         /// Will be included by the RangeSystem to calculate the Range obstacle occlusion.
         /// An obstacle is considered non traversable and act as an obstruction entity.
@@ -140,9 +142,9 @@ namespace InteractiveObjects
         ///     Projectiles are destroyed if entered in contact with obstacles.
         /// </summary>
         public bool IsObstacle;
-        
+
         public bool IsPlayer;
-        
+
         /// <summary>
         /// The associated interactive object is considered hostile to others. On trigger, it will
         /// try to damage other objects.
@@ -150,7 +152,7 @@ namespace InteractiveObjects
         ///     Deflection projectiles only delflects objects tagged.
         /// </summary>
         public bool IsDealingDamage;
-        
+
         /// <summary>
         /// The associated interactive object is considered to interact with pprojectile and weapons.
         /// It generally have health. This means that damage can be taken and health can be recovered.

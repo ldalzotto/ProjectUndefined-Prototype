@@ -58,7 +58,7 @@
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Configuration\TargettingConfigurationGameObject.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\FiringLock\FiringLockSelectionManager.cs" />
+     <Compile Include="Assets\Undefined\Logic\Targetting\FiringLock\FiringLockSelectionSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Managers\InteractiveObjectCursorScreenIntersectionManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Managers\TargetCursorManager.cs" />
      <None Include="Assets\Undefined\Logic\Targetting\Targetting.asmdef" />
