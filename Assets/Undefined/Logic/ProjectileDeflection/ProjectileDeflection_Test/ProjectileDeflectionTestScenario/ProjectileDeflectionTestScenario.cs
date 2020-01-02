@@ -64,7 +64,7 @@ namespace ProjectileDeflection_Test
             }
         }
 
-        public void OnProjectileLaunched(CoreInteractiveObject projectile, Weapon.Weapon sourceWeapon, float recoilTime)
+        public void OnProjectileLaunched(CoreInteractiveObject projectile, Weapon.Weapon sourceWeapon)
         {
             if (this.EnemyObject == sourceWeapon.WeaponHolder)
             {

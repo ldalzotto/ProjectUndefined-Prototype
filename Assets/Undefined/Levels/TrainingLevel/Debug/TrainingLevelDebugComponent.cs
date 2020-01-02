@@ -9,9 +9,6 @@ using UnityEngine;
 
 public class TrainingLevelDebugComponent : MonoBehaviour
 {
-    public bool FireProjectileToInteractiveObject;
-    public Collider LogicCollider;
-
     public bool SetPlayerPosition;
     public Transform TargetPlayerPosition;
 
@@ -22,12 +19,6 @@ public class TrainingLevelDebugComponent : MonoBehaviour
 
     private void Update()
     {
-        if (FireProjectileToInteractiveObject)
-        {
-            FireProjectileToInteractiveObject = false;
-            InteractiveObjectV2Manager.Get().InteractiveObjectsIndexedByLogicCollider[this.LogicCollider].AskToFireAFiredProjectile_Forward();
-        }
-
         if (SetPlayerPosition)
         {
             SetPlayerPosition = false;

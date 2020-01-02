@@ -39,17 +39,6 @@ namespace InteractiveObjects
         #endregion
 
         #region Projectile Events
-
-        /// <summary>
-        /// The created projectile direction will the the weapon holder <see cref="CoreInteractiveObject"/> forward vector.
-        /// </summary>
-        public virtual void AskToFireAFiredProjectile_Forward()
-        {
-        }
-
-        public virtual void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
-        {
-        }
         
         public virtual void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection){}
 

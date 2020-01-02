@@ -12,7 +12,9 @@
         "InteractiveObjects",
         "PlayerLowHealth_Interfaces",
         "Firing",
-        "PlayerActions"
+        "PlayerActions",
+        "SkillAction",
+        "Weapon"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

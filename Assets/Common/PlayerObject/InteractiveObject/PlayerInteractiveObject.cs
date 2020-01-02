@@ -11,13 +11,15 @@ using PlayerActions;
 using PlayerLowHealth;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
+using SkillAction;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon;
 
 namespace PlayerObject
 {
-    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject, IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod
+    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject, IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod,
+        IEM_SkillActionExecution
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
@@ -29,6 +31,7 @@ namespace PlayerObject
         private HealthSystem HealthSystem;
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
         private LowHealthPlayerSystem lowHealthPlayerSystem;
+        private SkillActionPlayerSystem SkillActionPlayerSystem;
 
         public LowHealthPlayerSystem LowHealthPlayerSystem => this.lowHealthPlayerSystem;
 
@@ -70,6 +73,7 @@ namespace PlayerObject
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
+            this.SkillActionPlayerSystem = new SkillActionPlayerSystem();
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,
                 OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
@@ -133,6 +137,9 @@ namespace PlayerObject
         public override void FixedTick(float d)
         {
             base.FixedTick(d);
+
+            this.SkillActionPlayerSystem.FixedTick(d);
+
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
             {
                 this.projectileDeflectionSystem.FixedTick(d);
@@ -146,6 +153,8 @@ namespace PlayerObject
 
         public override void Tick(float d)
         {
+            this.SkillActionPlayerSystem.Tick(d);
+
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
             {
@@ -326,16 +335,6 @@ namespace PlayerObject
 
         #region Projectile Events
 
-        public override void AskToFireAFiredProjectile_Forward()
-        {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_Forward();
-        }
-
-        public override void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
-        {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
-        }
-
         public override void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
@@ -413,6 +412,16 @@ namespace PlayerObject
         }
 
         #endregion
+
+        public void ExecuteSkillAction(SkillAction.SkillAction SkillAction)
+        {
+            this.SkillActionPlayerSystem.ExecuteGameAction(SkillAction);
+        }
+
+        public bool ActionAuthorizedToBeExecuted<T>(T SkillActionDefinition) where T : SkillActionDefinition
+        {
+            return this.SkillActionPlayerSystem.ActionAuthorizedToBeExecuted(SkillActionDefinition);
+        }
     }
 
     #region Player Action Managers

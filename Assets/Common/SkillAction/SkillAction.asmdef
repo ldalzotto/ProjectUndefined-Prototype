@@ -1,14 +1,9 @@
 {
-    "name": "Weapon",
+    "name": "SkillAction",
     "references": [
-        "OdinSerializer",
-        "Editor_Common",
-        "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
         "CoreGame",
-        "InteractiveObject_Animation",
-        "Projectile",
-        "SkillAction"
+        "OdinSerializer",
+        "Editor_Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -17,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

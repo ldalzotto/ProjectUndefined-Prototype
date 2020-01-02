@@ -1,9 +1,6 @@
 ﻿using System;
-using AnimatorPlayable;
 using Input;
-using InteractiveObject_Animation;
 using InteractiveObjects;
-using InteractiveObjects_Interfaces;
 using PlayerActions;
 using PlayerObject_Interfaces;
 using Targetting;
@@ -63,7 +60,7 @@ namespace Firing
             }
         }
 
-        public override void BeforePlayerTick(float d)
+        public override void BeforeInteractiveObjectTick(float d)
         {
             Profiler.BeginSample("FiringPlayerAction");
             this._firingLockSelectionSystem.Tick();
@@ -78,7 +75,7 @@ namespace Firing
             Profiler.EndSample();
         }
 
-        public override void AfterPlayerTick(float d)
+        public override void AfterInteractiveObjectTick(float d)
         {
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
@@ -173,7 +170,6 @@ namespace Firing
         {
             if (this.CurrentlyTargettedInteractiveObject.GetValue() != null)
             {
-                Debug.Log(this.TargetPlaneGameObject);
                 this.TargetPlaneGameObject.transform.position = this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.CurrentlyTargettedInteractiveObject.GetValue().GetFiringTargetLocalPosition());
             }
             else
@@ -288,7 +284,7 @@ namespace Firing
         private GameInputManager GameInputManager;
         private CoreInteractiveObject PlayerInteractiveObject;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef;
-
+        
         public FiringProjectileTriggerSystem(GameInputManager gameInputManager, CoreInteractiveObject PlayerInteractiveObject, FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
         {
             GameInputManager = gameInputManager;
@@ -301,6 +297,25 @@ namespace Firing
             if (this.GameInputManager.CurrentInput.FiringProjectileDH())
             {
                 this.PlayerInteractiveObject.AskToFireAFiredProjectile_ToDirection(this.FiringPlayerActionTargetSystemRef.TargetDirection);
+                /*
+                var gameActionExection = this.PlayerInteractiveObject as IEM_GameActionExecution;
+                if (gameActionExection != null)
+                {
+                    var ProjectileFireActionDefinition = new ProjectileFireActionDefinition()
+                    {
+                        SkillActionDefinitionStruct = new SkillActionDefinitionStruct()
+                        {
+                            CoolDownTime = 1f
+                        }
+                    };
+
+                    if (gameActionExection.ActionAuthorizedToBeExecuted(ProjectileFireActionDefinition))
+                    {
+                        var targetDirection = this.FiringPlayerActionTargetSystemRef.TargetDirection;
+                        gameActionExection.ExecuteGameAction(new ProjectileFireAction(gameActionExection as IEM_ProjectileFireActionExecution, ProjectileFireActionDefinition, new ProjectileFireActionInputData(targetDirection)));
+                    }
+                }
+                */
             }
         }
     }

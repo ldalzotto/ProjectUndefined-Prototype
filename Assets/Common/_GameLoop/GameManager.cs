@@ -44,7 +44,6 @@ namespace GameLoop
             InteractiveObjectCursorScreenIntersectionManager.Get().InitializeEvents();
             RangeObjectV2Manager.Get().InitializeEvents();
             GroundEffectsManagerV2.Get().InitializeEvents();
-            WeaponRecoilTimeManager.Get().InitializeEvents();
 
             RangeObjectV2Manager.Get().Init();
             GroundEffectsManagerV2.Get().Init(LevelConfigurationGameObject.Get().LevelConfigurationData.LevelRangeEffectInherentData);
@@ -108,8 +107,6 @@ namespace GameLoop
                 PlayerInteractiveObjectManager.Get().AfterTicks(d);
 
                 PlayerActionEntryPoint.Get().AfterPlayerTick(d);
-
-                WeaponRecoilTimeManager.Get().Tick(d);
 
                 RangeObjectV2Manager.Get().Tick(d);
 

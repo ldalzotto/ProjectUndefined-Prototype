@@ -1,4 +1,5 @@
-﻿using Firing;
+﻿using System;
+using Firing;
 using InteractiveObjects;
 using OdinSerializer;
 using UnityEngine;
@@ -8,9 +9,11 @@ namespace Weapon
     public class WeaponDefinition : SerializedScriptableObject
     {
         public GameObject WeaponModelPrefab;
-        public float RecoilTime;
-        [Inline()]
-        public FiredProjectileDefinition FiredProjectileDefinition;
+
+        [Inline()] public FiredProjectileDefinition FiredProjectileDefinition;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public ProjectileFireActionDefinition ProjectileFireActionDefinition;
 
         public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)
         {

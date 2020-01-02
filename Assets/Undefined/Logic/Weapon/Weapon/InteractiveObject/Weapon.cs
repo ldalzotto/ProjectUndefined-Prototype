@@ -21,7 +21,6 @@ namespace Weapon
 
         public override void Init()
         {
-            WeaponCreatedEvent.Get().OnWeaponCreated(this);
         }
 
         public override void Tick(float d)
@@ -48,7 +47,6 @@ namespace Weapon
 
     class FiringProjectileSystem
     {
-        private WeaponRecoilTimeManager _weaponRecoilTimeManager = WeaponRecoilTimeManager.Get();
         private SpawnFiringProjectileEvent SpawnFiringProjectileEvent = SpawnFiringProjectileEvent.Get();
 
         private Weapon WeaponRef;
@@ -62,16 +60,13 @@ namespace Weapon
 
         public void SpawnFiredProjectile(TransformStruct StartTransform)
         {
-            if (_weaponRecoilTimeManager.AuthorizeFiringAProjectile(this.WeaponRef))
-            {
-                var FiredProjectile = this.WeaponDefinition.FiredProjectileDefinition.BuildFiredProjectile(this.WeaponRef.WeaponHolder);
-                var ProjectileSpawnLocalPosition = StartTransform.WorldPosition;
-                var FiredProjectileTransform = FiredProjectile.InteractiveGameObject.GetTransform();
-                // Eq (2)
-                FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.position = StartTransform.WorldPosition;
-                FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.eulerAngles = StartTransform.WorldRotationEuler;
-                this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(FiredProjectile, this.WeaponRef, this.WeaponDefinition.RecoilTime);
-            }
+            var FiredProjectile = this.WeaponDefinition.FiredProjectileDefinition.BuildFiredProjectile(this.WeaponRef.WeaponHolder);
+            var ProjectileSpawnLocalPosition = StartTransform.WorldPosition;
+            var FiredProjectileTransform = FiredProjectile.InteractiveGameObject.GetTransform();
+            // Eq (2)
+            FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.position = StartTransform.WorldPosition;
+            FiredProjectile.InteractiveGameObject.InteractiveGameObjectParent.transform.eulerAngles = StartTransform.WorldRotationEuler;
+            this.SpawnFiringProjectileEvent.OnFiringProjectileSpawned(FiredProjectile, this.WeaponRef);
         }
 
         public float GetProjectileMaxRange()

@@ -1,5 +1,6 @@
 ﻿using Firing;
 using InteractiveObjects;
+using SkillAction;
 using UnityEngine;
 
 namespace Weapon
@@ -23,31 +24,16 @@ namespace Weapon
         }
 
         /// <summary>
-        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> in the associated <see cref="CoreInteractiveObject"/> forward vector direction.
-        /// </summary>
-        public void AskToFireAFiredProjectile_Forward()
-        {
-            var parent = WeaponHandlingSystemInitializationData.Parent;
-            FiringProjectilePathCalculation.CalculateProjectilePath_Forward(WeaponHandlingSystemInitializationData.Parent, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
-            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
-        }
-
-        /// <summary>
-        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing to <paramref name="Target"/>.
-        /// </summary>
-        public void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
-        {
-            FiringProjectilePathCalculation.CalculateProjectilePath_ToTargetPoint(WeaponHandlingSystemInitializationData.Parent, Target, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
-            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
-        }
-
-        /// <summary>
         /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing in the <see cref="NormalizedWorldDirection"/> direction. 
         /// </summary>
         public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
         {
-            FiringProjectilePathCalculation.CalculateProjectilePath_ToDirection(WeaponHandlingSystemInitializationData.Parent, NormalizedWorldDirection, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
-            this.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
+            var interactiveObject_GameActionExection_Casted = (this.WeaponReference.WeaponHolder as IEM_SkillActionExecution);
+            if (interactiveObject_GameActionExection_Casted != null && interactiveObject_GameActionExection_Casted.ActionAuthorizedToBeExecuted(this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition))
+            {
+                interactiveObject_GameActionExection_Casted.ExecuteSkillAction(new ProjectileFireAction(
+                    new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
+            }
         }
 
         /// <summary>

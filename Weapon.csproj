@@ -57,10 +57,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Weapon\Events\SpawnFiringProjectileEvent.cs" />
-     <Compile Include="Assets\Undefined\Logic\Weapon\Events\WeaponCreatedEvent.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\SkillAction\ProjectileFireAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\SkillAction\ProjectileFireActionDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\Weapon.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\Managers\WeaponRecoilTimeManager.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\FiringTargetPositionSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\FiringTargetPositionSystemDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\WeaponHandlingFirePointOriginLocalDefinition.cs" />
@@ -636,10 +636,6 @@
       <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
       <Name>InteractiveObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="Firing.csproj">
-      <Project>{49D37C45-08B6-E13E-25B7-CF264207D493}</Project>
-      <Name>Firing</Name>
-    </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
@@ -651,6 +647,14 @@
     <ProjectReference Include="InteractiveObject_Animation.csproj">
       <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
       <Name>InteractiveObject_Animation</Name>
+    </ProjectReference>
+    <ProjectReference Include="Projectile.csproj">
+      <Project>{96AFB094-7938-0963-79F3-1171A54B269B}</Project>
+      <Name>Projectile</Name>
+    </ProjectReference>
+    <ProjectReference Include="SkillAction.csproj">
+      <Project>{64463711-A4BF-061B-8DB0-9D466C1807AA}</Project>
+      <Name>SkillAction</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -103,7 +103,7 @@ namespace SoliderAIBehavior
 
         /// <summary>
         /// The firing projectile method can be called every frame without worrying about spwaning multiples projectiles. <br/>
-        /// Effective projectile spawn is ensured by <see cref="Weapon.WeaponRecoilTimeManager"/>.
+        /// Effective projectile spawn is handled by the <see cref="ProjectileFireAction"/>.
         /// </summary>
         private void FireProjectile()
         {

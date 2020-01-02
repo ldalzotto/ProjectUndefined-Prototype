@@ -29,7 +29,6 @@ namespace SoliderAIBehavior
 
     public interface IFiringProjectileCallback
     {
-        Action<CoreInteractiveObject> AskToFireAFiredProjectile_WithTargetPosition_Action { get; }
         Action<Vector3> AskToFireAFiredprojectile_WithWorldDirection_Action { get; }
         Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction { get; }
     }
@@ -47,13 +46,13 @@ namespace SoliderAIBehavior
 
     public struct SoldierAIBehaviorExternalCallbacksV2 : ISetAIAgentDestinationActionCallback, IFiringProjectileCallback, IShootingAtPlayerWorkflowCallback, IWeaponDataRetrieval
     {
-        public SoldierAIBehaviorExternalCallbacksV2(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> aiAgentDestinationAction, Action<IAgentMovementCalculationStrategy> aiAgentDestinationActionNoReturn, Action<AIMovementSpeedAttenuationFactor> aiAgentSpeedAttenuationAction, Action clearAiAgentPathAction, Action<CoreInteractiveObject> askToFireAFiredProjectileWithTargetPositionAction, Action<Vector3> askToFireAFiredprojectileWithWorldDirectionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction, IWeaponHandlingSystem_DataRetrieval iWeaponHandlingSystemDataRetrievalAction)
+        public SoldierAIBehaviorExternalCallbacksV2(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> aiAgentDestinationAction, Action<IAgentMovementCalculationStrategy> aiAgentDestinationActionNoReturn, Action<AIMovementSpeedAttenuationFactor> aiAgentSpeedAttenuationAction, Action clearAiAgentPathAction,
+            Action<Vector3> askToFireAFiredprojectileWithWorldDirectionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction, IWeaponHandlingSystem_DataRetrieval iWeaponHandlingSystemDataRetrievalAction)
         {
             SetAIAgentDestinationAction = aiAgentDestinationAction;
             SetAIAgentDestinationAction_NoReturn = aiAgentDestinationActionNoReturn;
             SetAIAgentSpeedAttenuationAction = aiAgentSpeedAttenuationAction;
             ClearAIAgentPathAction = clearAiAgentPathAction;
-            AskToFireAFiredProjectile_WithTargetPosition_Action = askToFireAFiredProjectileWithTargetPositionAction;
             AskToFireAFiredprojectile_WithWorldDirection_Action = askToFireAFiredprojectileWithWorldDirectionAction;
             GetWeaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
             OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
@@ -65,7 +64,6 @@ namespace SoliderAIBehavior
         public Action<IAgentMovementCalculationStrategy> SetAIAgentDestinationAction_NoReturn { get; }
         public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction { get; }
         public Action ClearAIAgentPathAction { get; }
-        public Action<CoreInteractiveObject> AskToFireAFiredProjectile_WithTargetPosition_Action { get; }
         public Action<Vector3> AskToFireAFiredprojectile_WithWorldDirection_Action { get; }
         public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction { get; }
         public Action OnShootingAtPlayerStartAction { get; }

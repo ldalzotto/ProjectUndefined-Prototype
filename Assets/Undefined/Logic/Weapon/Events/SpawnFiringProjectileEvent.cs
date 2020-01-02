@@ -6,7 +6,7 @@ namespace Weapon
 {
     public class SpawnFiringProjectileEvent : GameSingleton<SpawnFiringProjectileEvent>
     {
-        public delegate void SpawnFiringProjectileEventDelegate(CoreInteractiveObject ProjectileObject, Weapon sourceWeapon, float recoilTime);
+        public delegate void SpawnFiringProjectileEventDelegate(CoreInteractiveObject ProjectileObject, Weapon sourceWeapon);
         private event SpawnFiringProjectileEventDelegate evt;
 
         public void RegisterSpawnFiringProjectileEventListener(SpawnFiringProjectileEventDelegate SpawnFiringProjectileEventDelegate)
@@ -19,9 +19,9 @@ namespace Weapon
             this.evt -= SpawnFiringProjectileEventDelegate;
         }
         
-        public void OnFiringProjectileSpawned(CoreInteractiveObject ProjectileObject, Weapon sourceWeapon, float recoilTime)
+        public void OnFiringProjectileSpawned(CoreInteractiveObject ProjectileObject, Weapon sourceWeapon)
         {
-            this.evt?.Invoke(ProjectileObject, sourceWeapon, recoilTime);
+            this.evt?.Invoke(ProjectileObject, sourceWeapon);
         }
     }
 }

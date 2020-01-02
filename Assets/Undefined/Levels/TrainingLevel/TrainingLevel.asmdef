@@ -25,7 +25,8 @@
         "GeometryIntersection",
         "Obstacle",
         "SoliderBehavior",
-        "SoldierAnimation"
+        "SoldierAnimation",
+        "SkillAction"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

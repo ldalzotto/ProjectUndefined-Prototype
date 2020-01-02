@@ -173,7 +173,7 @@ namespace PlayerActions
         {
             if (currentAction != null)
             {
-                currentAction.BeforePlayerTick(d);
+                currentAction.BeforeInteractiveObjectTick(d);
                 if (currentAction.FinishedCondition())
                 {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();
@@ -185,7 +185,7 @@ namespace PlayerActions
         {
             if (currentAction != null)
             {
-                currentAction.AfterPlayerTick(d);
+                currentAction.AfterInteractiveObjectTick(d);
                 if (currentAction.FinishedCondition())
                 {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();

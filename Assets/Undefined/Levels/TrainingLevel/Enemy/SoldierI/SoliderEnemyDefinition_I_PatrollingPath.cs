@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using AIObjects;
 using InteractiveObjects;
-using RTPuzzle;
 using SequencedAction;
 using SequencedAction_Editor_Common;
-using UnityEngine;
 
 [Serializable]
 [SceneHandleDraw]

@@ -3,6 +3,7 @@ using Damage;
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using SkillAction;
 using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
@@ -11,7 +12,7 @@ using Weapon;
 
 namespace TrainingLevel
 {
-    public class SoliderEnemy : CoreInteractiveObject
+    public class SoliderEnemy : CoreInteractiveObject, IEM_SkillActionExecution
     {
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
@@ -22,6 +23,7 @@ namespace TrainingLevel
         private SoliderEnemyAnimationStateManager SoliderEnemyAnimationStateManager;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
+        private SkillActionPlayerSystem SkillActionPlayerSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -38,6 +40,7 @@ namespace TrainingLevel
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
             this.SoliderEnemyAnimationStateManager = new SoliderEnemyAnimationStateManager(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.SoldierAnimationSystemDefinition);
             this._soldierStateBehavior = new SoldierStateBehavior();
+            this.SkillActionPlayerSystem = new SkillActionPlayerSystem();
 
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
@@ -48,7 +51,6 @@ namespace TrainingLevel
                     (IAgentMovementCalculationStrategy => this.SetDestination(IAgentMovementCalculationStrategy)),
                     this.SetAISpeedAttenuationFactor,
                     this.AIMoveToDestinationSystem.ClearPath,
-                    this.AskToFireAFiredProjectile_ToTarget,
                     this.AskToFireAFiredProjectile_ToDirection,
                     () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                     this.OnShootingAtPlayerStart,
@@ -59,12 +61,17 @@ namespace TrainingLevel
 
         public override void Tick(float d)
         {
+            this.SkillActionPlayerSystem.BeforeInteractiveObjectTick(d);
+
+            this.SkillActionPlayerSystem.Tick(d);
             this._stunningDamageDealerReceiverSystem.Tick(d);
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 this._soldierStateBehavior.Tick(d);
                 this.AIMoveToDestinationSystem.Tick(d);
             }
+
+            this.SkillActionPlayerSystem.AfterInteractiveObjectTick(d);
         }
 
         public override void AfterTicks(float d)
@@ -143,16 +150,6 @@ namespace TrainingLevel
 
         #region Projectile Events
 
-        public override void AskToFireAFiredProjectile_Forward()
-        {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_Forward();
-        }
-
-        public override void AskToFireAFiredProjectile_ToTarget(CoreInteractiveObject Target)
-        {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToTarget(Target);
-        }
-
         public override void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
         {
             this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
@@ -188,5 +185,19 @@ namespace TrainingLevel
         public override void Init()
         {
         }
+
+        #region IEM_GameActionExecution
+
+        public void ExecuteSkillAction(SkillAction.SkillAction SkillAction)
+        {
+            this.SkillActionPlayerSystem.ExecuteGameAction(SkillAction);
+        }
+
+        public bool ActionAuthorizedToBeExecuted<T>(T SkillActionDefinition) where T : SkillActionDefinition
+        {
+            return this.SkillActionPlayerSystem.ActionAuthorizedToBeExecuted(SkillActionDefinition);
+        }
+
+        #endregion
     }
 }

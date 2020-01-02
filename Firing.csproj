@@ -56,14 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectile.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\FiredProjectileDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\Systems\FiredProjectileMovementSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\FiredProjectile\Systems\ProjectileWeaponHoldingSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeFeedbackConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Systems\FiringRangeFeedbackSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\Lib\FiringProjectilePathCalculation.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\InteractiveObjectExposedMethods\IEM_IPlayerFiringRegisteringEventsExposedMethod.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringPlayerAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringPlayerActionInherentData.cs" />
@@ -661,10 +656,6 @@
       <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
     </ProjectReference>
-    <ProjectReference Include="Damage.csproj">
-      <Project>{C8E5E3A4-332C-993B-D996-1C378FBCDB4D}</Project>
-      <Name>Damage</Name>
-    </ProjectReference>
     <ProjectReference Include="Targetting.csproj">
       <Project>{D821AE8B-5B34-3933-C79B-A2355D29C0BF}</Project>
       <Name>Targetting</Name>
@@ -677,13 +668,9 @@
       <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
       <Name>RangeObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="ProjectileDeflection_Interface.csproj">
-      <Project>{0DF0C192-6A11-E879-ADF9-537F34408904}</Project>
-      <Name>ProjectileDeflection_Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="HealthGlobe.csproj">
-      <Project>{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}</Project>
-      <Name>HealthGlobe</Name>
+    <ProjectReference Include="Projectile.csproj">
+      <Project>{96AFB094-7938-0963-79F3-1171A54B269B}</Project>
+      <Name>Projectile</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

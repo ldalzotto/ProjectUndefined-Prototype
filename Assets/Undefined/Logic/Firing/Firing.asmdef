@@ -10,12 +10,10 @@
         "PlayerActions",
         "PlayerObject_Interface",
         "Input",
-        "Damage",
         "Targetting",
         "AnimatorPlayable",
         "RangeObjects",
-        "ProjectileDeflection_Interface",
-        "HealthGlobe"
+        "Projectile"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
