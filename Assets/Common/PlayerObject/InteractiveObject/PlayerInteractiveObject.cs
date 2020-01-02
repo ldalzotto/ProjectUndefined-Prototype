@@ -200,13 +200,16 @@ namespace PlayerObject
         /// </summary>
         private void PlayerActionTriggering()
         {
-            if (!this.PlayerActionPlayerSystem.IsActionExecuting() && !BlockingCutscenePlayer.Playing &&
+            if (!this.PlayerActionPlayerSystem.DoesActionOfTypeIsPlaying(typeof(FiringPlayerAction)) && !BlockingCutscenePlayer.Playing &&
                 !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 if (this.GameInputManager.CurrentInput.FiringActionDown())
                 {
-                    this.PlayerActionPlayerSystem.ExecuteAction(new FiringPlayerAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData, this,
-                        OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart, OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped));
+                    if (this.PlayerActionPlayerSystem.IsActionOfTypeAllowedToBePlaying(typeof(FiringPlayerAction)))
+                    {
+                        this.PlayerActionPlayerSystem.ExecuteAction(new FiringPlayerAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData, this,
+                            OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart, OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped));
+                    }
                 }
             }
         }
@@ -216,7 +219,7 @@ namespace PlayerObject
         /// </summary>
         private void UpdatePlayerMovement(float d)
         {
-            if (BlockingCutscenePlayer.Playing || (this.PlayerActionPlayerSystem.IsActionExecuting() && !this.PlayerActionPlayerSystem.DoesCurrentActionAllowsMovement()))
+            if (BlockingCutscenePlayer.Playing || (!this.PlayerActionPlayerSystem.DoesCurrentActionAllowsMovement()))
             {
                 playerMoveManager.ResetSpeed();
             }

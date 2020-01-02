@@ -28,11 +28,13 @@ namespace Weapon
         /// </summary>
         public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
         {
-            var interactiveObject_GameActionExection_Casted = (this.WeaponReference.WeaponHolder as IEM_SkillActionExecution);
-            if (interactiveObject_GameActionExection_Casted != null && interactiveObject_GameActionExection_Casted.ActionAuthorizedToBeExecuted(this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition))
+            if (this.WeaponReference.WeaponHolder is IEM_SkillActionExecution interactiveObject_GameActionExection_Casted)
             {
-                interactiveObject_GameActionExection_Casted.ExecuteSkillAction(new ProjectileFireAction(
-                    new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
+                if (interactiveObject_GameActionExection_Casted.ActionAuthorizedToBeExecuted(this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition))
+                {
+                    interactiveObject_GameActionExection_Casted.ExecuteSkillAction(new ProjectileFireAction(
+                        new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
+                }
             }
         }
 

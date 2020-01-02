@@ -12,13 +12,11 @@ namespace PlayerActions
     /// </summary>
     public abstract class PlayerAction
     {
-        private CooldownEventTrackerManager CooldownEventTrackerManager;
-
-        protected CorePlayerActionDefinition CorePlayerActionDefinition;
+        public CorePlayerActionDefinition CorePlayerActionDefinition { get; private set; }
 
         private float onCooldownTimeElapsed;
         private bool isAborted;
-        
+
         //-1 is infinite
         private int remainingExecutionAmout;
         private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
@@ -30,7 +28,7 @@ namespace PlayerActions
         /// Callback called when <see cref="FirstExecution"/> is called.
         /// </summary>
         private Action OnPlayerActionStartedCallback;
-        
+
         /// <summary>
         /// Callback called when <see cref="Dispose"/> is called.
         /// </summary>
@@ -47,7 +45,7 @@ namespace PlayerActions
             this.CorePlayerActionDefinition = CorePlayerActionDefinition;
 
             //on init, it is available
-            onCooldownTimeElapsed = this.CorePlayerActionDefinition.CoolDownTime * 2;
+            onCooldownTimeElapsed = this.CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime * 2;
             remainingExecutionAmout = this.CorePlayerActionDefinition.ExecutionAmount;
             this.isAborted = false;
 
@@ -78,7 +76,7 @@ namespace PlayerActions
 
         public virtual void FirstExecution()
         {
-            CooldownEventTrackerManager = new CooldownEventTrackerManager();
+            this.PlayerActionConsumed();
             this.OnPlayerActionStartedCallback?.Invoke();
         }
 
@@ -91,13 +89,11 @@ namespace PlayerActions
         public void CoolDownTick(float d)
         {
             onCooldownTimeElapsed += d;
-            if (!IsOnCoolDown()) CooldownEventTrackerManager.Tick(this);
         }
 
-        protected void PlayerActionConsumed()
+        private void PlayerActionConsumed()
         {
             onCooldownTimeElapsed = 0f;
-            CooldownEventTrackerManager.ResetCoolDown();
             if (remainingExecutionAmout > 0) remainingExecutionAmout -= 1;
         }
 
@@ -108,9 +104,14 @@ namespace PlayerActions
 
         #region Logical Conditions
 
+        public bool CooldownFeatureEnabled()
+        {
+            return this.CorePlayerActionDefinition.CooldownEnabled;
+        }
+        
         public bool IsOnCoolDown()
         {
-            return onCooldownTimeElapsed < CorePlayerActionDefinition.CoolDownTime;
+            return this.CooldownFeatureEnabled() && onCooldownTimeElapsed < this.CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime;
         }
 
         public bool CanBeExecuted()
@@ -134,7 +135,7 @@ namespace PlayerActions
 
         public float GetCooldownRemainingTime()
         {
-            return CorePlayerActionDefinition.CoolDownTime - onCooldownTimeElapsed;
+            return this.CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime - onCooldownTimeElapsed;
         }
 
         public SelectionWheelNodeConfigurationId GetSelectionWheelConfigurationId()
@@ -156,28 +157,4 @@ namespace PlayerActions
 
         #endregion
     }
-
-    #region Cooldown Tracking
-
-    internal class CooldownEventTrackerManager
-    {
-        private bool endOfCooldownEventEmitted;
-
-        public CooldownEventTrackerManager()
-        {
-            endOfCooldownEventEmitted = false;
-        }
-
-        public void Tick(PlayerAction involvedAction)
-        {
-            if (!endOfCooldownEventEmitted) endOfCooldownEventEmitted = true;
-        }
-
-        public void ResetCoolDown()
-        {
-            endOfCooldownEventEmitted = false;
-        }
-    }
-
-    #endregion
 }
