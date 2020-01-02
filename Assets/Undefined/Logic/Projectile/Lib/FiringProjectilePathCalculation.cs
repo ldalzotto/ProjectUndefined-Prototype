@@ -6,7 +6,7 @@ namespace Firing
     public static class FiringProjectilePathCalculation
     {
         /// <summary>
-        /// Calculates the initial orientation and position of a FiredProjectile.
+        /// Calculates the initial orientation and position of a <see cref="FiredProjectile"/>.
         /// It is used by WeaponHandlingSystems when <see cref="CoreInteractiveObject.AskToFireAFiredProjectile_ToTargetPoint"/>
         /// </summary>
         public static void CalculateProjectilePath_ToTargetPoint(CoreInteractiveObject WeaponHolder, CoreInteractiveObject Target, out Vector3 StartWorldPosition, out Quaternion StartOrientation)
@@ -15,9 +15,9 @@ namespace Firing
             var firingTargetWorldLocation = Target.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(Target.GetFiringTargetLocalPosition());
             StartOrientation = Quaternion.LookRotation((firingTargetWorldLocation - StartWorldPosition).normalized);
         }
-        
+
         /// <summary>
-        /// Calculates the initial orientation and position of a FiredProjectile shooted in the direction represented by <<paramref name="NormalizedWorldDirection"/>.
+        /// Calculates the initial orientation and position of a <see cref="FiredProjectile"/> shooted in the direction represented by <<paramref name="NormalizedWorldDirection"/>.
         /// </summary>
         public static void CalculateProjectilePath_ToDirection(CoreInteractiveObject WeaponHolder, Vector3 NormalizedWorldDirection, out Vector3 StartWorldPosition, out Quaternion StartOrientation)
         {
@@ -26,7 +26,7 @@ namespace Firing
         }
 
         /// <summary>
-        /// Calculates the initial orientation and position of a FiredProjectile when shooting forward
+        /// Calculates the initial orientation and position of a <see cref="FiredProjectile"/> when shooting forward
         /// </summary>
         public static void CalculateProjectilePath_Forward(CoreInteractiveObject WeaponHolder, out Vector3 StartWorldPosition, out Quaternion StartOrientation)
         {

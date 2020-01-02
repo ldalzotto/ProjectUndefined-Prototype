@@ -7,10 +7,9 @@ using UnityEngine;
 
 namespace PlayerActions
 {
-    public class PlayerActionManager : GameSingleton<PlayerActionManager>
+    public class PlayerActionPlayerSystem
     {
         private PlayerActionExecutionManager PlayerActionExecutionManager;
-        private PlayerActionsAvailableManager PlayerActionsAvailableManager;
 
         #region Internal Events
 
@@ -18,7 +17,7 @@ namespace PlayerActions
 
         #endregion
 
-        public void Init()
+        public PlayerActionPlayerSystem()
         {
             #region Event Register
 
@@ -27,7 +26,6 @@ namespace PlayerActions
             #endregion
 
             PlayerActionExecutionManager = new PlayerActionExecutionManager(() => OnPlayerActionFinishedEvent.Invoke());
-            PlayerActionsAvailableManager = new PlayerActionsAvailableManager();
             PlayerInteractiveObjectDestroyedEvent.Get().RegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerObjectDestroyed);
         }
 
@@ -36,14 +34,14 @@ namespace PlayerActions
             PlayerActionExecutionManager.FixedTick(d);
         }
 
-        public void BeforePlayerTick(float d)
+        public void Tick(float d)
         {
-            PlayerActionExecutionManager.BeforePlayerTick(d);
+            PlayerActionExecutionManager.Tick(d);
         }
 
-        public void AfterPlayerTick(float d)
+        public void AfterTicks(float d)
         {
-            PlayerActionExecutionManager.AfterPlayerTick(d);
+            PlayerActionExecutionManager.AfterTicks(d);
         }
         public void TickTimeFrozen(float d)
         {
@@ -65,7 +63,7 @@ namespace PlayerActions
             PlayerActionExecutionManager.GUITick();
         }
 
-        internal void ExecuteAction(PlayerAction rTPPlayerAction)
+        public void ExecuteAction(PlayerAction rTPPlayerAction)
         {
             PlayerActionExecutionManager.ExecuteAction(rTPPlayerAction);
         }
@@ -73,31 +71,6 @@ namespace PlayerActions
         private void OnPlayerActionFinished()
         {
             PlayerActionExecutionManager.StopAction();
-        }
-
-        internal void IncreaseOrAddActionsRemainingExecutionAmount(PlayerAction playerAction, int deltaRemaining)
-        {
-            PlayerActionsAvailableManager.IncreaseOrAddActionsRemainingExecutionAmount(playerAction, deltaRemaining);
-        }
-
-        internal void AddActionsToAvailable(List<PlayerAction> addedActions)
-        {
-            foreach (var addedAction in addedActions) AddActionToAvailable(addedAction);
-        }
-
-        internal void RemoveActionsToAvailable(List<PlayerAction> removedActions)
-        {
-            foreach (var removedAction in removedActions) this.PlayerActionsAvailableManager.RemoveActionToAvailable(removedAction);
-        }
-
-        internal void RemoveActionToAvailable(PlayerAction removedAction)
-        {
-            this.PlayerActionsAvailableManager.RemoveActionToAvailable(removedAction);
-        }
-
-        internal void AddActionToAvailable(PlayerAction addedAction)
-        {
-            PlayerActionsAvailableManager.AddActionToAvailable(addedAction);
         }
 
         #region External Events
@@ -125,12 +98,6 @@ namespace PlayerActions
         #endregion
 
         #region Data Retrieval
-
-        internal List<PlayerAction> GetCurrentAvailablePlayerActions()
-        {
-            return this.PlayerActionsAvailableManager.CurrentAvailableActions.MultiValueGetValues();
-        }
-
         public PlayerAction GetCurrentlyPlayingPlayerAction()
         {
             return this.PlayerActionExecutionManager.CurrentAction;
@@ -169,11 +136,11 @@ namespace PlayerActions
             }
         }
 
-        public void BeforePlayerTick(float d)
+        public void Tick(float d)
         {
             if (currentAction != null)
             {
-                currentAction.BeforeInteractiveObjectTick(d);
+                currentAction.Tick(d);
                 if (currentAction.FinishedCondition())
                 {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();
@@ -181,11 +148,11 @@ namespace PlayerActions
             }
         }
 
-        public void AfterPlayerTick(float d)
+        public void AfterTicks(float d)
         {
             if (currentAction != null)
             {
-                currentAction.AfterInteractiveObjectTick(d);
+                currentAction.AfterTicks(d);
                 if (currentAction.FinishedCondition())
                 {
                     TriggerOnPlayerActionFinichedEventAction.Invoke();
@@ -241,6 +208,7 @@ namespace PlayerActions
 
     #endregion
 
+    /*
     #region RTPPlayer actions availability
 
     internal class PlayerActionsAvailableManager
@@ -318,4 +286,5 @@ namespace PlayerActions
     }
 
     #endregion
+    */
 }

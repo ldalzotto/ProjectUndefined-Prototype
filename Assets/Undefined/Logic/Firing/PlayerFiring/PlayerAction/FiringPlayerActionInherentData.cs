@@ -17,10 +17,5 @@ namespace Firing
         public GameObject GroundConeVisualFeedbackPrefab;
 
         [Inline] public A_AnimationPlayableDefinition FiringPoseAnimationV2;
-
-        public override PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null)
-        {
-            return new FiringPlayerAction(this, PlayerInteractiveObject, OnPlayerActionStartedCallback, OnPlayerActionEndCallback);
-        }
     }
 }

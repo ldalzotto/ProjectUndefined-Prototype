@@ -10,16 +10,11 @@ namespace PlayerActions
     public abstract class PlayerActionInherentData : SerializedScriptableObject
     {
         public CorePlayerActionDefinition CorePlayerActionDefinition;
-
-        public abstract PlayerAction BuildPlayerAction(IPlayerInteractiveObject PlayerInteractiveObject, Action OnPlayerActionStartedCallback = null,
-            Action OnPlayerActionEndCallback = null);
     }
 
     [Serializable]
     public struct CorePlayerActionDefinition
     {
-        [CustomEnum()] public PlayerActionType PlayerActionType;
-
         [CustomEnum(ConfigurationType = typeof(SelectionWheelNodeConfiguration))]
         public SelectionWheelNodeConfigurationId ActionWheelNodeConfigurationId;
 

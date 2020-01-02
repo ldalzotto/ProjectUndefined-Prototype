@@ -54,7 +54,6 @@ namespace GameLoop
             SelectableObjectManagerV2.Get().Init(GameInputManager.Get());
 
             HealthUIManager.Get().Init();
-            PlayerActionEntryPoint.Get().Init();
             TargetCursorManager.Get();
 
             InputDynamicTextMenuManager.Get();
@@ -66,7 +65,6 @@ namespace GameLoop
 
             if (!TimeManagementManager.Get().IsTimeFrozen())
             {
-                PlayerActionEntryPoint.Get().FixedTick(d);
                 PlayerInteractiveObjectManager.Get().FixedTick(d);
                 InteractiveObjectV2Manager.Get().FixedTick(d);
             }
@@ -101,12 +99,8 @@ namespace GameLoop
 
                 BlockingCutscenePlayerManager.Get().Tick(d);
 
-                PlayerActionEntryPoint.Get().BeforePlayerTick(d);
-
                 PlayerInteractiveObjectManager.Get().Tick(d);
                 PlayerInteractiveObjectManager.Get().AfterTicks(d);
-
-                PlayerActionEntryPoint.Get().AfterPlayerTick(d);
 
                 RangeObjectV2Manager.Get().Tick(d);
 
@@ -121,7 +115,6 @@ namespace GameLoop
             }
             else
             {
-                PlayerActionEntryPoint.Get().TickTimeFrozen(d);
                 PlayerInteractiveObjectManager.Get().TickTimeFrozen(d);
                 InteractiveObjectV2Manager.Get().TickTimeFrozen(d);
             }
@@ -137,7 +130,6 @@ namespace GameLoop
             {
                 PlayerInteractiveObjectManager.Get().LateTick(d);
                 InteractiveObjectV2Manager.Get().LateTick(d);
-                PlayerActionEntryPoint.Get().LateTick(d);
 
                 ObstacleOcclusionCalculationManagerV2.Get().LateTick();
                 RangeIntersectionCalculationManagerV2.Get().LateTick();
@@ -153,7 +145,6 @@ namespace GameLoop
         {
             if (Application.isPlaying)
             {
-                PlayerActionEntryPoint.Get().GizmoTick();
                 ObstaclesListenerManager.Get().GizmoTick();
                 RangeIntersectionCalculatorManager.Get().GizmoTick();
             }
@@ -161,7 +152,9 @@ namespace GameLoop
 
         private void OnGUI()
         {
-            if (Application.isPlaying) PlayerActionEntryPoint.Get().GUITick();
+            if (Application.isPlaying)
+            {
+            }
         }
     }
 }

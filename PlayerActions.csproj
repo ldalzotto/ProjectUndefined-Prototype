@@ -57,11 +57,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Common\PlayerActions\Configuration\PlayerActionInherentData.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Configuration\PlayerActionType.cs" />
-     <Compile Include="Assets\Common\PlayerActions\EntryPoint\PlayerActionEntryPoint.cs" />
      <Compile Include="Assets\Common\PlayerActions\Lib\ActionExecution\PlayerAction.cs" />
      <Compile Include="Assets\Common\PlayerActions\Lib\EventListener\PlayerActionEventListener.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Managers\PlayerActionManager.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Managers\PlayerActionPlayerSystem.cs" />
      <Compile Include="Assets\Common\PlayerActions\Managers\PlayerActionWheelManager.cs" />
      <None Include="Assets\Common\PlayerActions\PlayerActions.asmdef" />
  <Reference Include="UnityEditor.UI">

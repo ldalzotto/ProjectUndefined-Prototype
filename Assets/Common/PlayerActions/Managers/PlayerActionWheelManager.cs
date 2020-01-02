@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace PlayerActions
 {
+    /*
     internal class PlayerActionWheelManager : GameSingleton<PlayerActionWheelManager>
     {
         private SelectionWheelObject PlayerActionSelectionWheel;
@@ -71,4 +72,5 @@ namespace PlayerActions
 
         #endregion
     }
+    */
 }

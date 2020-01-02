@@ -18,9 +18,7 @@ namespace PlayerActions
 
         private float onCooldownTimeElapsed;
         private bool isAborted;
-
-        public PlayerActionType PlayerActionType;
-
+        
         //-1 is infinite
         private int remainingExecutionAmout;
         private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
@@ -43,7 +41,6 @@ namespace PlayerActions
         protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition, Action OnPlayerActionStartedCallback = null,
             Action OnPlayerActionEndCallback = null)
         {
-            PlayerActionType = CorePlayerActionDefinition.PlayerActionType;
             var SelectionWheelNodeConfiguration = SelectionWheelNodeConfigurationGameObject.Get().SelectionWheelNodeConfiguration;
             SelectionWheelNodeConfigurationData = SelectionWheelNodeConfiguration.ConfigurationInherentData[CorePlayerActionDefinition.ActionWheelNodeConfigurationId];
 
@@ -67,8 +64,8 @@ namespace PlayerActions
         {
         }
 
-        public abstract void BeforeInteractiveObjectTick(float d);
-        public abstract void AfterInteractiveObjectTick(float d);
+        public abstract void Tick(float d);
+        public abstract void AfterTicks(float d);
         public abstract void TickTimeFrozen(float d);
         public abstract void LateTick(float d);
         public abstract void GUITick();

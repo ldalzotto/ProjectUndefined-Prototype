@@ -25,6 +25,7 @@ namespace PlayerObject
 
         #region Systems
 
+        private PlayerActionPlayerSystem PlayerActionPlayerSystem;
         private PlayerObjectAnimationStateManager PlayerObjectAnimationStateManager;
         private WeaponHandlingSystem WeaponHandlingSystem;
         private FiringTargetPositionSystem FiringTargetPositionSystem;
@@ -45,7 +46,6 @@ namespace PlayerObject
         #region External Dependencies
 
         private GameInputManager GameInputManager;
-        private PlayerActionEntryPoint PlayerActionEntryPoint = PlayerActionEntryPoint.Get();
         [VE_Nested] private BlockingCutscenePlayerManager BlockingCutscenePlayer = BlockingCutscenePlayerManager.Get();
         private LevelTransitionManager LevelTransitionManager = LevelTransitionManager.Get();
 
@@ -62,12 +62,12 @@ namespace PlayerObject
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
         public PlayerMoveManager PlayerMoveManager => this.playerMoveManager;
-        [VE_Ignore] private PlayerSelectionWheelManager PlayerSelectionWheelManager;
 
         public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition)
         {
             this.PlayerInteractiveObjectDefinition = PlayerInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
+            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem();
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
@@ -83,8 +83,8 @@ namespace PlayerObject
 
             this.FiringPlayerActionEventListener = new PlayerActionEventListener(PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData);
 
-            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStartEvent(this.OnPlayerStartTargetting);
-            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStopEvent(this.OnPlayerStoppedTargetting);
+            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStartEvent(this.OnPlayerActionStarted);
+            this.FiringPlayerActionEventListener.RegisterOnPlayerActionStopEvent(this.OnPlayerActionEnded);
 
             this.lowHealthPlayerSystem.RegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             this.lowHealthPlayerSystem.RegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
@@ -121,8 +121,6 @@ namespace PlayerObject
                 new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.ObjectMovementSpeedSystem, this.OnDestinationReached));
 
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
-            PlayerSelectionWheelManager = new PlayerSelectionWheelManager(this, this.GameInputManager,
-                PlayerActionEntryPoint.Get());
 
             //Getting persisted position
             PlayerPositionPersistenceManager.Get().Init(this);
@@ -136,6 +134,8 @@ namespace PlayerObject
 
         public override void FixedTick(float d)
         {
+            this.PlayerActionPlayerSystem.FixedTick(d);
+
             base.FixedTick(d);
 
             this.SkillActionPlayerSystem.FixedTick(d);
@@ -153,6 +153,7 @@ namespace PlayerObject
 
         public override void Tick(float d)
         {
+            this.PlayerActionPlayerSystem.Tick(d);
             this.SkillActionPlayerSystem.Tick(d);
 
             this.StunningDamageDealerReceiverSystem.Tick(d);
@@ -165,16 +166,9 @@ namespace PlayerObject
             UpdatePlayerMovement(d);
         }
 
-        public override void TickTimeFrozen(float d)
-        {
-            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
-            {
-                this.projectileDeflectionSystem.TickTimeFrozen(d);
-            }
-        }
-
         public override void AfterTicks(float d)
         {
+            this.PlayerActionPlayerSystem.AfterTicks(d);
             this.ObjectMovementSpeedSystem.AfterTicks();
             this.playerMoveManager.AfterTicks();
 
@@ -182,9 +176,20 @@ namespace PlayerObject
             base.UpdateAniamtions(d);
         }
 
+        public override void TickTimeFrozen(float d)
+        {
+            this.PlayerActionPlayerSystem.TickTimeFrozen(d);
+            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
+            {
+                this.projectileDeflectionSystem.TickTimeFrozen(d);
+            }
+        }
+
+
         public override void LateTick(float d)
         {
             base.LateTick(d);
+            this.PlayerActionPlayerSystem.LateTick(d);
             this.PlayerVisualEffectSystem.LateTick(d);
             this.projectileDeflectionSystem.LateTick(d);
             this.playerMoveManager.LateTick(d);
@@ -195,12 +200,12 @@ namespace PlayerObject
         /// </summary>
         private void PlayerActionTriggering()
         {
-            if (!this.PlayerActionEntryPoint.IsActionExecuting() && !BlockingCutscenePlayer.Playing &&
-                !this.PlayerActionEntryPoint.IsSelectionWheelEnabled() && !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
+            if (!this.PlayerActionPlayerSystem.IsActionExecuting() && !BlockingCutscenePlayer.Playing &&
+                !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 if (this.GameInputManager.CurrentInput.FiringActionDown())
                 {
-                    this.PlayerActionEntryPoint.ExecuteAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.BuildPlayerAction(this,
+                    this.PlayerActionPlayerSystem.ExecuteAction(new FiringPlayerAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData, this,
                         OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart, OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped));
                 }
             }
@@ -211,7 +216,7 @@ namespace PlayerObject
         /// </summary>
         private void UpdatePlayerMovement(float d)
         {
-            if (BlockingCutscenePlayer.Playing || this.PlayerActionEntryPoint.IsSelectionWheelEnabled() || (this.PlayerActionEntryPoint.IsActionExecuting() && !this.PlayerActionEntryPoint.DoesCurrentActionAllowsMovement()))
+            if (BlockingCutscenePlayer.Playing || (this.PlayerActionPlayerSystem.IsActionExecuting() && !this.PlayerActionPlayerSystem.DoesCurrentActionAllowsMovement()))
             {
                 playerMoveManager.ResetSpeed();
             }
@@ -227,8 +232,8 @@ namespace PlayerObject
             this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
 
-            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStartEvent(this.OnPlayerStartTargetting);
-            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStopEvent(this.OnPlayerStoppedTargetting);
+            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStartEvent(this.OnPlayerActionStarted);
+            this.FiringPlayerActionEventListener.UnRegisterOnPlayerActionStopEvent(this.OnPlayerActionEnded);
 
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
@@ -359,18 +364,18 @@ namespace PlayerObject
 
         #region Player Targetting Events
 
-        public void OnPlayerStartTargetting(PlayerActionInherentData FiringPlayerActionInherentData)
+        public void OnPlayerActionStarted(PlayerActionInherentData PlayerActionInherentData)
         {
-            if (FiringPlayerActionInherentData is FiringPlayerActionInherentData FiringPlayerActionInherentDataCasted)
+            if (PlayerActionInherentData is FiringPlayerActionInherentData FiringPlayerActionInherentDataCasted)
             {
                 this.PlayerSpeedAttenuationSystem.StartTargetting();
                 this.PlayerObjectAnimationStateManager.StartTargetting(FiringPlayerActionInherentDataCasted.FiringPoseAnimationV2);
             }
         }
 
-        public void OnPlayerStoppedTargetting(PlayerActionInherentData FiringPlayerActionInherentData)
+        public void OnPlayerActionEnded(PlayerActionInherentData PlayerActionInherentData)
         {
-            if (FiringPlayerActionInherentData is FiringPlayerActionInherentData)
+            if (PlayerActionInherentData is FiringPlayerActionInherentData)
             {
                 this.PlayerSpeedAttenuationSystem.StopTargetting();
                 this.PlayerObjectAnimationStateManager.EndTargetting();
@@ -423,59 +428,4 @@ namespace PlayerObject
             return this.SkillActionPlayerSystem.ActionAuthorizedToBeExecuted(SkillActionDefinition);
         }
     }
-
-    #region Player Action Managers
-
-    internal class PlayerSelectionWheelManager
-    {
-        private PlayerInteractiveObject PlayerInteractiveObjectRef;
-        private GameInputManager GameInputManager;
-
-        #region External Dependencies
-
-        private PlayerActionEntryPoint PlayerActionEntryPoint;
-
-        #endregion
-
-        public PlayerSelectionWheelManager(PlayerInteractiveObject PlayerInteractiveObject, GameInputManager gameInputManager,
-            PlayerActionEntryPoint playerActionEntryPoint)
-        {
-            GameInputManager = gameInputManager;
-            this.PlayerActionEntryPoint = playerActionEntryPoint;
-            this.PlayerInteractiveObjectRef = PlayerInteractiveObject;
-        }
-
-        public bool AwakeOrSleepWheel()
-        {
-            if (!this.PlayerActionEntryPoint.IsSelectionWheelEnabled())
-            {
-                if (GameInputManager.CurrentInput.ActionButtonD())
-                {
-                    PlayerActionEntryPoint.AwakePlayerActionSelectionWheel(this.PlayerInteractiveObjectRef.InteractiveGameObject.InteractiveGameObjectParent.transform);
-                    return true;
-                }
-            }
-            else if (GameInputManager.CurrentInput.CancelButtonD())
-            {
-                this.PlayerActionEntryPoint.SleepPlayerActionSelectionWheel(false);
-                return true;
-            }
-
-            return false;
-        }
-
-        public void TriggerActionOnInput()
-        {
-            if (GameInputManager.CurrentInput.ActionButtonD())
-            {
-                var selectedAction = this.PlayerActionEntryPoint.GetCurrentlySelectedPlayerAction();
-                if (selectedAction.CanBeExecuted())
-                {
-                    this.PlayerActionEntryPoint.ExecuteAction(selectedAction);
-                }
-            }
-        }
-    }
-
-    #endregion
 }

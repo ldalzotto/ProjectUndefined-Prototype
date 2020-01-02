@@ -60,7 +60,7 @@ namespace Firing
             }
         }
 
-        public override void BeforeInteractiveObjectTick(float d)
+        public override void Tick(float d)
         {
             Profiler.BeginSample("FiringPlayerAction");
             this._firingLockSelectionSystem.Tick();
@@ -75,7 +75,7 @@ namespace Firing
             Profiler.EndSample();
         }
 
-        public override void AfterInteractiveObjectTick(float d)
+        public override void AfterTicks(float d)
         {
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
