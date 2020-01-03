@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using CoreGame;
 using InteractiveObjects;
+using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace PlayerActions
@@ -28,7 +31,6 @@ namespace PlayerActions
         {
             Profiler.BeginSample("PlayerActionPlayerSystem : Tick");
             this.PlayerActionExecutionManagerV2.Tick(d);
-            //   PlayerActionExecutionManager.Tick(d);
             Profiler.EndSample();
         }
 
@@ -36,7 +38,6 @@ namespace PlayerActions
         {
             Profiler.BeginSample("PlayerActionPlayerSystem : AfterTicks");
             this.PlayerActionExecutionManagerV2.AfterTicks(d);
-            //     PlayerActionExecutionManager.AfterTicks(d);
             Profiler.EndSample();
         }
 
@@ -44,7 +45,6 @@ namespace PlayerActions
         {
             Profiler.BeginSample("PlayerActionPlayerSystem : TickTimeFrozen");
             this.PlayerActionExecutionManagerV2.TickTimeFrozen(d);
-            // PlayerActionExecutionManager.TickTimeFrozen(d);
             Profiler.EndSample();
         }
 
@@ -52,7 +52,6 @@ namespace PlayerActions
         {
             Profiler.BeginSample("PlayerActionPlayerSystem : LateTick");
             this.PlayerActionExecutionManagerV2.LateTick(d);
-            //  PlayerActionExecutionManager.LateTick(d);
             Profiler.EndSample();
         }
 
@@ -70,7 +69,6 @@ namespace PlayerActions
         {
             Profiler.BeginSample("PlayerActionPlayerSystem : ExecuteAction");
             this.PlayerActionExecutionManagerV2.Execute(rTPPlayerAction);
-            //  PlayerActionExecutionManager.ExecuteAction(rTPPlayerAction);
             Profiler.EndSample();
         }
 
@@ -79,7 +77,6 @@ namespace PlayerActions
         private void OnAssociatedInteractiveObjectDestroyed(CoreInteractiveObject DestroyedInteractiveObject)
         {
             this.PlayerActionExecutionManagerV2.StopAllActions();
-            //   this.PlayerActionExecutionManager.StopAllActions();
         }
 
         #endregion
@@ -89,26 +86,21 @@ namespace PlayerActions
         public bool DoesActionOfTypeIsPlaying(string actionUniqueID)
         {
             return this.PlayerActionExecutionManagerV2.DoesActionOfTypeIsPlaying(actionUniqueID);
-            //  return PlayerActionExecutionManager.DoesActionOfTypeIsPlaying(actionType);
         }
 
         public bool IsActionOfTypeAllowedToBePlaying(string actionUniqueID)
         {
             return this.PlayerActionExecutionManagerV2.IsActionOfTypeAllowedToBePlaying(actionUniqueID);
-            //return PlayerActionExecutionManager.IsActionOfTypeAllowedToBePlaying(actionType);
         }
 
         public bool DoesCurrentActionAllowsMovement()
         {
-            return true;
-            //return this.PlayerActionExecutionManager.DoesActionsAllowMovement();
+            return this.PlayerActionExecutionManagerV2.DoesCurrentActionAllowsMovement();
         }
 
         #endregion
     }
 
-
-    #region Action execution
 
     struct PlayerActionState
     {
@@ -130,7 +122,12 @@ namespace PlayerActions
 
         public bool IsPlayerActionOnCooldown()
         {
-            return this.IsPlayerActionPlaying() && this.CooldownActionState.IsOnCooldown();
+            return this.CooldownActionState.IsOnCooldown();
+        }
+
+        public bool CooldownFeatureEnabled()
+        {
+            return this.CooldownActionState.CooldownFeatureEnabled;
         }
 
         public bool IsPlayerActionEnded()
@@ -145,25 +142,66 @@ namespace PlayerActions
             return this.PlayerActionReference;
         }
 
-        public void ClearPlayerActionReference()
+        public void ClearPlayerAction()
         {
+            this.PlayerActionReference.Dispose();
             this.PlayerActionReference = null;
+        }
+
+        public void UpdateCooldown(float d)
+        {
+            this.CooldownActionState.Tick(d);
         }
     }
 
+    struct CooldownActionState
+    {
+        public bool CooldownFeatureEnabled;
+
+        private float TargetCooldownTime;
+        private float CurrentTimeElapsed;
+
+        public CooldownActionState(CorePlayerActionDefinition CorePlayerActionDefinition)
+        {
+            this.CooldownFeatureEnabled = CorePlayerActionDefinition.CooldownEnabled;
+            this.TargetCooldownTime = 0f;
+
+            if (this.CooldownFeatureEnabled)
+            {
+                TargetCooldownTime = CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime;
+            }
+
+            CurrentTimeElapsed = 0f;
+        }
+
+        public void Tick(float d)
+        {
+            this.CurrentTimeElapsed += d;
+        }
+
+        public bool IsOnCooldown()
+        {
+            return this.CooldownFeatureEnabled && (this.TargetCooldownTime > 0f && this.CurrentTimeElapsed <= this.TargetCooldownTime);
+        }
+    }
+
+    #region Action execution
+
     struct PlayerActionExecutionManagerV2
     {
-        private Dictionary<string, PlayerActionState> PlayerActionStates;
+        private BufferedDictionary<string, PlayerActionState> PlayerActionStates;
 
         private PlayerActionExecutionLockSystem PlayerActionExecutionLockSystem;
         private PlayerActionEndedCleanupSystem PlayerActionEndedCleanupSystem;
+        private PlayerActionCooldownSystem PlayerActionCooldownSystem;
 
         public void Init()
         {
-            this.PlayerActionStates = new Dictionary<string, PlayerActionState>();
+            this.PlayerActionStates = new BufferedDictionary<string, PlayerActionState>();
             this.PlayerActionExecutionLockSystem = new PlayerActionExecutionLockSystem();
             this.PlayerActionExecutionLockSystem.Init();
             this.PlayerActionEndedCleanupSystem = new PlayerActionEndedCleanupSystem(new Stack<string>());
+            this.PlayerActionCooldownSystem = new PlayerActionCooldownSystem();
         }
 
         public void Execute(PlayerAction playerAction)
@@ -200,72 +238,65 @@ namespace PlayerActions
 
         public void FixedTick(float d)
         {
-            this.PlayerActionExecutionLockSystem.LockPlayerActions();
-
-            foreach (var playerActionState in PlayerActionStates.Values)
-            {
-                playerActionState.GetPlayerActionReference()?.FixedTick(d);
-            }
-
-            this.UnlockPlayerActions();
-
-            this.PlayerActionEndedCleanupSystem.CleanupEndedPlayerActions(ref this.PlayerActionStates);
+            this.InternalUpdate(d, this.InternalFixedTick);
         }
 
         public void Tick(float d)
         {
-            this.PlayerActionExecutionLockSystem.LockPlayerActions();
-
-            foreach (var playerActionState in PlayerActionStates.Values)
-            {
-                playerActionState.GetPlayerActionReference()?.Tick(d);
-            }
-
-            this.UnlockPlayerActions();
-
-            this.PlayerActionEndedCleanupSystem.CleanupEndedPlayerActions(ref this.PlayerActionStates);
+            this.InternalUpdate(d, this.InternalTick);
+            this.PlayerActionCooldownSystem.UpdateCooldown(d, ref PlayerActionStates);
         }
 
         public void AfterTicks(float d)
         {
-            this.PlayerActionExecutionLockSystem.LockPlayerActions();
-
-            foreach (var playerActionState in PlayerActionStates.Values)
-            {
-                playerActionState.GetPlayerActionReference()?.AfterTicks(d);
-            }
-
-            this.UnlockPlayerActions();
-
-            this.PlayerActionEndedCleanupSystem.CleanupEndedPlayerActions(ref this.PlayerActionStates);
+            this.InternalUpdate(d, this.InternalAfterTicks);
         }
 
         public void TickTimeFrozen(float d)
         {
-            this.PlayerActionExecutionLockSystem.LockPlayerActions();
-
-            foreach (var playerActionState in PlayerActionStates.Values)
-            {
-                playerActionState.GetPlayerActionReference()?.TickTimeFrozen(d);
-            }
-
-            this.UnlockPlayerActions();
-
-            this.PlayerActionEndedCleanupSystem.CleanupEndedPlayerActions(ref this.PlayerActionStates);
+            this.InternalUpdate(d, this.InternalTickTimeFrozen);
         }
 
         public void LateTick(float d)
         {
-            this.PlayerActionExecutionLockSystem.LockPlayerActions();
+            this.InternalUpdate(d, this.InternalLateTick);
+        }
 
+        private void InternalUpdate(float d, Action<float, PlayerActionState> PlayerActionStateUpdate)
+        {
+            this.PlayerActionExecutionLockSystem.LockPlayerActions();
             foreach (var playerActionState in PlayerActionStates.Values)
             {
-                playerActionState.GetPlayerActionReference()?.LateTick(d);
+                PlayerActionStateUpdate.Invoke(d, playerActionState);
             }
 
             this.UnlockPlayerActions();
-
             this.PlayerActionEndedCleanupSystem.CleanupEndedPlayerActions(ref this.PlayerActionStates);
+        }
+
+        private void InternalFixedTick(float d, PlayerActionState playerActionState)
+        {
+            playerActionState.GetPlayerActionReference()?.FixedTick(d);
+        }
+
+        private void InternalTick(float d, PlayerActionState playerActionState)
+        {
+            playerActionState.GetPlayerActionReference()?.Tick(d);
+        }
+
+        private void InternalAfterTicks(float d, PlayerActionState playerActionState)
+        {
+            playerActionState.GetPlayerActionReference()?.AfterTicks(d);
+        }
+
+        private void InternalTickTimeFrozen(float d, PlayerActionState playerActionState)
+        {
+            playerActionState.GetPlayerActionReference()?.TickTimeFrozen(d);
+        }
+
+        private void InternalLateTick(float d, PlayerActionState playerActionState)
+        {
+            playerActionState.GetPlayerActionReference()?.LateTick(d);
         }
 
         private void UnlockPlayerActions()
@@ -281,11 +312,30 @@ namespace PlayerActions
 
         public bool IsActionOfTypeAllowedToBePlaying(string actionUniqueId)
         {
-            return !this.DoesActionOfTypeIsPlaying(actionUniqueId)
-                   && (!this.PlayerActionStates.ContainsKey(actionUniqueId) || (this.PlayerActionStates.ContainsKey(actionUniqueId) && !this.PlayerActionStates[actionUniqueId].IsPlayerActionOnCooldown()));
+            return (!this.PlayerActionStates.ContainsKey(actionUniqueId) ||
+                    (!this.DoesActionOfTypeIsPlaying(actionUniqueId) && !this.PlayerActionStates[actionUniqueId].IsPlayerActionOnCooldown()));
+        }
+
+        public bool DoesCurrentActionAllowsMovement()
+        {
+            foreach (var playerActionState in PlayerActionStates.Values)
+            {
+                var playerActionRef = playerActionState.GetPlayerActionReference();
+                if (playerActionRef != null && !playerActionRef.MovementAllowed())
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 
+    /// <summary>
+    /// Locks the <see cref="PlayerActionState"/> from <see cref="PlayerActionExecutionManagerV2"/>.
+    /// When player actions are locked, newly created player action initialization are deferred after the lock if lift.
+    /// This is to prevent modifications of PlayerActionStates of <see cref="PlayerActionExecutionManagerV2"/> when iterating over it.
+    /// </summary>
     struct PlayerActionExecutionLockSystem
     {
         private bool CurrentlyPlayerActionsLocked;
@@ -330,6 +380,9 @@ namespace PlayerActions
         }
     }
 
+    /// <summary>
+    /// Ends player action when <see cref="PlayerActionState.IsPlayerActionEnded"/> returns true.
+    /// </summary>
     struct PlayerActionEndedCleanupSystem
     {
         private Stack<string> StoppedActionTemporaryBuffer;
@@ -339,7 +392,7 @@ namespace PlayerActions
             this.StoppedActionTemporaryBuffer = StoppedActionTemporaryBuffer;
         }
 
-        public void CleanupEndedPlayerActions(ref Dictionary<string, PlayerActionState> PlayerActionStates)
+        public void CleanupEndedPlayerActions(ref BufferedDictionary<string, PlayerActionState> PlayerActionStates)
         {
             foreach (var playerActionStateEntry in PlayerActionStates)
             {
@@ -353,41 +406,32 @@ namespace PlayerActions
             {
                 var stoppedActionID = this.StoppedActionTemporaryBuffer.Pop();
                 var stoppedPlayerAction = PlayerActionStates[stoppedActionID];
-                stoppedPlayerAction.GetPlayerActionReference().Dispose();
-                stoppedPlayerAction.ClearPlayerActionReference();
+                stoppedPlayerAction.ClearPlayerAction();
                 PlayerActionStates[stoppedActionID] = stoppedPlayerAction;
             }
         }
     }
 
-    struct CooldownActionState
+    /// <summary>
+    /// Updates the <see cref="PlayerActionState.CooldownActionState"/>.
+    /// </summary>
+    struct PlayerActionCooldownSystem
     {
-        public bool CooldownFeatureEnabled;
-
-        private float TargetCooldownTime;
-        private float CurrentTimeElapsed;
-
-        public CooldownActionState(CorePlayerActionDefinition CorePlayerActionDefinition)
+        public void UpdateCooldown(float d, ref BufferedDictionary<string, PlayerActionState> playerActionStates)
         {
-            this.CooldownFeatureEnabled = CorePlayerActionDefinition.CooldownEnabled;
-            this.TargetCooldownTime = 0f;
+            playerActionStates.StartBuffer();
 
-            if (this.CooldownFeatureEnabled)
+            foreach (var playerActionStateEntry in playerActionStates)
             {
-                TargetCooldownTime = CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime;
+                if (playerActionStateEntry.Value.CooldownFeatureEnabled() && playerActionStateEntry.Value.IsPlayerActionOnCooldown())
+                {
+                    var playerActionState = playerActionStateEntry.Value;
+                    playerActionState.UpdateCooldown(d);
+                    playerActionStates.PushToBuffer(new KeyValuePair<string, PlayerActionState>(playerActionStateEntry.Key, playerActionState));
+                }
             }
 
-            CurrentTimeElapsed = 0f;
-        }
-
-        public void Tick(float d)
-        {
-            this.CurrentTimeElapsed += d;
-        }
-
-        public bool IsOnCooldown()
-        {
-            return this.CooldownFeatureEnabled && (this.TargetCooldownTime > 0f && this.CurrentTimeElapsed <= this.TargetCooldownTime);
+            playerActionStates.UpdateAndConsumeFromBuffer();
         }
     }
 

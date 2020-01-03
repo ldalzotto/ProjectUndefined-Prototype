@@ -1,7 +1,6 @@
 {
     "name": "PlayerActions",
     "references": [
-        "SelectionWheel",
         "CoreGame",
         "OdinSerializer",
         "SelectableObjects_Interfaces",

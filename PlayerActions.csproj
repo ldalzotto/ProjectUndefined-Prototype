@@ -619,10 +619,6 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="SelectionWheel.csproj">
-      <Project>{D0455BEA-A22B-EC6B-0746-2A67B677001C}</Project>
-      <Name>SelectionWheel</Name>
-    </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>

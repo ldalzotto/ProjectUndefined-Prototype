@@ -1,6 +1,5 @@
 ﻿using System;
 using OdinSerializer;
-using SelectionWheel;
 using UnityEngine;
 
 namespace PlayerActions
@@ -14,9 +13,6 @@ namespace PlayerActions
     [Serializable]
     public struct CorePlayerActionDefinition
     {
-        [CustomEnum(ConfigurationType = typeof(SelectionWheelNodeConfiguration))]
-        public SelectionWheelNodeConfigurationId ActionWheelNodeConfigurationId;
-
         [Tooltip("Number of times the action can be executed. -1 is infinite. -2 is not displayed")]
         public int ExecutionAmount;
 

@@ -1,24 +1,18 @@
 using System;
-using SelectionWheel;
-using UnityEngine;
 
 namespace PlayerActions
 {
     /// <summary>
     /// <see cref="PlayerAction"/> are an expansion of the PlayerObject. <br/>
-    /// They allow to execute custom logic (with game loop callbacks) aside the PlayerObject own logic. <br/>
-    /// Player actions have access to PlayerObject and it's InteractiveObjects methods while PlayerObject has access to <see cref="PlayerActionEntryPoint"/> only. <br/>
-    /// Currently executing PlayerAction has full control over the state of the PlayerObject.
+    /// They allow to execute custom logic (with game loop callbacks) aside the associated InteractiveObject own logic. <br/>
+    /// PlayerAction adds an extra layer of dynamically stacking executable actions via the <see cref="PlayerActionPlayerSystem"/> and allow usage of a cooldown timer.
     /// </summary>
     public abstract class PlayerAction
     {
         public CorePlayerActionDefinition CorePlayerActionDefinition { get; private set; }
         public abstract string PlayerActionUniqueID { get; }
-        
+
         public bool IsAborted { get; private set; }
-
-        private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
-
 
         #region WorkflowEvents callback
 
@@ -37,9 +31,6 @@ namespace PlayerActions
         protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition, Action OnPlayerActionStartedCallback = null,
             Action OnPlayerActionEndCallback = null)
         {
-            var SelectionWheelNodeConfiguration = SelectionWheelNodeConfigurationGameObject.Get().SelectionWheelNodeConfiguration;
-            SelectionWheelNodeConfigurationData = SelectionWheelNodeConfiguration.ConfigurationInherentData[CorePlayerActionDefinition.ActionWheelNodeConfigurationId];
-
             this.CorePlayerActionDefinition = CorePlayerActionDefinition;
 
             this.IsAborted = false;
@@ -90,25 +81,6 @@ namespace PlayerActions
         public bool MovementAllowed()
         {
             return this.CorePlayerActionDefinition.MovementAllowed;
-        }
-
-        #endregion
-
-        #region Data Retrieval
-
-        public SelectionWheelNodeConfigurationId GetSelectionWheelConfigurationId()
-        {
-            return CorePlayerActionDefinition.ActionWheelNodeConfigurationId;
-        }
-
-        public string GetDescriptionText()
-        {
-            return SelectionWheelNodeConfigurationData.DescriptionText;
-        }
-
-        public Sprite GetNodeIcon()
-        {
-            return SelectionWheelNodeConfigurationData.WheelNodeIcon;
         }
 
         #endregion

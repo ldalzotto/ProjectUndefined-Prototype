@@ -84,6 +84,7 @@
      <Compile Include="Assets\Common\~CoreGame\_Constants\StringConstants.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Constants\TagConstants.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Helpers\BoundsHelper.cs" />
+     <Compile Include="Assets\Common\~CoreGame\_Helpers\BufferedDictionary.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Helpers\ComponentSearchExtensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Helpers\ComponentSearchHelper.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Helpers\ComputeBufferHelper.cs" />

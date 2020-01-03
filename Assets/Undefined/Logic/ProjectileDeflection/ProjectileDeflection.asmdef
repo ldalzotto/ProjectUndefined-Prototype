@@ -10,7 +10,8 @@
         "Input",
         "GeometryIntersection",
         "ProjectileDeflection_Interface",
-        "RangeObjects"
+        "RangeObjects",
+        "PlayerActions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
