@@ -1,9 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using CoreGame;
-using PlayerObject_Interfaces;
-using SelectionWheel;
-using UnityEngine;
+using InteractiveObjects;
+using UnityEngine.Profiling;
 
 namespace PlayerActions
 {
@@ -12,35 +11,45 @@ namespace PlayerActions
         private PlayerActionExecutionManager PlayerActionExecutionManager;
 
 
-        public PlayerActionPlayerSystem()
+        public PlayerActionPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject)
         {
             PlayerActionExecutionManager = new PlayerActionExecutionManager();
-            PlayerInteractiveObjectDestroyedEvent.Get().RegisterPlayerInteractiveObjectDestroyedEvent(this.OnPlayerObjectDestroyed);
+            AssociatedInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnAssociatedInteractiveObjectDestroyed);
         }
 
         public void FixedTick(float d)
         {
+            Profiler.BeginSample("PlayerActionPlayerSystem : FixedTick");
             PlayerActionExecutionManager.FixedTick(d);
+            Profiler.EndSample();
         }
 
         public void Tick(float d)
         {
+            Profiler.BeginSample("PlayerActionPlayerSystem : Tick");
             PlayerActionExecutionManager.Tick(d);
+            Profiler.EndSample();
         }
 
         public void AfterTicks(float d)
         {
+            Profiler.BeginSample("PlayerActionPlayerSystem : AfterTicks");
             PlayerActionExecutionManager.AfterTicks(d);
+            Profiler.EndSample();
         }
 
         public void TickTimeFrozen(float d)
         {
+            Profiler.BeginSample("PlayerActionPlayerSystem : TickTimeFrozen");
             PlayerActionExecutionManager.TickTimeFrozen(d);
+            Profiler.EndSample();
         }
 
         public void LateTick(float d)
         {
+            Profiler.BeginSample("PlayerActionPlayerSystem : LateTick");
             PlayerActionExecutionManager.LateTick(d);
+            Profiler.EndSample();
         }
 
         public void GizmoTick()
@@ -55,12 +64,14 @@ namespace PlayerActions
 
         public void ExecuteAction(PlayerAction rTPPlayerAction)
         {
+            Profiler.BeginSample("PlayerActionPlayerSystem : ExecuteAction");
             PlayerActionExecutionManager.ExecuteAction(rTPPlayerAction);
+            Profiler.EndSample();
         }
 
         #region External Events
 
-        private void OnPlayerObjectDestroyed()
+        private void OnAssociatedInteractiveObjectDestroyed(CoreInteractiveObject DestroyedInteractiveObject)
         {
             this.PlayerActionExecutionManager.StopAllActions();
         }
@@ -90,48 +101,77 @@ namespace PlayerActions
 
     #region Action execution
 
-    internal class PlayerActionExecutionManager
+    /// <summary>
+    /// Execute concurrently <see cref="PlayerAction"/> ordered by their types (<see cref="currentlyPlayingActions"/>).
+    /// When a <see cref="PlayerAction"/> is on cooldown (state tracked by <see cref="ActionsCooldownStates"/>), the action is not executed.
+    /// </summary>
+    class PlayerActionExecutionManager
     {
         private Dictionary<Type, PlayerAction> currentlyPlayingActions = new Dictionary<Type, PlayerAction>();
-        private Dictionary<Type, PlayerAction> onCooldownActions = new Dictionary<Type, PlayerAction>();
+        private Stack<KeyValuePair<Type, PlayerAction>> stoppedPlayerActionBuffer = new Stack<KeyValuePair<Type, PlayerAction>>();
+
+        private Dictionary<Type, CooldownActionState> ActionsCooldownStates = new Dictionary<Type, CooldownActionState>();
+        private Stack<KeyValuePair<Type, CooldownActionState>> ActionsCooldownStatesUpdateBuffer = new Stack<KeyValuePair<Type, CooldownActionState>>();
+        private Stack<Type> CooldownEndedBuffer = new Stack<Type>();
+
+
+        private BoolVariable CurrentlyPlayerActionsLocked;
+        private Stack<PlayerAction> LockedBufferPlayerActionsExecuted = new Stack<PlayerAction>();
 
         public PlayerActionExecutionManager()
         {
+            this.CurrentlyPlayerActionsLocked = new BoolVariable(false, onJustSetToFalse: this.OnCurrentlyPlayingActionsUnlocked);
         }
 
         public void ExecuteAction(PlayerAction PlayerAction)
         {
-            var playerActionType = PlayerAction.GetType();
-            if (!this.onCooldownActions.ContainsKey(playerActionType))
+            if (this.CurrentlyPlayerActionsLocked.GetValue())
             {
-                if (this.currentlyPlayingActions.ContainsKey(playerActionType))
+                this.LockedBufferPlayerActionsExecuted.Push(PlayerAction);
+            }
+            else
+            {
+                this.LockCurrentlyPlayingActions();
+
+
+                var playerActionType = PlayerAction.GetType();
+                if (this.IsActionOfTypeAllowedToBePlaying(playerActionType))
                 {
-                    this.StopAction(this.currentlyPlayingActions[playerActionType]);
+                    if (this.currentlyPlayingActions.ContainsKey(playerActionType))
+                    {
+                        this.StopAction(this.currentlyPlayingActions[playerActionType]);
+                    }
+
+                    this.currentlyPlayingActions[playerActionType] = PlayerAction;
+                    this.ActionsCooldownStates[playerActionType] = new CooldownActionState(PlayerAction.CorePlayerActionDefinition);
+
+                    PlayerAction.FirstExecution();
                 }
 
-                this.currentlyPlayingActions[playerActionType] = PlayerAction;
-
-                if (PlayerAction.CooldownFeatureEnabled())
-                {
-                    this.onCooldownActions[playerActionType] = PlayerAction;
-                }
-
-                PlayerAction.FirstExecution();
+                this.UnLockCurrentlyPlayingActions();
             }
         }
 
         public void FixedTick(float d)
         {
+            this.LockCurrentlyPlayingActions();
+
             foreach (var playingPlayerAction in currentlyPlayingActions.Values)
                 playingPlayerAction.FixedTick(d);
+
+            this.UnLockCurrentlyPlayingActions();
 
             this.DiscardFinishedSkillActions();
         }
 
         public void Tick(float d)
         {
+            this.LockCurrentlyPlayingActions();
+
             foreach (var playingPlayerAction in currentlyPlayingActions.Values)
                 playingPlayerAction.Tick(d);
+
+            this.UnLockCurrentlyPlayingActions();
 
             this.DiscardFinishedSkillActions();
             this.UpdateCooldowns(d);
@@ -139,78 +179,77 @@ namespace PlayerActions
 
         public void AfterTicks(float d)
         {
+            this.LockCurrentlyPlayingActions();
+
             foreach (var playingPlayerAction in currentlyPlayingActions.Values)
                 playingPlayerAction.AfterTicks(d);
 
+            this.UnLockCurrentlyPlayingActions();
             this.DiscardFinishedSkillActions();
         }
 
         public void TickTimeFrozen(float d)
         {
+            this.LockCurrentlyPlayingActions();
+
             foreach (var playingPlayerAction in currentlyPlayingActions.Values)
                 playingPlayerAction.TickTimeFrozen(d);
 
+            this.UnLockCurrentlyPlayingActions();
             this.DiscardFinishedSkillActions();
         }
 
         public void LateTick(float d)
         {
+            this.LockCurrentlyPlayingActions();
+
             foreach (var playingPlayerAction in currentlyPlayingActions.Values)
                 playingPlayerAction.LateTick(d);
 
+            this.UnLockCurrentlyPlayingActions();
             this.DiscardFinishedSkillActions();
         }
 
         private void DiscardFinishedSkillActions()
         {
-            List<PlayerAction> finishedPlayerActions = null;
-            foreach (var playerAction in this.currentlyPlayingActions.Values)
+            foreach (var currentlyPlayingActionEntry in this.currentlyPlayingActions)
             {
-                if (playerAction.FinishedCondition())
+                if (currentlyPlayingActionEntry.Value.FinishedCondition())
                 {
-                    if (finishedPlayerActions == null)
-                    {
-                        finishedPlayerActions = new List<PlayerAction>();
-                    }
-
-                    finishedPlayerActions.Add(playerAction);
+                    this.stoppedPlayerActionBuffer.Push(currentlyPlayingActionEntry);
                 }
             }
 
-            if (finishedPlayerActions != null)
+            while (this.stoppedPlayerActionBuffer.Count > 0)
             {
-                foreach (var finishedPlayerAction in finishedPlayerActions)
-                {
-                    this.StopAction(finishedPlayerAction);
-                }
+                this.StopAction(this.stoppedPlayerActionBuffer.Pop().Value);
             }
         }
 
         private void UpdateCooldowns(float d)
         {
-            List<PlayerAction> CooldownEndedPlayerActions = null;
-
-            foreach (var playingPlayerAction in onCooldownActions.Values)
+            foreach (var cooldownActionState in this.ActionsCooldownStates)
             {
-                playingPlayerAction.CoolDownTick(d);
-                if (!playingPlayerAction.IsOnCoolDown())
-                {
-                    if (CooldownEndedPlayerActions == null)
-                    {
-                        CooldownEndedPlayerActions = new List<PlayerAction>();
-                    }
+                var cooldownState = cooldownActionState.Value;
+                cooldownState.Tick(d);
+                this.ActionsCooldownStatesUpdateBuffer.Push(new KeyValuePair<Type, CooldownActionState>(cooldownActionState.Key, cooldownState));
 
-                    CooldownEndedPlayerActions.Add(playingPlayerAction);
+                if (!cooldownState.IsOnCooldown())
+                {
+                    this.CooldownEndedBuffer.Push(cooldownActionState.Key);
                 }
             }
 
-
-            if (CooldownEndedPlayerActions != null)
+            while (this.ActionsCooldownStatesUpdateBuffer.Count > 0)
             {
-                foreach (var type in CooldownEndedPlayerActions)
-                {
-                    this.onCooldownActions.Remove(type.GetType());
-                }
+                var actionCooldownStateEntry = this.ActionsCooldownStatesUpdateBuffer.Pop();
+                this.ActionsCooldownStates[actionCooldownStateEntry.Key] = actionCooldownStateEntry.Value;
+            }
+
+
+            while (this.CooldownEndedBuffer.Count > 0)
+            {
+                this.ActionsCooldownStates.Remove(this.CooldownEndedBuffer.Pop());
             }
         }
 
@@ -230,16 +269,31 @@ namespace PlayerActions
             this.currentlyPlayingActions.Remove(playerAction.GetType());
         }
 
+        private void LockCurrentlyPlayingActions()
+        {
+            this.CurrentlyPlayerActionsLocked.SetValue(true);
+        }
+
+        private void UnLockCurrentlyPlayingActions()
+        {
+            this.CurrentlyPlayerActionsLocked.SetValue(false);
+        }
+
+        private void OnCurrentlyPlayingActionsUnlocked()
+        {
+            while (this.LockedBufferPlayerActionsExecuted.Count > 0)
+            {
+                this.ExecuteAction(this.LockedBufferPlayerActionsExecuted.Pop());
+            }
+        }
+
         public void StopAllActions()
         {
             foreach (var playingPlayerAction in currentlyPlayingActions.Values)
                 playingPlayerAction.Dispose();
 
-            foreach (var onCooldownPlayerAction in onCooldownActions.Values)
-                onCooldownPlayerAction.Dispose();
-
             this.currentlyPlayingActions.Clear();
-            this.onCooldownActions.Clear();
+            this.ActionsCooldownStates.Clear();
         }
 
         #region Logical Conditions
@@ -251,7 +305,7 @@ namespace PlayerActions
 
         public bool IsActionOfTypeAllowedToBePlaying(Type actionType)
         {
-            return !this.DoesActionOfTypeIsPlaying(actionType) && !this.onCooldownActions.ContainsKey(actionType);
+            return !this.DoesActionOfTypeIsPlaying(actionType) && (!this.ActionsCooldownStates.ContainsKey(actionType) || !this.ActionsCooldownStates[actionType].IsOnCooldown());
         }
 
         public bool DoesActionsAllowMovement()
@@ -270,85 +324,36 @@ namespace PlayerActions
         #endregion
     }
 
-    #endregion
-
-    /*
-    #region RTPPlayer actions availability
-
-    internal class PlayerActionsAvailableManager
+    struct CooldownActionState
     {
-        private MultiValueDictionary<PlayerActionType, PlayerAction> currentAvailableActions;
+        public bool CooldownFeatureEnabled;
 
-        public PlayerActionsAvailableManager()
+        private float TargetCooldownTime;
+        private float CurrentTimeElapsed;
+
+        public CooldownActionState(CorePlayerActionDefinition CorePlayerActionDefinition)
         {
-            currentAvailableActions = new MultiValueDictionary<PlayerActionType, PlayerAction>();
-        }
+            this.CooldownFeatureEnabled = CorePlayerActionDefinition.CooldownEnabled;
+            this.TargetCooldownTime = 0f;
 
-        public MultiValueDictionary<PlayerActionType, PlayerAction> CurrentAvailableActions => currentAvailableActions;
-
-        public void Tick(float d, float timeAttenuation)
-        {
-            foreach (var availableAction in currentAvailableActions.MultiValueGetValues())
-                if (availableAction.IsOnCoolDown())
-                    availableAction.CoolDownTick(d * timeAttenuation);
-        }
-
-        public void AddActionToAvailable(PlayerAction rTPPlayerActionToAdd)
-        {
-            currentAvailableActions.MultiValueAdd(rTPPlayerActionToAdd.PlayerActionType, rTPPlayerActionToAdd);
-        }
-
-        public void RemoveActionToAvailable(PlayerAction rTPPlayerActionToRemove)
-        {
-            currentAvailableActions.MultiValueRemove(rTPPlayerActionToRemove.PlayerActionType, rTPPlayerActionToRemove);
-        }
-
-        public void IncreaseOrAddActionsRemainingExecutionAmount(PlayerAction playerAction, int deltaRemaining)
-        {
-            if (playerAction.PlayerActionType != PlayerActionType.UNCLASSIFIED)
+            if (this.CooldownFeatureEnabled)
             {
-                currentAvailableActions.TryGetValue(playerAction.PlayerActionType, out var retrievedActions);
-                if (retrievedActions != null && retrievedActions.Count > 0)
-                    foreach (var action in retrievedActions)
-                        action.IncreaseActionRemainingExecutionAmount(deltaRemaining);
-                else //Wa add
-                    currentAvailableActions.MultiValueAdd(playerAction.PlayerActionType, playerAction);
+                TargetCooldownTime = CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime;
             }
-            else //Wa add
-            {
-                currentAvailableActions.MultiValueAdd(playerAction.PlayerActionType, playerAction);
-            }
+
+            CurrentTimeElapsed = 0f;
+        }
+
+        public void Tick(float d)
+        {
+            this.CurrentTimeElapsed += d;
+        }
+
+        public bool IsOnCooldown()
+        {
+            return this.CooldownFeatureEnabled && (this.TargetCooldownTime > 0f && this.CurrentTimeElapsed <= this.TargetCooldownTime);
         }
     }
 
     #endregion
-
-    #region RTPPlayer action wheel node data
-
-    public class PlayerSelectionWheelNodeData : SelectionWheelNodeData
-    {
-        private PlayerAction playerAction;
-
-        public PlayerSelectionWheelNodeData(PlayerAction playerAction)
-        {
-            this.playerAction = playerAction;
-        }
-
-        public override object Data => playerAction;
-
-        public override bool IsOnCoolDown => playerAction.IsOnCoolDown();
-
-        public override float GetRemainingCooldownTime => playerAction.GetCooldownRemainingTime();
-
-        public override int GetRemainingExecutionAmount => playerAction.RemainingExecutionAmout;
-
-        public override bool CanNodeBeExecuted => playerAction.CanBeExecuted();
-
-        public override string NodeText => playerAction.GetDescriptionText();
-
-        public override Sprite NodeSprite => playerAction.GetNodeIcon();
-    }
-
-    #endregion
-    */
 }

@@ -63,7 +63,7 @@ namespace PlayerObject
         {
             this.PlayerInteractiveObjectDefinition = PlayerInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
-            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem();
+            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem(this);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(
                 this,
                 new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition),

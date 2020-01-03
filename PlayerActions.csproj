@@ -619,10 +619,6 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
-      <Name>PlayerObject_Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="SelectionWheel.csproj">
       <Project>{D0455BEA-A22B-EC6B-0746-2A67B677001C}</Project>
       <Name>SelectionWheel</Name>
@@ -642,6 +638,10 @@
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
+      <Name>InteractiveObjects</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>

@@ -1,13 +1,13 @@
 {
     "name": "PlayerActions",
     "references": [
-        "PlayerObject_Interface",
         "SelectionWheel",
         "CoreGame",
         "OdinSerializer",
         "SelectableObjects_Interfaces",
         "Editor_Common",
         "PlayerActions_Interfaces",
+        "InteractiveObjects",
         "InteractiveObjects_Interfaces"
     ],
     "includePlatforms": [],

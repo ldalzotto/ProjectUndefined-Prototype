@@ -31,8 +31,11 @@ namespace Weapon
         /// </summary>
         public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
         {
-            this.AssociatedInteractiveObjectPlayerActionPlayerSystem.ExecuteAction(
-                new ProjectileFireAction(new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
+            if (this.AssociatedInteractiveObjectPlayerActionPlayerSystem.IsActionOfTypeAllowedToBePlaying(typeof(ProjectileFireAction)))
+            {
+                this.AssociatedInteractiveObjectPlayerActionPlayerSystem.ExecuteAction(
+                    new ProjectileFireAction(new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
+            }
         }
 
         /// <summary>

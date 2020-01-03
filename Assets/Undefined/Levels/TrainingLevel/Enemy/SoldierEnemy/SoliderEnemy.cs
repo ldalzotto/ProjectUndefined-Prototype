@@ -31,7 +31,7 @@ namespace TrainingLevel
             parent.CreateAgent(SoliderEnemyDefinition.AIAgentDefinition);
             this.interactiveObjectTag = new InteractiveObjectTag() {IsTakingDamage = true};
             BaseInit(parent);
-            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem();
+            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem(this);
             this.HealthSystem = new HealthSystem(this, SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthChanged);
             this._stunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(SoliderEnemyDefinition.stunningDamageDealerReceiverSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this,

@@ -14,11 +14,8 @@ namespace PlayerActions
     {
         public CorePlayerActionDefinition CorePlayerActionDefinition { get; private set; }
 
-        private float onCooldownTimeElapsed;
         private bool isAborted;
 
-        //-1 is infinite
-        private int remainingExecutionAmout;
         private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
 
 
@@ -43,10 +40,7 @@ namespace PlayerActions
             SelectionWheelNodeConfigurationData = SelectionWheelNodeConfiguration.ConfigurationInherentData[CorePlayerActionDefinition.ActionWheelNodeConfigurationId];
 
             this.CorePlayerActionDefinition = CorePlayerActionDefinition;
-
-            //on init, it is available
-            onCooldownTimeElapsed = this.CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime * 2;
-            remainingExecutionAmout = this.CorePlayerActionDefinition.ExecutionAmount;
+            
             this.isAborted = false;
 
             this.OnPlayerActionStartedCallback = OnPlayerActionStartedCallback;
@@ -76,7 +70,6 @@ namespace PlayerActions
 
         public virtual void FirstExecution()
         {
-            this.PlayerActionConsumed();
             this.OnPlayerActionStartedCallback?.Invoke();
         }
 
@@ -86,44 +79,13 @@ namespace PlayerActions
             this.isAborted = true;
         }
 
-        public void CoolDownTick(float d)
-        {
-            onCooldownTimeElapsed += d;
-        }
-
-        private void PlayerActionConsumed()
-        {
-            onCooldownTimeElapsed = 0f;
-            if (remainingExecutionAmout > 0) remainingExecutionAmout -= 1;
-        }
-
-        public void IncreaseActionRemainingExecutionAmount(int deltaIncrease)
-        {
-            remainingExecutionAmout += deltaIncrease;
-        }
-
         #region Logical Conditions
 
         public bool CooldownFeatureEnabled()
         {
             return this.CorePlayerActionDefinition.CooldownEnabled;
         }
-        
-        public bool IsOnCoolDown()
-        {
-            return this.CooldownFeatureEnabled() && onCooldownTimeElapsed < this.CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime;
-        }
-
-        public bool CanBeExecuted()
-        {
-            return !IsOnCoolDown() && HasStillSomeExecutionAmount();
-        }
-
-        public bool HasStillSomeExecutionAmount()
-        {
-            return remainingExecutionAmout != 0;
-        }
-
+    
         public bool MovementAllowed()
         {
             return this.CorePlayerActionDefinition.MovementAllowed;
@@ -132,12 +94,7 @@ namespace PlayerActions
         #endregion
 
         #region Data Retrieval
-
-        public float GetCooldownRemainingTime()
-        {
-            return this.CorePlayerActionDefinition.CorePlayerActionCooldownDefinition.CoolDownTime - onCooldownTimeElapsed;
-        }
-
+        
         public SelectionWheelNodeConfigurationId GetSelectionWheelConfigurationId()
         {
             return CorePlayerActionDefinition.ActionWheelNodeConfigurationId;
@@ -152,8 +109,6 @@ namespace PlayerActions
         {
             return SelectionWheelNodeConfigurationData.WheelNodeIcon;
         }
-
-        public int RemainingExecutionAmout => remainingExecutionAmout;
 
         #endregion
     }
