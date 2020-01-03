@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using CoreGame;
-using PlayerActions_Interfaces;
-using SelectionWheel;
-using UnityEngine;
-
-namespace PlayerActions
+﻿namespace PlayerActions
 {
     /*
     internal class PlayerActionWheelManager : GameSingleton<PlayerActionWheelManager>

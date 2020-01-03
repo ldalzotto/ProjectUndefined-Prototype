@@ -85,8 +85,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerLowHealth", "PlayerLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Obstacle", "Obstacle.csproj", "{AF1708AA-DA84-942E-089B-BE31D0291B7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillAction", "SkillAction.csproj", "{64463711-A4BF-061B-8DB0-9D466C1807AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorial", "Tutorial.csproj", "{99AC4B27-79E6-C51C-E104-026AD692345E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimatorPlayable_Tests", "AnimatorPlayable_Tests.csproj", "{66043932-61CD-D85E-F598-4B165AF51AAE}"
@@ -114,8 +112,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectileDeflection_Test", "ProjectileDeflection_Test.csproj", "{32663694-84BE-9412-EA5B-465D19BE121E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraManagement_Test", "CameraManagement_Test.csproj", "{40201C1A-1272-1193-0EB1-B37349174E03}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerActions_Interfaces", "PlayerActions_Interfaces.csproj", "{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectileDeflection_Interface", "ProjectileDeflection_Interface.csproj", "{0DF0C192-6A11-E879-ADF9-537F34408904}"
 EndProject
@@ -301,10 +297,6 @@ Global
 		{AF1708AA-DA84-942E-089B-BE31D0291B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1708AA-DA84-942E-089B-BE31D0291B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1708AA-DA84-942E-089B-BE31D0291B7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64463711-A4BF-061B-8DB0-9D466C1807AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64463711-A4BF-061B-8DB0-9D466C1807AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64463711-A4BF-061B-8DB0-9D466C1807AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64463711-A4BF-061B-8DB0-9D466C1807AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{99AC4B27-79E6-C51C-E104-026AD692345E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99AC4B27-79E6-C51C-E104-026AD692345E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99AC4B27-79E6-C51C-E104-026AD692345E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -361,10 +353,6 @@ Global
 		{40201C1A-1272-1193-0EB1-B37349174E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40201C1A-1272-1193-0EB1-B37349174E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40201C1A-1272-1193-0EB1-B37349174E03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DF0C192-6A11-E879-ADF9-537F34408904}.Release|Any CPU.ActiveCfg = Release|Any CPU

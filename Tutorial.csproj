@@ -638,10 +638,6 @@
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="PlayerActions_Interfaces.csproj">
-      <Project>{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}</Project>
-      <Name>PlayerActions_Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="SequencedAction.csproj">
       <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
       <Name>SequencedAction</Name>

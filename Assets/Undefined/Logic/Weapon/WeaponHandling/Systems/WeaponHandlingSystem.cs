@@ -1,6 +1,5 @@
-﻿using Firing;
-using InteractiveObjects;
-using SkillAction;
+﻿using InteractiveObjects;
+using PlayerActions;
 using UnityEngine;
 
 namespace Weapon
@@ -16,10 +15,14 @@ namespace Weapon
     {
         public WeaponHandlingSystemInitializationData WeaponHandlingSystemInitializationData;
         private Weapon WeaponReference;
+        private PlayerActionPlayerSystem AssociatedInteractiveObjectPlayerActionPlayerSystem;
 
-        public WeaponHandlingSystem(CoreInteractiveObject AssociatedInteractiveObject, WeaponHandlingSystemInitializationData weaponHandlingSystemInitializationData)
+        public WeaponHandlingSystem(CoreInteractiveObject AssociatedInteractiveObject,
+            WeaponHandlingSystemInitializationData weaponHandlingSystemInitializationData,
+            PlayerActionPlayerSystem AssociatedInteractiveObjectPlayerActionPlayerSystem)
         {
             WeaponHandlingSystemInitializationData = weaponHandlingSystemInitializationData;
+            this.AssociatedInteractiveObjectPlayerActionPlayerSystem = AssociatedInteractiveObjectPlayerActionPlayerSystem;
             this.WeaponReference = this.WeaponHandlingSystemInitializationData.WeaponDefinition.BuildWeapon(AssociatedInteractiveObject);
         }
 
@@ -28,14 +31,8 @@ namespace Weapon
         /// </summary>
         public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
         {
-            if (this.WeaponReference.WeaponHolder is IEM_SkillActionExecution interactiveObject_GameActionExection_Casted)
-            {
-                if (interactiveObject_GameActionExection_Casted.ActionAuthorizedToBeExecuted(this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition))
-                {
-                    interactiveObject_GameActionExection_Casted.ExecuteSkillAction(new ProjectileFireAction(
-                        new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
-                }
-            }
+            this.AssociatedInteractiveObjectPlayerActionPlayerSystem.ExecuteAction(
+                new ProjectileFireAction(new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
         }
 
         /// <summary>

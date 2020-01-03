@@ -3,7 +3,7 @@ using Damage;
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
-using SkillAction;
+using PlayerActions;
 using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
@@ -12,7 +12,7 @@ using Weapon;
 
 namespace TrainingLevel
 {
-    public class SoliderEnemy : CoreInteractiveObject, IEM_SkillActionExecution
+    public class SoliderEnemy : CoreInteractiveObject
     {
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
@@ -23,7 +23,7 @@ namespace TrainingLevel
         private SoliderEnemyAnimationStateManager SoliderEnemyAnimationStateManager;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
-        private SkillActionPlayerSystem SkillActionPlayerSystem;
+        private PlayerActionPlayerSystem PlayerActionPlayerSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -31,16 +31,18 @@ namespace TrainingLevel
             parent.CreateAgent(SoliderEnemyDefinition.AIAgentDefinition);
             this.interactiveObjectTag = new InteractiveObjectTag() {IsTakingDamage = true};
             BaseInit(parent);
+            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem();
             this.HealthSystem = new HealthSystem(this, SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthChanged);
             this._stunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(SoliderEnemyDefinition.stunningDamageDealerReceiverSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
-            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
-                SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(this,
+                new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
+                    SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition),
+                this.PlayerActionPlayerSystem);
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, new UnConstrainedObjectSpeedAttenuationValueSystem(AIMovementSpeedAttenuationFactor.RUN), ObjectSpeedCalculationType.AGENT);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
             this.SoliderEnemyAnimationStateManager = new SoliderEnemyAnimationStateManager(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.SoldierAnimationSystemDefinition);
             this._soldierStateBehavior = new SoldierStateBehavior();
-            this.SkillActionPlayerSystem = new SkillActionPlayerSystem();
 
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
@@ -61,22 +63,20 @@ namespace TrainingLevel
 
         public override void Tick(float d)
         {
-            this.SkillActionPlayerSystem.BeforeInteractiveObjectTick(d);
-
-            this.SkillActionPlayerSystem.Tick(d);
+            this.PlayerActionPlayerSystem.Tick(d);
             this._stunningDamageDealerReceiverSystem.Tick(d);
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 this._soldierStateBehavior.Tick(d);
                 this.AIMoveToDestinationSystem.Tick(d);
             }
-
-            this.SkillActionPlayerSystem.AfterInteractiveObjectTick(d);
         }
 
         public override void AfterTicks(float d)
         {
+            this.PlayerActionPlayerSystem.AfterTicks(d);
             this.ObjectMovementSpeedSystem.AfterTicks();
+
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 this.SoliderEnemyAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
@@ -185,19 +185,5 @@ namespace TrainingLevel
         public override void Init()
         {
         }
-
-        #region IEM_GameActionExecution
-
-        public void ExecuteSkillAction(SkillAction.SkillAction SkillAction)
-        {
-            this.SkillActionPlayerSystem.ExecuteGameAction(SkillAction);
-        }
-
-        public bool ActionAuthorizedToBeExecuted<T>(T SkillActionDefinition) where T : SkillActionDefinition
-        {
-            return this.SkillActionPlayerSystem.ActionAuthorizedToBeExecuted(SkillActionDefinition);
-        }
-
-        #endregion
     }
 }

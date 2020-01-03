@@ -723,10 +723,6 @@
       <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
       <Name>PlayerLowHealth_Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="SkillAction.csproj">
-      <Project>{64463711-A4BF-061B-8DB0-9D466C1807AA}</Project>
-      <Name>SkillAction</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

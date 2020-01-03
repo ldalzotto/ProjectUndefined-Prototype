@@ -728,10 +728,6 @@
       <Project>{E5028A06-DC12-C9D4-BA85-709C2A9676FE}</Project>
       <Name>SoldierAnimation</Name>
     </ProjectReference>
-    <ProjectReference Include="SkillAction.csproj">
-      <Project>{64463711-A4BF-061B-8DB0-9D466C1807AA}</Project>
-      <Name>SkillAction</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

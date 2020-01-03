@@ -1,5 +1,4 @@
 ﻿using System;
-using AnimatorPlayable;
 using Damage;
 using Firing;
 using Health;
@@ -11,15 +10,13 @@ using PlayerActions;
 using PlayerLowHealth;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
-using SkillAction;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon;
 
 namespace PlayerObject
 {
-    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject, IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod,
-        IEM_SkillActionExecution
+    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject, IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
@@ -32,7 +29,6 @@ namespace PlayerObject
         private HealthSystem HealthSystem;
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
         private LowHealthPlayerSystem lowHealthPlayerSystem;
-        private SkillActionPlayerSystem SkillActionPlayerSystem;
 
         public LowHealthPlayerSystem LowHealthPlayerSystem => this.lowHealthPlayerSystem;
 
@@ -68,12 +64,14 @@ namespace PlayerObject
             this.PlayerInteractiveObjectDefinition = PlayerInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
             this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem();
-            this.WeaponHandlingSystem = new WeaponHandlingSystem(this, new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
+            this.WeaponHandlingSystem = new WeaponHandlingSystem(
+                this,
+                new WeaponHandlingSystemInitializationData(this, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition, PlayerInteractiveObjectDefinition.WeaponHandlingSystemDefinition.WeaponDefinition),
+                this.PlayerActionPlayerSystem);
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(PlayerInteractiveObjectDefinition.FiringTargetPositionSystemDefinition);
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
-            this.SkillActionPlayerSystem = new SkillActionPlayerSystem();
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,
                 OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
@@ -138,8 +136,6 @@ namespace PlayerObject
 
             base.FixedTick(d);
 
-            this.SkillActionPlayerSystem.FixedTick(d);
-
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
             {
                 this.projectileDeflectionSystem.FixedTick(d);
@@ -154,7 +150,6 @@ namespace PlayerObject
         public override void Tick(float d)
         {
             this.PlayerActionPlayerSystem.Tick(d);
-            this.SkillActionPlayerSystem.Tick(d);
 
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
@@ -420,15 +415,5 @@ namespace PlayerObject
         }
 
         #endregion
-
-        public void ExecuteSkillAction(SkillAction.SkillAction SkillAction)
-        {
-            this.SkillActionPlayerSystem.ExecuteGameAction(SkillAction);
-        }
-
-        public bool ActionAuthorizedToBeExecuted<T>(T SkillActionDefinition) where T : SkillActionDefinition
-        {
-            return this.SkillActionPlayerSystem.ActionAuthorizedToBeExecuted(SkillActionDefinition);
-        }
     }
 }

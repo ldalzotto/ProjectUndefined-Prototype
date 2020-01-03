@@ -8,7 +8,7 @@
         "CoreGame",
         "InteractiveObject_Animation",
         "Projectile",
-        "SkillAction"
+        "PlayerActions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

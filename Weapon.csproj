@@ -57,8 +57,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Weapon\Events\SpawnFiringProjectileEvent.cs" />
-     <Compile Include="Assets\Undefined\Logic\Weapon\SkillAction\ProjectileFireAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Weapon\SkillAction\ProjectileFireActionDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\PlayerAction\ProjectileFireAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\PlayerAction\ProjectileFireActionDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\Weapon.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\WeaponDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\WeaponHandling\Systems\FiringTargetPositionSystem.cs" />
@@ -652,9 +652,9 @@
       <Project>{96AFB094-7938-0963-79F3-1171A54B269B}</Project>
       <Name>Projectile</Name>
     </ProjectReference>
-    <ProjectReference Include="SkillAction.csproj">
-      <Project>{64463711-A4BF-061B-8DB0-9D466C1807AA}</Project>
-      <Name>SkillAction</Name>
+    <ProjectReference Include="PlayerActions.csproj">
+      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
+      <Name>PlayerActions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

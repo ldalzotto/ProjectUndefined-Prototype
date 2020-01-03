@@ -643,10 +643,6 @@
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
     </ProjectReference>
-    <ProjectReference Include="PlayerActions_Interfaces.csproj">
-      <Project>{9CEFD488-C77F-0B2C-56B9-9AD970A56FC8}</Project>
-      <Name>PlayerActions_Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>

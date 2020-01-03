@@ -1,8 +1,7 @@
-﻿using Firing;
-using InteractiveObjects;
-using SkillAction;
+﻿using System;
+using Firing;
+using PlayerActions;
 using UnityEngine;
-using Weapon;
 
 namespace Weapon
 {
@@ -20,24 +19,49 @@ namespace Weapon
         }
     }
 
-    public class ProjectileFireAction : SkillAction.SkillAction
+    public class ProjectileFireAction : PlayerAction
     {
         private ProjectileFireActionInputData ProjectileFireActionInputData;
 
-        public ProjectileFireAction(ProjectileFireActionInputData ProjectileFireActionInputData) : base(ProjectileFireActionInputData.ProjectileFireActionDefinition)
+        public ProjectileFireAction(ProjectileFireActionInputData ProjectileFireActionInputData,
+            Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null) : base(ProjectileFireActionInputData.ProjectileFireActionDefinition.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
             this.ProjectileFireActionInputData = ProjectileFireActionInputData;
         }
 
-        public override void OnActionStart()
+        public override bool FinishedCondition()
+        {
+            return true;
+        }
+
+        public override void FirstExecution()
         {
             FiringProjectilePathCalculation.CalculateProjectilePath_ToDirection(this.ProjectileFireActionInputData.WeaponReference.WeaponHolder, this.ProjectileFireActionInputData.NormalizedWorldDirection, out Vector3 firedProjectilePosition, out Quaternion firedProjectileRotation);
             this.ProjectileFireActionInputData.WeaponReference.SpawnFiredProjectile(new TransformStruct() {WorldPosition = firedProjectilePosition, WorldRotationEuler = firedProjectileRotation.eulerAngles});
         }
 
-        public override bool HasEnded()
+        public override void Tick(float d)
         {
-            return true;
+        }
+
+        public override void AfterTicks(float d)
+        {
+        }
+
+        public override void TickTimeFrozen(float d)
+        {
+        }
+
+        public override void LateTick(float d)
+        {
+        }
+
+        public override void GUITick()
+        {
+        }
+
+        public override void GizmoTick()
+        {
         }
     }
 }

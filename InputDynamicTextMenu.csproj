@@ -665,10 +665,6 @@
       <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
       <Name>PlayerActions</Name>
     </ProjectReference>
-    <ProjectReference Include="SkillAction.csproj">
-      <Project>{64463711-A4BF-061B-8DB0-9D466C1807AA}</Project>
-      <Name>SkillAction</Name>
-    </ProjectReference>
     <ProjectReference Include="Weapon.csproj">
       <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
       <Name>Weapon</Name>
