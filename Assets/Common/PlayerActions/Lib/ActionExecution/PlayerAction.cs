@@ -13,8 +13,9 @@ namespace PlayerActions
     public abstract class PlayerAction
     {
         public CorePlayerActionDefinition CorePlayerActionDefinition { get; private set; }
-
-        private bool isAborted;
+        public abstract string PlayerActionUniqueID { get; }
+        
+        public bool IsAborted { get; private set; }
 
         private SelectionWheelNodeConfigurationData SelectionWheelNodeConfigurationData;
 
@@ -40,8 +41,8 @@ namespace PlayerActions
             SelectionWheelNodeConfigurationData = SelectionWheelNodeConfiguration.ConfigurationInherentData[CorePlayerActionDefinition.ActionWheelNodeConfigurationId];
 
             this.CorePlayerActionDefinition = CorePlayerActionDefinition;
-            
-            this.isAborted = false;
+
+            this.IsAborted = false;
 
             this.OnPlayerActionStartedCallback = OnPlayerActionStartedCallback;
             this.OnPlayerActionEndCallback = OnPlayerActionEndCallback;
@@ -49,7 +50,7 @@ namespace PlayerActions
 
         public virtual bool FinishedCondition()
         {
-            return this.isAborted;
+            return this.IsAborted;
         }
 
         public virtual void FixedTick(float d)
@@ -76,7 +77,7 @@ namespace PlayerActions
         public void Abort()
         {
             this.Dispose();
-            this.isAborted = true;
+            this.IsAborted = true;
         }
 
         #region Logical Conditions
@@ -85,7 +86,7 @@ namespace PlayerActions
         {
             return this.CorePlayerActionDefinition.CooldownEnabled;
         }
-    
+
         public bool MovementAllowed()
         {
             return this.CorePlayerActionDefinition.MovementAllowed;
@@ -94,7 +95,7 @@ namespace PlayerActions
         #endregion
 
         #region Data Retrieval
-        
+
         public SelectionWheelNodeConfigurationId GetSelectionWheelConfigurationId()
         {
             return CorePlayerActionDefinition.ActionWheelNodeConfigurationId;

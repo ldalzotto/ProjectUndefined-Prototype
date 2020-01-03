@@ -11,6 +11,8 @@ namespace Firing
 {
     public class FiringPlayerAction : PlayerAction
     {
+        public const string FiringPlayerActionUniqueID = "FiringPlayerAction";
+
         private CoreInteractiveObject FiringInteractiveObject;
         private FiringPlayerActionInherentData FiringPlayerActionInherentData;
 
@@ -44,6 +46,11 @@ namespace Firing
         public override void FirstExecution()
         {
             base.FirstExecution();
+        }
+
+        public override string PlayerActionUniqueID
+        {
+            get { return FiringPlayerActionUniqueID; }
         }
 
         public override bool FinishedCondition()

@@ -195,12 +195,12 @@ namespace PlayerObject
         /// </summary>
         private void PlayerActionTriggering()
         {
-            if (!this.PlayerActionPlayerSystem.DoesActionOfTypeIsPlaying(typeof(FiringPlayerAction)) && !BlockingCutscenePlayer.Playing &&
+            if (!this.PlayerActionPlayerSystem.DoesActionOfTypeIsPlaying(FiringPlayerAction.FiringPlayerActionUniqueID) && !BlockingCutscenePlayer.Playing &&
                 !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 if (this.GameInputManager.CurrentInput.FiringActionDown())
                 {
-                    if (this.PlayerActionPlayerSystem.IsActionOfTypeAllowedToBePlaying(typeof(FiringPlayerAction)))
+                    if (this.PlayerActionPlayerSystem.IsActionOfTypeAllowedToBePlaying(FiringPlayerAction.FiringPlayerActionUniqueID))
                     {
                         this.PlayerActionPlayerSystem.ExecuteAction(new FiringPlayerAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData, this,
                             OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart, OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped));

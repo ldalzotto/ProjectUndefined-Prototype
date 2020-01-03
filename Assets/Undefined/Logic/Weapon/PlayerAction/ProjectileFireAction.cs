@@ -21,12 +21,18 @@ namespace Weapon
 
     public class ProjectileFireAction : PlayerAction
     {
+        public const string ProjectileFireActionUniqueID = "ProjectileFireAction";
         private ProjectileFireActionInputData ProjectileFireActionInputData;
 
         public ProjectileFireAction(ProjectileFireActionInputData ProjectileFireActionInputData,
             Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null) : base(ProjectileFireActionInputData.ProjectileFireActionDefinition.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
             this.ProjectileFireActionInputData = ProjectileFireActionInputData;
+        }
+
+        public override string PlayerActionUniqueID
+        {
+            get { return ProjectileFireActionUniqueID; }
         }
 
         public override bool FinishedCondition()
