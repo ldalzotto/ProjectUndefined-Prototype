@@ -9,6 +9,7 @@ namespace PlayerObject
 {
     /// <summary>
     /// Process Input to calculate <see cref="PlayerInteractiveObject"/> <see cref="Rigidbody"/> rotation and velocity.
+    /// /!\ As the player transform is physics based, all updates are done inside the <see cref="FixedTick"/>.
     /// </summary>
     public class PlayerRigidBodyMoveManager : APlayerMoveManager
     {
@@ -36,17 +37,12 @@ namespace PlayerObject
             this.DoCalculations();
         }
 
-        public override void Tick(float d)
-        {
-            base.Tick(d);
-            this.DoCalculations();
-        }
-
         public override void LateTick(float d)
         {
             this.physicsUpdated = false;
         }
 
+        /// /!\ As the player transform is physics based, all updates are done inside the <see cref="FixedTick"/>.
         private void DoCalculations()
         {
             if (!this.physicsUpdated)
@@ -70,7 +66,7 @@ namespace PlayerObject
         private void ApplyPlayerMovementConstraints()
         {
             this.CurrentConstraint.ApplyConstraint(ref this.PlayerRigidBody);
-            
+
             /// Constraints are consumed every frame.
             this.CurrentConstraint = new NoConstraint();
         }

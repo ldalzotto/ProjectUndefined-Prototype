@@ -35,10 +35,11 @@ namespace Firing
             this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringInteractiveObject as IPlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
 
-            /// This is to change InteractiveObject rotation at the first frame of action execution
-            this.PlayerObjectOrientationSystem.Tick(0f);
-
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
+
+            /// Initialisation of states
+            this.Tick(0f);
+            this.AfterTicks(0f);
         }
 
         public override void FirstExecution()
@@ -72,7 +73,6 @@ namespace Firing
             if (!this.ExitActionSystem.ActionFinished)
             {
                 this.FiringPlayerActionTargetSystem.Tick(d);
-                this.PlayerObjectOrientationSystem.Tick(d);
             }
 
             Profiler.EndSample();
@@ -104,10 +104,9 @@ namespace Firing
             }
         }
 
-
         public override void LateTick(float d)
         {
-            this.PlayerObjectOrientationSystem.LateTick(d);
+            
         }
 
         public override void Dispose()
@@ -157,8 +156,6 @@ namespace Firing
             this.TargetPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
             this.DottedVisualFeeback = GameObject.Instantiate(firingPlayerActionInherentDataRef.GroundConeVisualFeedbackPrefab);
             this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(this.OnCurrentlyTargettedInteractiveObjectChange);
-
-            this.Tick(0f);
         }
 
         public void Tick(float d)
@@ -243,41 +240,21 @@ namespace Firing
         private IPlayerInteractiveObject PlayerInteractiveObjectRef;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef;
 
-        private bool UpdatedThisFrame;
-
-
         public PlayerObjectOrientationSystem(IPlayerInteractiveObject PlayerInteractiveObjectRef,
             FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
         {
             this.PlayerInteractiveObjectRef = PlayerInteractiveObjectRef;
             this.FiringPlayerActionTargetSystemRef = FiringPlayerActionTargetSystemRef;
-            this.UpdatedThisFrame = false;
         }
-
 
         public void FixedTick(float d)
         {
-            if (!UpdatedThisFrame)
-            {
-                UpdatedThisFrame = true;
-                UpdatePlayerRotationConstraint();
-            }
+            UpdatePlayerRotationConstraint();
         }
 
-        public void Tick(float d)
-        {
-            if (!UpdatedThisFrame)
-            {
-                UpdatedThisFrame = true;
-                UpdatePlayerRotationConstraint();
-            }
-        }
-
-        public void LateTick(float d)
-        {
-            this.UpdatedThisFrame = false;
-        }
-
+        /// <summary>
+        /// /!\ The Player rotation constraint must be updated only in the fixed tick because the TargetDirection calculated in <see cref="FiringPlayerActionTargetSystem"/> is accurate only during the Physics step.
+        /// </summary>
         private void UpdatePlayerRotationConstraint()
         {
             var playerTransform = this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.transform;
