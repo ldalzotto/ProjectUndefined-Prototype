@@ -21,15 +21,27 @@ namespace Skill
         private GameInputManager GameInputManager = GameInputManager.Get();
 
         #endregion
-        
+
         private CoreInteractiveObject AssociatedInteractiveObject;
         private PlayerActionPlayerSystem PlayerActionPlayerSystem;
+
+        #region UI
+
+        private SkillSlotUI SkillSlotUI;
+
+        #endregion
 
         public SkillSlot(CoreInteractiveObject AssociatedInteractiveObject, PlayerActionPlayerSystem PlayerActionPlayerSystem, InputID AssociatedInput)
         {
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.PlayerActionPlayerSystem = PlayerActionPlayerSystem;
             this.AssociatedInput = AssociatedInput;
+            this.SkillSlotUI = new SkillSlotUI();
+        }
+
+        public void Destroy()
+        {
+            this.SkillSlotUI.Destroy();
         }
 
         /// <summary>
@@ -42,11 +54,12 @@ namespace Skill
             this.AssociatedPlayerActionInherentData = playerActionInherentData;
         }
 
-        public void ExecuteSkillIfInputPressed()
+        public void Tick(float d)
         {
-            if (this.GameInputManager.CurrentInput.EvaluateInputCondition(this.AssociatedInput))
+            if (this.AssociatedPlayerActionInherentData != null)
             {
-                if (this.AssociatedPlayerActionInherentData != null)
+                this.SkillSlotUI.SetCooldownProgress(this.PlayerActionPlayerSystem.GetCooldownPercentageOfPlayerAction(this.AssociatedPlayerActionInherentData.PlayerActionUniqueID));
+                if (this.GameInputManager.CurrentInput.EvaluateInputCondition(this.AssociatedInput))
                 {
                     this.PlayerActionPlayerSystem.ExecuteActionV2(this.AssociatedPlayerActionInherentData);
                 }

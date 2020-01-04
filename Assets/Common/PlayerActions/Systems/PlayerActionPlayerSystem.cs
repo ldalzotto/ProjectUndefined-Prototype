@@ -83,7 +83,7 @@ namespace PlayerActions
         {
             return this.PlayerActionExecutionManagerV2.DoesActionOfTypeIsPlaying(actionUniqueID);
         }
-        
+
         public bool DoesCurrentActionAllowsMovement()
         {
             return this.PlayerActionExecutionManagerV2.DoesCurrentActionAllowsMovement();
@@ -93,7 +93,7 @@ namespace PlayerActions
         {
             return this.PlayerActionExecutionManagerV2.IsActionOfTypeAllowedToBePlaying(actionUniqueID);
         }
-        
+
         #endregion
 
         #region Data Retrieval
@@ -101,6 +101,11 @@ namespace PlayerActions
         public PlayerAction GetPlayingPlayerActionReference(string actionUniqueID)
         {
             return this.PlayerActionExecutionManagerV2.GetPlayingPlayerActionReference(actionUniqueID);
+        }
+
+        public float GetCooldownPercentageOfPlayerAction(string actionUniqueID)
+        {
+            return this.PlayerActionExecutionManagerV2.GetCooldownPercentageOfPlayerAction(actionUniqueID);
         }
 
         #endregion
@@ -157,6 +162,11 @@ namespace PlayerActions
         {
             this.CooldownActionState.Tick(d);
         }
+
+        public float Get01CooldownCompletion()
+        {
+            return this.CooldownActionState.Get01CooldownCompletion();
+        }
     }
 
     struct CooldownActionState
@@ -187,6 +197,21 @@ namespace PlayerActions
         public bool IsOnCooldown()
         {
             return this.CooldownFeatureEnabled && (this.TargetCooldownTime > 0f && this.CurrentTimeElapsed <= this.TargetCooldownTime);
+        }
+
+        /// <summary>
+        /// 0 means that the cooldown has just started.
+        /// 1 means that the cooldown has ended
+        /// </summary>
+        /// <returns></returns>
+        public float Get01CooldownCompletion()
+        {
+            if (this.TargetCooldownTime == 0f)
+            {
+                return 1f;
+            }
+
+            return 1 - Mathf.Clamp01(((this.TargetCooldownTime - this.CurrentTimeElapsed) / this.TargetCooldownTime));
         }
     }
 
@@ -339,6 +364,12 @@ namespace PlayerActions
         {
             this.PlayerActionStates.TryGetValue(actionUniqueId, out PlayerActionState PlayerActionState);
             return PlayerActionState.GetPlayerActionReference();
+        }
+
+        public float GetCooldownPercentageOfPlayerAction(string actionUniqueId)
+        {
+            this.PlayerActionStates.TryGetValue(actionUniqueId, out PlayerActionState PlayerActionState);
+            return PlayerActionState.Get01CooldownCompletion();
         }
     }
 

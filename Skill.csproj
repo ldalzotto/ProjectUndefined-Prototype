@@ -57,6 +57,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlot\SkillSlot.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\Confguration\SkillSlotUIGlobalConfiguration.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\Confguration\SkillSlotUIGlobalConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\SkillSlotUI.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\TagTypes\SkillSlotUIBackgroundGameObject.cs" />
      <None Include="Assets\Undefined\Logic\Skill\Skill.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

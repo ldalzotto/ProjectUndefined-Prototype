@@ -159,7 +159,7 @@ namespace PlayerObject
         public override void Tick(float d)
         {
             this.PlayerActionPlayerSystem.Tick(d);
-            this.FiringProjectileSkillSlot.ExecuteSkillIfInputPressed();
+            this.FiringProjectileSkillSlot.Tick(d);
 
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
@@ -244,6 +244,8 @@ namespace PlayerObject
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
 
+            this.FiringProjectileSkillSlot.Destroy();
+            
             base.Destroy();
         }
 

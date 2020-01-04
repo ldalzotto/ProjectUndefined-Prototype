@@ -19,8 +19,10 @@
 
             #include "UnityCG.cginc"
 
+CBUFFER_START(UnityPerMaterial)
             half4 _Color;
             half _AttenuationPower;
+CBUFFER_END
 
             struct appdata
             {
