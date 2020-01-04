@@ -10,21 +10,23 @@ using PlayerActions;
 using PlayerLowHealth;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
+using Skill;
 using UnityEngine;
 using UnityEngine.AI;
 using Weapon;
 
 namespace PlayerObject
 {
-    public class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject, IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod
+    public partial class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject,
+        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod, IEM_PlayerActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
         #region Systems
 
-        private PlayerActionPlayerSystem PlayerActionPlayerSystem;
+        public PlayerActionPlayerSystem PlayerActionPlayerSystem { get; private set; }
         private PlayerObjectAnimationStateManager PlayerObjectAnimationStateManager;
-        private WeaponHandlingSystem WeaponHandlingSystem;
+        public WeaponHandlingSystem WeaponHandlingSystem { get; private set; }
         private FiringTargetPositionSystem FiringTargetPositionSystem;
         private HealthSystem HealthSystem;
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
@@ -38,6 +40,8 @@ namespace PlayerObject
         private PlayerVisualEffectSystem PlayerVisualEffectSystem;
 
         #endregion
+
+        private SkillSlot FiringProjectileSkillSlot;
 
         #region External Dependencies
 
@@ -75,6 +79,11 @@ namespace PlayerObject
             this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,
                 OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
+
+            /// TODO -> this must be moved to a player skill system
+            this.FiringProjectileSkillSlot = new SkillSlot(this, this.PlayerActionPlayerSystem, InputID.FIRING_PROJECTILE_DOWN_HOLD);
+            this.FiringProjectileSkillSlot.SwitchAssociatedPlayerAction(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
+            /// END
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
@@ -150,6 +159,7 @@ namespace PlayerObject
         public override void Tick(float d)
         {
             this.PlayerActionPlayerSystem.Tick(d);
+            this.FiringProjectileSkillSlot.ExecuteSkillIfInputPressed();
 
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
@@ -195,16 +205,14 @@ namespace PlayerObject
         /// </summary>
         private void PlayerActionTriggering()
         {
-            if (!this.PlayerActionPlayerSystem.DoesActionOfTypeIsPlaying(FiringPlayerAction.FiringPlayerActionUniqueID) && !BlockingCutscenePlayer.Playing &&
+            if (!this.PlayerActionPlayerSystem.IsActionOfTypeIsAlreadyPlaying(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData.PlayerActionUniqueID) && !BlockingCutscenePlayer.Playing &&
                 !this.StunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 if (this.GameInputManager.CurrentInput.FiringActionDown())
                 {
-                    if (this.PlayerActionPlayerSystem.IsActionOfTypeAllowedToBePlaying(FiringPlayerAction.FiringPlayerActionUniqueID))
-                    {
-                        this.PlayerActionPlayerSystem.ExecuteAction(new FiringPlayerAction(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData, this,
-                            OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart, OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped));
-                    }
+                    this.PlayerActionPlayerSystem.ExecuteActionV2(this.PlayerInteractiveObjectDefinition.FiringPlayerActionInherentData,
+                        OnPlayerActionStartedCallback: this.FiringPlayerActionEventListener.OnPlayerActionStart,
+                        OnPlayerActionEndCallback: this.FiringPlayerActionEventListener.OnPlayerActionStopped);
                 }
             }
         }
@@ -338,11 +346,6 @@ namespace PlayerObject
 
         #region Projectile Events
 
-        public override void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
-        {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
-        }
-
         public override Vector3 GetWeaponWorldFirePoint()
         {
             return this.WeaponHandlingSystem.GetWorldWeaponFirePoint();
@@ -415,5 +418,23 @@ namespace PlayerObject
         }
 
         #endregion
+    }
+
+    public partial class PlayerInteractiveObject : IEM_ProjectileFireActionInput_Retriever
+    {
+        public bool ProjectileFireActionEnabled()
+        {
+            return PlayerActionPlayerSystem.IsActionOfTypeIsAlreadyPlaying(FiringPlayerAction.FiringPlayerActionUniqueID);
+        }
+
+        public Vector3 GetCurrentTargetDirection()
+        {
+            if (PlayerActionPlayerSystem.GetPlayingPlayerActionReference(FiringPlayerAction.FiringPlayerActionUniqueID) is FiringPlayerAction firingPlayerActionReference)
+            {
+                return firingPlayerActionReference.GetCurrentTargetDirection();
+            }
+
+            return default;
+        }
     }
 }

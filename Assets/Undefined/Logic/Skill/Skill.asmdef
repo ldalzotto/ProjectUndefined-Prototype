@@ -1,14 +1,11 @@
 {
-    "name": "Weapon",
+    "name": "Skill",
     "references": [
+        "CoreGame",
         "OdinSerializer",
         "Editor_Common",
+        "Input",
         "InteractiveObjects",
-        "InteractiveObjects_Interfaces",
-        "CoreGame",
-        "InteractiveObject_Animation",
-        "Projectile",
-        "Firing",
         "PlayerActions"
     ],
     "includePlatforms": [],
@@ -18,5 +15,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

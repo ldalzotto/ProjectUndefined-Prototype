@@ -3,9 +3,10 @@ using System;
 namespace PlayerActions
 {
     /// <summary>
-    /// <see cref="PlayerAction"/> are an expansion of the PlayerObject. <br/>
+    /// <see cref="PlayerAction"/> are an expansion of the InteractiveObject. <br/>
     /// They allow to execute custom logic (with game loop callbacks) aside the associated InteractiveObject own logic. <br/>
-    /// PlayerAction adds an extra layer of dynamically stacking executable actions via the <see cref="PlayerActionPlayerSystem"/> and allow usage of a cooldown timer.
+    /// PlayerAction execution can be constrained with cooldown defined in <see cref="CorePlayerActionDefinition.CooldownEnabled"/>.
+    /// /!\ <see cref="PlayerAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
     /// </summary>
     public abstract class PlayerAction
     {
@@ -28,6 +29,9 @@ namespace PlayerActions
 
         #endregion
 
+        /// <summary>
+        /// /// /!\ <see cref="PlayerAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
+        /// </summary>
         protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition, Action OnPlayerActionStartedCallback = null,
             Action OnPlayerActionEndCallback = null)
         {
@@ -84,5 +88,9 @@ namespace PlayerActions
         }
 
         #endregion
+    }
+
+    public interface IPlayerActionInput
+    {
     }
 }

@@ -723,6 +723,10 @@
       <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
       <Name>PlayerLowHealth_Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="Skill.csproj">
+      <Project>{7187F9FE-2EC8-E23E-04FD-35444A46D23A}</Project>
+      <Name>Skill</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

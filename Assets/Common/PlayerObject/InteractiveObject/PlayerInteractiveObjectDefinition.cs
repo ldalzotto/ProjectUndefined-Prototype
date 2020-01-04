@@ -33,7 +33,7 @@ namespace PlayerObject
         [Inline()] public A_AnimationPlayableDefinition BaseLocomotionAnimationDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)] [DrawNested]
-        public FiringPlayerActionInherentData FiringPlayerActionInherentData;
+        public PlayerActionInherentData FiringPlayerActionInherentData;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public HealthSystemDefinition HealthSystemDefinition;

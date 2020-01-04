@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{23E18951-52D9-805B-06CD-2C3A05590E2D}</ProjectGuid>
+    <ProjectGuid>{3A868B03-8558-F31D-72F7-BAF1C0C4E7F1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>PlayerActions</AssemblyName>
+    <AssemblyName>PlayerSkill</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -56,13 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\PlayerActions\Configuration\PlayerActionInherentData.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Interface\IEM_PlayerActionPlayerSystem_Retriever.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Lib\ActionExecution\PlayerAction.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Lib\EventListener\PlayerActionEventListener.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Systems\PlayerActionPlayerSystem.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Systems\PlayerActionWheelManager.cs" />
-     <None Include="Assets\Common\PlayerActions\PlayerActions.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\PlayerSkill\System\PlayerSkillSystem.cs" />
+     <None Include="Assets\Undefined\Logic\PlayerSkill\PlayerSkill.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -624,25 +619,9 @@
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
-      <Name>OdinSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="SelectableObjects_Interfaces.csproj">
-      <Project>{9D4F68BE-F7D1-1FFB-9838-97E91125FC1D}</Project>
-      <Name>SelectableObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
-      <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
-      <Name>InteractiveObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
-      <Name>InteractiveObjects_Interfaces</Name>
+    <ProjectReference Include="PlayerActions.csproj">
+      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
+      <Name>PlayerActions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

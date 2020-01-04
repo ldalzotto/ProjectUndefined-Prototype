@@ -45,10 +45,11 @@ namespace Input
             private GameInputV2 gameInputV2;
             private CoreInputConfiguration CoreInputConfiguration;
 
-            internal GameInputV2 GameInputV2
+            public bool EvaluateInputCondition(InputID InputID)
             {
-                get => gameInputV2;
+                return this.gameInputV2.InputConditionsMet(InputID);
             }
+
 
             public GameInput(GameInputV2 gameInputV2, CoreInputConfiguration CoreInputConfiguration)
             {
@@ -65,6 +66,7 @@ namespace Input
             {
                 return this.gameInputV2.InputConditionsMet(InputID.CANCEL_DOWN);
             }
+
 
             public Vector3 LocomotionAxis()
             {
@@ -146,7 +148,6 @@ namespace Input
                 return this.gameInputV2.InputConditionsMet(InputID.DEFLECT_PROJECTILE_DOWN);
             }
         }
-
     }
 
     /// <summary>
@@ -192,9 +193,8 @@ namespace Input
         }
     }
 
-    class GameInputV2
+    public class GameInputV2
     {
-
         private InputControlLookup InputControlLookupRef;
         private InputConfiguration InputConfiguration;
 
@@ -203,7 +203,7 @@ namespace Input
             this.InputControlLookupRef = InputControlLookup.Get();
             InputConfiguration = inputConfiguration;
         }
-        
+
         public bool InputConditionsMet(InputID inputID)
         {
             return Convert.ToBoolean(InputConditionsMetFloat(inputID));
@@ -274,6 +274,7 @@ namespace Input
 
     public interface XInput
     {
+        bool EvaluateInputCondition(InputID InputID);
         Vector3 LocomotionAxis();
         Vector3 CursorDisplacement();
         bool RotationCameraDH();

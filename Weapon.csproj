@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Weapon\Events\SpawnFiringProjectileEvent.cs" />
+     <Compile Include="Assets\Undefined\Logic\Weapon\Interfaces\IEM_WeaponHandlingSystem_Retriever.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\PlayerAction\ProjectileFireAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\PlayerAction\ProjectileFireActionDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Weapon\Weapon\InteractiveObject\Weapon.cs" />
@@ -651,6 +652,10 @@
     <ProjectReference Include="Projectile.csproj">
       <Project>{96AFB094-7938-0963-79F3-1171A54B269B}</Project>
       <Name>Projectile</Name>
+    </ProjectReference>
+    <ProjectReference Include="Firing.csproj">
+      <Project>{49D37C45-08B6-E13E-25B7-CF264207D493}</Project>
+      <Name>Firing</Name>
     </ProjectReference>
     <ProjectReference Include="PlayerActions.csproj">
       <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>

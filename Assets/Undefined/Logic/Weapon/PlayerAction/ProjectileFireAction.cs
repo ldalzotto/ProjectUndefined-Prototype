@@ -5,20 +5,20 @@ using UnityEngine;
 
 namespace Weapon
 {
-    public struct ProjectileFireActionInputData
+    public struct ProjectileFireActionInputData : IPlayerActionInput
     {
         public Weapon WeaponReference;
-        public ProjectileFireActionDefinition ProjectileFireActionDefinition;
+        public PlayerActionInherentData ProjectileFireActionDefinition;
         public Vector3 NormalizedWorldDirection;
 
-        public ProjectileFireActionInputData(Weapon weaponReference, ProjectileFireActionDefinition projectileFireActionDefinition, Vector3 normalizedWorldDirection)
+        public ProjectileFireActionInputData(Weapon weaponReference, PlayerActionInherentData projectileFireActionDefinition, Vector3 normalizedWorldDirection)
         {
             WeaponReference = weaponReference;
             ProjectileFireActionDefinition = projectileFireActionDefinition;
             NormalizedWorldDirection = normalizedWorldDirection;
         }
     }
-
+    
     public class ProjectileFireAction : PlayerAction
     {
         public const string ProjectileFireActionUniqueID = "ProjectileFireAction";

@@ -2,6 +2,7 @@
 using Firing;
 using InteractiveObjects;
 using OdinSerializer;
+using PlayerActions;
 using UnityEngine;
 
 namespace Weapon
@@ -13,7 +14,7 @@ namespace Weapon
         [Inline()] public FiredProjectileDefinition FiredProjectileDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
-        public ProjectileFireActionDefinition ProjectileFireActionDefinition;
+        public PlayerActionInherentData ProjectileFireActionDefinition;
 
         public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)
         {

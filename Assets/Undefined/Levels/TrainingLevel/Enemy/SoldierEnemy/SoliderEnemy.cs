@@ -12,18 +12,18 @@ using Weapon;
 
 namespace TrainingLevel
 {
-    public class SoliderEnemy : CoreInteractiveObject
+    public partial class SoliderEnemy : CoreInteractiveObject, IEM_PlayerActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
     {
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
-        private WeaponHandlingSystem WeaponHandlingSystem;
+        public WeaponHandlingSystem WeaponHandlingSystem { get; private set; }
         private FiringTargetPositionSystem FiringTargetPositionSystem;
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
         private SoliderEnemyAnimationStateManager SoliderEnemyAnimationStateManager;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
-        private PlayerActionPlayerSystem PlayerActionPlayerSystem;
+        public PlayerActionPlayerSystem PlayerActionPlayerSystem { get; private set; }
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -53,7 +53,7 @@ namespace TrainingLevel
                     (IAgentMovementCalculationStrategy => this.SetDestination(IAgentMovementCalculationStrategy)),
                     this.SetAISpeedAttenuationFactor,
                     this.AIMoveToDestinationSystem.ClearPath,
-                    this.AskToFireAFiredProjectile_ToDirection,
+                    this.FireProjectileAction_Start,
                     () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                     this.OnShootingAtPlayerStart,
                     this.OnShootingAtPlayerEnd,
@@ -150,11 +150,6 @@ namespace TrainingLevel
 
         #region Projectile Events
 
-        public override void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection)
-        {
-            this.WeaponHandlingSystem.AskToFireAFiredProjectile_ToDirection(WorldDirection);
-        }
-
         public override Vector3 GetWeaponWorldFirePoint()
         {
             return this.WeaponHandlingSystem.GetWorldWeaponFirePoint();
@@ -184,6 +179,27 @@ namespace TrainingLevel
 
         public override void Init()
         {
+        }
+    }
+
+    public partial class SoliderEnemy : IEM_ProjectileFireActionInput_Retriever
+    {
+        private Vector3 LastTargetWorldDirection;
+
+        private void FireProjectileAction_Start(Vector3 WorldDirection)
+        {
+            this.LastTargetWorldDirection = WorldDirection;
+            this.PlayerActionPlayerSystem.ExecuteActionV2(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
+        }
+
+        public bool ProjectileFireActionEnabled()
+        {
+            return true;
+        }
+
+        public Vector3 GetCurrentTargetDirection()
+        {
+            return this.LastTargetWorldDirection;
         }
     }
 }

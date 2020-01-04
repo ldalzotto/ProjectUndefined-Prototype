@@ -90,6 +90,17 @@ namespace Tests
             return 0f;
         }
 
+        public bool EvaluateInputCondition(InputID InputID)
+        {
+            switch (InputID)
+            {
+                case InputID.FIRING_PROJECTILE_DOWN_HOLD:
+                    return this.FiringProjectileDH();
+            }
+
+            return false;
+        }
+
         public Vector3 LocomotionAxis()
         {
             return this.GameTestInputMockedValues.LocomotionAxis;

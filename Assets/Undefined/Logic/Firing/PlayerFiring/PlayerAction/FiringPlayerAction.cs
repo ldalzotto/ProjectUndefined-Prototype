@@ -19,18 +19,17 @@ namespace Firing
         private FiringLockSelectionSystem _firingLockSelectionSystem;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
-        private FiringProjectileTriggerSystem FiringProjectileTriggerSystem;
         private ExitActionSystem ExitActionSystem;
         private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
-        public FiringPlayerAction(FiringPlayerActionInherentData FiringPlayerActionInherentData, CoreInteractiveObject firingInteractiveObject,
+        public FiringPlayerAction(ref FiringPlayerActionInput FiringPlayerActionInput,
             Action OnPlayerActionStartedCallback,
-            Action OnPlayerActionEndCallback) : base(FiringPlayerActionInherentData.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
+            Action OnPlayerActionEndCallback) : base(FiringPlayerActionInput.FiringPlayerActionInherentData.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
-            this.FiringInteractiveObject = firingInteractiveObject;
+            this.FiringInteractiveObject = FiringPlayerActionInput.firingInteractiveObject;
 
             var gameInputManager = GameInputManager.Get();
-            this.FiringPlayerActionInherentData = FiringPlayerActionInherentData;
+            this.FiringPlayerActionInherentData = FiringPlayerActionInput.FiringPlayerActionInherentData;
 
             this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this.FiringPlayerActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
             this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
@@ -39,7 +38,6 @@ namespace Firing
             /// This is to change InteractiveObject rotation at the first frame of action execution
             this.PlayerObjectOrientationSystem.Tick(0f);
 
-            this.FiringProjectileTriggerSystem = new FiringProjectileTriggerSystem(gameInputManager, this.FiringInteractiveObject, this.FiringPlayerActionTargetSystem);
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
         }
 
@@ -75,7 +73,6 @@ namespace Firing
             {
                 this.FiringPlayerActionTargetSystem.Tick(d);
                 this.PlayerObjectOrientationSystem.Tick(d);
-                this.FiringProjectileTriggerSystem.Tick(d);
             }
 
             Profiler.EndSample();
@@ -122,6 +119,14 @@ namespace Firing
             base.Dispose();
         }
 
+        #region Data Retrieval
+
+        public Vector3 GetCurrentTargetDirection()
+        {
+            return this.FiringPlayerActionTargetSystem.TargetDirection;
+        }
+
+        #endregion
 
         public override void GUITick()
         {
@@ -281,28 +286,6 @@ namespace Firing
             var rotationAngle = Quaternion.LookRotation(playerNormalProjectedOrientedDirection,
                 playerTransform.up).eulerAngles;
             this.PlayerInteractiveObjectRef.SetConstraintForThisFrame(new LookDirectionConstraint(Quaternion.Euler(new Vector3(playerTransform.eulerAngles.x, rotationAngle.y, playerTransform.eulerAngles.z))));
-        }
-    }
-
-    struct FiringProjectileTriggerSystem
-    {
-        private GameInputManager GameInputManager;
-        private CoreInteractiveObject _firingInteractiveObject;
-        private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef;
-
-        public FiringProjectileTriggerSystem(GameInputManager gameInputManager, CoreInteractiveObject FiringInteractiveObject, FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
-        {
-            GameInputManager = gameInputManager;
-            this._firingInteractiveObject = FiringInteractiveObject;
-            this.FiringPlayerActionTargetSystemRef = FiringPlayerActionTargetSystemRef;
-        }
-
-        public void Tick(float d)
-        {
-            if (this.GameInputManager.CurrentInput.FiringProjectileDH())
-            {
-                this._firingInteractiveObject.AskToFireAFiredProjectile_ToDirection(this.FiringPlayerActionTargetSystemRef.TargetDirection);
-            }
         }
     }
 

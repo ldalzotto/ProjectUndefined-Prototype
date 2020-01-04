@@ -10,49 +10,40 @@ namespace PlayerActions
     public class PlayerActionPlayerSystem
     {
         private PlayerActionExecutionManagerV2 PlayerActionExecutionManagerV2;
+        private CoreInteractiveObject AssociatedInteractiveObject;
 
         public PlayerActionPlayerSystem(CoreInteractiveObject AssociatedInteractiveObject)
         {
             this.PlayerActionExecutionManagerV2 = new PlayerActionExecutionManagerV2();
             this.PlayerActionExecutionManagerV2.Init();
 
+            this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             AssociatedInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnAssociatedInteractiveObjectDestroyed);
         }
 
         public void FixedTick(float d)
         {
-            Profiler.BeginSample("PlayerActionPlayerSystem : FixedTick");
             this.PlayerActionExecutionManagerV2.FixedTick(d);
-            // PlayerActionExecutionManager.FixedTick(d);
-            Profiler.EndSample();
         }
 
         public void Tick(float d)
         {
-            Profiler.BeginSample("PlayerActionPlayerSystem : Tick");
             this.PlayerActionExecutionManagerV2.Tick(d);
-            Profiler.EndSample();
         }
 
         public void AfterTicks(float d)
         {
-            Profiler.BeginSample("PlayerActionPlayerSystem : AfterTicks");
             this.PlayerActionExecutionManagerV2.AfterTicks(d);
-            Profiler.EndSample();
         }
 
         public void TickTimeFrozen(float d)
         {
-            Profiler.BeginSample("PlayerActionPlayerSystem : TickTimeFrozen");
             this.PlayerActionExecutionManagerV2.TickTimeFrozen(d);
-            Profiler.EndSample();
         }
 
         public void LateTick(float d)
         {
-            Profiler.BeginSample("PlayerActionPlayerSystem : LateTick");
             this.PlayerActionExecutionManagerV2.LateTick(d);
-            Profiler.EndSample();
         }
 
         public void GizmoTick()
@@ -65,11 +56,16 @@ namespace PlayerActions
             //  PlayerActionExecutionManager.GUITick();
         }
 
-        public void ExecuteAction(PlayerAction rTPPlayerAction)
+        public void ExecuteActionV2(PlayerActionInherentData PlayerActionInherentData, Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null)
         {
-            Profiler.BeginSample("PlayerActionPlayerSystem : ExecuteAction");
-            this.PlayerActionExecutionManagerV2.Execute(rTPPlayerAction);
-            Profiler.EndSample();
+            if (this.IsActionOfTypeAllowedToBePlaying(PlayerActionInherentData.PlayerActionUniqueID))
+            {
+                var playerActionInput = PlayerActionInherentData.BuildInputFromInteractiveObject(this.AssociatedInteractiveObject);
+                if (playerActionInput != null)
+                {
+                    this.PlayerActionExecutionManagerV2.Execute(PlayerActionInherentData.BuildPlayerAction(playerActionInput, OnPlayerActionStartedCallback, OnPlayerActionEndCallback));
+                }
+            }
         }
 
         #region External Events
@@ -83,19 +79,28 @@ namespace PlayerActions
 
         #region Logical Conditions
 
-        public bool DoesActionOfTypeIsPlaying(string actionUniqueID)
+        public bool IsActionOfTypeIsAlreadyPlaying(string actionUniqueID)
         {
             return this.PlayerActionExecutionManagerV2.DoesActionOfTypeIsPlaying(actionUniqueID);
         }
-
-        public bool IsActionOfTypeAllowedToBePlaying(string actionUniqueID)
-        {
-            return this.PlayerActionExecutionManagerV2.IsActionOfTypeAllowedToBePlaying(actionUniqueID);
-        }
-
+        
         public bool DoesCurrentActionAllowsMovement()
         {
             return this.PlayerActionExecutionManagerV2.DoesCurrentActionAllowsMovement();
+        }
+
+        private bool IsActionOfTypeAllowedToBePlaying(string actionUniqueID)
+        {
+            return this.PlayerActionExecutionManagerV2.IsActionOfTypeAllowedToBePlaying(actionUniqueID);
+        }
+        
+        #endregion
+
+        #region Data Retrieval
+
+        public PlayerAction GetPlayingPlayerActionReference(string actionUniqueID)
+        {
+            return this.PlayerActionExecutionManagerV2.GetPlayingPlayerActionReference(actionUniqueID);
         }
 
         #endregion
@@ -328,6 +333,12 @@ namespace PlayerActions
             }
 
             return true;
+        }
+
+        public PlayerAction GetPlayingPlayerActionReference(string actionUniqueId)
+        {
+            this.PlayerActionStates.TryGetValue(actionUniqueId, out PlayerActionState PlayerActionState);
+            return PlayerActionState.GetPlayerActionReference();
         }
     }
 

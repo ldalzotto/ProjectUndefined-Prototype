@@ -40,8 +40,6 @@ namespace InteractiveObjects
 
         #region Projectile Events
         
-        public virtual void AskToFireAFiredProjectile_ToDirection(Vector3 WorldDirection){}
-
         /// <summary>
         /// Returns the starting point in world space of a fired projectile.
         /// /!\ It is implemented only for PlayerInteractiveObject.

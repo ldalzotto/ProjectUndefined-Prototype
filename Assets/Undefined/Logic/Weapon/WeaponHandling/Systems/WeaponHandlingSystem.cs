@@ -1,4 +1,5 @@
-﻿using InteractiveObjects;
+﻿using Firing;
+using InteractiveObjects;
 using PlayerActions;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Weapon
 
     public class WeaponHandlingSystem : IWeaponHandlingSystem_DataRetrieval
     {
-        public WeaponHandlingSystemInitializationData WeaponHandlingSystemInitializationData;
+        private WeaponHandlingSystemInitializationData WeaponHandlingSystemInitializationData;
         private Weapon WeaponReference;
         private PlayerActionPlayerSystem AssociatedInteractiveObjectPlayerActionPlayerSystem;
 
@@ -26,17 +27,7 @@ namespace Weapon
             this.WeaponReference = this.WeaponHandlingSystemInitializationData.WeaponDefinition.BuildWeapon(AssociatedInteractiveObject);
         }
 
-        /// <summary>
-        /// Spawns a fired projectile at <see cref="GetWorldWeaponFirePoint"/> pointing in the <see cref="NormalizedWorldDirection"/> direction. 
-        /// </summary>
-        public void AskToFireAFiredProjectile_ToDirection(Vector3 NormalizedWorldDirection)
-        {
-            if (this.AssociatedInteractiveObjectPlayerActionPlayerSystem.IsActionOfTypeAllowedToBePlaying(ProjectileFireAction.ProjectileFireActionUniqueID))
-            {
-                this.AssociatedInteractiveObjectPlayerActionPlayerSystem.ExecuteAction(
-                    new ProjectileFireAction(new ProjectileFireActionInputData(this.WeaponReference, this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition, NormalizedWorldDirection)));
-            }
-        }
+        #region Data Retrieval
 
         /// <summary>
         /// Returns the maximum range of the currenlty equipped <see cref="WeaponReference"/>.
@@ -58,6 +49,23 @@ namespace Weapon
         {
             var parent = WeaponHandlingSystemInitializationData.Parent;
             return parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;
+        }
+
+        public PlayerActionInherentData GetCurrentWeaponProjectileFireActionDefinition()
+        {
+            return this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition;
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Populates the <see cref="ProjectileFireActionInputData"/> with all available data from <see cref="WeaponHandlingSystem"/>.
+        /// </summary>
+        public void PopulateProjectileFireActionInputData(ref ProjectileFireActionInputData ProjectileFireActionInputData)
+        {
+            ProjectileFireActionInputData.WeaponReference = this.WeaponReference;
+            ProjectileFireActionInputData.ProjectileFireActionDefinition = this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition;
         }
 
         public void Destroy()
