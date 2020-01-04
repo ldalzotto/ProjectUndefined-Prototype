@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ICSharpCode.NRefactory.Ast;
 using UnityEngine;
 
 namespace ParticleObjects
