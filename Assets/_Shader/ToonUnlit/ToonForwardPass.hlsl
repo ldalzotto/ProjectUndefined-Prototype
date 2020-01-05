@@ -52,10 +52,23 @@ ToonLightningData InitializeToonLightningData(Varyings varyings){
     #ifdef _ADDITIONAL_LIGHTS
     toonLightningData.worldPosition = varyings.positionWS;
     #endif
+    
     #if defined(RIM_LIGHTNING_ENABLED) || defined(TOON_SPECULAR_ENABLED)
-    toonLightningData.worldViewDirection = varyings.viewDirWS;
+        toonLightningData.worldViewDirection = varyings.viewDirWS;   
+    #elif defined(_NORMALMAP)
+        toonLightningData.worldViewDirection = half3(varyings.normalWS.w, varyings.tangentWS.w, varyings.bitangentWS.w);
     #endif
-    toonLightningData.worldNormal = NormalizeNormalPerPixel(varyings.normalWS);
+        
+    #ifdef _NORMALMAP
+    toonLightningData.worldNormal =
+        TransformTangentToWorld(SampleNormal(varyings.uv, _BumpScale),
+            half3x3(varyings.tangentWS.xyz, varyings.bitangentWS.xyz, varyings.normalWS.xyz));
+    #else
+    toonLightningData.worldNormal = varyings.normalWS;
+    #endif
+    
+    toonLightningData.worldNormal = NormalizeNormalPerPixel(toonLightningData.worldNormal);
+    
     #if defined(_MAIN_LIGHT_SHADOWS) && !defined(_RECEIVE_SHADOWS_OFF)
     toonLightningData.shadowCoords = varyings.shadowCoord;
     #else
@@ -84,8 +97,14 @@ Varyings LitToonVertex(Attributes input)
 
     output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
 
+#ifdef _NORMALMAP
+    output.normalWS = half4(normalInput.normalWS, viewDirWS.x);
+    output.tangentWS = half4(normalInput.tangentWS, viewDirWS.y);
+    output.bitangentWS = half4(normalInput.bitangentWS, viewDirWS.z);
+#else
     output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
     output.viewDirWS = SafeNormalize(viewDirWS);
+#endif
     
     OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
     OUTPUT_SH(output.normalWS.xyz, output.vertexSH);

@@ -21,7 +21,7 @@ struct ToonLightningData {
     half4 diffuse; //The diffuse color (sampled from _BaseMap_ST)
     half3 worldPosition; // From Varyings
     half3 worldNormal; // From Varyings
-#if defined(RIM_LIGHTNING_ENABLED) || defined(TOON_SPECULAR_ENABLED)
+#if defined(RIM_LIGHTNING_ENABLED) || defined(TOON_SPECULAR_ENABLED) || defined(_NORMALMAP)
     half3 worldViewDirection; // From Varyings
 #endif
 #if defined(TOON_EMISSION_ENABLED) || defined(TOON_SPECULAR_ENABLED) || defined(RIM_LIGHTNING_ENABLED)

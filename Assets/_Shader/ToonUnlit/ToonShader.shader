@@ -19,6 +19,10 @@
         _SpecularPower("Specular Power", Float) = 0.0
         _SpecularColor("Specular Color", Color) = (1,1,1,1)
         
+        //Normal
+        _BumpScale("Scale", Float) = 1.0
+        _BumpMap("Normal Map", 2D) = "bump" {}
+        
         //Emission
         _EmissionMap("Emission map", 2D) = "black" {}
         [HDR] _EmissionColor("Emission color", Color) = (1,1,1,1)
@@ -60,6 +64,7 @@
 
             // -------------------------------------
             // Material Keywords
+            #pragma shader_feature _NORMALMAP
             #pragma shader_feature _ALPHATEST_ON
             #pragma shader_feature _ALPHAPREMULTIPLY_ON
             #pragma shader_feature _RECEIVE_SHADOWS_OFF

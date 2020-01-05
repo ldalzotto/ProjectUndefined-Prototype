@@ -54,6 +54,14 @@ public class ToonShaderEditor : ShaderGUI
 
     #endregion
 
+    #region Toon normal options
+
+    private EditorPersistantBoolVariable toonNormalOptionsFoldout;
+    private MaterialProperty BumpMap;
+    private MaterialProperty BumpScale;
+
+    #endregion
+
     #region Toon emission options
 
     private EditorPersistantBoolVariable toonEmissionOptionsFodlout;
@@ -77,6 +85,7 @@ public class ToonShaderEditor : ShaderGUI
         EditorPersistantBoolVariable.Initialize(ref this.toonDiffuseOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonDiffuseOptionsFoldout)));
         EditorPersistantBoolVariable.Initialize(ref this.toonRimOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonRimOptionsFoldout)));
         EditorPersistantBoolVariable.Initialize(ref this.toonSpecularOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonSpecularOptionsFoldout)));
+        EditorPersistantBoolVariable.Initialize(ref this.toonNormalOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonNormalOptionsFoldout)));
         EditorPersistantBoolVariable.Initialize(ref this.toonEmissionOptionsFodlout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.toonEmissionOptionsFodlout)));
         EditorPersistantBoolVariable.Initialize(ref this.advancedOptionsFoldout, EditorPersistantBoolVariable.BuildKeyFromObject(material, nameof(this.advancedOptionsFoldout)));
     }
@@ -104,6 +113,9 @@ public class ToonShaderEditor : ShaderGUI
         this.SpecularPower = FindProperty("_SpecularPower", properties);
         this.SpecularColor = FindProperty("_SpecularColor", properties);
 
+        this.BumpMap = FindProperty("_BumpMap", properties);
+        this.BumpScale = FindProperty("_BumpScale", properties);
+
         this.EmissionMap = FindProperty("_EmissionMap", properties);
         this.EmissionColor = FindProperty("_EmissionColor", properties);
 
@@ -119,6 +131,7 @@ public class ToonShaderEditor : ShaderGUI
         this.DrawToonDiffuseOptions(material, materialEditor);
         this.DrawToonRimOptions(material, materialEditor);
         this.DrawToonSpecularOptions(material, materialEditor);
+        this.DrawNormalOptions(material, materialEditor);
         this.DrawToonEmissionOptions(material, materialEditor);
         this.DrawAdvancedOptions(material, materialEditor);
     }
@@ -228,6 +241,16 @@ public class ToonShaderEditor : ShaderGUI
         EditorGUILayout.EndFoldoutHeaderGroup();
     }
 
+    private void DrawNormalOptions(Material material, MaterialEditor materialEditor)
+    {
+        this.toonNormalOptionsFoldout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.toonNormalOptionsFoldout.GetValue(), "Normal map Options"));
+        if (this.toonNormalOptionsFoldout.GetValue())
+        {
+            BaseShaderGUI.DrawNormalArea(materialEditor, this.BumpMap, this.BumpScale);
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+    }
+
     private void DrawToonEmissionOptions(Material material, MaterialEditor materialEditor)
     {
         this.toonEmissionOptionsFodlout.SetValue(EditorGUILayout.BeginFoldoutHeaderGroup(this.toonEmissionOptionsFodlout.GetValue(), "Toon Emission Options"));
@@ -282,6 +305,10 @@ public class ToonShaderEditor : ShaderGUI
         if (material.HasProperty("_ReceiveShadows"))
             CoreUtils.SetKeyword(material, "_RECEIVE_SHADOWS_OFF", material.GetFloat("_ReceiveShadows") == 0.0f);
 
+        // Normal Maps
+        if (material.HasProperty("_BumpMap"))
+            CoreUtils.SetKeyword(material, "_NORMALMAP", material.GetTexture("_BumpMap"));
+
         BaseShaderGUI.SetupMaterialBlendMode(material);
     }
 }
@@ -324,7 +351,7 @@ public static class ToonShaderEditorStatic
     public static GUIContent SpecularMapText = new GUIContent("Specular map");
     public static string SpecularPowerText = "Specular power";
     public static string SpecularColorText = "Specular color";
-
+    
     public static string TOON_EMISSION_ENABLED = "TOON_EMISSION_ENABLED";
     public static GUIContent EmissionMapText = new GUIContent("Emission map");
     public static string EmissionColorText = "Emission color";

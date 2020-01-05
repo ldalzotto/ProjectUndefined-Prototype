@@ -22,12 +22,16 @@ float4 _SpecularMask_ST;
 half _SpecularPower;
 half3 _SpecularColor;
 
+float4 _BumpMap_ST;
+half _BumpScale;
+
 float4 _EmissionMap_ST;
 half3 _EmissionColor;
 CBUFFER_END
 
 
 TEXTURE2D(_BaseMap);       SAMPLER(sampler_BaseMap);
+TEXTURE2D(_BumpMap);       SAMPLER(sampler_BumpMap);
 TEXTURE2D(_DiffuseRamp);   SAMPLER(sampler_DiffuseRamp);
 TEXTURE2D(_RimMap);        SAMPLER(sampler_RimMap);
 TEXTURE2D(_SpecularRamp);  SAMPLER(sampler_SpecularRamp);
@@ -40,6 +44,16 @@ half4 SampleBaseMap(float2 uv){
 
 half4 SampleDiffuseRamp(float2 uv){
     return SAMPLE_TEXTURE2D(_DiffuseRamp, sampler_DiffuseRamp, uv);
+}
+
+half3 SampleNormal(float2 uv, half scale = 1.0h)
+{
+#ifdef _NORMALMAP
+    half4 n = SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, uv);
+    return UnpackNormalScale(n, scale);
+#else
+    return half3(0.0h, 0.0h, 1.0h);
+#endif
 }
 
 #ifdef RIM_LIGHTNING_ENABLED
