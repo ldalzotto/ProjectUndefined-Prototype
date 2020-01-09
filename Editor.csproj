@@ -131,6 +131,8 @@
      <Compile Include="Assets\Editor\GameDesigner\Modules\Ground\GroundSetter.cs" />
      <Compile Include="Assets\Editor\GameDesigner\Modules\Level\CreateChunk.cs" />
      <Compile Include="Assets\Editor\GameDesigner\Modules\Level\CreatePuzzleLevel.cs" />
+     <Compile Include="Assets\Editor\GradientTextureGenerator\ProceduralGradientTextureEditor.cs" />
+     <Compile Include="Assets\Editor\GradientTextureGenerator\ProceduralGradientTextureEditorProfile.cs" />
      <Compile Include="Assets\Editor\Helper\AssetFinder.cs" />
      <Compile Include="Assets\Editor\Helper\AssetHelper.cs" />
      <Compile Include="Assets\Editor\Helper\EnumPicker.cs" />
