@@ -131,6 +131,7 @@
      <Compile Include="Assets\Editor\GameDesigner\Modules\Ground\GroundSetter.cs" />
      <Compile Include="Assets\Editor\GameDesigner\Modules\Level\CreateChunk.cs" />
      <Compile Include="Assets\Editor\GameDesigner\Modules\Level\CreatePuzzleLevel.cs" />
+     <Compile Include="Assets\Editor\GradientTextureGenerator\GradientTextureCreationWithProfile.cs" />
      <Compile Include="Assets\Editor\GradientTextureGenerator\ProceduralGradientTextureEditor.cs" />
      <Compile Include="Assets\Editor\GradientTextureGenerator\ProceduralGradientTextureEditorProfile.cs" />
      <Compile Include="Assets\Editor\Helper\AssetFinder.cs" />
@@ -170,6 +171,7 @@
      <Compile Include="Assets\Editor\PropertyDrawer\ObjectPropertyDrawer\InlinePropertyDrawer.cs" />
      <Compile Include="Assets\Editor\PropertyDrawer\ReadOnlyPropertyDrawer\ReadOnlyPropertyDrawer.cs" />
      <Compile Include="Assets\Editor\SceneHandle\SceneHandlerDrawer.cs" />
+     <Compile Include="Assets\Editor\ShaderGUI\ToonShaderConverterEditor.cs" />
      <Compile Include="Assets\Editor\ShaderGUI\ToonShaderEditor.cs" />
      <Compile Include="Assets\Editor\ShaderGUI\WaveNoiseV2ShaderGUI.cs" />
      <Compile Include="Assets\Editor\TexturePacker\TexturePacker.cs" />

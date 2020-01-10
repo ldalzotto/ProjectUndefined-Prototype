@@ -8,8 +8,6 @@ namespace DefaultNamespace
     [Serializable]
     public class ProceduralGradientTextureEditorProfile : SerializedScriptableObject
     {
-        public Gradient MyGradient;
-        [ReorderableList()]
-        public List<Gradient> AllGradients;
+        [ReorderableList()] public List<Gradient> AllGradients;
     }
 }

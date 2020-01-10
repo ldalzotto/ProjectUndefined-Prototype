@@ -22,6 +22,7 @@ public class InteractiveObjectExplorer : EditorWindow
     private VisualElement RootElement;
     private ContextBar ContextBar;
     private TextField SearchTextField;
+    private ScrollView InteractiveObjectSelectionScroll;
 
     private List<MonoBehaviour> InteractiveObjectInitializers = new List<MonoBehaviour>();
     private Dictionary<MonoBehaviour, InterativeObjectInitializerLine> InteractiveObjectInitializerLines = new Dictionary<MonoBehaviour, InterativeObjectInitializerLine>();
@@ -41,6 +42,9 @@ public class InteractiveObjectExplorer : EditorWindow
         this.SearchTextField = new TextField();
         this.SearchTextField.RegisterCallback<ChangeEvent<string>>(this.OnSearchStringChange);
         this.RootElement.Add(this.SearchTextField);
+
+        this.InteractiveObjectSelectionScroll = new ScrollView(ScrollViewMode.Vertical);
+        this.RootElement.Add(this.InteractiveObjectSelectionScroll);
 
         rootVisualElement.Add(this.RootElement);
 
@@ -94,7 +98,7 @@ public class InteractiveObjectExplorer : EditorWindow
         {
             if (!this.InteractiveObjectInitializerLines.ContainsKey(interactiveObjectInitializer))
             {
-                this.InteractiveObjectInitializerLines[interactiveObjectInitializer] = new InterativeObjectInitializerLine(this.RootElement, interactiveObjectInitializer.gameObject, this.OnInteractiveObjectLineClicked);
+                this.InteractiveObjectInitializerLines[interactiveObjectInitializer] = new InterativeObjectInitializerLine(this.InteractiveObjectSelectionScroll, interactiveObjectInitializer.gameObject, this.OnInteractiveObjectLineClicked);
             }
         }
 
@@ -102,7 +106,7 @@ public class InteractiveObjectExplorer : EditorWindow
         {
             if (!this.InteractiveObjectInitializers.Contains(interactiveObjectInitializerKey))
             {
-                this.RootElement.Remove(this.InteractiveObjectInitializerLines[interactiveObjectInitializerKey]);
+                this.InteractiveObjectSelectionScroll.Remove(this.InteractiveObjectInitializerLines[interactiveObjectInitializerKey]);
                 this.InteractiveObjectInitializerLines.Remove(interactiveObjectInitializerKey);
             }
         }

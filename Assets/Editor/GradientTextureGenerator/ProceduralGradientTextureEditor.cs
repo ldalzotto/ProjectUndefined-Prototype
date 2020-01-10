@@ -7,42 +7,93 @@ namespace DefaultNamespace
 {
     public class ProceduralGradientTextureEditor : EditorWindow
     {
-        [MenuItem("Test/ProceduralGradientTextureEditor")]
+        [MenuItem("Gradient/ProceduralGradientTextureEditor")]
         static void Init()
         {
             var window = GetWindow<ProceduralGradientTextureEditor>("Texture Previewer");
             window.Show();
         }
 
-        private Texture2D SourceTexture;
-        public ProceduralGradientTextureEditorProfile ProceduralGradientTextureEditorProfile;
+        [MenuItem("Assets/Gradient/ProceduralGradientTextureEditor")]
+        static void InitFromTexture()
+        {
+            SourceTexture = null;
+            ProceduralGradientTextureEditorProfile = null;
+
+            foreach (var selectedObject in Selection.objects)
+            {
+                if (selectedObject is Texture2D selectedTexture)
+                {
+                    ProceduralGradientTextureEditor.SourceTexture = selectedTexture;
+                }
+                else if (selectedObject is ProceduralGradientTextureEditorProfile ProceduralGradientTextureEditorProfile)
+                {
+                    ProceduralGradientTextureEditor.ProceduralGradientTextureEditorProfile = ProceduralGradientTextureEditorProfile;
+                }
+            }
+
+            Init();
+        }
+
+        private static Texture2D SourceTexture;
+        private static ProceduralGradientTextureEditorProfile ProceduralGradientTextureEditorProfile;
+
+        private Editor ProceduralGradientTextureEditorProfileEditor;
 
         private void OnGUI()
         {
-            this.SourceTexture = EditorGUILayout.ObjectField(this.SourceTexture, typeof(Texture2D)) as Texture2D;
-            this.ProceduralGradientTextureEditorProfile = EditorGUILayout.ObjectField(this.ProceduralGradientTextureEditorProfile, typeof(ProceduralGradientTextureEditorProfile)) as ProceduralGradientTextureEditorProfile;
-            if (this.SourceTexture != null && this.ProceduralGradientTextureEditorProfile != null)
+            EditorGUI.BeginChangeCheck();
+            SourceTexture = EditorGUILayout.ObjectField(SourceTexture, typeof(Texture2D)) as Texture2D;
+            if (EditorGUI.EndChangeCheck())
+            {
+                ProceduralGradientTextureEditorProfile = null;
+                ProceduralGradientTextureEditorProfileEditor = null;
+            }
+
+            EditorGUI.BeginChangeCheck();
+            ProceduralGradientTextureEditorProfile = EditorGUILayout.ObjectField(ProceduralGradientTextureEditorProfile, typeof(ProceduralGradientTextureEditorProfile)) as ProceduralGradientTextureEditorProfile;
+            if (EditorGUI.EndChangeCheck())
+            {
+                this.ProceduralGradientTextureEditorProfileEditor = null;
+            }
+
+
+            if (ProceduralGradientTextureEditorProfile != null)
+            {
+                if (this.ProceduralGradientTextureEditorProfileEditor == null)
+                {
+                    this.ProceduralGradientTextureEditorProfileEditor = Editor.CreateEditor(ProceduralGradientTextureEditorProfile);
+                }
+
+                if (this.ProceduralGradientTextureEditorProfileEditor != null)
+                {
+                    this.ProceduralGradientTextureEditorProfileEditor.OnInspectorGUI();
+                }
+            }
+
+            if (SourceTexture != null && ProceduralGradientTextureEditorProfile != null)
             {
                 if (GUILayout.Button("GO"))
                 {
-                    var newTexture = new Texture2D(this.SourceTexture.width, this.SourceTexture.width, TextureFormat.ARGB32, false, true);
+                    var newTexture = new Texture2D(SourceTexture.width, SourceTexture.width, TextureFormat.ARGB32, false, true);
                     newTexture.filterMode = FilterMode.Point;
 
-                    Color[] newColors = new Color[this.SourceTexture.width * this.SourceTexture.width];
-                    for (var w = 0; w <= this.SourceTexture.width - 1; w++)
+                    Color[] newColors = new Color[SourceTexture.width * SourceTexture.width];
+                    for (var w = 0; w <= SourceTexture.width - 1; w++)
                     {
-                        for (var h = 0; h <= this.SourceTexture.width - 1; h++)
+                        for (var h = 0; h <= SourceTexture.width - 1; h++)
                         {
-                            if (this.ProceduralGradientTextureEditorProfile.AllGradients.Count - 1 >= w)
+                            if (ProceduralGradientTextureEditorProfile.AllGradients.Count - 1 >= w)
                             {
-                                newColors[(h * this.SourceTexture.width) + w] = this.ProceduralGradientTextureEditorProfile.AllGradients[w].Evaluate((1 - ((float) h / (float) this.SourceTexture.width)));
+                                newColors[(h * SourceTexture.width) + w] = ProceduralGradientTextureEditorProfile.AllGradients[w].Evaluate((1 - ((float) h / (float) SourceTexture.width)));
                             }
                         }
                     }
 
                     newTexture.SetPixels(newColors);
                     newTexture.Apply();
-                    File.WriteAllBytes(AssetDatabase.GetAssetPath(this.SourceTexture), newTexture.EncodeToPNG());
+                    File.WriteAllBytes(AssetDatabase.GetAssetPath(SourceTexture), newTexture.EncodeToPNG());
+                    AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(SourceTexture), ImportAssetOptions.ForceUpdate);
                 }
             }
         }
