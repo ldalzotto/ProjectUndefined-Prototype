@@ -157,6 +157,7 @@
      <Compile Include="Assets\Editor\Helper\Zoom\EditorZoomArea.cs" />
      <Compile Include="Assets\Editor\InteractiveObjectEditorV2\InteractiveObjectDebugger.cs" />
      <Compile Include="Assets\Editor\InteractiveObjectEditorV2\InteractiveObjectExplorer.cs" />
+     <Compile Include="Assets\Editor\InteractiveObjectEditorV2\InteractiveObjectInitializerCustomEdtor.cs" />
      <Compile Include="Assets\Editor\InteractiveObjectEditorV2\VisualElementFromClass.cs" />
      <Compile Include="Assets\Editor\LevelManagement\LevelProgressionSaveEditor\LevelProgressionSaveEditor.cs" />
      <Compile Include="Assets\Editor\LevelManagement\LevelSceneExplorer\LevelSceneExplorer.cs" />

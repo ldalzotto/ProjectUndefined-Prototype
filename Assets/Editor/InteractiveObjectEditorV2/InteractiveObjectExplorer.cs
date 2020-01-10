@@ -83,8 +83,7 @@ public class InteractiveObjectExplorer : EditorWindow
     {
         foreach (var InteractiveObjectInitializerLine in this.InteractiveObjectInitializerLines)
         {
-            InteractiveObjectInitializerLine.Value.style.display =
-                (string.IsNullOrEmpty(this.SearchTextField.value) || InteractiveObjectInitializerLine.Key.name.ToLower().Contains(this.SearchTextField.value.ToLower())) ? DisplayStyle.Flex : DisplayStyle.None;
+            InteractiveObjectInitializerLine.Value.IsDisplayed.SetValue((string.IsNullOrEmpty(this.SearchTextField.value) || InteractiveObjectInitializerLine.Key.name.ToLower().Contains(this.SearchTextField.value.ToLower())));
         }
     }
 
@@ -124,7 +123,10 @@ public class InteractiveObjectExplorer : EditorWindow
     {
         foreach (var interactiveObjectInitializerKey in this.InteractiveObjectInitializerLines)
         {
-            interactiveObjectInitializerKey.Value.GizmoIcon.Selected.SetValue(true);
+            if (interactiveObjectInitializerKey.Value.IsDisplayed.GetValue())
+            {
+                interactiveObjectInitializerKey.Value.GizmoIcon.Selected.SetValue(true);
+            }
         }
     }
 
@@ -133,6 +135,15 @@ public class InteractiveObjectExplorer : EditorWindow
         foreach (var interactiveObjectLine in this.InteractiveObjectInitializerLines.Values)
         {
             interactiveObjectLine.IsSelected.SetValue(interactiveObjectLine == InterativeObjectInitializerLine);
+        }
+    }
+
+    public void SelectGizmoFromInteractiveObjectComponent(MonoBehaviour InteractiveObjectInitializerComponent)
+    {
+        this.InteractiveObjectInitializerLines.TryGetValue(InteractiveObjectInitializerComponent, out InterativeObjectInitializerLine InterativeObjectInitializerLine);
+        if (InterativeObjectInitializerLine != null)
+        {
+            InterativeObjectInitializerLine.SelectGizmo();
         }
     }
 }
@@ -197,6 +208,7 @@ class ContextButton : Button
 class InterativeObjectInitializerLine : VisualElement
 {
     public BoolVariable IsSelected { get; private set; }
+    public BoolVariable IsDisplayed { get; private set; }
     private Color InitialBackGroundColor;
     private Color SelectedBackgroundColor;
 
@@ -211,11 +223,17 @@ class InterativeObjectInitializerLine : VisualElement
         return this.GizmoIcon.Selected.GetValue();
     }
 
+    public void SelectGizmo()
+    {
+        this.GizmoIcon.Selected.SetValue(true);
+    }
+
     public InterativeObjectInitializerLine(VisualElement parent, GameObject GameObject, Action<InterativeObjectInitializerLine> OnClickedExtern)
     {
         this.GameObjectReference = GameObject;
         this.OnClickedExtern = OnClickedExtern;
         this.IsSelected = new BoolVariable(false, this.OnSelected, this.OnUnSelected);
+        this.IsDisplayed = new BoolVariable(true, this.OnDisplayed, this.OnHidded);
 
         this.style.flexDirection = FlexDirection.Row;
         this.GizmoIcon = new ObjectFieldSelectionIcon(this, "G");
@@ -268,5 +286,15 @@ class InterativeObjectInitializerLine : VisualElement
     private void OnUnSelected()
     {
         this.style.backgroundColor = this.InitialBackGroundColor;
+    }
+
+    private void OnDisplayed()
+    {
+        this.style.display = DisplayStyle.Flex;
+    }
+
+    private void OnHidded()
+    {
+        this.style.display = DisplayStyle.None;
     }
 }
