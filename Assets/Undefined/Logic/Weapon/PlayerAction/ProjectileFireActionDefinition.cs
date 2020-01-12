@@ -13,11 +13,11 @@ namespace Weapon
             get { return ProjectileFireAction.ProjectileFireActionUniqueID; }
         }
 
-        public override InteractiveObjectAction.AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
+        public override AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput)
         {
             if (interactiveObjectActionInput is ProjectileFireActionInputData ProjectileFireActionInputData)
             {
-                return new ProjectileFireAction(ProjectileFireActionInputData, OnInteractiveObjectActionStartedCallback, OnInteractiveObjectActionEndCallback);
+                return new ProjectileFireAction(ProjectileFireActionInputData);
             }
 
             return default;

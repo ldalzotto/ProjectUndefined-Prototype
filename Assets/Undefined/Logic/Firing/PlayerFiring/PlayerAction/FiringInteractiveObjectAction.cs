@@ -1,5 +1,7 @@
 ﻿using System;
+using CoreGame;
 using Input;
+using InteractiveObjectAction;
 using InteractiveObjects;
 using PlayerObject_Interfaces;
 using Targetting;
@@ -8,9 +10,9 @@ using UnityEngine.Profiling;
 
 namespace Firing
 {
-    public class FiringAInteractiveObjectAction : InteractiveObjectAction.AInteractiveObjectAction
+    public class FiringInteractiveObjectAction : AInteractiveObjectAction
     {
-        public const string FiringPlayerActionUniqueID = "FiringAInteractiveObjectAction";
+        public const string FiringPlayerActionUniqueID = "FiringInteractiveObjectAction";
 
         private CoreInteractiveObject FiringInteractiveObject;
         private FiringInteractiveObjectActionInherentData _firingInteractiveObjectActionInherentData;
@@ -21,9 +23,8 @@ namespace Firing
         private ExitActionSystem ExitActionSystem;
         private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
-        public FiringAInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput,
-            Action OnPlayerActionStartedCallback,
-            Action OnPlayerActionEndCallback) : base(firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
+        public FiringInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput) :
+            base(firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition)
         {
             this.FiringInteractiveObject = firingInteractiveObjectActionInput.firingInteractiveObject;
 
@@ -44,6 +45,10 @@ namespace Firing
         public override void FirstExecution()
         {
             base.FirstExecution();
+            if (this.FiringInteractiveObject is IEM_IFiringAInteractiveObjectAction_EventsListener IFiringAInteractiveObjectAction_EventsListener)
+            {
+                IFiringAInteractiveObjectAction_EventsListener.OnFiringInteractiveObjectActionStart(this._firingInteractiveObjectActionInherentData);
+            }
         }
 
         public override string InteractiveObjectActionUniqueID
@@ -66,7 +71,7 @@ namespace Firing
 
         public override void Tick(float d)
         {
-            Profiler.BeginSample("FiringAInteractiveObjectAction");
+            Profiler.BeginSample("FiringInteractiveObjectAction");
             this._firingLockSelectionSystem.Tick();
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
@@ -105,7 +110,6 @@ namespace Firing
 
         public override void LateTick(float d)
         {
-            
         }
 
         public override void Dispose()
@@ -113,6 +117,11 @@ namespace Firing
             this._firingLockSelectionSystem.Dispose();
             this.FiringPlayerActionTargetSystem.Dispose();
             this.FiringRangeFeedbackSystem.Dispose();
+
+            if (this.FiringInteractiveObject is IEM_IFiringAInteractiveObjectAction_EventsListener IFiringAInteractiveObjectAction_EventsListener)
+            {
+                IFiringAInteractiveObjectAction_EventsListener.OnFiringInteractiveObjectActionEnd(this._firingInteractiveObjectActionInherentData);
+            }
 
             base.Dispose();
         }
@@ -281,5 +290,16 @@ namespace Firing
             /// We use the FiringActionDownHold to be sure to not miss the frame where button has been released.
             this.ActionFinished = !this.GameInputManager.CurrentInput.FiringActionDownHold();
         }
+    }
+
+    /// <summary>
+    /// The <see cref="IEM_IFiringAInteractiveObjectAction_EventsListener"/> is implement by any <see cref="CoreInteractiveObject"/> that wants to execute logic when
+    /// the <see cref="FiringInteractiveObjectAction"/> is starting and stopping.
+    /// FiringInteractiveObjectAction
+    /// </summary>
+    public interface IEM_IFiringAInteractiveObjectAction_EventsListener
+    {
+        void OnFiringInteractiveObjectActionStart(FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData);
+        void OnFiringInteractiveObjectActionEnd(FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData);
     }
 }

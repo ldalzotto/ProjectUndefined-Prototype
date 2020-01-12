@@ -61,7 +61,6 @@
      <Compile Include="Assets\Common\InteractiveObjectAction\Configuration\InteractiveObjectActionInherentData.cs" />
      <Compile Include="Assets\Common\InteractiveObjectAction\Interface\IEM_InteractiveObjectActionPlayerSystem_Retriever.cs" />
      <Compile Include="Assets\Common\InteractiveObjectAction\Lib\ActionExecution\AInteractiveObjectAction.cs" />
-     <Compile Include="Assets\Common\InteractiveObjectAction\Lib\EventListener\InteractiveObjectActionEventListener.cs" />
      <Compile Include="Assets\Common\InteractiveObjectAction\Systems\InteractiveObjectActionPlayerSystem.cs" />
      <None Include="Assets\Common\InteractiveObjectAction\InteractiveObjectAction.asmdef" />
  <Reference Include="UnityEditor.UI">

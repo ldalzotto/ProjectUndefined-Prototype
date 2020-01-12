@@ -56,14 +56,14 @@ namespace InteractiveObjectAction
             //  PlayerActionExecutionManager.GUITick();
         }
 
-        public void ExecuteActionV2(InteractiveObjectActionInherentData interactiveObjectActionInherentData, Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null)
+        public void ExecuteActionV2(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
             if (this.IsActionOfTypeAllowedToBePlaying(interactiveObjectActionInherentData.InteractiveObjectActionUniqueID))
             {
                 var playerActionInput = interactiveObjectActionInherentData.BuildInputFromInteractiveObject(this.AssociatedInteractiveObject);
                 if (playerActionInput != null)
                 {
-                    this.interactiveObjectActionExecutionManager.Execute(interactiveObjectActionInherentData.BuildInteractiveObjectAction(playerActionInput, OnPlayerActionStartedCallback, OnPlayerActionEndCallback));
+                    this.interactiveObjectActionExecutionManager.Execute(interactiveObjectActionInherentData.BuildInteractiveObjectAction(playerActionInput));
                 }
             }
         }

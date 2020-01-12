@@ -9,12 +9,12 @@ namespace Firing
     /// </summary>
     public interface IEM_IPlayerFiringRegisteringEventsExposedMethod
     {
-        void RegisterOnPlayerStartTargettingEvent(Action<InteractiveObjectActionInherentData> action);
+        void RegisterOnPlayerStartTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action);
 
-        void UnRegisterOnPlayerStartTargettingEvent(Action<InteractiveObjectActionInherentData> action);
+        void UnRegisterOnPlayerStartTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action);
         
-        void RegisterOnPlayerStoppedTargettingEvent(Action<InteractiveObjectActionInherentData> action);
+        void RegisterOnPlayerStoppedTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action);
 
-        void UnRegisterOnPlayerStoppedTargettingEvent(Action<InteractiveObjectActionInherentData> action);
+        void UnRegisterOnPlayerStoppedTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action);
     }
 }

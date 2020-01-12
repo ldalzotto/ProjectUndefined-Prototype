@@ -18,7 +18,7 @@ using Weapon;
 namespace PlayerObject
 {
     public partial class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject,
-        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_IPlayerFiringRegisteringEventsExposedMethod, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
+        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
@@ -51,12 +51,6 @@ namespace PlayerObject
 
         #endregion
 
-        #region Events Listener
-
-        private InteractiveObjectActionEventListener _firingInteractiveObjectActionEventListener;
-
-        #endregion
-
         [VE_Ignore] private PlayerBodyPhysicsEnvironment PlayerBodyPhysicsEnvironment;
         [VE_Ignore] private PlayerSpeedAttenuationSystem PlayerSpeedAttenuationSystem;
         [VE_Nested] private ObjectMovementSpeedSystem ObjectMovementSpeedSystem;
@@ -85,10 +79,7 @@ namespace PlayerObject
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
 
-            this._firingInteractiveObjectActionEventListener = new InteractiveObjectActionEventListener(PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData);
-
-            this._firingInteractiveObjectActionEventListener.RegisterOnInteractiveObjectActionStartEvent(this.OnPlayerActionStarted);
-            this._firingInteractiveObjectActionEventListener.RegisterOnPlayerActionStopEvent(this.OnPlayerActionEnded);
+            this.FiringPartialDefinitionInitialize();
 
             this.lowHealthPlayerSystem.RegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             this.lowHealthPlayerSystem.RegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
@@ -207,9 +198,7 @@ namespace PlayerObject
             {
                 if (this.GameInputManager.CurrentInput.FiringActionDown())
                 {
-                    this.InteractiveObjectActionPlayerSystem.ExecuteActionV2(this.PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData,
-                        OnPlayerActionStartedCallback: this._firingInteractiveObjectActionEventListener.OnInteractiveObjectActionStart,
-                        OnPlayerActionEndCallback: this._firingInteractiveObjectActionEventListener.OnInteractiveObjectActionStopped);
+                    this.InteractiveObjectActionPlayerSystem.ExecuteActionV2(this.PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData);
                 }
             }
         }
@@ -235,8 +224,7 @@ namespace PlayerObject
             this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
 
-            this._firingInteractiveObjectActionEventListener.UnRegisterOnInteractiveObjectActionStartEvent(this.OnPlayerActionStarted);
-            this._firingInteractiveObjectActionEventListener.UnRegisterOnInteractiveObjectActionStopEvent(this.OnPlayerActionEnded);
+            this.FiringPartialDefinitionDestroy();
 
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
@@ -362,52 +350,10 @@ namespace PlayerObject
 
         #endregion
 
-        #region Player Targetting Events
-
-        public void OnPlayerActionStarted(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
-        {
-            if (interactiveObjectActionInherentData is FiringInteractiveObjectActionInherentData FiringPlayerActionInherentDataCasted)
-            {
-                this.PlayerSpeedAttenuationSystem.StartTargetting();
-                this.PlayerObjectAnimationStateManager.StartTargetting(FiringPlayerActionInherentDataCasted.FiringPoseAnimationV2);
-            }
-        }
-
-        public void OnPlayerActionEnded(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
-        {
-            if (interactiveObjectActionInherentData is FiringInteractiveObjectActionInherentData)
-            {
-                this.PlayerSpeedAttenuationSystem.StopTargetting();
-                this.PlayerObjectAnimationStateManager.EndTargetting();
-            }
-        }
-
-        public void RegisterOnPlayerStartTargettingEvent(Action<InteractiveObjectActionInherentData> action)
-        {
-            this._firingInteractiveObjectActionEventListener.RegisterOnInteractiveObjectActionStartEvent(action);
-        }
-
-        public void UnRegisterOnPlayerStartTargettingEvent(Action<InteractiveObjectActionInherentData> action)
-        {
-            this._firingInteractiveObjectActionEventListener.UnRegisterOnInteractiveObjectActionStartEvent(action);
-        }
-
-        public void RegisterOnPlayerStoppedTargettingEvent(Action<InteractiveObjectActionInherentData> action)
-        {
-            this._firingInteractiveObjectActionEventListener.RegisterOnPlayerActionStopEvent(action);
-        }
-
-        public void UnRegisterOnPlayerStoppedTargettingEvent(Action<InteractiveObjectActionInherentData> action)
-        {
-            this._firingInteractiveObjectActionEventListener.UnRegisterOnInteractiveObjectActionStopEvent(action);
-        }
-
         public void SetConstraintForThisFrame(PlayerMovementConstraint PlayerMovementConstraint)
         {
             this.playerMoveManager.SetConstraintForThisFrame(PlayerMovementConstraint);
         }
-
-        #endregion
 
         #region Deflection Events
 
@@ -419,21 +365,83 @@ namespace PlayerObject
         #endregion
     }
 
-    public partial class PlayerInteractiveObject : IEM_ProjectileFireActionInput_Retriever
+    public partial class PlayerInteractiveObject : IEM_IFiringAInteractiveObjectAction_EventsListener, IEM_ProjectileFireActionInput_Retriever, IEM_IPlayerFiringRegisteringEventsExposedMethod
     {
         public bool ProjectileFireActionEnabled()
         {
-            return InteractiveObjectActionPlayerSystem.IsActionOfTypeIsAlreadyPlaying(FiringAInteractiveObjectAction.FiringPlayerActionUniqueID);
+            return InteractiveObjectActionPlayerSystem.IsActionOfTypeIsAlreadyPlaying(FiringInteractiveObjectAction.FiringPlayerActionUniqueID);
         }
 
         public Vector3 GetCurrentTargetDirection()
         {
-            if (InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(FiringAInteractiveObjectAction.FiringPlayerActionUniqueID) is FiringAInteractiveObjectAction firingPlayerActionReference)
+            if (InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(FiringInteractiveObjectAction.FiringPlayerActionUniqueID) is FiringInteractiveObjectAction firingPlayerActionReference)
             {
                 return firingPlayerActionReference.GetCurrentTargetDirection();
             }
 
             return default;
+        }
+        
+        private void FiringPartialDefinitionInitialize()
+        {
+            this.RegisterOnPlayerStartTargettingEvent(this.OnPlayerActionStarted);
+            this.RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerActionEnded);
+        }
+
+        private void FiringPartialDefinitionDestroy()
+        {
+            this.UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerActionStarted);
+            this.UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerActionEnded);
+        }
+
+        #region Player Targetting Events
+
+        private void OnPlayerActionStarted(FiringInteractiveObjectActionInherentData FiringPlayerActionInherentData)
+        {
+            this.PlayerSpeedAttenuationSystem.StartTargetting();
+            this.PlayerObjectAnimationStateManager.StartTargetting(FiringPlayerActionInherentData.FiringPoseAnimationV2);
+        }
+
+        private void OnPlayerActionEnded(FiringInteractiveObjectActionInherentData FiringPlayerActionInherentData)
+        {
+            this.PlayerSpeedAttenuationSystem.StopTargetting();
+            this.PlayerObjectAnimationStateManager.EndTargetting();
+        }
+
+        #endregion
+
+
+        private event Action<FiringInteractiveObjectActionInherentData> FiringAInteractiveObjectActionStartedEvent;
+        private event Action<FiringInteractiveObjectActionInherentData> FiringAInteractiveObjectActionEndedEvent;
+
+        public void RegisterOnPlayerStartTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action)
+        {
+            this.FiringAInteractiveObjectActionStartedEvent += action;
+        }
+
+        public void UnRegisterOnPlayerStartTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action)
+        {
+            this.FiringAInteractiveObjectActionStartedEvent -= action;
+        }
+
+        public void RegisterOnPlayerStoppedTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action)
+        {
+            this.FiringAInteractiveObjectActionEndedEvent += action;
+        }
+
+        public void UnRegisterOnPlayerStoppedTargettingEvent(Action<FiringInteractiveObjectActionInherentData> action)
+        {
+            this.FiringAInteractiveObjectActionEndedEvent -= action;
+        }
+
+        public void OnFiringInteractiveObjectActionStart(FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData)
+        {
+            this.FiringAInteractiveObjectActionStartedEvent?.Invoke(FiringInteractiveObjectActionInherentData);
+        }
+
+        public void OnFiringInteractiveObjectActionEnd(FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData)
+        {
+            this.FiringAInteractiveObjectActionEndedEvent?.Invoke(FiringInteractiveObjectActionInherentData);
         }
     }
 }

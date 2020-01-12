@@ -62,7 +62,7 @@
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Systems\FiringRangeFeedbackSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\Interfaces\IEM_IPlayerFiringRegisteringEventsExposedMethod.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringAInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringInteractiveObjectAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringInteractiveObjectActionInherentData.cs" />
      <None Include="Assets\Undefined\Logic\Firing\Firing.asmdef" />
  <Reference Include="UnityEditor.UI">

@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 namespace Firing
 {
     /// <summary>
-    /// Creates a <see cref="FiringAInteractiveObjectAction"/> that will trigger the Player targetting logic.
+    /// Creates a <see cref="FiringInteractiveObjectAction"/> that will trigger the Player targetting logic.
     /// </summary>
     [Serializable]
     [SceneHandleDraw]
@@ -23,15 +23,15 @@ namespace Firing
 
         public override string InteractiveObjectActionUniqueID
         {
-            get { return FiringAInteractiveObjectAction.FiringPlayerActionUniqueID; }
+            get { return FiringInteractiveObjectAction.FiringPlayerActionUniqueID; }
         }
 
         /// <param name="interactiveObjectActionInput">The input must be of type <see cref="FiringInteractiveObjectActionInput"/> to create the AInteractiveObjectAction.</param>
-        public override InteractiveObjectAction.AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
+        public override InteractiveObjectAction.AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput)
         {
             if (interactiveObjectActionInput is FiringInteractiveObjectActionInput FiringPlayerActionInput)
             {
-                return new FiringAInteractiveObjectAction(ref FiringPlayerActionInput, OnInteractiveObjectActionStartedCallback, OnInteractiveObjectActionEndCallback);
+                return new FiringInteractiveObjectAction(ref FiringPlayerActionInput);
             }
 
             return default;

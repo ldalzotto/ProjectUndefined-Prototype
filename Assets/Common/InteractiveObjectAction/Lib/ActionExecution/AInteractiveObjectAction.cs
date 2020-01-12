@@ -16,32 +16,14 @@ namespace InteractiveObjectAction
 
         public bool IsAborted { get; private set; }
 
-        #region WorkflowEvents callback
-
-        /// <summary>
-        /// Callback called when <see cref="FirstExecution"/> is called.
-        /// </summary>
-        private Action OnPlayerActionStartedCallback;
-
-        /// <summary>
-        /// Callback called when <see cref="Dispose"/> is called.
-        /// </summary>
-        private Action OnPlayerActionEndCallback;
-
-        #endregion
-
         /// <summary>
         /// /// /!\ <see cref="AInteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
         /// </summary>
-        protected AInteractiveObjectAction(CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition, Action OnPlayerActionStartedCallback = null,
-            Action OnPlayerActionEndCallback = null)
+        protected AInteractiveObjectAction(CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition)
         {
             this.CoreInteractiveObjectActionDefinition = coreInteractiveObjectActionDefinition;
 
             this.IsAborted = false;
-
-            this.OnPlayerActionStartedCallback = OnPlayerActionStartedCallback;
-            this.OnPlayerActionEndCallback = OnPlayerActionEndCallback;
         }
 
         public virtual bool FinishedCondition()
@@ -62,12 +44,10 @@ namespace InteractiveObjectAction
 
         public virtual void Dispose()
         {
-            this.OnPlayerActionEndCallback?.Invoke();
         }
 
         public virtual void FirstExecution()
         {
-            this.OnPlayerActionStartedCallback?.Invoke();
         }
 
         public void Abort()

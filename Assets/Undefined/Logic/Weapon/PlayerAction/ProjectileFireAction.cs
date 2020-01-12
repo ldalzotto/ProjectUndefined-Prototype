@@ -18,14 +18,14 @@ namespace Weapon
             NormalizedWorldDirection = normalizedWorldDirection;
         }
     }
-    
+
     public class ProjectileFireAction : InteractiveObjectAction.AInteractiveObjectAction
     {
         public const string ProjectileFireActionUniqueID = "ProjectileFireAction";
         private ProjectileFireActionInputData ProjectileFireActionInputData;
 
-        public ProjectileFireAction(ProjectileFireActionInputData ProjectileFireActionInputData,
-            Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null) : base(ProjectileFireActionInputData.ProjectileFireActionDefinition.coreInteractiveObjectActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
+        public ProjectileFireAction(ProjectileFireActionInputData ProjectileFireActionInputData)
+            : base(ProjectileFireActionInputData.ProjectileFireActionDefinition.coreInteractiveObjectActionDefinition)
         {
             this.ProjectileFireActionInputData = ProjectileFireActionInputData;
         }

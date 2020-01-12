@@ -22,8 +22,7 @@ namespace InteractiveObjectAction
         /// </summary>
         public abstract string InteractiveObjectActionUniqueID { get; }
 
-        public abstract AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, 
-            Action OnInteractiveObjectActionEndCallback = null);
+        public abstract AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput);
 
         public abstract IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject);
     }
