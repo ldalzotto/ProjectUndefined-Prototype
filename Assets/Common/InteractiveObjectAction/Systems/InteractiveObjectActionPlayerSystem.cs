@@ -111,10 +111,19 @@ namespace InteractiveObjectAction
         #endregion
     }
 
-
+    /// <summary>
+    /// The state associated to every unique <see cref="AInteractiveObjectAction.InteractiveObjectActionUniqueID"/>.
+    /// </summary>
     struct InteractiveObjectActionState
     {
+        /// <summary>
+        /// The reference of the currently executed instance of <see cref="AInteractiveObjectAction"/>.
+        /// /!\ This value is set to null when either the <see cref="AInteractiveObjectAction"/> has ended (called from <see cref="InteractiveObjectActionEndedCleanupSystem"/>) or
+        ///     the <see cref="InteractiveObjectActionPlayerSystem"/> is manually disposed.
+        /// A value of null thus indicates the the action is currenlty not running. <see cref="IsInteractiveObjectActionCurrentlyRunning"/>
+        /// </summary>
         private AInteractiveObjectAction _aInteractiveObjectActionReference;
+
         private CooldownActionState CooldownActionState;
 
         public InteractiveObjectActionState(AInteractiveObjectAction aInteractiveObjectActionReference, CooldownActionState cooldownActionState)
@@ -125,9 +134,17 @@ namespace InteractiveObjectAction
 
         #region Logical Conditions
 
-        public bool IsInteractiveObjectActionPlaying()
+        /// <summary>
+        /// <see cref="_aInteractiveObjectActionReference"/> for more info.
+        /// </summary>
+        public bool IsInteractiveObjectActionCurrentlyRunning()
         {
             return this._aInteractiveObjectActionReference != null;
+        }
+
+        public bool IsInteractiveObjectActionEnded()
+        {
+            return this.IsInteractiveObjectActionCurrentlyRunning() && this._aInteractiveObjectActionReference.FinishedCondition();
         }
 
         public bool IsInteractiveObjectActionOnCooldown()
@@ -140,11 +157,6 @@ namespace InteractiveObjectAction
             return this.CooldownActionState.CooldownFeatureEnabled;
         }
 
-        public bool IsInteractiveObjectActionEnded()
-        {
-            return this._aInteractiveObjectActionReference != null && this._aInteractiveObjectActionReference.FinishedCondition();
-        }
-
         #endregion
 
         public AInteractiveObjectAction GetInteractiveObjectActionReference()
@@ -152,6 +164,9 @@ namespace InteractiveObjectAction
             return this._aInteractiveObjectActionReference;
         }
 
+        /// <summary>
+        /// Called from <see cref="InteractiveObjectActionEndedCleanupSystem"/> when the <see cref="_aInteractiveObjectActionReference"/> is considered done.
+        /// </summary>
         public void ClearInteractiveObjectAction()
         {
             this._aInteractiveObjectActionReference.Dispose();
@@ -173,7 +188,11 @@ namespace InteractiveObjectAction
     {
         public bool CooldownFeatureEnabled;
 
+        /// <summary>
+        /// The elasped time starting from which the <see cref="CooldownActionState"/> is no more considered on cooldown <see cref="IsOnCooldown"/>
+        /// </summary>
         private float TargetCooldownTime;
+
         private float CurrentTimeElapsed;
 
         public CooldownActionState(CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition)
@@ -189,6 +208,10 @@ namespace InteractiveObjectAction
             CurrentTimeElapsed = 0f;
         }
 
+        /// <summary>
+        /// /!\ This tick is called from <see cref="InteractiveObjectActionCooldownSystem"/> and only called when the <see cref="CooldownActionState"/> is considered on cooldown.
+        /// See <see cref="InteractiveObjectActionCooldownSystem.UpdateCooldown"/> for implementation.
+        /// </summary>
         public void Tick(float d)
         {
             this.CurrentTimeElapsed += d;
@@ -203,7 +226,6 @@ namespace InteractiveObjectAction
         /// 0 means that the cooldown has just started.
         /// 1 means that the cooldown has ended
         /// </summary>
-        /// <returns></returns>
         public float Get01CooldownCompletion()
         {
             if (this.TargetCooldownTime == 0f)
@@ -217,6 +239,9 @@ namespace InteractiveObjectAction
 
     #region Action execution
 
+    /// <summary>
+    /// Is in charge of updating all <see cref="AInteractiveObjectAction"/> associated to <see cref="InteractiveObjectActionState"/>.
+    /// </summary>
     struct InteractiveObjectActionExecutionManager
     {
         private BufferedDictionary<string, InteractiveObjectActionState> InteractiveObjectActionStates;
@@ -249,7 +274,7 @@ namespace InteractiveObjectAction
 
                 var InteractiveObjectActionState = this.InteractiveObjectActionStates[aInteractiveObjectAction.InteractiveObjectActionUniqueID];
 
-                if (!InteractiveObjectActionState.IsInteractiveObjectActionOnCooldown() && !InteractiveObjectActionState.IsInteractiveObjectActionPlaying())
+                if (!InteractiveObjectActionState.IsInteractiveObjectActionOnCooldown() && !InteractiveObjectActionState.IsInteractiveObjectActionCurrentlyRunning())
                 {
                     InteractiveObjectActionState = new InteractiveObjectActionState(aInteractiveObjectAction, new CooldownActionState(aInteractiveObjectAction.CoreInteractiveObjectActionDefinition));
                     InteractiveObjectActionState.GetInteractiveObjectActionReference().FirstExecution();
@@ -264,6 +289,24 @@ namespace InteractiveObjectAction
                 playingInteractiveObjectAction.GetInteractiveObjectActionReference()?.Dispose();
 
             this.InteractiveObjectActionStates.Clear();
+        }
+
+        /// <summary>
+        /// The core update loop.
+        /// Cooldown are update only one per frame in <see cref="Tick"/>.
+        /// </summary>
+        private void InternalUpdate(float d, Action<float, InteractiveObjectActionState> InteractiveObjectActionStateUpdate)
+        {
+            this.LockInteractiveObjectActions();
+
+            foreach (var InteractiveObjectActionState in InteractiveObjectActionStates.Values)
+            {
+                InteractiveObjectActionStateUpdate.Invoke(d, InteractiveObjectActionState);
+            }
+
+            this.UnlockInteractiveObjectActions();
+
+            this._interactiveObjectActionEndedCleanupSystem.CleanupEndedInteractiveObjectActions(ref this.InteractiveObjectActionStates);
         }
 
         public void FixedTick(float d)
@@ -292,18 +335,6 @@ namespace InteractiveObjectAction
             this.InternalUpdate(d, this.InternalLateTick);
         }
 
-        private void InternalUpdate(float d, Action<float, InteractiveObjectActionState> InteractiveObjectActionStateUpdate)
-        {
-            this._interactiveObjectActionExecutionLockSystem.LockInteractiveObjectActions();
-            foreach (var InteractiveObjectActionState in InteractiveObjectActionStates.Values)
-            {
-                InteractiveObjectActionStateUpdate.Invoke(d, InteractiveObjectActionState);
-            }
-
-            this.UnlockInteractiveObjectActions();
-            this._interactiveObjectActionEndedCleanupSystem.CleanupEndedInteractiveObjectActions(ref this.InteractiveObjectActionStates);
-        }
-
         private void InternalFixedTick(float d, InteractiveObjectActionState interactiveObjectActionState)
         {
             interactiveObjectActionState.GetInteractiveObjectActionReference()?.FixedTick(d);
@@ -329,17 +360,33 @@ namespace InteractiveObjectAction
             interactiveObjectActionState.GetInteractiveObjectActionReference()?.LateTick(d);
         }
 
+        private void LockInteractiveObjectActions()
+        {
+            this._interactiveObjectActionExecutionLockSystem.LockInteractiveObjectActions();
+        }
+
         private void UnlockInteractiveObjectActions()
         {
             this._interactiveObjectActionExecutionLockSystem.UnlockInteractiveObjectActions();
             this._interactiveObjectActionExecutionLockSystem.OnInteractiveObjectActionJustUnlocked(in this);
         }
 
+        /// <summary>
+        /// The <see cref="AInteractiveObjectAction"/> is considered to be playing if :
+        /// * The <see cref="InteractiveObjectActionStates"/> contains the uniqueID. This means that the <see cref="AInteractiveObjectAction"/> has been played at least once.
+        /// * An instance of the <see cref="AInteractiveObjectAction"/> is currently running.
+        /// </summary>
         public bool DoesActionOfTypeIsPlaying(string actionUniqueId)
         {
-            return this.InteractiveObjectActionStates.ContainsKey(actionUniqueId) && this.InteractiveObjectActionStates[actionUniqueId].IsInteractiveObjectActionPlaying();
+            return this.InteractiveObjectActionStates.ContainsKey(actionUniqueId) && this.InteractiveObjectActionStates[actionUniqueId].IsInteractiveObjectActionCurrentlyRunning();
         }
 
+        /// <summary>
+        /// The <see cref="AInteractiveObjectAction"/> is considered to be allowed to be played if :
+        /// * The <see cref="InteractiveObjectActionStates"/> doesn't contains the uniqueID. This means that the <see cref="AInteractiveObjectAction"/> has not already been played.
+        /// * An instance of the <see cref="AInteractiveObjectAction"/> is not currently running. Only one instance of every <see cref="AInteractiveObjectAction"/> can run simultaneously
+        /// * The <see cref="AInteractiveObjectAction"/> not currently running is not on cooldown.
+        /// </summary>
         public bool IsActionOfTypeAllowedToBePlaying(string actionUniqueId)
         {
             return (!this.InteractiveObjectActionStates.ContainsKey(actionUniqueId) ||
@@ -375,7 +422,7 @@ namespace InteractiveObjectAction
 
     /// <summary>
     /// Locks the <see cref="InteractiveObjectActionState"/> from <see cref="InteractiveObjectActionExecutionManager"/>.
-    /// When player actions are locked, newly created player action initialization are deferred after the lock if lift.
+    /// When actions are locked, newly created action initialization are deferred after the lock is lift.
     /// This is to prevent modifications of InteractiveObjectActionStates of <see cref="InteractiveObjectActionExecutionManager"/> when iterating over it.
     /// </summary>
     struct InteractiveObjectActionExecutionLockSystem
@@ -423,7 +470,8 @@ namespace InteractiveObjectAction
     }
 
     /// <summary>
-    /// Ends player action when <see cref="InteractiveInteractiveObjectActionState.IsInteractiveObjectActionEnded true.
+    /// Clear the <see cref="InteractiveObjectActionState"/> (by calling <see cref="InteractiveObjectActionState.ClearInteractiveObjectAction"/>)
+    /// when it's associated <see cref="AInteractiveObjectAction"/> is considered done.
     /// </summary>
     struct InteractiveObjectActionEndedCleanupSystem
     {
@@ -459,12 +507,17 @@ namespace InteractiveObjectAction
     /// </summary>
     struct InteractiveObjectActionCooldownSystem
     {
+        /// <summary>
+        /// /!\ Warning, this method must be called once per frame (or with <paramref name="d"/> as 0).
+        /// Otherwise that would cause the cooldown timer to be updated multiple time per frames
+        /// </summary>
         public void UpdateCooldown(float d, ref BufferedDictionary<string, InteractiveObjectActionState> InteractiveObjectActionStates)
         {
             InteractiveObjectActionStates.StartBuffer();
 
             foreach (var InteractiveObjectActionStateEntry in InteractiveObjectActionStates)
             {
+                /// Only InteractiveObjectActionState that have cooldown enabled and is on cooldown are updated
                 if (InteractiveObjectActionStateEntry.Value.CooldownFeatureEnabled() && InteractiveObjectActionStateEntry.Value.IsInteractiveObjectActionOnCooldown())
                 {
                     var InteractiveObjectActionState = InteractiveObjectActionStateEntry.Value;
