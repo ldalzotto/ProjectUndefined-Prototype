@@ -7,10 +7,10 @@ using UnityEngine;
 namespace Skill
 {
     /// <summary>
-    /// SkillSlot is a layer between the <see cref="CoreInteractiveObject"/> and the execution of the <see cref="PlayerAction"/>.
+    /// SkillSlot is a layer between the <see cref="SkillSystem"/> and the execution of the <see cref="PlayerAction"/>.
     /// A SkillSlot assciates an Input (<see cref="AssociatedInput"/>) to a PlayerAction (<see cref="AssociatedPlayerActionInherentData"/>).
     /// The SkillSlot object is in charge of handling the UI representation of the skill <see cref="SkillSlotUI"/>
-    /// The SkillAction has no other logic than triggering the associated PlayerAction when the associated input is pressed.
+    /// /!\ The SkillAction has no other logic than triggering the playing associated PlayerAction when the associated input is pressed via the <see cref="PlayerActionPlayerSystem"/> provided.
     /// </summary>
     public class SkillSlot
     {
@@ -26,6 +26,10 @@ namespace Skill
         #endregion
 
         private CoreInteractiveObject AssociatedInteractiveObject;
+
+        /// <summary>
+        /// The <see cref="PlayerActionPlayerSystem"/> is used to play the <see cref="CurrentPlayerActionInherentData"/> when the <see cref="AssociatedInput"/> has been pressed.
+        /// </summary>
         private PlayerActionPlayerSystem PlayerActionPlayerSystem;
 
         #region UI
@@ -42,18 +46,13 @@ namespace Skill
         /// </summary>
         private ObjectVariable<PlayerActionInherentData> CurrentPlayerActionInherentData;
 
-        public SkillSlot(CoreInteractiveObject AssociatedInteractiveObject, PlayerActionPlayerSystem PlayerActionPlayerSystem, InputID AssociatedInput)
+        public SkillSlot(CoreInteractiveObject AssociatedInteractiveObject, PlayerActionPlayerSystem PlayerActionPlayerSystem, ref SKillSlotUIPositionInput SKillSlotUIPositionInput,
+            InputID AssociatedInput)
         {
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
             this.PlayerActionPlayerSystem = PlayerActionPlayerSystem;
             this.AssociatedInput = AssociatedInput;
-            this.SkillSlotUI = new SkillSlotUI(new SKillSlotUIPositionInput(
-                rootPivot: RectTransformSetup.BOTTOM_RIGHT,
-                rootSize: new Vector2(100, 100),
-                rootLocalPositionInPercentage: new Vector2(0.48f, SkillSlotUI.VerticalLocalPositionInPercentageFromCenter),
-                backgroundImageSize: new Vector2(100, 53.9f),
-                slotIconSize: new Vector2(70f, 70f)
-            ));
+            this.SkillSlotUI = new SkillSlotUI(ref SKillSlotUIPositionInput);
             this.CurrentPlayerActionInherentData = new ObjectVariable<PlayerActionInherentData>(this.OnCurrentPlayerActionInherentDataChanged);
         }
 

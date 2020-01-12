@@ -41,7 +41,7 @@ namespace PlayerObject
 
         #endregion
 
-        private SkillSlot FiringProjectileSkillSlot;
+        private SkillSystem SkillSystem;
 
         #region External Dependencies
 
@@ -80,10 +80,8 @@ namespace PlayerObject
                 OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
-            /// TODO -> this must be moved to a player skill system
-            this.FiringProjectileSkillSlot = new SkillSlot(this, this.PlayerActionPlayerSystem, InputID.FIRING_PROJECTILE_DOWN_HOLD);
-            this.FiringProjectileSkillSlot.SwitchSkillActionDefinition(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
-            /// END
+            this.SkillSystem = new SkillSystem(this, this.PlayerActionPlayerSystem);
+            this.SkillSystem.SetPlayerActionToMainWeaponSkill(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
@@ -159,7 +157,7 @@ namespace PlayerObject
         public override void Tick(float d)
         {
             this.PlayerActionPlayerSystem.Tick(d);
-            this.FiringProjectileSkillSlot.Tick(d);
+            this.SkillSystem.Tick(d);
 
             this.StunningDamageDealerReceiverSystem.Tick(d);
             if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
@@ -244,7 +242,7 @@ namespace PlayerObject
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthStartedEvent(this.OnLowHealthStarted);
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
 
-            this.FiringProjectileSkillSlot.Destroy();
+            this.SkillSystem.Destroy();
 
             base.Destroy();
         }

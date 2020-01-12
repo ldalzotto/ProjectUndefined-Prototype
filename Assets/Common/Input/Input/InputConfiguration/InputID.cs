@@ -34,6 +34,9 @@ namespace Input
         MENU_EXIT_DOWN = 17,
         FREEZE_TIME_DOWN = 18,
         FIRING_ACTION_DOWN_HOLD = 19,
-        DEFLECT_PROJECTILE_DOWN = 20
+        DEFLECT_PROJECTILE_DOWN = 20,
+        SKILL_1_DOWN_HOLD = 21,
+        SKILL_2_DOWN_HOLD = 22,
+        SKILL_3_DOWN_HOLD = 23
     }
 }

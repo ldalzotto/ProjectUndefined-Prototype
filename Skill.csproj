@@ -62,6 +62,7 @@
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\SkillSlotUI.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\TagTypes\SkillSlotUIGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\TagTypes\SkillSlotUIconIGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\Systems\SkillSystem.cs" />
      <None Include="Assets\Undefined\Logic\Skill\Skill.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
