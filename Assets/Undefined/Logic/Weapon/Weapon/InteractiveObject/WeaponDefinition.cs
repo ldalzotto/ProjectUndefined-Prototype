@@ -1,4 +1,4 @@
-﻿using Firing;
+﻿using PlayerAim;
 using InteractiveObjects;
 using OdinSerializer;
 using InteractiveObjectAction;

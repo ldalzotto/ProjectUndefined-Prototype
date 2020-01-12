@@ -5,14 +5,14 @@ using InteractiveObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Firing
+namespace PlayerAim
 {
     /// <summary>
-    /// Creates a <see cref="FiringInteractiveObjectAction"/> that will trigger the Player targetting logic.
+    /// Creates a <see cref="PlayerAimingInteractiveObjectAction"/> that will trigger the Player targetting logic.
     /// </summary>
     [Serializable]
     [SceneHandleDraw]
-    public class FiringInteractiveObjectActionInherentData : InteractiveObjectActionInherentData
+    public class PlayerAimingInteractiveObjectActionInherentData : InteractiveObjectActionInherentData
     {
         public GameObject FiringHorizontalPlanePrefab;
 
@@ -23,7 +23,7 @@ namespace Firing
 
         public override string InteractiveObjectActionUniqueID
         {
-            get { return FiringInteractiveObjectAction.FiringPlayerActionUniqueID; }
+            get { return PlayerAimingInteractiveObjectAction.PlayerAimingInteractiveObjectActionUniqueID; }
         }
 
         /// <param name="interactiveObjectActionInput">The input must be of type <see cref="FiringInteractiveObjectActionInput"/> to create the AInteractiveObjectAction.</param>
@@ -31,7 +31,7 @@ namespace Firing
         {
             if (interactiveObjectActionInput is FiringInteractiveObjectActionInput FiringPlayerActionInput)
             {
-                return new FiringInteractiveObjectAction(ref FiringPlayerActionInput);
+                return new PlayerAimingInteractiveObjectAction(ref FiringPlayerActionInput);
             }
 
             return default;
@@ -45,12 +45,12 @@ namespace Firing
 
     public struct FiringInteractiveObjectActionInput : IInteractiveObjectActionInput
     {
-        public FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData;
+        public PlayerAimingInteractiveObjectActionInherentData PlayerAimingInteractiveObjectActionInherentData;
         public CoreInteractiveObject firingInteractiveObject;
 
-        public FiringInteractiveObjectActionInput(FiringInteractiveObjectActionInherentData firingInteractiveObjectActionInherentData, CoreInteractiveObject firingInteractiveObject)
+        public FiringInteractiveObjectActionInput(PlayerAimingInteractiveObjectActionInherentData playerAimingInteractiveObjectActionInherentData, CoreInteractiveObject firingInteractiveObject)
         {
-            FiringInteractiveObjectActionInherentData = firingInteractiveObjectActionInherentData;
+            PlayerAimingInteractiveObjectActionInherentData = playerAimingInteractiveObjectActionInherentData;
             this.firingInteractiveObject = firingInteractiveObject;
         }
     }

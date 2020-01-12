@@ -5,7 +5,7 @@ using InteractiveObjects_Interfaces;
 using ProjectileDeflection_Interface;
 using UnityEngine;
 
-namespace Firing
+namespace PlayerAim
 {
     public class FiredProjectile : CoreInteractiveObject
     {

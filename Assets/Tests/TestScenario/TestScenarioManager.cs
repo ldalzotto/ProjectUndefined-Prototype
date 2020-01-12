@@ -63,7 +63,7 @@ namespace Tests
             InteractiveObjectV2Manager.Get().InitializeAllInteractiveObjectsInitializer();
 
             /// By default player has infinite health
-            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(9999999, null);
+            PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject.DealDamage(9999999, null);
 
             this.SequencedActionPlayer = new SequencedActionPlayer(aTestScenarioDefinition.BuildScenarioActions());
             this.SequencedActionPlayer.Play();

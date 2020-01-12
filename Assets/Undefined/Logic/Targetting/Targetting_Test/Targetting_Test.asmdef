@@ -3,7 +3,7 @@
     "references": [
         "SequencedAction",
         "Targetting",
-        "Firing",
+        "PlayerAim",
         "Tests",
         "OdinSerializer",
         "Input",

@@ -26,7 +26,7 @@ namespace SoliderBehavior_Test
 
         public override ASequencedAction[] BuildScenarioActions()
         {
-            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
 
             return new ASequencedAction[]
             {

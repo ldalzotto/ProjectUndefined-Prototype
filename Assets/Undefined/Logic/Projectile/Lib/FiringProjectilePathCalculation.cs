@@ -1,7 +1,7 @@
 ﻿using InteractiveObjects;
 using UnityEngine;
 
-namespace Firing
+namespace PlayerAim
 {
     public static class FiringProjectilePathCalculation
     {

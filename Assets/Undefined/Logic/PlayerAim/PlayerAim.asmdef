@@ -1,5 +1,5 @@
 {
-    "name": "Firing",
+    "name": "PlayerAim",
     "references": [
         "CoreGame",
         "Editor_Common",

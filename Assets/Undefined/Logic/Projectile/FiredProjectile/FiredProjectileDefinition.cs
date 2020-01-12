@@ -8,7 +8,7 @@ using ProjectileDeflection_Interface;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Firing
+namespace PlayerAim
 {
     [Serializable]
     [SceneHandleDraw]

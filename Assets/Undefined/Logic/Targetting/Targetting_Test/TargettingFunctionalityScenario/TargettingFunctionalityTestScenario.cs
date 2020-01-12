@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Firing;
+using PlayerAim;
 using InteractiveObjects;
 using InteractiveObjectAction;
 using SequencedAction;

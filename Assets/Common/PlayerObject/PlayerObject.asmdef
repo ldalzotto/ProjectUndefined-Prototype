@@ -15,7 +15,7 @@
         "Input",
         "Weapon",
         "AIObjects",
-        "Firing",
+        "PlayerAim",
         "Health",
         "Damage",
         "LevelManagement",

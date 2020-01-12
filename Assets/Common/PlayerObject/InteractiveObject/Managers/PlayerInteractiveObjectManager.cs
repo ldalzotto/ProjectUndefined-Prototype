@@ -5,7 +5,7 @@ namespace PlayerObject
 {
     public class PlayerInteractiveObjectManager : GameSingleton<PlayerInteractiveObjectManager>
     {
-        public PlayerInteractiveObject PlayerInteractiveObject { get; private set; }
+        public PlayerAimingInteractiveObject PlayerAimingInteractiveObject { get; private set; }
 
         public void InitializeEvents()
         {
@@ -15,38 +15,38 @@ namespace PlayerObject
 
         public void FixedTick(float d)
         {
-            PlayerInteractiveObject?.FixedTick(d);
+            PlayerAimingInteractiveObject?.FixedTick(d);
         }
 
         public void Tick(float d)
         {
-            PlayerInteractiveObject?.Tick(d);
+            PlayerAimingInteractiveObject?.Tick(d);
         }
 
         public void TickTimeFrozen(float d)
         {
-            PlayerInteractiveObject?.TickTimeFrozen(d);
+            PlayerAimingInteractiveObject?.TickTimeFrozen(d);
         }
 
         public void AfterTicks(float d)
         {
-            PlayerInteractiveObject?.AfterTicks(d);
+            PlayerAimingInteractiveObject?.AfterTicks(d);
         }
 
         public void LateTick(float d)
         {
-            PlayerInteractiveObject?.LateTick(d);
+            PlayerAimingInteractiveObject?.LateTick(d);
         }
         
         #region External Events
 
         public void OnPlayerInteractiveObjectCreated(IPlayerInteractiveObject PlayerInteractiveObject)
         {
-            this.PlayerInteractiveObject = (PlayerInteractiveObject)PlayerInteractiveObject;
+            this.PlayerAimingInteractiveObject = (PlayerAimingInteractiveObject)PlayerInteractiveObject;
         }
         public void OnPlayerInteractiveObjectDestroyed()
         {
-            this.PlayerInteractiveObject = null;
+            this.PlayerAimingInteractiveObject = null;
         }
         #endregion
     }

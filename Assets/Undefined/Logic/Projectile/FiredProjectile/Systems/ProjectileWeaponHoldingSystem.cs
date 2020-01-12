@@ -1,6 +1,6 @@
 ﻿using InteractiveObjects;
 
-namespace Firing
+namespace PlayerAim
 {
     /// <summary>
     /// Responsible of holding current reference of <see cref="WeaponHolder"/> and switching to another one.

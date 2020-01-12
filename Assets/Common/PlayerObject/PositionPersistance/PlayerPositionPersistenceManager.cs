@@ -11,7 +11,7 @@ namespace PlayerObject
 
         public PlayerPosition PlayerPositionBeforeLevelLoad { get; private set; }
 
-        public void Init(PlayerInteractiveObject PlayerInteractiveObject)
+        public void Init(PlayerAimingInteractiveObject playerAimingInteractiveObject)
         {
             this.playerPositionPersister = new PlayerPositionPersister();
 
@@ -20,7 +20,7 @@ namespace PlayerObject
                 var loadedPlayerPositionBeforeLevelLoad = this.playerPositionPersister.Load();
                 if (!loadedPlayerPositionBeforeLevelLoad.HasBeenInit)
                 {
-                    this.OnAdventureToPuzzleLevel(PlayerInteractiveObject);
+                    this.OnAdventureToPuzzleLevel(playerAimingInteractiveObject);
                 }
                 else
                 {
@@ -31,10 +31,10 @@ namespace PlayerObject
 
         #region External Events
 
-        public void OnAdventureToPuzzleLevel(PlayerInteractiveObject PlayerInteractiveObject)
+        public void OnAdventureToPuzzleLevel(PlayerAimingInteractiveObject playerAimingInteractiveObject)
         {
-            this.PlayerPositionBeforeLevelLoad = new PlayerPosition(PlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.position,
-                PlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation);
+            this.PlayerPositionBeforeLevelLoad = new PlayerPosition(playerAimingInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.position,
+                playerAimingInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform.rotation);
             this.playerPositionPersister.SaveAsync(this.PlayerPositionBeforeLevelLoad);
         }
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Firing
+namespace PlayerAim
 {
     class FiredProjectileMovementSystem
     {

@@ -8,30 +8,30 @@ using Targetting;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace Firing
+namespace PlayerAim
 {
-    public class FiringInteractiveObjectAction : AInteractiveObjectAction
+    public class PlayerAimingInteractiveObjectAction : AInteractiveObjectAction
     {
-        public const string FiringPlayerActionUniqueID = "FiringInteractiveObjectAction";
+        public const string PlayerAimingInteractiveObjectActionUniqueID = "PlayerAimingInteractiveObjectAction";
 
         private CoreInteractiveObject FiringInteractiveObject;
-        private FiringInteractiveObjectActionInherentData _firingInteractiveObjectActionInherentData;
+        private PlayerAimingInteractiveObjectActionInherentData _playerAimingInteractiveObjectActionInherentData;
 
         private FiringLockSelectionSystem _firingLockSelectionSystem;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private ExitActionSystem ExitActionSystem;
-        private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
+        private PlayerAimRangeFeedbackSystem _playerAimRangeFeedbackSystem;
 
-        public FiringInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput) :
-            base(firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition)
+        public PlayerAimingInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput) :
+            base(firingInteractiveObjectActionInput.PlayerAimingInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition)
         {
             this.FiringInteractiveObject = firingInteractiveObjectActionInput.firingInteractiveObject;
 
             var gameInputManager = GameInputManager.Get();
-            this._firingInteractiveObjectActionInherentData = firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData;
+            this._playerAimingInteractiveObjectActionInherentData = firingInteractiveObjectActionInput.PlayerAimingInteractiveObjectActionInherentData;
 
-            this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this._firingInteractiveObjectActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
+            this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this._playerAimingInteractiveObjectActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
             this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringInteractiveObject as IPlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
 
@@ -47,13 +47,13 @@ namespace Firing
             base.FirstExecution();
             if (this.FiringInteractiveObject is IEM_IFiringAInteractiveObjectAction_EventsListener IFiringAInteractiveObjectAction_EventsListener)
             {
-                IFiringAInteractiveObjectAction_EventsListener.OnFiringInteractiveObjectActionStart(this._firingInteractiveObjectActionInherentData);
+                IFiringAInteractiveObjectAction_EventsListener.OnFiringInteractiveObjectActionStart(this._playerAimingInteractiveObjectActionInherentData);
             }
         }
 
         public override string InteractiveObjectActionUniqueID
         {
-            get { return FiringPlayerActionUniqueID; }
+            get { return PlayerAimingInteractiveObjectActionUniqueID; }
         }
 
         public override bool FinishedCondition()
@@ -71,7 +71,7 @@ namespace Firing
 
         public override void Tick(float d)
         {
-            Profiler.BeginSample("FiringInteractiveObjectAction");
+            Profiler.BeginSample("PlayerAimingInteractiveObjectAction");
             this._firingLockSelectionSystem.Tick();
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
@@ -87,14 +87,14 @@ namespace Firing
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
-                /// The FiringRangeFeedbackSystem is not initialized in the constructor to be sure that FiringRangeFeedbackSystem position initialization takes into account the computed position of the player
+                /// The PlayerAimRangeFeedbackSystem is not initialized in the constructor to be sure that PlayerAimRangeFeedbackSystem position initialization takes into account the computed position of the player
                 /// for the current frame.
-                if (!this.FiringRangeFeedbackSystem.IsInitialized)
+                if (!this._playerAimRangeFeedbackSystem.IsInitialized)
                 {
-                    this.FiringRangeFeedbackSystem = new FiringRangeFeedbackSystem(this.FiringInteractiveObject, this.FiringPlayerActionTargetSystem);
+                    this._playerAimRangeFeedbackSystem = new PlayerAimRangeFeedbackSystem(this.FiringInteractiveObject, this.FiringPlayerActionTargetSystem);
                 }
 
-                this.FiringRangeFeedbackSystem.AfterPlayerTick(d);
+                this._playerAimRangeFeedbackSystem.AfterPlayerTick(d);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Firing
             {
                 this._firingLockSelectionSystem.Tick();
                 this.FiringPlayerActionTargetSystem.Tick(d);
-                this.FiringRangeFeedbackSystem.AfterPlayerTick(d);
+                this._playerAimRangeFeedbackSystem.AfterPlayerTick(d);
             }
         }
 
@@ -116,11 +116,11 @@ namespace Firing
         {
             this._firingLockSelectionSystem.Dispose();
             this.FiringPlayerActionTargetSystem.Dispose();
-            this.FiringRangeFeedbackSystem.Dispose();
+            this._playerAimRangeFeedbackSystem.Dispose();
 
             if (this.FiringInteractiveObject is IEM_IFiringAInteractiveObjectAction_EventsListener IFiringAInteractiveObjectAction_EventsListener)
             {
-                IFiringAInteractiveObjectAction_EventsListener.OnFiringInteractiveObjectActionEnd(this._firingInteractiveObjectActionInherentData);
+                IFiringAInteractiveObjectAction_EventsListener.OnFiringInteractiveObjectActionEnd(this._playerAimingInteractiveObjectActionInherentData);
             }
 
             base.Dispose();
@@ -156,13 +156,13 @@ namespace Firing
 
         private GameObject DottedVisualFeeback;
 
-        public FiringPlayerActionTargetSystem(FiringInteractiveObjectActionInherentData firingInteractiveObjectActionInherentDataRef, CoreInteractiveObject firingInteractiveObject, TargetCursorManager targetCursorManagerRef)
+        public FiringPlayerActionTargetSystem(PlayerAimingInteractiveObjectActionInherentData playerAimingInteractiveObjectActionInherentDataRef, CoreInteractiveObject firingInteractiveObject, TargetCursorManager targetCursorManagerRef)
         {
             this._targetCursorManagerRef = targetCursorManagerRef;
             this.FiringInteractiveObject = firingInteractiveObject;
-            this.TargetPlaneGameObject = GameObject.Instantiate(firingInteractiveObjectActionInherentDataRef.FiringHorizontalPlanePrefab);
+            this.TargetPlaneGameObject = GameObject.Instantiate(playerAimingInteractiveObjectActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.TargetPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
-            this.DottedVisualFeeback = GameObject.Instantiate(firingInteractiveObjectActionInherentDataRef.GroundConeVisualFeedbackPrefab);
+            this.DottedVisualFeeback = GameObject.Instantiate(playerAimingInteractiveObjectActionInherentDataRef.GroundConeVisualFeedbackPrefab);
             this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(this.OnCurrentlyTargettedInteractiveObjectChange);
         }
 
@@ -294,12 +294,12 @@ namespace Firing
 
     /// <summary>
     /// The <see cref="IEM_IFiringAInteractiveObjectAction_EventsListener"/> is implement by any <see cref="CoreInteractiveObject"/> that wants to execute logic when
-    /// the <see cref="FiringInteractiveObjectAction"/> is starting and stopping.
-    /// FiringInteractiveObjectAction
+    /// the <see cref="PlayerAimingInteractiveObjectAction"/> is starting and stopping.
+    /// PlayerAimingInteractiveObjectAction
     /// </summary>
     public interface IEM_IFiringAInteractiveObjectAction_EventsListener
     {
-        void OnFiringInteractiveObjectActionStart(FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData);
-        void OnFiringInteractiveObjectActionEnd(FiringInteractiveObjectActionInherentData FiringInteractiveObjectActionInherentData);
+        void OnFiringInteractiveObjectActionStart(PlayerAimingInteractiveObjectActionInherentData playerAimingInteractiveObjectActionInherentData);
+        void OnFiringInteractiveObjectActionEnd(PlayerAimingInteractiveObjectActionInherentData playerAimingInteractiveObjectActionInherentData);
     }
 }

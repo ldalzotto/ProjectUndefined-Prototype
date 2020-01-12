@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SoliderAIBehavior
 {
     /// <summary>
-    /// Holds and update all informations relative to the PlayerObject for the associated <see cref="SoliderEnemy"/>.
+    /// Holds and update all informations relative to the _playerAimingObject for the associated <see cref="SoliderEnemy"/>.
     /// It dispatch <see cref="SoldierStateManager.OnPlayerObjectJustOnSight"/> and <see cref="SoldierStateManager.OnPlayerObjectJustOutOfSight"/> events.
     /// </summary>
     public class PlayerObjectStateDataSystem
@@ -17,7 +17,7 @@ namespace SoliderAIBehavior
         {
             if (this.playerObject == null)
             {
-                this.playerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+                this.playerObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
             }
 
             return this.playerObject;

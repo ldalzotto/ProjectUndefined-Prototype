@@ -1,6 +1,6 @@
 ﻿using AnimatorPlayable;
 using CoreGame;
-using Firing;
+using PlayerAim;
 using InteractiveObjectAction;
 using PlayerObject;
 using ProjectileDeflection;
@@ -39,9 +39,9 @@ namespace InputDynamicTextMenu
 
         private void RegisterEvents()
         {
-            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
 
-            if (PlayerInteractiveObject is IEM_IPlayerFiringRegisteringEventsExposedMethod IPlayerFiringRegisteringEventsExposedMethod)
+            if (PlayerInteractiveObject is IEM_IPlayerAimingFiringRegisteringEventsExposedMethod IPlayerFiringRegisteringEventsExposedMethod)
             {
                 IPlayerFiringRegisteringEventsExposedMethod.RegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
                 IPlayerFiringRegisteringEventsExposedMethod.RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
@@ -56,9 +56,9 @@ namespace InputDynamicTextMenu
 
         private void UnRegisterEvents()
         {
-            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
 
-            if (PlayerInteractiveObject is IEM_IPlayerFiringRegisteringEventsExposedMethod IPlayerFiringRegisteringEventsExposedMethod)
+            if (PlayerInteractiveObject is IEM_IPlayerAimingFiringRegisteringEventsExposedMethod IPlayerFiringRegisteringEventsExposedMethod)
             {
                 IPlayerFiringRegisteringEventsExposedMethod.UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
                 IPlayerFiringRegisteringEventsExposedMethod.UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);

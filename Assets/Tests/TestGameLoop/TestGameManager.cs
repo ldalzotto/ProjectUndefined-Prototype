@@ -33,7 +33,7 @@ namespace Tests
             PlayerInteractiveObjectCreatedEvent.Get().RegisterPlayerInteractiveObjectCreatedEvent((p) =>
             {
                 /// Player is forced to be controlled by agent
-                PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.PlayerMoveManager.ForceSwitchToAgent();
+                PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject.PlayerMoveManager.ForceSwitchToAgent();
             });
         }
 

@@ -628,9 +628,9 @@
       <Project>{D821AE8B-5B34-3933-C79B-A2355D29C0BF}</Project>
       <Name>Targetting</Name>
     </ProjectReference>
-    <ProjectReference Include="Firing.csproj">
-      <Project>{49D37C45-08B6-E13E-25B7-CF264207D493}</Project>
-      <Name>Firing</Name>
+    <ProjectReference Include="PlayerAim.csproj">
+      <Project>{B17F007E-B70A-1020-D1D7-7A5C26AC227C}</Project>
+      <Name>PlayerAim</Name>
     </ProjectReference>
     <ProjectReference Include="Tests.csproj">
       <Project>{CC59B679-8993-C709-3D98-06EE2F965358}</Project>

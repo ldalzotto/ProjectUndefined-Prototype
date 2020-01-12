@@ -1,5 +1,5 @@
 ﻿using System;
-using Firing;
+using PlayerAim;
 using InteractiveObjectAction;
 using UnityEngine;
 

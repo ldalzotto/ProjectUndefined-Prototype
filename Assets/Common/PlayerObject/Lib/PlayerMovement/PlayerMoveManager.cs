@@ -10,7 +10,7 @@ using UnityEngine.AI;
 namespace PlayerObject
 {
     /// <summary>
-    /// Manages <see cref="PlayerInteractiveObject"/> movement from Input <see cref="PlayerRigidBodyMoveManager"/> and from Agent <see cref="PlayerAgentMoveManager"/>.
+    /// Manages <see cref="PlayerAimingInteractiveObject"/> movement from Input <see cref="PlayerRigidBodyMoveManager"/> and from Agent <see cref="PlayerAgentMoveManager"/>.
     /// The choice between Input and Agent is done  by <see cref="PlayerMoveManagerState"/>. <br/>
     /// <see cref="PlayerMoveManagerState"/> values can be changed automatically when a movement input is pressed or when a destination is asked.
     /// </summary>
@@ -30,7 +30,7 @@ namespace PlayerObject
         /// </summary>
         private APlayerMoveManager CurrentPlayerMoveManager;
 
-        private PlayerInteractiveObject PlayerInteractiveObjectRef;
+        private PlayerAimingInteractiveObject _playerAimingInteractiveObjectRef;
         private ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef;
 
         #region External Dependencies
@@ -39,10 +39,10 @@ namespace PlayerObject
 
         #endregion
 
-        public PlayerMoveManager(PlayerInteractiveObject playerInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
+        public PlayerMoveManager(PlayerAimingInteractiveObject playerAimingInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
             PlayerRigidBodyMoveManager PlayerRigidBodyMoveManager, PlayerAgentMoveManager PlayerAgentMoveManager)
         {
-            this.PlayerInteractiveObjectRef = playerInteractiveObjectRef;
+            this._playerAimingInteractiveObjectRef = playerAimingInteractiveObjectRef;
             this.PlayerObjectMovementSpeedSystemRef = PlayerObjectMovementSpeedSystemRef;
             this.PlayerRigidBodyMoveManager = PlayerRigidBodyMoveManager;
             this.PlayerAgentMoveManager = PlayerAgentMoveManager;
@@ -62,7 +62,7 @@ namespace PlayerObject
             this.PlayerObjectMovementSpeedSystemRef.SetObjectSpeedCalculationType(ObjectSpeedCalculationType.MANUAL);
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
-            this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.enabled = false;
+            this._playerAimingInteractiveObjectRef.InteractiveGameObject.Agent.enabled = false;
             this.CurrentPlayerMoveManager = this.PlayerRigidBodyMoveManager;
         }
 
@@ -77,7 +77,7 @@ namespace PlayerObject
             this.PlayerObjectMovementSpeedSystemRef.SetObjectSpeedCalculationType(ObjectSpeedCalculationType.AGENT);
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
-            this.PlayerInteractiveObjectRef.InteractiveGameObject.Agent.enabled = true;
+            this._playerAimingInteractiveObjectRef.InteractiveGameObject.Agent.enabled = true;
             this.CurrentPlayerMoveManager = this.PlayerAgentMoveManager;
         }
 

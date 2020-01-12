@@ -12,11 +12,11 @@ namespace PlayerObject
     {
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
 
-        public PlayerAgentMoveManager(PlayerInteractiveObject PlayerInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
+        public PlayerAgentMoveManager(PlayerAimingInteractiveObject playerAimingInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
             ObjectMovementSpeedSystem ObjectMovementSpeedSystemRef,
             OnAIInteractiveObjectDestinationReachedDelegate OnDestinationReachedCallback = null)
         {
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(PlayerInteractiveObject, TransformMoveManagerComponentV3, ObjectMovementSpeedSystemRef.GetSpeedAttenuationFactor, OnDestinationReachedCallback);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(playerAimingInteractiveObject, TransformMoveManagerComponentV3, ObjectMovementSpeedSystemRef.GetSpeedAttenuationFactor, OnDestinationReachedCallback);
         }
 
         public override void Tick(float d)

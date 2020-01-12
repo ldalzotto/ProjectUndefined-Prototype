@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FiredProjectile
 {
     [Serializable]
-    public class FiringRangeVisualFeedbackConfiguration : SerializedScriptableObject
+    public class PlayerAimingRangeVisualFeedbackConfiguration : SerializedScriptableObject
     {
         public GameObject FiredProjectileFeedbackPrefab;
     }

@@ -17,9 +17,9 @@ namespace ProjectileDeflection_Test
         public override ASequencedAction[] BuildScenarioActions()
         {
             /// By default player has infinite health
-            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(-99999999, null);
+            PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject.DealDamage(-99999999, null);
 
-            var playerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+            var playerObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
             var enemyObject = InteractiveObjectV2Manager.Get().InteractiveObjects.Find(o => o.InteractiveGameObject.GetAssociatedGameObjectName() == "GameObject");
 
             return new ASequencedAction[]
@@ -32,16 +32,16 @@ namespace ProjectileDeflection_Test
     class ProjectileDeflectionTestScenarioAction : ASequencedAction
     {
         private CoreInteractiveObject EnemyObject;
-        private PlayerInteractiveObject PlayerInteractiveObject;
+        private PlayerAimingInteractiveObject _playerAimingInteractiveObject;
         private CoreInteractiveObject SpawnedProjectile;
 
         private Coroutine cor;
         private bool ended;
 
-        public ProjectileDeflectionTestScenarioAction(CoreInteractiveObject EnemyObject, PlayerInteractiveObject PlayerInteractiveObject)
+        public ProjectileDeflectionTestScenarioAction(CoreInteractiveObject EnemyObject, PlayerAimingInteractiveObject playerAimingInteractiveObject)
         {
             this.EnemyObject = EnemyObject;
-            this.PlayerInteractiveObject = PlayerInteractiveObject;
+            this._playerAimingInteractiveObject = playerAimingInteractiveObject;
             SpawnFiringProjectileEvent.Get().RegisterSpawnFiringProjectileEventListener(this.OnProjectileLaunched);
         }
 
@@ -78,11 +78,11 @@ namespace ProjectileDeflection_Test
         {
             if (this.SpawnedProjectile != null)
             {
-                if (PlayerInteractiveObject.LowHealthPlayerSystem.IsHealthConsideredLow())
+                if (_playerAimingInteractiveObject.LowHealthPlayerSystem.IsHealthConsideredLow())
                 {
-                    var worldCenter = this.PlayerInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter();
+                    var worldCenter = this._playerAimingInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter();
 
-                    if (Vector3.Distance(this.SpawnedProjectile.InteractiveGameObject.GetTransform().WorldPosition, worldCenter) <= this.PlayerInteractiveObject.ProjectileDeflectionSystem.GetProjectileDetectionRadius())
+                    if (Vector3.Distance(this.SpawnedProjectile.InteractiveGameObject.GetTransform().WorldPosition, worldCenter) <= this._playerAimingInteractiveObject.ProjectileDeflectionSystem.GetProjectileDetectionRadius())
                     {
                         this.cor = Coroutiner.Instance.StartCoroutine(this.WaitFrame());
                     }

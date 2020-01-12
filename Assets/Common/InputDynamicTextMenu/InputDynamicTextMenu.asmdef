@@ -11,7 +11,7 @@
         "AnimatorPlayable",
         "InteractiveObjects",
         "PlayerLowHealth_Interfaces",
-        "Firing",
+        "PlayerAim",
         "InteractiveObjectAction",
         "SkillAction",
         "Weapon"

@@ -659,9 +659,9 @@
       <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
       <Name>PlayerLowHealth_Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="Firing.csproj">
-      <Project>{49D37C45-08B6-E13E-25B7-CF264207D493}</Project>
-      <Name>Firing</Name>
+    <ProjectReference Include="PlayerAim.csproj">
+      <Project>{B17F007E-B70A-1020-D1D7-7A5C26AC227C}</Project>
+      <Name>PlayerAim</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjectAction.csproj">
       <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>

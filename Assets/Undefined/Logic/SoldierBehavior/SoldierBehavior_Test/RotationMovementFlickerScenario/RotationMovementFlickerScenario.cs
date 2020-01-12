@@ -17,7 +17,7 @@ namespace SoliderBehavior_Test
         private const string EnemyObjectName = "Enemy";
 
         private CoreInteractiveObject EnemyObject;
-        private PlayerInteractiveObject PlayerObject;
+        private PlayerAimingInteractiveObject _playerAimingObject;
 
         [WireCircleWorld(PositionFieldName = nameof(PlayerStartPosition))]
         public Vector3 PlayerStartPosition;
@@ -29,13 +29,13 @@ namespace SoliderBehavior_Test
         public override ASequencedAction[] BuildScenarioActions()
         {
             this.EnemyObject = InteractiveObjectV2Manager.Get().InteractiveObjects.Find(o => o.InteractiveGameObject.GetAssociatedGameObjectName() == EnemyObjectName);
-            this.PlayerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
+            this._playerAimingObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
 
             return new ASequencedAction[]
             {
-                new AIWarpActionV2(this.PlayerObject, this.PlayerStartPosition, null)
+                new AIWarpActionV2(this._playerAimingObject, this.PlayerStartPosition, null)
                     .Then(new WaitForSecondsAction(1.5f)
-                        .Then(new AIMoveToActionV2(this.PlayerTargetPosition, null, AIMovementSpeedAttenuationFactor.RUN, (strategy) => { this.PlayerObject.SetDestination(strategy); }, this.PlayerObject.SetAISpeedAttenuationFactor))
+                        .Then(new AIMoveToActionV2(this.PlayerTargetPosition, null, AIMovementSpeedAttenuationFactor.RUN, (strategy) => { this._playerAimingObject.SetDestination(strategy); }, this._playerAimingObject.SetAISpeedAttenuationFactor))
                     )
             };
         }

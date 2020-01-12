@@ -7,13 +7,13 @@ using RangeObjects;
 using Targetting;
 using UnityEngine;
 
-namespace Firing
+namespace PlayerAim
 {
     /// <summary>
     /// Spawns a <see cref="firingRangeFeedbackRangeObject"/> that will show where the Player is aiming at.
     /// This is visualized by the model of <see cref="firingRangeFeedbackRangeObject"/>.
     /// </summary>
-    public struct FiringRangeFeedbackSystem
+    public struct PlayerAimRangeFeedbackSystem
     {
         public bool IsInitialized;
 
@@ -22,21 +22,21 @@ namespace Firing
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef;
         private FiringRangeFeedbackRangeObject firingRangeFeedbackRangeObject;
 
-        public FiringRangeFeedbackSystem(CoreInteractiveObject playerInteractiveObject, FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
+        public PlayerAimRangeFeedbackSystem(CoreInteractiveObject playerInteractiveObject, FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
         {
             IsInitialized = true;
             PlayerInteractiveObject = playerInteractiveObject;
             this.FiringPlayerActionTargetSystemRef = FiringPlayerActionTargetSystemRef;
             this.firingRangeFeedbackRangeObject = new FiringRangeFeedbackRangeObject(
                 InteractiveGameObjectFactory.Build(new GameObject("FiringRangeFeedbackRangeObject")),
-                FiringRangeFeedbackConfigurationGameObject.Get().firingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
+                PlayerAimingRangeFeedbackConfigurationGameObject.Get().playerAimingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
                 playerInteractiveObject);
 
             this.firingRangeFeedbackRangeObject.InitializeRaybox(CalculateFiringTargetPosition());
         }
 
         /// <summary>
-        /// The <see cref="FiringRangeFeedbackSystem"/> is updated after the player is updated because <see cref="PlayerObjectOrientationSystem"/> may apply player movement position constraints
+        /// The <see cref="PlayerAimRangeFeedbackSystem"/> is updated after the player is updated because <see cref="PlayerObjectOrientationSystem"/> may apply player movement position constraints
         /// that are computed during player object update.
         /// The firing range feedback is thus calculated after player position has been updated. 
         /// </summary>
@@ -69,7 +69,7 @@ namespace Firing
 
 
     /// <summary>
-    /// Positioning <see cref="FiringRangeFeedbackRangeObject"/> on the segment provided by <see cref="FiringRangeFeedbackSystem.CalculateFiringTargetPosition"/>.
+    /// Positioning <see cref="FiringRangeFeedbackRangeObject"/> on the segment provided by <see cref="PlayerAimRangeFeedbackSystem.CalculateFiringTargetPosition"/>.
     /// The final positioning is calculated by raycasting to InteractiveObjects that can interacts with the projectile.
     /// </summary>
     class FiringRangeFeedbackRangeObject : CoreInteractiveObject

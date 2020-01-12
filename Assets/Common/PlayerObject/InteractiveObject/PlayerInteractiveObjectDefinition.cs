@@ -1,7 +1,7 @@
 ﻿using System;
 using AnimatorPlayable;
 using Damage;
-using Firing;
+using PlayerAim;
 using Health;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
