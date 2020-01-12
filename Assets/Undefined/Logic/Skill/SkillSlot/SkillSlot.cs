@@ -10,7 +10,7 @@ namespace Skill
     /// SkillSlot is a layer between the <see cref="SkillSystem"/> and the execution of the <see cref="PlayerAction"/>.
     /// A SkillSlot assciates an Input (<see cref="AssociatedInput"/>) to a PlayerAction (<see cref="AssociatedPlayerActionInherentData"/>).
     /// The SkillSlot object is in charge of handling the UI representation of the skill <see cref="SkillSlotUI"/>
-    /// /!\ The SkillAction has no other logic than triggering the playing associated PlayerAction when the associated input is pressed via the <see cref="PlayerActionPlayerSystem"/> provided.
+    /// /!\ The SkillAction has no other logic than triggering the playing associated PlayerAction when the associated input is pressed via the <see cref="_interactiveObjectActionPlayerSystem"/> provided.
     /// </summary>
     public class SkillSlot
     {
@@ -28,9 +28,9 @@ namespace Skill
         private CoreInteractiveObject AssociatedInteractiveObject;
 
         /// <summary>
-        /// The <see cref="PlayerActionPlayerSystem"/> is used to play the <see cref="CurrentPlayerActionInherentData"/> when the <see cref="AssociatedInput"/> has been pressed.
+        /// The <see cref="_interactiveObjectActionPlayerSystem"/> is used to play the <see cref="CurrentPlayerActionInherentData"/> when the <see cref="AssociatedInput"/> has been pressed.
         /// </summary>
-        private PlayerActionPlayerSystem PlayerActionPlayerSystem;
+        private InteractiveObjectActionPlayerSystem _interactiveObjectActionPlayerSystem;
 
         #region UI
 
@@ -42,18 +42,18 @@ namespace Skill
         #endregion
 
         /// <summary>
-        /// /!\ <see cref="PlayerActionInherentData"/> can be switched at runtime.
+        /// /!\ <see cref="InteractiveObjectActionInherentData"/> can be switched at runtime.
         /// </summary>
-        private ObjectVariable<PlayerActionInherentData> CurrentPlayerActionInherentData;
+        private ObjectVariable<InteractiveObjectActionInherentData> CurrentPlayerActionInherentData;
 
-        public SkillSlot(CoreInteractiveObject AssociatedInteractiveObject, PlayerActionPlayerSystem PlayerActionPlayerSystem, ref SKillSlotUIPositionInput SKillSlotUIPositionInput,
+        public SkillSlot(CoreInteractiveObject AssociatedInteractiveObject, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem, ref SKillSlotUIPositionInput SKillSlotUIPositionInput,
             InputID AssociatedInput)
         {
             this.AssociatedInteractiveObject = AssociatedInteractiveObject;
-            this.PlayerActionPlayerSystem = PlayerActionPlayerSystem;
+            this._interactiveObjectActionPlayerSystem = interactiveObjectActionPlayerSystem;
             this.AssociatedInput = AssociatedInput;
             this.SkillSlotUI = new SkillSlotUI(ref SKillSlotUIPositionInput);
-            this.CurrentPlayerActionInherentData = new ObjectVariable<PlayerActionInherentData>(this.OnCurrentPlayerActionInherentDataChanged);
+            this.CurrentPlayerActionInherentData = new ObjectVariable<InteractiveObjectActionInherentData>(this.OnCurrentPlayerActionInherentDataChanged);
         }
 
         public void Destroy()
@@ -62,16 +62,16 @@ namespace Skill
         }
 
 
-        public void SwitchSkillActionDefinition(PlayerActionInherentData PlayerActionInherentData)
+        public void SwitchSkillActionDefinition(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
-            this.CurrentPlayerActionInherentData.SetValue(PlayerActionInherentData);
+            this.CurrentPlayerActionInherentData.SetValue(interactiveObjectActionInherentData);
         }
 
-        private void OnCurrentPlayerActionInherentDataChanged(PlayerActionInherentData OldPlayerActionInherentData, PlayerActionInherentData NewPlayerActionInherentData)
+        private void OnCurrentPlayerActionInherentDataChanged(InteractiveObjectActionInherentData oldInteractiveObjectActionInherentData, InteractiveObjectActionInherentData newInteractiveObjectActionInherentData)
         {
-            if (NewPlayerActionInherentData != null)
+            if (newInteractiveObjectActionInherentData != null)
             {
-                this.SkillSlotUI.OnSkillActionChanged(NewPlayerActionInherentData.CorePlayerActionDefinition.GetSkillActionDefinition());
+                this.SkillSlotUI.OnSkillActionChanged(newInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition.GetSkillActionDefinition());
             }
         }
 
@@ -79,10 +79,10 @@ namespace Skill
         {
             if (this.CurrentPlayerActionInherentData.GetValue() != null)
             {
-                this.SkillSlotUI.SetCooldownProgress(this.PlayerActionPlayerSystem.GetCooldownPercentageOfPlayerAction(this.CurrentPlayerActionInherentData.GetValue().PlayerActionUniqueID));
+                this.SkillSlotUI.SetCooldownProgress(this._interactiveObjectActionPlayerSystem.GetCooldownPercentageOfPlayerAction(this.CurrentPlayerActionInherentData.GetValue().InteractiveObjectActionUniqueID));
                 if (this.GameInputManager.CurrentInput.EvaluateInputCondition(this.AssociatedInput))
                 {
-                    this.PlayerActionPlayerSystem.ExecuteActionV2(this.CurrentPlayerActionInherentData.GetValue());
+                    this._interactiveObjectActionPlayerSystem.ExecuteActionV2(this.CurrentPlayerActionInherentData.GetValue());
                 }
             }
         }

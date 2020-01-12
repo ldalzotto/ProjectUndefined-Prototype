@@ -58,12 +58,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\PlayerActions\Configuration\PlayerActionInherentData.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Interface\IEM_PlayerActionPlayerSystem_Retriever.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Lib\ActionExecution\PlayerAction.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Lib\EventListener\PlayerActionEventListener.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Systems\PlayerActionPlayerSystem.cs" />
-     <Compile Include="Assets\Common\PlayerActions\Systems\PlayerActionWheelManager.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Configuration\InteractiveObjectActionInherentData.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Interface\IEM_InteractiveObjectActionPlayerSystem_Retriever.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Lib\ActionExecution\InteractiveObjectAction.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Lib\EventListener\InteractiveObjectActionEventListener.cs" />
+     <Compile Include="Assets\Common\PlayerActions\Systems\InteractiveObjectActionPlayerSystem.cs" />
      <None Include="Assets\Common\PlayerActions\PlayerActions.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

@@ -15,14 +15,11 @@ namespace Weapon
     {
         private WeaponHandlingSystemInitializationData WeaponHandlingSystemInitializationData;
         private Weapon WeaponReference;
-        private PlayerActionPlayerSystem AssociatedInteractiveObjectPlayerActionPlayerSystem;
 
         public WeaponHandlingSystem(CoreInteractiveObject AssociatedInteractiveObject,
-            WeaponHandlingSystemInitializationData weaponHandlingSystemInitializationData,
-            PlayerActionPlayerSystem AssociatedInteractiveObjectPlayerActionPlayerSystem)
+            WeaponHandlingSystemInitializationData weaponHandlingSystemInitializationData)
         {
             WeaponHandlingSystemInitializationData = weaponHandlingSystemInitializationData;
-            this.AssociatedInteractiveObjectPlayerActionPlayerSystem = AssociatedInteractiveObjectPlayerActionPlayerSystem;
             this.WeaponReference = this.WeaponHandlingSystemInitializationData.WeaponDefinition.BuildWeapon(AssociatedInteractiveObject);
         }
 
@@ -50,7 +47,7 @@ namespace Weapon
             return parent.InteractiveGameObject.GetTransform().WorldPosition + WeaponHandlingSystemInitializationData.WeaponHandlingFirePointOriginLocalDefinition.WeaponFirePointOriginLocal;
         }
 
-        public PlayerActionInherentData GetCurrentWeaponProjectileFireActionDefinition()
+        public InteractiveObjectActionInherentData GetCurrentWeaponProjectileFireActionDefinition()
         {
             return this.WeaponHandlingSystemInitializationData.WeaponDefinition.ProjectileFireActionDefinition;
         }

@@ -7,18 +7,18 @@ using UnityEngine;
 namespace Weapon
 {
     [Serializable]
-    public class ProjectileFireActionDefinition : PlayerActionInherentData
+    public class ProjectileFireActionDefinition : InteractiveObjectActionInherentData
     {
-        public override string PlayerActionUniqueID
+        public override string InteractiveObjectActionUniqueID
         {
             get { return ProjectileFireAction.ProjectileFireActionUniqueID; }
         }
 
-        public override PlayerAction BuildPlayerAction(IPlayerActionInput IPlayerActionInput, Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null)
+        public override InteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
         {
-            if (IPlayerActionInput is ProjectileFireActionInputData ProjectileFireActionInputData)
+            if (interactiveObjectActionInput is ProjectileFireActionInputData ProjectileFireActionInputData)
             {
-                return new ProjectileFireAction(ProjectileFireActionInputData, OnPlayerActionStartedCallback, OnPlayerActionEndCallback);
+                return new ProjectileFireAction(ProjectileFireActionInputData, OnInteractiveObjectActionStartedCallback, OnInteractiveObjectActionEndCallback);
             }
 
             return default;
@@ -26,7 +26,7 @@ namespace Weapon
 
         /// <param name="AssociatedInteractiveObject">Must implement <see cref="IEM_ProjectileFireActionInput_Retriever"/> and <see cref="IEM_WeaponHandlingSystem_Retriever"/>
         /// to work properly.</param>
-        public override IPlayerActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
+        public override IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
         {
             if (AssociatedInteractiveObject is IEM_ProjectileFireActionInput_Retriever IEM_ProjectileFireActionInput_Retriever)
             {

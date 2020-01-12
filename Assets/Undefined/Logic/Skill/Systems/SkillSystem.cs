@@ -11,7 +11,7 @@ namespace Skill
     /// The <see cref="SkillSystem"/> is a bag of <see cref="SkillSlot"/>. It's goal is to manage (update and destroy) all visible skill slots by handling :
     /// * Differenciation of <see cref="SkillSlot"/> between the <see cref="MainWeaponSkillSlot"/> and <see cref="SubSkillSlots"/> by their position an inputs
     ///         (see <see cref="MainWeaponSkillSlot"/> and <see cref="SubSkillSlots"/>).
-    /// * Switch of associated <see cref="PlayerActionInherentData"/> for every <see cref="SkillSlot"/> (see <see cref="SetPlayerActionToMainWeaponSkill"/> and <see cref="SetPlayerActionToSubSkill"/>)
+    /// * Switch of associated <see cref="InteractiveObjectActionInherentData"/> for every <see cref="SkillSlot"/> (see <see cref="SetPlayerActionToMainWeaponSkill"/> and <see cref="SetPlayerActionToSubSkill"/>)
     /// /!\ The <see cref="SkillSystem"/> has no other logic than updating and destroying <see cref="SkillSlot"/>.
     /// </summary>
     public class SkillSystem
@@ -27,19 +27,19 @@ namespace Skill
         /// </summary>
         private List<SkillSlot> SubSkillSlots = new List<SkillSlot>();
 
-        public SkillSystem(CoreInteractiveObject AssociatedInteractiveObject, PlayerActionPlayerSystem PlayerActionPlayerSystem)
+        public SkillSystem(CoreInteractiveObject AssociatedInteractiveObject, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem)
         {
             SKillSlotUIPositionInput SKillSlotUIPositionInput = default(SKillSlotUIPositionInput);
             BuildSKillSlotUIPositionInputForMainWeapon(ref SKillSlotUIPositionInput);
-            this.MainWeaponSkillSlot = new SkillSlot(AssociatedInteractiveObject, PlayerActionPlayerSystem, ref SKillSlotUIPositionInput,
+            this.MainWeaponSkillSlot = new SkillSlot(AssociatedInteractiveObject, interactiveObjectActionPlayerSystem, ref SKillSlotUIPositionInput,
                 InputID.FIRING_PROJECTILE_DOWN_HOLD);
 
             BuildSkillSlotForSubSkill(ref SKillSlotUIPositionInput, 0);
-            this.SubSkillSlots.Add(new SkillSlot(AssociatedInteractiveObject, PlayerActionPlayerSystem, ref SKillSlotUIPositionInput, InputID.SKILL_1_DOWN_HOLD));
+            this.SubSkillSlots.Add(new SkillSlot(AssociatedInteractiveObject, interactiveObjectActionPlayerSystem, ref SKillSlotUIPositionInput, InputID.SKILL_1_DOWN_HOLD));
             BuildSkillSlotForSubSkill(ref SKillSlotUIPositionInput, 1);
-            this.SubSkillSlots.Add(new SkillSlot(AssociatedInteractiveObject, PlayerActionPlayerSystem, ref SKillSlotUIPositionInput, InputID.SKILL_2_DOWN_HOLD));
+            this.SubSkillSlots.Add(new SkillSlot(AssociatedInteractiveObject, interactiveObjectActionPlayerSystem, ref SKillSlotUIPositionInput, InputID.SKILL_2_DOWN_HOLD));
             BuildSkillSlotForSubSkill(ref SKillSlotUIPositionInput, 2);
-            this.SubSkillSlots.Add(new SkillSlot(AssociatedInteractiveObject, PlayerActionPlayerSystem, ref SKillSlotUIPositionInput, InputID.SKILL_3_DOWN_HOLD));
+            this.SubSkillSlots.Add(new SkillSlot(AssociatedInteractiveObject, interactiveObjectActionPlayerSystem, ref SKillSlotUIPositionInput, InputID.SKILL_3_DOWN_HOLD));
         }
 
         public void Tick(float d)
@@ -84,16 +84,16 @@ namespace Skill
 
         #region PlayerAction Set
 
-        public void SetPlayerActionToMainWeaponSkill(PlayerActionInherentData PlayerActionInherentData)
+        public void SetPlayerActionToMainWeaponSkill(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
-            this.MainWeaponSkillSlot.SwitchSkillActionDefinition(PlayerActionInherentData);
+            this.MainWeaponSkillSlot.SwitchSkillActionDefinition(interactiveObjectActionInherentData);
         }
 
-        public void SetPlayerActionToSubSkill(PlayerActionInherentData PlayerActionInherentData, int position)
+        public void SetPlayerActionToSubSkill(InteractiveObjectActionInherentData interactiveObjectActionInherentData, int position)
         {
             if (position >= 0 && position <= this.SubSkillSlots.Count - 1)
             {
-                this.SubSkillSlots[position].SwitchSkillActionDefinition(PlayerActionInherentData);
+                this.SubSkillSlots[position].SwitchSkillActionDefinition(interactiveObjectActionInherentData);
             }
         }
 

@@ -79,12 +79,12 @@ namespace InputDynamicTextMenu
         }
 
 
-        private void OnPlayerStartTargetting(PlayerActionInherentData PlayerActionInherentData)
+        private void OnPlayerStartTargetting(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
             this.OnTargettingTextModule.Enable();
         }
 
-        private void OnPlayerStoppedTargetting(PlayerActionInherentData PlayerActionInherentData)
+        private void OnPlayerStoppedTargetting(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
             this.OnTargettingTextModule.Disable();
         }

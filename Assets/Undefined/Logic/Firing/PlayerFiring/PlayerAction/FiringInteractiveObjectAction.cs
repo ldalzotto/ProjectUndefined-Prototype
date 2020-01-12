@@ -9,12 +9,12 @@ using UnityEngine.Profiling;
 
 namespace Firing
 {
-    public class FiringPlayerAction : PlayerAction
+    public class FiringInteractiveObjectAction : InteractiveObjectAction
     {
-        public const string FiringPlayerActionUniqueID = "FiringPlayerAction";
+        public const string FiringPlayerActionUniqueID = "FiringInteractiveObjectAction";
 
         private CoreInteractiveObject FiringInteractiveObject;
-        private FiringPlayerActionInherentData FiringPlayerActionInherentData;
+        private FiringInteractiveObjectActionInherentData _firingInteractiveObjectActionInherentData;
 
         private FiringLockSelectionSystem _firingLockSelectionSystem;
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystem;
@@ -22,16 +22,16 @@ namespace Firing
         private ExitActionSystem ExitActionSystem;
         private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
-        public FiringPlayerAction(ref FiringPlayerActionInput FiringPlayerActionInput,
+        public FiringInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput,
             Action OnPlayerActionStartedCallback,
-            Action OnPlayerActionEndCallback) : base(FiringPlayerActionInput.FiringPlayerActionInherentData.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
+            Action OnPlayerActionEndCallback) : base(firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
-            this.FiringInteractiveObject = FiringPlayerActionInput.firingInteractiveObject;
+            this.FiringInteractiveObject = firingInteractiveObjectActionInput.firingInteractiveObject;
 
             var gameInputManager = GameInputManager.Get();
-            this.FiringPlayerActionInherentData = FiringPlayerActionInput.FiringPlayerActionInherentData;
+            this._firingInteractiveObjectActionInherentData = firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData;
 
-            this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this.FiringPlayerActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
+            this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this._firingInteractiveObjectActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
             this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringInteractiveObject as IPlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
 
@@ -47,7 +47,7 @@ namespace Firing
             base.FirstExecution();
         }
 
-        public override string PlayerActionUniqueID
+        public override string InteractiveObjectActionUniqueID
         {
             get { return FiringPlayerActionUniqueID; }
         }
@@ -67,7 +67,7 @@ namespace Firing
 
         public override void Tick(float d)
         {
-            Profiler.BeginSample("FiringPlayerAction");
+            Profiler.BeginSample("FiringInteractiveObjectAction");
             this._firingLockSelectionSystem.Tick();
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
@@ -148,13 +148,13 @@ namespace Firing
 
         private GameObject DottedVisualFeeback;
 
-        public FiringPlayerActionTargetSystem(FiringPlayerActionInherentData firingPlayerActionInherentDataRef, CoreInteractiveObject firingInteractiveObject, TargetCursorManager targetCursorManagerRef)
+        public FiringPlayerActionTargetSystem(FiringInteractiveObjectActionInherentData firingInteractiveObjectActionInherentDataRef, CoreInteractiveObject firingInteractiveObject, TargetCursorManager targetCursorManagerRef)
         {
             this._targetCursorManagerRef = targetCursorManagerRef;
             this.FiringInteractiveObject = firingInteractiveObject;
-            this.TargetPlaneGameObject = GameObject.Instantiate(firingPlayerActionInherentDataRef.FiringHorizontalPlanePrefab);
+            this.TargetPlaneGameObject = GameObject.Instantiate(firingInteractiveObjectActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.TargetPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
-            this.DottedVisualFeeback = GameObject.Instantiate(firingPlayerActionInherentDataRef.GroundConeVisualFeedbackPrefab);
+            this.DottedVisualFeeback = GameObject.Instantiate(firingInteractiveObjectActionInherentDataRef.GroundConeVisualFeedbackPrefab);
             this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(this.OnCurrentlyTargettedInteractiveObjectChange);
         }
 

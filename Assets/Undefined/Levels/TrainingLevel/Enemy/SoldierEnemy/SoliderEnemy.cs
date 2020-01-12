@@ -12,7 +12,7 @@ using Weapon;
 
 namespace TrainingLevel
 {
-    public partial class SoliderEnemy : CoreInteractiveObject, IEM_PlayerActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
+    public partial class SoliderEnemy : CoreInteractiveObject, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
     {
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
@@ -23,7 +23,7 @@ namespace TrainingLevel
         private SoliderEnemyAnimationStateManager SoliderEnemyAnimationStateManager;
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
-        public PlayerActionPlayerSystem PlayerActionPlayerSystem { get; private set; }
+        public InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem { get; private set; }
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -31,13 +31,12 @@ namespace TrainingLevel
             parent.CreateAgent(SoliderEnemyDefinition.AIAgentDefinition);
             this.interactiveObjectTag = new InteractiveObjectTag() {IsTakingDamage = true};
             BaseInit(parent);
-            this.PlayerActionPlayerSystem = new PlayerActionPlayerSystem(this);
+            this.InteractiveObjectActionPlayerSystem = new InteractiveObjectActionPlayerSystem(this);
             this.HealthSystem = new HealthSystem(this, SoliderEnemyDefinition.HealthSystemDefinition, this.OnHealthChanged);
             this._stunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(SoliderEnemyDefinition.stunningDamageDealerReceiverSystemDefinition, this.HealthSystem, this.OnStunningDamageDealingStarted, this.OnStunningDamageDealingEnded);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(this,
                 new WeaponHandlingSystemInitializationData(this, SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
-                    SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition),
-                this.PlayerActionPlayerSystem);
+                    SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, new UnConstrainedObjectSpeedAttenuationValueSystem(AIMovementSpeedAttenuationFactor.RUN), ObjectSpeedCalculationType.AGENT);
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
@@ -63,7 +62,7 @@ namespace TrainingLevel
 
         public override void Tick(float d)
         {
-            this.PlayerActionPlayerSystem.Tick(d);
+            this.InteractiveObjectActionPlayerSystem.Tick(d);
             this._stunningDamageDealerReceiverSystem.Tick(d);
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
@@ -74,7 +73,7 @@ namespace TrainingLevel
 
         public override void AfterTicks(float d)
         {
-            this.PlayerActionPlayerSystem.AfterTicks(d);
+            this.InteractiveObjectActionPlayerSystem.AfterTicks(d);
             this.ObjectMovementSpeedSystem.AfterTicks();
 
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
@@ -189,7 +188,7 @@ namespace TrainingLevel
         private void FireProjectileAction_Start(Vector3 WorldDirection)
         {
             this.LastTargetWorldDirection = WorldDirection;
-            this.PlayerActionPlayerSystem.ExecuteActionV2(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
+            this.InteractiveObjectActionPlayerSystem.ExecuteActionV2(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
         }
 
         public bool ProjectileFireActionEnabled()

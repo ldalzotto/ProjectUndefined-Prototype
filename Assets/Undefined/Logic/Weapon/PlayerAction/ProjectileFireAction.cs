@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Weapon
 {
-    public struct ProjectileFireActionInputData : IPlayerActionInput
+    public struct ProjectileFireActionInputData : IInteractiveObjectActionInput
     {
         public Weapon WeaponReference;
-        public PlayerActionInherentData ProjectileFireActionDefinition;
+        public InteractiveObjectActionInherentData ProjectileFireActionDefinition;
         public Vector3 NormalizedWorldDirection;
 
-        public ProjectileFireActionInputData(Weapon weaponReference, PlayerActionInherentData projectileFireActionDefinition, Vector3 normalizedWorldDirection)
+        public ProjectileFireActionInputData(Weapon weaponReference, InteractiveObjectActionInherentData projectileFireActionDefinition, Vector3 normalizedWorldDirection)
         {
             WeaponReference = weaponReference;
             ProjectileFireActionDefinition = projectileFireActionDefinition;
@@ -19,18 +19,18 @@ namespace Weapon
         }
     }
     
-    public class ProjectileFireAction : PlayerAction
+    public class ProjectileFireAction : InteractiveObjectAction
     {
         public const string ProjectileFireActionUniqueID = "ProjectileFireAction";
         private ProjectileFireActionInputData ProjectileFireActionInputData;
 
         public ProjectileFireAction(ProjectileFireActionInputData ProjectileFireActionInputData,
-            Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null) : base(ProjectileFireActionInputData.ProjectileFireActionDefinition.CorePlayerActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
+            Action OnPlayerActionStartedCallback = null, Action OnPlayerActionEndCallback = null) : base(ProjectileFireActionInputData.ProjectileFireActionDefinition.coreInteractiveObjectActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
             this.ProjectileFireActionInputData = ProjectileFireActionInputData;
         }
 
-        public override string PlayerActionUniqueID
+        public override string InteractiveObjectActionUniqueID
         {
             get { return ProjectileFireActionUniqueID; }
         }

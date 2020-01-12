@@ -2,6 +2,9 @@
 
 namespace InteractiveObjects
 {
+    /// <summary>
+    /// The <see cref="CurrentAIMovementSpeedAttenuationFactor"/> is not constrained. Which means that speed can be freely set from any source.
+    /// </summary>
     public class UnConstrainedObjectSpeedAttenuationValueSystem : IObjectSpeedAttenuationValueSystem
     {
         private AIMovementSpeedAttenuationFactor CurrentAIMovementSpeedAttenuationFactor;

@@ -1,17 +1,18 @@
 using System;
+using UnityEngine.Serialization;
 
 namespace PlayerActions
 {
     /// <summary>
-    /// <see cref="PlayerAction"/> are an expansion of the InteractiveObject. <br/>
+    /// <see cref="InteractiveObjectAction"/> are an expansion of the InteractiveObject. <br/>
     /// They allow to execute custom logic (with game loop callbacks) aside the associated InteractiveObject own logic. <br/>
-    /// PlayerAction execution can be constrained with cooldown defined in <see cref="CorePlayerActionDefinition.CooldownEnabled"/>.
-    /// /!\ <see cref="PlayerAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
+    /// InteractiveObjectAction execution can be constrained with cooldown defined in <see cref="CoreInteractiveObjectActionDefinition.CooldownEnabled"/>.
+    /// /!\ <see cref="InteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
     /// </summary>
-    public abstract class PlayerAction
+    public abstract class InteractiveObjectAction
     {
-        public CorePlayerActionDefinition CorePlayerActionDefinition { get; private set; }
-        public abstract string PlayerActionUniqueID { get; }
+        public CoreInteractiveObjectActionDefinition CoreInteractiveObjectActionDefinition { get; private set; }
+        public abstract string InteractiveObjectActionUniqueID { get; }
 
         public bool IsAborted { get; private set; }
 
@@ -30,12 +31,12 @@ namespace PlayerActions
         #endregion
 
         /// <summary>
-        /// /// /!\ <see cref="PlayerAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
+        /// /// /!\ <see cref="InteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
         /// </summary>
-        protected PlayerAction(CorePlayerActionDefinition CorePlayerActionDefinition, Action OnPlayerActionStartedCallback = null,
+        protected InteractiveObjectAction(CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition, Action OnPlayerActionStartedCallback = null,
             Action OnPlayerActionEndCallback = null)
         {
-            this.CorePlayerActionDefinition = CorePlayerActionDefinition;
+            this.CoreInteractiveObjectActionDefinition = coreInteractiveObjectActionDefinition;
 
             this.IsAborted = false;
 
@@ -79,18 +80,18 @@ namespace PlayerActions
 
         public bool CooldownFeatureEnabled()
         {
-            return this.CorePlayerActionDefinition.CooldownEnabled;
+            return this.CoreInteractiveObjectActionDefinition.CooldownEnabled;
         }
 
         public bool MovementAllowed()
         {
-            return this.CorePlayerActionDefinition.MovementAllowed;
+            return this.CoreInteractiveObjectActionDefinition.MovementAllowed;
         }
 
         #endregion
     }
 
-    public interface IPlayerActionInput
+    public interface IInteractiveObjectActionInput
     {
     }
 }

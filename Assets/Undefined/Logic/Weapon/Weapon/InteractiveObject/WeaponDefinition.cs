@@ -12,7 +12,7 @@ namespace Weapon
         [Inline()] public FiredProjectileDefinition FiredProjectileDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
-        public PlayerActionInherentData ProjectileFireActionDefinition;
+        public InteractiveObjectActionInherentData ProjectileFireActionDefinition;
         
         public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)
         {
