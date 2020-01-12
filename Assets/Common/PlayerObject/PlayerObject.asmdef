@@ -5,7 +5,7 @@
         "CoreGame",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
-        "PlayerActions",
+        "InteractiveObjectAction",
         "Editor_Common",
         "OdinSerializer",
         "Persistence",

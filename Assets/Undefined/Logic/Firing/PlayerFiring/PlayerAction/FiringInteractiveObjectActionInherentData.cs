@@ -1,15 +1,14 @@
 ﻿using System;
 using AnimatorPlayable;
+using InteractiveObjectAction;
 using InteractiveObjects;
-using PlayerActions;
-using PlayerObject_Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Firing
 {
     /// <summary>
-    /// Creates a <see cref="FiringInteractiveObjectAction"/> that will trigger the Player targetting logic.
+    /// Creates a <see cref="FiringAInteractiveObjectAction"/> that will trigger the Player targetting logic.
     /// </summary>
     [Serializable]
     [SceneHandleDraw]
@@ -24,15 +23,15 @@ namespace Firing
 
         public override string InteractiveObjectActionUniqueID
         {
-            get { return FiringInteractiveObjectAction.FiringPlayerActionUniqueID; }
+            get { return FiringAInteractiveObjectAction.FiringPlayerActionUniqueID; }
         }
 
-        /// <param name="interactiveObjectActionInput">The input must be of type <see cref="FiringInteractiveObjectActionInput"/> to create the InteractiveObjectAction.</param>
-        public override InteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
+        /// <param name="interactiveObjectActionInput">The input must be of type <see cref="FiringInteractiveObjectActionInput"/> to create the AInteractiveObjectAction.</param>
+        public override InteractiveObjectAction.AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
         {
             if (interactiveObjectActionInput is FiringInteractiveObjectActionInput FiringPlayerActionInput)
             {
-                return new FiringInteractiveObjectAction(ref FiringPlayerActionInput, OnInteractiveObjectActionStartedCallback, OnInteractiveObjectActionEndCallback);
+                return new FiringAInteractiveObjectAction(ref FiringPlayerActionInput, OnInteractiveObjectActionStartedCallback, OnInteractiveObjectActionEndCallback);
             }
 
             return default;

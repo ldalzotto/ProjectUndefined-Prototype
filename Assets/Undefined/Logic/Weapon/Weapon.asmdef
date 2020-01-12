@@ -9,7 +9,7 @@
         "InteractiveObject_Animation",
         "Projectile",
         "Firing",
-        "PlayerActions"
+        "InteractiveObjectAction"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

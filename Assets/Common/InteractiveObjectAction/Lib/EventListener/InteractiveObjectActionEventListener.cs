@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PlayerActions
+namespace InteractiveObjectAction
 {
     /// <summary>
     /// <see cref="InteractiveObjectActionEventListener"/> is a convenient way of having Start and Stopped events for any <see cref="PlayerAction"/>.

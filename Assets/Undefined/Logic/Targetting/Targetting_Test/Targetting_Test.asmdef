@@ -8,7 +8,7 @@
         "OdinSerializer",
         "Input",
         "CoreGame",
-        "PlayerActions",
+        "InteractiveObjectAction",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces"
     ],

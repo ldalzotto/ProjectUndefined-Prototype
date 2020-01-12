@@ -1,7 +1,7 @@
 ﻿using CoreGame;
 using Input;
 using InteractiveObjects;
-using PlayerActions;
+using InteractiveObjectAction;
 using UnityEngine;
 
 namespace Skill

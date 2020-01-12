@@ -1,6 +1,6 @@
 ﻿using System;
 using Firing;
-using PlayerActions;
+using InteractiveObjectAction;
 using UnityEngine;
 
 namespace Weapon
@@ -19,7 +19,7 @@ namespace Weapon
         }
     }
     
-    public class ProjectileFireAction : InteractiveObjectAction
+    public class ProjectileFireAction : InteractiveObjectAction.AInteractiveObjectAction
     {
         public const string ProjectileFireActionUniqueID = "ProjectileFireAction";
         private ProjectileFireActionInputData ProjectileFireActionInputData;

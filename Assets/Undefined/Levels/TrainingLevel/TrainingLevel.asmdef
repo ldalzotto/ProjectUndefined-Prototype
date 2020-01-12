@@ -10,7 +10,7 @@
         "InteractiveObject_Animation",
         "SequencedAction",
         "VisualFeedback",
-        "PlayerActions",
+        "InteractiveObjectAction",
         "SelectionObjects",
         "PlayerObject_Interface",
         "LevelManagement",

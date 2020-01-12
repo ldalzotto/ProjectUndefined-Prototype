@@ -5,7 +5,7 @@ using InteractiveObjects;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace PlayerActions
+namespace InteractiveObjectAction
 {
     public class InteractiveObjectActionPlayerSystem
     {
@@ -98,7 +98,7 @@ namespace PlayerActions
 
         #region Data Retrieval
 
-        public InteractiveObjectAction GetPlayingPlayerActionReference(string actionUniqueID)
+        public AInteractiveObjectAction GetPlayingPlayerActionReference(string actionUniqueID)
         {
             return this.interactiveObjectActionExecutionManager.GetPlayingInteractiveObjectActionReference(actionUniqueID);
         }
@@ -114,12 +114,12 @@ namespace PlayerActions
 
     struct InteractiveObjectActionState
     {
-        private InteractiveObjectAction _interactiveObjectActionReference;
+        private AInteractiveObjectAction _aInteractiveObjectActionReference;
         private CooldownActionState CooldownActionState;
 
-        public InteractiveObjectActionState(InteractiveObjectAction interactiveObjectActionReference, CooldownActionState cooldownActionState)
+        public InteractiveObjectActionState(AInteractiveObjectAction aInteractiveObjectActionReference, CooldownActionState cooldownActionState)
         {
-            _interactiveObjectActionReference = interactiveObjectActionReference;
+            _aInteractiveObjectActionReference = aInteractiveObjectActionReference;
             CooldownActionState = cooldownActionState;
         }
 
@@ -127,7 +127,7 @@ namespace PlayerActions
 
         public bool IsInteractiveObjectActionPlaying()
         {
-            return this._interactiveObjectActionReference != null;
+            return this._aInteractiveObjectActionReference != null;
         }
 
         public bool IsInteractiveObjectActionOnCooldown()
@@ -142,20 +142,20 @@ namespace PlayerActions
 
         public bool IsInteractiveObjectActionEnded()
         {
-            return this._interactiveObjectActionReference != null && this._interactiveObjectActionReference.FinishedCondition();
+            return this._aInteractiveObjectActionReference != null && this._aInteractiveObjectActionReference.FinishedCondition();
         }
 
         #endregion
 
-        public InteractiveObjectAction GetInteractiveObjectActionReference()
+        public AInteractiveObjectAction GetInteractiveObjectActionReference()
         {
-            return this._interactiveObjectActionReference;
+            return this._aInteractiveObjectActionReference;
         }
 
         public void ClearInteractiveObjectAction()
         {
-            this._interactiveObjectActionReference.Dispose();
-            this._interactiveObjectActionReference = null;
+            this._aInteractiveObjectActionReference.Dispose();
+            this._aInteractiveObjectActionReference = null;
         }
 
         public void UpdateCooldown(float d)
@@ -234,26 +234,26 @@ namespace PlayerActions
             this._interactiveObjectActionCooldownSystem = new InteractiveObjectActionCooldownSystem();
         }
 
-        public void Execute(InteractiveObjectAction interactiveObjectAction)
+        public void Execute(AInteractiveObjectAction aInteractiveObjectAction)
         {
             if (this._interactiveObjectActionExecutionLockSystem.AreInteractiveObjectActionsLocked())
             {
-                this._interactiveObjectActionExecutionLockSystem.AddInteractiveObjectActionToLockedQueue(interactiveObjectAction);
+                this._interactiveObjectActionExecutionLockSystem.AddInteractiveObjectActionToLockedQueue(aInteractiveObjectAction);
             }
             else
             {
-                if (!this.InteractiveObjectActionStates.ContainsKey(interactiveObjectAction.InteractiveObjectActionUniqueID))
+                if (!this.InteractiveObjectActionStates.ContainsKey(aInteractiveObjectAction.InteractiveObjectActionUniqueID))
                 {
-                    this.InteractiveObjectActionStates[interactiveObjectAction.InteractiveObjectActionUniqueID] = new InteractiveObjectActionState();
+                    this.InteractiveObjectActionStates[aInteractiveObjectAction.InteractiveObjectActionUniqueID] = new InteractiveObjectActionState();
                 }
 
-                var InteractiveObjectActionState = this.InteractiveObjectActionStates[interactiveObjectAction.InteractiveObjectActionUniqueID];
+                var InteractiveObjectActionState = this.InteractiveObjectActionStates[aInteractiveObjectAction.InteractiveObjectActionUniqueID];
 
                 if (!InteractiveObjectActionState.IsInteractiveObjectActionOnCooldown() && !InteractiveObjectActionState.IsInteractiveObjectActionPlaying())
                 {
-                    InteractiveObjectActionState = new InteractiveObjectActionState(interactiveObjectAction, new CooldownActionState(interactiveObjectAction.CoreInteractiveObjectActionDefinition));
+                    InteractiveObjectActionState = new InteractiveObjectActionState(aInteractiveObjectAction, new CooldownActionState(aInteractiveObjectAction.CoreInteractiveObjectActionDefinition));
                     InteractiveObjectActionState.GetInteractiveObjectActionReference().FirstExecution();
-                    this.InteractiveObjectActionStates[interactiveObjectAction.InteractiveObjectActionUniqueID] = InteractiveObjectActionState;
+                    this.InteractiveObjectActionStates[aInteractiveObjectAction.InteractiveObjectActionUniqueID] = InteractiveObjectActionState;
                 }
             }
         }
@@ -360,7 +360,7 @@ namespace PlayerActions
             return true;
         }
 
-        public InteractiveObjectAction GetPlayingInteractiveObjectActionReference(string actionUniqueId)
+        public AInteractiveObjectAction GetPlayingInteractiveObjectActionReference(string actionUniqueId)
         {
             this.InteractiveObjectActionStates.TryGetValue(actionUniqueId, out InteractiveObjectActionState InteractiveObjectActionState);
             return InteractiveObjectActionState.GetInteractiveObjectActionReference();
@@ -381,12 +381,12 @@ namespace PlayerActions
     struct InteractiveObjectActionExecutionLockSystem
     {
         private bool CurrentlyInteractiveObjectActionsLocked;
-        private Stack<InteractiveObjectAction> LockedBufferInteractiveObjectActionsExecuted;
+        private Stack<AInteractiveObjectAction> LockedBufferInteractiveObjectActionsExecuted;
 
         public void Init()
         {
             this.CurrentlyInteractiveObjectActionsLocked = false;
-            this.LockedBufferInteractiveObjectActionsExecuted = new Stack<InteractiveObjectAction>();
+            this.LockedBufferInteractiveObjectActionsExecuted = new Stack<AInteractiveObjectAction>();
         }
 
         public void LockInteractiveObjectActions()
@@ -399,9 +399,9 @@ namespace PlayerActions
             this.CurrentlyInteractiveObjectActionsLocked = false;
         }
 
-        public void AddInteractiveObjectActionToLockedQueue(InteractiveObjectAction interactiveObjectAction)
+        public void AddInteractiveObjectActionToLockedQueue(AInteractiveObjectAction aInteractiveObjectAction)
         {
-            this.LockedBufferInteractiveObjectActionsExecuted.Push(interactiveObjectAction);
+            this.LockedBufferInteractiveObjectActionsExecuted.Push(aInteractiveObjectAction);
         }
 
         #region Logical Conditions

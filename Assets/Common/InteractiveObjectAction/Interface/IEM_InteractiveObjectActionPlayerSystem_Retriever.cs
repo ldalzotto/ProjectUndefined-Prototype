@@ -1,4 +1,4 @@
-﻿namespace PlayerActions
+﻿namespace InteractiveObjectAction
 {
     public interface IEM_InteractiveObjectActionPlayerSystem_Retriever
     {

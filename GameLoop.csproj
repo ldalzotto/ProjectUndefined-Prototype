@@ -670,9 +670,9 @@
       <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
       <Name>PlayerObject_Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
-      <Name>PlayerActions</Name>
+    <ProjectReference Include="InteractiveObjectAction.csproj">
+      <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
+      <Name>InteractiveObjectAction</Name>
     </ProjectReference>
     <ProjectReference Include="SelectionObjects.csproj">
       <Project>{56F1099E-3ADB-DC9F-A753-95F99FDE1472}</Project>

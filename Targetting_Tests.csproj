@@ -648,9 +648,9 @@
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
-      <Name>PlayerActions</Name>
+    <ProjectReference Include="InteractiveObjectAction.csproj">
+      <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
+      <Name>InteractiveObjectAction</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects.csproj">
       <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>

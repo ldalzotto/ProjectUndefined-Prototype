@@ -3,7 +3,7 @@ using Damage;
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
-using PlayerActions;
+using InteractiveObjectAction;
 using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;

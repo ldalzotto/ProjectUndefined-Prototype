@@ -5,11 +5,11 @@ using Skill;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace PlayerActions
+namespace InteractiveObjectAction
 {
     /// <summary>
-    /// The definition object of a <see cref="InteractiveObjectAction"/>.
-    /// The <see cref="InteractiveObjectActionInherentData"/> exposed methods <see cref="BuildInteractiveObjectAction"/> and <see cref="BuildInputFromInteractiveObject"/> are used to build the associated <see cref="InteractiveObjectAction"/>.
+    /// The definition object of a <see cref="AInteractiveObjectAction"/>.
+    /// The <see cref="InteractiveObjectActionInherentData"/> exposed methods <see cref="BuildInteractiveObjectAction"/> and <see cref="BuildInputFromInteractiveObject"/> are used to build the associated <see cref="AInteractiveObjectAction"/>.
     /// </summary>
     [Serializable]
     public abstract class InteractiveObjectActionInherentData : SerializedScriptableObject
@@ -17,12 +17,12 @@ namespace PlayerActions
         [FormerlySerializedAs("CorePlayerActionDefinition")] public CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition;
 
         /// <summary>
-        /// The <see cref="InteractiveObjectActionUniqueID"/> is the reprensetation of the unique link between <see cref="InteractiveObjectActionInherentData"/> and one associated <see cref="InteractiveObjectAction"/>.
+        /// The <see cref="InteractiveObjectActionUniqueID"/> is the reprensetation of the unique link between <see cref="InteractiveObjectActionInherentData"/> and one associated <see cref="AInteractiveObjectAction"/>.
         /// This id will be used by the <see cref="PlayerActionPlayerSystem"/> to ensure that will maintain one state per <see cref="InteractiveObjectActionUniqueID"/>.
         /// </summary>
         public abstract string InteractiveObjectActionUniqueID { get; }
 
-        public abstract InteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, 
+        public abstract AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, 
             Action OnInteractiveObjectActionEndCallback = null);
 
         public abstract IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject);
@@ -37,11 +37,11 @@ namespace PlayerActions
         [HideInInspector] public bool CooldownEnabled;
 
         [FormerlySerializedAs("CorePlayerActionCooldownDefinition")]
-        [Tooltip("Cooldown time indicates the minimum time interval between consequent execution of the same InteractiveObjectAction.")] //
+        [Tooltip("Cooldown time indicates the minimum time interval between consequent execution of the same AInteractiveObjectAction.")] //
         [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(CooldownEnabled))]
         public InteractiveObjectActionCooldownDefinition interactiveObjectActionCooldownDefinition;
 
-        [Tooltip("Does the Player can move while this InteractiveObjectAction is executing ?")]
+        [Tooltip("Does the Player can move while this AInteractiveObjectAction is executing ?")]
         public bool MovementAllowed;
 
         [HideInInspector] [SerializeField] private bool SkillActionEnabled;

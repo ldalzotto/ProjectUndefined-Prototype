@@ -12,7 +12,7 @@
         "InteractiveObjects",
         "PlayerLowHealth_Interfaces",
         "Firing",
-        "PlayerActions",
+        "InteractiveObjectAction",
         "SkillAction",
         "Weapon"
     ],

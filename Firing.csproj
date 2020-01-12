@@ -62,7 +62,7 @@
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Configuration\FiringRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\FiringRangeFeedback\Systems\FiringRangeFeedbackSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\Interfaces\IEM_IPlayerFiringRegisteringEventsExposedMethod.cs" />
-     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringAInteractiveObjectAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Firing\PlayerFiring\PlayerAction\FiringInteractiveObjectActionInherentData.cs" />
      <None Include="Assets\Undefined\Logic\Firing\Firing.asmdef" />
  <Reference Include="UnityEditor.UI">
@@ -646,9 +646,9 @@
       <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
       <Name>InteractiveObject_Animation</Name>
     </ProjectReference>
-    <ProjectReference Include="PlayerActions.csproj">
-      <Project>{23E18951-52D9-805B-06CD-2C3A05590E2D}</Project>
-      <Name>PlayerActions</Name>
+    <ProjectReference Include="InteractiveObjectAction.csproj">
+      <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
+      <Name>InteractiveObjectAction</Name>
     </ProjectReference>
     <ProjectReference Include="PlayerObject_Interface.csproj">
       <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>

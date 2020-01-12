@@ -1,7 +1,6 @@
 ﻿using System;
-using Firing;
+using InteractiveObjectAction;
 using InteractiveObjects;
-using PlayerActions;
 using UnityEngine;
 
 namespace Weapon
@@ -14,7 +13,7 @@ namespace Weapon
             get { return ProjectileFireAction.ProjectileFireActionUniqueID; }
         }
 
-        public override InteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
+        public override InteractiveObjectAction.AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput, Action OnInteractiveObjectActionStartedCallback = null, Action OnInteractiveObjectActionEndCallback = null)
         {
             if (interactiveObjectActionInput is ProjectileFireActionInputData ProjectileFireActionInputData)
             {

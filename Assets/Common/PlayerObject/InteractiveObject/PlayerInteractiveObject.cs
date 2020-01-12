@@ -3,10 +3,10 @@ using Damage;
 using Firing;
 using Health;
 using Input;
+using InteractiveObjectAction;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using LevelManagement;
-using PlayerActions;
 using PlayerLowHealth;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
@@ -198,7 +198,7 @@ namespace PlayerObject
         }
 
         /// <summary>
-        /// Starts a new <see cref="InteractiveObjectAction"/> if input condition and player inherent conditions are met.
+        /// Starts a new <see cref="AInteractiveObjectAction"/> if input condition and player inherent conditions are met.
         /// </summary>
         private void PlayerActionTriggering()
         {
@@ -423,12 +423,12 @@ namespace PlayerObject
     {
         public bool ProjectileFireActionEnabled()
         {
-            return InteractiveObjectActionPlayerSystem.IsActionOfTypeIsAlreadyPlaying(FiringInteractiveObjectAction.FiringPlayerActionUniqueID);
+            return InteractiveObjectActionPlayerSystem.IsActionOfTypeIsAlreadyPlaying(FiringAInteractiveObjectAction.FiringPlayerActionUniqueID);
         }
 
         public Vector3 GetCurrentTargetDirection()
         {
-            if (InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(FiringInteractiveObjectAction.FiringPlayerActionUniqueID) is FiringInteractiveObjectAction firingPlayerActionReference)
+            if (InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(FiringAInteractiveObjectAction.FiringPlayerActionUniqueID) is FiringAInteractiveObjectAction firingPlayerActionReference)
             {
                 return firingPlayerActionReference.GetCurrentTargetDirection();
             }

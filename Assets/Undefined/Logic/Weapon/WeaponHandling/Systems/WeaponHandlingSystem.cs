@@ -1,5 +1,5 @@
 ﻿using InteractiveObjects;
-using PlayerActions;
+using InteractiveObjectAction;
 using UnityEngine;
 
 namespace Weapon

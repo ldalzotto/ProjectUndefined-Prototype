@@ -1,6 +1,6 @@
 ﻿using System;
 using AnimatorPlayable;
-using PlayerActions;
+using InteractiveObjectAction;
 
 namespace Firing
 {

@@ -1,5 +1,5 @@
 {
-    "name": "PlayerActions",
+    "name": "InteractiveObjectAction",
     "references": [
         "CoreGame",
         "OdinSerializer",

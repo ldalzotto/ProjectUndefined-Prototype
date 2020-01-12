@@ -6,7 +6,7 @@
         "Editor_Common",
         "Input",
         "InteractiveObjects",
-        "PlayerActions",
+        "InteractiveObjectAction",
         "Skill_Interfaces"
     ],
     "includePlatforms": [],

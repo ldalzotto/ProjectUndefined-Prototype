@@ -7,7 +7,7 @@
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
         "InteractiveObject_Animation",
-        "PlayerActions",
+        "InteractiveObjectAction",
         "PlayerObject_Interface",
         "Input",
         "Targetting",

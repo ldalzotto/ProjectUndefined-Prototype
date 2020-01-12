@@ -1,15 +1,15 @@
 using System;
 using UnityEngine.Serialization;
 
-namespace PlayerActions
+namespace InteractiveObjectAction
 {
     /// <summary>
-    /// <see cref="InteractiveObjectAction"/> are an expansion of the InteractiveObject. <br/>
+    /// <see cref="AInteractiveObjectAction"/> are an expansion of the InteractiveObject. <br/>
     /// They allow to execute custom logic (with game loop callbacks) aside the associated InteractiveObject own logic. <br/>
-    /// InteractiveObjectAction execution can be constrained with cooldown defined in <see cref="CoreInteractiveObjectActionDefinition.CooldownEnabled"/>.
-    /// /!\ <see cref="InteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
+    /// AInteractiveObjectAction execution can be constrained with cooldown defined in <see cref="CoreInteractiveObjectActionDefinition.CooldownEnabled"/>.
+    /// /!\ <see cref="AInteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
     /// </summary>
-    public abstract class InteractiveObjectAction
+    public abstract class AInteractiveObjectAction
     {
         public CoreInteractiveObjectActionDefinition CoreInteractiveObjectActionDefinition { get; private set; }
         public abstract string InteractiveObjectActionUniqueID { get; }
@@ -31,9 +31,9 @@ namespace PlayerActions
         #endregion
 
         /// <summary>
-        /// /// /!\ <see cref="InteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
+        /// /// /!\ <see cref="AInteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
         /// </summary>
-        protected InteractiveObjectAction(CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition, Action OnPlayerActionStartedCallback = null,
+        protected AInteractiveObjectAction(CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition, Action OnPlayerActionStartedCallback = null,
             Action OnPlayerActionEndCallback = null)
         {
             this.CoreInteractiveObjectActionDefinition = coreInteractiveObjectActionDefinition;

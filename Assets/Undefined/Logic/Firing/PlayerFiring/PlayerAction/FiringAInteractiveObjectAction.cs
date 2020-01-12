@@ -1,7 +1,6 @@
 ﻿using System;
 using Input;
 using InteractiveObjects;
-using PlayerActions;
 using PlayerObject_Interfaces;
 using Targetting;
 using UnityEngine;
@@ -9,9 +8,9 @@ using UnityEngine.Profiling;
 
 namespace Firing
 {
-    public class FiringInteractiveObjectAction : InteractiveObjectAction
+    public class FiringAInteractiveObjectAction : InteractiveObjectAction.AInteractiveObjectAction
     {
-        public const string FiringPlayerActionUniqueID = "FiringInteractiveObjectAction";
+        public const string FiringPlayerActionUniqueID = "FiringAInteractiveObjectAction";
 
         private CoreInteractiveObject FiringInteractiveObject;
         private FiringInteractiveObjectActionInherentData _firingInteractiveObjectActionInherentData;
@@ -22,7 +21,7 @@ namespace Firing
         private ExitActionSystem ExitActionSystem;
         private FiringRangeFeedbackSystem FiringRangeFeedbackSystem;
 
-        public FiringInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput,
+        public FiringAInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput,
             Action OnPlayerActionStartedCallback,
             Action OnPlayerActionEndCallback) : base(firingInteractiveObjectActionInput.FiringInteractiveObjectActionInherentData.coreInteractiveObjectActionDefinition, OnPlayerActionStartedCallback, OnPlayerActionEndCallback)
         {
@@ -67,7 +66,7 @@ namespace Firing
 
         public override void Tick(float d)
         {
-            Profiler.BeginSample("FiringInteractiveObjectAction");
+            Profiler.BeginSample("FiringAInteractiveObjectAction");
             this._firingLockSelectionSystem.Tick();
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)

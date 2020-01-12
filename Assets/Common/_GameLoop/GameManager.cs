@@ -7,7 +7,7 @@ using InteractiveObjects;
 using LevelManagement;
 using Obstacle;
 using ParticleObjects;
-using PlayerActions;
+using InteractiveObjectAction;
 using PlayerObject;
 using RangeObjects;
 using SelectableObject;

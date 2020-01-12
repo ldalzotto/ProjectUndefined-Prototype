@@ -6,7 +6,7 @@ using Health;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
 using OdinSerializer;
-using PlayerActions;
+using InteractiveObjectAction;
 using PlayerLowHealth;
 using ProjectileDeflection;
 using UnityEngine.Serialization;

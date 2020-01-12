@@ -1,7 +1,7 @@
 ﻿using AnimatorPlayable;
 using CoreGame;
 using Firing;
-using PlayerActions;
+using InteractiveObjectAction;
 using PlayerObject;
 using ProjectileDeflection;
 using UnityEngine;

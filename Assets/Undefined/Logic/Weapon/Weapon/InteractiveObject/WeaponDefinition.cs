@@ -1,7 +1,7 @@
 ﻿using Firing;
 using InteractiveObjects;
 using OdinSerializer;
-using PlayerActions;
+using InteractiveObjectAction;
 using UnityEngine;
 
 namespace Weapon
