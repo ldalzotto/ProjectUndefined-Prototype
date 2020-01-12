@@ -7,6 +7,9 @@ namespace Skill
     [Serializable]
     public class SkillSlotUIGlobalConfiguration : SerializedScriptableObject
     {
-        public RectTransform SkillSlotUIBasePrefab;
+        public GameObject SkillSlotUIBasePrefab;
+        
+        /// UI position references
+        
     }
 }

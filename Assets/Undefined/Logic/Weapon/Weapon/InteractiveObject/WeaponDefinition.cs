@@ -1,5 +1,4 @@
-﻿using System;
-using Firing;
+﻿using Firing;
 using InteractiveObjects;
 using OdinSerializer;
 using PlayerActions;
@@ -10,12 +9,11 @@ namespace Weapon
     public class WeaponDefinition : SerializedScriptableObject
     {
         public GameObject WeaponModelPrefab;
-
         [Inline()] public FiredProjectileDefinition FiredProjectileDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public PlayerActionInherentData ProjectileFireActionDefinition;
-
+        
         public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)
         {
             var weaponModelPrefab = Instantiate(this.WeaponModelPrefab);

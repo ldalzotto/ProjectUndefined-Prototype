@@ -55,7 +55,7 @@ public class InlinePropertyDrawer : PropertyDrawer
                 EditorGUILayout.PropertyField(property);
                 EditorGUI.indentLevel -= 1;
 
-                if (property.objectReferenceValue != null)
+                if (property.propertyType == SerializedPropertyType.ObjectReference)
                 {
                     if (this.inlineEditor == null)
                     {

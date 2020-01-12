@@ -8,7 +8,6 @@ using UnityEditor;
 
 public class SerializableObjectHelper
 {
-
     public static T GetBaseProperty<T>(SerializedProperty prop)
     {
         // Separate the steps it takes to get to this property
@@ -27,21 +26,21 @@ public class SerializableObjectHelper
                 {
                     arrayIndex = int.Parse(separatedPaths[i + 1].Replace("data[", "").Replace("]", ""));
                 }
-
             }
+
             if (arrayIndex != -1)
             {
                 i += 1;
-                reflectionTarget = ((IEnumerable)reflectionTarget).Cast<object>().ToList()[arrayIndex];
+                reflectionTarget = ((IEnumerable) reflectionTarget).Cast<object>().ToList()[arrayIndex];
             }
             else
             {
                 FieldInfo fieldInfo = reflectionTarget.GetType().GetField(separatedPaths[i]);
                 reflectionTarget = fieldInfo.GetValue(reflectionTarget);
             }
-
         }
-        return (T)reflectionTarget;
+
+        return (T) reflectionTarget;
     }
 
     public static FieldInfo GetPropertyFieldInfo(SerializedProperty prop)
@@ -65,17 +64,18 @@ public class SerializableObjectHelper
                 {
                     parentPropertypath += ".";
                 }
+
                 parentPropertypath += separatedPaths[i];
             }
-            return prop.serializedObject.FindProperty(parentPropertypath);
 
+            return prop.serializedObject.FindProperty(parentPropertypath);
         }
         else if (separatedPaths.Length == 1)
         {
             return prop.serializedObject.FindProperty(separatedPaths[0]);
         }
-        return null;
 
+        return null;
     }
 
     public static int GetArrayIndex(SerializedProperty elementProperty)
@@ -88,6 +88,7 @@ public class SerializableObjectHelper
             var elementArrayPath = separatedPaths[separatedPaths.Length - 1];
             return int.Parse(elementArrayPath.Replace("data[", "").Replace("]", ""));
         }
+
         return -1;
     }
 
@@ -115,12 +116,12 @@ public class SerializableObjectHelper
                 {
                     arrayIndex = int.Parse(separatedPaths[i + 1].Replace("data[", "").Replace("]", ""));
                 }
-
             }
+
             if (arrayIndex != -1)
             {
                 i += 1;
-                reflectionTarget = ((IEnumerable)reflectionTarget).Cast<object>().ToList()[arrayIndex];
+                reflectionTarget = ((IEnumerable) reflectionTarget).Cast<object>().ToList()[arrayIndex];
             }
             else
             {
@@ -129,10 +130,9 @@ public class SerializableObjectHelper
                 {
                     reflectionTarget = fieldInfo.GetValue(reflectionTarget);
                 }
-
             }
-
         }
+
         return fieldInfo;
     }
 
@@ -142,7 +142,7 @@ public class SerializableObjectHelper
         for (var i = 0; i < list.Count; i++)
         {
             prop.InsertArrayElementAtIndex(0);
-            prop.GetArrayElementAtIndex(0).enumValueIndex = (int)((object)list[i]);
+            prop.GetArrayElementAtIndex(0).enumValueIndex = (int) ((object) list[i]);
         }
     }
 
@@ -153,7 +153,7 @@ public class SerializableObjectHelper
         so.ApplyModifiedProperties();
     }
 
-    public static IEnumerable<SerializedProperty> GetChildren(SerializedProperty property)
+    public static IEnumerable<SerializedProperty> GetChildrenIterable(SerializedProperty property)
     {
         property = property.Copy();
         var nextElement = property.Copy();
@@ -179,6 +179,45 @@ public class SerializableObjectHelper
                 break;
             }
         }
+    }
+
+    public static List<SerializedProperty> GetChildren(SerializedProperty property)
+    {
+        List<SerializedProperty> returnList = null;
+
+        if (property.hasVisibleChildren)
+        {
+            var localProperty = property.Copy();
+            var nextElement = property.Copy();
+            bool hasNextElement = nextElement.NextVisible(false);
+            if (!hasNextElement)
+            {
+                nextElement = null;
+            }
+
+            localProperty.NextVisible(true);
+            while (true)
+            {
+                if (!(SerializedProperty.EqualContents(property, nextElement)))
+                {
+                    if (returnList == null)
+                    {
+                        returnList = new List<SerializedProperty>();
+                    }
+
+                    returnList.Add(localProperty);
+                }
+
+                bool hasNext = localProperty.NextVisible(false);
+                if (!hasNext)
+                {
+                    break;
+                }
+            }
+        }
+
+
+        return returnList;
     }
 }
 #endif

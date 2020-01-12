@@ -1,6 +1,7 @@
 ﻿using System;
 using InteractiveObjects;
 using OdinSerializer;
+using Skill;
 using UnityEngine;
 
 namespace PlayerActions
@@ -34,11 +35,28 @@ namespace PlayerActions
 
         [HideInInspector] public bool CooldownEnabled;
 
-        [Tooltip("Cooldown time indicates the minimum time interval between consequent execution of the same PlayerAction.")] [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(CooldownEnabled))]
+        [Tooltip("Cooldown time indicates the minimum time interval between consequent execution of the same PlayerAction.")] //
+        [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(CooldownEnabled))]
         public CorePlayerActionCooldownDefinition CorePlayerActionCooldownDefinition;
 
         [Tooltip("Does the Player can move while this PlayerAction is executing ?")]
         public bool MovementAllowed;
+
+        [HideInInspector] [SerializeField] private bool SkillActionEnabled;
+
+        [SerializeField]
+        [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(SkillActionEnabled))] //
+        private SkillActionDefinition SkillActionDefinition;
+
+        public SkillActionDefinition GetSkillActionDefinition()
+        {
+            if (this.SkillActionEnabled)
+            {
+                return this.SkillActionDefinition;
+            }
+
+            return null;
+        }
     }
 
     [Serializable]

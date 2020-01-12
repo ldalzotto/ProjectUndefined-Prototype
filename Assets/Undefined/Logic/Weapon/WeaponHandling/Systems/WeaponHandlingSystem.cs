@@ -1,5 +1,4 @@
-﻿using Firing;
-using InteractiveObjects;
+﻿using InteractiveObjects;
 using PlayerActions;
 using UnityEngine;
 

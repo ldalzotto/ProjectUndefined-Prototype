@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CoreGame
 {
@@ -7,6 +8,7 @@ namespace CoreGame
     {
         private static Coroutiner coroutiner;
         private static Canvas persistantCanvas;
+        private static CanvasScaler canvasScaler;
         public static Coroutiner Coroutiner => FindAndSetInstanceIfNull(coroutiner, obj => coroutiner = obj);
 
         public static Canvas GameCanvas
@@ -31,6 +33,16 @@ namespace CoreGame
             }
 
             return persistantCanvas;
+        }
+
+        public static CanvasScaler CanvasScaler()
+        {
+            if (canvasScaler == null)
+            {
+                canvasScaler = GameCanvas.GetComponent<CanvasScaler>();
+            }
+
+            return canvasScaler;
         }
 
         public static T FindAndSetInstanceIfNull<T>(T obj, Action<T> setter) where T : Behaviour

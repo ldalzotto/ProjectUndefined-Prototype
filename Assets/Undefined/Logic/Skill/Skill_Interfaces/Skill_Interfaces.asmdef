@@ -1,13 +1,8 @@
 {
-    "name": "Skill",
+    "name": "Skill_Interfaces",
     "references": [
-        "CoreGame",
-        "OdinSerializer",
         "Editor_Common",
-        "Input",
-        "InteractiveObjects",
-        "PlayerActions",
-        "Skill_Interfaces"
+        "OdinSerializer"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

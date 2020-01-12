@@ -82,7 +82,7 @@ namespace PlayerObject
 
             /// TODO -> this must be moved to a player skill system
             this.FiringProjectileSkillSlot = new SkillSlot(this, this.PlayerActionPlayerSystem, InputID.FIRING_PROJECTILE_DOWN_HOLD);
-            this.FiringProjectileSkillSlot.SwitchAssociatedPlayerAction(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
+            this.FiringProjectileSkillSlot.SwitchSkillActionDefinition(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
             /// END
 
             /// To display the associated HealthSystem value to UI.
@@ -245,7 +245,7 @@ namespace PlayerObject
             this.lowHealthPlayerSystem.UnRegisterPlayerLowHealthEndedEvent(this.OnLowHealthEnded);
 
             this.FiringProjectileSkillSlot.Destroy();
-            
+
             base.Destroy();
         }
 

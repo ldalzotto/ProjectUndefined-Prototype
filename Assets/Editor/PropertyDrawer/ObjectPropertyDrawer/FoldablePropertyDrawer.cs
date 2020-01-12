@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,21 +44,29 @@ public class FoldablePropertyDrawer : PropertyDrawer
             }
         }
 
-
         EditorGUI.BeginProperty(position, null, property);
         this.foldableArea.OnGUI(() =>
         {
             try
             {
-                foreach (var childPropery in SerializableObjectHelper.GetChildren(property))
+                var childrens = SerializableObjectHelper.GetChildren(property);
+                if (childrens != null && childrens.Count > 0)
                 {
-                    EditorGUILayout.PropertyField(childPropery, true);
+                    foreach (var childPropery in SerializableObjectHelper.GetChildrenIterable(property))
+                    {
+                        EditorGUILayout.PropertyField(childPropery, true);
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(property, true);
                 }
 
                 EditorGUILayout.Space();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.LogError(e);
             }
         });
 
