@@ -36,9 +36,9 @@ namespace PlayerObject
             base.Init(PlayerLocomotionMaskedPoseOVerrideState.LISTENING);
         }
 
-        public void StartTargetting(A_AnimationPlayableDefinition startTargettingPoseAnimation)
+        public void StartAiming(A_AnimationPlayableDefinition startTargettingPoseAnimation)
         {
-            this.OverridingSystem.StartTargetting(startTargettingPoseAnimation);
+            this.OverridingSystem.StartAiming(startTargettingPoseAnimation);
             this.SetState(PlayerLocomotionMaskedPoseOVerrideState.TARGETTING_UPPER_BODY);
         }
 
@@ -55,7 +55,7 @@ namespace PlayerObject
     {
         public A_AnimationPlayableDefinition StartTargettingPoseAnimation { get; private set; }
 
-        public void StartTargetting(A_AnimationPlayableDefinition startTargettingPoseAnimation)
+        public void StartAiming(A_AnimationPlayableDefinition startTargettingPoseAnimation)
         {
             this.StartTargettingPoseAnimation = startTargettingPoseAnimation;
         }

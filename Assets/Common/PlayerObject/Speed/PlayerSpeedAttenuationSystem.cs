@@ -32,7 +32,7 @@ namespace PlayerObject
             this.PlayerSpeedAttenuationConstraintLayer.OnLowHealthEnded();
         }
 
-        public void StartTargetting()
+        public void StartAiming()
         {
             this.PlayerSpeedAttenuationLayer.StartTargetting();
         }

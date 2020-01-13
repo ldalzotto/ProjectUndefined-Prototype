@@ -30,9 +30,9 @@ namespace PlayerObject
             this.PlayerObjectLocomotionStateBehavior.GetCurrentStateManager().SetUnscaledObjectLocalDirection(localDirection);
         }
 
-        public void StartTargetting(A_AnimationPlayableDefinition startTargettingPoseAnimation)
+        public void StartAiming(A_AnimationPlayableDefinition startTargettingPoseAnimation)
         {
-            this.PlayerLocomotionMaskedPoseOVerrideStateBehavior.StartTargetting(startTargettingPoseAnimation);
+            this.PlayerLocomotionMaskedPoseOVerrideStateBehavior.StartAiming(startTargettingPoseAnimation);
         }
 
         public void EndTargetting()

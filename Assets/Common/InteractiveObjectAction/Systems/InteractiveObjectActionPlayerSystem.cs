@@ -79,22 +79,17 @@ namespace InteractiveObjectAction
 
         #region Logical Conditions
 
-        public bool IsActionOfTypeIsAlreadyPlaying(string actionUniqueID)
-        {
-            return this.interactiveObjectActionExecutionManager.DoesActionOfTypeIsPlaying(actionUniqueID);
-        }
-
         public bool DoesCurrentActionAllowsMovement()
         {
             return this.interactiveObjectActionExecutionManager.DoesCurrentActionAllowsMovement();
         }
 
+        #endregion
+
         private bool IsActionOfTypeAllowedToBePlaying(string actionUniqueID)
         {
             return this.interactiveObjectActionExecutionManager.IsActionOfTypeAllowedToBePlaying(actionUniqueID);
         }
-
-        #endregion
 
         #region Data Retrieval
 
