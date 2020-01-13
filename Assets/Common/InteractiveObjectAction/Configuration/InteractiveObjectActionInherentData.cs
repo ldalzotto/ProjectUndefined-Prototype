@@ -14,7 +14,8 @@ namespace InteractiveObjectAction
     [Serializable]
     public abstract class InteractiveObjectActionInherentData : SerializedScriptableObject
     {
-        [FormerlySerializedAs("CorePlayerActionDefinition")] public CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition;
+        [FormerlySerializedAs("CorePlayerActionDefinition")]
+        public CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition;
 
         /// <summary>
         /// The <see cref="InteractiveObjectActionUniqueID"/> is the reprensetation of the unique link between <see cref="InteractiveObjectActionInherentData"/> and one associated <see cref="AInteractiveObjectAction"/>.
@@ -24,6 +25,10 @@ namespace InteractiveObjectAction
 
         public abstract AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput);
 
+        /// <summary>
+        /// Try to build a <see cref="IInteractiveObjectActionInput"/> from the associated <see cref="CoreInteractiveObject"/>.
+        /// If this method returns null, then no <see cref="AInteractiveObjectAction"/> will be executed. (see <see cref="InteractiveObjectActionPlayerSystem.ExecuteActionV2"/>).
+        /// </summary>
         public abstract IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject);
     }
 
@@ -45,8 +50,7 @@ namespace InteractiveObjectAction
 
         [HideInInspector] [SerializeField] private bool SkillActionEnabled;
 
-        [SerializeField]
-        [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(SkillActionEnabled))] //
+        [SerializeField] [Foldable(canBeDisabled: true, disablingBoolAttribute: nameof(SkillActionEnabled))] //
         private SkillActionDefinition SkillActionDefinition;
 
         public SkillActionDefinition GetSkillActionDefinition()

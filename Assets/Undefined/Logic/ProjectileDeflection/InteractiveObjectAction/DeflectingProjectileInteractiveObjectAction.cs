@@ -8,11 +8,14 @@ namespace ProjectileDeflection
     {
         public CoreInteractiveObject AssociatedInteractiveObject { get; private set; }
         public ProjectileDeflectionSystem ProjectileDeflectionSystemRef { get; private set; }
+        public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData { get; private set; }
 
-        public DeflectingProjectileInteractiveObjectActionInput(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionSystem projectileDeflectionSystemRef)
+        public DeflectingProjectileInteractiveObjectActionInput(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionSystem projectileDeflectionSystemRef,
+            DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             ProjectileDeflectionSystemRef = projectileDeflectionSystemRef;
+            this.DeflectingProjectileInteractiveObjectActionInherentData = DeflectingProjectileInteractiveObjectActionInherentData;
         }
     }
 
@@ -44,30 +47,15 @@ namespace ProjectileDeflection
 
             if (this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject is IEM_DeflectingProjectileAction_WorkflowEventListener IEM_DeflectingProjectileAction_WorkflowEventListener)
             {
-                IEM_DeflectingProjectileAction_WorkflowEventListener.OnDeflectingProjectileInteractiveObjectActionExecuted();
+                IEM_DeflectingProjectileAction_WorkflowEventListener.OnDeflectingProjectileInteractiveObjectActionExecuted(
+                    this.DeflectingProjectileInteractiveObjectActionInput.DeflectingProjectileInteractiveObjectActionInherentData);
             }
-
-            List<CoreInteractiveObject> SuccessfullyProjectileDeflectedPropertiesBuffered = null;
 
             foreach (var insideInteractiveObject in this.DeflectingProjectileInteractiveObjectActionInput.ProjectileDeflectionSystemRef.GetInsideDeflectableInteractiveObjects())
             {
                 if (insideInteractiveObject.AskIfProjectileCanBeDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject))
                 {
-                    if (SuccessfullyProjectileDeflectedPropertiesBuffered == null)
-                    {
-                        SuccessfullyProjectileDeflectedPropertiesBuffered = new List<CoreInteractiveObject>();
-                    }
-
-                    SuccessfullyProjectileDeflectedPropertiesBuffered.Add(insideInteractiveObject);
-                }
-            }
-
-            /// SuccessfullyProjectileDeflectedProperties are buffered because
-            if (SuccessfullyProjectileDeflectedPropertiesBuffered != null && SuccessfullyProjectileDeflectedPropertiesBuffered.Count > 0)
-            {
-                for (var i = SuccessfullyProjectileDeflectedPropertiesBuffered.Count - 1; i >= 0; i--)
-                {
-                    SuccessfullyProjectileDeflectedPropertiesBuffered[i].InteractiveObjectDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject);
+                    insideInteractiveObject.InteractiveObjectDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject);
                 }
             }
         }
@@ -98,8 +86,13 @@ namespace ProjectileDeflection
         }
     }
 
+    /// <summary>
+    /// This interface is used by <see cref="DeflectingProjectileInteractiveObjectAction"/> and called when the <see cref="DeflectingProjectileInteractiveObjectAction"/> has just been
+    /// executed.
+    /// Any <see cref="CoreInteractiveObject"/> can implement this interface to be notified when the <see cref="DeflectingProjectileInteractiveObjectAction"/> has been played.
+    /// </summary>
     public interface IEM_DeflectingProjectileAction_WorkflowEventListener
     {
-        void OnDeflectingProjectileInteractiveObjectActionExecuted();
+        void OnDeflectingProjectileInteractiveObjectActionExecuted(DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData);
     }
 }

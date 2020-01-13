@@ -1,4 +1,5 @@
 ﻿using System;
+using AnimatorPlayable;
 using InteractiveObjectAction;
 using InteractiveObjects;
 
@@ -7,6 +8,9 @@ namespace ProjectileDeflection
     [Serializable]
     public class DeflectingProjectileInteractiveObjectActionInherentData : InteractiveObjectActionInherentData
     {
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public A_AnimationPlayableDefinition ProjectileDeflectMovementAnimation;
+
         public override string InteractiveObjectActionUniqueID
         {
             get { return DeflectingProjectileInteractiveObjectAction.DeflectingProjectileInteractiveObjectActionUniqueID; }
@@ -26,7 +30,10 @@ namespace ProjectileDeflection
         {
             if (AssociatedInteractiveObject is IEM_DeflectingProjectileAction_DataRetriever IEM_DeflectingProjectileAction_DataRetriever)
             {
-                return new DeflectingProjectileInteractiveObjectActionInput(AssociatedInteractiveObject, IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionSystem);
+                if (IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionEnabled())
+                {
+                    return new DeflectingProjectileInteractiveObjectActionInput(AssociatedInteractiveObject, IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionSystem, this);
+                }
             }
 
             return null;
@@ -35,6 +42,7 @@ namespace ProjectileDeflection
 
     public interface IEM_DeflectingProjectileAction_DataRetriever
     {
+        bool ProjectileDeflectionEnabled();
         ProjectileDeflectionSystem ProjectileDeflectionSystem { get; }
     }
 }

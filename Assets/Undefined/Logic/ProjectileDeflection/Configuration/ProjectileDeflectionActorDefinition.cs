@@ -12,8 +12,5 @@ namespace ProjectileDeflection
         /// </summary>
         [WireCircleWorldAttribute(B = 1f, UseTransform = true, RadiusFieldName = nameof(ProjectileDetectionRadius))]
         public float ProjectileDetectionRadius;
-
-        [Inline(CreateAtSameLevelIfAbsent = true)]
-        public A_AnimationPlayableDefinition ProjectileDeflectMovementAnimation;
     }
 }

@@ -36,6 +36,7 @@ namespace PlayerObject
         public LowHealthPlayerSystem LowHealthPlayerSystem => this.lowHealthPlayerSystem;
 
         private ProjectileDeflectionSystem projectileDeflectionSystem;
+
         public ProjectileDeflectionSystem ProjectileDeflectionSystem => this.projectileDeflectionSystem;
 
         private PlayerVisualEffectSystem PlayerVisualEffectSystem;
@@ -138,8 +139,6 @@ namespace PlayerObject
             {
                 this.projectileDeflectionSystem.FixedTick(d);
             }
-
-            PlayerActionTriggering();
 
             playerMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
@@ -358,9 +357,14 @@ namespace PlayerObject
 
         #region Deflection Events
 
-        public void OnDeflectingProjectileInteractiveObjectActionExecuted()
+        public void OnDeflectingProjectileInteractiveObjectActionExecuted(DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData)
         {
-            this.PlayerObjectAnimationStateManager.OnProjectileDeflectionAttempt(this.PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition.ProjectileDeflectMovementAnimation);
+            this.PlayerObjectAnimationStateManager.OnProjectileDeflectionAttempt(DeflectingProjectileInteractiveObjectActionInherentData.ProjectileDeflectMovementAnimation);
+        }
+
+        public bool ProjectileDeflectionEnabled()
+        {
+            return this.lowHealthPlayerSystem.IsHealthConsideredLow();
         }
 
         #endregion
