@@ -35,12 +35,29 @@ namespace InteractiveObjectAction
         {
         }
 
-        public abstract void Tick(float d);
-        public abstract void AfterTicks(float d);
-        public abstract void TickTimeFrozen(float d);
-        public abstract void LateTick(float d);
-        public abstract void GUITick();
-        public abstract void GizmoTick();
+        public virtual void Tick(float d)
+        {
+        }
+
+        public virtual void AfterTicks(float d)
+        {
+        }
+
+        public virtual void TickTimeFrozen(float d)
+        {
+        }
+
+        public virtual void LateTick(float d)
+        {
+        }
+
+        public virtual void GUITick()
+        {
+        }
+
+        public virtual void GizmoTick()
+        {
+        }
 
         public virtual void Dispose()
         {

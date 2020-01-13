@@ -82,10 +82,12 @@ namespace ProjectileDeflection_Test
                 {
                     var worldCenter = this._playerInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter();
 
+                    /*
                     if (Vector3.Distance(this.SpawnedProjectile.InteractiveGameObject.GetTransform().WorldPosition, worldCenter) <= this._playerInteractiveObject.ProjectileDeflectionSystem.GetProjectileDetectionRadius())
                     {
                         this.cor = Coroutiner.Instance.StartCoroutine(this.WaitFrame());
                     }
+                    */
                 }
             }
         }

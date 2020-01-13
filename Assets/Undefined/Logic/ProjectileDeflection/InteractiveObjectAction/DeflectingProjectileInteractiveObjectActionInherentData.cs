@@ -5,6 +5,10 @@ using InteractiveObjects;
 
 namespace ProjectileDeflection
 {
+    /// <summary>
+    /// In order to work properly, the associated <see cref="CoreInteractiveObject"/> must implements :
+    ///  * <see cref="IEM_DeflectingProjectileAction_DataRetriever"/> to ensure that execution is allowed and getting a reference to <see cref="ProjectileDeflectionTrackingInteractiveObjectAction"/>.
+    /// </summary>
     [Serializable]
     public class DeflectingProjectileInteractiveObjectActionInherentData : InteractiveObjectActionInherentData
     {
@@ -26,13 +30,16 @@ namespace ProjectileDeflection
             return null;
         }
 
+        /// <summary>
+        /// This will usually be called from the SkillStytem. This is why we check that the projectile deflection is enabled <see cref="IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionEnabled"/>.  
+        /// </summary>
         public override IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
         {
             if (AssociatedInteractiveObject is IEM_DeflectingProjectileAction_DataRetriever IEM_DeflectingProjectileAction_DataRetriever)
             {
                 if (IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionEnabled())
                 {
-                    return new DeflectingProjectileInteractiveObjectActionInput(AssociatedInteractiveObject, IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionSystem, this);
+                    return new DeflectingProjectileInteractiveObjectActionInput(AssociatedInteractiveObject, IEM_DeflectingProjectileAction_DataRetriever.GetPlayingProjectileDeflectionSystem(), this);
                 }
             }
 
@@ -43,6 +50,6 @@ namespace ProjectileDeflection
     public interface IEM_DeflectingProjectileAction_DataRetriever
     {
         bool ProjectileDeflectionEnabled();
-        ProjectileDeflectionSystem ProjectileDeflectionSystem { get; }
+        ProjectileDeflectionTrackingInteractiveObjectAction GetPlayingProjectileDeflectionSystem();
     }
 }

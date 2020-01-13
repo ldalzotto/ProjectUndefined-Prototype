@@ -68,6 +68,11 @@ namespace InteractiveObjectAction
             }
         }
 
+        public void AbortAction(string actionUniqueID)
+        {
+            this.interactiveObjectActionExecutionManager.AbortAction(actionUniqueID);
+        }
+
         #region External Events
 
         private void OnAssociatedInteractiveObjectDestroyed(CoreInteractiveObject DestroyedInteractiveObject)
@@ -284,6 +289,15 @@ namespace InteractiveObjectAction
                 playingInteractiveObjectAction.GetInteractiveObjectActionReference()?.Dispose();
 
             this.InteractiveObjectActionStates.Clear();
+        }
+
+        public void AbortAction(string actionUniqueId)
+        {
+            if (this.DoesActionOfTypeIsPlaying(actionUniqueId))
+            {
+                this.InteractiveObjectActionStates[actionUniqueId].GetInteractiveObjectActionReference()?.Dispose();
+                this.InteractiveObjectActionStates.Remove(actionUniqueId);
+            }
         }
 
         /// <summary>

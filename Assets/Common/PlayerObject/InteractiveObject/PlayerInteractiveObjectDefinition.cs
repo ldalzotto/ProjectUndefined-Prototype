@@ -44,11 +44,10 @@ namespace PlayerObject
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public LowHealthPlayerSystemDefinition LowHealthPlayerSystemDefinition;
 
-        [FormerlySerializedAs("ProjectileDeflectionDefinition")] [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
-        public ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition;
+        [FormerlySerializedAs("projectileDeflectionInteractiveObjectActionInherentData")] [FormerlySerializedAs("ProjectileDeflectionSystemInherentData")] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData;
 
-        [Inline()]
-        public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData;
+        [Inline()] public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public PlayerVisualEffectSystemDefinition PlayerVisualEffectSystemDefinition;

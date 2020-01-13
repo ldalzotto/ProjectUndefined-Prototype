@@ -7,18 +7,24 @@ namespace ProjectileDeflection
     public struct DeflectingProjectileInteractiveObjectActionInput : IInteractiveObjectActionInput
     {
         public CoreInteractiveObject AssociatedInteractiveObject { get; private set; }
-        public ProjectileDeflectionSystem ProjectileDeflectionSystemRef { get; private set; }
+        public ProjectileDeflectionTrackingInteractiveObjectAction ProjectileDeflectionTrackingInteractiveObjectActionRef { get; private set; }
         public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData { get; private set; }
 
-        public DeflectingProjectileInteractiveObjectActionInput(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionSystem projectileDeflectionSystemRef,
+        public DeflectingProjectileInteractiveObjectActionInput(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionTrackingInteractiveObjectAction projectileDeflectionTrackingInteractiveObjectActionRef,
             DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
-            ProjectileDeflectionSystemRef = projectileDeflectionSystemRef;
+            ProjectileDeflectionTrackingInteractiveObjectActionRef = projectileDeflectionTrackingInteractiveObjectActionRef;
             this.DeflectingProjectileInteractiveObjectActionInherentData = DeflectingProjectileInteractiveObjectActionInherentData;
         }
     }
 
+    /// <summary>
+    /// Responsible of deflecting projectiles when conditions are met.
+    /// It is up to the <see cref="DeflectingProjectileInteractiveObjectAction"/> to notify other <see cref="CoreInteractiveObject"/> that they have been deflected (by calling <see cref="CoreInteractiveObject.InteractiveObjectDeflected"/>
+    /// to deflected projectiles.)
+    /// Deflection trajectory calculations are handled by <see cref="DeflectionCalculations"/>.
+    /// </summary>
     public class DeflectingProjectileInteractiveObjectAction : AInteractiveObjectAction
     {
         public const string DeflectingProjectileInteractiveObjectActionUniqueID = "DeflectingProjectileInteractiveObjectAction";
@@ -51,38 +57,13 @@ namespace ProjectileDeflection
                     this.DeflectingProjectileInteractiveObjectActionInput.DeflectingProjectileInteractiveObjectActionInherentData);
             }
 
-            foreach (var insideInteractiveObject in this.DeflectingProjectileInteractiveObjectActionInput.ProjectileDeflectionSystemRef.GetInsideDeflectableInteractiveObjects())
+            foreach (var insideInteractiveObject in this.DeflectingProjectileInteractiveObjectActionInput.ProjectileDeflectionTrackingInteractiveObjectActionRef.GetInsideDeflectableInteractiveObjects())
             {
                 if (insideInteractiveObject.AskIfProjectileCanBeDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject))
                 {
                     insideInteractiveObject.InteractiveObjectDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject);
                 }
             }
-        }
-
-
-        public override void Tick(float d)
-        {
-        }
-
-        public override void AfterTicks(float d)
-        {
-        }
-
-        public override void TickTimeFrozen(float d)
-        {
-        }
-
-        public override void LateTick(float d)
-        {
-        }
-
-        public override void GUITick()
-        {
-        }
-
-        public override void GizmoTick()
-        {
         }
     }
 

@@ -11,8 +11,12 @@ namespace ProjectileDeflection
     struct ObjectsInsideDeflectionRangeSystem
     {
         private CoreInteractiveObject associatedInteractiveObject;
-        private ProjectileDeflectionActorDefinition ProjectileDeflectionActorDefinitionRef;
+        private ProjectileDeflectionTrackingInteractiveObjectActionInherentData _projectileDeflectionTrackingInteractiveObjectActionInherentData;
 
+        /// <summary>
+        /// /!\ The <see cref="SphereOverlapRangeObject"/> is created when <see cref="ObjectsInsideDeflectionRangeSystem"/> is constructed <see cref="ObjectsInsideDeflectionRangeSystem()"/>
+        /// This is because the <see cref="ObjectsInsideDeflectionRangeSystem"/> belongs to an <see cref="AInteractiveObjectAction"/> and that actions are supposed to be destroyed when they are finished.
+        /// </summary>
         private SphereOverlapRangeObject SphereOverlapRangeObject;
 
         #region callbacks
@@ -21,16 +25,30 @@ namespace ProjectileDeflection
         private Action<CoreInteractiveObject> OnInteractiveObjectJustOutsideAndFiltered;
 
         #endregion
-        
+
         public ObjectsInsideDeflectionRangeSystem(CoreInteractiveObject associatedInteractiveObject,
-            ProjectileDeflectionActorDefinition ProjectileDeflectionActorDefinition, 
+            ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData,
             Action<CoreInteractiveObject> OnInteractiveObjectJusInsideAndFiltered = null, Action<CoreInteractiveObject> OnInteractiveObjectJustOutsideAndFiltered = null)
         {
             this.associatedInteractiveObject = associatedInteractiveObject;
-            this.ProjectileDeflectionActorDefinitionRef = ProjectileDeflectionActorDefinition;
+            this._projectileDeflectionTrackingInteractiveObjectActionInherentData = projectileDeflectionTrackingInteractiveObjectActionInherentData;
             this.SphereOverlapRangeObject = null;
             this.OnInteractiveObjectJusInsideAndFiltered = OnInteractiveObjectJusInsideAndFiltered;
             this.OnInteractiveObjectJustOutsideAndFiltered = OnInteractiveObjectJustOutsideAndFiltered;
+
+            this.SphereOverlapRangeObject = new SphereOverlapRangeObject(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new SphereRangeObjectInitialization()
+                {
+                    name = "ProjectileDeflectionRange",
+                    RangeTypeID = RangeTypeID.NOT_DISPLAYED,
+                    IsTakingIntoAccountObstacles = false,
+                    SphereRangeTypeDefinition = new SphereRangeTypeDefinition()
+                    {
+                        Radius = this._projectileDeflectionTrackingInteractiveObjectActionInherentData.ProjectileDetectionRadius
+                    }
+                }, associatedInteractiveObject, delegate(InteractiveObjectPhysicsTriggerInfo InteractiveObjectPhysicsTriggerInfo) { return InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsDealingDamage; },
+                "ProjectileDeflectionRange", OnInteractiveObjectJusInsideAndFiltered: OnInteractiveObjectJusInsideAndFiltered, OnInteractiveObjectJustOutsideAndFiltered: OnInteractiveObjectJustOutsideAndFiltered);
+            SetDeflectionRangeCenterAsLogicColliderCenter();
+            this.SphereOverlapRangeObject.ManuallyDetectInsideColliders();
         }
 
         /// <summary>
@@ -51,33 +69,6 @@ namespace ProjectileDeflection
         {
             this.SphereOverlapRangeObject?.OnDestroy();
         }
-
-        #region External Events
-
-        public void OnLowHealthStarted()
-        {
-            this.SphereOverlapRangeObject = new SphereOverlapRangeObject(associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent, new SphereRangeObjectInitialization()
-                {
-                    name = "ProjectileDeflectionRange",
-                    RangeTypeID = RangeTypeID.NOT_DISPLAYED,
-                    IsTakingIntoAccountObstacles = false,
-                    SphereRangeTypeDefinition = new SphereRangeTypeDefinition()
-                    {
-                        Radius = this.ProjectileDeflectionActorDefinitionRef.ProjectileDetectionRadius
-                    }
-                }, associatedInteractiveObject, delegate(InteractiveObjectPhysicsTriggerInfo InteractiveObjectPhysicsTriggerInfo) { return InteractiveObjectPhysicsTriggerInfo.GetOtherInteractiveObjectTag().IsDealingDamage; },
-                "ProjectileDeflectionRange", OnInteractiveObjectJusInsideAndFiltered: OnInteractiveObjectJusInsideAndFiltered, OnInteractiveObjectJustOutsideAndFiltered: OnInteractiveObjectJustOutsideAndFiltered);
-            SetDeflectionRangeCenterAsLogicColliderCenter();
-            this.SphereOverlapRangeObject.ManuallyDetectInsideColliders();
-        }
-
-        public void OnLowHealthEnded()
-        {
-            this.Destroy();
-        }
-
-        #endregion
-
 
         #region Data Retrieval
 

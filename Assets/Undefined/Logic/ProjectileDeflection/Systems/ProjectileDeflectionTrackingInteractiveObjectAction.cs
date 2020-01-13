@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Input;
+using InteractiveObjectAction;
 using InteractiveObjects;
 using ProjectileDeflection_Interface;
 using RangeObjects;
@@ -8,15 +9,32 @@ using UnityEngine;
 
 namespace ProjectileDeflection
 {
-    /// <summary>
-    /// Responsible of deflecting projectiles when conditions are met.
-    /// The <see cref="ProjectileDeflectionSystem"/> is associated to an "Actor" (referenced by <see cref="AssociatedInteractiveObject"/>).
-    /// It is up to the <see cref="ProjectileDeflectionSystem"/> to notify other <see cref="CoreInteractiveObject"/> that they have been deflected (by calling <see cref="CoreInteractiveObject.InteractiveObjectDeflected"/>
-    /// to deflected projectiles.)
-    /// Deflection trajectory calculations are handled by <see cref="DeflectionCalculations"/>.
-    /// </summary>
-    public class ProjectileDeflectionSystem
+    public struct ProjectileDeflectionSystemInput : IInteractiveObjectActionInput
     {
+        public ProjectileDeflectionTrackingInteractiveObjectActionInherentData ProjectileDeflectionTrackingInteractiveObjectActionInherentData;
+        public CoreInteractiveObject AssociatedInteractiveObject;
+
+        public ProjectileDeflectionSystemInput(ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData, CoreInteractiveObject associatedInteractiveObject)
+        {
+            this.ProjectileDeflectionTrackingInteractiveObjectActionInherentData = projectileDeflectionTrackingInteractiveObjectActionInherentData;
+            AssociatedInteractiveObject = associatedInteractiveObject;
+        }
+    }
+
+    /// <summary>
+    /// Responsible of :
+    ///  * Tracking projectiles in range of deflection <see cref="ProjectileDeflectionFeedbackIconSystem"/> 
+    ///  * Creating the feedback icon on projectiles in are deflectable <see cref="ProjectileDeflectionFeedbackIconSystem"/>
+    /// </summary>
+    public class ProjectileDeflectionTrackingInteractiveObjectAction : AInteractiveObjectAction
+    {
+        public static string ProjectileDeflectionSystemUniqueID = "ProjectileDeflectionTrackingInteractiveObjectAction";
+
+        public override string InteractiveObjectActionUniqueID
+        {
+            get { return ProjectileDeflectionSystemUniqueID; }
+        }
+
         #region External Dependencies
 
         private GameInputManager GameInputManager = GameInputManager.Get();
@@ -24,8 +42,7 @@ namespace ProjectileDeflection
 
         #endregion
 
-        private ProjectileDeflectionActorDefinition _projectileDeflectionActorDefinition;
-        private CoreInteractiveObject AssociatedInteractiveObject;
+        private ProjectileDeflectionSystemInput ProjectileDeflectionSystemInput;
 
         /// <summary>
         /// When the Player try to deflect projectiles, object deflection results are stored temporaly to be processed after the deflect step. <see cref="ProcessDeflectionResults"/>
@@ -42,39 +59,39 @@ namespace ProjectileDeflection
         #endregion
 
         /// <summary>
-        /// The <see cref="ProjectileDeflectionSystem"/> must be updated at the earliest possible time.
+        /// The <see cref="ProjectileDeflectionTrackingInteractiveObjectAction"/> must be updated at the earliest possible time.
         /// </summary>
         private bool UpdatedThisFrame;
 
-        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition)
+        public ProjectileDeflectionTrackingInteractiveObjectAction(ProjectileDeflectionSystemInput ProjectileDeflectionSystemInput)
+            : base(new CoreInteractiveObjectActionDefinition())
         {
-            AssociatedInteractiveObject = associatedInteractiveObject;
-            this._projectileDeflectionActorDefinition = projectileDeflectionActorDefinition;
-            this.ProjectileDeflectionFeedbackIconSystem = new ProjectileDeflectionFeedbackIconSystem(associatedInteractiveObject);
-            this.ObjectsInsideDeflectionRangeSystem = new ObjectsInsideDeflectionRangeSystem(associatedInteractiveObject, this._projectileDeflectionActorDefinition,
+            this.ProjectileDeflectionSystemInput = ProjectileDeflectionSystemInput;
+            this.ProjectileDeflectionFeedbackIconSystem = new ProjectileDeflectionFeedbackIconSystem(this.ProjectileDeflectionSystemInput.AssociatedInteractiveObject);
+            this.ObjectsInsideDeflectionRangeSystem = new ObjectsInsideDeflectionRangeSystem(this.ProjectileDeflectionSystemInput.AssociatedInteractiveObject, this.ProjectileDeflectionSystemInput.ProjectileDeflectionTrackingInteractiveObjectActionInherentData,
                 OnInteractiveObjectJusInsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustInsideDeflectionRange(interactiveObject); },
                 OnInteractiveObjectJustOutsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustOutsideDeflectionRange(interactiveObject); });
             this.UpdatedThisFrame = false;
         }
 
-        public void FixedTick(float d)
+        public override void FixedTick(float d)
         {
             TickDeflection(d);
         }
 
-        public void Tick(float d)
+        public override void Tick(float d)
         {
             this.ObjectsInsideDeflectionRangeSystem.Tick(d);
             TickDeflection(d);
             this.ProjectileDeflectionFeedbackIconSystem.Tick(d);
         }
 
-        public void TickTimeFrozen(float d)
+        public override void TickTimeFrozen(float d)
         {
             this.ProjectileDeflectionFeedbackIconSystem.TickTimeFrozen(d);
         }
 
-        public void LateTick(float d)
+        public override void LateTick(float d)
         {
             this.UpdatedThisFrame = false;
         }
@@ -93,39 +110,11 @@ namespace ProjectileDeflection
             }
         }
 
-        public void Destroy()
+        public override void Dispose()
         {
+            base.Dispose();
             this.ObjectsInsideDeflectionRangeSystem.Destroy();
         }
-
-        #region Data Retrieval
-
-        public float GetProjectileDetectionRadius()
-        {
-            return this._projectileDeflectionActorDefinition.ProjectileDetectionRadius;
-        }
-
-        #endregion
-
-        #region External Events
-
-        /// <summary>
-        /// Projectile deflection is only needed when the health is low.
-        /// </summary>
-        public void OnLowHealthStarted()
-        {
-            this.ObjectsInsideDeflectionRangeSystem.OnLowHealthStarted();
-        }
-
-        /// <summary>
-        /// Projectile deflection is no more needed when the health is no more low.
-        /// </summary>
-        public void OnLowHealthEnded()
-        {
-            this.ObjectsInsideDeflectionRangeSystem.OnLowHealthEnded();
-        }
-
-        #endregion
 
         public IEnumerable<CoreInteractiveObject> GetInsideDeflectableInteractiveObjects()
         {

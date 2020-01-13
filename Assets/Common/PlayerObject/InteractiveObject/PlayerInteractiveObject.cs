@@ -18,8 +18,7 @@ using Weapon;
 namespace PlayerObject
 {
     public partial class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject,
-        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever,
-        IEM_DeflectingProjectileAction_DataRetriever, IEM_DeflectingProjectileAction_WorkflowEventListener
+        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
@@ -34,10 +33,6 @@ namespace PlayerObject
         private LowHealthPlayerSystem lowHealthPlayerSystem;
         private PlayerObjectInteractiveObjectActionStateManager PlayerObjectInteractiveObjectActionStateManager;
         public LowHealthPlayerSystem LowHealthPlayerSystem => this.lowHealthPlayerSystem;
-
-        private ProjectileDeflectionSystem projectileDeflectionSystem;
-
-        public ProjectileDeflectionSystem ProjectileDeflectionSystem => this.projectileDeflectionSystem;
 
         private PlayerVisualEffectSystem PlayerVisualEffectSystem;
 
@@ -71,8 +66,7 @@ namespace PlayerObject
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
-            this.PlayerObjectInteractiveObjectActionStateManager = new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem, PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData);
-            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition);
+            this.PlayerObjectInteractiveObjectActionStateManager = new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem, PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             this.SkillSystem = new SkillSystem(this, this.InteractiveObjectActionPlayerSystem);
@@ -136,11 +130,6 @@ namespace PlayerObject
 
             base.FixedTick(d);
 
-            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
-            {
-                this.projectileDeflectionSystem.FixedTick(d);
-            }
-
             playerMoveManager.FixedTick(d);
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
@@ -151,14 +140,9 @@ namespace PlayerObject
             this.SkillSystem.Tick(d);
 
             this.StunningDamageDealerReceiverSystem.Tick(d);
-            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
-            {
-                this.projectileDeflectionSystem.Tick(d);
-            }
 
             this.PlayerObjectInteractiveObjectActionStateManager.Tick(d);
 
-            //PlayerActionTriggering();
             UpdatePlayerMovement(d);
         }
 
@@ -175,10 +159,6 @@ namespace PlayerObject
         public override void TickTimeFrozen(float d)
         {
             this.InteractiveObjectActionPlayerSystem.TickTimeFrozen(d);
-            if (this.lowHealthPlayerSystem.IsHealthConsideredLow())
-            {
-                this.projectileDeflectionSystem.TickTimeFrozen(d);
-            }
         }
 
 
@@ -187,7 +167,6 @@ namespace PlayerObject
             base.LateTick(d);
             this.InteractiveObjectActionPlayerSystem.LateTick(d);
             this.PlayerVisualEffectSystem.LateTick(d);
-            this.projectileDeflectionSystem.LateTick(d);
             this.playerMoveManager.LateTick(d);
         }
 
@@ -209,7 +188,6 @@ namespace PlayerObject
         public override void Destroy()
         {
             this.WeaponHandlingSystem.Destroy();
-            this.projectileDeflectionSystem.Destroy();
             PlayerInteractiveObjectDestroyedEvent.Get().OnPlayerInteractiveObjectDestroyed();
 
             this.FiringPartialDefinitionDestroy();
@@ -284,7 +262,7 @@ namespace PlayerObject
         {
             this.PlayerSpeedAttenuationSystem.OnLowHealthStarted();
             this.PlayerObjectAnimationStateManager.OnLowHealthStarted(this.PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition.OnLowHealthLocomotionAnimation);
-            this.projectileDeflectionSystem.OnLowHealthStarted();
+            this.PlayerObjectInteractiveObjectActionStateManager.OnLowOnHealthStarted();
             this.PlayerVisualEffectSystem.OnLowHealthStarted();
         }
 
@@ -292,7 +270,7 @@ namespace PlayerObject
         {
             this.PlayerSpeedAttenuationSystem.OnLowHealthEnded();
             this.PlayerObjectAnimationStateManager.OnLowHealthEnded();
-            this.projectileDeflectionSystem.OnLowHealthEnded();
+            this.PlayerObjectInteractiveObjectActionStateManager.OnLowOnHealthEnded();
             this.PlayerVisualEffectSystem.OnLowHealthEnded();
         }
 
@@ -342,20 +320,6 @@ namespace PlayerObject
         {
             this.playerMoveManager.SetConstraintForThisFrame(PlayerMovementConstraint);
         }
-
-        #region Deflection Events
-
-        public void OnDeflectingProjectileInteractiveObjectActionExecuted(DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData)
-        {
-            this.PlayerObjectAnimationStateManager.OnProjectileDeflectionAttempt(DeflectingProjectileInteractiveObjectActionInherentData.ProjectileDeflectMovementAnimation);
-        }
-
-        public bool ProjectileDeflectionEnabled()
-        {
-            return this.lowHealthPlayerSystem.IsHealthConsideredLow();
-        }
-
-        #endregion
     }
 
     public partial class PlayerInteractiveObject : IEM_IFiringAInteractiveObjectAction_EventsListener, IEM_ProjectileFireActionInput_Retriever, IEM_IPlayerAimingFiringRegisteringEventsExposedMethod
@@ -437,5 +401,27 @@ namespace PlayerObject
         {
             this.FiringAInteractiveObjectActionEndedEvent?.Invoke(playerAimingInteractiveObjectActionInherentData);
         }
+    }
+
+    public partial class PlayerInteractiveObject : IEM_DeflectingProjectileAction_DataRetriever, IEM_DeflectingProjectileAction_WorkflowEventListener
+    {
+        #region Deflection Events
+
+        public void OnDeflectingProjectileInteractiveObjectActionExecuted(DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData)
+        {
+            this.PlayerObjectAnimationStateManager.OnProjectileDeflectionAttempt(DeflectingProjectileInteractiveObjectActionInherentData.ProjectileDeflectMovementAnimation);
+        }
+
+        public bool ProjectileDeflectionEnabled()
+        {
+            return this.PlayerObjectInteractiveObjectActionStateManager.IsTrackingNearDeflectableObjects();
+        }
+
+        public ProjectileDeflectionTrackingInteractiveObjectAction GetPlayingProjectileDeflectionSystem()
+        {
+            return this.InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(ProjectileDeflectionTrackingInteractiveObjectAction.ProjectileDeflectionSystemUniqueID) as ProjectileDeflectionTrackingInteractiveObjectAction;
+        }
+
+        #endregion
     }
 }

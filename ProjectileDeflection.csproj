@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionActorDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionGlobalConfiguration\ProjectileDeflectionGlobalConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectileInteractiveObjectAction.cs" />
@@ -66,7 +65,8 @@
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\ProjectileDeflectionFeedbackIcon.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ObjectsInsideDeflectionRangeSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionFeedbackIconSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionTrackingInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionTrackingInteractiveObjectActionInherentData.cs" />
      <None Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
