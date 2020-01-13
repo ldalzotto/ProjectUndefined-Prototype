@@ -75,6 +75,7 @@ namespace Skill
             }
         }
 
+
         public void Tick(float d)
         {
             if (this.CurrentPlayerActionInherentData.GetValue() != null)

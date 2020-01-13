@@ -67,7 +67,7 @@
      <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\PlayerObject\Configuration\PlayerGlobalConfiguration\PlayerGlobalConfiguration.cs" />
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\Managers\PlayerInteractiveObjectManager.cs" />
-     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerAimingInteractiveObject.cs" />
+     <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObject.cs" />
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectDefinition.cs" />
      <Compile Include="Assets\Common\PlayerObject\InteractiveObject\PlayerInteractiveObjectInitializer.cs" />
      <Compile Include="Assets\Common\PlayerObject\Lib\PlayerBodyPhysicsEnvironment.cs" />

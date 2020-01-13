@@ -11,7 +11,7 @@
         "GeometryIntersection",
         "ProjectileDeflection_Interface",
         "RangeObjects",
-        "PlayerActions"
+        "InteractiveObjectAction"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

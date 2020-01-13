@@ -41,19 +41,12 @@ namespace ProjectileDeflection
 
         #endregion
 
-        #region Callbacks
-
-        private Action OnProjectileDeflectionAttemptCallback;
-
-        #endregion
-
         /// <summary>
         /// The <see cref="ProjectileDeflectionSystem"/> must be updated at the earliest possible time.
         /// </summary>
         private bool UpdatedThisFrame;
 
-        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition,
-            Action OnProjectileDeflectionAttemptCallback = null)
+        public ProjectileDeflectionSystem(CoreInteractiveObject associatedInteractiveObject, ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             this._projectileDeflectionActorDefinition = projectileDeflectionActorDefinition;
@@ -62,7 +55,6 @@ namespace ProjectileDeflection
                 OnInteractiveObjectJusInsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustInsideDeflectionRange(interactiveObject); },
                 OnInteractiveObjectJustOutsideAndFiltered: delegate(CoreInteractiveObject interactiveObject) { this.ProjectileDeflectionFeedbackIconSystem.OnInteractiveObjectJustOutsideDeflectionRange(interactiveObject); });
             this.UpdatedThisFrame = false;
-            this.OnProjectileDeflectionAttemptCallback = OnProjectileDeflectionAttemptCallback;
         }
 
         public void FixedTick(float d)
@@ -98,45 +90,8 @@ namespace ProjectileDeflection
                 this.UpdatedThisFrame = true;
 
                 this.ObjectsInsideDeflectionRangeSystem.Tick(d);
-
-                if (GameInputManager.CurrentInput.DeflectProjectileDown())
-                {
-                    this.OnProjectileDeflectionAttemptCallback?.Invoke();
-                    ComputeDeflectedInteractiveObject();
-                    ProcessDeflectionResults();
-                }
             }
         }
-
-        /// <summary>
-        /// Call core interactive object event <see cref="CoreInteractiveObject.OnInteractiveObjectAskingToBeDeflected"/> for every deflectable objects in
-        /// <see cref="ObjectsInsideDeflectionRangeSystem"/>.
-        /// Deflection results is stored in the buffer <see cref="SuccessfullyProjectileDeflectedPropertiesBuffered"/> to be processed after the iteration in <see cref="ProcessDeflectionResults"/>.
-        /// </summary>
-        private void ComputeDeflectedInteractiveObject()
-        {
-            foreach (var insideInteractiveObject in this.ObjectsInsideDeflectionRangeSystem.GetInsideDeflectableInteractiveObjects())
-            {
-                if (insideInteractiveObject.AskIfProjectileCanBeDeflected(this.AssociatedInteractiveObject))
-                {
-                    this.SuccessfullyProjectileDeflectedPropertiesBuffered.Add(insideInteractiveObject);
-                }
-            }
-        }
-
-        private void ProcessDeflectionResults()
-        {
-            /// SuccessfullyProjectileDeflectedProperties are buffered because
-            if (this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count > 0)
-            {
-                for (var i = this.SuccessfullyProjectileDeflectedPropertiesBuffered.Count - 1; i >= 0; i--)
-                {
-                    this.SuccessfullyProjectileDeflectedPropertiesBuffered[i].InteractiveObjectDeflected(this.AssociatedInteractiveObject);
-                    this.SuccessfullyProjectileDeflectedPropertiesBuffered.RemoveAt(i);
-                }
-            }
-        }
-
 
         public void Destroy()
         {
@@ -171,5 +126,10 @@ namespace ProjectileDeflection
         }
 
         #endregion
+
+        public IEnumerable<CoreInteractiveObject> GetInsideDeflectableInteractiveObjects()
+        {
+            return this.ObjectsInsideDeflectionRangeSystem.GetInsideDeflectableInteractiveObjects();
+        }
     }
 }

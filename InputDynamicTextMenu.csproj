@@ -671,6 +671,10 @@
       <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
       <Name>Weapon</Name>
     </ProjectReference>
+    <ProjectReference Include="ProjectileDeflection.csproj">
+      <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
+      <Name>ProjectileDeflection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -17,7 +17,7 @@ namespace SoliderAIBehavior
         {
             if (this.playerObject == null)
             {
-                this.playerObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
+                this.playerObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
             }
 
             return this.playerObject;

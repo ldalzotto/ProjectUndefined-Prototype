@@ -39,7 +39,7 @@ namespace InputDynamicTextMenu
 
         private void RegisterEvents()
         {
-            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
+            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
 
             if (PlayerInteractiveObject is IEM_IPlayerAimingFiringRegisteringEventsExposedMethod IPlayerFiringRegisteringEventsExposedMethod)
             {
@@ -56,7 +56,7 @@ namespace InputDynamicTextMenu
 
         private void UnRegisterEvents()
         {
-            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject;
+            var PlayerInteractiveObject = PlayerInteractiveObjectManager.Get().PlayerInteractiveObject;
 
             if (PlayerInteractiveObject is IEM_IPlayerAimingFiringRegisteringEventsExposedMethod IPlayerFiringRegisteringEventsExposedMethod)
             {

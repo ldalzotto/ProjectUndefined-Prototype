@@ -47,6 +47,8 @@ namespace PlayerObject
         [FormerlySerializedAs("ProjectileDeflectionDefinition")] [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public ProjectileDeflectionActorDefinition projectileDeflectionActorDefinition;
 
+        public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData;
+
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public PlayerVisualEffectSystemDefinition PlayerVisualEffectSystemDefinition;
     }

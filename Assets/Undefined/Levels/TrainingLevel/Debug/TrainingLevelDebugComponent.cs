@@ -22,7 +22,7 @@ public class TrainingLevelDebugComponent : MonoBehaviour
         if (SetPlayerPosition)
         {
             SetPlayerPosition = false;
-            PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination() {Rotation = this.TargetPlayerPosition.rotation, WorldPosition = this.TargetPlayerPosition.position}));
+            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.SetDestination(new ForwardAgentMovementCalculationStrategy(new AIDestination() {Rotation = this.TargetPlayerPosition.rotation, WorldPosition = this.TargetPlayerPosition.position}));
         }
 
         if (DestroyAllObstacles)
@@ -44,7 +44,7 @@ public class TrainingLevelDebugComponent : MonoBehaviour
 
         if (RestoreHealth)
         {
-            PlayerInteractiveObjectManager.Get().PlayerAimingInteractiveObject.DealDamage(40, null);
+            PlayerInteractiveObjectManager.Get().PlayerInteractiveObject.DealDamage(40, null);
             RestoreHealth = false;
         }
     }

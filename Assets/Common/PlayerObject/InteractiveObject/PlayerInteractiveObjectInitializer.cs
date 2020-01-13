@@ -10,7 +10,7 @@ namespace PlayerObject
         public PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
         protected override CoreInteractiveObject InitializationLogic()
         {
-            var PlayerInteractiveObject = new PlayerAimingInteractiveObject(InteractiveGameObjectFactory.Build(gameObject), this.PlayerInteractiveObjectDefinition);
+            var PlayerInteractiveObject = new PlayerInteractiveObject(InteractiveGameObjectFactory.Build(gameObject), this.PlayerInteractiveObjectDefinition);
             return PlayerInteractiveObject;
         }
     }

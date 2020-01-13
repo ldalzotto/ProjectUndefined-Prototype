@@ -61,6 +61,8 @@
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionActorDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionGlobalConfiguration\ProjectileDeflectionGlobalConfiguration.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectileInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectileInteractiveObjectActionInherentData.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\ProjectileDeflectionFeedbackIcon.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ObjectsInsideDeflectionRangeSystem.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionFeedbackIconSystem.cs" />
@@ -662,6 +664,10 @@
     <ProjectReference Include="RangeObjects.csproj">
       <Project>{6B2DC5DC-2966-5FB7-1EEE-D8FDCF8589BD}</Project>
       <Name>RangeObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjectAction.csproj">
+      <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
+      <Name>InteractiveObjectAction</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

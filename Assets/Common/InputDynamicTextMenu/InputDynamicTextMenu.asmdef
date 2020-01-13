@@ -14,7 +14,8 @@
         "PlayerAim",
         "InteractiveObjectAction",
         "SkillAction",
-        "Weapon"
+        "Weapon",
+        "ProjectileDeflection"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

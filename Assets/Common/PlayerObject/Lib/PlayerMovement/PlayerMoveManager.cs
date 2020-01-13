@@ -30,7 +30,7 @@ namespace PlayerObject
         /// </summary>
         private APlayerMoveManager CurrentPlayerMoveManager;
 
-        private PlayerAimingInteractiveObject _playerAimingInteractiveObjectRef;
+        private PlayerInteractiveObject _playerIeractiveObjectRef;
         private ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef;
 
         #region External Dependencies
@@ -39,10 +39,10 @@ namespace PlayerObject
 
         #endregion
 
-        public PlayerMoveManager(PlayerAimingInteractiveObject playerAimingInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
+        public PlayerMoveManager(PlayerInteractiveObject playerAimingInteractiveObjectRef, ObjectMovementSpeedSystem PlayerObjectMovementSpeedSystemRef,
             PlayerRigidBodyMoveManager PlayerRigidBodyMoveManager, PlayerAgentMoveManager PlayerAgentMoveManager)
         {
-            this._playerAimingInteractiveObjectRef = playerAimingInteractiveObjectRef;
+            this._playerIeractiveObjectRef = playerAimingInteractiveObjectRef;
             this.PlayerObjectMovementSpeedSystemRef = PlayerObjectMovementSpeedSystemRef;
             this.PlayerRigidBodyMoveManager = PlayerRigidBodyMoveManager;
             this.PlayerAgentMoveManager = PlayerAgentMoveManager;
@@ -62,7 +62,7 @@ namespace PlayerObject
             this.PlayerObjectMovementSpeedSystemRef.SetObjectSpeedCalculationType(ObjectSpeedCalculationType.MANUAL);
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
-            this._playerAimingInteractiveObjectRef.InteractiveGameObject.Agent.enabled = false;
+            this._playerIeractiveObjectRef.InteractiveGameObject.Agent.enabled = false;
             this.CurrentPlayerMoveManager = this.PlayerRigidBodyMoveManager;
         }
 
@@ -77,7 +77,7 @@ namespace PlayerObject
             this.PlayerObjectMovementSpeedSystemRef.SetObjectSpeedCalculationType(ObjectSpeedCalculationType.AGENT);
             this.PlayerRigidBodyMoveManager.ResetSpeed();
             this.PlayerAgentMoveManager.ResetSpeed();
-            this._playerAimingInteractiveObjectRef.InteractiveGameObject.Agent.enabled = true;
+            this._playerIeractiveObjectRef.InteractiveGameObject.Agent.enabled = true;
             this.CurrentPlayerMoveManager = this.PlayerAgentMoveManager;
         }
 

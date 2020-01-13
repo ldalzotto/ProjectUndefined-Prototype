@@ -17,8 +17,9 @@ using Weapon;
 
 namespace PlayerObject
 {
-    public partial class PlayerAimingInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject,
-        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
+    public partial class PlayerInteractiveObject : CoreInteractiveObject, IPlayerInteractiveObject,
+        IEM_PlayerLowHealthInteractiveObjectExposedMethods, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever,
+        IEM_DeflectingProjectileAction_DataRetriever, IEM_DeflectingProjectileAction_WorkflowEventListener
     {
         private PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition;
 
@@ -57,7 +58,7 @@ namespace PlayerObject
         [VE_Ignore] private PlayerMoveManager playerMoveManager;
         public PlayerMoveManager PlayerMoveManager => this.playerMoveManager;
 
-        public PlayerAimingInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition)
+        public PlayerInteractiveObject(IInteractiveGameObject interactiveGameObject, PlayerInteractiveObjectDefinition PlayerInteractiveObjectDefinition)
         {
             this.PlayerInteractiveObjectDefinition = PlayerInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
@@ -69,12 +70,12 @@ namespace PlayerObject
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
-            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition,
-                OnProjectileDeflectionAttemptCallback: this.OnProjectileDeflectionAttempt);
+            this.projectileDeflectionSystem = new ProjectileDeflectionSystem(this, PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             this.SkillSystem = new SkillSystem(this, this.InteractiveObjectActionPlayerSystem);
             this.SkillSystem.SetPlayerActionToMainWeaponSkill(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
+            this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.DeflectingProjectileInteractiveObjectActionInherentData, 0);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
@@ -357,7 +358,7 @@ namespace PlayerObject
 
         #region Deflection Events
 
-        private void OnProjectileDeflectionAttempt()
+        public void OnDeflectingProjectileInteractiveObjectActionExecuted()
         {
             this.PlayerObjectAnimationStateManager.OnProjectileDeflectionAttempt(this.PlayerInteractiveObjectDefinition.projectileDeflectionActorDefinition.ProjectileDeflectMovementAnimation);
         }
@@ -365,7 +366,7 @@ namespace PlayerObject
         #endregion
     }
 
-    public partial class PlayerAimingInteractiveObject : IEM_IFiringAInteractiveObjectAction_EventsListener, IEM_ProjectileFireActionInput_Retriever, IEM_IPlayerAimingFiringRegisteringEventsExposedMethod
+    public partial class PlayerInteractiveObject : IEM_IFiringAInteractiveObjectAction_EventsListener, IEM_ProjectileFireActionInput_Retriever, IEM_IPlayerAimingFiringRegisteringEventsExposedMethod
     {
         public bool ProjectileFireActionEnabled()
         {
@@ -381,7 +382,7 @@ namespace PlayerObject
 
             return default;
         }
-        
+
         private void FiringPartialDefinitionInitialize()
         {
             this.RegisterOnPlayerStartTargettingEvent(this.OnPlayerActionStarted);

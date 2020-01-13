@@ -12,7 +12,7 @@ namespace PlayerObject
     {
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
 
-        public PlayerAgentMoveManager(PlayerAimingInteractiveObject playerAimingInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
+        public PlayerAgentMoveManager(PlayerInteractiveObject playerAimingInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
             ObjectMovementSpeedSystem ObjectMovementSpeedSystemRef,
             OnAIInteractiveObjectDestinationReachedDelegate OnDestinationReachedCallback = null)
         {
