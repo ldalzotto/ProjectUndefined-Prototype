@@ -9,7 +9,7 @@ public class BeziersMovementSystem
     private BeziersMovementPositionState BeziersMovementPositionState;
     private BeziersControlPointsBuildInput BeziersControlPointsBuildInput;
 
-    private bool isCurrentlyMoving;
+    public bool IsCurrentlyMoving { get; private set; }
 
     #region Events Callback
 
@@ -27,7 +27,7 @@ public class BeziersMovementSystem
 
     public void Tick(float d)
     {
-        if (this.isCurrentlyMoving)
+        if (this.IsCurrentlyMoving)
         {
             BeziersMovementJobManager.Get().EnsureCalculationIsDone();
             if (this.BeziersMovementPositionState.MovementEnded)
@@ -45,13 +45,13 @@ public class BeziersMovementSystem
     public void StartBeziersMovement()
     {
         this.BeziersMovementPositionState = new BeziersMovementPositionState(new BeziersControlPoints(this.BeziersControlPointsBuildInput), this.BeziersControlPointsBuildInput.Speed);
-        this.isCurrentlyMoving = true;
+        this.IsCurrentlyMoving = true;
         this.OnMovementStartEvent?.Invoke(this);
     }
 
     public void StopBeziersMovement()
     {
-        this.isCurrentlyMoving = false;
+        this.IsCurrentlyMoving = false;
         this.OnMovementEndEvent?.Invoke(this);
     }
 

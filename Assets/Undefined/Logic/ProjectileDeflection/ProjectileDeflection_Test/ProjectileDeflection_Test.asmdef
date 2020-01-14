@@ -18,7 +18,9 @@
         "InteractiveObjectAction",
         "PlayerLowHealth_Interfaces",
         "PlayerAim",
-        "Skill_Interfaces"
+        "Skill_Interfaces",
+        "HealthGlobe",
+        "AIObjects"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

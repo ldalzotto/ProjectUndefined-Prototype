@@ -689,6 +689,14 @@
       <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
       <Name>Skill_Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="HealthGlobe.csproj">
+      <Project>{E27EF40D-C561-A6A6-B92C-7E49D730CB3F}</Project>
+      <Name>HealthGlobe</Name>
+    </ProjectReference>
+    <ProjectReference Include="AIObjects.csproj">
+      <Project>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</Project>
+      <Name>AIObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

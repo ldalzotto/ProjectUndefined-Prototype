@@ -63,5 +63,14 @@ namespace HealthGlobe
         {
             this.isAskingToBeDestroyed = true;
         }
+
+        #region Logical conditions
+
+        public bool IsMoving()
+        {
+            return this.SpawnBeziersMovementSystem.IsCurrentlyMoving;
+        }
+
+        #endregion
     }
 }

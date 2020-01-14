@@ -64,7 +64,7 @@ namespace ProjectileDeflection
         private bool UpdatedThisFrame;
 
         public ProjectileDeflectionTrackingInteractiveObjectAction(ProjectileDeflectionSystemInput ProjectileDeflectionSystemInput)
-            : base(new CoreInteractiveObjectActionDefinition())
+            : base(new CoreInteractiveObjectActionDefinition() {MovementAllowed = true})
         {
             this.ProjectileDeflectionSystemInput = ProjectileDeflectionSystemInput;
             this.ProjectileDeflectionFeedbackIconSystem = new ProjectileDeflectionFeedbackIconSystem(this.ProjectileDeflectionSystemInput.AssociatedInteractiveObject);
