@@ -36,5 +36,10 @@ namespace Skill
                 this.SkillSlotUIGameObject.SetUIIcon(newSkillActionDefinition.SkillIcon);
             }
         }
+
+        public void SetInputText(string text)
+        {
+            this.SkillSlotUIGameObject.SetInputText(text);
+        }
     }
 }

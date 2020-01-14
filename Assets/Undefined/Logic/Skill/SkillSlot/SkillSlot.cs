@@ -54,6 +54,8 @@ namespace Skill
             this.AssociatedInput = AssociatedInput;
             this.SkillSlotUI = new SkillSlotUI(ref SKillSlotUIPositionInput);
             this.CurrentPlayerActionInherentData = new ObjectVariable<InteractiveObjectActionInherentData>(this.OnCurrentPlayerActionInherentDataChanged);
+
+            this.SkillSlotUI.SetInputText(InputControlLookup.GetInputControlRawName(InputControlLookup.FindTheFirstInputControlForInputID(this.AssociatedInput)));
         }
 
         public void Destroy()

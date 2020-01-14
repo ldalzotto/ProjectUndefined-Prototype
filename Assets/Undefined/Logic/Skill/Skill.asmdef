@@ -7,7 +7,9 @@
         "Input",
         "InteractiveObjects",
         "InteractiveObjectAction",
-        "Skill_Interfaces"
+        "Skill_Interfaces",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

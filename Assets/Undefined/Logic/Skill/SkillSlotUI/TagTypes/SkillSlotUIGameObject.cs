@@ -9,6 +9,7 @@ namespace Skill
         private Image BackgroundImage;
         private Material SkillIconBackgroundMaterialInstance;
         public SkillSlotUIconIGameObject SkillSlotUIconIGameObject { get; private set; }
+        private SkillSlitUIInputTextGameObject SkillSlitUIInputTextGameObject;
 
         public void Init()
         {
@@ -19,6 +20,9 @@ namespace Skill
             this.SkillIconBackgroundMaterialInstance = this.BackgroundImage.material;
             this.SkillSlotUIconIGameObject = this.gameObject.GetComponentInChildren<SkillSlotUIconIGameObject>();
             this.SkillSlotUIconIGameObject.Init();
+
+            this.SkillSlitUIInputTextGameObject = this.gameObject.GetComponentInChildren<SkillSlitUIInputTextGameObject>();
+            this.SkillSlitUIInputTextGameObject.Init();
         }
 
         public void SetCooldownProgress(float cooldownProgress)
@@ -29,6 +33,11 @@ namespace Skill
         public void SetUIIcon(Sprite Icon)
         {
             this.SkillSlotUIconIGameObject.SetUIIcon(Icon);
+        }
+
+        public void SetInputText(string text)
+        {
+            this.SkillSlitUIInputTextGameObject.SetText(text);
         }
 
         public void PositionAndScaleSkillSlot(ref SKillSlotUIPositionInput SKillSlotUIPositionInput)
