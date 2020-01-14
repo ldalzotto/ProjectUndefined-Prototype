@@ -68,9 +68,9 @@ namespace InteractiveObjectAction
             }
         }
 
-        public void AbortAction(string actionUniqueID)
+        public void StopAction(string actionUniqueID)
         {
-            this.interactiveObjectActionExecutionManager.AbortAction(actionUniqueID);
+            this.interactiveObjectActionExecutionManager.StopAction(actionUniqueID);
         }
 
         #region External Events
@@ -291,7 +291,7 @@ namespace InteractiveObjectAction
             this.InteractiveObjectActionStates.Clear();
         }
 
-        public void AbortAction(string actionUniqueId)
+        public void StopAction(string actionUniqueId)
         {
             if (this.DoesActionOfTypeIsPlaying(actionUniqueId))
             {

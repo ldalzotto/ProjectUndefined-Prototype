@@ -27,6 +27,15 @@ namespace Skill
         /// </summary>
         private List<SkillSlot> SubSkillSlots = new List<SkillSlot>();
 
+        private IEnumerable<SkillSlot> GetAllSkillSlots()
+        {
+            yield return MainWeaponSkillSlot;
+            foreach (var subSkillSlot in SubSkillSlots)
+            {
+                yield return subSkillSlot;
+            }
+        }
+
         public SkillSystem(CoreInteractiveObject AssociatedInteractiveObject, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem)
         {
             SKillSlotUIPositionInput SKillSlotUIPositionInput = default(SKillSlotUIPositionInput);
@@ -44,19 +53,17 @@ namespace Skill
 
         public void Tick(float d)
         {
-            this.MainWeaponSkillSlot.Tick(d);
-            foreach (var subSkillSlot in SubSkillSlots)
+            foreach (var skillSlot in this.GetAllSkillSlots())
             {
-                subSkillSlot.Tick(d);
+                skillSlot.Tick(d);
             }
         }
 
         public void Destroy()
         {
-            this.MainWeaponSkillSlot?.Destroy();
-            foreach (var subSkillSlot in SubSkillSlots)
+            foreach (var skillSlot in this.GetAllSkillSlots())
             {
-                subSkillSlot.Destroy();
+                skillSlot.Destroy();
             }
         }
 
@@ -95,6 +102,23 @@ namespace Skill
             {
                 this.SubSkillSlots[position].SwitchSkillActionDefinition(interactiveObjectActionInherentData);
             }
+        }
+
+        #endregion
+
+        #region Data retrieval
+
+        public InputID GetInputIdAssociatedToTheInteractiveObjectAction(string actionUniqueID)
+        {
+            foreach (var skillSlot in this.GetAllSkillSlots())
+            {
+                if (skillSlot.CompareAssociatedInteractiveObjectActionInherentData(actionUniqueID))
+                {
+                    return skillSlot.AssociatedInput;
+                }
+            }
+
+            return InputID.NONE;
         }
 
         #endregion

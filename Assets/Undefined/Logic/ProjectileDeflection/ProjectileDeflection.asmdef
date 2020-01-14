@@ -11,7 +11,10 @@
         "GeometryIntersection",
         "ProjectileDeflection_Interface",
         "RangeObjects",
-        "InteractiveObjectAction"
+        "InteractiveObjectAction",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "Skill_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

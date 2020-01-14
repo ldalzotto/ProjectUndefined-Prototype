@@ -226,7 +226,7 @@ namespace PlayerObject
 
         public override void OnLowOnHealthEnded()
         {
-            this.InteractiveObjectActionPlayerSystem.AbortAction(_projectileDeflectionTrackingInteractiveObjectActionInherentData.InteractiveObjectActionUniqueID);
+            this.InteractiveObjectActionPlayerSystem.StopAction(_projectileDeflectionTrackingInteractiveObjectActionInherentData.InteractiveObjectActionUniqueID);
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior.SetState(ProjectileDeflectionInteractiveObjectActionState.LISTENING);
         }
     }

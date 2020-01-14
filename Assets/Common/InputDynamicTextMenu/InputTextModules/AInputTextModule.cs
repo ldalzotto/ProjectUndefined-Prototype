@@ -72,12 +72,4 @@ namespace InputDynamicTextMenu
             this.InstanciatedText.text = InputConfigurationInherentData2ReadableText.ConvertInputToReadableText(InputID.FIRING_PROJECTILE_DOWN_HOLD);
         }
     }
-
-    public class DelflectionTextModule : AInputTextModule
-    {
-        public DelflectionTextModule(RectTransform ParentTransform) : base(ParentTransform)
-        {
-            this.InstanciatedText.text = InputConfigurationInherentData2ReadableText.ConvertInputToReadableText(InputID.DEFLECT_PROJECTILE_DOWN);
-        }
-    }
 }

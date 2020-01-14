@@ -106,20 +106,19 @@ namespace InteractiveObjects
 
         private void DestroyInteractiveObjectsTaggedAsToBeDestroyed()
         {
-            List<CoreInteractiveObject> InteractiveObjectsToDelete = null;
-            for (var InteractiveObjectIndex = 0; InteractiveObjectIndex < InteractiveObjects.Count; InteractiveObjectIndex++)
-                if (InteractiveObjects[InteractiveObjectIndex].IsAskingToBeDestroyed)
-                {
-                    if (InteractiveObjectsToDelete == null) InteractiveObjectsToDelete = new List<CoreInteractiveObject>();
+            IEnumerable<CoreInteractiveObject> AskedToBeDestroyedInteractiveObjects()
+            {
+                for (var InteractiveObjectIndex = 0; InteractiveObjectIndex < InteractiveObjects.Count; InteractiveObjectIndex++)
+                    if (InteractiveObjects[InteractiveObjectIndex].IsAskingToBeDestroyed)
+                    {
+                        yield return InteractiveObjects[InteractiveObjectIndex];
+                    }
+            }
 
-                    InteractiveObjectsToDelete.Add(InteractiveObjects[InteractiveObjectIndex]);
-                }
-
-            if (InteractiveObjectsToDelete != null)
-                foreach (var InteractiveObjectToDelete in InteractiveObjectsToDelete)
-                {
-                    InteractiveObjectToDelete.Destroy();
-                }
+            foreach (var askedToBeDestroyedInteractiveObject in AskedToBeDestroyedInteractiveObjects())
+            {
+                askedToBeDestroyedInteractiveObject.Destroy();
+            }
         }
 
         public override void OnDestroy()

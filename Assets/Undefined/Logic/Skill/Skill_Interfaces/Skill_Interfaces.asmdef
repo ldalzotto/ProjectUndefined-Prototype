@@ -2,7 +2,8 @@
     "name": "Skill_Interfaces",
     "references": [
         "Editor_Common",
-        "OdinSerializer"
+        "OdinSerializer",
+        "Input"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

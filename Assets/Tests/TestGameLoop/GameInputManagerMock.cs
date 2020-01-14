@@ -96,6 +96,8 @@ namespace Tests
             {
                 case InputID.FIRING_PROJECTILE_DOWN_HOLD:
                     return this.FiringProjectileDH();
+                case InputID.SKILL_1_DOWN_HOLD:
+                    return this.Skill1DonwHold();
             }
 
             return false;
@@ -156,9 +158,9 @@ namespace Tests
             return false;
         }
 
-        public bool DeflectProjectileDown()
+        public bool Skill1DonwHold()
         {
-            return this.GameTestInputMockedValues.DeflectProjectileD;
+            return this.GameTestInputMockedValues.Skill1DownHold;
         }
 
         #endregion
@@ -176,7 +178,7 @@ namespace Tests
         public bool RotationCameraDH;
         public float RightRotationCamera;
         public float CameraZoomDelta;
-        public bool DeflectProjectileD;
+        public bool Skill1DownHold;
 
         public GameTestInputMockedValues()
         {
@@ -195,7 +197,7 @@ namespace Tests
             this.RotationCameraDH = false;
             this.RightRotationCamera = 0f;
             this.CameraZoomDelta = 0f;
-            this.DeflectProjectileD = false;
+            this.Skill1DownHold = false;
         }
     }
 }

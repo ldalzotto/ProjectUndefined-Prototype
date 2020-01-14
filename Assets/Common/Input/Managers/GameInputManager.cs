@@ -67,7 +67,6 @@ namespace Input
                 return this.gameInputV2.InputConditionsMet(InputID.CANCEL_DOWN);
             }
 
-
             public Vector3 LocomotionAxis()
             {
                 var rawDirection = new Vector3(-Convert.ToInt32(this.gameInputV2.InputConditionsMet(InputID.LEFT_DOWN_HOLD))
@@ -141,11 +140,6 @@ namespace Input
             public bool FreezeTimeDown()
             {
                 return this.gameInputV2.InputConditionsMet(InputID.FREEZE_TIME_DOWN);
-            }
-
-            public bool DeflectProjectileDown()
-            {
-                return this.gameInputV2.InputConditionsMet(InputID.DEFLECT_PROJECTILE_DOWN);
             }
         }
     }
@@ -289,8 +283,6 @@ namespace Input
         bool FiringProjectileDH();
         bool MenuExitD();
         bool FreezeTimeDown();
-
-        bool DeflectProjectileDown();
     }
 
     public enum MouseButton

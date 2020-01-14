@@ -13,7 +13,6 @@ namespace InputDynamicTextMenu
             {InputID.CAMERA_ZOOM, "Camera zoom"},
             {InputID.FIRING_ACTION_DOWN, "Entering firing mode"},
             {InputID.FIRING_PROJECTILE_DOWN_HOLD, "Firing"},
-            {InputID.DEFLECT_PROJECTILE_DOWN, "Deflect projectile"},
             {InputID.FREEZE_TIME_DOWN, "Freeze time"}
         };
 
@@ -86,25 +85,7 @@ namespace InputDynamicTextMenu
 
         public static string GetInputControlName(InputControl inputControl)
         {
-            string returnValue = string.Empty;
-            if (!string.IsNullOrEmpty(inputControl.shortDisplayName) && inputControl.shortDisplayName != "Null")
-            {
-                returnValue = inputControl.shortDisplayName;
-            }
-            else if (!string.IsNullOrEmpty(inputControl.displayName) && inputControl.displayName != "Null")
-            {
-                returnValue = inputControl.displayName;
-            }
-            else if (!string.IsNullOrEmpty(inputControl.name) && inputControl.name != "Null")
-            {
-                returnValue = inputControl.name;
-            }
-            else
-            {
-                returnValue = string.Empty;
-            }
-
-            return "<b><color=\"red\">" + returnValue + "</color></b>";
+            return "<b><color=\"red\">" + InputControlLookup.GetInputControlRawName(inputControl) + "</color></b>";
         }
     }
 }

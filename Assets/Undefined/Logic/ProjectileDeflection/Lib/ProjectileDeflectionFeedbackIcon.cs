@@ -1,5 +1,7 @@
 ﻿using System;
 using CoreGame;
+using Input;
+using TMPro;
 using UnityEngine;
 
 namespace ProjectileDeflection
@@ -8,14 +10,22 @@ namespace ProjectileDeflection
     {
         private GameObject InstanciatedGameObject;
         private RectTransform Transform;
+        private TMPro.TextMeshProUGUI inputText;
 
         private Camera mainCamera;
 
-        public ProjectileDeflectionFeedbackIcon(GameObject instanciatedGameObject)
+        public ProjectileDeflectionFeedbackIcon(GameObject instanciatedGameObject, InputID DisplayedInput)
         {
             InstanciatedGameObject = instanciatedGameObject;
             this.Transform = this.InstanciatedGameObject.transform as RectTransform;
             this.mainCamera = Camera.main;
+            this.inputText = this.Transform.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+            var feedbackInputControl = InputControlLookup.FindTheFirstInputControlForInputID(DisplayedInput);
+            if (feedbackInputControl != null)
+            {
+                this.inputText.text = InputControlLookup.GetInputControlRawName(feedbackInputControl);
+            }
         }
 
         public void SetPositionFromWorld(Vector3 worldPosition)
@@ -31,9 +41,10 @@ namespace ProjectileDeflection
             }
         }
 
-        public static ProjectileDeflectionFeedbackIcon Build(GameObject ProjectileDeflectionFeedbackPrefab)
+
+        public static ProjectileDeflectionFeedbackIcon Build(GameObject ProjectileDeflectionFeedbackPrefab, InputID DisplayedInput)
         {
-            return new ProjectileDeflectionFeedbackIcon(MonoBehaviour.Instantiate(ProjectileDeflectionFeedbackPrefab, ProjectileDeflectionFeedbackIconContainer.Get().transform));
+            return new ProjectileDeflectionFeedbackIcon(MonoBehaviour.Instantiate(ProjectileDeflectionFeedbackPrefab, ProjectileDeflectionFeedbackIconContainer.Get().transform), DisplayedInput);
         }
     }
 
@@ -45,7 +56,7 @@ namespace ProjectileDeflection
         {
             if (Instance == null)
             {
-                Instance = GameObject.FindObjectOfType<ProjectileDeflectionFeedbackIconContainer>();
+                Instance = FindObjectOfType<ProjectileDeflectionFeedbackIconContainer>();
                 if (Instance == null)
                 {
                     var obj = new GameObject("ProjectileDeflectionFeedbackIconContainer", new Type[] {typeof(RectTransform)});

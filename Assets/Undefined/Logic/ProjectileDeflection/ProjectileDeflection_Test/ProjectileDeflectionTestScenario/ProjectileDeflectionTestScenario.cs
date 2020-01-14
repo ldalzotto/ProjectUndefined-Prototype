@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using InteractiveObjectAction;
 using InteractiveObjects;
 using PlayerObject;
+using ProjectileDeflection;
 using SequencedAction;
 using Tests;
 using Tests.TestScenario;
@@ -82,22 +84,28 @@ namespace ProjectileDeflection_Test
                 {
                     var worldCenter = this._playerInteractiveObject.InteractiveGameObject.GetLogicColliderBoxDefinition().GetWorldCenter();
 
-                    /*
-                    if (Vector3.Distance(this.SpawnedProjectile.InteractiveGameObject.GetTransform().WorldPosition, worldCenter) <= this._playerInteractiveObject.ProjectileDeflectionSystem.GetProjectileDetectionRadius())
+                    if (this._playerInteractiveObject is IEM_InteractiveObjectActionPlayerSystem_Retriever IEM_InteractiveObjectActionPlayerSystem_Retriever)
                     {
-                        this.cor = Coroutiner.Instance.StartCoroutine(this.WaitFrame());
+                        var projectileDeflectionTrackingInteractiveObjectAction = IEM_InteractiveObjectActionPlayerSystem_Retriever.InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(ProjectileDeflectionTrackingInteractiveObjectAction.ProjectileDeflectionSystemUniqueID)
+                            as ProjectileDeflectionTrackingInteractiveObjectAction;
+                        if (projectileDeflectionTrackingInteractiveObjectAction != null)
+                        {
+                            if (Vector3.Distance(this.SpawnedProjectile.InteractiveGameObject.GetTransform().WorldPosition, worldCenter) <= projectileDeflectionTrackingInteractiveObjectAction.GetProjectileDetectionRadius())
+                            {
+                                this.cor = Coroutiner.Instance.StartCoroutine(this.WaitFrame());
+                            }
+                        }
                     }
-                    */
                 }
             }
         }
 
         private IEnumerator WaitFrame()
         {
-            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.DeflectProjectileD = true;
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Skill1DownHold = true;
             yield return new WaitForFixedUpdate();
             yield return new WaitForEndOfFrame();
-            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.DeflectProjectileD = false;
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Skill1DownHold = false;
             this.ended = true;
         }
     }

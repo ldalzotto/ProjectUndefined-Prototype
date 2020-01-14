@@ -673,6 +673,22 @@
       <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
     </ProjectReference>
+    <ProjectReference Include="InteractiveObjectAction.csproj">
+      <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
+      <Name>InteractiveObjectAction</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerLowHealth_Interfaces.csproj">
+      <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
+      <Name>PlayerLowHealth_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerAim.csproj">
+      <Project>{B17F007E-B70A-1020-D1D7-7A5C26AC227C}</Project>
+      <Name>PlayerAim</Name>
+    </ProjectReference>
+    <ProjectReference Include="Skill_Interfaces.csproj">
+      <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
+      <Name>Skill_Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

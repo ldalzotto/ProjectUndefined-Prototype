@@ -60,14 +60,20 @@
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Configuration\ProjectileDeflectionGlobalConfiguration\ProjectileDeflectionGlobalConfiguration.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectileInteractiveObjectAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectileInteractiveObjectActionInherentData.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectile\DeflectingProjectileInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\DeflectingProjectile\DeflectingProjectileInteractiveObjectActionInherentData.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\ProjectileDeflectionTracking\ObjectsInsideDeflectionRangeSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\ProjectileDeflectionTracking\ProjectileDeflectionFeedbackIconSystem.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\ProjectileDeflectionTracking\ProjectileDeflectionTrackingInteractiveObjectAction.cs" />
+     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\InteractiveObjectAction\ProjectileDeflectionTracking\ProjectileDeflectionTrackingInteractiveObjectActionInherentData.cs" />
      <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Lib\ProjectileDeflectionFeedbackIcon.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ObjectsInsideDeflectionRangeSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionFeedbackIconSystem.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionTrackingInteractiveObjectAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\ProjectileDeflection\Systems\ProjectileDeflectionTrackingInteractiveObjectActionInherentData.cs" />
      <None Include="Assets\Undefined\Logic\ProjectileDeflection\ProjectileDeflection.asmdef" />
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.InputSystem">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -668,6 +674,10 @@
     <ProjectReference Include="InteractiveObjectAction.csproj">
       <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
       <Name>InteractiveObjectAction</Name>
+    </ProjectReference>
+    <ProjectReference Include="Skill_Interfaces.csproj">
+      <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
+      <Name>Skill_Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

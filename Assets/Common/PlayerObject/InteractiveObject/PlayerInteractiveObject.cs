@@ -66,7 +66,8 @@ namespace PlayerObject
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
-            this.PlayerObjectInteractiveObjectActionStateManager = new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem, PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData);
+            this.PlayerObjectInteractiveObjectActionStateManager =
+                new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem, PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             this.SkillSystem = new SkillSystem(this, this.InteractiveObjectActionPlayerSystem);
@@ -417,11 +418,19 @@ namespace PlayerObject
             return this.PlayerObjectInteractiveObjectActionStateManager.IsTrackingNearDeflectableObjects();
         }
 
+        #endregion
+
         public ProjectileDeflectionTrackingInteractiveObjectAction GetPlayingProjectileDeflectionSystem()
         {
             return this.InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(ProjectileDeflectionTrackingInteractiveObjectAction.ProjectileDeflectionSystemUniqueID) as ProjectileDeflectionTrackingInteractiveObjectAction;
         }
+    }
 
-        #endregion
+    public partial class PlayerInteractiveObject : IEM_SkillSystem_ExposedMethods
+    {
+        public InputID GetInputIdAssociatedToTheInteractiveObjectAction(string actionUniqueID)
+        {
+            return this.SkillSystem.GetInputIdAssociatedToTheInteractiveObjectAction(actionUniqueID);
+        }
     }
 }

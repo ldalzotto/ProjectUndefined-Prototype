@@ -19,7 +19,7 @@ namespace Skill
         /// <summary>
         /// The Input that used to trigger the <see cref="AssociatedPlayerActionInherentData"/>.
         /// </summary>
-        private InputID AssociatedInput;
+        public InputID AssociatedInput { get; private set; }
 
         private GameInputManager GameInputManager = GameInputManager.Get();
 
@@ -75,7 +75,6 @@ namespace Skill
             }
         }
 
-
         public void Tick(float d)
         {
             if (this.CurrentPlayerActionInherentData.GetValue() != null)
@@ -87,5 +86,17 @@ namespace Skill
                 }
             }
         }
+
+        #region Logical conditions
+
+        /// <summary>
+        /// Returns true if the input <paramref name="actionUniqueID"/> is equal to the <see cref="CurrentPlayerActionInherentData"/>. 
+        /// </summary>
+        public bool CompareAssociatedInteractiveObjectActionInherentData(string actionUniqueID)
+        {
+            return this.CurrentPlayerActionInherentData.GetValue() != null && this.CurrentPlayerActionInherentData.GetValue().AreTheSameID(actionUniqueID);
+        }
+
+        #endregion
     }
 }

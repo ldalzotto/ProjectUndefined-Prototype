@@ -675,6 +675,10 @@
       <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
       <Name>ProjectileDeflection</Name>
     </ProjectReference>
+    <ProjectReference Include="Skill_Interfaces.csproj">
+      <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
+      <Name>Skill_Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

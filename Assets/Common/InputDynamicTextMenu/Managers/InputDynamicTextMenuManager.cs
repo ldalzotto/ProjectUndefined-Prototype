@@ -1,9 +1,7 @@
-﻿using AnimatorPlayable;
-using CoreGame;
-using PlayerAim;
+﻿using CoreGame;
 using InteractiveObjectAction;
+using PlayerAim;
 using PlayerObject;
-using ProjectileDeflection;
 using UnityEngine;
 
 namespace InputDynamicTextMenu
@@ -17,7 +15,6 @@ namespace InputDynamicTextMenu
         private TimeStopModule TimeStopModule;
         private FiringModeEnterTextModule FiringModeEnterTextModule;
         private OnTargettingTextModule OnTargettingTextModule;
-        private DelflectionTextModule DelflectionTextModule;
 
         public InputDynamicTextMenuManager()
         {
@@ -33,8 +30,6 @@ namespace InputDynamicTextMenu
             this.FiringModeEnterTextModule = new FiringModeEnterTextModule(containerRectTransform);
             this.OnTargettingTextModule = new OnTargettingTextModule(containerRectTransform);
             this.OnTargettingTextModule.Disable();
-            this.DelflectionTextModule = new DelflectionTextModule(containerRectTransform);
-            DelflectionTextModule.Disable();
         }
 
         private void RegisterEvents()
@@ -46,12 +41,6 @@ namespace InputDynamicTextMenu
                 IPlayerFiringRegisteringEventsExposedMethod.RegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
                 IPlayerFiringRegisteringEventsExposedMethod.RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
             }
-
-            if (PlayerInteractiveObject is IEM_PlayerLowHealthInteractiveObjectExposedMethods PlayerLowHealthInteractiveObjectExposedMethods)
-            {
-                PlayerLowHealthInteractiveObjectExposedMethods.RegisterPlayerLowHealthStartedEvent(this.OnPlayerLowHealthStarted);
-                PlayerLowHealthInteractiveObjectExposedMethods.RegisterPlayerLowHealthEndedEvent(this.OnPlayerLowHealthEnded);
-            }
         }
 
         private void UnRegisterEvents()
@@ -62,12 +51,6 @@ namespace InputDynamicTextMenu
             {
                 IPlayerFiringRegisteringEventsExposedMethod.UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
                 IPlayerFiringRegisteringEventsExposedMethod.UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
-            }
-
-            if (PlayerInteractiveObject is IEM_PlayerLowHealthInteractiveObjectExposedMethods PlayerLowHealthInteractiveObjectExposedMethods)
-            {
-                PlayerLowHealthInteractiveObjectExposedMethods.UnRegisterPlayerLowHealthStartedEvent(this.OnPlayerLowHealthStarted);
-                PlayerLowHealthInteractiveObjectExposedMethods.UnRegisterPlayerLowHealthEndedEvent(this.OnPlayerLowHealthEnded);
             }
         }
 
@@ -87,16 +70,6 @@ namespace InputDynamicTextMenu
         private void OnPlayerStoppedTargetting(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
             this.OnTargettingTextModule.Disable();
-        }
-
-        private void OnPlayerLowHealthStarted()
-        {
-            this.DelflectionTextModule.Enable();
-        }
-
-        private void OnPlayerLowHealthEnded()
-        {
-            this.DelflectionTextModule.Disable();
         }
     }
 }

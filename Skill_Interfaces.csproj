@@ -61,6 +61,7 @@
      <Compile Include="Assets\Undefined\Logic\Skill\Skill_Interfaces\Confguration\SkillActionDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\Skill_Interfaces\Confguration\SkillSlotUIGlobalConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\Skill_Interfaces\Confguration\SkillSlotUIGlobalConfigurationGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\Skill_Interfaces\Interfaces\IEM_SkillSystem_ExposedMethods.cs" />
      <None Include="Assets\Undefined\Logic\Skill\Skill_Interfaces\Skill_Interfaces.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
@@ -626,6 +627,10 @@
     <ProjectReference Include="OdinSerializer.csproj">
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
+    </ProjectReference>
+    <ProjectReference Include="Input.csproj">
+      <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
+      <Name>Input</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

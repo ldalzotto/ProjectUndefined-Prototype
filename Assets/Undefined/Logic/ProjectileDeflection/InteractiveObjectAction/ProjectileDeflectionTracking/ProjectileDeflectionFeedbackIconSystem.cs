@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Input;
 using InteractiveObjects;
+using Skill;
 
 namespace ProjectileDeflection
 {
@@ -43,9 +45,13 @@ namespace ProjectileDeflection
         {
             if (InsideInteractiveObject.AskIfProjectileCanBeDeflected(this.AssociatedInteractiveObject))
             {
-                ProjectileDeflectionFeedbackIcons.Add(InsideInteractiveObject, ProjectileDeflectionFeedbackIcon.Build(
-                    ProjectileDeflectionConfigurationGameObject.Get().ProjectileDeflectionGlobalConfiguration.DeflectionIconPrefab
-                ));
+                if (this.AssociatedInteractiveObject is IEM_SkillSystem_ExposedMethods IEM_SkillSystem_Interface)
+                {
+                    ProjectileDeflectionFeedbackIcons.Add(InsideInteractiveObject, ProjectileDeflectionFeedbackIcon.Build(
+                        ProjectileDeflectionConfigurationGameObject.Get().ProjectileDeflectionGlobalConfiguration.DeflectionIconPrefab,
+                        IEM_SkillSystem_Interface.GetInputIdAssociatedToTheInteractiveObjectAction(DeflectingProjectileInteractiveObjectAction.DeflectingProjectileInteractiveObjectActionUniqueID)
+                    ));
+                }
             }
         }
 

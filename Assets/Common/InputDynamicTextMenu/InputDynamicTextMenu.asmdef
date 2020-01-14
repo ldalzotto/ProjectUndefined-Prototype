@@ -15,7 +15,8 @@
         "InteractiveObjectAction",
         "SkillAction",
         "Weapon",
-        "ProjectileDeflection"
+        "ProjectileDeflection",
+        "Skill_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

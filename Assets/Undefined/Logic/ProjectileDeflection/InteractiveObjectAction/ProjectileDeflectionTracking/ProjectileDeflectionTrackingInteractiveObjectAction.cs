@@ -120,5 +120,10 @@ namespace ProjectileDeflection
         {
             return this.ObjectsInsideDeflectionRangeSystem.GetInsideDeflectableInteractiveObjects();
         }
+
+        public float GetProjectileDetectionRadius()
+        {
+            return this.ProjectileDeflectionSystemInput.ProjectileDeflectionTrackingInteractiveObjectActionInherentData.ProjectileDetectionRadius;
+        }
     }
 }

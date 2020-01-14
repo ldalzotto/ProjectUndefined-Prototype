@@ -23,7 +23,8 @@
         "ProjectileDeflection",
         "ProjectileDeflection_Interface",
         "PlayerLowHealth_Interfaces",
-        "Skill"
+        "Skill",
+        "Skill_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

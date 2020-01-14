@@ -23,6 +23,11 @@ namespace InteractiveObjectAction
         /// </summary>
         public abstract string InteractiveObjectActionUniqueID { get; }
 
+        public bool AreTheSameID(string comparisonID)
+        {
+            return this.InteractiveObjectActionUniqueID == comparisonID;
+        }
+
         public abstract AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput);
 
         /// <summary>
