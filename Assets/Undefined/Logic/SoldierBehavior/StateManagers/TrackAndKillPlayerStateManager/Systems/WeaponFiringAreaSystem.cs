@@ -92,7 +92,7 @@ namespace SoliderAIBehavior
 
             var projectileTravelTimeToPlayer = Vector3.Distance(PlayerObjectFiringTargetWorldPosition, AssociatedInteractiveObjectFiringShootPosition) / this.IWeaponDataRetrieval.GetIWeaponHandlingSystem_DataRetrievalAction.GetFiredProjectileTravelSpeed();
 
-            var PredictedPlayerObjectFiringTargetWorldPosition = PlayerObjectFiringTargetWorldPosition + (PlayerObject.GetWorldSpeedScaled() * projectileTravelTimeToPlayer);
+            var PredictedPlayerObjectFiringTargetWorldPosition = PlayerObjectFiringTargetWorldPosition + (PlayerObject.GetWorldSpeed_Scaled_Attenuated() * projectileTravelTimeToPlayer);
             return PredictedPlayerObjectFiringTargetWorldPosition;
         }
 

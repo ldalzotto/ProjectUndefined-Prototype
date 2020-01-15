@@ -39,7 +39,7 @@ namespace TrainingLevel
                     SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponDefinition));
             this.FiringTargetPositionSystem = new FiringTargetPositionSystem(SoliderEnemyDefinition.FiringTargetPositionSystemDefinition);
             this.ObjectMovementSpeedSystem = new ObjectMovementSpeedSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, new UnConstrainedObjectSpeedAttenuationValueSystem(AIMovementSpeedAttenuationFactor.RUN), ObjectSpeedCalculationType.AGENT);
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.ObjectMovementSpeedSystem.GetSpeedAttenuationFactor, this.OnAIDestinationReached);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(this, SoliderEnemyDefinition.AITransformMoveManagerComponentV3, this.OnAIDestinationReached);
             this.SoliderEnemyAnimationStateManager = new SoliderEnemyAnimationStateManager(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.SoldierAnimationSystemDefinition);
             this._soldierStateBehavior = new SoldierStateBehavior();
 
@@ -67,18 +67,22 @@ namespace TrainingLevel
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 this._soldierStateBehavior.Tick(d);
-                this.AIMoveToDestinationSystem.Tick(d);
             }
         }
 
         public override void AfterTicks(float d)
         {
             this.InteractiveObjectActionPlayerSystem.AfterTicks(d);
-            this.ObjectMovementSpeedSystem.AfterTicks();
+            this.ObjectMovementSpeedSystem.AfterTicks(d);
+            
+            if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
+            {
+                this.AIMoveToDestinationSystem.AfterTicks(d);
+            }
 
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
-                this.SoliderEnemyAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
+                this.SoliderEnemyAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirection_Attenuated());
             }
 
             base.AfterTicks(d);

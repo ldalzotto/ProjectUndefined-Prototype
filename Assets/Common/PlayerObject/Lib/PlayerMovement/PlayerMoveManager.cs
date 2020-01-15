@@ -100,9 +100,9 @@ namespace PlayerObject
             this.CurrentPlayerMoveManager.Tick(d);
         }
 
-        public void AfterTicks()
+        public void AfterTicks(float d)
         {
-            this.CurrentPlayerMoveManager.AfterTicks();
+            this.CurrentPlayerMoveManager.AfterTicks(d);
         }
 
         public void FixedTick(float d)
@@ -170,7 +170,7 @@ namespace PlayerObject
         {
         }
 
-        public virtual void AfterTicks()
+        public virtual void AfterTicks(float d)
         {
         }
 

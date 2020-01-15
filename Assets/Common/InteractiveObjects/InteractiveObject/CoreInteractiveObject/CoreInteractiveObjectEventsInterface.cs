@@ -13,7 +13,7 @@ namespace InteractiveObjects
         /// <summary>
         /// Returns the world space speed used by the physics engine.
         /// </summary>
-        public virtual Vector3 GetWorldSpeedScaled()
+        public virtual Vector3 GetWorldSpeed_Scaled_Attenuated()
         {
             return default(Vector3);
         }

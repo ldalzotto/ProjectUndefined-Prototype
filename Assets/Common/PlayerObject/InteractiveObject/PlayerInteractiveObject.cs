@@ -111,7 +111,7 @@ namespace PlayerObject
             var cameraPivotPoint = GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG);
             this.playerMoveManager = new PlayerMoveManager(this, this.ObjectMovementSpeedSystem,
                 new PlayerRigidBodyMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.ObjectMovementSpeedSystem, cameraPivotPoint.transform),
-                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.ObjectMovementSpeedSystem, this.OnDestinationReached));
+                new PlayerAgentMoveManager(this, PlayerInteractiveObjectInitializerData.TransformMoveManagerComponent, this.OnDestinationReached));
 
             PlayerBodyPhysicsEnvironment = new PlayerBodyPhysicsEnvironment(this.InteractiveGameObject.PhysicsRigidbody, this.InteractiveGameObject.PhysicsCollider, PlayerInteractiveObjectInitializerData.MinimumDistanceToStick);
 
@@ -150,10 +150,10 @@ namespace PlayerObject
         public override void AfterTicks(float d)
         {
             this.InteractiveObjectActionPlayerSystem.AfterTicks(d);
-            this.ObjectMovementSpeedSystem.AfterTicks();
-            this.playerMoveManager.AfterTicks();
+            this.ObjectMovementSpeedSystem.AfterTicks(d);
+            this.playerMoveManager.AfterTicks(d);
 
-            this.PlayerObjectAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirectionAttenuated());
+            this.PlayerObjectAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirection_Attenuated());
             base.UpdateAniamtions(d);
         }
 
@@ -203,9 +203,9 @@ namespace PlayerObject
 
         #region Speed Data Retrieval
 
-        public override Vector3 GetWorldSpeedScaled()
+        public override Vector3 GetWorldSpeed_Scaled_Attenuated()
         {
-            return this.ObjectMovementSpeedSystem.GetVelocity();
+            return this.ObjectMovementSpeedSystem.GetEffectiveVelocity_Scaled_Attenuated();
         }
 
         #endregion

@@ -15,7 +15,11 @@ namespace AIObjects
     #endregion
 
 
-    public class AIMoveToDestinationSystem : AInteractiveObjectSystem
+    /// <summary>
+    /// The goal of this system is to set ONLY position and rotation of the <see cref="objectAgent"/>.
+    /// Speed is not handled here.
+    /// </summary>
+    public class AIMoveToDestinationSystem 
     {
         private NavMeshAgent objectAgent;
         private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
@@ -33,19 +37,17 @@ namespace AIObjects
 
 
         public AIMoveToDestinationSystem(CoreInteractiveObject CoreInteractiveObject, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3,
-            Func<AIMovementSpeedAttenuationFactor> AIMovementSpeedAttenuationFactorProvider,
             OnAIInteractiveObjectDestinationReachedDelegate OnAIInteractiveObjectDestinationReached = null)
         {
             this.IsEnabled = true;
             this.objectAgent = CoreInteractiveObject.InteractiveGameObject.Agent;
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.A_AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3,
-                AIMovementSpeedAttenuationFactorProvider);
+            this.aiPositionMoveManager = new AIPositionMoveManager(this.objectAgent, () => this.A_AIRotationMoveManager.CurrentLookingTargetRotation, AITransformMoveManagerComponentV3);
             this.AIDestinationManager = new AIDestinationManager(this.objectAgent, OnAIInteractiveObjectDestinationReached);
             this.A_AIRotationMoveManager = new AIRotationMoveManager(this.objectAgent, AITransformMoveManagerComponentV3, this.AIDestinationManager);
         }
 
-        public override void Tick(float d)
+        public void AfterTicks(float d)
         {
             Profiler.BeginSample("AIMoveToDestinationSystem");
             if (IsEnabled)
@@ -262,20 +264,16 @@ namespace AIObjects
 
         private NavMeshAgent objectAgent;
         private Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager;
-        private Func<AIMovementSpeedAttenuationFactor> AIMovementSpeedAttenuationFactorProvider;
-        public AIPositionMoveManager(NavMeshAgent objectAgent, Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3, 
-            Func<AIMovementSpeedAttenuationFactor> AIMovementSpeedAttenuationFactorProvider)
+        
+        public AIPositionMoveManager(NavMeshAgent objectAgent, Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3)
         {
             this.objectAgent = objectAgent;
             this.CurrentLookingTargetRotationFromAIRotationMoveManager = CurrentLookingTargetRotationFromAIRotationMoveManager;
             this.AITransformMoveManagerComponentV3 = AITransformMoveManagerComponentV3;
-            this.AIMovementSpeedAttenuationFactorProvider = AIMovementSpeedAttenuationFactorProvider;
         }
 
         public void UpdateAgentPosition(float d)
         {
-            objectAgent.speed = this.AITransformMoveManagerComponentV3.SpeedMultiplicationFactor * AIMovementSpeedAttenuationFactors.AIMovementSpeedAttenuationFactorLookup[this.AIMovementSpeedAttenuationFactorProvider.Invoke()];
-
             var updatePosition = true;
             // We use a minimal velocity amplitude to avoid precision loss occured by the navmesh agent velocity calculation.
             if (objectAgent.hasPath && !objectAgent.isStopped)

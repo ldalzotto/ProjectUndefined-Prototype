@@ -13,21 +13,19 @@ namespace PlayerObject
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
 
         public PlayerAgentMoveManager(PlayerInteractiveObject playerAimingInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
-            ObjectMovementSpeedSystem ObjectMovementSpeedSystemRef,
             OnAIInteractiveObjectDestinationReachedDelegate OnDestinationReachedCallback = null)
         {
-            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(playerAimingInteractiveObject, TransformMoveManagerComponentV3, ObjectMovementSpeedSystemRef.GetSpeedAttenuationFactor, OnDestinationReachedCallback);
+            this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(playerAimingInteractiveObject, TransformMoveManagerComponentV3, OnDestinationReachedCallback);
         }
 
         public override void Tick(float d)
         {
-            this.AIMoveToDestinationSystem.Tick(d);
         }
 
-        public override void AfterTicks()
+        public override void AfterTicks(float d)
         {
-            base.AfterTicks();
-            this.AIMoveToDestinationSystem.AfterTicks();
+            base.AfterTicks(d);
+            this.AIMoveToDestinationSystem.AfterTicks(d);
         }
 
         public override void ResetSpeed()

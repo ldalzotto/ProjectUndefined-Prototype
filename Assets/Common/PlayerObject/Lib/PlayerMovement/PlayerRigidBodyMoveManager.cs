@@ -53,12 +53,13 @@ namespace PlayerObject
 
                 ApplyPlayerMovementConstraints();
 
-                this.ObjectMovementSpeedSystemRef.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude);
+                this.ObjectMovementSpeedSystemRef.ManualCalculation(playerMovementOrientation, inputDisplacementVector.sqrMagnitude, this.PlayerRigidBody.velocity.magnitude);
 
                 if (Time.inFixedTimeStep)
                 {
                     //move rigid body
-                    PlayerRigidBody.velocity = this.ObjectMovementSpeedSystemRef.GetVelocity();
+                    PlayerRigidBody.velocity = this.ObjectMovementSpeedSystemRef.GetDesiredVelocity_Scaled_Attenuated();
+                    /// Debug.Log(PlayerRigidBody.velocity.ToString("F4"));
                 }
             }
         }
