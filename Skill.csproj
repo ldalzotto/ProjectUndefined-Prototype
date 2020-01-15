@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlot\SkillSlot.cs" />
+     <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\MeshEffects\PushUndistortedUVtoUV1.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\SkillSlotUI.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\TagTypes\SkillSlitUIInputTextGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\TagTypes\SkillSlotUIGameObject.cs" />

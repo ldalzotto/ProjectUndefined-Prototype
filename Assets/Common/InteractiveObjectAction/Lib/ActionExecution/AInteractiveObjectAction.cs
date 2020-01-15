@@ -9,7 +9,7 @@ namespace InteractiveObjectAction
     /// AInteractiveObjectAction execution can be constrained with cooldown defined in <see cref="CoreInteractiveObjectActionDefinition.CooldownEnabled"/>.
     /// /!\ <see cref="AInteractiveObjectAction"/> instances must not be created with it's constructor, it must be called from the <see cref="PlayerActionInherentData"/> workflow <see cref="PlayerActionInherentData.BuildPlayerAction"/>
     /// </summary>
-    public abstract class AInteractiveObjectAction
+    public abstract class AInteractiveObjectAction    
     {
         public CoreInteractiveObjectActionDefinition CoreInteractiveObjectActionDefinition { get; private set; }
         public abstract string InteractiveObjectActionUniqueID { get; }

@@ -14,6 +14,7 @@ namespace Skill
         {
             var instanciatedObject = MonoBehaviour.Instantiate(SkillSlotUIGlobalConfigurationGameObject.Get().SkillSlotUIGlobalConfiguration.SkillSlotUIBasePrefab, CoreGameSingletonInstances.GameCanvas.transform);
             this.SkillSlotUIGameObject = instanciatedObject.GetComponent<SkillSlotUIGameObject>();
+         
             this.SkillSlotUIGameObject.Init();
 
             this.SkillSlotUIGameObject.PositionAndScaleSkillSlot(ref SKillSlotUIPositionInput);

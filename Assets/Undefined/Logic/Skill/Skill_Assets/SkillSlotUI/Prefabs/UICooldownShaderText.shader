@@ -28,15 +28,19 @@ CBUFFER_END
 
 TEXTURE2D(_MainTex);                   SAMPLER(sampler_MainTex);
 
+           // StructuredBuffer<Point> _inputUV;
+
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float2 uv1 : TEXCOORD1;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
+                float2 uv1 : TEXCOORD1;
                 float4 vertex : SV_POSITION;
             };
 
@@ -46,6 +50,7 @@ TEXTURE2D(_MainTex);                   SAMPLER(sampler_MainTex);
                 VertexPositionInputs VertexPositionInputs = GetVertexPositionInputs(v.vertex);
                 o.vertex = VertexPositionInputs.positionCS;
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv1 = v.uv1;
                 return o;
             }
 
@@ -55,7 +60,7 @@ TEXTURE2D(_MainTex);                   SAMPLER(sampler_MainTex);
                 
                 half4 sampledTexture = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 
-                if(1-step(1 - i.uv.y, _CooldownProgress))
+                if(1-step(1 - i.uv1.y, _CooldownProgress))
                 {
                     col.xyz = sampledTexture.xyz * _BackgroundColor * _CooldownColor;
                 } 
@@ -63,9 +68,8 @@ TEXTURE2D(_MainTex);                   SAMPLER(sampler_MainTex);
                 {
                     col.xyz = sampledTexture * _BackgroundColor;
                 }
-               
                 
-                return half4(col.xyz, _BackgroundColor.w);
+                return half4(col.xyz, sampledTexture.w);
             }
             ENDHLSL
         }

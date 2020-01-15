@@ -11,12 +11,16 @@ namespace Skill
         public SkillSlotUIconIGameObject SkillSlotUIconIGameObject { get; private set; }
         private SkillSlitUIInputTextGameObject SkillSlitUIInputTextGameObject;
 
+        private Vector3 WorldCenter;
+
         public void Init()
         {
             this.BackgroundImage = GetComponentInChildren<Image>();
 
             /// We clone the material to allow independency between skill slots
             this.BackgroundImage.material = new Material(this.BackgroundImage.material);
+            this.BackgroundImage.gameObject.AddComponent<PushUndistortedUVtoUV1>();
+
             this.SkillIconBackgroundMaterialInstance = this.BackgroundImage.material;
             this.SkillSlotUIconIGameObject = this.gameObject.GetComponentInChildren<SkillSlotUIconIGameObject>();
             this.SkillSlotUIconIGameObject.Init();
@@ -49,6 +53,8 @@ namespace Skill
 
             (this.BackgroundImage.transform as RectTransform).sizeDelta = SKillSlotUIPositionInput.BackgroundImageSize;
             (this.SkillSlotUIconIGameObject.transform as RectTransform).sizeDelta = SKillSlotUIPositionInput.SlotIconSize;
+
+            this.WorldCenter = (this.transform as RectTransform).position;
         }
     }
 
