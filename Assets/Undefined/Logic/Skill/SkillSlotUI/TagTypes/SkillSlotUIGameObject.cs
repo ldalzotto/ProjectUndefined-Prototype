@@ -7,6 +7,12 @@ namespace Skill
     public class SkillSlotUIGameObject : MonoBehaviour
     {
         private Image BackgroundImage;
+
+        /// <summary>
+        /// Because the <see cref="BackgroundImage"/> uses a 9 slice texture and the cooldown shader uses uv, we use <see cref="PushUndistortedUVtoUV1"/> to have undistorted uv available in shader.
+        /// </summary>
+        private PushUndistortedUVtoUV1 BackgroundImageUV1UndistortionEffect;
+
         private Material SkillIconBackgroundMaterialInstance;
         public SkillSlotUIconIGameObject SkillSlotUIconIGameObject { get; private set; }
         private SkillSlitUIInputTextGameObject SkillSlitUIInputTextGameObject;
@@ -19,7 +25,7 @@ namespace Skill
 
             /// We clone the material to allow independency between skill slots
             this.BackgroundImage.material = new Material(this.BackgroundImage.material);
-            this.BackgroundImage.gameObject.AddComponent<PushUndistortedUVtoUV1>();
+            this.BackgroundImageUV1UndistortionEffect = this.BackgroundImage.gameObject.AddComponent<PushUndistortedUVtoUV1>();
 
             this.SkillIconBackgroundMaterialInstance = this.BackgroundImage.material;
             this.SkillSlotUIconIGameObject = this.gameObject.GetComponentInChildren<SkillSlotUIconIGameObject>();

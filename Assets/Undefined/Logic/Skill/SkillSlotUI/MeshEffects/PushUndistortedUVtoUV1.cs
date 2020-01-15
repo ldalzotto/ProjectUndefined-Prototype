@@ -10,6 +10,9 @@ namespace Skill
     /// </summary>
     public class PushUndistortedUVtoUV1 : BaseMeshEffect
     {
+        /// <summary>
+        /// /!\ This method is called every time the mesh is set dirty (transform changed)
+        /// </summary>
         public override void ModifyMesh(VertexHelper vh)
         {
             int vertCount = vh.currentVertCount;
