@@ -14,19 +14,19 @@ namespace SoliderAIBehavior
     class MoveAroundPlayerStateManager : SoldierStateManager
     {
         /// <summary>
-        /// When the SightDirection has been found <see cref="ComputeSightDirectionForTheQueriedDirection"/>, the final SightDirection orientation
-        /// is offsted by this constant. This is to avoid the Agent to move around the player and stop at the exact line of sight to the Player.
+        /// When the SightDirection has been found, the final SightDirection orientation
+        /// is offsted by this factor <see cref="OffsetFoundedSightDirection"/>. This is to avoid the Agent to move around the player and stop at the exact line of sight to the Player.
         /// Stopping at the exact line of sight to the Player may cause that when the <see cref="TrackAndKillPlayerStateBehavior"/> switches state
         /// to <see cref="TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER"/>, the projectile volume is not entering in contact with an obstacle.
         /// </summary>
-        private const float DeltaAngleWhenSightDirectionIsComputed = 20f;
+        private const float DeltaAngleWhenSightDirectionIsComputedInPercentage = 0.05f;
 
         private TrackAndKillPlayerStateBehavior _trackAndKillPlayerStateBehaviorRef;
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
         private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
-        
+
         /// <summary>
         /// GameObject created on the fly that is used as a looking target for the <see cref="LookingAtAgentMovementCalculationStrategy"/>.
         /// /!\ It must be detroyed when <see cref="OnStateExit"/> is called.
@@ -116,7 +116,7 @@ namespace SoliderAIBehavior
         /// SightDirection computation is done by sampling different directions from the Player and checking if
         /// there is Obstacles in this direction.
         /// The final direction is offsettet by <see cref="DeltaAngleWhenSightDirectionIsComputed"/>.
-        /// /!\ The retained valid sight direction must be the closests possible than the direction AI -> LSP.
+        /// /!\ The retained valid sight direction must be the closest possible than the direction AI -> LSP.
         /// "Positive" means when the sample angle is positive.
         /// </summary>
         /// <param name="AItoLVPDistance">The distance between <see cref="SoliderEnemy"/> and the Player.</param>
@@ -125,40 +125,28 @@ namespace SoliderAIBehavior
         {
             SightDirection = Vector3.zero;
 
-            Vector3 PositiveSightDirection = Vector3.zero;
-            Vector3 NeagtiveSightDirection = Vector3.zero;
-
-            int positiveRaySuccessfulSample = 0;
-            int negativeRaySuccessfulSample = 0;
-
-            for (var SampleNumber = 1; SampleNumber <= 5; SampleNumber++)
+            for (var SampleNumber = 1; SampleNumber <= 9; SampleNumber++)
             {
                 /// We cast rays in the two opposite directions.
                 /// This is to not discard the potential next obstacles intersection that will come with future samples. 
-                bool positiveRay = ComputeSightDirectionForTheQueriedDirection(AItoLVPDistance, LastPlayerSeenPosition, SampleNumber * 10, ref PositiveSightDirection);
-                bool negativeRay = ComputeSightDirectionForTheQueriedDirection(AItoLVPDistance, LastPlayerSeenPosition, -1 * SampleNumber * 10, ref NeagtiveSightDirection);
+                float positiveRotationAngleInDegree = SampleNumber * 10;
 
-                if (positiveRay)
-                {
-                    positiveRaySuccessfulSample += 1;
-                }
-
-                if (negativeRay)
-                {
-                    negativeRaySuccessfulSample += 1;
-                }
+                bool positiveAngleObstructedByObstacles = CheckIfThereIsObstacles(AItoLVPDistance, LastPlayerSeenPosition, positiveRotationAngleInDegree);
+                bool negativeAngleObstructedByObstacles = CheckIfThereIsObstacles(AItoLVPDistance, LastPlayerSeenPosition, -positiveRotationAngleInDegree);
 
                 /// When positive and negative samples are not the same, this means that the AI has a line of sight on one of them.
-                if (positiveRay != negativeRay)
+                if (positiveAngleObstructedByObstacles != negativeAngleObstructedByObstacles)
                 {
-                    if (positiveRay)
+                    /// If the positive angle is not obstructed
+                    if (!positiveAngleObstructedByObstacles)
                     {
-                        SightDirection = PositiveSightDirection;
+                        SightDirection = OffsetFoundedSightDirection(AItoLVPDistance, LastPlayerSeenPosition, positiveRotationAngleInDegree);
                         return true;
                     }
-                    else if (negativeRay)
+                    /// If the negative angle is not obstructed
+                    else if (!negativeAngleObstructedByObstacles)
                     {
-                        SightDirection = NeagtiveSightDirection;
+                        SightDirection = OffsetFoundedSightDirection(AItoLVPDistance, LastPlayerSeenPosition, -positiveRotationAngleInDegree);
                         return true;
                     }
                 }
@@ -167,21 +155,33 @@ namespace SoliderAIBehavior
             return false;
         }
 
-        /// <param name="AItoLVPDistance">The distance between <see cref="SoliderEnemy"/> and the Player.</param>
-        private static bool ComputeSightDirectionForTheQueriedDirection(Vector3 AItoLVPDistance, Vector3 LastPlayerSeenPosition, float RotationAngle, ref Vector3 SightDirection)
+        /// <summary>
+        /// Calculates the offsetted SightDirection according to the <see cref="DeltaAngleWhenSightDirectionIsComputedInPercentage"/> factor.
+        /// When the offsetted SightDirection is calculated, an ObstacleOcclusion check is performed (<see cref="CheckIfThereIsObstacles"/>).
+        /// If the offstted SightDirection is occluded by an obstacle, this means that the final AI position and direction will be occluded to shoot.
+        ///    -> If this case, we fallback to initial SightDirection which has already been ensured that it is not occluded. 
+        /// </summary>
+        private static Vector3 OffsetFoundedSightDirection(Vector3 AItoLVPDistance, Vector3 LastPlayerSeenPosition, float initialAngle)
+        {
+            var offsettedAngle = initialAngle + (initialAngle * DeltaAngleWhenSightDirectionIsComputedInPercentage);
+            if (!CheckIfThereIsObstacles(AItoLVPDistance, LastPlayerSeenPosition, offsettedAngle))
+            {
+                return Quaternion.Euler(0, offsettedAngle, 0) * AItoLVPDistance;
+            }
+            /// the FALLBACK as described in the method description
+            else
+            {
+                return Quaternion.Euler(0, initialAngle, 0) * AItoLVPDistance;
+            }
+        }
+
+        private static bool CheckIfThereIsObstacles(Vector3 AItoLVPDistance, Vector3 LastPlayerSeenPosition, float RotationAngle)
         {
             /// The Queried direction is projected on the (X,Z) plane.
             var QueriedDirection = Quaternion.Euler(0, RotationAngle, 0) * AItoLVPDistance;
 
-            /// If there is no Obstacles in for the QueriedDirection
-            if (!RaycastFromLastPlayerSeenPosition(LastPlayerSeenPosition, QueriedDirection))
-            {
-                /// The SightDrection is slightly offsetted by DeltaAngleWhenSightDirectionIsComputed in the direction of the RotationAngle
-                SightDirection = Quaternion.Euler(0, RotationAngle + (Math.Sign(RotationAngle) * DeltaAngleWhenSightDirectionIsComputed), 0) * AItoLVPDistance;
-                return true;
-            }
-
-            return false;
+            /// If there is Obstacles in for the QueriedDirection
+            return RaycastFromLastPlayerSeenPosition(LastPlayerSeenPosition, QueriedDirection);
         }
 
         /// <summary>
