@@ -159,7 +159,9 @@ namespace PlayerObject
 
         public override void TickTimeFrozen(float d)
         {
+            this.PlayerObjectInteractiveObjectActionStateManager.TickTimeFrozen(d);
             this.InteractiveObjectActionPlayerSystem.TickTimeFrozen(d);
+            this.SkillSystem.TickTimeFrozen(d);
         }
 
 
