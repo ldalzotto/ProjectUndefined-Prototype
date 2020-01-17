@@ -679,6 +679,14 @@
       <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
       <Name>Skill_Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="ParticleObjects.csproj">
+      <Project>{3D641700-EE7B-B0CD-C1A4-30A6770EF780}</Project>
+      <Name>ParticleObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerObject_Interface.csproj">
+      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
+      <Name>PlayerObject_Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using InteractiveObjectAction;
 using InteractiveObjects;
+using PlayerObject_Interfaces;
+using UnityEngine;
 
 namespace ProjectileDeflection
 {
@@ -62,6 +64,17 @@ namespace ProjectileDeflection
                 if (insideInteractiveObject.AskIfProjectileCanBeDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject))
                 {
                     insideInteractiveObject.InteractiveObjectDeflected(this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject);
+                    if (this.DeflectingProjectileInteractiveObjectActionInput.DeflectingProjectileInteractiveObjectActionInherentData.OnDeflectionParticles != null)
+                    {
+                        this.DeflectingProjectileInteractiveObjectActionInput.DeflectingProjectileInteractiveObjectActionInherentData.OnDeflectionParticles
+                            .BuildParticleObject("ProjectileDeflectionParticles", null, insideInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition,
+                                Quaternion.Euler(insideInteractiveObject.InteractiveGameObject.GetTransform().WorldRotationEuler));
+                    }
+
+                    if (this.DeflectingProjectileInteractiveObjectActionInput.AssociatedInteractiveObject is IPlayerInteractiveObject IPlayerInteractiveObject)
+                    {
+                        IPlayerInteractiveObject.SetConstraintForThisFrame(new LookDirectionConstraint(Quaternion.Euler(insideInteractiveObject.InteractiveGameObject.GetTransform().WorldRotationEuler)));
+                    }
                 }
             }
         }

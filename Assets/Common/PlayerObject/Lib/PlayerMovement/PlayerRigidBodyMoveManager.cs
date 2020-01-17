@@ -66,7 +66,7 @@ namespace PlayerObject
 
         private void ApplyPlayerMovementConstraints()
         {
-            this.CurrentConstraint.ApplyConstraint(ref this.PlayerRigidBody);
+            this.CurrentConstraint.ApplyConstraint(this.PlayerRigidBody.transform);
 
             /// Constraints are consumed every frame.
             this.CurrentConstraint = new NoConstraint();

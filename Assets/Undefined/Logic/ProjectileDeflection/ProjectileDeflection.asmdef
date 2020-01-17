@@ -14,7 +14,9 @@
         "InteractiveObjectAction",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Skill_Interfaces"
+        "Skill_Interfaces",
+        "ParticleObjects",
+        "PlayerObject_Interface"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -3,6 +3,8 @@ using AnimatorPlayable;
 using Input;
 using InteractiveObjectAction;
 using InteractiveObjects;
+using ParticleObjects;
+using UnityEngine.Serialization;
 
 namespace ProjectileDeflection
 {
@@ -15,6 +17,9 @@ namespace ProjectileDeflection
     {
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public A_AnimationPlayableDefinition ProjectileDeflectMovementAnimation;
+
+        [FormerlySerializedAs("ParticleObjectDefinition")] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public ParticleObjectDefinition OnDeflectionParticles;
 
         public override string InteractiveObjectActionUniqueID
         {

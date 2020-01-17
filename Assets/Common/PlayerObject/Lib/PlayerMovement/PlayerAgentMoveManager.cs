@@ -3,6 +3,7 @@ using AIObjects;
 using CoreGame;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using PlayerObject_Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,12 +11,15 @@ namespace PlayerObject
 {
     public class PlayerAgentMoveManager : APlayerMoveManager
     {
+        private PlayerInteractiveObject PlayerInteractiveObject;
         private AIMoveToDestinationSystem AIMoveToDestinationSystem;
 
         public PlayerAgentMoveManager(PlayerInteractiveObject playerAimingInteractiveObject, TransformMoveManagerComponentV3 TransformMoveManagerComponentV3,
             OnAIInteractiveObjectDestinationReachedDelegate OnDestinationReachedCallback = null)
         {
+            this.PlayerInteractiveObject = playerAimingInteractiveObject;
             this.AIMoveToDestinationSystem = new AIMoveToDestinationSystem(playerAimingInteractiveObject, TransformMoveManagerComponentV3, OnDestinationReachedCallback);
+            this.CurrentConstraint = new NoConstraint();
         }
 
         public override void Tick(float d)
@@ -24,6 +28,12 @@ namespace PlayerObject
 
         public override void AfterTicks(float d)
         {
+            this.CurrentConstraint.ApplyConstraint(this.PlayerInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform);
+            
+            /// Constraints are consumed every frame.
+            this.CurrentConstraint = new NoConstraint();
+            
+            
             base.AfterTicks(d);
             this.AIMoveToDestinationSystem.AfterTicks(d);
         }

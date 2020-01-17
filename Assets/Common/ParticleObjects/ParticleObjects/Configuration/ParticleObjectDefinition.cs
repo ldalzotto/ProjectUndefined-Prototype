@@ -8,9 +8,6 @@ namespace ParticleObjects
     public class ParticleObjectDefinition : SerializedScriptableObject
     {
         public GameObject Prefab;
-
-
-        [HideInInspector] public bool ParticleObjectKillModuleEnabled;
         
         public ParticleObject BuildParticleObject(string GameObjectName, Transform Parent, Nullable<Vector3> InitialLocalPosition = null, Nullable<Quaternion> InitialLocalQuaternion = null)
         {

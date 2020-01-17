@@ -10,12 +10,12 @@ namespace PlayerObject_Interfaces
     /// </summary>
     public interface PlayerMovementConstraint
     {
-        void ApplyConstraint(ref Rigidbody playerInteractiveRigidbody);
+        void ApplyConstraint(Transform playerInteractiveObjectTransform);
     }
 
     public struct NoConstraint : PlayerMovementConstraint
     {
-        public void ApplyConstraint(ref Rigidbody playerInteractiveRigidbody)
+        public void ApplyConstraint(Transform playerInteractiveObjectTransform)
         {
         }
     }
@@ -29,9 +29,9 @@ namespace PlayerObject_Interfaces
             LookQuaternion = lookQuaternion;
         }
 
-        public void ApplyConstraint(ref Rigidbody playerInteractiveRigidbody)
+        public void ApplyConstraint(Transform playerInteractiveObjectTransform)
         {
-            playerInteractiveRigidbody.transform.rotation = this.LookQuaternion;
+            playerInteractiveObjectTransform.rotation = this.LookQuaternion;
         }
     }
 }
