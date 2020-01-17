@@ -70,9 +70,20 @@ namespace GameLoop
             }
         }
 
+        private void FixedUpdateTimeFrozen()
+        {
+            base.BeforeFixedTickTimeFrozenLogic(out float d, out float unscaled);
+            PlayerInteractiveObjectManager.Get().FixedTickTimeFrozen(d);
+        }
+
         protected virtual void Update()
         {
             base.BeforeTickGameLogic(out float d, out float unscaled);
+
+            if (TimeManagementManager.Get().IsTimeFrozen())
+            {
+                this.FixedUpdateTimeFrozen();
+            }
 
             /// Begin Jobs
             CameraMovementJobManager.Get().SetupJob(unscaled);

@@ -18,6 +18,11 @@ namespace PlayerObject
             PlayerInteractiveObject?.FixedTick(d);
         }
 
+        public void FixedTickTimeFrozen(float d)
+        {
+            PlayerInteractiveObject?.FixedTickTimeFrozen(d);
+        }
+        
         public void Tick(float d)
         {
             PlayerInteractiveObject?.Tick(d);

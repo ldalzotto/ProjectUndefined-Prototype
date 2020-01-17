@@ -26,6 +26,11 @@ namespace InteractiveObjectAction
             this.interactiveObjectActionExecutionManager.FixedTick(d);
         }
 
+        public void FixedTickTimeFrozen(float d)
+        {
+            this.interactiveObjectActionExecutionManager.FixedTickTimeFrozen(d);
+        }
+
         public void Tick(float d)
         {
             this.interactiveObjectActionExecutionManager.Tick(d);
@@ -323,6 +328,11 @@ namespace InteractiveObjectAction
             this.InternalUpdate(d, this.InternalFixedTick);
         }
 
+        public void FixedTickTimeFrozen(float d)
+        {
+            this.InternalUpdate(d, this.InternalFixedTickTimeFrozen);
+        }
+
         public void Tick(float d)
         {
             this.InternalUpdate(d, this.InternalTick);
@@ -347,6 +357,11 @@ namespace InteractiveObjectAction
         private void InternalFixedTick(float d, InteractiveObjectActionState interactiveObjectActionState)
         {
             interactiveObjectActionState.GetInteractiveObjectActionReference()?.FixedTick(d);
+        }
+
+        private void InternalFixedTickTimeFrozen(float d, InteractiveObjectActionState interactiveObjectActionState)
+        {
+            interactiveObjectActionState.GetInteractiveObjectActionReference()?.FixedTickTimeFrozen(d);
         }
 
         private void InternalTick(float d, InteractiveObjectActionState interactiveObjectActionState)

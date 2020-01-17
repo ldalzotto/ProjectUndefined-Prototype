@@ -135,6 +135,14 @@ namespace PlayerObject
             PlayerBodyPhysicsEnvironment.FixedTick(d);
         }
 
+        /// <summary>
+        /// When the time is frozen we don't want to update player rigidbody position and rotation.
+        /// </summary>
+        public override void FixedTickTimeFrozen(float d)
+        {
+            this.InteractiveObjectActionPlayerSystem.FixedTickTimeFrozen(d);
+        }
+
         public override void Tick(float d)
         {
             this.InteractiveObjectActionPlayerSystem.Tick(d);

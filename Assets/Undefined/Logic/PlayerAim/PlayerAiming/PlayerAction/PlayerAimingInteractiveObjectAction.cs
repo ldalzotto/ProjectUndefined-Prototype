@@ -65,8 +65,16 @@ namespace PlayerAim
         {
             if (!this.ExitActionSystem.ActionFinished)
             {
+                /// Calling CreatePlayerAimRangeFeedbackSystemIfNotCreated is a good place here because FixedTick will be called just after a physics world update.
+                CreatePlayerAimRangeFeedbackSystemIfNotCreated();
+
                 this.PlayerObjectOrientationSystem.FixedTick(d);
             }
+        }
+
+        public override void FixedTickTimeFrozen(float d)
+        {
+            this.FixedTick(d);
         }
 
         public override void Tick(float d)
@@ -87,13 +95,6 @@ namespace PlayerAim
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
-                /// The PlayerAimRangeFeedbackSystem is not initialized in the constructor to be sure that PlayerAimRangeFeedbackSystem position initialization takes into account the computed position of the player
-                /// for the current frame.
-                if (!this._playerAimRangeFeedbackSystem.IsInitialized)
-                {
-                    this._playerAimRangeFeedbackSystem = new PlayerAimRangeFeedbackSystem(this.FiringInteractiveObject, this.FiringPlayerActionTargetSystem);
-                }
-
                 this._playerAimRangeFeedbackSystem.AfterPlayerTick(d);
             }
         }
@@ -125,6 +126,21 @@ namespace PlayerAim
             }
 
             base.Dispose();
+        }
+
+
+        /// <summary>
+        /// The PlayerAimRangeFeedbackSystem is not initialized in the constructor to be sure that PlayerAimRangeFeedbackSystem position initialization takes into account the computed position of the player
+        /// for the current frame.
+        /// /!\ The creation of <see cref="_playerAimRangeFeedbackSystem"/> must absolutely be done after that physics objects have been taken into account from the physics engine.
+        ///     This is because the <see cref="FiringPlayerActionTargetSystem"/> uses operations on newly created physics object to calculate the target direction <see cref="FiringPlayerActionTargetSystem.Tick"/>
+        /// </summary>
+        private void CreatePlayerAimRangeFeedbackSystemIfNotCreated()
+        {
+            if (!this._playerAimRangeFeedbackSystem.IsInitialized)
+            {
+                this._playerAimRangeFeedbackSystem = new PlayerAimRangeFeedbackSystem(this.FiringInteractiveObject, this.FiringPlayerActionTargetSystem);
+            }
         }
 
         #region Data Retrieval
@@ -164,6 +180,10 @@ namespace PlayerAim
             this.TargetPlaneGameObject = GameObject.Instantiate(playerAimingInteractiveObjectActionInherentDataRef.FiringHorizontalPlanePrefab);
             this.TargetPlaneGameObject.layer = LayerMask.NameToLayer(LayerConstants.FIRING_ACTION_HORIZONTAL_LAYER);
             this.DottedVisualFeeback = GameObject.Instantiate(playerAimingInteractiveObjectActionInherentDataRef.GroundConeVisualFeedbackPrefab);
+
+            /// Until it's first update, the DottedVisualFeeback is set far away from screen.
+            this.DottedVisualFeeback.transform.position = new Vector3(99999f, 99999f, 99999f);
+
             this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(this.OnCurrentlyTargettedInteractiveObjectChange);
         }
 

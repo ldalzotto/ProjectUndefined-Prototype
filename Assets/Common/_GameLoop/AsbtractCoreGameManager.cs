@@ -58,8 +58,28 @@ namespace GameLoop
             GameInputManager.Get().FixedTick();
             TimeManagementManager.Get().FixedTick();
 
+            /// When the time is frozen, we set the Physics to autosimulation.
+            /// The reason is that even if time is stopped (Time.deltaTime == 0f), some physics object may be created.
+            /// If Physics.autoSimulation is set to false then no Physics occurs when Time.deltaTime == 0f. So we force it to calculate Physics events event if the time is frozen.
+            Physics.autoSimulation = !TimeManagementManager.Get().IsTimeFrozen();
+            
             d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
             unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+        }
+
+        /// <summary>
+        /// /!\ This method is called when the time is frozen <see cref="TimeManagementManager.IsTimeFrozen"/>
+        /// It manually simulate the physics world.
+        /// </summary>
+        protected void BeforeFixedTickTimeFrozenLogic(out float d, out float unscaled)
+        {
+            d = 0f;
+            unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+
+            if (Physics.autoSimulation)
+            {
+                Physics.Simulate(d);
+            }
         }
 
         /// <summary>

@@ -70,7 +70,7 @@ namespace TimeManagement
 
         public float GetCurrentDeltaTime()
         {
-            return Time.deltaTime;
+            return Time.unscaledDeltaTime * Time.timeScale;
         }
 
         public float GetCurrentDeltaTimeUnscaled()
@@ -120,7 +120,7 @@ namespace TimeManagement
             Time.fixedDeltaTime = this.InitialPhysicsDeltaTime * Time.timeScale;
         }
     }
-    
+
     /// <summary>
     /// Because time condition can be checked in the physics step, the internal state of <see cref="TimeInputSystem"/> must be updated only once per frame. Because multiple update would lead to possible press/release
     /// buffer loss.

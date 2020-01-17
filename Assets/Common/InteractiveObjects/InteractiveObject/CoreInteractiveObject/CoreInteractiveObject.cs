@@ -83,6 +83,8 @@ namespace InteractiveObjects
         public virtual void FixedTick(float d)
         {
         }
+        
+        public virtual void FixedTickTimeFrozen(float d){}
 
         protected void UpdateAniamtions(float d)
         {

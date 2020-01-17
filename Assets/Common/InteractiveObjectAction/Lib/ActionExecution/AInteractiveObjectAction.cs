@@ -35,6 +35,11 @@ namespace InteractiveObjectAction
         {
         }
 
+        public virtual void FixedTickTimeFrozen(float d)
+        {
+            
+        }
+
         public virtual void Tick(float d)
         {
         }

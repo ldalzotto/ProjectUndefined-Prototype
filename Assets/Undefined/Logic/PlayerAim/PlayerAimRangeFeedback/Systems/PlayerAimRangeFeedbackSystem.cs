@@ -22,6 +22,11 @@ namespace PlayerAim
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef;
         private FiringRangeFeedbackRangeObject firingRangeFeedbackRangeObject;
 
+        /// <summary>
+        /// /!\ The creation of <see cref="PlayerAimRangeFeedbackSystem"/> must absolutely be done after that physics objects have been taken into account from the physics engine.
+        ///     This is because the <paramref name="FiringPlayerActionTargetSystemRef"/> uses operations on newly created physics object to calculate
+        ///     the target direction <see cref="FiringPlayerActionTargetSystem.Tick"/>
+        /// </summary>
         public PlayerAimRangeFeedbackSystem(CoreInteractiveObject playerInteractiveObject, FiringPlayerActionTargetSystem FiringPlayerActionTargetSystemRef)
         {
             IsInitialized = true;
@@ -42,9 +47,12 @@ namespace PlayerAim
         /// </summary>
         public void AfterPlayerTick(float d)
         {
-            var targetSegment = CalculateFiringTargetPosition();
+            if (this.IsInitialized)
+            {
+                var targetSegment = CalculateFiringTargetPosition();
 
-            this.firingRangeFeedbackRangeObject.Tick(d, targetSegment);
+                this.firingRangeFeedbackRangeObject.Tick(d, targetSegment);
+            }
         }
 
         /// <summary>
@@ -63,7 +71,7 @@ namespace PlayerAim
 
         public void Dispose()
         {
-            this.firingRangeFeedbackRangeObject.Destroy();
+            this.firingRangeFeedbackRangeObject?.Destroy();
         }
     }
 
