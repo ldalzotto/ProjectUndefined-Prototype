@@ -28,6 +28,11 @@ namespace PlayerObject
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior.Tick(d);
         }
 
+        public void TickTimeFrozen(float d)
+        {
+            this.FiringInteractiveObjectActionStateBehavior.TickTimeFrozen(d);
+        }
+
         #region External Events
 
         public void StopTargetting()
@@ -93,6 +98,16 @@ namespace PlayerObject
         {
             base.Tick(d);
             this.PlayerActionTriggering();
+        }
+
+        /// <summary>
+        /// We want to be able to move to <see cref="AimingInteractiveObjectActionState.AIMING"/> even if time is frozen.
+        /// This is to allow the Player to execute accurate shots without getting rushed by time. 
+        /// </summary>
+        public override void TickTimeFrozen(float d)
+        {
+            base.TickTimeFrozen(d);
+            this.Tick(d);
         }
 
         /// <summary>

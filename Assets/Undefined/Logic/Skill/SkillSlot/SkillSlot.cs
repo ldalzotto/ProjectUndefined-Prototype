@@ -88,6 +88,15 @@ namespace Skill
                 }
             }
         }
+        
+        /// <summary>
+        /// <see cref="CurrentPlayerActionInherentData"/> must be able to be triggered even if time is frozen.
+        /// The cooldown state will be initialized but as the passed delta time is 0, cooldown value won't change.
+        /// </summary>
+        public void TickTimeFrozen(float d)
+        {
+            this.Tick(d);
+        }
 
         #region Logical conditions
 
@@ -100,5 +109,7 @@ namespace Skill
         }
 
         #endregion
+
+       
     }
 }
