@@ -61,6 +61,7 @@
      <Compile Include="Assets\Common\TimeManagement\Configuration\TimeManagementConfiguration.cs" />
      <Compile Include="Assets\Common\TimeManagement\Configuration\TimeManagementConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\TimeManagement\Managers\TimeManagementManager.cs" />
+     <Compile Include="Assets\Common\TimeManagement\Systems\SimulatePhysicsTimeSteps.cs" />
      <None Include="Assets\Common\TimeManagement\TimeManagement.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

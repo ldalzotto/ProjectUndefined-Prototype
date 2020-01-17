@@ -72,8 +72,10 @@ namespace GameLoop
 
         private void FixedUpdateTimeFrozen()
         {
-            base.BeforeFixedTickTimeFrozenLogic(out float d, out float unscaled);
-            PlayerInteractiveObjectManager.Get().FixedTickTimeFrozen(d);
+            if (base.BeforeFixedTickTimeFrozenLogic(out float d, out float unscaled))
+            {
+                PlayerInteractiveObjectManager.Get().FixedTickTimeFrozen(d);
+            }
         }
 
         protected virtual void Update()

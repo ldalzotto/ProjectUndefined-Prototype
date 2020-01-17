@@ -13,11 +13,14 @@ namespace GameLoop
     {
         private LevelType levelType;
 
+        private SimulatePhysicsTimeSteps _simulatePhysicsTimeSteps;
+
         protected void OnAwake(LevelType levelType)
         {
             new GameLogHandler();
 
             this.levelType = levelType;
+            this._simulatePhysicsTimeSteps = new SimulatePhysicsTimeSteps(this.ManuallyUpdatePhysicsWorld);
 
             PersistanceManager.Get().Init();
             StartLevelManager.Get().Init();
@@ -61,8 +64,12 @@ namespace GameLoop
             /// When the time is frozen, we set the Physics to autosimulation.
             /// The reason is that even if time is stopped (Time.deltaTime == 0f), some physics object may be created.
             /// If Physics.autoSimulation is set to false then no Physics occurs when Time.deltaTime == 0f. So we force it to calculate Physics events event if the time is frozen.
+            if (Physics.autoSimulation && TimeManagementManager.Get().IsTimeFrozen())
+            {
+                this._simulatePhysicsTimeSteps.Reset();
+            }
             Physics.autoSimulation = !TimeManagementManager.Get().IsTimeFrozen();
-            
+
             d = TimeManagementManager.Get().GetCurrentFixedDeltaTime();
             unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
         }
@@ -70,13 +77,18 @@ namespace GameLoop
         /// <summary>
         /// /!\ This method is called when the time is frozen <see cref="TimeManagementManager.IsTimeFrozen"/>
         /// It manually simulate the physics world.
+        /// Returns true is the physics world has been updated.
         /// </summary>
-        protected void BeforeFixedTickTimeFrozenLogic(out float d, out float unscaled)
+        protected bool BeforeFixedTickTimeFrozenLogic(out float d, out float unscaled)
         {
-            d = 0f;
+            d = 0.0000000000000000001f;
             unscaled = TimeManagementManager.Get().GetCurrentDeltaTimeUnscaled();
+            return this._simulatePhysicsTimeSteps.Tick(d, unscaled);
+        }
 
-            if (Physics.autoSimulation)
+        private void ManuallyUpdatePhysicsWorld(float d, float unscaled)
+        {
+            if (!Physics.autoSimulation)
             {
                 Physics.Simulate(d);
             }

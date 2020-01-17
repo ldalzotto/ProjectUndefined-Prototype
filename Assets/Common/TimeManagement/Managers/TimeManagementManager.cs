@@ -83,6 +83,11 @@ namespace TimeManagement
             return Time.fixedDeltaTime;
         }
 
+        public float GetInitialPhysicsDeltaTime()
+        {
+            return this._timeFreezeSystem.InitialPhysicsDeltaTime;
+        }
+
         #endregion
 
         #region Logical Conditions
@@ -104,7 +109,7 @@ namespace TimeManagement
         /// The initial physics delta time set for Unity project (ProjectSettings->Time->FixedTimeStep)
         /// /!\ This value must not be modified as it is used as a reference for updating the physics timestep. 
         /// </summary>
-        private float InitialPhysicsDeltaTime = Time.fixedDeltaTime;
+        public float InitialPhysicsDeltaTime { get; private set; } = Time.fixedDeltaTime;
 
         private const float SlowedTimeScale = 0f;
 
