@@ -54,14 +54,9 @@ namespace Skill
         public void Tick(float d)
         {
             foreach (var skillSlot in this.GetAllSkillSlots())
-            {    
+            {
                 skillSlot.Tick(d);
             }
-        }
-
-        public void TickTimeFrozen(float d)
-        {
-            this.Tick(d);
         }
 
         public void Destroy()

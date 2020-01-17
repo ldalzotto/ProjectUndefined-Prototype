@@ -100,7 +100,6 @@ namespace PlayerAim
 
         public override void TickTimeFrozen(float d)
         {
-            this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
                 this._firingLockSelectionSystem.Tick();

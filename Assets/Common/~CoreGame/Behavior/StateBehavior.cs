@@ -10,8 +10,6 @@ public abstract class StateManager
     public virtual void Tick(float d)
     {
     }
-    
-    public virtual void TickTimeFrozen(float d){}
 
     public virtual void OnStateEnter()
     {
@@ -78,11 +76,6 @@ public abstract class StateBehavior<S, SM> where S : Enum where SM : StateManage
     public virtual void Tick(float d)
     {
         this.StateManagersLookup[this.CurrentState.GetValue()].Tick(d);
-    }
-
-    public virtual void TickTimeFrozen(float d)
-    {
-        this.StateManagersLookup[this.CurrentState.GetValue()].TickTimeFrozen(d);
     }
 
     public SM GetCurrentStateManager()

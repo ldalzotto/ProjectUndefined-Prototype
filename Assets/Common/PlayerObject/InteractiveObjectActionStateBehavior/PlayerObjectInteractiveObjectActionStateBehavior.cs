@@ -28,11 +28,6 @@ namespace PlayerObject
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior.Tick(d);
         }
 
-        public void TickTimeFrozen(float d)
-        {
-            this.FiringInteractiveObjectActionStateBehavior.TickTimeFrozen(d);
-        }
-
         #region External Events
 
         public void StopTargetting()
@@ -98,12 +93,6 @@ namespace PlayerObject
         {
             base.Tick(d);
             this.PlayerActionTriggering();
-        }
-
-        public override void TickTimeFrozen(float d)
-        {
-            base.TickTimeFrozen(d);
-            this.Tick(d);
         }
 
         /// <summary>
