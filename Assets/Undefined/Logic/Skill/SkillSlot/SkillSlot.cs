@@ -110,6 +110,20 @@ namespace Skill
 
         #endregion
 
+        #region Data retrieval
+
+        public SkillActionConstraint GetSkillActionConstraint()
+        {
+            if (this.CurrentPlayerActionInherentData.GetValue() != null)
+            {
+                return this.CurrentPlayerActionInherentData.GetValue().coreInteractiveObjectActionDefinition.GetSkillActionDefinition().SkillActionConstraint;
+            }
+
+            return default;
+        }
+
+        #endregion
+
        
     }
 }

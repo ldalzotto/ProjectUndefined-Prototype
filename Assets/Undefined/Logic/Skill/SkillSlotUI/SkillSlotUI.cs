@@ -14,7 +14,7 @@ namespace Skill
         {
             var instanciatedObject = MonoBehaviour.Instantiate(SkillSlotUIGlobalConfigurationGameObject.Get().SkillSlotUIGlobalConfiguration.SkillSlotUIBasePrefab, CoreGameSingletonInstances.GameCanvas.transform);
             this.SkillSlotUIGameObject = instanciatedObject.GetComponent<SkillSlotUIGameObject>();
-         
+
             this.SkillSlotUIGameObject.Init();
 
             this.SkillSlotUIGameObject.PositionAndScaleSkillSlot(ref SKillSlotUIPositionInput);
@@ -32,10 +32,7 @@ namespace Skill
 
         public void OnSkillActionChanged(SkillActionDefinition newSkillActionDefinition)
         {
-            if (newSkillActionDefinition != null)
-            {
-                this.SkillSlotUIGameObject.SetUIIcon(newSkillActionDefinition.SkillIcon);
-            }
+            this.SkillSlotUIGameObject.UpdateSkillSlotUIFromSkillActionDefinition(newSkillActionDefinition);
         }
 
         public void SetInputText(string text)

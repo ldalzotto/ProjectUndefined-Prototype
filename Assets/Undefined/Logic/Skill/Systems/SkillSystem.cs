@@ -54,7 +54,7 @@ namespace Skill
         public void Tick(float d)
         {
             foreach (var skillSlot in this.GetAllSkillSlots())
-            {    
+            {
                 skillSlot.Tick(d);
             }
         }
@@ -62,7 +62,7 @@ namespace Skill
         public void TickTimeFrozen(float d)
         {
             foreach (var skillSlot in this.GetAllSkillSlots())
-            {    
+            {
                 skillSlot.TickTimeFrozen(d);
             }
         }
@@ -127,6 +127,18 @@ namespace Skill
             }
 
             return InputID.NONE;
+        }
+
+        public IEnumerable<SkillSlot> GetAllSkillSlotsThatAreLowOnHealthConstrainted()
+        {
+            yield return MainWeaponSkillSlot;
+            foreach (var subSkillSlot in SubSkillSlots)
+            {
+                if (subSkillSlot.GetSkillActionConstraint() == SkillActionConstraint.LOW_HEALTH_ONLY)
+                {
+                    yield return subSkillSlot;
+                }
+            }
         }
 
         #endregion

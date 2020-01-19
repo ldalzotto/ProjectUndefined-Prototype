@@ -2,6 +2,7 @@
 using Input;
 using InteractiveObjectAction;
 using ProjectileDeflection;
+using Skill;
 
 namespace PlayerObject
 {
@@ -15,9 +16,13 @@ namespace PlayerObject
         private FiringInteractiveObjectActionStateBehavior FiringInteractiveObjectActionStateBehavior;
         private ProjectileDeflectionInteractiveObjectActionStateBehavior ProjectileDeflectionInteractiveObjectActionStateBehavior;
 
+        private SkillSystem SkillSystemRef;
+
         public PlayerObjectInteractiveObjectActionStateManager(GameInputManager gameInputManager, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem,
+            SkillSystem SkillSystemRef,
             InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData, ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData)
         {
+            this.SkillSystemRef = SkillSystemRef;
             this.FiringInteractiveObjectActionStateBehavior = new FiringInteractiveObjectActionStateBehavior(gameInputManager, interactiveObjectActionPlayerSystem, firingInteractiveObjectActionInherentData);
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior = new ProjectileDeflectionInteractiveObjectActionStateBehavior(projectileDeflectionTrackingInteractiveObjectActionInherentData, interactiveObjectActionPlayerSystem);
         }
@@ -42,7 +47,15 @@ namespace PlayerObject
 
         public void OnLowOnHealthStarted()
         {
-            this.ProjectileDeflectionInteractiveObjectActionStateBehavior.GetCurrentStateManager().OnLowOnHealthStarted();
+            /// We call the OnLowOnHealthStarted events only for skill slots that are constrainted in such a way.
+            /// This is to prevent executing actions that are not intended.
+            foreach (var lowHealthConstrainedSkills in this.SkillSystemRef.GetAllSkillSlotsThatAreLowOnHealthConstrainted())
+            {
+                if (lowHealthConstrainedSkills.CompareAssociatedInteractiveObjectActionInherentData(DeflectingProjectileInteractiveObjectAction.DeflectingProjectileInteractiveObjectActionUniqueID))
+                {
+                    this.ProjectileDeflectionInteractiveObjectActionStateBehavior.GetCurrentStateManager().OnLowOnHealthStarted();
+                }
+            }
         }
 
         public void OnLowOnHealthEnded()

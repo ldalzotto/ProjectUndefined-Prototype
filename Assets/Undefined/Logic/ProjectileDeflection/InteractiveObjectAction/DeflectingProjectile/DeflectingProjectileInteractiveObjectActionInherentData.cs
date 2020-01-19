@@ -4,6 +4,7 @@ using Input;
 using InteractiveObjectAction;
 using InteractiveObjects;
 using ParticleObjects;
+using PlayerObject_Interfaces;
 using UnityEngine.Serialization;
 
 namespace ProjectileDeflection
@@ -37,7 +38,8 @@ namespace ProjectileDeflection
         }
 
         /// <summary>
-        /// This will usually be called from the SkillStytem. This is why we check that the projectile deflection is enabled <see cref="IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionEnabled"/>.  
+        /// This will usually be called from the SkillStytem.
+        /// This is why we check that the projectile deflection is enabled <see cref="IEM_DeflectingProjectileAction_DataRetriever.ProjectileDeflectionEnabled"/>.  
         /// </summary>
         public override IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
         {
@@ -51,6 +53,11 @@ namespace ProjectileDeflection
 
             return null;
         }
+    }
+
+    public interface ISkilkSlotLowHealthNotification
+    {
+        void OnLowHealthStarted(CoreInteractiveObject AssociatedInteractiveObject);
     }
 
     public interface IEM_DeflectingProjectileAction_DataRetriever

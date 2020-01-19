@@ -31,7 +31,8 @@ namespace PlayerObject
         private HealthSystem HealthSystem;
         private StunningDamageDealerReceiverSystem StunningDamageDealerReceiverSystem;
         private LowHealthPlayerSystem lowHealthPlayerSystem;
-        private PlayerObjectInteractiveObjectActionStateManager PlayerObjectInteractiveObjectActionStateManager;
+        public PlayerObjectInteractiveObjectActionStateManager PlayerObjectInteractiveObjectActionStateManager;
+
         public LowHealthPlayerSystem LowHealthPlayerSystem => this.lowHealthPlayerSystem;
 
         private PlayerVisualEffectSystem PlayerVisualEffectSystem;
@@ -66,13 +67,16 @@ namespace PlayerObject
             this.HealthSystem = new HealthSystem(this, PlayerInteractiveObjectDefinition.HealthSystemDefinition, OnHealthValueChangedAction: this.OnHealthValueChanged);
             this.StunningDamageDealerReceiverSystem = new StunningDamageDealerReceiverSystem(PlayerInteractiveObjectDefinition.StunningDamageDealerReceiverSystemDefinition, this.HealthSystem);
             this.lowHealthPlayerSystem = new LowHealthPlayerSystem(this.HealthSystem, PlayerInteractiveObjectDefinition.LowHealthPlayerSystemDefinition);
-            this.PlayerObjectInteractiveObjectActionStateManager =
-                new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem, PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData);
             this.PlayerVisualEffectSystem = new PlayerVisualEffectSystem(this, PlayerInteractiveObjectDefinition.PlayerVisualEffectSystemDefinition);
 
             this.SkillSystem = new SkillSystem(this, this.InteractiveObjectActionPlayerSystem);
             this.SkillSystem.SetPlayerActionToMainWeaponSkill(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
             this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.DeflectingProjectileInteractiveObjectActionInherentData, 0);
+
+            this.PlayerObjectInteractiveObjectActionStateManager =
+                new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem,
+                    this.SkillSystem,
+                    PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);

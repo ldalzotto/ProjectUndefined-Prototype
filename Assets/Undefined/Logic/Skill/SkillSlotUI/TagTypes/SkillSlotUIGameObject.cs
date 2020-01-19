@@ -40,9 +40,16 @@ namespace Skill
             this.SkillIconBackgroundMaterialInstance.SetFloat("_CooldownProgress", cooldownProgress);
         }
 
-        public void SetUIIcon(Sprite Icon)
+        public void UpdateSkillSlotUIFromSkillActionDefinition(SkillActionDefinition SkillActionDefinition)
         {
-            this.SkillSlotUIconIGameObject.SetUIIcon(Icon);
+            if (SkillActionDefinition != null)
+            {
+                this.SkillSlotUIconIGameObject.SetUIIcon(SkillActionDefinition.SkillIcon);
+                if (SkillActionDefinition.SkillActionConstraint == SkillActionConstraint.LOW_HEALTH_ONLY)
+                {
+                    this.SkillIconBackgroundMaterialInstance.SetColor("_BackgroundColor", SkillSlotUIGlobalConfigurationGameObject.Get().SkillSlotUIGlobalConfiguration.LowOnHealthConstrainedBackgroundColor);
+                }
+            }
         }
 
         public void SetInputText(string text)

@@ -14,6 +14,19 @@ namespace Skill
     public class SkillActionDefinition : SerializedScriptableObject
     {
         public Sprite SkillIcon;
+        public SkillActionConstraint SkillActionConstraint;
+    }
+
+    /// <summary>
+    /// The <see cref="SkillActionConstraint"/> acts as a filter when we gets all available skill slots from criteria.
+    ///  - <see cref="SkillActionConstraint.LOW_HEALTH_ONLY"/> : Implies that the <see cref="SkillSlotUI"/> background color is changed to <see cref="SkillSlotUIGlobalConfiguration.LowOnHealthConstrainedBackgroundColor"/>.
+    ///     Skill slots can be retrieved with <see cref="SkillSystem.GetAllSkillSlotsThatAreLowOnHealthConstrainted"/>.
+    /// </summary>
+    [Serializable]
+    public enum SkillActionConstraint
+    {
+        NONE = 0,
+        LOW_HEALTH_ONLY = 1
     }
 
 }

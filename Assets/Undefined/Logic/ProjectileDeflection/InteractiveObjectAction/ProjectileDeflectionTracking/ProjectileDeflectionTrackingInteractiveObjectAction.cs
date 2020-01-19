@@ -25,6 +25,7 @@ namespace ProjectileDeflection
     /// Responsible of :
     ///  * Tracking projectiles in range of deflection <see cref="ProjectileDeflectionFeedbackIconSystem"/> 
     ///  * Creating the feedback icon on projectiles in are deflectable <see cref="ProjectileDeflectionFeedbackIconSystem"/>
+    /// This action is executed only when the <see cref="DeflectingProjectileInteractiveObjectActionInherentData"/> action is inside a selected skill slot.
     /// </summary>
     public class ProjectileDeflectionTrackingInteractiveObjectAction : AInteractiveObjectAction
     {
