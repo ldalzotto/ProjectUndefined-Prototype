@@ -34,6 +34,17 @@ namespace CameraManagement
         {
             this.CameraFollowState = CameraFollowState;
         }
+
+        public void SetTargetPosition(TransformStruct targetPosition)
+        {
+            this.CameraFollowState.CameraFollowTargetPosition = targetPosition.WorldPosition;
+            this.CameraObject.CameraPivotPointTransformWithoutOffset.rot = quaternion.Euler(targetPosition.WorldRotationEuler);
+        }
+
+        public void SetTargetZoom(float targetSize)
+        {
+            this.CameraZoomState.TargetSize = targetSize;
+        }
     }
 
     public struct TargetCursorComponent
@@ -95,6 +106,21 @@ namespace CameraManagement
         {
             this.CameraMovementJobState[0] = CameraMovementJobState;
         }
+
+        public void SetTargetPosition(TransformStruct targetPosition)
+        {
+            var cameraMovementJobState = this.CameraMovementJobState[0];
+            cameraMovementJobState.SetTargetPosition(targetPosition);
+            this.CameraMovementJobState[0] = cameraMovementJobState;
+        }
+
+        public void SetCameraZoon(float targetSize)
+        {
+            var cameraMovementJobState = this.CameraMovementJobState[0];
+            cameraMovementJobState.SetTargetZoom(targetSize);
+            this.CameraMovementJobState[0] = cameraMovementJobState;
+        }
+
 
         public void Execute(int index, TransformAccess transform)
         {
@@ -247,6 +273,16 @@ namespace CameraManagement
         }
 
         #endregion
+
+        public void SetTargetPosition(TransformStruct targetPosition)
+        {
+            this.CameraMovementJob.SetTargetPosition(targetPosition);
+        }
+
+        public void SetCameraZoon(float targetSize)
+        {
+            this.CameraMovementJob.SetCameraZoon(targetSize);
+        }
 
         public override void OnDestroy()
         {

@@ -66,7 +66,7 @@ namespace Targetting
             this.OnCursorNoMoveOverObjectEvent += action;
         }
 
-        public void UnRegisterOnCursorNoMoveOverObjectEvent(Action<CoreInteractiveObject> action)
+        public void UnRegisterOnCursorNoMoreOverObjectEvent(Action<CoreInteractiveObject> action)
         {
             this.OnCursorNoMoveOverObjectEvent -= action;
         }

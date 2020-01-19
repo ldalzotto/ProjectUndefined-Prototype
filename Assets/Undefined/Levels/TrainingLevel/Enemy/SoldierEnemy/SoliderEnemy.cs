@@ -74,7 +74,7 @@ namespace TrainingLevel
         {
             this.InteractiveObjectActionPlayerSystem.AfterTicks(d);
             this.ObjectMovementSpeedSystem.AfterTicks(d);
-            
+
             if (!this._stunningDamageDealerReceiverSystem.IsStunned.GetValue())
             {
                 this.AIMoveToDestinationSystem.AfterTicks(d);
@@ -203,6 +203,11 @@ namespace TrainingLevel
         public Vector3 GetCurrentTargetDirection()
         {
             return this.LastTargetWorldDirection;
+        }
+
+        public CoreInteractiveObject GetCurrentlyTargettedInteractiveObject()
+        {
+            return null;
         }
     }
 }

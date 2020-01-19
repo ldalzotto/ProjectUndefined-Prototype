@@ -354,6 +354,18 @@ namespace PlayerObject
             return default;
         }
 
+        #if UNITY_EDITOR
+        public CoreInteractiveObject GetCurrentlyTargettedInteractiveObject()
+        {
+            if (InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(PlayerAimingInteractiveObjectAction.PlayerAimingInteractiveObjectActionUniqueID) is PlayerAimingInteractiveObjectAction firingPlayerActionReference)
+            {
+                return firingPlayerActionReference.GetCurrentlyTargettedInteractiveObject();
+            }
+
+            return null;
+        }
+        #endif
+
         private void FiringPartialDefinitionInitialize()
         {
             this.RegisterOnPlayerStartTargettingEvent(this.OnPlayerAimingActionStarted);

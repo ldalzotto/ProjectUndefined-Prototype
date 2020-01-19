@@ -62,21 +62,17 @@ public static class SceneHandlerDrawer
                         {
                             var WireCircleWorldAttribute = (WireCircleWorldAttribute) AbstractSceneHandleAttribute;
 
-                            Vector3 worldPositionCenter = Vector3.zero;
+                            Vector3 localPositionCenter = Vector3.zero;
                             float radius;
 
-                            if (WireCircleWorldAttribute.UseTransform)
+                            if (!WireCircleWorldAttribute.UseTransform)
                             {
-                                worldPositionCenter = objectTransform.position;
-                            }
-                            else
-                            {
-                                worldPositionCenter = GetPositionFromObject(drawableObject.GetType().GetField(WireCircleWorldAttribute.PositionFieldName).GetValue(drawableObject));
+                                localPositionCenter = GetPositionFromObject(drawableObject.GetType().GetField(WireCircleWorldAttribute.PositionFieldName).GetValue(drawableObject));
                             }
 
                             if (!string.IsNullOrEmpty(WireCircleWorldAttribute.PositionOffsetFieldName))
                             {
-                                worldPositionCenter += (Vector3) drawableObject.GetType().GetField(WireCircleWorldAttribute.PositionOffsetFieldName).GetValue(drawableObject);
+                                localPositionCenter += (Vector3) drawableObject.GetType().GetField(WireCircleWorldAttribute.PositionOffsetFieldName).GetValue(drawableObject);
                             }
 
                             if (!string.IsNullOrEmpty(WireCircleWorldAttribute.RadiusFieldName))
@@ -86,6 +82,12 @@ public static class SceneHandlerDrawer
                             else
                             {
                                 radius = WireCircleWorldAttribute.Radius;
+                            }
+
+                            Vector3 worldPositionCenter = localPositionCenter;
+                            if (WireCircleWorldAttribute.UseTransform)
+                            {
+                                worldPositionCenter = objectTransform.localToWorldMatrix.MultiplyPoint(localPositionCenter);
                             }
 
                             SetupColors(WireCircleWorldAttribute.GetColor());
@@ -143,26 +145,26 @@ public static class SceneHandlerDrawer
 
                             SetupColors(WireArrowLinkAttribute.GetColor());
                             HandlesHelper.DrawArrow(Source, Target, WireArrowLinkAttribute.GetColor(), WireArrowLinkAttribute.ArrowSemiAngle, WireArrowLinkAttribute.ArrowLength);
-                        } else if (AbstractSceneHandleAttribute.GetType() == typeof(WireArrowAttribute))
+                        }
+                        else if (AbstractSceneHandleAttribute.GetType() == typeof(WireArrowAttribute))
                         {
                             var WireArrowAttribute = (WireArrowAttribute) AbstractSceneHandleAttribute;
 
                             Vector3 Origin = WireArrowAttribute.Origin;
                             if (!string.IsNullOrEmpty(WireArrowAttribute.OriginFieldName))
                             {
-                                Origin =  GetPositionFromObject(drawableObject.GetType().GetField(WireArrowAttribute.OriginFieldName).GetValue(drawableObject));
+                                Origin = GetPositionFromObject(drawableObject.GetType().GetField(WireArrowAttribute.OriginFieldName).GetValue(drawableObject));
                             }
-                            
+
                             SetupColors(WireArrowAttribute.GetColor());
 
                             Vector3? WorldEulerAngles = GetRotationFromObject(drawableObject.GetType().GetField(WireArrowAttribute.OriginFieldName).GetValue(drawableObject));
                             if (WorldEulerAngles.HasValue)
                             {
-                                Vector3 Target = Origin + (Quaternion.Euler(WorldEulerAngles.Value) * (Vector3.forward * WireArrowAttribute.ArrowLength*1.5f));
-                            
-                                HandlesHelper.DrawArrow(Origin, Target, WireArrowAttribute.GetColor(), WireArrowAttribute.ArrowSemiAngle, WireArrowAttribute.ArrowLength);  
+                                Vector3 Target = Origin + (Quaternion.Euler(WorldEulerAngles.Value) * (Vector3.forward * WireArrowAttribute.ArrowLength * 1.5f));
+
+                                HandlesHelper.DrawArrow(Origin, Target, WireArrowAttribute.GetColor(), WireArrowAttribute.ArrowSemiAngle, WireArrowAttribute.ArrowLength);
                             }
-                           
                         }
                     }
                 }
@@ -244,7 +246,7 @@ public static class SceneHandlerDrawer
 
         return Vector3.zero;
     }
-    
+
     private static Vector3? GetRotationFromObject(object rotation)
     {
         if (rotation.GetType() == typeof(Vector3))

@@ -8,6 +8,11 @@ namespace CameraManagement
     {
         public float TargetSize;
         public float DelteZoomFromInput;
+
+        public void SetTargetSize(float targetSize)
+        {
+            this.TargetSize = targetSize;
+        }
     }
 
     public class CameraZoomSystem

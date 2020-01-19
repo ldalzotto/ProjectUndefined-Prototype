@@ -10,7 +10,13 @@
         "CoreGame",
         "InteractiveObjectAction",
         "InteractiveObjects",
-        "InteractiveObjects_Interfaces"
+        "InteractiveObjects_Interfaces",
+        "Weapon",
+        "PlayerObject",
+        "ProjectileDeflection",
+        "PlayerObject_Interface",
+        "PlayerLowHealth_Interfaces",
+        "Skill_Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

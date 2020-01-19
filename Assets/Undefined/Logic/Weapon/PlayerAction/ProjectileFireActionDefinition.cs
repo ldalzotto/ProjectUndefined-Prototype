@@ -55,5 +55,10 @@ namespace Weapon
     {
         bool ProjectileFireActionEnabled();
         Vector3 GetCurrentTargetDirection();
+
+        ///Test purposes only
+#if UNITY_EDITOR
+        CoreInteractiveObject GetCurrentlyTargettedInteractiveObject();
+#endif
     }
 }

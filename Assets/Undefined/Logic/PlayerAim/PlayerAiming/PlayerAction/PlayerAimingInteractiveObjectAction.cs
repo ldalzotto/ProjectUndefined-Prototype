@@ -150,6 +150,11 @@ namespace PlayerAim
             return this.FiringPlayerActionTargetSystem.TargetDirection;
         }
 
+        public CoreInteractiveObject GetCurrentlyTargettedInteractiveObject()
+        {
+            return this._firingLockSelectionSystem.GetCurrentlyTargettedInteractiveObject();
+        }
+
         #endregion
 
         public override void GUITick()
@@ -235,7 +240,7 @@ namespace PlayerAim
 
         public void OnInteractiveObjectTargetted(CoreInteractiveObject CoreInteractiveObject)
         {
-            if (CoreInteractiveObject != null)
+            if (CoreInteractiveObject != null && !CoreInteractiveObject.IsAskingToBeDestroyed)
             {
                 this.CurrentlyTargettedInteractiveObject.SetValue(CoreInteractiveObject);
                 this.UpdateTargetPlanePosition();

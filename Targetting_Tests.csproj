@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\EnsureTargetLockAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\MoveTargetCursorSmoothScreenPosition.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\MoveTargetCursorToInteractiveObjectAction.cs" />
      <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\TargetAndFireToInteractiveObjectAction.cs" />
@@ -659,6 +660,30 @@
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="Weapon.csproj">
+      <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
+      <Name>Weapon</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerObject.csproj">
+      <Project>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</Project>
+      <Name>PlayerObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProjectileDeflection.csproj">
+      <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
+      <Name>ProjectileDeflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerObject_Interface.csproj">
+      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
+      <Name>PlayerObject_Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="PlayerLowHealth_Interfaces.csproj">
+      <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
+      <Name>PlayerLowHealth_Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="Skill_Interfaces.csproj">
+      <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
+      <Name>Skill_Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

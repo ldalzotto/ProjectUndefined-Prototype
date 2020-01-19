@@ -87,6 +87,7 @@ namespace Targetting_Test
             ManuallyTriggerExitFunction = manuallyTriggerExitFunction;
         }
     }
+
     /// <summary>
     /// Fire multiple projectile at the target until <see cref="Target_FireInteractiveObject_AndWait_ActionDefintion.ManuallyTriggerExitFunction"/> condition
     /// is met.
@@ -106,8 +107,7 @@ namespace Targetting_Test
         public override void FirstExecutionAction()
         {
             TargetAndFireTestUtil.SetupInputForStartingFiring();
-            TargetCursorManager.Get().SetTargetCursorPosition(Camera.main.WorldToScreenPoint(
-                this.Target.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.Target.InteractiveGameObject.AverageModelLocalBounds.Bounds.center)));
+            this.Tick(0);
         }
 
         public override bool ComputeFinishedConditions()
@@ -127,6 +127,11 @@ namespace Targetting_Test
 
         public override void Tick(float d)
         {
+            if (!this.Target.IsAskingToBeDestroyed)
+            {
+                TargetCursorManager.Get().SetTargetCursorPosition(Camera.main.WorldToScreenPoint(
+                    this.Target.InteractiveGameObject.GetLocalToWorld().MultiplyPoint(this.Target.GetFiringTargetLocalPosition())));
+            }
         }
     }
 }

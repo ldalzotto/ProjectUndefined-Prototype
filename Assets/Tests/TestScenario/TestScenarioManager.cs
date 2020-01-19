@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CameraManagement;
 using CoreGame;
 using InteractiveObjects;
 using LevelManagement;
@@ -27,12 +28,15 @@ namespace Tests
 
         private SequencedActionPlayer SequencedActionPlayer;
         private TransformStruct InitialCameraPivotPointTransform;
+        private float InitialCameraZoom;
+        
         private TestControllerConfiguration TestControllerConfiguration = TestControllerConfiguration.Get();
 
         public TestScenarioManager()
         {
             PlayerInteractiveObjectDestinationReachedEvent.Get().RegisterOnPlayerInteractiveObjectDestinationReachedEventListener(this.OnPlayerDestinationReached);
             this.InitialCameraPivotPointTransform = new TransformStruct(GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform);
+            this.InitialCameraZoom = Camera.main.orthographicSize;
         }
 
         public void Tick(float d)
@@ -103,8 +107,8 @@ namespace Tests
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.Reset();
 
             ///Reset camera position
-            GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform.position = this.InitialCameraPivotPointTransform.WorldPosition;
-            GameObject.FindGameObjectWithTag(TagConstants.CAMERA_PIVOT_POINT_TAG).transform.eulerAngles = this.InitialCameraPivotPointTransform.WorldRotationEuler;
+            CameraMovementJobManager.Get().SetTargetPosition(this.InitialCameraPivotPointTransform);
+            CameraMovementJobManager.Get().SetCameraZoon(this.InitialCameraZoom);
         }
 
         /// <summary>

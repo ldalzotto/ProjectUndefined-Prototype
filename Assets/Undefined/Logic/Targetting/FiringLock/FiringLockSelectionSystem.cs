@@ -58,7 +58,6 @@ namespace Targetting
             }
         }
 
-
         private void InitializeEvents()
         {
             InteractiveObjectCursorScreenIntersectionManager.Get().RegisterOnCursorOverObjectEvent(this.OnCursorOverObject);
@@ -68,11 +67,11 @@ namespace Targetting
         public void Dispose()
         {
             InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorOverObjectEvent(this.OnCursorOverObject);
-            InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorNoMoveOverObjectEvent(this.OnCursorNoMoreOverObject);
+            InteractiveObjectCursorScreenIntersectionManager.Get().UnRegisterOnCursorNoMoreOverObjectEvent(this.OnCursorNoMoreOverObject);
 
             foreach (var selectableTargettedInteractiveObject in AllSelectableTargettedInteractiveObject)
             {
-                selectableTargettedInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+                selectableTargettedInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnCurrentlyTargettedInteractiveObjectDestroyed);
             }
         }
 
@@ -80,7 +79,7 @@ namespace Targetting
         {
             if (GameInputManager.CurrentInput.SwitchSelectionButtonD())
             {
-                if (this.CurrentlyTargettedInteractiveObject.GetValue() != null)
+                if (this.CurrentlyTargettedInteractiveObject.GetValue() != null && !this.CurrentlyTargettedInteractiveObject.GetValue().IsAskingToBeDestroyed)
                 {
                     var currentlySelectedObjectIndex = this.AllSelectableTargettedInteractiveObject.IndexOf(this.CurrentlyTargettedInteractiveObject.GetValue());
                     currentlySelectedObjectIndex++;
@@ -92,25 +91,31 @@ namespace Targetting
 
         #region External Events
 
+        /// <summary>
+        /// Called from <see cref="InteractiveObjectCursorScreenIntersectionManager"/> when the cursor is over the input interactive object.
+        /// </summary>
         private void OnCursorOverObject(CoreInteractiveObject CoreInteractiveObject)
         {
             this.AllSelectableTargettedInteractiveObject.Add(CoreInteractiveObject);
-            CoreInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
 
             /// If the CurrentlyTargettedInteractiveObject is null means that there is currently no target.
             /// Then the value is setted to immediately get the target.
-            if (this.CurrentlyTargettedInteractiveObject.GetValue() == null)
+            if (this.CurrentlyTargettedInteractiveObject.GetValue() == null && !CoreInteractiveObject.IsAskingToBeDestroyed)
             {
                 this.CurrentlyTargettedInteractiveObject.SetValue(CoreInteractiveObject);
             }
         }
 
+
+        /// <summary>
+        /// Called from <see cref="InteractiveObjectCursorScreenIntersectionManager"/> when the cursor is no more over one interactive object.
+        /// </summary>
         private void OnCursorNoMoreOverObject(CoreInteractiveObject coreInteractiveObject)
         {
-            this.OnInteractiveObjectDestroyed(coreInteractiveObject);
+            this.OnCurrentlyTargettedInteractiveObjectDestroyed(coreInteractiveObject);
         }
 
-        private void OnInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
+        private void OnCurrentlyTargettedInteractiveObjectDestroyed(CoreInteractiveObject CoreInteractiveObject)
         {
             this.AllSelectableTargettedInteractiveObject.Remove(CoreInteractiveObject);
 
@@ -131,20 +136,50 @@ namespace Targetting
         /// </summary>
         private void OnCurrentlytargettedObjectChanged(CoreInteractiveObject oldObject, CoreInteractiveObject newObject)
         {
+            /// If this is not the first time that the target object has been set, we UnRegisterInteractiveObjectDestroyedEventListener. 
             if (oldObject != null)
             {
-                oldObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
+                oldObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnCurrentlyTargettedInteractiveObjectDestroyed);
             }
 
+            /// If the <paramref name="newObject"/> is null then the <see cref="CurrentlyTargettedInteractiveObject"/> is setted to an available
+            /// <see cref="AllSelectableTargettedInteractiveObject"/>.
             if (newObject == null && this.AllSelectableTargettedInteractiveObject.Count > 0)
             {
-                this.CurrentlyTargettedInteractiveObject.SetValue(this.AllSelectableTargettedInteractiveObject[0]);
+                bool nonDestructedInteractiveObjectFound = false;
+                foreach (var selectableTarggetedInteractiveObject in AllSelectableTargettedInteractiveObject)
+                {
+                    if (!selectableTarggetedInteractiveObject.IsAskingToBeDestroyed)
+                    {
+                        /// /!\ This is a recursive call because CurrentlyTargettedInteractiveObject ObjectVariable callback is set with OnCurrentlytargettedObjectChanged.
+                        /// Effective change 
+                        this.CurrentlyTargettedInteractiveObject.SetValue(selectableTarggetedInteractiveObject);
+                        nonDestructedInteractiveObjectFound = true;
+                        break;
+                    }
+                }
+
+                if (!nonDestructedInteractiveObjectFound)
+                {
+                    this.OnNewInteractiveObjectTargettedCallback.Invoke(null);
+                }
             }
 
-            if (newObject != null)
+            /// Effective logic when the <see cref="CurrentlyTargettedInteractiveObject"/> value is set. 
+            if (newObject != null && !newObject.IsAskingToBeDestroyed)
             {
+                newObject.RegisterInteractiveObjectDestroyedEventListener(this.OnCurrentlyTargettedInteractiveObjectDestroyed);
                 this.OnNewInteractiveObjectTargettedCallback.Invoke(newObject);
             }
+        }
+
+        #endregion
+
+        #region Data Retrieval
+
+        public CoreInteractiveObject GetCurrentlyTargettedInteractiveObject()
+        {
+            return this.CurrentlyTargettedInteractiveObject.GetValue();
         }
 
         #endregion
