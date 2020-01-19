@@ -155,7 +155,7 @@ namespace Tests
 
         public bool FreezeTimeDown()
         {
-            return false;
+            return this.GameTestInputMockedValues.FreezeTimeDown;
         }
 
         public bool Skill1DonwHold()
@@ -179,6 +179,7 @@ namespace Tests
         public float RightRotationCamera;
         public float CameraZoomDelta;
         public bool Skill1DownHold;
+        public bool FreezeTimeDown;
 
         public GameTestInputMockedValues()
         {
@@ -198,6 +199,7 @@ namespace Tests
             this.RightRotationCamera = 0f;
             this.CameraZoomDelta = 0f;
             this.Skill1DownHold = false;
+            this.FreezeTimeDown = false;
         }
     }
 }

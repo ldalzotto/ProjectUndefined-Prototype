@@ -101,6 +101,11 @@ namespace TimeManagement
         }
 
         #endregion
+
+        public void Reset()
+        {
+            this.TimeInputSystem.Reset();
+        }
     }
 
     class TimeFreezeSystem
@@ -171,6 +176,11 @@ namespace TimeManagement
 
                 this.HasBeenUpdatedThisFrame = true;
             }
+        }
+
+        public void Reset()
+        {
+            this.TimeSlowTriggerValue.SetValue(false);
         }
 
         #region Logical Conditions

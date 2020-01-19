@@ -13,16 +13,26 @@ namespace Targetting_Test
     {
         public static void SetupInputForStoppingFiring()
         {
-            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDownHold = false;
-            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDown = false;
+            SetupInputForStopAiming();
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringPorjectileDH = false;
         }
 
         public static void SetupInputForStartingFiring()
         {
+            SetupInputForStartAiming();
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringPorjectileDH = true;
+        }
+
+        public static void SetupInputForStartAiming()
+        {
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDownHold = true;
             GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDown = true;
-            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringPorjectileDH = true;
+        }
+
+        public static void SetupInputForStopAiming()
+        {
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDownHold = false;
+            GameTestMockedInputManager.MockedInstance.GetGameTestMockedXInput().GameTestInputMockedValues.FiringActionDown = false;
         }
     }
 

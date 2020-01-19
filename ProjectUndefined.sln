@@ -125,6 +125,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor.csproj", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timelines_Editor", "Timelines_Editor.csproj", "{175A5BCB-AB0C-1015-20CB-165B53ADB036}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeManagement_Tests", "TimeManagement_Tests.csproj", "{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencedAction_Editor", "SequencedAction_Editor.csproj", "{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}"
 EndProject
 Global
@@ -381,6 +383,10 @@ Global
 		{175A5BCB-AB0C-1015-20CB-165B53ADB036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{175A5BCB-AB0C-1015-20CB-165B53ADB036}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{175A5BCB-AB0C-1015-20CB-165B53ADB036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU

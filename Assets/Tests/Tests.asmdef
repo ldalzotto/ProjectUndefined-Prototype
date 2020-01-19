@@ -21,7 +21,8 @@
         "PlayerObject_Interface",
         "InteractiveObjects",
         "RangeObjects",
-        "CameraManagement"
+        "CameraManagement",
+        "TimeManagement"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

@@ -9,6 +9,7 @@ using PlayerObject_Interfaces;
 using RangeObjects;
 using SequencedAction;
 using Tests.TestScenario;
+using TimeManagement;
 using UnityEngine;
 
 namespace Tests
@@ -109,6 +110,9 @@ namespace Tests
             ///Reset camera position
             CameraMovementJobManager.Get().SetTargetPosition(this.InitialCameraPivotPointTransform);
             CameraMovementJobManager.Get().SetCameraZoon(this.InitialCameraZoom);
+            
+            ///Reset time management
+            TimeManagementManager.Get().Reset();
         }
 
         /// <summary>

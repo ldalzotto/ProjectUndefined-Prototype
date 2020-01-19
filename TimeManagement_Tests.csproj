@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B0A26EA7-AAD9-13B2-487E-C8EB83C405B2}</ProjectGuid>
+    <ProjectGuid>{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Targetting_Tests</AssemblyName>
+    <AssemblyName>TimeManagement_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -58,18 +58,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\EnsureTargetLockAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\MoveTargetCursorSmoothScreenPosition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\MoveTargetCursorToInteractiveObjectAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\StartAimingAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\ScenarioActions\TargetAndFireToInteractiveObjectAction.cs" />
-     <Compile Include="Assets\Undefined\Logic\Targetting\Targetting_Test\TargettingFunctionalityScenario\TargettingFunctionalityTestScenario.cs" />
-     <None Include="Assets\Undefined\Logic\Targetting\Targetting_Test\Targetting_Test.asmdef" />
+     <Compile Include="Assets\Common\TimeManagement\TimeManagement_Tests\SequencedAction\TimeFreezePressedAction.cs" />
+     <None Include="Assets\Common\TimeManagement\TimeManagement_Tests\TimeManagement_Tests.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -265,6 +266,9 @@
  </Reference>
  <Reference Include="ICSharpCode.NRefactory">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.7/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -626,69 +630,17 @@
       <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
       <Name>SequencedAction</Name>
     </ProjectReference>
-    <ProjectReference Include="Targetting.csproj">
-      <Project>{D821AE8B-5B34-3933-C79B-A2355D29C0BF}</Project>
-      <Name>Targetting</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerAim.csproj">
-      <Project>{B17F007E-B70A-1020-D1D7-7A5C26AC227C}</Project>
-      <Name>PlayerAim</Name>
-    </ProjectReference>
-    <ProjectReference Include="Tests.csproj">
-      <Project>{CC59B679-8993-C709-3D98-06EE2F965358}</Project>
-      <Name>Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
-      <Name>OdinSerializer</Name>
+    <ProjectReference Include="CoreGame.csproj">
+      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
+      <Name>CoreGame</Name>
     </ProjectReference>
     <ProjectReference Include="Input.csproj">
       <Project>{E9586FA3-31EC-F553-839D-6472FEC15A78}</Project>
       <Name>Input</Name>
     </ProjectReference>
-    <ProjectReference Include="CoreGame.csproj">
-      <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
-      <Name>CoreGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjectAction.csproj">
-      <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
-      <Name>InteractiveObjectAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
-      <Name>InteractiveObjects</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
-      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
-      <Name>InteractiveObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="Weapon.csproj">
-      <Project>{B81BE516-EF6F-CD66-8504-0E3FF07C722C}</Project>
-      <Name>Weapon</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerObject.csproj">
-      <Project>{4A1AF97E-C13C-AEF6-4A41-70A6A9F87357}</Project>
-      <Name>PlayerObject</Name>
-    </ProjectReference>
-    <ProjectReference Include="ProjectileDeflection.csproj">
-      <Project>{FBA1BF9F-ABFC-8354-A05A-9CD78C20D25C}</Project>
-      <Name>ProjectileDeflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerObject_Interface.csproj">
-      <Project>{7578CDAD-77E5-B841-E190-E75BDDA65033}</Project>
-      <Name>PlayerObject_Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="PlayerLowHealth_Interfaces.csproj">
-      <Project>{897115E3-4EFC-FFAB-2519-685B5FFEC02D}</Project>
-      <Name>PlayerLowHealth_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="Skill_Interfaces.csproj">
-      <Project>{88BFB236-028E-20CE-0125-15BC6B0E3B76}</Project>
-      <Name>Skill_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="TimeManagement_Tests.csproj">
-      <Project>{F8EDCE13-DFA7-0C3F-54A4-14DD79CA77C3}</Project>
-      <Name>TimeManagement_Tests</Name>
+    <ProjectReference Include="Tests.csproj">
+      <Project>{CC59B679-8993-C709-3D98-06EE2F965358}</Project>
+      <Name>Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

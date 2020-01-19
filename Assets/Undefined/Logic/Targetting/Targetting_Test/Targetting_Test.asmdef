@@ -16,7 +16,8 @@
         "ProjectileDeflection",
         "PlayerObject_Interface",
         "PlayerLowHealth_Interfaces",
-        "Skill_Interfaces"
+        "Skill_Interfaces",
+        "TimeManagement_Tests"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

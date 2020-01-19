@@ -684,6 +684,10 @@
       <Project>{7E99B70D-57F7-0D6B-3D29-B5FCCEB20C49}</Project>
       <Name>CameraManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="TimeManagement.csproj">
+      <Project>{2451A9B5-AAEF-3AE7-5873-F9A5616CEF47}</Project>
+      <Name>TimeManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
