@@ -41,6 +41,7 @@ namespace InteractiveObjects
 
             this.AnimationController = new AnimationController(InteractiveGameObject.Agent, this.AnimatorPlayable, InteractiveGameObject.PhysicsRigidbody, this.OnRootMotionEnabled, this.OnRootMotionDisabled);
 
+
             this.Init();
             this.InteractiveObjectEventsManager.OnInteractiveObjectCreated(this);
         }
@@ -83,8 +84,10 @@ namespace InteractiveObjects
         public virtual void FixedTick(float d)
         {
         }
-        
-        public virtual void FixedTickTimeFrozen(float d){}
+
+        public virtual void FixedTickTimeFrozen(float d)
+        {
+        }
 
         protected void UpdateAniamtions(float d)
         {

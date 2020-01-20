@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Undefined\Logic\PlayerAim\InteractiveObjectTargettedVisualFeedback\InteractiveObjectTargettedVisualFeedbackObject.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerAim\PlayerAimRangeFeedback\Configuration\PlayerAimingRangeFeedbackConfigurationGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerAim\PlayerAimRangeFeedback\Configuration\PlayerAimingRangeVisualFeedbackConfiguration.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerAim\PlayerAimRangeFeedback\Systems\PlayerAimRangeFeedbackSystem.cs" />

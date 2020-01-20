@@ -21,6 +21,7 @@ namespace PlayerAim
         private FiringPlayerActionTargetSystem FiringPlayerActionTargetSystem;
         private PlayerObjectOrientationSystem PlayerObjectOrientationSystem;
         private ExitActionSystem ExitActionSystem;
+        private InteractiveObjectTargettedVisualFeedback InteractiveObjectTargettedVisualFeedback;
         private PlayerAimRangeFeedbackSystem _playerAimRangeFeedbackSystem;
 
         public PlayerAimingInteractiveObjectAction(ref FiringInteractiveObjectActionInput firingInteractiveObjectActionInput) :
@@ -34,6 +35,7 @@ namespace PlayerAim
             this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this._playerAimingInteractiveObjectActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
             this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringInteractiveObject as IPlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
+            this.InteractiveObjectTargettedVisualFeedback = new InteractiveObjectTargettedVisualFeedback(firingInteractiveObjectActionInput.PlayerAimingInteractiveObjectActionInherentData, _firingLockSelectionSystem, Camera.main);
 
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
 
@@ -81,6 +83,8 @@ namespace PlayerAim
         {
             Profiler.BeginSample("PlayerAimingInteractiveObjectAction");
             this._firingLockSelectionSystem.Tick();
+            this.InteractiveObjectTargettedVisualFeedback.Tick(d);
+
             this.ExitActionSystem.Tick(d);
             if (!this.ExitActionSystem.ActionFinished)
             {
@@ -119,6 +123,7 @@ namespace PlayerAim
             this._firingLockSelectionSystem.Dispose();
             this.FiringPlayerActionTargetSystem.Dispose();
             this._playerAimRangeFeedbackSystem.Dispose();
+            this.InteractiveObjectTargettedVisualFeedback.Dispose();
 
             if (this.FiringInteractiveObject is IEM_IFiringAInteractiveObjectAction_EventsListener IFiringAInteractiveObjectAction_EventsListener)
             {
@@ -297,6 +302,54 @@ namespace PlayerAim
             var rotationAngle = Quaternion.LookRotation(playerNormalProjectedOrientedDirection,
                 playerTransform.up).eulerAngles;
             this.PlayerInteractiveObjectRef.SetConstraintForThisFrame(new LookDirectionConstraint(Quaternion.Euler(new Vector3(playerTransform.eulerAngles.x, rotationAngle.y, playerTransform.eulerAngles.z))));
+        }
+    }
+
+    struct InteractiveObjectTargettedVisualFeedback
+    {
+        private InteractiveObjectTargettedVisualFeedbackObject InteractiveObjectTargettedVisualFeedbackObject;
+        private FiringLockSelectionSystem FiringLockSelectionSystemRef;
+        private Camera mainCamera;
+
+        public InteractiveObjectTargettedVisualFeedback(PlayerAimingInteractiveObjectActionInherentData PlayerAimingInteractiveObjectActionInherentData,
+            FiringLockSelectionSystem FiringLockSelectionSystemRef, Camera mainCamera)
+        {
+            this.FiringLockSelectionSystemRef = FiringLockSelectionSystemRef;
+            this.InteractiveObjectTargettedVisualFeedbackObject = new InteractiveObjectTargettedVisualFeedbackObject(
+                new InteractiveObjectTargettedVisualFeedbackGameObject(null, PlayerAimingInteractiveObjectActionInherentData.InteractiveObjectTargettedVisualFeedbackPrefab),
+                new InteractiveObjectTargettedVisualFeedbackObjectDefinition(PlayerAimingInteractiveObjectActionInherentData.InteractiveObjectTargettedVisualFeedbackAnimation));
+            this.mainCamera = mainCamera;
+            this.Tick(0f);
+        }
+
+        /// <summary>
+        /// /!\ <see cref="InteractiveObjectTargettedVisualFeedback"/> must absolutely be updated after <see cref="FiringLockSelectionSystem"/> because the update of <see cref="FiringLockSelectionSystem"/> may change the result
+        /// of <see cref="FiringLockSelectionSystem.GetCurrentlyTargettedInteractiveObject"/> (see <see cref="FiringLockSelectionSystem.Tick"/>)
+        /// </summary>
+        public void Tick(float d)
+        {
+            var currentlyTargettedInteractiveObject = this.FiringLockSelectionSystemRef.GetCurrentlyTargettedInteractiveObject();
+            if (currentlyTargettedInteractiveObject == null)
+            {
+                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(999999f, 9999999f, 99999999f));
+            }
+            else
+            {
+                var objTransform = currentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform();
+
+                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(objTransform.WorldPosition.x, currentlyTargettedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().max.y, objTransform.WorldPosition.z));
+                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldRotation(Quaternion.LookRotation(this.mainCamera.transform.position - currentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition));
+            }
+            
+            this.InteractiveObjectTargettedVisualFeedbackObject.Tick(d);
+        }
+
+        public void Dispose()
+        {
+            if (this.InteractiveObjectTargettedVisualFeedbackObject != null)
+            {
+                this.InteractiveObjectTargettedVisualFeedbackObject.Destroy();
+            }
         }
     }
 

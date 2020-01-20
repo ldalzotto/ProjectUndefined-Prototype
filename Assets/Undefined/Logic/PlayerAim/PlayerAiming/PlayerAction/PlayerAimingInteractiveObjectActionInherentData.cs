@@ -21,6 +21,11 @@ namespace PlayerAim
 
         [Inline] public A_AnimationPlayableDefinition FiringPoseAnimationV2;
 
+        public GameObject InteractiveObjectTargettedVisualFeedbackPrefab;
+
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public A_AnimationPlayableDefinition InteractiveObjectTargettedVisualFeedbackAnimation;
+
         public override string InteractiveObjectActionUniqueID
         {
             get { return PlayerAimingInteractiveObjectAction.PlayerAimingInteractiveObjectActionUniqueID; }
