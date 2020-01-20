@@ -48,6 +48,7 @@ namespace PlayerObject
         public ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData;
 
         [Inline()] public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData;
+        [Inline()] public InteractiveObjectActionInherentData PlayerDashTeleportationDirectionActioNDefinition;
 
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public PlayerVisualEffectSystemDefinition PlayerVisualEffectSystemDefinition;

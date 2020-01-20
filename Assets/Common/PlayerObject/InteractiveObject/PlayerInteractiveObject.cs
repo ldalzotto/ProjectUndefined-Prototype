@@ -72,6 +72,7 @@ namespace PlayerObject
             this.SkillSystem = new SkillSystem(this, this.InteractiveObjectActionPlayerSystem);
             this.SkillSystem.SetPlayerActionToMainWeaponSkill(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
             this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.DeflectingProjectileInteractiveObjectActionInherentData, 0);
+            this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.PlayerDashTeleportationDirectionActioNDefinition, 1);
 
             this.PlayerObjectInteractiveObjectActionStateManager =
                 new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem,

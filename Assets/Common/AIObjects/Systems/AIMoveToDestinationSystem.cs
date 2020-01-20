@@ -19,7 +19,7 @@ namespace AIObjects
     /// The goal of this system is to set ONLY position and rotation of the <see cref="objectAgent"/>.
     /// Speed is not handled here.
     /// </summary>
-    public class AIMoveToDestinationSystem 
+    public class AIMoveToDestinationSystem
     {
         private NavMeshAgent objectAgent;
         private TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3;
@@ -264,7 +264,7 @@ namespace AIObjects
 
         private NavMeshAgent objectAgent;
         private Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager;
-        
+
         public AIPositionMoveManager(NavMeshAgent objectAgent, Func<Quaternion> CurrentLookingTargetRotationFromAIRotationMoveManager, TransformMoveManagerComponentV3 AITransformMoveManagerComponentV3)
         {
             this.objectAgent = objectAgent;
@@ -296,5 +296,4 @@ namespace AIObjects
             }
         }
     }
-
 }

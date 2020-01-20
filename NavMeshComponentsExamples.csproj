@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A580E245-1026-BF95-7905-7D4E919E27F6}</ProjectGuid>
+    <ProjectGuid>{37191D6C-8632-2EFC-37C8-C88C8718505D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>CoreGame</AssemblyName>
+    <AssemblyName>NavMeshComponentsExamples</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -29,7 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -39,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -58,127 +58,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\~CoreGame\Behavior\StateBehavior.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Configuration\GameConfiguration.cs" />
-     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForEndOfAnimation.cs" />
-     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForListOfAsyncOperation.cs" />
-     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForNavAgentDestinationReached.cs" />
-     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForParticlesToNotEmit.cs" />
-     <Compile Include="Assets\Common\~CoreGame\CustomYields\WaitForTransformPositionReached.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Debug\Scripts\FPSDisplay.cs" />
-     <Compile Include="Assets\Common\~CoreGame\EnumDependantProperty\ByEnumProperty.cs" />
-     <Compile Include="Assets\Common\~CoreGame\EventVariables\BoolVariable.cs" />
-     <Compile Include="Assets\Common\~CoreGame\EventVariables\EnumVariable.cs" />
-     <Compile Include="Assets\Common\~CoreGame\EventVariables\FloatVariable.cs" />
-     <Compile Include="Assets\Common\~CoreGame\EventVariables\ObjectVariable.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Extensions\BoundsExtensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Extensions\QuaternionExtensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Extensions\Vector3Extensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Log\MyLog.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Math\Types\Segment.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Math\Types\StartEndSlice.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Math\float3SmoothDamp.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Math\float4x4Extensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Constants\LayerConstants.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Constants\NavMeshConstants.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Constants\StringConstants.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Constants\TagConstants.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\BoundsHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\BufferedDictionary.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\ComponentSearchExtensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\ComponentSearchHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\ComputeBufferHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\DynamicComputeBufferManager.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\FunctionalExtensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\GizmoHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\MultiValueDictionary.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\MyEditorStyles.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\ProceduralTextureHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\QuaterionHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\RandomHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\RendererRetrievableHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\SceneLoadingHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\SerializationHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\StructHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\TransformChangeListener.cs" />
-     <Compile Include="Assets\Common\~CoreGame\_Helpers\TransformExtensions.cs" />
-     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Coroutiner.cs" />
-     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\GameLogHandler.cs" />
-     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Persistance\GameManagerPersistanceInstance.cs" />
-     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Singleton\CoreGameSingletonInstances.cs" />
-     <Compile Include="Assets\Common\~CoreGame\__Game\Scripts\Singleton\GameSingleton.cs" />
-     <Compile Include="Assets\Test\BoxCastTest\BoxCastTest.cs" />
-     <Compile Include="Assets\Test\CameraPanningTest\CameraPanningTest.cs" />
-     <Compile Include="Assets\Test\CubeTriggerEnterLog.cs" />
-     <Compile Include="Assets\Test\InputOldNewCursorPositionTest\StructConv.cs" />
-     <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
-     <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
-     <Compile Include="Assets\Test\PlayableGraphConnectionTest\PlayableGraphConnectionTest.cs" />
-     <Compile Include="Assets\Test\UnsafeTest\UnsafeTest.cs" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonLibrary\ToonSpecular.hlsl" />
-     <None Include="Assets\_Shader\Noise\noiseSimplex.cginc" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonMetaPass.hlsl" />
-     <None Include="Assets\_Shader\UI\Selection\SelectedWithMaskShader.shader" />
-     <None Include="Assets\_Shader\WaveNoiseV2\WaveNoiseV2Include.cginc" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonForwardPass.hlsl" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonLibrary\ToonRim.hlsl" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonLightning.hlsl" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
-     <None Include="Assets\CoreGame.asmdef" />
-     <None Include="Assets\_Shader\FX\Smoke\SmokeShaderParticles.shader" />
-     <None Include="Assets\Test\AnimationTest 1\MySimpleLitTest\MySimpleLit.shader" />
-     <None Include="Assets\Test\AnimationTest 1\MySimpleLitTest\MySimpleLitInput.hlsl" />
-     <None Include="Assets\Test\AnimationTest 1\ViewDirectionWorldSpaceShader.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
-     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonLibrary\ToonToBuiltinUnity.hlsl" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
-     <None Include="Assets\NavMeshComponents-2019.3\ProjectSettings\ProjectVersion.txt" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\_Shader\WaveNoiseV2\WaveNoiseV2VertexDisplacement.cginc" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonLibrary\ToonEmission.hlsl" />
-     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-     <None Include="Assets\Test\AnimationTest 1\MySimpleLitTest\MyLighting.hlsl" />
-     <None Include="Assets\_Shader\Wave\WaveMovementV2.cginc" />
-     <None Include="Assets\_Shader\FX\Range\InsideRange\InsideRangeShader.shader" />
-     <None Include="Assets\_Shader\WaveNoiseV2\WaveNoiseV2_Transparent.shader" />
-     <None Include="Assets\_Shader\ImageBlitShader\AddBlitShader.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
-     <None Include="Assets\_Shader\WaveNoiseV2\WaveNoiseV2.shader" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonLibrary\ToonDiffuse.hlsl" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\Test\AnimationTest 1\MySimpleLitTest\MySimpleLitForwardPass.hlsl" />
-     <None Include="Assets\_Shader\WaterV2\WaterWaveMovement.cginc" />
-     <None Include="Assets\_Shader\UI\Selection\NotSelectedWithMaskShader.shader" />
-     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonShader.shader" />
-     <None Include="Assets\_Shader\ToonUnlit\ToonInput.hlsl" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
- <Reference Include="Unity.InputSystem">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Mathematics">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Universal.Runtime">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Burst">
- <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\AgentLinkMover.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\ClickToMove.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\DestroyOnTrigger.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\DungeonManager.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\EnableIffSleeping.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\FreeCam.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\LocalNavMeshBuilder.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\MeshTool.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\NavMeshPrefabInstance.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\NavMeshSourceTag.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\Oscillator.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\RandomInstancing.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\RandomWalk.cs" />
+     <Compile Include="Assets\NavMeshComponents-2019.3\Assets\Examples\Scripts\SpawnPrefabOnKeyDown.cs" />
+     <None Include="Assets\NavMeshComponents-2019.3\Assets\Examples\NavMeshComponentsExamples.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -736,17 +630,9 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Editor_Common.csproj">
-      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
-      <Name>Editor_Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
-      <Name>OdinSerializer</Name>
-    </ProjectReference>
-    <ProjectReference Include="SequencedAction.csproj">
-      <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
-      <Name>SequencedAction</Name>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{36BB46A7-67C9-512E-1D9E-1AA716CBC837}</Project>
+      <Name>NavMeshComponents</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

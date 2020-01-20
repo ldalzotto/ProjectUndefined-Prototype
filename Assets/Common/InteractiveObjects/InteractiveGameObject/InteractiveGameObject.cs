@@ -78,6 +78,7 @@ namespace InteractiveObjects
             if (Agent == null)
             {
                 Agent = InteractiveGameObjectParent.AddComponent<NavMeshAgent>();
+                Agent.areaMask = 1 << NavMesh.GetAreaFromName(NavMeshConstants.WALKABLE_LAYER);
                 Agent.stoppingDistance = AIAgentDefinition.AgentStoppingDistance;
                 Agent.radius = AIAgentDefinition.AgentRadius;
                 Agent.height = AIAgentDefinition.AgentHeight;
