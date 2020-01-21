@@ -1,6 +1,7 @@
 ﻿using CoreGame;
 using InteractiveObjectAction;
 using PlayerAim;
+using PlayerDash;
 using PlayerObject;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace InputDynamicTextMenu
         private TimeStopModule TimeStopModule;
         private FiringModeEnterTextModule FiringModeEnterTextModule;
         private OnTargettingTextModule OnTargettingTextModule;
+        private CancelActionTextModule CancelActionTextModule;
 
         public InputDynamicTextMenuManager()
         {
@@ -30,6 +32,8 @@ namespace InputDynamicTextMenu
             this.FiringModeEnterTextModule = new FiringModeEnterTextModule(containerRectTransform);
             this.OnTargettingTextModule = new OnTargettingTextModule(containerRectTransform);
             this.OnTargettingTextModule.Disable();
+            this.CancelActionTextModule = new CancelActionTextModule(containerRectTransform);
+            this.CancelActionTextModule.Disable();
         }
 
         private void RegisterEvents()
@@ -41,6 +45,12 @@ namespace InputDynamicTextMenu
                 IPlayerFiringRegisteringEventsExposedMethod.RegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
                 IPlayerFiringRegisteringEventsExposedMethod.RegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
             }
+
+            if (PlayerInteractiveObject is IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod)
+            {
+                IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod.RegisterOnPlayerDashDirectionActionStartedEvent(this.OnPlayerDashDirectionActionStarted);
+                IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod.RegisterOnPlayerDashDirectionActionEndedEvent(this.OnPlayerDashDirectionActionEnded);
+            }
         }
 
         private void UnRegisterEvents()
@@ -51,6 +61,12 @@ namespace InputDynamicTextMenu
             {
                 IPlayerFiringRegisteringEventsExposedMethod.UnRegisterOnPlayerStartTargettingEvent(this.OnPlayerStartTargetting);
                 IPlayerFiringRegisteringEventsExposedMethod.UnRegisterOnPlayerStoppedTargettingEvent(this.OnPlayerStoppedTargetting);
+            }
+
+            if (PlayerInteractiveObject is IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod)
+            {
+                IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod.UnRegisterOnPlayerDashDirectionActionStartedEvent(this.OnPlayerDashDirectionActionStarted);
+                IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod.UnRegisterOnPlayerDashDirectionActionEndedEvent(this.OnPlayerDashDirectionActionEnded);
             }
         }
 
@@ -70,6 +86,16 @@ namespace InputDynamicTextMenu
         private void OnPlayerStoppedTargetting(InteractiveObjectActionInherentData interactiveObjectActionInherentData)
         {
             this.OnTargettingTextModule.Disable();
+        }
+
+        private void OnPlayerDashDirectionActionStarted()
+        {
+            this.CancelActionTextModule.Enable();
+        }
+
+        private void OnPlayerDashDirectionActionEnded()
+        {
+            this.CancelActionTextModule.Disable();
         }
     }
 }

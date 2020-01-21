@@ -16,16 +16,20 @@ namespace PlayerObject
         private GameInputManager GameInputManager = GameInputManager.Get();
         private PlayerDashActionStateBehavior PlayerDashActionStateBehavior;
 
+        private PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks;
+
         public PlayerDashDirectionActionStateManager(
             PlayerDashActionStateBehavior PlayerDashActionStateBehavior,
             InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem,
             PlayerDashActionStateBehaviorInputDataSystemDefinition playerDashActionStateBehaviorInputDataSystemDefinitionRef,
-            ref PlayerDashTargetPositionTrackerSystem PlayerDashTargetPositionTrackerSystemRef)
+            ref PlayerDashTargetPositionTrackerSystem PlayerDashTargetPositionTrackerSystemRef, 
+            PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks)
         {
             this.PlayerDashActionStateBehavior = PlayerDashActionStateBehavior;
             InteractiveObjectActionPlayerSystem = interactiveObjectActionPlayerSystem;
             this._playerDashActionStateBehaviorInputDataSystemDefinitionRef = playerDashActionStateBehaviorInputDataSystemDefinitionRef;
             this.PlayerDashTargetPositionTrackerSystemRef = PlayerDashTargetPositionTrackerSystemRef;
+            this.PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks = PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks;
         }
 
         /// <summary>
@@ -36,6 +40,7 @@ namespace PlayerObject
             base.OnStateEnter();
             this.InteractiveObjectActionPlayerSystem.ExecuteActionV2(this._playerDashActionStateBehaviorInputDataSystemDefinitionRef.DashTeleportationDirectionActionDefinition);
             this.Tick(0f);
+            this.PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks.OnPlayerDashDirectionActionStarted.Invoke();
         }
 
         /// <summary>
@@ -46,7 +51,8 @@ namespace PlayerObject
         {
             base.OnStateExit();
             this.Tick(0f);
-            this.InteractiveObjectActionPlayerSystem.StopAction(DashTeleportationDirectionAction.DashTeleportationDirectionActionUniqueID);
+            this.InteractiveObjectActionPlayerSystem.StopAction(PlayerDashDirectionAction.DashTeleportationDirectionActionUniqueID);
+            this.PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks.OnPlayerDashDirectionActionEnded.Invoke();
         }
 
         public override void Tick(float d)
@@ -59,7 +65,7 @@ namespace PlayerObject
             }
             else
             {
-                if (this.InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(DashTeleportationDirectionAction.DashTeleportationDirectionActionUniqueID) is DashTeleportationDirectionAction dashTeleportationDirectionAction)
+                if (this.InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(PlayerDashDirectionAction.DashTeleportationDirectionActionUniqueID) is PlayerDashDirectionAction dashTeleportationDirectionAction)
                 {
                     this.PlayerDashTargetPositionTrackerSystemRef.PlayerDashTargetWorldPosition = dashTeleportationDirectionAction.GetTargetWorldPosition();
                 }

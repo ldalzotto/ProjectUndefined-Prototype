@@ -76,10 +76,14 @@ namespace PlayerObject
             this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.PlayerDashTeleportationActionDefinition, 1);
 
             this.PlayerObjectInteractiveObjectActionStateManager =
-            new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem,
-                this.SkillSystem,
-                PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData,
-                PlayerInteractiveObjectDefinition.PlayerDashActionStateBehaviorInputDataSystemDefinition);
+                new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem,
+                    this.SkillSystem,
+                    PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData,
+                    PlayerInteractiveObjectDefinition.PlayerDashActionStateBehaviorInputDataSystemDefinition,
+                    new PlayerObjectInteractiveObjectActionStateManagerCallbacks(
+                        onPlayerDashDirectionActionStarted: this.OnPlayerDashDirectionActionStarted,
+                        onPlayerDashDirectionActionEnded: this.OnPlayerDashDirectionActionEnded
+                    ));
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
@@ -101,7 +105,7 @@ namespace PlayerObject
             /// It is disabled by default.
             this.InteractiveGameObject.Agent.enabled = false;
 
-            interactiveObjectTag = new InteractiveObjectTag { IsPlayer = true, IsTakingDamage = true };
+            interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true, IsTakingDamage = true};
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
 
@@ -455,7 +459,7 @@ namespace PlayerObject
         }
     }
 
-    public partial class PlayerInteractiveObject : IEM_PlayerDashAction, IEM_DashTeleportationDirectionAction_DataRetriever
+    public partial class PlayerInteractiveObject : IEM_PlayerDashAction, IEM_DashTeleportationDirectionAction_DataRetriever, IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod
     {
         public bool TryingToExecuteDashTeleportationAction()
         {
@@ -465,6 +469,39 @@ namespace PlayerObject
         public Vector3? GetTargetWorldPosition()
         {
             return this.PlayerObjectInteractiveObjectActionStateManager.GetPlayerDash_TargetPointWorldPosition();
+        }
+
+        private void OnPlayerDashDirectionActionStarted()
+        {
+            this.PlayerDashDirectionActionStartedEvent?.Invoke();
+        }
+
+        private void OnPlayerDashDirectionActionEnded()
+        {
+            this.PlayerDashDirectionActionEndedEvent?.Invoke();
+        }
+
+        private event Action PlayerDashDirectionActionStartedEvent;
+        private event Action PlayerDashDirectionActionEndedEvent;
+
+        public void RegisterOnPlayerDashDirectionActionStartedEvent(Action action)
+        {
+            this.PlayerDashDirectionActionStartedEvent += action;
+        }
+
+        public void UnRegisterOnPlayerDashDirectionActionStartedEvent(Action action)
+        {
+            this.PlayerDashDirectionActionStartedEvent -= action;
+        }
+
+        public void RegisterOnPlayerDashDirectionActionEndedEvent(Action action)
+        {
+            this.PlayerDashDirectionActionEndedEvent += action;
+        }
+
+        public void UnRegisterOnPlayerDashDirectionActionEndedEvent(Action action)
+        {
+            this.PlayerDashDirectionActionEndedEvent += action;
         }
     }
 

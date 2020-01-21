@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -63,95 +68,95 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\AssemblyInfo.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Camera\CameraSwitcher.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Camera\FreeCamera.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\CommandBufferPool.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\CommonStructs.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\ComponentSingleton.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\CoreUnsafeUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\DynamicArray.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\DynamicResolutionHandler.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\GlobalDynamicResolutionSettings.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\ObjectPools.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\ObservableList.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\SerializedDictionary.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\XRGraphics.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugManager.Actions.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugShapes.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.Containers.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.Fields.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.Panel.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUpdater.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\MousePositionDebug.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerBitField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerButton.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerCanvas.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerColor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerContainer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerEnumField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerEnumHistory.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerFloatField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerFoldout.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerGroup.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerHBox.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerIndirectFloatField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerIndirectToggle.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerIntField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerPanel.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerPersistentCanvas.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerToggle.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerToggleHistory.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerUIntField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVBox.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerValue.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVector2.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVector3.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVector4.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerWidget.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\UIFoldout.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\ProfilingSample.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Documentation.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Inputs\InputRegistering.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\LookDev\IDataProvider.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraph.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphBuilder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphLogger.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphObjectPool.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphResource.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphResourceRegistry.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RendererList\RendererList.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\ShaderGenerator\ShaderGeneratorAttributes.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\BufferedRTHandleSystem.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\DepthBits.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\MSAASamples.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\RTHandle.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\RTHandleSystem.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\RTHandles.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\TextureXR.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\BitArray.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\CameraCaptureBridge.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\ColorUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\CoreRenderPipelinePreferences.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\CoreUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\DelegateUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\HableCurve.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\HaltonSequence.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\MaterialQuality.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\ResourceReloader.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\SceneRenderPipeline.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\TextureCurve.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\TileLayoutUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\XRUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\Volume.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeComponent.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeParameter.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeProfile.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeStack.cs" />
-    <None Include="Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Unity.RenderPipelines.Core.Runtime.asmdef" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\AssemblyInfo.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Camera\CameraSwitcher.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Camera\FreeCamera.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\CommandBufferPool.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\CommonStructs.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\ComponentSingleton.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\CoreUnsafeUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\DynamicArray.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\DynamicResolutionHandler.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\GlobalDynamicResolutionSettings.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\ObjectPools.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\ObservableList.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\SerializedDictionary.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Common\XRGraphics.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugManager.Actions.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugManager.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugShapes.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.Containers.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.Fields.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.Panel.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUI.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\DebugUpdater.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\MousePositionDebug.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerBitField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerButton.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerCanvas.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerColor.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerContainer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerEnumField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerEnumHistory.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerFloatField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerFoldout.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerGroup.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerHBox.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerIndirectFloatField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerIndirectToggle.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerIntField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerPanel.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerPersistentCanvas.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerToggle.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerToggleHistory.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerUIntField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVBox.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerValue.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVector2.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVector3.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerVector4.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\DebugUIHandlerWidget.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\Prefabs\Scripts\UIFoldout.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Debugging\ProfilingSample.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Documentation.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Inputs\InputRegistering.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\LookDev\IDataProvider.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraph.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphBuilder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphLogger.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphObjectPool.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphResource.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RenderGraph\RenderGraphResourceRegistry.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\RendererList\RendererList.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\ShaderGenerator\ShaderGeneratorAttributes.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\BufferedRTHandleSystem.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\DepthBits.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\MSAASamples.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\RTHandle.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\RTHandleSystem.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\RTHandles.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Textures\TextureXR.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\BitArray.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\CameraCaptureBridge.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\ColorUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\CoreRenderPipelinePreferences.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\CoreUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\DelegateUtility.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\HableCurve.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\HaltonSequence.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\MaterialQuality.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\ResourceReloader.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\SceneRenderPipeline.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\TextureCurve.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\TileLayoutUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Utilities\XRUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\Volume.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeComponent.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeManager.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeParameter.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeProfile.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Volume\VolumeStack.cs" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.core@7.1.7\Runtime\Unity.RenderPipelines.Core.Runtime.asmdef" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
@@ -338,6 +343,9 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
@@ -346,9 +354,6 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.7/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

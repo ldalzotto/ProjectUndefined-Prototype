@@ -5,34 +5,36 @@ using OdinSerializer;
 
 namespace PlayerDash
 {
-    public struct DashTeleportationDirectionActionDefinitionInput : IInteractiveObjectActionInput
+    public struct PlayerDashDirectionActionDefinitionInput : IInteractiveObjectActionInput
     {
         public CoreInteractiveObject AssociatedInteractiveObject;
 
-        public DashTeleportationDirectionActionDefinitionInput(CoreInteractiveObject associatedInteractiveObject)
+        public PlayerDashDirectionActionDefinitionInput(CoreInteractiveObject associatedInteractiveObject)
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
         }
     }
 
+    [SceneHandleDraw]
     [Serializable]
-    public class DashTeleportationDirectionActionDefinition : InteractiveObjectActionInherentData
+    public class PlayerDashTeleportationDirectionActionDefinition : InteractiveObjectActionInherentData
     {
         public override string InteractiveObjectActionUniqueID
         {
-            get { return DashTeleportationDirectionAction.DashTeleportationDirectionActionUniqueID; }
+            get { return PlayerDashDirectionAction.DashTeleportationDirectionActionUniqueID; }
         }
 
         /// <summary>
         /// The initial max distance from which the player is allowed to dash.
         /// </summary>
+        [WireCircle()]
         public float MaxDashDistance;
 
         public override AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput)
         {
-            if (interactiveObjectActionInput is DashTeleportationDirectionActionDefinitionInput DashTeleportationDirectionActionDefinitionInput)
+            if (interactiveObjectActionInput is PlayerDashDirectionActionDefinitionInput DashTeleportationDirectionActionDefinitionInput)
             {
-                return new DashTeleportationDirectionAction(DashTeleportationDirectionActionDefinitionInput.AssociatedInteractiveObject,
+                return new PlayerDashDirectionAction(DashTeleportationDirectionActionDefinitionInput.AssociatedInteractiveObject,
                     this, this.coreInteractiveObjectActionDefinition);
             }
 
@@ -41,7 +43,7 @@ namespace PlayerDash
 
         public override IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
         {
-            return new DashTeleportationDirectionActionDefinitionInput(AssociatedInteractiveObject);
+            return new PlayerDashDirectionActionDefinitionInput(AssociatedInteractiveObject);
         }
     }
 }

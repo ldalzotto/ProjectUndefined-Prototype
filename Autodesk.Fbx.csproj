@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -63,119 +68,119 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\EFbxType.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAMatrix.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurve.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveBase.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveDef.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveFilterUnroll.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveNode.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimLayer.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimStack.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAxisSystem.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBindingTable.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBindingTableBase.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBindingTableEntry.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBlendShape.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBlendShapeChannel.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxCamera.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxCluster.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxCollection.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConnection.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraint.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintAim.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintParent.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintPosition.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintRotation.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintScale.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDataType.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDeformer.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDocument.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDocumentInfo.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDouble4x4.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDoubleTemplates.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxEmitter.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxEntryView.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxEuler.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxExporter.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxFileTexture.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxGeometry.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxGeometryBase.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxGlobalSettings.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOBase.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOFileHeaderInfo.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOPluginRegistry.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOSettings.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxImplementation.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxImporter.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayer.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerContainer.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElement.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArray.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxColor.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxSurfaceMaterial.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxVector2.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxVector4.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateInt.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementBinormal.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementMaterial.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementNormal.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTangent.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxColor.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxSurfaceMaterial.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxVector2.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxVector4.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementUV.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementVertexColor.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLight.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxManager.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxMarker.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxMatrix.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxMesh.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxNode.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxNodeAttribute.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxNull.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxObject.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPose.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxProperty.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyBool.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyDouble.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyDouble3.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEAreaLightShape.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEBlendMode.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEDecayType.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEGateFit.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEInheritType.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyELightType.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEProjectionType.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEWrapMode.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEntryView.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyFlags.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyFloat.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyInt.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyMarkerELook.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyNullELook.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyString.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxQuaternion.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxScene.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSemanticEntryView.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxShape.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSharpProgressCallback.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSkeleton.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSkin.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxStatus.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSubDeformer.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSurfaceLambert.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSurfaceMaterial.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSurfacePhong.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSystemUnit.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTexture.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTime.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTimeSpan.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTransform.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\Globals.cs" />
-    <Compile Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\NativeMethods.cs" />
-    <None Include="Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Autodesk.Fbx.asmdef" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\EFbxType.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAMatrix.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurve.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveBase.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveDef.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveFilterUnroll.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimCurveNode.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimLayer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAnimStack.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxAxisSystem.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBindingTable.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBindingTableBase.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBindingTableEntry.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBlendShape.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxBlendShapeChannel.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxCamera.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxCluster.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxCollection.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConnection.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraint.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintAim.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintParent.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintPosition.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintRotation.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxConstraintScale.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDataType.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDeformer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDocument.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDocumentInfo.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDouble4x4.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxDoubleTemplates.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxEmitter.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxEntryView.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxEuler.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxExporter.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxFileTexture.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxGeometry.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxGeometryBase.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxGlobalSettings.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOBase.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOFileHeaderInfo.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOPluginRegistry.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxIOSettings.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxImplementation.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxImporter.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerContainer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElement.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArray.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxColor.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxSurfaceMaterial.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxVector2.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateFbxVector4.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementArrayTemplateInt.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementBinormal.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementMaterial.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementNormal.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTangent.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxColor.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxSurfaceMaterial.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxVector2.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementTemplateFbxVector4.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementUV.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLayerElementVertexColor.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxLight.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxManager.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxMarker.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxMatrix.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxMesh.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxNode.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxNodeAttribute.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxNull.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxObject.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPose.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxProperty.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyBool.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyDouble.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyDouble3.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEAreaLightShape.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEBlendMode.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEDecayType.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEGateFit.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEInheritType.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyELightType.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEProjectionType.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEWrapMode.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyEntryView.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyFlags.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyFloat.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyInt.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyMarkerELook.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyNullELook.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxPropertyString.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxQuaternion.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxScene.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSemanticEntryView.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxShape.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSharpProgressCallback.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSkeleton.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSkin.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxStatus.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSubDeformer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSurfaceLambert.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSurfaceMaterial.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSurfacePhong.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxSystemUnit.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTexture.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTime.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTimeSpan.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\FbxTransform.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\Globals.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Scripts\NativeMethods.cs" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.autodesk.fbx@2.0.1-preview.1\Runtime\Autodesk.Fbx.asmdef" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
@@ -362,6 +367,9 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
@@ -370,9 +378,6 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.7/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>

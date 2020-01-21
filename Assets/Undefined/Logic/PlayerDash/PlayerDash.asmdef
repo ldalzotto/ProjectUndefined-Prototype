@@ -6,7 +6,8 @@
         "InteractiveObjectAction",
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
-        "Targetting"
+        "Targetting",
+        "Editor_Common"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

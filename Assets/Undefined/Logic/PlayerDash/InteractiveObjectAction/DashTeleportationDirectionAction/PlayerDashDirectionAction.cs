@@ -8,19 +8,19 @@ using UnityEngine.AI;
 namespace PlayerDash
 {
     /// <summary>
-    /// The <see cref="DashTeleportationDirectionAction"/> allow the Player to choose the target world position of teleportation by pointing the 
+    /// The <see cref="PlayerDashDirectionAction"/> allow the Player to choose the target world position of teleportation by pointing the 
     /// cursor towards a direction.
     /// The effective teleportation is performed by <see cref="PlayerDashAction"/>.
     /// </summary>
-    public class DashTeleportationDirectionAction : AInteractiveObjectAction
+    public class PlayerDashDirectionAction : AInteractiveObjectAction
     {
         public const string DashTeleportationDirectionActionUniqueID = "DashTeleportationDirectionAction";
 
         private DashPathCalculationSystem DashPathCalculationSystem;
         private DashPathVisualFeedbackSystem DashPathVisualFeedbackSystem;
 
-        public DashTeleportationDirectionAction(CoreInteractiveObject associatedInteractiveObject,
-            DashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition,
+        public PlayerDashDirectionAction(CoreInteractiveObject associatedInteractiveObject,
+            PlayerDashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition,
             CoreInteractiveObjectActionDefinition coreInteractiveObjectActionDefinition) : base(coreInteractiveObjectActionDefinition)
         {
             var targetCursormManagerRef = TargetCursorManager.Get();
@@ -72,13 +72,13 @@ namespace PlayerDash
     /// </summary>
     struct DashPathCalculationSystem
     {
-        private DashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition;
+        private PlayerDashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition;
         private CoreInteractiveObject AssociatedInteractiveObject;
         private TargetCursorManager TargetCursorManagerRef;
         private Camera MainCamera;
 
         public DashPathCalculationSystem(CoreInteractiveObject associatedInteractiveObject,
-            DashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition, TargetCursorManager targetCursorManagerRef, Camera mainCamera) : this()
+            PlayerDashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition, TargetCursorManager targetCursorManagerRef, Camera mainCamera) : this()
         {
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.DashTeleportationDirectionActionDefinition = DashTeleportationDirectionActionDefinition;
@@ -90,7 +90,7 @@ namespace PlayerDash
 
         /// <summary>
         /// The <see cref="DesiredEndPoint"/> is the target world position obstructed by obstacles.
-        /// It doesn't take into account contraints created by <see cref="DashTeleportationDirectionActionDefinition.MaxDashDistance"/>.
+        /// It doesn't take into account contraints created by <see cref="PlayerDashTeleportationDirectionActionDefinition.MaxDashDistance"/>.
         /// /!\ This value can be null if it's calculation <see cref="CacluateDesiredEndPoint"/> cannot calculate it.
         /// </summary>
         private Vector3? DesiredEndPoint;
@@ -138,7 +138,7 @@ namespace PlayerDash
 
         /// <summary>
         /// Calculates the <see cref="TargetWorldPosition"/>.
-        /// This calculation is done by constrainning the <see cref="DesiredEndPoint"/> by the max distance allowed by <see cref="DashTeleportationDirectionActionDefinition.MaxDashDistance"/>.
+        /// This calculation is done by constrainning the <see cref="DesiredEndPoint"/> by the max distance allowed by <see cref="PlayerDashTeleportationDirectionActionDefinition.MaxDashDistance"/>.
         /// </summary>
         private void CalculateTargetWorldPosition()
         {

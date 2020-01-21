@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -63,16 +68,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\PerformanceTestBuildAssemblyFilter.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\PerformanceTestRunSaver.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\SampleGroupAdditionalData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\SamplePoint.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\TestListTable.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\TestReportWindow.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestResultXmlParser.cs" />
-    <Compile Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestRunBuilder.cs" />
-    <None Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\TestReportShader.shader" />
-    <None Include="Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\Unity.PerformanceTesting.Editor.asmdef" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\PerformanceTestBuildAssemblyFilter.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\PerformanceTestRunSaver.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\SampleGroupAdditionalData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\SamplePoint.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\TestListTable.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\TestReportWindow.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestResultXmlParser.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestRunBuilder.cs" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\TestReportGraph\TestReportShader.shader" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.test-framework.performance@1.3.2-preview\Editor\Unity.PerformanceTesting.Editor.asmdef" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

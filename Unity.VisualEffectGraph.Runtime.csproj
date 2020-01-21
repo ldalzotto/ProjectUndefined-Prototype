@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -63,174 +68,174 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\IncrementStripIndexOnStart.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\LoopAndDelay.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\SetSpawnTime.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\SpawnOverDistance.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\PackageInfo.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXMouseEventBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXRigidBodyCollisionEventBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXTriggerEventBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXVisibilityEventBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\VFXEventBinderBase.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationBehaviour.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationClip.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationMixerBehaviour.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationTrack.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\ExposedProperty.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXAudioSpectrumBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXEnabledBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXHierarchyAttributeMapBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputAxisBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputButtonBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputKeyBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputMouseBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputTouchBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXLightBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXMultiplePositionBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXPlaneBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXPositionBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXPreviousPositionBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXRaycastBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXSphereBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXTerrainBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXTransformBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXUIDropdownBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXUISliderBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXUIToggleBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXVelocityBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXBinderAttribute.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXBinderBase.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXPropertyBinder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXPropertyBindingAttribute.cs" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXFlow.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXView-light.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXControlsLight.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXView-dark.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\Resizable.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleLinesSW.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Unity.VisualEffectGraph.Runtime.asmdef" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassBasicForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXView.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXDataAnchor.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXNode.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleSpheres\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXInit.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleMeshes.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXControls.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticlePoints.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\VFXCommon.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXComponentBoard-event.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCopyBuffer.compute" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXBlackboard.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleDecals\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleLinesHW.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleMeshes.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\VFXDefines.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticlePlanarPrimitive.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCommonOutput.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXReorderableListDark.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\StickyNote.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXParticleStripCommon.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\VFXDefines.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassVelocity.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleLinesSW.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleBasicCube.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXFillIndirectArgs.compute" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXMotionVector.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassGS.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\PropertyRMDark.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassDepthOrMV.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleCube.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleCube.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleDecals\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\Common\VFXCommonCompute.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXParticleHeader.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticlePoints.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassDepthOrMV.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXSystemBorder.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXControlsDark.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleSpheres\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\shader\GradientBorder.shader" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\shader\Element3DGridShader.shader" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\VFXCommon.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXUpdate.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleDecal.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXReorderableList.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\VFXPasses.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassVelocity.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXComponentBoard.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleDecal.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXNodeUI.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXNoise.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXContext.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\PropertyRM.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\PropertyRMLight.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXSystemBorder.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXTypeColor.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXBlock.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassVelocity.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\Sort.compute" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCameraSort.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXParameter.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXComponentBoard.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleLinesHW.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXFlowEdge.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXOperator.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXNode.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\VFXPasses.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassDepthOrMV.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\shader\GradientDashedBorder.shader" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCommon.hlsl" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassForward.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassDepth.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\Selectable.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\DefaultStaticMeshOutput.shader" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXLabeledField.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXParticleCommon.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassShadowCaster.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXBlackboardSection.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassDepthOrMV.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassDepthOrMV.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassVS.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXParameter.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\StickyNote.uxml" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXContext.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleDecals\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleBasicCube.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassSelection.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleSpheres\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\UpdateStrips.compute" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticlePlanarPrimitive.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXReorderableListLight.uss" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassDepthOrMV.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\Pass.template" />
-    <None Include="Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\Resizable.uxml" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\IncrementStripIndexOnStart.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\LoopAndDelay.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\SetSpawnTime.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\CustomSpawners\SpawnOverDistance.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\PackageInfo.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXMouseEventBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXRigidBodyCollisionEventBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXTriggerEventBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\Implementation\VFXVisibilityEventBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\EventBinding\VFXEventBinderBase.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationBehaviour.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationClip.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationMixerBehaviour.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\Playables\VisualEffectActivation\VisualEffectActivationTrack.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\ExposedProperty.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXAudioSpectrumBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXEnabledBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXHierarchyAttributeMapBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputAxisBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputButtonBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputKeyBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputMouseBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXInputTouchBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXLightBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXMultiplePositionBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXPlaneBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXPositionBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXPreviousPositionBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXRaycastBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXSphereBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXTerrainBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXTransformBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXUIDropdownBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXUISliderBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXUIToggleBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\Implementation\VFXVelocityBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXBinderAttribute.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXBinderBase.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXPropertyBinder.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Runtime\Utilities\PropertyBinding\VFXPropertyBindingAttribute.cs" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXFlow.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXView-light.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXControlsLight.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXView-dark.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\Resizable.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleLinesSW.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Unity.VisualEffectGraph.Runtime.asmdef" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassBasicForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXView.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXDataAnchor.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXNode.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleSpheres\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXInit.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleMeshes.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXControls.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticlePoints.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\VFXCommon.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXComponentBoard-event.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCopyBuffer.compute" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXBlackboard.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleDecals\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleLinesHW.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleMeshes.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\VFXDefines.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticlePlanarPrimitive.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCommonOutput.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXReorderableListDark.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\StickyNote.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXParticleStripCommon.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\VFXDefines.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassVelocity.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleLinesSW.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleBasicCube.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXFillIndirectArgs.compute" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXMotionVector.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassGS.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\PropertyRMDark.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassDepthOrMV.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleCube.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleCube.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleDecals\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\Common\VFXCommonCompute.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXParticleHeader.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticlePoints.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassDepthOrMV.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXSystemBorder.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXControlsDark.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleSpheres\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\shader\GradientBorder.shader" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\shader\Element3DGridShader.shader" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\VFXCommon.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXUpdate.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleDecal.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXReorderableList.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\VFXPasses.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassVelocity.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXComponentBoard.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleDecal.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXNodeUI.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXNoise.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXContext.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\PropertyRM.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\PropertyRMLight.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXSystemBorder.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXTypeColor.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXBlock.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassVelocity.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\Sort.compute" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCameraSort.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXParameter.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXComponentBoard.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticleLinesHW.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXFlowEdge.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXOperator.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXNode.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\VFXPasses.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\PassDepthOrMV.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\shader\GradientDashedBorder.shader" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXCommon.hlsl" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePoints\PassForward.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassDepth.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\Selectable.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\DefaultStaticMeshOutput.shader" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXLabeledField.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\VFXParticleCommon.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassShadowCaster.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\VFXBlackboardSection.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleMeshes\PassDepthOrMV.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLinesSW\PassDepthOrMV.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassVS.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXParameter.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\StickyNote.uxml" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXContext.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleDecals\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Legacy\Templates\VFXParticleBasicCube.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticlePlanarPrimitives\PassSelection.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleSpheres\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\UpdateStrips.compute" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\RenderPipeline\Universal\Templates\VFXParticlePlanarPrimitive.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uss\VFXReorderableListLight.uss" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleHexahedron\PassDepthOrMV.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Shaders\ParticleLines\Pass.template" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.visualeffectgraph@7.1.7\Editor Default Resources\uxml\Resizable.uxml" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
@@ -417,6 +422,9 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
@@ -425,9 +433,6 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.7/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

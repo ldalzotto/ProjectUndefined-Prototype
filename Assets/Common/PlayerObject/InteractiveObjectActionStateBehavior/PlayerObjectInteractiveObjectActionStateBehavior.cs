@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Input;
 using InteractiveObjectAction;
 using PlayerDash;
@@ -25,12 +26,13 @@ namespace PlayerObject
             SkillSystem SkillSystemRef,
             InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData,
             ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData,
-            PlayerDashActionStateBehaviorInputDataSystemDefinition PlayerDashActionStateBehaviorInputDataSystemDefinition)
+            PlayerDashActionStateBehaviorInputDataSystemDefinition PlayerDashActionStateBehaviorInputDataSystemDefinition,
+            PlayerObjectInteractiveObjectActionStateManagerCallbacks PlayerObjectInteractiveObjectActionStateManagerCallbacks)
         {
             this.SkillSystemRef = SkillSystemRef;
             this.FiringInteractiveObjectActionStateBehavior = new FiringInteractiveObjectActionStateBehavior(gameInputManager, interactiveObjectActionPlayerSystem, firingInteractiveObjectActionInherentData);
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior = new ProjectileDeflectionInteractiveObjectActionStateBehavior(projectileDeflectionTrackingInteractiveObjectActionInherentData, interactiveObjectActionPlayerSystem);
-            this.PlayerDashActionStateBehavior = new PlayerDashActionStateBehavior(PlayerDashActionStateBehaviorInputDataSystemDefinition, interactiveObjectActionPlayerSystem);
+            this.PlayerDashActionStateBehavior = new PlayerDashActionStateBehavior(PlayerDashActionStateBehaviorInputDataSystemDefinition, interactiveObjectActionPlayerSystem, PlayerObjectInteractiveObjectActionStateManagerCallbacks);
         }
 
         public void Tick(float d)
@@ -93,9 +95,30 @@ namespace PlayerObject
 
         #endregion
 
+        #region Data Retrieval
+
         public Vector3? GetPlayerDash_TargetPointWorldPosition()
         {
             return this.PlayerDashActionStateBehavior.GetTargetPointWorldPosition();
+        }
+        #endregion
+    }
+
+    public interface PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks
+    {
+        Action OnPlayerDashDirectionActionStarted { get; }
+        Action OnPlayerDashDirectionActionEnded { get; }
+    }
+
+    public struct PlayerObjectInteractiveObjectActionStateManagerCallbacks : PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks
+    {
+        public Action OnPlayerDashDirectionActionStarted { get; private set; }
+        public Action OnPlayerDashDirectionActionEnded { get; private set; }
+
+        public PlayerObjectInteractiveObjectActionStateManagerCallbacks(Action onPlayerDashDirectionActionStarted, Action onPlayerDashDirectionActionEnded)
+        {
+            OnPlayerDashDirectionActionStarted = onPlayerDashDirectionActionStarted;
+            OnPlayerDashDirectionActionEnded = onPlayerDashDirectionActionEnded;
         }
     }
 

@@ -72,4 +72,12 @@ namespace InputDynamicTextMenu
             this.InstanciatedText.text = InputConfigurationInherentData2ReadableText.ConvertInputToReadableText(InputID.FIRING_PROJECTILE_DOWN_HOLD);
         }
     }
+
+    public class CancelActionTextModule : AInputTextModule
+    {
+        public CancelActionTextModule(RectTransform ParentTransform) : base(ParentTransform)
+        {
+            this.InstanciatedText.text = InputConfigurationInherentData2ReadableText.ConvertInputToReadableText(InputID.CANCEL_DOWN);
+        }
+    }
 }

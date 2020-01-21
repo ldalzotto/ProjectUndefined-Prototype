@@ -29,7 +29,8 @@ namespace PlayerObject
         private PlayerDashTargetPositionTrackerSystem PlayerDashTargetPositionTrackerSystem;
 
         public PlayerDashActionStateBehavior(PlayerDashActionStateBehaviorInputDataSystemDefinition PlayerDashActionStateBehaviorInputDataSystemDefinition,
-            InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem)
+            InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem, 
+            PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks)
         {
             this._playerDashActionStateBehaviorInputDataSystemDefinition = PlayerDashActionStateBehaviorInputDataSystemDefinition;
             this.PlayerDashTargetPositionTrackerSystem = new PlayerDashTargetPositionTrackerSystem();
@@ -39,7 +40,7 @@ namespace PlayerObject
                 {PlayerDashActionState.LISTENING, new PlayerDashActionListeningStateManager(this)},
                 {
                     PlayerDashActionState.DASH_DIRECTION, new PlayerDashDirectionActionStateManager(this, InteractiveObjectActionPlayerSystem,
-                        this._playerDashActionStateBehaviorInputDataSystemDefinition, ref PlayerDashTargetPositionTrackerSystem)
+                        this._playerDashActionStateBehaviorInputDataSystemDefinition, ref PlayerDashTargetPositionTrackerSystem, PlayerObjectInteractiveObjectActionStateManagerCallbacks_PlayerDashDirectionCallbacks)
                 }
             };
 

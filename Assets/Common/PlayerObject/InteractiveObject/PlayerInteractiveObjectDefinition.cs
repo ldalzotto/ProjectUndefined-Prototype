@@ -49,7 +49,7 @@ namespace PlayerObject
 
         [Inline()] public DeflectingProjectileInteractiveObjectActionInherentData DeflectingProjectileInteractiveObjectActionInherentData;
 
-        [Inline()] public PlayerDashActionStateBehaviorInputDataSystemDefinition PlayerDashActionStateBehaviorInputDataSystemDefinition;
+        [Inline()] [DrawNested] public PlayerDashActionStateBehaviorInputDataSystemDefinition PlayerDashActionStateBehaviorInputDataSystemDefinition;
 
         [Inline()] public InteractiveObjectActionInherentData PlayerDashTeleportationActionDefinition;
 

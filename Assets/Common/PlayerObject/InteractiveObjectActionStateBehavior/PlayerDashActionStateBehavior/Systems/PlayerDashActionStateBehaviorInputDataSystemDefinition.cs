@@ -4,15 +4,17 @@ using PlayerDash;
 
 namespace PlayerObject
 {
+    [SceneHandleDraw]
     [Serializable]
     public class PlayerDashActionStateBehaviorInputDataSystemDefinition : SerializedScriptableObject
     {
         /// <summary>
         /// The definition of the <see cref="DashTeleportationDirectionAction"/> that will be executed in <see cref="PlayerDashDirectionActionStateManager"/>.
         /// </summary>
-        public DashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition;
+        [DrawNested]
+        public PlayerDashTeleportationDirectionActionDefinition DashTeleportationDirectionActionDefinition;
 
-        public PlayerDashActionStateBehaviorInputDataSystemDefinition(DashTeleportationDirectionActionDefinition dashTeleportationDirectionActionDefinition)
+        public PlayerDashActionStateBehaviorInputDataSystemDefinition(PlayerDashTeleportationDirectionActionDefinition dashTeleportationDirectionActionDefinition)
         {
             DashTeleportationDirectionActionDefinition = dashTeleportationDirectionActionDefinition;
         }

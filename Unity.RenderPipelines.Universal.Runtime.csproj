@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <_TargetFrameworkDirectories>non_empty_path_generated_by_unity.rider.package</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>non_empty_path_generated_by_unity.rider.package</_FullFrameworkReferenceAssemblyPaths>
+    <DisableHandlePackageFileConflicts>true</DisableHandlePackageFileConflicts>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -63,92 +68,92 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\CinemachineUniversalPixelPerfect.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\CompositeShadowCaster2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DBlendStyle.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DPoint.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DShape.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DStub.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\LightUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Passes\Render2DLightingPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Passes\Utility\Light2DLookupTexture.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Passes\Utility\RendererLighting.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\PixelPerfectCamera.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\PixelPerfectCameraInternal.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Renderer2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Renderer2DData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\ShadowCaster2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Shadows\ShadowCasterGroup2D.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Shadows\ShadowCasterGroup2DManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Shadows\ShadowUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\AssemblyInfo.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\PostProcessData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\RenderStateData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\UniversalRenderPipelineAsset.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\UniversalRenderPipelineEditorResources.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Dict.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Geom.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Mesh.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\MeshUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\PriorityHeap.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\PriorityQueue.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Sweep.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Tess.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ForwardLights.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ForwardRenderer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ForwardRendererData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\Bloom.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ChannelMixer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ChromaticAberration.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ColorAdjustments.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ColorCurves.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ColorLookup.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\DepthOfField.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\FilmGrain.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\LensDistortion.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\LiftGammaGain.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\MotionBlur.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\PaniniProjection.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ShadowsMidtonesHighlights.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\SplitToning.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\Tonemapping.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\Vignette.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\WhiteBalance.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\AdditionalLightsShadowCasterPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\CapturePass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\ColorGradingLutPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\CopyColorPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\CopyDepthPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\DepthOnlyPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\DrawObjectsPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\DrawSkyboxPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\FinalBlitPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\InvokeOnRenderObjectCallbackPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\MainLightShadowCasterPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\PostProcessPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\RenderObjectsPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\SceneViewDepthCopy.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\ScreenSpaceShadowResolvePass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\ScriptableRenderPass.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\PostProcessUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\RenderTargetHandle.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\RendererFeatures\RenderObjects.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\RenderingUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\SampleCount.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\SceneViewDrawMode.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ScriptableRenderer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ScriptableRendererData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ScriptableRendererFeature.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ShaderData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ShaderUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ShadowUtils.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalAdditionalCameraData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalAdditionalLightData.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalRenderPipeline.cs" />
-    <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalRenderPipelineCore.cs" />
-    <None Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Unity.RenderPipelines.Universal.Runtime.asmdef" />
-    <None Include="Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\LICENSE.txt" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\CinemachineUniversalPixelPerfect.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\CompositeShadowCaster2D.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2D.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DBlendStyle.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DPoint.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DShape.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Light2DStub.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\LightUtility.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Passes\Render2DLightingPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Passes\Utility\Light2DLookupTexture.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Passes\Utility\RendererLighting.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\PixelPerfectCamera.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\PixelPerfectCameraInternal.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Renderer2D.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Renderer2DData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\ShadowCaster2D.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Shadows\ShadowCasterGroup2D.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Shadows\ShadowCasterGroup2DManager.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\2D\Shadows\ShadowUtility.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\AssemblyInfo.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\PostProcessData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\RenderStateData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\UniversalRenderPipelineAsset.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Data\UniversalRenderPipelineEditorResources.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Dict.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Geom.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Mesh.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\MeshUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\PriorityHeap.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\PriorityQueue.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Sweep.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\Tess.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ForwardLights.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ForwardRenderer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ForwardRendererData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\Bloom.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ChannelMixer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ChromaticAberration.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ColorAdjustments.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ColorCurves.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ColorLookup.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\DepthOfField.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\FilmGrain.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\LensDistortion.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\LiftGammaGain.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\MotionBlur.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\PaniniProjection.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\ShadowsMidtonesHighlights.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\SplitToning.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\Tonemapping.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\Vignette.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Overrides\WhiteBalance.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\AdditionalLightsShadowCasterPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\CapturePass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\ColorGradingLutPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\CopyColorPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\CopyDepthPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\DepthOnlyPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\DrawObjectsPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\DrawSkyboxPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\FinalBlitPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\InvokeOnRenderObjectCallbackPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\MainLightShadowCasterPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\PostProcessPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\RenderObjectsPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\SceneViewDepthCopy.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\ScreenSpaceShadowResolvePass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Passes\ScriptableRenderPass.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\PostProcessUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\RenderTargetHandle.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\RendererFeatures\RenderObjects.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\RenderingUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\SampleCount.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\SceneViewDrawMode.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ScriptableRenderer.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ScriptableRendererData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ScriptableRendererFeature.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ShaderData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ShaderUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\ShadowUtils.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalAdditionalCameraData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalAdditionalLightData.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalRenderPipeline.cs" />
+    <Compile Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\UniversalRenderPipelineCore.cs" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\Unity.RenderPipelines.Universal.Runtime.asmdef" />
+    <None Include="G:\GameProjects\ProjectUndefined\Library\PackageCache\com.unity.render-pipelines.universal@7.1.7\Runtime\External\LibTessDotNet\LICENSE.txt" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
@@ -335,6 +340,9 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Burst.Unsafe">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.burst@1.1.2/Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
@@ -343,9 +351,6 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.7/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
