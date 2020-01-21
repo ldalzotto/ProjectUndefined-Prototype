@@ -14,12 +14,13 @@ namespace Health
 
         public HealthUIManager()
         {
+            Debug.Log("HealthUIManager");
             this.HealthUIInstanciated = GameObject.Instantiate(HealthUIConfigurationGameObject.Get().HealthUIConfiguration.HealthUIPrefab, CoreGameSingletonInstances.GameCanvas.transform);
             this.healthUiFullBarType = HealthUIInstanciated.GetComponentInChildren<HealthUIFullBarType>();
         }
 
         public void Init()
-        {
+        {  
             // to trigger ctor
         }
 

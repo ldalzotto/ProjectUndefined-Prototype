@@ -8,11 +8,11 @@ using UnityEngine.AI;
 
 namespace PlayerDash
 {
-
     public interface IEM_DashTeleportationDirectionAction_DataRetriever
     {
         Vector3 GetTargetWorldPosition();
     }
+
     public class DashTeleportationDirectionAction : AInteractiveObjectAction
     {
         public const string DashTeleportationDirectionActionUniqueID = "DashTeleportationDirectionAction";
@@ -26,6 +26,8 @@ namespace PlayerDash
             var targetCursormManagerRef = TargetCursorManager.Get();
             var mainCamera = Camera.main;
             this.DashPathCalculationSystem = new DashPathCalculationSystem(associatedInteractiveObject, DashTeleportationDirectionActionDefinition, targetCursormManagerRef, mainCamera);
+
+            this.Tick(0f);
         }
 
         public override string InteractiveObjectActionUniqueID
@@ -37,6 +39,18 @@ namespace PlayerDash
         {
             base.Tick(d);
             this.DashPathCalculationSystem.Tick(d);
+        }
+
+        public override void TickTimeFrozen(float d)
+        {
+            base.TickTimeFrozen(d);
+            this.DashPathCalculationSystem.TickTimeFrozen(d);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            this.DashPathCalculationSystem.Dispose();
         }
 
         #region Data retrieval
@@ -79,13 +93,10 @@ namespace PlayerDash
             {
                 var pointedGroundPosition = hit.point;
 
-                NavMesh.Raycast(AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition, pointedGroundPosition, out NavMeshHit navMeshRaycastHit, 1 << NavMesh.GetAreaFromName(NavMeshConstants.DASHABLE_SPACE_LAYER));
+                NavMesh.Raycast(AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition, pointedGroundPosition, out NavMeshHit navMeshRaycastHit, 1 << NavMesh.GetAreaFromName(NavMeshConstants.WALKABLE_LAYER));
                 if (navMeshRaycastHit.distance > 0f)
                 {
-                    if (NavMesh.SamplePosition(navMeshRaycastHit.position, out NavMeshHit targetPoint, 0.1f, 1 << NavMesh.GetAreaFromName(NavMeshConstants.WALKABLE_LAYER)))
-                    {
-                        this.DesiredEndPoint = targetPoint.position;
-                    }
+                    this.DesiredEndPoint = navMeshRaycastHit.position;
                 }
             }
 
@@ -101,12 +112,25 @@ namespace PlayerDash
             this.DebugLine();
         }
 
+        public void TickTimeFrozen(float d)
+        {
+            this.Tick(d);
+        }
+
         private LineRenderer LineRenderer;
 
         private void DebugLine()
         {
             this.LineRenderer.SetPosition(0, this.StartPoint);
             this.LineRenderer.SetPosition(1, this.EndPoint);
+        }
+
+        public void Dispose()
+        {
+            if (this.LineRenderer != null)
+            {
+                GameObject.Destroy(this.LineRenderer.gameObject);
+            }
         }
     }
 }

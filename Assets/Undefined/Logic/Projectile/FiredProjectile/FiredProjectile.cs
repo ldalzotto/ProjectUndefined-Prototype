@@ -18,7 +18,7 @@ namespace PlayerAim
         public FiredProjectile(IInteractiveGameObject parent, FiredProjectileDefinition FiredProjectileDefinition, CoreInteractiveObject weaponHolder)
         {
             this.FiredProjectileDefinition = FiredProjectileDefinition;
-            this.interactiveObjectTag = new InteractiveObjectTag() {IsDealingDamage = true};
+            this.interactiveObjectTag = new InteractiveObjectTag() { IsDealingDamage = true };
 
             parent.CreateLogicCollider(BuildBoxColliderDefinition(FiredProjectileDefinition));
             this.BaseInit(parent, true);
@@ -104,7 +104,7 @@ namespace PlayerAim
                     || /// OR
                     (OtherInteractiveObject.InteractiveObjectTag.IsTakingDamage /// Collided object is taking damange 
                      && /// AND
-                     /// Weapon holder or target is the Player -> this will prevent a projectile lauinched by an AI to deal damage to another AI  
+                        /// Weapon holder or target is the Player -> this will prevent a projectile lauinched by an AI to deal damage to another AI  
                      (WeaponHolder.InteractiveObjectTag.IsPlayer || OtherInteractiveObject.InteractiveObjectTag.IsPlayer))
                    );
         }

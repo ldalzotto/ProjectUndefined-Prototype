@@ -20,7 +20,8 @@
         "PlayerAim",
         "Skill_Interfaces",
         "HealthGlobe",
-        "AIObjects"
+        "AIObjects",
+        "PlayerDash"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

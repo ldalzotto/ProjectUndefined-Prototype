@@ -25,11 +25,18 @@ namespace PlayerDash
 
         public override IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
         {
-            if (AssociatedInteractiveObject is IEM_DashTeleportationDirectionAction_DataRetriever IEM_DashTeleportationDirectionAction_DataRetriever)
+            if (AssociatedInteractiveObject is IEM_DashTeleportationAction IEM_DashTeleportationAction)
             {
-                return new DashTeleportationActionDefinitionInput(AssociatedInteractiveObject,
-                    IEM_DashTeleportationDirectionAction_DataRetriever.GetTargetWorldPosition());
+                if (IEM_DashTeleportationAction.TryingToExecuteDashTeleportationAction())
+                {
+                    if (AssociatedInteractiveObject is IEM_DashTeleportationDirectionAction_DataRetriever IEM_DashTeleportationDirectionAction_DataRetriever)
+                    {
+                        return new DashTeleportationActionDefinitionInput(AssociatedInteractiveObject,
+                            IEM_DashTeleportationDirectionAction_DataRetriever.GetTargetWorldPosition());
+                    }
+                }
             }
+
 
             return null;
         }
@@ -45,5 +52,10 @@ namespace PlayerDash
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.TargetWorldPoint = targetWorldPoint;
         }
+    }
+
+    public interface IEM_DashTeleportationAction
+    {
+        bool TryingToExecuteDashTeleportationAction();
     }
 }

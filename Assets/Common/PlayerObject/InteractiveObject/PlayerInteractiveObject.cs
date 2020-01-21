@@ -7,6 +7,7 @@ using InteractiveObjectAction;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using LevelManagement;
+using PlayerDash;
 using PlayerLowHealth;
 using PlayerObject_Interfaces;
 using ProjectileDeflection;
@@ -72,12 +73,13 @@ namespace PlayerObject
             this.SkillSystem = new SkillSystem(this, this.InteractiveObjectActionPlayerSystem);
             this.SkillSystem.SetPlayerActionToMainWeaponSkill(this.WeaponHandlingSystem.GetCurrentWeaponProjectileFireActionDefinition());
             this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.DeflectingProjectileInteractiveObjectActionInherentData, 0);
-            this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.PlayerDashTeleportationDirectionActioNDefinition, 1);
+            this.SkillSystem.SetPlayerActionToSubSkill(PlayerInteractiveObjectDefinition.PlayerDashTeleportationActionDefinition, 1);
 
             this.PlayerObjectInteractiveObjectActionStateManager =
-                new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem,
-                    this.SkillSystem,
-                    PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData);
+            new PlayerObjectInteractiveObjectActionStateManager(this.GameInputManager, this.InteractiveObjectActionPlayerSystem,
+                this.SkillSystem,
+                PlayerInteractiveObjectDefinition.firingInteractiveObjectActionInherentData, PlayerInteractiveObjectDefinition.projectileDeflectionTrackingInteractiveObjectActionInherentData,
+                PlayerInteractiveObjectDefinition.PlayerDashActionStateBehaviorInputDataSystemDefinition);
 
             /// To display the associated HealthSystem value to UI.
             HealthUIManager.Get().InitEvents(this.HealthSystem);
@@ -99,7 +101,7 @@ namespace PlayerObject
             /// It is disabled by default.
             this.InteractiveGameObject.Agent.enabled = false;
 
-            interactiveObjectTag = new InteractiveObjectTag {IsPlayer = true, IsTakingDamage = true};
+            interactiveObjectTag = new InteractiveObjectTag { IsPlayer = true, IsTakingDamage = true };
 
             PlayerInteractiveObjectInitializerData = PlayerConfigurationGameObject.Get().PlayerGlobalConfiguration.PlayerInteractiveObjectInitializerData;
 
@@ -355,7 +357,7 @@ namespace PlayerObject
             return default;
         }
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         public CoreInteractiveObject GetCurrentlyTargettedInteractiveObject()
         {
             if (InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(PlayerAimingInteractiveObjectAction.PlayerAimingInteractiveObjectActionUniqueID) is PlayerAimingInteractiveObjectAction firingPlayerActionReference)
@@ -365,7 +367,7 @@ namespace PlayerObject
 
             return null;
         }
-        #endif
+#endif
 
         private void FiringPartialDefinitionInitialize()
         {
@@ -450,6 +452,19 @@ namespace PlayerObject
         public ProjectileDeflectionTrackingInteractiveObjectAction GetPlayingProjectileDeflectionSystem()
         {
             return this.InteractiveObjectActionPlayerSystem.GetPlayingPlayerActionReference(ProjectileDeflectionTrackingInteractiveObjectAction.ProjectileDeflectionSystemUniqueID) as ProjectileDeflectionTrackingInteractiveObjectAction;
+        }
+    }
+
+    public partial class PlayerInteractiveObject : IEM_DashTeleportationAction, IEM_DashTeleportationDirectionAction_DataRetriever
+    {
+        public bool TryingToExecuteDashTeleportationAction()
+        {
+            return this.PlayerObjectInteractiveObjectActionStateManager.TryingToExecuteDashTeleportationAction();
+        }
+
+        public Vector3 GetTargetWorldPosition()
+        {
+            return this.PlayerObjectInteractiveObjectActionStateManager.GetPlayerDash_TargetPointWorldPosition();
         }
     }
 

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Input;
 using InteractiveObjectAction;
+using PlayerDash;
 using ProjectileDeflection;
 using Skill;
+using UnityEngine;
 
 namespace PlayerObject
 {
@@ -15,27 +17,34 @@ namespace PlayerObject
     {
         private FiringInteractiveObjectActionStateBehavior FiringInteractiveObjectActionStateBehavior;
         private ProjectileDeflectionInteractiveObjectActionStateBehavior ProjectileDeflectionInteractiveObjectActionStateBehavior;
+        private PlayerDashActionStateBehavior PlayerDashActionStateBehavior;
 
         private SkillSystem SkillSystemRef;
 
         public PlayerObjectInteractiveObjectActionStateManager(GameInputManager gameInputManager, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem,
             SkillSystem SkillSystemRef,
-            InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData, ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData)
+            InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData,
+            ProjectileDeflectionTrackingInteractiveObjectActionInherentData projectileDeflectionTrackingInteractiveObjectActionInherentData,
+            PlayerDashActionStateBehaviorInputDataSystemDefinition PlayerDashActionStateBehaviorInputDataSystemDefinition)
         {
             this.SkillSystemRef = SkillSystemRef;
             this.FiringInteractiveObjectActionStateBehavior = new FiringInteractiveObjectActionStateBehavior(gameInputManager, interactiveObjectActionPlayerSystem, firingInteractiveObjectActionInherentData);
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior = new ProjectileDeflectionInteractiveObjectActionStateBehavior(projectileDeflectionTrackingInteractiveObjectActionInherentData, interactiveObjectActionPlayerSystem);
+            this.PlayerDashActionStateBehavior = new PlayerDashActionStateBehavior(PlayerDashActionStateBehaviorInputDataSystemDefinition, interactiveObjectActionPlayerSystem);
         }
 
         public void Tick(float d)
         {
             this.FiringInteractiveObjectActionStateBehavior.Tick(d);
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior.Tick(d);
+            this.PlayerDashActionStateBehavior.Tick(d);
         }
 
         public void TickTimeFrozen(float d)
         {
             this.FiringInteractiveObjectActionStateBehavior.TickTimeFrozen(d);
+            this.ProjectileDeflectionInteractiveObjectActionStateBehavior.TickTimeFrozen(d);
+            this.PlayerDashActionStateBehavior.TickTimeFrozen(d);
         }
 
         #region External Events
@@ -63,6 +72,11 @@ namespace PlayerObject
             this.ProjectileDeflectionInteractiveObjectActionStateBehavior.GetCurrentStateManager().OnLowOnHealthEnded();
         }
 
+        public bool TryingToExecuteDashTeleportationAction()
+        {
+            return this.PlayerDashActionStateBehavior.TryingToExecuteDashTeleportationAction();
+        }
+
         #endregion
 
         #region Logical conditions
@@ -78,124 +92,12 @@ namespace PlayerObject
         }
 
         #endregion
-    }
 
-    #region Aiming
-
-    public enum AimingInteractiveObjectActionState
-    {
-        LISTENING,
-        AIMING
-    }
-
-    public abstract class AAimingInteractiveObjectActionStateManager : StateManager
-    {
-        public virtual void StopTargetting()
+        public Vector3 GetPlayerDash_TargetPointWorldPosition()
         {
+            return this.PlayerDashActionStateBehavior.GetTargetPointWorldPosition();
         }
     }
-
-    public class ListeningAimingInteractiveObjectActionStateManager : AAimingInteractiveObjectActionStateManager
-    {
-        private FiringInteractiveObjectActionStateBehavior FiringInteractiveObjectActionStateBehavior;
-        private AimingInteractiveObjectActionStateBehaviorInputDataSystem _aimingInteractiveObjectActionStateBehaviorInputDataSystemRef;
-
-        public ListeningAimingInteractiveObjectActionStateManager(FiringInteractiveObjectActionStateBehavior FiringInteractiveObjectActionStateBehaviorRef,
-            ref AimingInteractiveObjectActionStateBehaviorInputDataSystem aimingInteractiveObjectActionStateBehaviorInputDataSystemRef)
-        {
-            this.FiringInteractiveObjectActionStateBehavior = FiringInteractiveObjectActionStateBehaviorRef;
-            this._aimingInteractiveObjectActionStateBehaviorInputDataSystemRef = aimingInteractiveObjectActionStateBehaviorInputDataSystemRef;
-        }
-
-        public override void Tick(float d)
-        {
-            base.Tick(d);
-            this.PlayerActionTriggering();
-        }
-
-        /// <summary>
-        /// We want to be able to move to <see cref="AimingInteractiveObjectActionState.AIMING"/> even if time is frozen.
-        /// This is to allow the Player to execute accurate shots without getting rushed by time. 
-        /// </summary>
-        public override void TickTimeFrozen(float d)
-        {
-            base.TickTimeFrozen(d);
-            this.Tick(d);
-        }
-
-        /// <summary>
-        /// Starts a new <see cref="AInteractiveObjectAction"/> if input condition and player inherent conditions are met.
-        /// </summary>
-        private void PlayerActionTriggering()
-        {
-            if (this._aimingInteractiveObjectActionStateBehaviorInputDataSystemRef.GameInputManager.CurrentInput.FiringActionDown())
-            {
-                this._aimingInteractiveObjectActionStateBehaviorInputDataSystemRef.InteractiveObjectActionPlayerSystem.ExecuteActionV2
-                    (this._aimingInteractiveObjectActionStateBehaviorInputDataSystemRef.firingInteractiveObjectActionInherentData);
-                this.FiringInteractiveObjectActionStateBehavior.SetState(AimingInteractiveObjectActionState.AIMING);
-            }
-        }
-    }
-
-    public class AimingAimingInteractiveObjectActionStateManager : AAimingInteractiveObjectActionStateManager
-    {
-        private FiringInteractiveObjectActionStateBehavior FiringInteractiveObjectActionStateBehavior;
-
-        public AimingAimingInteractiveObjectActionStateManager(FiringInteractiveObjectActionStateBehavior firingInteractiveObjectActionStateBehavior)
-        {
-            FiringInteractiveObjectActionStateBehavior = firingInteractiveObjectActionStateBehavior;
-        }
-
-        public override void StopTargetting()
-        {
-            this.FiringInteractiveObjectActionStateBehavior.SetState(AimingInteractiveObjectActionState.LISTENING);
-        }
-    }
-
-    public struct AimingInteractiveObjectActionStateBehaviorInputDataSystem
-    {
-        public GameInputManager GameInputManager;
-        public InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem;
-        public InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData;
-
-        public AimingInteractiveObjectActionStateBehaviorInputDataSystem(GameInputManager gameInputManager, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem,
-            InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData)
-        {
-            GameInputManager = gameInputManager;
-            InteractiveObjectActionPlayerSystem = interactiveObjectActionPlayerSystem;
-            this.firingInteractiveObjectActionInherentData = firingInteractiveObjectActionInherentData;
-        }
-    }
-
-    public class FiringInteractiveObjectActionStateBehavior : StateBehavior<AimingInteractiveObjectActionState, AAimingInteractiveObjectActionStateManager>
-    {
-        private AimingInteractiveObjectActionStateBehaviorInputDataSystem _aimingInteractiveObjectActionStateBehaviorInputDataSystem;
-
-        public FiringInteractiveObjectActionStateBehavior(GameInputManager gameInputManager, InteractiveObjectActionPlayerSystem interactiveObjectActionPlayerSystem,
-            InteractiveObjectActionInherentData firingInteractiveObjectActionInherentData)
-        {
-            this._aimingInteractiveObjectActionStateBehaviorInputDataSystem = new AimingInteractiveObjectActionStateBehaviorInputDataSystem(
-                gameInputManager, interactiveObjectActionPlayerSystem, firingInteractiveObjectActionInherentData);
-            this.StateManagersLookup = new Dictionary<AimingInteractiveObjectActionState, AAimingInteractiveObjectActionStateManager>()
-            {
-                {AimingInteractiveObjectActionState.LISTENING, new ListeningAimingInteractiveObjectActionStateManager(this, ref this._aimingInteractiveObjectActionStateBehaviorInputDataSystem)},
-                {AimingInteractiveObjectActionState.AIMING, new AimingAimingInteractiveObjectActionStateManager(this)}
-            };
-            base.Init(AimingInteractiveObjectActionState.LISTENING);
-        }
-
-        protected override void Init(AimingInteractiveObjectActionState StartState)
-        {
-            base.Init(StartState);
-        }
-
-        public bool IsAiming()
-        {
-            return this.GetCurrentState() == AimingInteractiveObjectActionState.AIMING;
-        }
-    }
-
-    #endregion
 
     #region Projectile Deflection
 

@@ -2,7 +2,6 @@
 using AnimatorPlayable;
 using InteractiveObject_Animation;
 using InteractiveObjects_Interfaces;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace InteractiveObjects

@@ -16,7 +16,8 @@
         "SkillAction",
         "Weapon",
         "ProjectileDeflection",
-        "Skill_Interfaces"
+        "Skill_Interfaces",
+        "PlayerDash"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

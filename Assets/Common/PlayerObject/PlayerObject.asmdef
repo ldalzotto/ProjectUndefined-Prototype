@@ -24,7 +24,8 @@
         "ProjectileDeflection_Interface",
         "PlayerLowHealth_Interfaces",
         "Skill",
-        "Skill_Interfaces"
+        "Skill_Interfaces",
+        "PlayerDash"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

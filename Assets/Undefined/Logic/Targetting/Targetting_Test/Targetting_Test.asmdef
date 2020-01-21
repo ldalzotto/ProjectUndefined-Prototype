@@ -17,7 +17,8 @@
         "PlayerObject_Interface",
         "PlayerLowHealth_Interfaces",
         "Skill_Interfaces",
-        "TimeManagement_Tests"
+        "TimeManagement_Tests",
+        "PlayerDash"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

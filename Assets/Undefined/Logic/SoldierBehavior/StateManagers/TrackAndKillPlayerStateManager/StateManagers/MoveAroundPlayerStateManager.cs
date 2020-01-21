@@ -33,6 +33,7 @@ namespace SoliderAIBehavior
         /// </summary>
         private GameObject TmpLastPlayerSeenPositionGameObject;
 
+        private LookingAtAgentMovementCalculationStrategy CalculatedLookingAtAgentMovementCalculationStrategy;
 
         public MoveAroundPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerStateBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
             WeaponFiringAreaSystem WeaponFiringAreaSystem,
@@ -63,7 +64,8 @@ namespace SoliderAIBehavior
 
                 /// Setting the Agent destination and always facing the TmpLastPlayerSeenPositionGameObject
                 this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
-                if (this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform)) == NavMeshPathStatus.PathInvalid)
+                this.CalculatedLookingAtAgentMovementCalculationStrategy = new LookingAtAgentMovementCalculationStrategy(new AIDestination() {WorldPosition = LastPlayerSeenPosition.WorldPosition + SightDirection}, this.TmpLastPlayerSeenPositionGameObject.transform);
+                if (this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(this.CalculatedLookingAtAgentMovementCalculationStrategy) == NavMeshPathStatus.PathInvalid)
                 {
                     Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to MOVE_TO_LAST_SEEN_PLAYER_POSITION"));
                     this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.MOVE_TO_LAST_SEEN_PLAYER_POSITION);
@@ -84,6 +86,13 @@ namespace SoliderAIBehavior
             {
                 Debug.Log(MyLog.Format("MoveAroundPlayerStateManager to SHOOTING_AT_PLAYER"));
                 this._trackAndKillPlayerStateBehaviorRef.SetState(TrackAndKillPlayerStateEnum.SHOOTING_AT_PLAYER);
+            }
+            /// Else, we keep moving to the destination
+            /// Destination is cached, so no calculation every frame
+            else
+            {
+                this.ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction.Invoke(AIMovementSpeedAttenuationFactor.RUN);
+                this.ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction.Invoke(this.CalculatedLookingAtAgentMovementCalculationStrategy);
             }
         }
 
