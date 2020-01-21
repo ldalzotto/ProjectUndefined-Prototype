@@ -20,7 +20,7 @@ namespace PlayerObject
     }
 
     /// <summary>
-    /// Manages conditions on execution of <see cref="DashTeleportationAction"/> and <see cref="DashTeleportationDirectionAction"/>.
+    /// Manages conditions on execution of <see cref="PlayerDashAction"/> and <see cref="DashTeleportationDirectionAction"/>.
     /// </summary>
     public class PlayerDashActionStateBehavior : StateBehavior<PlayerDashActionState, APlayerDashActionStateManager>
     {
@@ -49,8 +49,8 @@ namespace PlayerObject
         #region External Events
 
         /// <summary>
-        /// This method is called when the <see cref="DashTeleportationAction"/> is trying to get executed. (usually called from a <see cref="Skill.SkillSlot"/>).
-        /// For having the <see cref="DashTeleportationAction"/> getting the correct inputs, the <see cref="DashTeleportationDirectionAction"/> must be executed first.
+        /// This method is called when the <see cref="PlayerDashAction"/> is trying to get executed. (usually called from a <see cref="Skill.SkillSlot"/>).
+        /// For having the <see cref="PlayerDashAction"/> getting the correct inputs, the <see cref="DashTeleportationDirectionAction"/> must be executed first.
         /// The execution of <see cref="DashTeleportationDirectionAction"/> is translate by getting in the <see cref="PlayerDashActionState.DASH_DIRECTION"/> state.
         /// </summary>
         public bool TryingToExecuteDashTeleportationAction()
@@ -60,7 +60,7 @@ namespace PlayerObject
             {
                 /// We execute it
                 this.SetState(PlayerDashActionState.DASH_DIRECTION);
-                /// And prevent <see cref="DashTeleportationAction"/> execution.</summary>
+                /// And prevent <see cref="PlayerDashAction"/> execution.</summary>
                 return false;
             }
             else if (this.GetCurrentState() == PlayerDashActionState.DASH_DIRECTION)

@@ -10,7 +10,7 @@ namespace PlayerDash
     /// <summary>
     /// The <see cref="DashTeleportationDirectionAction"/> allow the Player to choose the target world position of teleportation by pointing the 
     /// cursor towards a direction.
-    /// The effective teleportation is performed by <see cref="DashTeleportationAction"/>.
+    /// The effective teleportation is performed by <see cref="PlayerDashAction"/>.
     /// </summary>
     public class DashTeleportationDirectionAction : AInteractiveObjectAction
     {

@@ -7,18 +7,18 @@ using UnityEngine;
 namespace PlayerDash
 {
     [Serializable]
-    public class DashTeleportationActionDefinition : InteractiveObjectActionInherentData
+    public class PlayerDashActionDefinition : InteractiveObjectActionInherentData
     {
         public override string InteractiveObjectActionUniqueID
         {
-            get { return DashTeleportationAction.DashTeleportationActionUniqueID; }
+            get { return PlayerDashAction.DashTeleportationActionUniqueID; }
         }
 
         public override AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput)
         {
             if (interactiveObjectActionInput is DashTeleportationActionDefinitionInput DashTeleportationActionDefinitionInput)
             {
-                return new DashTeleportationAction(this.coreInteractiveObjectActionDefinition, DashTeleportationActionDefinitionInput);
+                return new PlayerDashAction(this.coreInteractiveObjectActionDefinition, DashTeleportationActionDefinitionInput);
             }
 
             return null;
@@ -31,7 +31,7 @@ namespace PlayerDash
         /// </summary>
         public override IInteractiveObjectActionInput BuildInputFromInteractiveObject(CoreInteractiveObject AssociatedInteractiveObject)
         {
-            if (AssociatedInteractiveObject is IEM_DashTeleportationAction IEM_DashTeleportationAction)
+            if (AssociatedInteractiveObject is IEM_PlayerDashAction IEM_DashTeleportationAction)
             {
                 if (IEM_DashTeleportationAction.TryingToExecuteDashTeleportationAction())
                 {

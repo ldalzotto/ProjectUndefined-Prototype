@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{286F02BA-B1E0-6840-94FC-16224E9E721F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -63,9 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationAction\DashTeleportationAction.cs" />
-    <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationAction\DashTeleportationActionDefinition.cs" />
-    <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationAction\Interfaces\IEM_DashTeleportationAction.cs" />
+    <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashAction\Interfaces\IEM_PlayerDashAction.cs" />
+    <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashAction\PlayerDashAction.cs" />
+    <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashAction\PlayerDashActionDefinition.cs" />
     <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationDirectionAction\DashTeleportationDirectionAction.cs" />
     <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationDirectionAction\DashTeleportationDirectionActionDefinition.cs" />
     <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationDirectionAction\Interfaces\IEM_DashTeleportationDirectionAction_DataRetriever.cs" />

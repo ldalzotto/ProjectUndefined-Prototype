@@ -455,7 +455,7 @@ namespace PlayerObject
         }
     }
 
-    public partial class PlayerInteractiveObject : IEM_DashTeleportationAction, IEM_DashTeleportationDirectionAction_DataRetriever
+    public partial class PlayerInteractiveObject : IEM_PlayerDashAction, IEM_DashTeleportationDirectionAction_DataRetriever
     {
         public bool TryingToExecuteDashTeleportationAction()
         {
