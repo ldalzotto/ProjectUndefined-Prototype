@@ -462,7 +462,7 @@ namespace PlayerObject
             return this.PlayerObjectInteractiveObjectActionStateManager.TryingToExecuteDashTeleportationAction();
         }
 
-        public Vector3 GetTargetWorldPosition()
+        public Vector3? GetTargetWorldPosition()
         {
             return this.PlayerObjectInteractiveObjectActionStateManager.GetPlayerDash_TargetPointWorldPosition();
         }

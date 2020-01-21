@@ -23,6 +23,9 @@ namespace PlayerDash
             get { return DashTeleportationDirectionAction.DashTeleportationDirectionActionUniqueID; }
         }
 
+        /// <summary>
+        /// The initial max distance from which the player is allowed to dash.
+        /// </summary>
         public float MaxDashDistance;
 
         public override AInteractiveObjectAction BuildInteractiveObjectAction(IInteractiveObjectActionInput interactiveObjectActionInput)

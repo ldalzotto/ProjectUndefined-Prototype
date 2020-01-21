@@ -93,7 +93,7 @@ namespace PlayerObject
 
         #endregion
 
-        public Vector3 GetPlayerDash_TargetPointWorldPosition()
+        public Vector3? GetPlayerDash_TargetPointWorldPosition()
         {
             return this.PlayerDashActionStateBehavior.GetTargetPointWorldPosition();
         }

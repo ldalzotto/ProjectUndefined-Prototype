@@ -7,10 +7,10 @@ using UnityEngine.Playables;
 namespace AnimatorPlayable
 {
     public class AnimatorPlayableObject
-    {
+    { 
         public static AvatarMask DefaultAvatarMask = new AvatarMask();
 
-        public PlayableGraph GlobalPlayableGraph { get; private set; }
+        public PlayableGraph GlobalPlayableGraph { get; private set; }  
         public AnimationLayerMixerPlayable AnimationLayerMixerPlayable { get; private set; }
         public Animator Animator { get; private set; }
         public Dictionary<int, MyAnimationLayer> AllAnimationLayersCurrentlyPlaying { get; private set; } = new Dictionary<int, MyAnimationLayer>();

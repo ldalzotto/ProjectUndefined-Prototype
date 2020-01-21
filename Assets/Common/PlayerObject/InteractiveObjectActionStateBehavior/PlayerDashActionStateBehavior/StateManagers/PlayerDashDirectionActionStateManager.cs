@@ -4,6 +4,10 @@ using PlayerDash;
 
 namespace PlayerObject
 {
+
+    /// <summary>
+    /// Responsible of executing the <see cref="DashTeleportationDirectionAction"/> and storing the target value in <see cref="PlayerDashTargetPositionTrackerSystem"/>.
+    /// </summary>
     public class PlayerDashDirectionActionStateManager : APlayerDashActionStateManager
     {
         private InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem;
@@ -24,6 +28,9 @@ namespace PlayerObject
             this.PlayerDashTargetPositionTrackerSystemRef = PlayerDashTargetPositionTrackerSystemRef;
         }
 
+        /// <summary>
+        /// On state enter, we execute the  <see cref="DashTeleportationDirectionAction"/>.
+        /// </summary>
         public override void OnStateEnter()
         {
             base.OnStateEnter();
@@ -31,6 +38,10 @@ namespace PlayerObject
             this.Tick(0f);
         }
 
+        /// <summary>
+        /// On state exit, the <see cref="DashTeleportationDirectionAction"/> is stopped.
+        /// The last value of <see cref="PlayerDashTargetPositionTrackerSystem"/> is persisted before destroying just in case.
+        /// </summary>
         public override void OnStateExit()
         {
             base.OnStateExit();
@@ -41,6 +52,7 @@ namespace PlayerObject
         public override void Tick(float d)
         {
             base.Tick(d);
+        
             if (this.GameInputManager.CurrentInput.CancelButtonD())
             {
                 this.PlayerDashActionStateBehavior.SetState(PlayerDashActionState.LISTENING);

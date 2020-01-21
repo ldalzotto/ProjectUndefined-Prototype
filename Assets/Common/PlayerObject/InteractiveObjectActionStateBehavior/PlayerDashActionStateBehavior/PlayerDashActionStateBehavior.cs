@@ -1,20 +1,27 @@
 ﻿using System.Collections.Generic;
 using InteractiveObjectAction;
 using UnityEngine;
+using PlayerDash;
 
 namespace PlayerObject
 {
     public enum PlayerDashActionState
     {
+
         LISTENING,
-        DASH_DIRECTION,
-        DASH_WARP
+        /// <summary>
+        /// <see cref="PlayerDashActionState.DASH_DIRECTION"/> is a state that correspond to the execution of <see cref="DashTeleportationDirectionAction"/>.
+        /// </summary>
+        DASH_DIRECTION
     }
 
     public abstract class APlayerDashActionStateManager : StateManager
     {
     }
 
+    /// <summary>
+    /// Manages conditions on execution of <see cref="DashTeleportationAction"/> and <see cref="DashTeleportationDirectionAction"/>.
+    /// </summary>
     public class PlayerDashActionStateBehavior : StateBehavior<PlayerDashActionState, APlayerDashActionStateManager>
     {
         private PlayerDashActionStateBehaviorInputDataSystemDefinition _playerDashActionStateBehaviorInputDataSystemDefinition;
@@ -41,11 +48,19 @@ namespace PlayerObject
 
         #region External Events
 
+        /// <summary>
+        /// This method is called when the <see cref="DashTeleportationAction"/> is trying to get executed. (usually called from a <see cref="Skill.SkillSlot"/>).
+        /// For having the <see cref="DashTeleportationAction"/> getting the correct inputs, the <see cref="DashTeleportationDirectionAction"/> must be executed first.
+        /// The execution of <see cref="DashTeleportationDirectionAction"/> is translate by getting in the <see cref="PlayerDashActionState.DASH_DIRECTION"/> state.
+        /// </summary>
         public bool TryingToExecuteDashTeleportationAction()
         {
+            /// <see cref="DashTeleportationDirectionAction"/> is not executed.
             if (this.GetCurrentState() == PlayerDashActionState.LISTENING)
             {
+                /// We execute it
                 this.SetState(PlayerDashActionState.DASH_DIRECTION);
+                /// And prevent <see cref="DashTeleportationAction"/> execution.</summary>
                 return false;
             }
             else if (this.GetCurrentState() == PlayerDashActionState.DASH_DIRECTION)
@@ -61,7 +76,7 @@ namespace PlayerObject
 
         #region Data retrieval
 
-        public Vector3 GetTargetPointWorldPosition()
+        public Vector3? GetTargetPointWorldPosition()
         {
             return this.PlayerDashTargetPositionTrackerSystem.PlayerDashTargetWorldPosition;
         }
