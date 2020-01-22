@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\ByEnumPropertyEditors\ByEnumPropertyEditors.cs" />
+     <Compile Include="Assets\Editor\CompilationTime\CompileTime.cs" />
      <Compile Include="Assets\Editor\ConfigurationEditor\Configuration\ConfigurationInspector.cs" />
      <Compile Include="Assets\Editor\ConfigurationEditor\Configuration\GenericConfigurationEditor.cs" />
      <Compile Include="Assets\Editor\ConfigurationEditor\Helper\DictionaryEnum\DictionaryEnumGUI.cs" />
