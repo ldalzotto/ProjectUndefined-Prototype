@@ -26,7 +26,7 @@ namespace PlayerDash
             var targetCursormManagerRef = TargetCursorManager.Get();
             var mainCamera = Camera.main;
             this.DashPathCalculationSystem = new DashPathCalculationSystem(associatedInteractiveObject, DashTeleportationDirectionActionDefinition, targetCursormManagerRef, mainCamera);
-            this.DashPathVisualFeedbackSystem = new DashPathVisualFeedbackSystem(new GameObject("DashTeleportationDirectionAction_VisualFeedback").AddComponent<LineRenderer>());
+            this.DashPathVisualFeedbackSystem = new DashPathVisualFeedbackSystem(PlayerDashConfigurationGameObject.Get());
 
             this.Tick(0f);
         }
@@ -165,9 +165,9 @@ namespace PlayerDash
     /// </summary>
     struct DashPathVisualFeedbackSystem
     {
-        public DashPathVisualFeedbackSystem(LineRenderer InstanciatedLineRenderer)
+        public DashPathVisualFeedbackSystem( PlayerDashConfigurationGameObject PlayerDashConfigurationGameObject)
         {
-            this.LineRenderer = InstanciatedLineRenderer;
+            this.LineRenderer = GameObject.Instantiate(PlayerDashConfigurationGameObject.PlayerDashConfiguration.DashPathVisualFeedbackPrefab);
         }
 
         private LineRenderer LineRenderer;

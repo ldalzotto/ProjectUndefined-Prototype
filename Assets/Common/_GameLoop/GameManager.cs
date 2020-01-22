@@ -1,5 +1,6 @@
 using CameraManagement;
 using CoreGame;
+using GlobalShaderConstants;
 using Health;
 using Input;
 using InputDynamicTextMenu;
@@ -82,6 +83,8 @@ namespace GameLoop
         {
             base.BeforeTickGameLogic(out float d, out float unscaled);
 
+            GlobalShaderConstantsManager.Get().Tick();
+            
             if (TimeManagementManager.Get().IsTimeFrozen())
             {
                 this.FixedUpdateTimeFrozen();
