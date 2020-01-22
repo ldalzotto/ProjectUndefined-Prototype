@@ -9,6 +9,8 @@ namespace PlayerDash
     [Serializable]
     public class PlayerDashActionDefinition : InteractiveObjectActionInherentData
     {
+        public ParticleSystem StartPositionParticleSystemPrefab;
+        
         public override string InteractiveObjectActionUniqueID
         {
             get { return PlayerDashAction.DashTeleportationActionUniqueID; }
@@ -18,7 +20,7 @@ namespace PlayerDash
         {
             if (interactiveObjectActionInput is DashTeleportationActionDefinitionInput DashTeleportationActionDefinitionInput)
             {
-                return new PlayerDashAction(this.coreInteractiveObjectActionDefinition, DashTeleportationActionDefinitionInput);
+                return new PlayerDashAction(this, DashTeleportationActionDefinitionInput);
             }
 
             return null;
