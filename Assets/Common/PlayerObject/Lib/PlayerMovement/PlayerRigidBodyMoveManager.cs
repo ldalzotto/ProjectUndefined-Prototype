@@ -42,6 +42,11 @@ namespace PlayerObject
             this.physicsUpdated = false;
         }
 
+        public override void Warp(Vector3 warpWorldPosition)
+        {
+            this.PlayerRigidBody.MovePosition(warpWorldPosition);
+        }
+
         /// /!\ As the player transform is physics based, all updates are done inside the <see cref="FixedTick"/>.
         private void DoCalculations()
         {

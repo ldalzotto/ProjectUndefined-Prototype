@@ -48,5 +48,10 @@ namespace PlayerObject
         {
             return this.AIMoveToDestinationSystem.SetDestination(IAgentMovementCalculationStrategy);
         }
+
+        public override void Warp(Vector3 warpWorldPosition)
+        {
+            this.PlayerInteractiveObject.InteractiveGameObject.Agent.Warp(warpWorldPosition);
+        }
     }
 }

@@ -466,6 +466,11 @@ namespace PlayerObject
             return this.PlayerObjectInteractiveObjectActionStateManager.TryingToExecuteDashTeleportationAction();
         }
 
+        public void DashToWorldPosition(Vector3 targetWarpWorldPosition)
+        {
+            this.playerMoveManager.Warp(targetWarpWorldPosition);
+        }
+
         public Vector3? GetTargetWorldPosition()
         {
             return this.PlayerObjectInteractiveObjectActionStateManager.GetPlayerDash_TargetPointWorldPosition();

@@ -120,6 +120,11 @@ namespace PlayerObject
             this.CurrentPlayerMoveManager.ResetSpeed();
         }
 
+        public void Warp(Vector3 warpWorldPosition)
+        {
+            this.CurrentPlayerMoveManager.Warp(warpWorldPosition);
+        }
+
         public void ForceSwitchToAgent()
         {
             this.PlayerMoveManagerState.EnableAgent();
@@ -193,6 +198,8 @@ namespace PlayerObject
         {
             return NavMeshPathStatus.PathInvalid;
         }
+
+        public abstract void Warp(Vector3 warpWorldPosition);
     }
     
 }

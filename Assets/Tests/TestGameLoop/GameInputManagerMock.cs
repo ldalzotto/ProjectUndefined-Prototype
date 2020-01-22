@@ -98,6 +98,8 @@ namespace Tests
                     return this.FiringProjectileDH();
                 case InputID.SKILL_1_DOWN_HOLD:
                     return this.Skill1DonwHold();
+                case InputID.SKILL_2_DOWN_HOLD:
+                    return this.Skill2DownHold();
             }
 
             return false;
@@ -163,6 +165,11 @@ namespace Tests
             return this.GameTestInputMockedValues.Skill1DownHold;
         }
 
+        private bool Skill2DownHold()
+        {
+            return this.GameTestInputMockedValues.Skil21DownHold;
+        }
+
         #endregion
     }
 
@@ -179,6 +186,7 @@ namespace Tests
         public float RightRotationCamera;
         public float CameraZoomDelta;
         public bool Skill1DownHold;
+        public bool Skil21DownHold;
         public bool FreezeTimeDown;
 
         public GameTestInputMockedValues()
@@ -199,6 +207,7 @@ namespace Tests
             this.RightRotationCamera = 0f;
             this.CameraZoomDelta = 0f;
             this.Skill1DownHold = false;
+            this.Skil21DownHold = false;
             this.FreezeTimeDown = false;
         }
     }

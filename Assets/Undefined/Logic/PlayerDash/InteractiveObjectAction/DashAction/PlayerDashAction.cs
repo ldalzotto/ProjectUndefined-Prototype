@@ -35,7 +35,7 @@ namespace PlayerDash
                 this.DashTeleportationActionDefinitionInput.AssociatedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center;
             var startPosition = this.DashTeleportationActionDefinitionInput.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition;
             startParticles.transform.rotation = Quaternion.LookRotation((this.DashTeleportationActionDefinitionInput.TargetWorldPoint - startPosition).normalized);
-            this.DashTeleportationActionDefinitionInput.AssociatedInteractiveObject.InteractiveGameObject.PhysicsRigidbody.MovePosition(this.DashTeleportationActionDefinitionInput.TargetWorldPoint);
+            (this.DashTeleportationActionDefinitionInput.AssociatedInteractiveObject as IEM_PlayerDashAction).DashToWorldPosition(this.DashTeleportationActionDefinitionInput.TargetWorldPoint);
         }
 
         public override bool FinishedCondition()

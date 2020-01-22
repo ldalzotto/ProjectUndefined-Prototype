@@ -1,5 +1,6 @@
 
 using InteractiveObjects;
+using UnityEngine;
 
 namespace PlayerDash
 {
@@ -13,5 +14,7 @@ namespace PlayerDash
         /// Also, returns a flag that indicates if the associated <see cref="CoreInteractiveObject"> is elligible to execute the <see cref="PlayerDashAction"/>.
         /// </summary>
         bool TryingToExecuteDashTeleportationAction();
+
+        void DashToWorldPosition(Vector3 targetWarpWorldPosition);
     }
 }
