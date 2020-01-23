@@ -66,6 +66,7 @@
      <Compile Include="Assets\Undefined\Logic\Skill\SkillSlotUI\TagTypes\SkillSlotUIconIGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\Skill\Systems\SkillSystem.cs" />
      <None Include="Assets\Undefined\Logic\Skill\Skill.asmdef" />
+     <None Include="Assets\Undefined\Logic\Skill\Skill_Assets\SkillSlotUI\Prefabs\UICooldownShaderText.shader" />
  <Reference Include="Unity.InputSystem">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
  </Reference>

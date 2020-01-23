@@ -63,6 +63,7 @@
      <Compile Include="Assets\Common\TextWindows\Test\DiscussionWindowTest.cs" />
      <Compile Include="Assets\Common\TextWindows\Windows\DisplayAllTextWindow.cs" />
      <Compile Include="Assets\Common\TextWindows\Windows\ProceduralTextWindow.cs" />
+     <None Include="Assets\Common\TextWindows\TextWindows_Assets\Font\LICENSE.txt" />
      <None Include="Assets\Common\TextWindows\TextWindows.asmdef" />
  <Reference Include="Unity.InputSystem">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>

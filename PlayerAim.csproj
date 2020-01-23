@@ -65,6 +65,8 @@
      <Compile Include="Assets\Undefined\Logic\PlayerAim\PlayerAiming\Interfaces\IEM_IPlayerAimingFiringRegisteringEventsExposedMethod.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerAim\PlayerAiming\PlayerAction\PlayerAimingInteractiveObjectAction.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerAim\PlayerAiming\PlayerAction\PlayerAimingInteractiveObjectActionInherentData.cs" />
+     <None Include="Assets\Undefined\Logic\PlayerAim\PlayerAim_Assets\AimingCurrentlySelectedInteractiveObjectFeedback\Shader\AimingCurrentlySelectedInteractiveObjectFeedbackShader.shader" />
+     <None Include="Assets\Undefined\Logic\PlayerAim\PlayerAim_Assets\FiringRangeFeedback\TargetVisualFeedbackShader.shader" />
      <None Include="Assets\Undefined\Logic\PlayerAim\PlayerAim.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

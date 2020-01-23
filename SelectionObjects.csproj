@@ -67,6 +67,7 @@
      <Compile Include="Assets\Common\SelectableObjects\SelectableObjectsRendering\PuzzleSelectionObjectRederingPassFeature.cs" />
      <Compile Include="Assets\Common\SelectableObjects\SelectableObjectsRendering\SelectableObjectRendererManager.cs" />
      <None Include="Assets\Common\SelectableObjects\SelectableObjects.asmdef" />
+     <None Include="Assets\Common\SelectableObjects\SelectableObjects_Assets\Shaders\SelectedRingIconShader.shader" />
  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
  </Reference>

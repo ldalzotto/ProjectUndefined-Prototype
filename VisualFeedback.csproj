@@ -63,6 +63,7 @@
      <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfiguration.cs" />
      <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\Configuration\CircleFillBarConfigurationGameObject.cs" />
      <Compile Include="Assets\Common\VisualFeedback\CircleFillBar\RenderPipelineFeature\CircleFillBarRenderPassFeature.cs" />
+     <None Include="Assets\Common\VisualFeedback\VisualFeedback_Assets\CircleFillBar\Shader\CircleBar.shader" />
      <None Include="Assets\Common\VisualFeedback\VisualFeedback.asmdef" />
  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>

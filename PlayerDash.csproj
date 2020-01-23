@@ -67,6 +67,7 @@
      <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationDirectionAction\PlayerDashDirectionAction.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\DashTeleportationDirectionAction\PlayerDashTeleportationDirectionActionDefinition.cs" />
      <Compile Include="Assets\Undefined\Logic\PlayerDash\InteractiveObjectAction\Interfaces\IEM_IPlayerDashDirectionActionRegisteringEventsExposedMethod.cs" />
+     <None Include="Assets\Undefined\Logic\PlayerDash\PlayerDash_Assets\PathVisualFeedback\Shaders\PathVisualFeedbackShader.shader" />
      <None Include="Assets\Undefined\Logic\PlayerDash\PlayerDash.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
