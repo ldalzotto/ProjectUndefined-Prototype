@@ -109,6 +109,7 @@ namespace PlayerAim
             if (!this.ExitActionSystem.ActionFinished)
             {
                 this._firingLockSelectionSystem.Tick();
+                this.InteractiveObjectTargettedVisualFeedback.TickTimeFrozen();
                 this.FiringPlayerActionTargetSystem.Tick(d);
                 this._playerAimRangeFeedbackSystem.AfterPlayerTick(d);
             }
@@ -328,6 +329,18 @@ namespace PlayerAim
         /// </summary>
         public void Tick(float d)
         {
+            this.UpdateInteractiveObjectTargettedVisualFeedbackObjectPosition();
+            this.InteractiveObjectTargettedVisualFeedbackObject.Tick(d);
+        }
+
+        public void TickTimeFrozen()
+        {
+            this.UpdateInteractiveObjectTargettedVisualFeedbackObjectPosition();
+            this.InteractiveObjectTargettedVisualFeedbackObject.TickTimeFrozen();
+        }
+
+        private void UpdateInteractiveObjectTargettedVisualFeedbackObjectPosition()
+        {
             var currentlyTargettedInteractiveObject = this.FiringLockSelectionSystemRef.GetCurrentlyTargettedInteractiveObject();
             if (currentlyTargettedInteractiveObject == null)
             {
@@ -340,8 +353,6 @@ namespace PlayerAim
                 this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(objTransform.WorldPosition.x, currentlyTargettedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().max.y, objTransform.WorldPosition.z));
                 this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldRotation(Quaternion.LookRotation(this.mainCamera.transform.position - currentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition));
             }
-            
-            this.InteractiveObjectTargettedVisualFeedbackObject.Tick(d);
         }
 
         public void Dispose()

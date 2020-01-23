@@ -2,6 +2,7 @@
 using CoreGame;
 using InteractiveObjects;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace PlayerAim
 {
@@ -54,6 +55,7 @@ namespace PlayerAim
             this.InteractiveObjectTargettedVisualFeedbackGameObject = InteractiveObjectTargettedVisualFeedbackGameObject;
             this.AnimatorPlayable = new AnimatorPlayableObject("InteractiveObjectTargettedVisualFeedbackObject", this.InteractiveObjectTargettedVisualFeedbackGameObject.animator);
             this.AnimatorPlayable.PlayAnimation(0, InteractiveObjectTargettedVisualFeedbackObjectDefinition.InteractiveObjectTargettedVisualFeedbackObjectAnimation.GetAnimationInput());
+            this.AnimatorPlayable.GlobalPlayableGraph.SetTimeUpdateMode(DirectorUpdateMode.UnscaledGameTime);
         }
 
         private AnimatorPlayableObject AnimatorPlayable;
@@ -61,6 +63,11 @@ namespace PlayerAim
         public void Tick(float d)
         {
             this.AnimatorPlayable.Tick(d);
+        }
+
+        public void TickTimeFrozen()
+        {
+            this.Tick(0f);
         }
 
         public void Destroy()
