@@ -33,11 +33,13 @@ namespace PlayerAim
             this._playerAimingInteractiveObjectActionInherentData = firingInteractiveObjectActionInput.PlayerAimingInteractiveObjectActionInherentData;
 
             this.FiringPlayerActionTargetSystem = new FiringPlayerActionTargetSystem(this._playerAimingInteractiveObjectActionInherentData, this.FiringInteractiveObject, TargetCursorManager.Get());
-            this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted);
             this.PlayerObjectOrientationSystem = new PlayerObjectOrientationSystem(this.FiringInteractiveObject as IPlayerInteractiveObject, this.FiringPlayerActionTargetSystem);
-            this.InteractiveObjectTargettedVisualFeedback = new InteractiveObjectTargettedVisualFeedback(firingInteractiveObjectActionInput.PlayerAimingInteractiveObjectActionInherentData, _firingLockSelectionSystem, Camera.main);
+            this.InteractiveObjectTargettedVisualFeedback = new InteractiveObjectTargettedVisualFeedback(firingInteractiveObjectActionInput.PlayerAimingInteractiveObjectActionInherentData, Camera.main);
 
             this.ExitActionSystem = new ExitActionSystem(gameInputManager);
+
+            this._firingLockSelectionSystem = new FiringLockSelectionSystem(this.OnInteractiveObjectTargetted);
+
 
             /// Initialisation of states
             this.Tick(0f);
@@ -148,6 +150,19 @@ namespace PlayerAim
                 this._playerAimRangeFeedbackSystem = new PlayerAimRangeFeedbackSystem(this.FiringInteractiveObject, this.FiringPlayerActionTargetSystem);
             }
         }
+
+        #region Internal Events
+
+        /// <summary>
+        /// This internal event is a callback from <see cref="FiringLockSelectionSystem.OnNewInteractiveObjectTargettedCallback"/>
+        /// </summary>
+        private void OnInteractiveObjectTargetted(CoreInteractiveObject targettedInteractiveobject)
+        {
+            this.FiringPlayerActionTargetSystem.OnInteractiveObjectTargetted(targettedInteractiveobject);
+            this.InteractiveObjectTargettedVisualFeedback.OnInteractiveObjectTargetted(targettedInteractiveobject);
+        }
+
+        #endregion
 
         #region Data Retrieval
 
@@ -306,20 +321,20 @@ namespace PlayerAim
         }
     }
 
-    struct InteractiveObjectTargettedVisualFeedback
+    class InteractiveObjectTargettedVisualFeedback
     {
         private InteractiveObjectTargettedVisualFeedbackObject InteractiveObjectTargettedVisualFeedbackObject;
-        private FiringLockSelectionSystem FiringLockSelectionSystemRef;
         private Camera mainCamera;
 
-        public InteractiveObjectTargettedVisualFeedback(PlayerAimingInteractiveObjectActionInherentData PlayerAimingInteractiveObjectActionInherentData,
-            FiringLockSelectionSystem FiringLockSelectionSystemRef, Camera mainCamera)
+        private ObjectVariable<CoreInteractiveObject> CurrentlyTargettedInteractiveObject;
+
+        public InteractiveObjectTargettedVisualFeedback(PlayerAimingInteractiveObjectActionInherentData PlayerAimingInteractiveObjectActionInherentData, Camera mainCamera)
         {
-            this.FiringLockSelectionSystemRef = FiringLockSelectionSystemRef;
             this.InteractiveObjectTargettedVisualFeedbackObject = new InteractiveObjectTargettedVisualFeedbackObject(
                 new InteractiveObjectTargettedVisualFeedbackGameObject(null, PlayerAimingInteractiveObjectActionInherentData.InteractiveObjectTargettedVisualFeedbackPrefab),
                 new InteractiveObjectTargettedVisualFeedbackObjectDefinition(PlayerAimingInteractiveObjectActionInherentData.InteractiveObjectTargettedVisualFeedbackAnimation));
             this.mainCamera = mainCamera;
+            this.CurrentlyTargettedInteractiveObject = new ObjectVariable<CoreInteractiveObject>(this.OnCurrentSelectedInteractiveObjectChanged);
             this.Tick(0f);
         }
 
@@ -341,17 +356,16 @@ namespace PlayerAim
 
         private void UpdateInteractiveObjectTargettedVisualFeedbackObjectPosition()
         {
-            var currentlyTargettedInteractiveObject = this.FiringLockSelectionSystemRef.GetCurrentlyTargettedInteractiveObject();
-            if (currentlyTargettedInteractiveObject == null)
+            if (this.CurrentlyTargettedInteractiveObject.GetValue() == null)
             {
                 this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(999999f, 9999999f, 99999999f));
             }
             else
             {
-                var objTransform = currentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform();
+                var objTransform = this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetTransform();
 
-                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(objTransform.WorldPosition.x, currentlyTargettedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().max.y, objTransform.WorldPosition.z));
-                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldRotation(Quaternion.LookRotation(this.mainCamera.transform.position - currentlyTargettedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition));
+                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(objTransform.WorldPosition.x, this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetAverageModelWorldBounds().max.y, objTransform.WorldPosition.z));
+                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldRotation(Quaternion.LookRotation(this.mainCamera.transform.position - this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetTransform().WorldPosition));
             }
         }
 
@@ -361,6 +375,37 @@ namespace PlayerAim
             {
                 this.InteractiveObjectTargettedVisualFeedbackObject.Destroy();
             }
+
+            if (this.CurrentlyTargettedInteractiveObject.GetValue() != null)
+            {
+                this.CurrentlyTargettedInteractiveObject.GetValue().UnRegisterInteractiveObjectDestroyedEventListener(this.OnTargettedInteractiveObjectDestroyed);
+            }
+        }
+
+        public void OnInteractiveObjectTargetted(CoreInteractiveObject targettedInteractiveobject)
+        {
+            if (targettedInteractiveobject != null && !targettedInteractiveobject.IsAskingToBeDestroyed)
+            {
+                this.CurrentlyTargettedInteractiveObject.SetValue(targettedInteractiveobject);
+            }
+        }
+
+        private void OnCurrentSelectedInteractiveObjectChanged(CoreInteractiveObject oldTargettedInteractiveObject, CoreInteractiveObject newTargettedInteractiveObjet)
+        {
+            if (oldTargettedInteractiveObject != null)
+            {
+                oldTargettedInteractiveObject.UnRegisterInteractiveObjectDestroyedEventListener(this.OnTargettedInteractiveObjectDestroyed);
+            }
+
+            if (newTargettedInteractiveObjet != null)
+            {
+                newTargettedInteractiveObjet.RegisterInteractiveObjectDestroyedEventListener(this.OnTargettedInteractiveObjectDestroyed);
+            }
+        }
+
+        private void OnTargettedInteractiveObjectDestroyed(CoreInteractiveObject interactiveObject)
+        {
+            this.CurrentlyTargettedInteractiveObject.SetValue(null);
         }
     }
 
