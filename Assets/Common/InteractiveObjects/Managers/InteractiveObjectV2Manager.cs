@@ -88,10 +88,13 @@ namespace InteractiveObjects
         private void OnInteractiveObjectCreated(CoreInteractiveObject InteractiveObject)
         {
             InteractiveObjects.Add(InteractiveObject);
-            var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
-            if (interactiveObjectLogicCollider != null)
+            if (InteractiveObject.InteractiveGameObject != null)
             {
-                InteractiveObjectsIndexedByLogicCollider.Add(interactiveObjectLogicCollider, InteractiveObject);
+                var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
+                if (interactiveObjectLogicCollider != null)
+                {
+                    InteractiveObjectsIndexedByLogicCollider.Add(interactiveObjectLogicCollider, InteractiveObject);
+                }
             }
 
             InteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnInteractiveObjectDestroyed);
@@ -100,8 +103,14 @@ namespace InteractiveObjects
         private void OnInteractiveObjectDestroyed(CoreInteractiveObject InteractiveObject)
         {
             InteractiveObjects.Remove(InteractiveObject);
-            var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
-            if (interactiveObjectLogicCollider != null) InteractiveObjectsIndexedByLogicCollider.Remove(interactiveObjectLogicCollider);
+            if (InteractiveObject.InteractiveGameObject != null)
+            {
+                var interactiveObjectLogicCollider = InteractiveObject.InteractiveGameObject.LogicCollider;
+                if (interactiveObjectLogicCollider != null)
+                {
+                    InteractiveObjectsIndexedByLogicCollider.Remove(interactiveObjectLogicCollider);
+                }
+            }
         }
 
         private void DestroyInteractiveObjectsTaggedAsToBeDestroyed()
