@@ -13,6 +13,7 @@ namespace StartMenu
 
         private StartLevelManager StartLevelManager = StartLevelManager.Get();
         private GameInputManager GameInputManager = GameInputManager.Get();
+
         #endregion
 
         private StartMenuGameObject StartMenuGameObject;
@@ -28,16 +29,16 @@ namespace StartMenu
 
             IGameProgressionStateManagerDataRetriever IGameProgressionStateManagerDataRetriever = StartMenuSingletonInstances.GameProgressionStateManager;
 
-            var NewGameButton = this.StartMenuGameObject.CreateStartMenuButton();
-            NewGameButton.GetComponentInChildren<Text>().text = "New Game";
-            
-            (NewGameButton.transform as RectTransform).Reset(RectTransformSetup.CENTER);
-            (NewGameButton.transform as RectTransform).pivot = new Vector2(0.5f,0.5f);
-            (NewGameButton.transform as RectTransform).localPosition = Vector3.zero;
-            (NewGameButton.transform as RectTransform).sizeDelta = new Vector2(200,30);
-            (NewGameButton.transform as RectTransform).anchoredPosition =  new Vector2(0, 40);
+            var Level1Button = this.StartMenuGameObject.CreateStartMenuButton();
+            Level1Button.GetComponentInChildren<Text>().text = "Level 1";
 
-            NewGameButton.onClick.AddListener(() =>
+            (Level1Button.transform as RectTransform).Reset(RectTransformSetup.CENTER);
+            (Level1Button.transform as RectTransform).pivot = new Vector2(0.5f, 0.5f);
+            (Level1Button.transform as RectTransform).localPosition = Vector3.zero;
+            (Level1Button.transform as RectTransform).sizeDelta = new Vector2(200, 30);
+            (Level1Button.transform as RectTransform).anchoredPosition = new Vector2(0, 40);
+
+            Level1Button.onClick.AddListener(() =>
             {
                 //Destroy all saved data
                 var persistanceDirectory = new DirectoryInfo(Application.persistentDataPath);
@@ -49,27 +50,37 @@ namespace StartMenu
                 LevelTransitionManager.Get().OnStartMenuToLevel(LevelManagementConfigurationGameObject.Get().GlobalLevelConfiguration.NewGameStartLevelID);
             });
 
-            /*
-            var ContinueButton = MonoBehaviour.Instantiate(StartMenuPrefabConfiguration.StartMenuButtonBasePrefab, StartMenuCanvas.transform);
-            ContinueButton.GetComponentInChildren<Text>().text = "Continue";
-            ((RectTransform) ContinueButton.transform).anchoredPosition = new Vector2(0, -40);
-            ContinueButton.interactable = IGameProgressionStateManagerDataRetriever.HasAlreadyPlayed();
-            if (ContinueButton.IsInteractable())
+            var InfiniteLevelButton = this.StartMenuGameObject.CreateStartMenuButton();
+            InfiniteLevelButton.GetComponentInChildren<Text>().text = "Infinite Level";
+
+            (InfiniteLevelButton.transform as RectTransform).Reset(RectTransformSetup.CENTER);
+            (InfiniteLevelButton.transform as RectTransform).pivot = new Vector2(0.5f, 0.5f);
+            (InfiniteLevelButton.transform as RectTransform).localPosition = Vector3.zero;
+            (InfiniteLevelButton.transform as RectTransform).sizeDelta = new Vector2(200, 30);
+            (InfiniteLevelButton.transform as RectTransform).anchoredPosition = new Vector2(0, -40);
+
+            InfiniteLevelButton.onClick.AddListener(() =>
             {
-                ContinueButton.onClick.AddListener(() => { LevelTransitionManager.Get().OnStartMenuToLevel(this.StartLevelManager.GetStartLevelID()); });
-            }
-            */
+                //Destroy all saved data
+                var persistanceDirectory = new DirectoryInfo(Application.persistentDataPath);
+                foreach (var directory in persistanceDirectory.GetDirectories())
+                {
+                    directory.Delete(true);
+                }
+
+                LevelTransitionManager.Get().OnStartMenuToLevel(LevelZonesID.INFINITE_LEVEL);
+            });
 
             var ControlsButton = this.StartMenuGameObject.CreateStartMenuButton();
             ControlsButton.GetComponentInChildren<Text>().text = "Controls";
-            
-            
+
+
             (ControlsButton.transform as RectTransform).Reset(RectTransformSetup.CENTER);
-            (ControlsButton.transform as RectTransform).pivot = new Vector2(0.5f,0.5f);
+            (ControlsButton.transform as RectTransform).pivot = new Vector2(0.5f, 0.5f);
             (ControlsButton.transform as RectTransform).localPosition = Vector3.zero;
-            (ControlsButton.transform as RectTransform).sizeDelta = new Vector2(200,30);
-            (ControlsButton.transform as RectTransform).anchoredPosition =  new Vector2(0, -40);
-            
+            (ControlsButton.transform as RectTransform).sizeDelta = new Vector2(200, 30);
+            (ControlsButton.transform as RectTransform).anchoredPosition = new Vector2(0, -120);
+
             ControlsButton.onClick.AddListener(this.OnControlsButtonClicked);
         }
 

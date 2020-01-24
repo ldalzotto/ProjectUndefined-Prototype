@@ -31,7 +31,8 @@ namespace LevelManagement
                 transitionRequirements: null,
                 onStartNodeAction: new List<TimelineNodeWorkflowActionV2<LevelAvailabilityTimelineNodeID>>()
                 {
-                    new LevelUnlockWorkflowActionV2(LevelZoneChunkID.RTP_PUZZLE_CREATION_TEST)
+                    new LevelUnlockWorkflowActionV2(LevelZoneChunkID.RTP_PUZZLE_CREATION_TEST),
+                    new LevelUnlockWorkflowActionV2(LevelZoneChunkID.INFINITE_LEVEL)
                 },
                 onExitNodeAction: null
             );
