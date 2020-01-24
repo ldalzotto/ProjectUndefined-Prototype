@@ -173,16 +173,19 @@ namespace AIObjects
         private bool IsDestinationReached()
         {
             return (
-                /// If there is currently a destination to reach
-                CurrentDestination.HasValue
-                /// If the NavMeshPath not currently async calculated
-                && !objectAgent.pathPending
-                /// If the WorldPosition has been reached
-                && objectAgent.remainingDistance <= objectAgent.stoppingDistance
-                /// If there is a WorldRotation angle to reach
-                && ((!this.CurrentDestination.Value.Rotation.HasValue) || (this.CurrentDestination.Value.Rotation.Value.IsApproximate(objectAgent.transform.rotation)))
-                /// If the agent has stopped
-                && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f));
+                /// If the AI has no destination, we consider that it's destination is reached
+                !CurrentDestination.HasValue
+                || (
+                    /// If the NavMeshPath not currently async calculated
+                    !objectAgent.pathPending
+                    /// If the WorldPosition has been reached
+                    && objectAgent.remainingDistance <= objectAgent.stoppingDistance
+                    /// If there is a WorldRotation angle to reach
+                    && ((!this.CurrentDestination.Value.Rotation.HasValue) || (this.CurrentDestination.Value.Rotation.Value.IsApproximate(objectAgent.transform.rotation)))
+                    /// If the agent has stopped
+                    && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f)
+                ));
+            /// If there is currently a destination to reach;
         }
 
 
