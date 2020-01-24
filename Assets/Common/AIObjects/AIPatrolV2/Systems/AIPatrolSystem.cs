@@ -10,11 +10,11 @@ namespace AIObjects
         private SequencedActionPlayer SequencedActionPlayer;
 
         public AIPatrolSystem(CoreInteractiveObject AssociatedInteractiveObject,
-            AIPatrolSystemDefinition AIPatrolSystemDefinition,
+            AIPatrolGraphBuilder AIPatrolGraphBuilder,
             Action<IAgentMovementCalculationStrategy> coreInteractiveObjectDestinationCallback = null, Action<AIMovementSpeedAttenuationFactor> aiSpeedAttenuationFactorCallback = null)
         {
-            SequencedActionPlayer = new SequencedActionPlayer(AIPatrolSystemDefinition.AIPatrolGraph.AIPatrolGraphActions(
-                AssociatedInteractiveObject, new AIPatrolGraphRuntimeCallbacks(coreInteractiveObjectDestinationCallback, aiSpeedAttenuationFactorCallback)),
+            SequencedActionPlayer = new SequencedActionPlayer(AIPatrolGraphBuilder.GetPatrolGraphSequencedActions(
+                    AssociatedInteractiveObject, new AIPatrolGraphRuntimeCallbacks(coreInteractiveObjectDestinationCallback, aiSpeedAttenuationFactorCallback)),
                 null, null);
             SequencedActionPlayer.Play();
         }

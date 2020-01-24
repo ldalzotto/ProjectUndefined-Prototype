@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</ProjectGuid>
+    <ProjectGuid>{A96F9211-D656-DB02-7A20-68DB2235B62A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>AIObjects</AssemblyName>
+    <AssemblyName>AIObjects_Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -58,25 +58,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIMoveToActionV2.cs" />
-     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolActionsV2\AIWarpActionV2.cs" />
-     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\AIPatrolGraphV2.cs" />
-     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\CommonAIPatrolGraphTemplate\StandStillAIPatrolGraph.cs" />
-     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystem.cs" />
-     <Compile Include="Assets\Common\AIObjects\AIPatrolV2\Systems\AIPatrolSystemDefinition.cs" />
-     <Compile Include="Assets\Common\AIObjects\InteractiveObject\AIInteractiveObjectTemplates\AbstractAIInteractiveObjectInitializerData.cs" />
-     <Compile Include="Assets\Common\AIObjects\RuntimePatrolNodeGraph\Definition\PatrolGraphNode.cs" />
-     <Compile Include="Assets\Common\AIObjects\RuntimePatrolNodeGraph\Definition\PatrolGraphNodeLink.cs" />
-     <Compile Include="Assets\Common\AIObjects\RuntimePatrolNodeGraph\Definition\RuntimePatrolGraphNodes.cs" />
-     <Compile Include="Assets\Common\AIObjects\Systems\AIMoveToDestinationCalculationStrategy.cs" />
-     <Compile Include="Assets\Common\AIObjects\Systems\AIMoveToDestinationSystem.cs" />
-     <Compile Include="Assets\Common\AIObjects\Systems\Lib\AIRotationMove.cs" />
-     <None Include="Assets\Common\AIObjects\AIObjects.asmdef" />
+     <Compile Include="Assets\Common\AIObjects\AIObjects_Editor\RuntimePatrolGraphNodesCustomEditor.cs" />
+     <None Include="Assets\Common\AIObjects\AIObjects_Editor\AIObjects_Editor.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -272,6 +266,9 @@
  </Reference>
  <Reference Include="ICSharpCode.NRefactory">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.render-pipelines.core@7.1.7/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>G:/GameProjects/ProjectUndefined/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>G:/Programs/Unity/2019.3.0f5/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -633,41 +630,25 @@
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>
     </ProjectReference>
-    <ProjectReference Include="OdinSerializer.csproj">
-      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
-      <Name>OdinSerializer</Name>
+    <ProjectReference Include="Editor.csproj">
+      <Project>{C2B84BB1-A401-F2D5-62B7-55A3CE6A4316}</Project>
+      <Name>Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>
     </ProjectReference>
-    <ProjectReference Include="InteractiveObjects.csproj">
-      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
-      <Name>InteractiveObjects</Name>
+    <ProjectReference Include="AIObjects.csproj">
+      <Project>{4C3E2FF5-E016-CD85-D5F1-28F754499689}</Project>
+      <Name>AIObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="OdinSerializer.csproj">
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
+      <Name>OdinSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="AnimatorPlayable.csproj">
-      <Project>{37850B31-3454-AA61-18A5-125EEBE9610D}</Project>
-      <Name>AnimatorPlayable</Name>
-    </ProjectReference>
-    <ProjectReference Include="VisualFeedback.csproj">
-      <Project>{C165EDF6-5BA2-9048-B8F0-2838E3D57D19}</Project>
-      <Name>VisualFeedback</Name>
-    </ProjectReference>
-    <ProjectReference Include="SequencedAction.csproj">
-      <Project>{CA8C3A50-CF75-8F21-2C47-5CDAF2F0C92F}</Project>
-      <Name>SequencedAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
-      <Name>InteractiveObject_Animation</Name>
-    </ProjectReference>
-    <ProjectReference Include="SequencedAction_Editor_Common.csproj">
-      <Project>{457F267A-1079-F699-ABAB-797956BB7D38}</Project>
-      <Name>SequencedAction_Editor_Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

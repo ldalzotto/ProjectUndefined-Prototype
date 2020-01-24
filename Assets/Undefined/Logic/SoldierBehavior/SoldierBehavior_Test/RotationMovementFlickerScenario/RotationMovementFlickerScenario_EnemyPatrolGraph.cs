@@ -28,9 +28,9 @@ namespace SoliderBehavior_Test
                 new AIWarpActionV2(InvolvedInteractiveObject, this.P1.WorldPosition, this.P1.GetWorldRotation())
                     .Then(new BranchInfiniteLoopAction(
                         new WaitForSecondsAction(this.P1_SecondsToWait)
-                            .Then(this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks)
+                            .Then(CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks)
                                 .Then(new WaitForSecondsAction(this.P2_SecondsToWait)
-                                    .Then(this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks))))
+                                    .Then(CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks))))
                     ))
             };
         }

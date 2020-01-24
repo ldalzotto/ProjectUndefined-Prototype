@@ -22,9 +22,9 @@ namespace AIObjects
         {
             return new ASequencedAction[]
             {
-                this.CreateAIWarpAction(InvolvedInteractiveObject, this.StandingStillPoint)
+                CreateAIWarpAction(InvolvedInteractiveObject, this.StandingStillPoint)
                     .Then(new AIWarpActionV2(InvolvedInteractiveObject, this.StandingStillPoint.WorldPosition, this.StandingStillPoint.GetWorldRotation())
-                        .Then(new BranchInfiniteLoopAction(this.CreateAIMoveToActionV2(this.StandingStillPoint, AIPatrolGraphRuntimeCallbacks))))
+                        .Then(new BranchInfiniteLoopAction(CreateAIMoveToActionV2(this.StandingStillPoint, AIPatrolGraphRuntimeCallbacks))))
             };
         }
     }

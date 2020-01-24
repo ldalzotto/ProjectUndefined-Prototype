@@ -159,25 +159,30 @@ namespace AIObjects
         {
             this.DeltaTime = d;
 
-            /// If there is currently a destination to reach
-            if (CurrentDestination.HasValue)
-                if (
-                    /// If the NavMeshPath not currently async calculated
-                    !objectAgent.pathPending
-                    /// If the WorldPosition has been reached
-                    && objectAgent.remainingDistance <= objectAgent.stoppingDistance
-                    /// If there is a WorldRotation angle to reach
-                    && ((!this.CurrentDestination.Value.Rotation.HasValue) || (this.CurrentDestination.Value.Rotation.Value.IsApproximate(objectAgent.transform.rotation)))
-                    /// If the agent has stopped
-                    && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f))
-                {
-                    this.currentDestination = null;
-                    FrameWereOccuredTheLastDestinationReached = Time.frameCount;
-                    objectAgent.isStopped = true;
-                    objectAgent.ResetPath();
-                    //Debug.Log(MyLog.Format("Destination reached !"));
-                    OnAIInteractiveObjectDestinationReached?.Invoke();
-                }
+            if (this.IsDestinationReached())
+            {
+                this.currentDestination = null;
+                FrameWereOccuredTheLastDestinationReached = Time.frameCount;
+                objectAgent.isStopped = true;
+                objectAgent.ResetPath();
+                //Debug.Log(MyLog.Format("Destination reached !"));
+                OnAIInteractiveObjectDestinationReached?.Invoke();
+            }
+        }
+
+        private bool IsDestinationReached()
+        {
+            return (
+                /// If there is currently a destination to reach
+                CurrentDestination.HasValue
+                /// If the NavMeshPath not currently async calculated
+                && !objectAgent.pathPending
+                /// If the WorldPosition has been reached
+                && objectAgent.remainingDistance <= objectAgent.stoppingDistance
+                /// If there is a WorldRotation angle to reach
+                && ((!this.CurrentDestination.Value.Rotation.HasValue) || (this.CurrentDestination.Value.Rotation.Value.IsApproximate(objectAgent.transform.rotation)))
+                /// If the agent has stopped
+                && (!objectAgent.hasPath || objectAgent.velocity.sqrMagnitude == 0f));
         }
 
 
@@ -210,8 +215,18 @@ namespace AIObjects
                 lastSettedWorldDestination = AIDestination.WorldPosition;
                 return path.status;
             }
+            else
+            {
+                /// When we try to set a destination that is equal to the lastSettedWorldDestination
+                /// and that the destination has already been reached.
+                /// We also call the on destination reached callback (some external algorithm may have logic in this case.)
+                if (this.IsDestinationReached())
+                {
+                    OnAIInteractiveObjectDestinationReached?.Invoke();
+                }
 
-            return NavMeshPathStatus.PathComplete;
+                return NavMeshPathStatus.PathComplete;
+            }
         }
 
         /// <summary>

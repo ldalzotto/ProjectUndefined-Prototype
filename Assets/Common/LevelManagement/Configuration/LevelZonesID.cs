@@ -16,7 +16,7 @@ namespace LevelManagement {
     NONE = 0,
     TestScene = 1,
     RTP_TEST = 3,
-    
+    INFINITE_LEVEL = 4,
     StartMenu = 17,
 
     ADVENTURE_TEST = 18

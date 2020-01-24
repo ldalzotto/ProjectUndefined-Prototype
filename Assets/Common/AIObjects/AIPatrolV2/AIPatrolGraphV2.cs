@@ -12,13 +12,25 @@ namespace AIObjects
     {
         public abstract ASequencedAction[] AIPatrolGraphActions(CoreInteractiveObject InvolvedInteractiveObject, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks);
 
-        protected AIWarpActionV2 CreateAIWarpAction(CoreInteractiveObject InvolvedInteractiveObject, AIMoveToActionInputData AIMoveToActionInputData)
+        public static AIWarpActionV2 CreateAIWarpAction(CoreInteractiveObject InvolvedInteractiveObject, AIMoveToActionInputData AIMoveToActionInputData)
         {
-            return new AIWarpActionV2(InvolvedInteractiveObject, AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation());
+            return CreateAIWarpAction(InvolvedInteractiveObject, AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation());
         }
-        protected AIMoveToActionV2 CreateAIMoveToActionV2(AIMoveToActionInputData AIMoveToActionInputData, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
+
+        public static AIWarpActionV2 CreateAIWarpAction(CoreInteractiveObject InvolvedInteractiveObject, Vector3 WorldPosition, Vector3? WorldRotation)
         {
-            return new AIMoveToActionV2(AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation(), AIMoveToActionInputData.AIMovementSpeed,
+            return new AIWarpActionV2(InvolvedInteractiveObject, WorldPosition, WorldRotation);
+        }
+
+        public static AIMoveToActionV2 CreateAIMoveToActionV2(AIMoveToActionInputData AIMoveToActionInputData, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
+        {
+            return CreateAIMoveToActionV2(AIMoveToActionInputData.WorldPosition, AIMoveToActionInputData.GetWorldRotation(), AIMoveToActionInputData.AIMovementSpeed, AIPatrolGraphRuntimeCallbacks);
+        }
+
+        public static AIMoveToActionV2 CreateAIMoveToActionV2(Vector3 WorldPosition, Vector3? WorldRotation,
+            AIMovementSpeedAttenuationFactor AIMovementSpeed, AIPatrolGraphRuntimeCallbacks AIPatrolGraphRuntimeCallbacks)
+        {
+            return new AIMoveToActionV2(WorldPosition, WorldRotation, AIMovementSpeed,
                 AIPatrolGraphRuntimeCallbacks.SetCoreInteractiveObjectDestinationCallback,
                 AIPatrolGraphRuntimeCallbacks.SetAISpeedAttenuationFactorCallback);
         }

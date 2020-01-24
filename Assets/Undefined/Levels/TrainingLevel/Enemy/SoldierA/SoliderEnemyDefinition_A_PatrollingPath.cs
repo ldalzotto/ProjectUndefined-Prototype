@@ -28,12 +28,12 @@ public class SoliderEnemyDefinition_A_PatrollingPath : AIPatrolGraphV2
     {
         return new ASequencedAction[]
         {
-            this.CreateAIWarpAction(InvolvedInteractiveObject, this.P1)
+            CreateAIWarpAction(InvolvedInteractiveObject, this.P1)
                 .Then(new BranchInfiniteLoopAction(
                         new WaitForSecondsAction(this.P1_SecondsToWait)
-                            .Then(this.CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks)
+                            .Then(CreateAIMoveToActionV2(this.P2, AIPatrolGraphRuntimeCallbacks)
                                 .Then(new WaitForSecondsAction(this.P2_SecondsToWait)
-                                    .Then(this.CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks))
+                                    .Then(CreateAIMoveToActionV2(this.P1, AIPatrolGraphRuntimeCallbacks))
                                 )
                             )
                     )

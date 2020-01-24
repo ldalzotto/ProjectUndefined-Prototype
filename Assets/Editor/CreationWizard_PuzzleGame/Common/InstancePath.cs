@@ -43,7 +43,7 @@ namespace Editor_MainGameCreationWizard
         public static string LevelZoneChunkSceneConfigurationDataPath = "Assets/~CoreGame/Configuration/SubConfigurations/ChunkZonesSceneConfiguration/Data";
 
         [MyReadOnly()]
-        public static string LevelChunkBaseLevelPrefabPath = "Assets/~CoreGame/LevelManagement/Prefab";
+        public static string LevelChunkBaseLevelPrefabPath = "Assets/Common/LevelManagement/LevelManagement_Assets/Prefab";
 
     }
 }

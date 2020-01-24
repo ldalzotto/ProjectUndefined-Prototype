@@ -16,7 +16,7 @@ namespace LevelManagement
     public enum LevelZoneChunkID
     {
         NONE = 0,
-
+        INFINITE_LEVEL = 3,
         RTP_PUZZLE_CREATION_TEST = 4,
     }
 }

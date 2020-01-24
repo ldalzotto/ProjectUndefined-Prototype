@@ -141,6 +141,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavMeshComponentsTestsEditm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequencedAction_Editor", "SequencedAction_Editor.csproj", "{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIObjects_Editor", "AIObjects_Editor.csproj", "{A96F9211-D656-DB02-7A20-68DB2235B62A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -427,6 +429,10 @@ Global
 		{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A646BFF-BB9D-AE77-773F-66A2D59A5ED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A96F9211-D656-DB02-7A20-68DB2235B62A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A96F9211-D656-DB02-7A20-68DB2235B62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A96F9211-D656-DB02-7A20-68DB2235B62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A96F9211-D656-DB02-7A20-68DB2235B62A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

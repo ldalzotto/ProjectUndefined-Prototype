@@ -9,8 +9,8 @@ namespace SoliderAIBehavior
     [SceneHandleDraw]
     public class SoldierAIBehaviorDefinition : SerializedScriptableObject
     {
-        [Inline(createAtSameLevelIfAbsent: true)]
-        public AIPatrolSystemDefinition AIPatrolSystemDefinition;
+        [FormerlySerializedAs("AIPatrolSystemDefinition")] [Inline(createAtSameLevelIfAbsent: true)]
+        public AIPatrolGraphBuilder AIPatrolGraphBuilder;
 
         /// <summary>
         /// The maximum distance between the <see cref="SoliderEnemy"/> and the <see cref="PlayerObject.PlayerInteractiveObject"/> to switch
@@ -24,8 +24,7 @@ namespace SoliderAIBehavior
         /// <summary>
         /// The distance from which the AI will stop while on state <see cref="SoldierAIStateEnum.SHOOTING_AT_PLAYER"/> and moving towards player.
         /// </summary>
-        [FormerlySerializedAs("DistanceToStopWhenMovingWhileShootingAtPlayer")]
-        [WireCircleWorld(R = 0f, G = 1f, B = 1f, UseTransform = true, RadiusFieldName = nameof(SoldierAIBehaviorDefinition.MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer))]
+        [FormerlySerializedAs("DistanceToStopWhenMovingWhileShootingAtPlayer")] [WireCircleWorld(R = 0f, G = 1f, B = 1f, UseTransform = true, RadiusFieldName = nameof(SoldierAIBehaviorDefinition.MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer))]
         public float MinDistanceFromPlayerToStopWhenMovingWhileShootingAtPlayer = 10;
 
         /// <summary>

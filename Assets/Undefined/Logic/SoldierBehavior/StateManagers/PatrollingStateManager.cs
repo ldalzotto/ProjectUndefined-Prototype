@@ -15,10 +15,10 @@ namespace SoliderAIBehavior
     {
         private AIPatrolSystem AIPatrolSystem;
 
-        public PatrollingStateManager(CoreInteractiveObject AssociatedInteractiveObject, AIPatrolSystemDefinition AIPatrolSystemDefinition,
+        public PatrollingStateManager(CoreInteractiveObject AssociatedInteractiveObject, AIPatrolGraphBuilder AIPatrolGraphBuilder,
             ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback)
         {
-            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolSystemDefinition, ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction_NoReturn,
+            this.AIPatrolSystem = new AIPatrolSystem(AssociatedInteractiveObject, AIPatrolGraphBuilder, ISetAIAgentDestinationActionCallback.SetAIAgentDestinationAction_NoReturn,
                 ISetAIAgentDestinationActionCallback.SetAIAgentSpeedAttenuationAction);
         }
 
