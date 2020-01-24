@@ -84,6 +84,7 @@ namespace InteractiveObjects
                 Agent.height = AIAgentDefinition.AgentHeight;
                 Agent.acceleration = 99999999f;
                 Agent.angularSpeed = 99999999f;
+                Agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
             }
 
             InitAgent();
