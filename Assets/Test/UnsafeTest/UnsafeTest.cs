@@ -1,29 +1,45 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Burst;
-using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Profiling;
-using UnityScript.Steps;
-
-///
-/// TODO
-/// Finishing the UnsafeStackV2. It's memory copy when the capacity is doubled doesn't work.
-/// Delete UnsafeStackOfPointer -> every unsafe stack must use the UnsafeStackV2.
-/// Make the UnsafeList to use the stack for deletion index.
-/// Make the UnsafeList generic like the UnsafeStackV2.
-/// 
 
 namespace Test.UnsafeTest
 {
-    public class UnsafeTest : MonoBehaviour
+    public unsafe class UnsafeTest : MonoBehaviour
     {
         private void Start()
         {
-           
+            var warmList = new UnsafeListV2<MyStruct>(1, 1);
+            MyStruct* MyStructPtr = MyStruct.Allocate(new MyStruct(1, true, 5));
+            warmList.Add(MyStructPtr);
+            Marshal.FreeHGlobal((IntPtr) MyStructPtr);
+            warmList.Dispose();
+
+
+            Profiler.BeginSample("UnsafeTest : Allocation");
+            var list = new UnsafeListV2<MyStruct>(1024, 2);
+            for (int i = 0; i < 1024; i++)
+            {
+                MyStruct* MyStructPtrTmp = MyStruct.Allocate(new MyStruct(1, true, 5));
+                list.Add(MyStructPtrTmp);
+            }
+
+            Profiler.EndSample();
+
+
+            Profiler.BeginSample("UnsafeTest : DeAlloc");
+            for (int i = 0; i < 1000; i++)
+            {
+                var foundPtr = list.Get(i);
+                if ((IntPtr) foundPtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal((IntPtr) foundPtr);
+                }
+            }
+
+            list.Dispose();
+
+            Profiler.EndSample();
         }
 
         public unsafe static void FooV2()
@@ -80,15 +96,6 @@ namespace Test.UnsafeTest
 
         private void Update()
         {
-            new JobAlloc().Schedule().Complete();
-        }
-    }
-
-    struct JobAlloc : IJob
-    {
-        public void Execute()
-        {
-            new List<int>(50);
         }
     }
 
@@ -111,6 +118,27 @@ namespace Test.UnsafeTest
             *MyStructHandlerPointer = MyStruct;
             return MyStructHandlerPointer;
         }
+
+        public bool Equals(MyStruct other)
+        {
+            return Int == other.Int && Bool == other.Bool && Long == other.Long;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MyStruct other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Int;
+                hashCode = (hashCode * 397) ^ Bool.GetHashCode();
+                hashCode = (hashCode * 397) ^ Long.GetHashCode();
+                return hashCode;
+            }
+        }
     }
 
     public unsafe struct UnsafeListV2<T> : IDisposable where T : unmanaged
@@ -128,17 +156,21 @@ namespace Test.UnsafeTest
         {
             if (initialSize == 0)
             {
-                initialSize = 1;
+                initialSize = 2;
             }
 
             if (deleteIndexBufferInitialSize == 0)
             {
-                deleteIndexBufferInitialSize = 1;
+                deleteIndexBufferInitialSize = 2;
             }
 
             this.DeletedFreedIndexes = new UnsafeStackV2<int>(deleteIndexBufferInitialSize, sizeof(int));
             this.ElementSizeInByte = sizeof(IntPtr);
             this.Memory = (void*) Marshal.AllocHGlobal(initialSize * ElementSizeInByte);
+            for (int i = 0; i < initialSize; i++)
+            {
+                *(IntPtr*) (((byte*) Memory) + ElementSizeInByte * i) = IntPtr.Zero;
+            }
 
             this.Count = 0;
             this.Capacity = initialSize;
@@ -181,6 +213,10 @@ namespace Test.UnsafeTest
         {
             var newCapacity = this.Capacity * 2;
             void* newMemory = (void*) Marshal.AllocHGlobal(newCapacity * ElementSizeInByte);
+            for (int i = 0; i < newCapacity; i++)
+            {
+                *(IntPtr*) (((byte*) newMemory) + ElementSizeInByte * i) = IntPtr.Zero;
+            }
 
             Buffer.MemoryCopy(this.Memory, newMemory, newCapacity * ElementSizeInByte, this.Capacity * ElementSizeInByte);
 
@@ -192,8 +228,9 @@ namespace Test.UnsafeTest
         public void Remove(int index)
         {
             this.CheckIfIndexIsAllowed(index);
-            if (((void*) this.Get(index)) != null)
+            if (((IntPtr) this.Get(index)) != IntPtr.Zero)
             {
+                this.Set(index, (T*) IntPtr.Zero);
                 this.DeletedFreedIndexes.Push(index);
                 Count -= 1;
                 this.SetMaxSettedIndexValueToTheClosetValue();
@@ -295,81 +332,4 @@ namespace Test.UnsafeTest
             }
         }
     }
-
-    /*
-    public unsafe struct UnsafeStackOfPointer : IDisposable
-    {
-        public int Count { get; private set; }
-        public int Capacity { get; private set; }
-
-        private void* Memory;
-        private int ElementSizeInByte;
-
-        public UnsafeStackOfPointer(int initialSize = 2)
-        {
-            this.Memory = null;
-            this.ElementSizeInByte = sizeof(PointerContainer);
-            if (initialSize == 0)
-            {
-                initialSize = 2;
-            }
-
-            this.Memory = (void*) Marshal.AllocHGlobal(initialSize * ElementSizeInByte);
-            this.Count = 0;
-            this.Capacity = initialSize;
-        }
-
-        public void Push(IntPtr input)
-        {
-            if (Count + 1 > Capacity)
-            {
-                this.DoubleCapacity();
-            }
-
-            *(PointerContainer*) (((byte*) Memory) + ElementSizeInByte * Count) = new PointerContainer(input);
-            Count += 1;
-        }
-
-        private void DoubleCapacity()
-        {
-            var newCapacity = this.Capacity * 2;
-            void* newMemory = (void*) Marshal.AllocHGlobal(newCapacity * ElementSizeInByte);
-
-            for (var i = 0; i < this.Capacity; i++)
-            {
-                *(PointerContainer*) (((byte*) newMemory) + ElementSizeInByte * i)
-                    = new PointerContainer(((PointerContainer*) (((byte*) Memory) + ElementSizeInByte * i))->StoredPointer);
-            }
-            
-            Marshal.FreeHGlobal((IntPtr) this.Memory);
-            this.Memory = newMemory;
-            this.Capacity = newCapacity;
-        }
-
-        public IntPtr? Pop()
-        {
-            if (this.HasElements())
-            {
-                Count -= 1;
-                var intPtr = ((PointerContainer*) (((byte*) Memory) + ElementSizeInByte * Count))->StoredPointer;
-                return intPtr;
-            }
-
-            return null;
-        }
-
-        public bool HasElements()
-        {
-            return Count > 0;
-        }
-
-        public void Dispose()
-        {
-            if (this.Memory != null)
-            {
-                Marshal.FreeHGlobal((IntPtr) this.Memory);
-            }
-        }
-    }
-    */
 }
