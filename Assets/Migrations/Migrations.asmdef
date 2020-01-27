@@ -5,11 +5,14 @@
         "Editor",
         "Editor_Common",
         "OdinSerializer",
+        "InteractiveObjects",
         "InteractiveObjects_Interfaces",
         "Tests",
         "SequencedAction",
         "Health",
-        "ParticleObjects"
+        "ParticleObjects",
+        "TrainingLevel",
+        "SightVisualFeedback"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

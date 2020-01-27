@@ -26,6 +26,7 @@ namespace TrainingLevel
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
         public InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem { get; private set; }
         private SightVisualFeedbackSystem SightVisualFeedbackSystem;
+        private SightVisualFeedbackStateBehavior SightVisualFeedbackStateBehavior;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -49,25 +50,27 @@ namespace TrainingLevel
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
 
             this.SightVisualFeedbackSystem = new SightVisualFeedbackSystem(SoliderEnemyDefinition.SightVisualFeedbackSystemDefinition, this);
+            this.SightVisualFeedbackStateBehavior = new SightVisualFeedbackStateBehavior(this.SightVisualFeedbackSystem);
 
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
-                new SoldierAIBehaviorExternalCallbacksV2(
-                    this.SetDestination,
-                    (IAgentMovementCalculationStrategy => this.SetDestination(IAgentMovementCalculationStrategy)),
-                    this.SetAISpeedAttenuationFactor,
-                    this.AIMoveToDestinationSystem.ClearPath,
-                    this.FireProjectileAction_Start,
-                    () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
-                    this.OnShootingAtPlayerStart,
-                    this.OnShootingAtPlayerEnd,
-                    this.WeaponHandlingSystem,
-                    OnMoveTowardsPlayerStartedAction: (CoreInteractiveObject MovingTowardsObject) => { this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.DANGER); },
-                    OnMoveTowardsPlayerEndedAction: () => this.SightVisualFeedbackSystem.Hide(),
-                    OnMoveAroundPlayerStartedAction: (Vector3 LockedWorldPosition) => { this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.WARNING); },
-                    OnMoveAroundPlayerEndedAction: () => this.SightVisualFeedbackSystem.Hide(),
-                    OnMoveToLastSeenPlayerPositionStartedAction: (Vector3 LockedWorldPosition) => { this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.WARNING); },
-                    OnMoveToLastSeenPlayerPositionEndedAction: () => this.SightVisualFeedbackSystem.Hide()
-                ));
+                new SoldierAIBehaviorExternalCallbacksV2()
+                {
+                    SetAIAgentDestinationAction = this.SetDestination,
+                    SetAIAgentDestinationAction_NoReturn = (IAgentMovementCalculationStrategy => this.SetDestination(IAgentMovementCalculationStrategy)),
+                    SetAIAgentSpeedAttenuationAction = this.SetAISpeedAttenuationFactor,
+                    ClearAIAgentPathAction = this.AIMoveToDestinationSystem.ClearPath,
+                    AskToFireAFiredprojectile_WithWorldDirection_Action = this.FireProjectileAction_Start,
+                    GetWeaponFirePointOriginLocalDefinitionAction = () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
+                    OnShootingAtPlayerStartAction = this.OnShootingAtPlayerStart,
+                    OnShootingAtPlayerEndAction = this.OnShootingAtPlayerEnd,
+                    GetIWeaponHandlingSystem_DataRetrievalAction = this.WeaponHandlingSystem,
+                    OnMoveTowardsPlayerStartedAction = (CoreInteractiveObject MovingTowardsObject) => this.SightVisualFeedbackStateBehavior.SetSightVisualFeedbackState(SightVisualFeedbackState.DANGER),
+                    OnMoveTowardsPlayerEndedAction = () => this.SightVisualFeedbackStateBehavior.SetSightVisualFeedbackState(SightVisualFeedbackState.NONE),
+                    OnMoveAroundPlayerStartedAction = (Vector3 LockedWorldPosition) => this.SightVisualFeedbackStateBehavior.SetSightVisualFeedbackState(SightVisualFeedbackState.WARNING),
+                    OnMoveAroundPlayerEndedAction = () => this.SightVisualFeedbackStateBehavior.SetSightVisualFeedbackState(SightVisualFeedbackState.NONE),
+                    OnMoveToLastSeenPlayerPositionStartedAction = (Vector3 LockedWorldPosition) => this.SightVisualFeedbackStateBehavior.SetSightVisualFeedbackState(SightVisualFeedbackState.WARNING),
+                    OnMoveToLastSeenPlayerPositionEndedAction = () => this.SightVisualFeedbackStateBehavior.SetSightVisualFeedbackState(SightVisualFeedbackState.NONE)
+                });
         }
 
         public override void Tick(float d)

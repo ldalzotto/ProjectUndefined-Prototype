@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Migrations\HealthEffectMigration.cs" />
+     <Compile Include="Assets\Migrations\SightVisualFeedbackMigration.cs" />
      <None Include="Assets\Migrations\Migrations.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
@@ -633,6 +634,10 @@
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
+      <Name>InteractiveObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
       <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
       <Name>InteractiveObjects_Interfaces</Name>
@@ -652,6 +657,14 @@
     <ProjectReference Include="ParticleObjects.csproj">
       <Project>{3D641700-EE7B-B0CD-C1A4-30A6770EF780}</Project>
       <Name>ParticleObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="TrainingLevel.csproj">
+      <Project>{D4CF0486-5FD3-CB62-F590-DE9F0C209AEF}</Project>
+      <Name>TrainingLevel</Name>
+    </ProjectReference>
+    <ProjectReference Include="SightVisualFeedback.csproj">
+      <Project>{4EA53CFD-A246-F22C-F646-DDB0FBD16837}</Project>
+      <Name>SightVisualFeedback</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -47,8 +47,6 @@ namespace SightVisualFeedback
         {
             switch (SightVisualFeedbackColorType)
             {
-                case SightVisualFeedbackColorType.NEUTRAL:
-                    break;
                 case SightVisualFeedbackColorType.WARNING:
                     this.SightVisualFeedbackGameObject.SetMaterial(this.SightVisualFeedbackSystemDefinition.WarningIconMaterial);
                     this.SightVisualFeedbackGameObject.AssociatedGameObject.transform.position = this.AssociatedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center + new Vector3(0, this.AssociatedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().max.y * 0.65f, 0);
@@ -70,9 +68,10 @@ namespace SightVisualFeedback
 
     public enum SightVisualFeedbackColorType
     {
-        NEUTRAL = 0,
-        WARNING = 1,
-        DANGER = 2
+        NONE = 0,
+        NEUTRAL = 1,
+        WARNING = 2,
+        DANGER = 3
     }
 
     public interface ISightVisualFeedbackPositioner

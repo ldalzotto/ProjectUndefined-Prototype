@@ -19,6 +19,8 @@ namespace SoliderAIBehavior
         TRACK_UNKNOWN
     }
 
+    #region Callback Interfaces
+
     public interface ISetAIAgentDestinationActionCallback
     {
         Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction { get; }
@@ -65,48 +67,26 @@ namespace SoliderAIBehavior
     public struct SoldierAIBehaviorExternalCallbacksV2 : ISetAIAgentDestinationActionCallback, IFiringProjectileCallback, IShootingAtPlayerWorkflowCallback,
         IWeaponDataRetrieval, IMoveTowardsPlayerStateManagerWorkflowCallback, IMoveAroundPlayerStateManagerWorkflowCallback, IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback
     {
-        public SoldierAIBehaviorExternalCallbacksV2(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> aiAgentDestinationAction, Action<IAgentMovementCalculationStrategy> aiAgentDestinationActionNoReturn, Action<AIMovementSpeedAttenuationFactor> aiAgentSpeedAttenuationAction, Action clearAiAgentPathAction,
-            Action<Vector3> askToFireAFiredprojectileWithWorldDirectionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action<CoreInteractiveObject> onShootingAtPlayerStartAction,
-            Action onShootingAtPlayerEndAction, IWeaponHandlingSystem_DataRetrieval iWeaponHandlingSystemDataRetrievalAction,
-            Action<CoreInteractiveObject> OnMoveTowardsPlayerStartedAction = null, Action OnMoveTowardsPlayerEndedAction = null,
-            Action<Vector3> OnMoveAroundPlayerStartedAction = null, Action OnMoveAroundPlayerEndedAction = null,
-            Action<Vector3> OnMoveToLastSeenPlayerPositionStartedAction = null, Action OnMoveToLastSeenPlayerPositionEndedAction = null)
-        {
-            SetAIAgentDestinationAction = aiAgentDestinationAction;
-            SetAIAgentDestinationAction_NoReturn = aiAgentDestinationActionNoReturn;
-            SetAIAgentSpeedAttenuationAction = aiAgentSpeedAttenuationAction;
-            ClearAIAgentPathAction = clearAiAgentPathAction;
-            AskToFireAFiredprojectile_WithWorldDirection_Action = askToFireAFiredprojectileWithWorldDirectionAction;
-            GetWeaponFirePointOriginLocalDefinitionAction = weaponFirePointOriginLocalDefinitionAction;
-            OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
-            OnShootingAtPlayerEndAction = onShootingAtPlayerEndAction;
-            GetIWeaponHandlingSystem_DataRetrievalAction = iWeaponHandlingSystemDataRetrievalAction;
-            this.OnMoveTowardsPlayerStartedAction = OnMoveTowardsPlayerStartedAction;
-            this.OnMoveTowardsPlayerEndedAction = OnMoveTowardsPlayerEndedAction;
-            this.OnMoveAroundPlayerStartedAction = OnMoveAroundPlayerStartedAction;
-            this.OnMoveAroundPlayerEndedAction = OnMoveAroundPlayerEndedAction;
-            this.OnMoveToLastSeenPlayerPositionStartedAction = OnMoveToLastSeenPlayerPositionStartedAction;
-            this.OnMoveToLastSeenPlayerPositionEndedAction = OnMoveToLastSeenPlayerPositionEndedAction;
-        }
+        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction { get; set; }
+        public Action<IAgentMovementCalculationStrategy> SetAIAgentDestinationAction_NoReturn { get; set; }
+        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction { get; set; }
+        public Action ClearAIAgentPathAction { get; set; }
+        public Action<Vector3> AskToFireAFiredprojectile_WithWorldDirection_Action { get; set; }
+        public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction { get; set; }
+        public Action<CoreInteractiveObject> OnShootingAtPlayerStartAction { get; set; }
+        public Action OnShootingAtPlayerEndAction { get; set; }
+        public IWeaponHandlingSystem_DataRetrieval GetIWeaponHandlingSystem_DataRetrievalAction { get; set; }
+        public Action<CoreInteractiveObject> OnMoveTowardsPlayerStartedAction { get; set; }
+        public Action OnMoveTowardsPlayerEndedAction { get; set; }
 
-        public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction { get; }
-        public Action<IAgentMovementCalculationStrategy> SetAIAgentDestinationAction_NoReturn { get; }
-        public Action<AIMovementSpeedAttenuationFactor> SetAIAgentSpeedAttenuationAction { get; }
-        public Action ClearAIAgentPathAction { get; }
-        public Action<Vector3> AskToFireAFiredprojectile_WithWorldDirection_Action { get; }
-        public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction { get; }
-        public Action<CoreInteractiveObject> OnShootingAtPlayerStartAction { get; }
-        public Action OnShootingAtPlayerEndAction { get; }
-        public IWeaponHandlingSystem_DataRetrieval GetIWeaponHandlingSystem_DataRetrievalAction { get; }
-        public Action<CoreInteractiveObject> OnMoveTowardsPlayerStartedAction { get; }
-        public Action OnMoveTowardsPlayerEndedAction { get; }
-
-        public Action<Vector3> OnMoveAroundPlayerStartedAction { get; }
-        public Action OnMoveAroundPlayerEndedAction { get; }
-        public Action<Vector3> OnMoveToLastSeenPlayerPositionStartedAction { get; }
-        public Action OnMoveToLastSeenPlayerPositionEndedAction { get; }
+        public Action<Vector3> OnMoveAroundPlayerStartedAction { get; set; }
+        public Action OnMoveAroundPlayerEndedAction { get; set; }
+        public Action<Vector3> OnMoveToLastSeenPlayerPositionStartedAction { get; set; }
+        public Action OnMoveToLastSeenPlayerPositionEndedAction { get; set; }
     }
 
+    #endregion
+    
     public class SoldierStateBehavior : StateBehavior<SoldierAIStateEnum, SoldierStateManager>
     {
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
