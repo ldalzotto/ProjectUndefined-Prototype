@@ -35,8 +35,26 @@ namespace SoliderAIBehavior
 
     public interface IShootingAtPlayerWorkflowCallback
     {
-        Action OnShootingAtPlayerStartAction { get; }
+        Action<CoreInteractiveObject> OnShootingAtPlayerStartAction { get; }
         Action OnShootingAtPlayerEndAction { get; }
+    }
+
+    public interface IMoveTowardsPlayerStateManagerWorkflowCallback
+    {
+        Action<CoreInteractiveObject> OnMoveTowardsPlayerStartedAction { get; }
+        Action OnMoveTowardsPlayerEndedAction { get; }
+    }
+
+    public interface IMoveAroundPlayerStateManagerWorkflowCallback
+    {
+        Action<Vector3> OnMoveAroundPlayerStartedAction { get; }
+        Action OnMoveAroundPlayerEndedAction { get; }
+    }
+
+    public interface IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback
+    {
+        Action<Vector3> OnMoveToLastSeenPlayerPositionStartedAction { get; }
+        Action OnMoveToLastSeenPlayerPositionEndedAction { get; }
     }
 
     public interface IWeaponDataRetrieval
@@ -44,10 +62,15 @@ namespace SoliderAIBehavior
         IWeaponHandlingSystem_DataRetrieval GetIWeaponHandlingSystem_DataRetrievalAction { get; }
     }
 
-    public struct SoldierAIBehaviorExternalCallbacksV2 : ISetAIAgentDestinationActionCallback, IFiringProjectileCallback, IShootingAtPlayerWorkflowCallback, IWeaponDataRetrieval
+    public struct SoldierAIBehaviorExternalCallbacksV2 : ISetAIAgentDestinationActionCallback, IFiringProjectileCallback, IShootingAtPlayerWorkflowCallback,
+        IWeaponDataRetrieval, IMoveTowardsPlayerStateManagerWorkflowCallback, IMoveAroundPlayerStateManagerWorkflowCallback, IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback
     {
         public SoldierAIBehaviorExternalCallbacksV2(Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> aiAgentDestinationAction, Action<IAgentMovementCalculationStrategy> aiAgentDestinationActionNoReturn, Action<AIMovementSpeedAttenuationFactor> aiAgentSpeedAttenuationAction, Action clearAiAgentPathAction,
-            Action<Vector3> askToFireAFiredprojectileWithWorldDirectionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action onShootingAtPlayerStartAction, Action onShootingAtPlayerEndAction, IWeaponHandlingSystem_DataRetrieval iWeaponHandlingSystemDataRetrievalAction)
+            Action<Vector3> askToFireAFiredprojectileWithWorldDirectionAction, Func<WeaponHandlingFirePointOriginLocalDefinition> weaponFirePointOriginLocalDefinitionAction, Action<CoreInteractiveObject> onShootingAtPlayerStartAction,
+            Action onShootingAtPlayerEndAction, IWeaponHandlingSystem_DataRetrieval iWeaponHandlingSystemDataRetrievalAction,
+            Action<CoreInteractiveObject> OnMoveTowardsPlayerStartedAction = null, Action OnMoveTowardsPlayerEndedAction = null,
+            Action<Vector3> OnMoveAroundPlayerStartedAction = null, Action OnMoveAroundPlayerEndedAction = null,
+            Action<Vector3> OnMoveToLastSeenPlayerPositionStartedAction = null, Action OnMoveToLastSeenPlayerPositionEndedAction = null)
         {
             SetAIAgentDestinationAction = aiAgentDestinationAction;
             SetAIAgentDestinationAction_NoReturn = aiAgentDestinationActionNoReturn;
@@ -58,6 +81,12 @@ namespace SoliderAIBehavior
             OnShootingAtPlayerStartAction = onShootingAtPlayerStartAction;
             OnShootingAtPlayerEndAction = onShootingAtPlayerEndAction;
             GetIWeaponHandlingSystem_DataRetrievalAction = iWeaponHandlingSystemDataRetrievalAction;
+            this.OnMoveTowardsPlayerStartedAction = OnMoveTowardsPlayerStartedAction;
+            this.OnMoveTowardsPlayerEndedAction = OnMoveTowardsPlayerEndedAction;
+            this.OnMoveAroundPlayerStartedAction = OnMoveAroundPlayerStartedAction;
+            this.OnMoveAroundPlayerEndedAction = OnMoveAroundPlayerEndedAction;
+            this.OnMoveToLastSeenPlayerPositionStartedAction = OnMoveToLastSeenPlayerPositionStartedAction;
+            this.OnMoveToLastSeenPlayerPositionEndedAction = OnMoveToLastSeenPlayerPositionEndedAction;
         }
 
         public Func<IAgentMovementCalculationStrategy, NavMeshPathStatus> SetAIAgentDestinationAction { get; }
@@ -66,11 +95,16 @@ namespace SoliderAIBehavior
         public Action ClearAIAgentPathAction { get; }
         public Action<Vector3> AskToFireAFiredprojectile_WithWorldDirection_Action { get; }
         public Func<WeaponHandlingFirePointOriginLocalDefinition> GetWeaponFirePointOriginLocalDefinitionAction { get; }
-        public Action OnShootingAtPlayerStartAction { get; }
+        public Action<CoreInteractiveObject> OnShootingAtPlayerStartAction { get; }
         public Action OnShootingAtPlayerEndAction { get; }
         public IWeaponHandlingSystem_DataRetrieval GetIWeaponHandlingSystem_DataRetrievalAction { get; }
+        public Action<CoreInteractiveObject> OnMoveTowardsPlayerStartedAction { get; }
+        public Action OnMoveTowardsPlayerEndedAction { get; }
 
-
+        public Action<Vector3> OnMoveAroundPlayerStartedAction { get; }
+        public Action OnMoveAroundPlayerEndedAction { get; }
+        public Action<Vector3> OnMoveToLastSeenPlayerPositionStartedAction { get; }
+        public Action OnMoveToLastSeenPlayerPositionEndedAction { get; }
     }
 
     public class SoldierStateBehavior : StateBehavior<SoldierAIStateEnum, SoldierStateManager>

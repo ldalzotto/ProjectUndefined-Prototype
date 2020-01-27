@@ -730,6 +730,10 @@
       <Project>{E5028A06-DC12-C9D4-BA85-709C2A9676FE}</Project>
       <Name>SoldierAnimation</Name>
     </ProjectReference>
+    <ProjectReference Include="SightVisualFeedback.csproj">
+      <Project>{4EA53CFD-A246-F22C-F646-DDB0FBD16837}</Project>
+      <Name>SightVisualFeedback</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

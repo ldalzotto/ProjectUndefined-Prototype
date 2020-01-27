@@ -1,0 +1,20 @@
+{
+    "name": "SightVisualFeedback",
+    "references": [
+        "CoreGame",
+        "OdinSerializer",
+        "InteractiveObjects",
+        "InteractiveObjects_Interfaces",
+        "Editor_Common",
+        "AnimatorPlayable"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

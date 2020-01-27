@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{E5028A06-DC12-C9D4-BA85-709C2A9676FE}</ProjectGuid>
+    <ProjectGuid>{4EA53CFD-A246-F22C-F646-DDB0FBD16837}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>SoldierAnimation</AssemblyName>
+    <AssemblyName>SightVisualFeedback</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -29,7 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -39,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -58,11 +58,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierAnimation\SoldierAnimationSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierAnimation\SoldierObjectLocomotionState\SoldierObjectLocomotionState.cs" />
-     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierAnimation\SoldierTargettingUpperBodyState\SoldierTargettingUpperBodyState.cs" />
-     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierAnimation\SoliderEnemyAnimationStateManager.cs" />
-     <None Include="Assets\Undefined\Logic\Soldier\SoldierAnimation\SoldierAnimation.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\Configuration\SightVisualFeedbackSystemDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\System\SightVisualFeedbackGameObject.cs" />
+     <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\System\SightVisualFeedbackSystem.cs" />
+     <None Include="Assets\Undefined\Logic\SightVisualFeedback\SightVisualFeedback.asmdef" />
  <Reference Include="UnityEditor.UI">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -628,9 +627,13 @@
       <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
       <Name>OdinSerializer</Name>
     </ProjectReference>
-    <ProjectReference Include="InteractiveObject_Animation.csproj">
-      <Project>{D0E603E2-72D1-CACC-2B54-0D287334F5E5}</Project>
-      <Name>InteractiveObject_Animation</Name>
+    <ProjectReference Include="InteractiveObjects.csproj">
+      <Project>{84B67466-A694-5334-5B9C-0ABD21622B31}</Project>
+      <Name>InteractiveObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="InteractiveObjects_Interfaces.csproj">
+      <Project>{32FF3C5D-184F-DAC9-59CC-8BB9441FEF2A}</Project>
+      <Name>InteractiveObjects_Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>

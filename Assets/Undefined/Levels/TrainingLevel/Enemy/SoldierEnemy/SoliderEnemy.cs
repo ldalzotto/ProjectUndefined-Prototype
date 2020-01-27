@@ -4,6 +4,7 @@ using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
 using InteractiveObjectAction;
+using SightVisualFeedback;
 using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace TrainingLevel
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
         public InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem { get; private set; }
+        private SightVisualFeedbackSystem SightVisualFeedbackSystem;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
@@ -46,6 +48,8 @@ namespace TrainingLevel
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
 
+            this.SightVisualFeedbackSystem = new SightVisualFeedbackSystem(SoliderEnemyDefinition.SightVisualFeedbackSystemDefinition, this);
+
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
                 new SoldierAIBehaviorExternalCallbacksV2(
                     this.SetDestination,
@@ -56,7 +60,13 @@ namespace TrainingLevel
                     () => SoliderEnemyDefinition.WeaponHandlingSystemDefinition.WeaponHandlingFirePointOriginLocalDefinition,
                     this.OnShootingAtPlayerStart,
                     this.OnShootingAtPlayerEnd,
-                    this.WeaponHandlingSystem
+                    this.WeaponHandlingSystem,
+                    OnMoveTowardsPlayerStartedAction: (CoreInteractiveObject MovingTowardsObject) => { this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.DANGER); },
+                    OnMoveTowardsPlayerEndedAction: () => this.SightVisualFeedbackSystem.Hide(),
+                    OnMoveAroundPlayerStartedAction: (Vector3 LockedWorldPosition) => { this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.WARNING); },
+                    OnMoveAroundPlayerEndedAction: () => this.SightVisualFeedbackSystem.Hide(),
+                    OnMoveToLastSeenPlayerPositionStartedAction: (Vector3 LockedWorldPosition) => { this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.WARNING); },
+                    OnMoveToLastSeenPlayerPositionEndedAction: () => this.SightVisualFeedbackSystem.Hide()
                 ));
         }
 
@@ -85,9 +95,17 @@ namespace TrainingLevel
                 this.SoliderEnemyAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirection_Attenuated());
             }
 
+            SightVisualFeedbackSystem.AfterTicks(d);
+
             base.AfterTicks(d);
             this.SoliderEnemyAnimationStateManager.Tick(d);
             base.UpdateAniamtions(d);
+        }
+
+        public override void TickTimeFrozen(float d)
+        {
+            this.SightVisualFeedbackSystem.TickTimeFrozen(d);
+            base.TickTimeFrozen(d);
         }
 
         public override void Destroy()
@@ -95,6 +113,7 @@ namespace TrainingLevel
             this.SightObjectSystem.OnDestroy();
             this._soldierStateBehavior.OnDestroy();
             this.WeaponHandlingSystem.Destroy();
+            SightVisualFeedbackSystem.Destroy();
             base.Destroy();
         }
 
@@ -168,14 +187,16 @@ namespace TrainingLevel
 
         #region internal Firing Events
 
-        private void OnShootingAtPlayerStart()
+        private void OnShootingAtPlayerStart(CoreInteractiveObject TargettedInteractiveObject)
         {
             this.SoliderEnemyAnimationStateManager.StartTargetting();
+            this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.DANGER);
         }
 
         private void OnShootingAtPlayerEnd()
         {
             this.SoliderEnemyAnimationStateManager.StopTargetting();
+            this.SightVisualFeedbackSystem.Hide();
         }
 
         #endregion

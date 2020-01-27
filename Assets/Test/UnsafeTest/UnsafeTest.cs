@@ -9,11 +9,12 @@ namespace Test.UnsafeTest
     {
         private void Start()
         {
-            var warmList = new UnsafeListV2<MyStruct>(1, 1);
-            MyStruct* MyStructPtr = MyStruct.Allocate(new MyStruct(1, true, 5));
-            warmList.Add(MyStructPtr);
-            Marshal.FreeHGlobal((IntPtr) MyStructPtr);
-            warmList.Dispose();
+            using (UnsafeListV2<MyStruct> warmList = new UnsafeListV2<MyStruct>(1, 1))
+            {
+                MyStruct* MyStructPtr = MyStruct.Allocate(new MyStruct(1, true, 5));
+                warmList.Add(MyStructPtr);
+                Marshal.FreeHGlobal((IntPtr) MyStructPtr);
+            }
 
 
             Profiler.BeginSample("UnsafeTest : Allocation");

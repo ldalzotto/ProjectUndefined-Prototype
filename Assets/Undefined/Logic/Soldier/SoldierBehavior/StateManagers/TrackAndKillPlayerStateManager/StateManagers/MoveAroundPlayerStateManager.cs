@@ -26,6 +26,7 @@ namespace SoliderAIBehavior
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private CoreInteractiveObject AssociatedInteractiveObject;
         private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
+        private IMoveAroundPlayerStateManagerWorkflowCallback IMoveAroundPlayerStateManagerWorkflowCallback;
 
         /// <summary>
         /// GameObject created on the fly that is used as a looking target for the <see cref="LookingAtAgentMovementCalculationStrategy"/>.
@@ -35,20 +36,25 @@ namespace SoliderAIBehavior
 
         private LookingAtAgentMovementCalculationStrategy CalculatedLookingAtAgentMovementCalculationStrategy;
 
-        public MoveAroundPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerStateBehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
+        public MoveAroundPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerStateBehaviorRef,
+            PlayerObjectStateDataSystem playerObjectStateDataSystem, CoreInteractiveObject associatedInteractiveObject,
             WeaponFiringAreaSystem WeaponFiringAreaSystem,
-            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, 
+            IMoveAroundPlayerStateManagerWorkflowCallback IMoveAroundPlayerStateManagerWorkflowCallback)
         {
             _trackAndKillPlayerStateBehaviorRef = trackAndKillPlayerStateBehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             AssociatedInteractiveObject = associatedInteractiveObject;
             this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
+            this.IMoveAroundPlayerStateManagerWorkflowCallback = IMoveAroundPlayerStateManagerWorkflowCallback;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
         }
 
         public override void OnStateEnter()
-        {
+        {   
             var LastPlayerSeenPosition = this.PlayerObjectStateDataSystem.LastPlayerSeenPosition;
+            this.IMoveAroundPlayerStateManagerWorkflowCallback?.OnMoveAroundPlayerStartedAction.Invoke(LastPlayerSeenPosition.WorldPosition);
+            
             var AItoLVPDistance = this.AssociatedInteractiveObject.InteractiveGameObject.GetTransform().WorldPosition - LastPlayerSeenPosition.WorldPosition;
 
             /// The last player seen position is offsetted by the AI->LPS to avoid borderline case where the Player is behind an obstacles
@@ -109,6 +115,7 @@ namespace SoliderAIBehavior
         public override void OnStateExit()
         {
             this.OnDestroy();
+            this.IMoveAroundPlayerStateManagerWorkflowCallback?.OnMoveAroundPlayerEndedAction();
         }
 
         public override void OnDestroy()

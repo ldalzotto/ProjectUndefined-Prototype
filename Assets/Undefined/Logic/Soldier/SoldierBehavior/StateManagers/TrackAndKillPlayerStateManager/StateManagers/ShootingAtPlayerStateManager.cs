@@ -47,7 +47,7 @@ namespace SoliderAIBehavior
         /// </summary>
         public override void OnStateEnter()
         {
-            this.IShootingAtPlayerWorkflowCallback.OnShootingAtPlayerStartAction.Invoke();
+            this.IShootingAtPlayerWorkflowCallback.OnShootingAtPlayerStartAction.Invoke(this.PlayerObjectStateDataSystem.PlayerObject());
             this.ISetAIAgentDestinationActionCallback.ClearAIAgentPathAction.Invoke();
         }
 

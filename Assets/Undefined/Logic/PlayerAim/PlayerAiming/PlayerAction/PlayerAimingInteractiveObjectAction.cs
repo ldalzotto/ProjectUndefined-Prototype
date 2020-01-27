@@ -365,7 +365,7 @@ namespace PlayerAim
                 var objTransform = this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetTransform();
 
                 this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldPosition(new Vector3(objTransform.WorldPosition.x, this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetAverageModelWorldBounds().max.y, objTransform.WorldPosition.z));
-                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldRotation(Quaternion.LookRotation(this.mainCamera.transform.position - this.CurrentlyTargettedInteractiveObject.GetValue().InteractiveGameObject.GetTransform().WorldPosition));
+                this.InteractiveObjectTargettedVisualFeedbackObject.InteractiveObjectTargettedVisualFeedbackGameObject.SetWorldRotation(Quaternion.LookRotation(-this.mainCamera.transform.forward));
             }
         }
 

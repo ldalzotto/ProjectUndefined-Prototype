@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraManagement", "CameraM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerLowHealth_Interfaces", "PlayerLowHealth_Interfaces.csproj", "{897115E3-4EFC-FFAB-2519-685B5FFEC02D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SightVisualFeedback", "SightVisualFeedback.csproj", "{4EA53CFD-A246-F22C-F646-DDB0FBD16837}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextWindows", "TextWindows.csproj", "{DCF02FB2-98FC-BE15-D930-175D2C3F4BC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrations", "Migrations.csproj", "{B4E42632-A85D-A1D9-BD3E-8B60C1EE270D}"
@@ -367,6 +369,10 @@ Global
 		{897115E3-4EFC-FFAB-2519-685B5FFEC02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897115E3-4EFC-FFAB-2519-685B5FFEC02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897115E3-4EFC-FFAB-2519-685B5FFEC02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA53CFD-A246-F22C-F646-DDB0FBD16837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA53CFD-A246-F22C-F646-DDB0FBD16837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA53CFD-A246-F22C-F646-DDB0FBD16837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA53CFD-A246-F22C-F646-DDB0FBD16837}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCF02FB2-98FC-BE15-D930-175D2C3F4BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCF02FB2-98FC-BE15-D930-175D2C3F4BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCF02FB2-98FC-BE15-D930-175D2C3F4BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU

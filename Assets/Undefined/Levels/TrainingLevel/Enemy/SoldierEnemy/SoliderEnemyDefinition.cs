@@ -4,6 +4,7 @@ using Damage;
 using Health;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
+using SightVisualFeedback;
 using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
@@ -50,6 +51,9 @@ namespace TrainingLevel
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public SoldierAnimationSystemDefinition SoldierAnimationSystemDefinition;
 
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        public SightVisualFeedbackSystemDefinition SightVisualFeedbackSystemDefinition;
+        
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
             return new SoliderEnemy(InteractiveGameObjectFactory.Build(interactiveGameObject), this);

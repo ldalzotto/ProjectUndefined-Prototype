@@ -26,7 +26,8 @@
         "Obstacle",
         "SoliderBehavior",
         "SoldierAnimation",
-        "SkillAction"
+        "SkillAction",
+        "SightVisualFeedback"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

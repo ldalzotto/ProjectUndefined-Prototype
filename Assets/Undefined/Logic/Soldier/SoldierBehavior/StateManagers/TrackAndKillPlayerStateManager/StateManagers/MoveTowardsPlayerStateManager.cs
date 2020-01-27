@@ -19,10 +19,11 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private WeaponFiringAreaSystem WeaponFiringAreaSystem;
         private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
+        private IMoveTowardsPlayerStateManagerWorkflowCallback IMoveTowardsPlayerStateManagerWorkflowCallback;
 
         public MoveTowardsPlayerStateManager(TrackAndKillPlayerStateBehavior trackAndKillAIbehaviorRef, SoldierAIBehaviorDefinition SoldierAIBehaviorDefinition,
             CoreInteractiveObject AssociatedInteractiveObject, PlayerObjectStateDataSystem playerObjectStateDataSystem, WeaponFiringAreaSystem WeaponFiringAreaSystem,
-            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, IMoveTowardsPlayerStateManagerWorkflowCallback IMoveTowardsPlayerStateManagerWorkflowCallback)
         {
             TrackAndKillAIbehaviorRef = trackAndKillAIbehaviorRef;
             this.SoldierAIBehaviorDefinition = SoldierAIBehaviorDefinition;
@@ -30,6 +31,19 @@ namespace SoliderAIBehavior
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             this.WeaponFiringAreaSystem = WeaponFiringAreaSystem;
             this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
+            this.IMoveTowardsPlayerStateManagerWorkflowCallback = IMoveTowardsPlayerStateManagerWorkflowCallback;
+        }
+
+        public override void OnStateEnter()
+        {
+            base.OnStateEnter();
+            this.IMoveTowardsPlayerStateManagerWorkflowCallback.OnMoveTowardsPlayerStartedAction?.Invoke(this.PlayerObjectStateDataSystem.PlayerObject());
+        }
+
+        public override void OnStateExit()
+        {
+            base.OnStateExit();
+            this.IMoveTowardsPlayerStateManagerWorkflowCallback.OnMoveTowardsPlayerEndedAction?.Invoke();
         }
 
         public override void Tick(float d)

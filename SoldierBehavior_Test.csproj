@@ -58,13 +58,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\AgentStuckedScenario\AgentStuckedScenario.cs" />
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\AgentStuckedScenario\AgentStuckedTestScenario_PatrollingPath.cs" />
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\MoveAroundTestScenario\MoveAroundTestScenario.cs" />
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\RotationMovementFlickerScenario\RotationMovementFlickerScenario.cs" />
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\RotationMovementFlickerScenario\RotationMovementFlickerScenario_EnemyPatrolGraph.cs" />
-     <Compile Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\TrackUnknownScenario\TrackUnknownScenario.cs" />
-     <None Include="Assets\Undefined\Logic\SoldierBehavior\SoldierBehavior_Test\SoldierBehavior_Test.asmdef" />
+     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\AgentStuckedScenario\AgentStuckedScenario.cs" />
+     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\AgentStuckedScenario\AgentStuckedTestScenario_PatrollingPath.cs" />
+     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\MoveAroundTestScenario\MoveAroundTestScenario.cs" />
+     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\RotationMovementFlickerScenario\RotationMovementFlickerScenario.cs" />
+     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\RotationMovementFlickerScenario\RotationMovementFlickerScenario_EnemyPatrolGraph.cs" />
+     <Compile Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\TrackUnknownScenario\TrackUnknownScenario.cs" />
+     <None Include="Assets\Undefined\Logic\Soldier\SoldierBehavior\SoldierBehavior_Test\SoldierBehavior_Test.asmdef" />
  <Reference Include="UnityEngine.TestRunner">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
  </Reference>

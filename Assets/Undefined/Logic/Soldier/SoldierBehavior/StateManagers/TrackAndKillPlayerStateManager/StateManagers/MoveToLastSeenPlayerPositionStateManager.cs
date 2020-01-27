@@ -17,24 +17,35 @@ namespace SoliderAIBehavior
         private PlayerObjectStateDataSystem PlayerObjectStateDataSystem;
         private ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback;
         private Action AskedToExitTrackAndKillPlayerBehaviorAction;
+        private IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback;
 
         public MoveToLastSeenPlayerPositionStateManager(TrackAndKillPlayerStateBehavior trackAndKillPlayerbehaviorRef, PlayerObjectStateDataSystem playerObjectStateDataSystem,
-            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, Action AskedToExitTrackAndKillPlayerBehaviorAction)
+            ISetAIAgentDestinationActionCallback ISetAIAgentDestinationActionCallback, Action AskedToExitTrackAndKillPlayerBehaviorAction,
+            IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback)
         {
             TrackAndKillPlayerbehaviorRef = trackAndKillPlayerbehaviorRef;
             PlayerObjectStateDataSystem = playerObjectStateDataSystem;
             this.ISetAIAgentDestinationActionCallback = ISetAIAgentDestinationActionCallback;
             this.AskedToExitTrackAndKillPlayerBehaviorAction = AskedToExitTrackAndKillPlayerBehaviorAction;
+            this.IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback = IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback;
         }
 
         public override void OnStateEnter()
         {
+            this.IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback.OnMoveToLastSeenPlayerPositionStartedAction(this.PlayerObjectStateDataSystem.LastPlayerSeenPosition.WorldPosition);
+
             if (!this.PlayerObjectStateDataSystem.HasPlayerBeenSeenAtLeastOneTime
                 || MoveToLastSeenPlayerPosition() == NavMeshPathStatus.PathInvalid)
             {
                 Debug.Log(MyLog.Format("Exit TrackAndKillPlayerBehavior"));
                 this.AskedToExitTrackAndKillPlayerBehaviorAction.Invoke();
             }
+        }
+
+        public override void OnStateExit()
+        {
+            base.OnStateExit();
+            this.IMoveToLastSeenPlayerPositionStateManagerWorkflowCallback.OnMoveToLastSeenPlayerPositionEndedAction();
         }
 
         /// <summary>
