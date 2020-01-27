@@ -30,6 +30,8 @@ namespace TrainingLevel
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
         {
+            var mainCamera = Camera.main;
+
             parent.CreateLogicCollider(SoliderEnemyDefinition.InteractiveObjectBoxLogicColliderDefinition);
             parent.CreateAgent(SoliderEnemyDefinition.AIAgentDefinition);
             this.interactiveObjectTag = new InteractiveObjectTag() {IsTakingDamage = true};
@@ -49,7 +51,7 @@ namespace TrainingLevel
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
 
-            this.SightVisualFeedbackSystem = new SightVisualFeedbackSystem(SoliderEnemyDefinition.SightVisualFeedbackSystemDefinition, this);
+            this.SightVisualFeedbackSystem = new SightVisualFeedbackSystem(SoliderEnemyDefinition.SightVisualFeedbackSystemDefinition, this, mainCamera);
             this.SightVisualFeedbackStateBehavior = new SightVisualFeedbackStateBehavior(this.SightVisualFeedbackSystem);
 
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,

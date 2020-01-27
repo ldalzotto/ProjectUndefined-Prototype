@@ -30,5 +30,11 @@ namespace SightVisualFeedback
         {
             this.MeshRenderer.material.CopyPropertiesFromMaterial(material);
         }
+
+        public void Destroy()
+        {
+            this.AnimatorPlayableObject.Destroy();
+            GameObject.Destroy(this.AssociatedGameObject);
+        }
     }
 }
