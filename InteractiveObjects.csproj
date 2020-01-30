@@ -72,7 +72,7 @@
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjectSpeedAttenuation\StateManager\SpeedAttenuationGenericStateManagers.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjectSpeedAttenuation\Systems\UnConstrainedObjectSpeedAttenuationValueSystem.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Managers\InteractiveObjectV2Manager.cs" />
-     <Compile Include="Assets\Common\InteractiveObjects\PointersDefinition.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\PointerDefinitions.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Systems\InteractiveObjectLocalContainerSystem.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Systems\ObjectMovementSpeedSystem.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\Test\SpeedSmartSetterTest\SpeedSmartSetterTest.cs" />

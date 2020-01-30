@@ -165,6 +165,7 @@
      <Compile Include="Assets\Editor\LevelManagement\LevelSceneLoader\LevelSceneLoaderV2.cs" />
      <Compile Include="Assets\Editor\MaterialProperties\ShowOnKeywordDrawer.cs" />
      <Compile Include="Assets\Editor\MaterialRandomizer\MaterialRandomizerEditor.cs" />
+     <Compile Include="Assets\Editor\PointerGeneration\PointerGenerationEditor.cs" />
      <Compile Include="Assets\Editor\PropertyDrawer\EnumPropertyDrawer\CustomEnumPropertyDrawer.cs" />
      <Compile Include="Assets\Editor\PropertyDrawer\EnumPropertyDrawer\EnumSearchGUIWindow.cs" />
      <Compile Include="Assets\Editor\PropertyDrawer\EnumPropertyDrawer\IncludeConfigurationPropertyDrawer.cs" />
@@ -177,7 +178,10 @@
      <Compile Include="Assets\Editor\ShaderGUI\ToonShaderEditor.cs" />
      <Compile Include="Assets\Editor\ShaderGUI\WaveNoiseV2ShaderGUI.cs" />
      <Compile Include="Assets\Editor\TexturePacker\TexturePacker.cs" />
+     <None Include="Assets\Editor\PointerGeneration\ClassPointerTemplate.txt" />
+     <None Include="Assets\Editor\PointerGeneration\StructPointerTemplate.txt" />
      <None Include="Assets\Editor\Editor.asmdef" />
+     <None Include="Assets\Editor\PointerGeneration\ClassPointerExtensionTemplate.txt" />
  <Reference Include="Unity.RenderPipelines.Universal.Editor">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.RenderPipelines.Universal.Editor.dll</HintPath>
  </Reference>

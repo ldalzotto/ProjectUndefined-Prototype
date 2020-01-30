@@ -81,7 +81,7 @@
      <Compile Include="Assets\Common\~CoreGame\Math\float3SmoothDamp.cs" />
      <Compile Include="Assets\Common\~CoreGame\Math\float4x4Extensions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Physics\PhysicsHelper.cs" />
-     <Compile Include="Assets\Common\~CoreGame\PointersDefinition.cs" />
+     <Compile Include="Assets\Common\~CoreGame\PointerDefinitions.cs" />
      <Compile Include="Assets\Common\~CoreGame\Serialization\Scripts\DictionarySerialization.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Constants\LayerConstants.cs" />
      <Compile Include="Assets\Common\~CoreGame\_Constants\NavMeshConstants.cs" />
@@ -118,6 +118,7 @@
      <Compile Include="Assets\Test\NachMeshRayCastTest\NachMeshRayCastTest.cs" />
      <Compile Include="Assets\Test\PhysicsSceneTest.cs" />
      <Compile Include="Assets\Test\PlayableGraphConnectionTest\PlayableGraphConnectionTest.cs" />
+     <Compile Include="Assets\Test\UnsafeTest\GarbageCollectionTest.cs" />
      <Compile Include="Assets\Test\UnsafeTest\UnsafeTest.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />

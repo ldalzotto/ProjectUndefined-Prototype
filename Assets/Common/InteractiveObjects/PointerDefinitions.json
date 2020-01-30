@@ -1,0 +1,9 @@
+﻿{
+  "Namespace": "InteractiveObjects",
+  "Structs": [],
+  "Classes": [
+    {
+      "Name": "InteractiveObjects.CoreInteractiveObject"
+    }
+  ]
+}

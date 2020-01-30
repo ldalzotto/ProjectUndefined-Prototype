@@ -1,0 +1,15 @@
+{
+  "Namespace": "CoreGame",
+  "Structs": [],
+  "Classes": [
+    {
+      "Name": "UnityEngine.GameObject"
+    },
+    {
+      "Name": "UnityEngine.MeshRenderer"
+    },
+    {
+      "Name": "UnityEngine.Camera"
+    }
+  ]
+}

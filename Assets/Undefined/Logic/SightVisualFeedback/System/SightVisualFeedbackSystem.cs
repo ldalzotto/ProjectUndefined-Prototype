@@ -1,4 +1,5 @@
-﻿using CoreGame;
+﻿using System;
+using CoreGame;
 using InteractiveObjects;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace SightVisualFeedback
     ///     - Displaying the corrent icon base on <see cref="SightVisualFeedbackColorType"/>. The icon object is <see cref="SightVisualFeedbackSystemDefinition"/>.
     ///     - Making the <see cref="SightVisualFeedbackSystemDefinition"/> facing the camera.
     /// </summary>
-    public struct SightVisualFeedbackSystem
+    public struct SightVisualFeedbackSystem : IDisposable
     {
         private SightVisualFeedbackSystemDefinitionPointer SightVisualFeedbackSystemDefinitionPtr;
         private CoreInteractiveObjectPointer AssociatedInteractiveObjectPtr;
@@ -25,9 +26,9 @@ namespace SightVisualFeedback
 
         public void Initialize(SightVisualFeedbackSystemDefinition sightVisualFeedbackSystemDefinition, CoreInteractiveObject associatedInteractiveObject, Camera MainCamera)
         {
-            SightVisualFeedbackSystemDefinitionPtr = sightVisualFeedbackSystemDefinition.ToPointer();
-            this.AssociatedInteractiveObjectPtr = associatedInteractiveObject.ToPointer();
-            this.MainCameraPtr = MainCamera.ToPointer();
+            this.SightVisualFeedbackSystemDefinitionPtr = sightVisualFeedbackSystemDefinition.Allocate();
+            this.AssociatedInteractiveObjectPtr = associatedInteractiveObject.Allocate();
+            this.MainCameraPtr = MainCamera.Allocate();
             this.SightVisualFeedbackGameObjectV2 =
                 new SightVisualFeedbackGameObjectV2(GameObject.Instantiate(sightVisualFeedbackSystemDefinition.BaseAIStateIconPrefab,
                     associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform), sightVisualFeedbackSystemDefinition.SightVisualFeedbackAnimation);
@@ -49,6 +50,7 @@ namespace SightVisualFeedback
         public void Destroy()
         {
             this.SightVisualFeedbackGameObjectV2.Destroy();
+            this.Dispose();
         }
 
         public void Show(SightVisualFeedbackColorType SightVisualFeedbackColorType)
@@ -77,6 +79,14 @@ namespace SightVisualFeedback
         {
             return this.AssociatedInteractiveObjectPtr.GetValue().InteractiveGameObject.GetAverageModelWorldBounds().center
                    + new Vector3(0, this.AssociatedInteractiveObjectPtr.GetValue().InteractiveGameObject.GetAverageModelWorldBounds().max.y * 0.65f, 0);
+        }
+
+        public void Dispose()
+        {
+            SightVisualFeedbackSystemDefinitionPtr.Dispose();
+            AssociatedInteractiveObjectPtr.Dispose();
+            MainCameraPtr.Dispose();
+            SightVisualFeedbackGameObjectV2.Dispose();
         }
     }
 }

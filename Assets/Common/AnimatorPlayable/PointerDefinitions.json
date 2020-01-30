@@ -1,0 +1,9 @@
+﻿{
+  "Namespace": "AnimatorPlayable",
+  "Structs": [],
+  "Classes": [
+    {
+      "Name": "AnimatorPlayable.AnimatorPlayableObject"
+    }
+  ]
+}

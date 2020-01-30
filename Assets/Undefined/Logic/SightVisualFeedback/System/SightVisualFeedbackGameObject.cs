@@ -15,9 +15,9 @@ namespace SightVisualFeedback
         public SightVisualFeedbackGameObjectV2(GameObject AssociatedGameObject,
             A_AnimationPlayableDefinition SightVisualFeedbackAnimation)
         {
-            this.AssociatedGameObjectPtr = AssociatedGameObject.ToPointer();
-            this.MeshRendererPtr = AssociatedGameObject.GetComponentInChildren<MeshRenderer>().ToPointer();
-            this.AnimatorPlayableObjectPtr = new AnimatorPlayableObject("SightVisualFeedbackGameObject", AssociatedGameObject.GetComponent<Animator>()).ToPointer();
+            this.AssociatedGameObjectPtr = AssociatedGameObject.Allocate();
+            this.MeshRendererPtr = AssociatedGameObject.GetComponentInChildren<MeshRenderer>().Allocate();
+            this.AnimatorPlayableObjectPtr = new AnimatorPlayableObject("SightVisualFeedbackGameObject", AssociatedGameObject.GetComponent<Animator>()).Allocate();
             this.AnimatorPlayableObjectPtr.GetValue().PlayAnimation(0, SightVisualFeedbackAnimation.GetAnimationInput());
             this.AnimatorPlayableObjectPtr.GetValue().GlobalPlayableGraph.SetTimeUpdateMode(DirectorUpdateMode.UnscaledGameTime);
         }

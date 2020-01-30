@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\Configuration\SightVisualFeedbackSystemDefinition.cs" />
-     <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\PointersDefinition.cs" />
+     <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\PointerDefinitions.cs" />
      <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\StateBehavior\SightVisualFeedbackStateBehavior.cs" />
      <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\System\SightVisualFeedbackGameObject.cs" />
      <Compile Include="Assets\Undefined\Logic\SightVisualFeedback\System\SightVisualFeedbackSystem.cs" />

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoreGame;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
+using UnityEngine;
 
 public class BeziersMovementJobManager : GameSingleton<BeziersMovementJobManager>
 {
@@ -57,7 +59,7 @@ public class BeziersMovementJobManager : GameSingleton<BeziersMovementJobManager
 }
 
 [BurstCompile]
-public struct BeziersMovementJob : IJobParallelFor
+public unsafe struct BeziersMovementJob : IJobParallelFor
 {
     [ReadOnly] public float DeltaTime;
     private NativeArray<BeziersMovementPositionState> BeziersMovementPositionStates;
@@ -70,7 +72,7 @@ public struct BeziersMovementJob : IJobParallelFor
         {
             BeziersMovementSystems[i].ScheduleJob(ref this.BeziersMovementPositionStates, i);
         }
-
+        
         return this.Schedule(this.BeziersMovementPositionStates.Length, 10);
     }
 

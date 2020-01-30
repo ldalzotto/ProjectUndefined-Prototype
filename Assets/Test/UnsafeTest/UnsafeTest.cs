@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Profiling;
+using Unity.Collections;
 
 namespace Test.UnsafeTest
 {
@@ -9,6 +12,7 @@ namespace Test.UnsafeTest
     {
         private void Start()
         {
+            
             using (UnsafeListV2<MyStruct> warmList = new UnsafeListV2<MyStruct>(1, 1))
             {
                 MyStruct* MyStructPtr = MyStruct.Allocate(new MyStruct(1, true, 5));
@@ -45,54 +49,6 @@ namespace Test.UnsafeTest
 
         public unsafe static void FooV2()
         {
-            /*
-            MyStructHandler* myStruct1 = MyStructHandler.Allocate(MyStruct.Allocate(new MyStruct(1, false, 5)));
-            MyStructHandler* myStruct2 = MyStructHandler.Allocate(MyStruct.Allocate(new MyStruct(1, false, 6)));
-            MyStructHandler* myStruct3 = MyStructHandler.Allocate(MyStruct.Allocate(new MyStruct(1, false, 7)));
-
-            // Inline
-            UnsafeListV2<MyStructHandler> list = new UnsafeListV2<MyStructHandler>(100, 1);
-            list.Add(myStruct1);
-            list.Add(myStruct2);
-            list.Add(myStruct3);
-
-            for (int i = 0; i <= list.MaxSettedIndexValue; i++)
-            {
-                Debug.Log(list.Get(i)->GetPointer()->Long);
-            }
-
-            for (int i = 0; i <= list.MaxSettedIndexValue; i++)
-            {
-                list.Get(i)->GetPointer()->Long = 99;
-            }
-
-            for (int i = 0; i <= list.MaxSettedIndexValue; i++)
-            {
-                Debug.Log(list.Get(i)->GetPointer()->Long);
-            }
-
-            myStruct2->Dispose();
-
-            for (int i = 0; i <= list.MaxSettedIndexValue; i++)
-            {
-                Debug.Log(list.Get(i)->GetPointer()->Long);
-            }
-
-            list.Remove(1);
-            list.Add(new MyStruct(1, false, 8));
-
-            for (int i = 0; i <= list.MaxSettedIndexValue; i++)
-            {
-                Debug.Log(list.Get(i)->Long);
-            }
-
-            for (int i = 0; i <= list.MaxSettedIndexValue; i++)
-            {
-                list.Get(i)->Dispose();
-            }
-
-            list.Dispose();
-            */
         }
 
         private void Update()
@@ -100,7 +56,7 @@ namespace Test.UnsafeTest
         }
     }
 
-    struct MyStruct
+    struct MyStruct : IEquatable<MyStruct>
     {
         public int Int;
         public bool Bool;
@@ -125,11 +81,6 @@ namespace Test.UnsafeTest
             return Int == other.Int && Bool == other.Bool && Long == other.Long;
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is MyStruct other && Equals(other);
-        }
-
         public override int GetHashCode()
         {
             unchecked
@@ -142,7 +93,7 @@ namespace Test.UnsafeTest
         }
     }
 
-    public unsafe struct UnsafeListV2<T> : IDisposable where T : unmanaged
+    public unsafe struct UnsafeListV2<T> : IDisposable where T : unmanaged, IEquatable<T>
     {
         private UnsafeStackV2<int> DeletedFreedIndexes;
         public int Count { get; private set; }
@@ -181,12 +132,22 @@ namespace Test.UnsafeTest
         public T* Get(int index)
         {
             this.CheckIfIndexIsAllowed(index);
+            return this.Get_NoCheck(index);
+        }
+
+        public T* Get_NoCheck(int index)
+        {
             return (T*) ((IntPtr*) (((byte*) Memory) + ElementSizeInByte * index))->ToPointer();
         }
 
         public void Set(int index, T* input)
         {
             this.CheckIfIndexIsAllowed(index);
+            this.Set_NoCheck(index, input);
+        }
+
+        public void Set_NoCheck(int index, T* input)
+        {
             *(IntPtr*) (((byte*) Memory) + ElementSizeInByte * index) = new IntPtr(input);
             this.MaxSettedIndexValue = Math.Max(this.MaxSettedIndexValue, index);
         }
@@ -226,16 +187,37 @@ namespace Test.UnsafeTest
             this.Capacity = newCapacity;
         }
 
-        public void Remove(int index)
+        public bool Remove(int index)
         {
             this.CheckIfIndexIsAllowed(index);
-            if (((IntPtr) this.Get(index)) != IntPtr.Zero)
+            if (((IntPtr) this.Get_NoCheck(index)) != IntPtr.Zero)
             {
-                this.Set(index, (T*) IntPtr.Zero);
+                this.Set_NoCheck(index, (T*) IntPtr.Zero);
                 this.DeletedFreedIndexes.Push(index);
                 Count -= 1;
                 this.SetMaxSettedIndexValueToTheClosetValue();
+                return true;
             }
+
+            return false;
+        }
+
+        public bool Remove(T obj)
+        {
+            for (int i = 0; i <= MaxSettedIndexValue; i++)
+            {
+                T* currentPointer = this.Get_NoCheck(i);
+                if ((IntPtr) currentPointer != IntPtr.Zero)
+                {
+                    if (this.Get_NoCheck(i)->Equals(obj))
+                    {
+                        this.Remove(i);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void CheckIfIndexIsAllowed(int index)
@@ -333,4 +315,5 @@ namespace Test.UnsafeTest
             }
         }
     }
+
 }

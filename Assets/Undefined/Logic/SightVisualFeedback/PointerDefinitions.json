@@ -1,0 +1,13 @@
+{
+  "Namespace": "SightVisualFeedback",
+  "Structs": [
+    {
+      "Name": "SightVisualFeedback.SightVisualFeedbackSystem"
+    }
+  ],
+  "Classes": [
+    {
+      "Name": "SightVisualFeedback.SightVisualFeedbackSystemDefinition"
+    }
+  ]
+}

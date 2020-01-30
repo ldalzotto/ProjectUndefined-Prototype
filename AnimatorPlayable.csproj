@@ -68,7 +68,7 @@
      <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\BlendedAnimation.cs" />
      <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\SequencedAnimation.cs" />
      <Compile Include="Assets\Common\AnimatorPlayable\Lib\Layers\TwoDBlendTree.cs" />
-     <Compile Include="Assets\Common\AnimatorPlayable\PointersDefinition.cs" />
+     <Compile Include="Assets\Common\AnimatorPlayable\PointerDefinitions.cs" />
      <Compile Include="Assets\Common\AnimatorPlayable\Test\InterpolationVisualizer.cs" />
      <Compile Include="Assets\Common\AnimatorPlayable\Test\TreeAnimationTest.cs" />
      <None Include="Assets\Common\AnimatorPlayable\AnimatorPlayable.asmdef" />
