@@ -1,40 +1,59 @@
-﻿using AnimatorPlayable;
+﻿using System;
+using AnimatorPlayable;
+using CoreGame;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.UI;
 
 namespace SightVisualFeedback
 {
-    public class SightVisualFeedbackGameObject
+    public struct SightVisualFeedbackGameObjectV2 : IDisposable
     {
-        public GameObject AssociatedGameObject;
-        private MeshRenderer MeshRenderer;
-        private AnimatorPlayableObject AnimatorPlayableObject;
+        private GameObjectPointer AssociatedGameObjectPtr;
+        private MeshRendererPointer MeshRendererPtr;
+        private AnimatorPlayableObjectPointer AnimatorPlayableObjectPtr;
 
-        public SightVisualFeedbackGameObject(GameObject AssociatedGameObject,
+        public SightVisualFeedbackGameObjectV2(GameObject AssociatedGameObject,
             A_AnimationPlayableDefinition SightVisualFeedbackAnimation)
         {
-            this.AssociatedGameObject = AssociatedGameObject;
-            this.MeshRenderer = this.AssociatedGameObject.GetComponentInChildren<MeshRenderer>();
-            this.AnimatorPlayableObject = new AnimatorPlayableObject("SightVisualFeedbackGameObject", this.AssociatedGameObject.GetComponent<Animator>());
-            this.AnimatorPlayableObject.PlayAnimation(0, SightVisualFeedbackAnimation.GetAnimationInput());
-            this.AnimatorPlayableObject.GlobalPlayableGraph.SetTimeUpdateMode(DirectorUpdateMode.UnscaledGameTime);
+            this.AssociatedGameObjectPtr = AssociatedGameObject.ToPointer();
+            this.MeshRendererPtr = AssociatedGameObject.GetComponentInChildren<MeshRenderer>().ToPointer();
+            this.AnimatorPlayableObjectPtr = new AnimatorPlayableObject("SightVisualFeedbackGameObject", AssociatedGameObject.GetComponent<Animator>()).ToPointer();
+            this.AnimatorPlayableObjectPtr.GetValue().PlayAnimation(0, SightVisualFeedbackAnimation.GetAnimationInput());
+            this.AnimatorPlayableObjectPtr.GetValue().GlobalPlayableGraph.SetTimeUpdateMode(DirectorUpdateMode.UnscaledGameTime);
         }
 
-        public void AfterTicks(float d)
+        public void AfterTicks(float d, Camera MainCamera)
         {
-            this.AnimatorPlayableObject.Tick(d);
+            this.AssociatedGameObjectPtr.GetValue().transform.rotation = Quaternion.LookRotation(-MainCamera.transform.forward);
+            this.AnimatorPlayableObjectPtr.GetValue().Tick(d);
         }
 
         public void SetMaterial(Material material)
         {
-            this.MeshRenderer.material.CopyPropertiesFromMaterial(material);
+            this.MeshRendererPtr.GetValue().material.CopyPropertiesFromMaterial(material);
+        }
+
+        public void SetWorldPosition(Vector3 WorldPoisition)
+        {
+            this.AssociatedGameObjectPtr.GetValue().transform.position = WorldPoisition;
+        }
+
+        public void SetActive(bool IsActive)
+        {
+            this.AssociatedGameObjectPtr.GetValue().SetActive(IsActive);
         }
 
         public void Destroy()
         {
-            this.AnimatorPlayableObject.Destroy();
-            GameObject.Destroy(this.AssociatedGameObject);
+            GameObject.Destroy(this.AssociatedGameObjectPtr.GetValue());
+            this.Dispose();
+        }
+
+        public void Dispose()
+        {
+            AssociatedGameObjectPtr.Dispose();
+            MeshRendererPtr.Dispose();
+            AnimatorPlayableObjectPtr.Dispose();
         }
     }
 }

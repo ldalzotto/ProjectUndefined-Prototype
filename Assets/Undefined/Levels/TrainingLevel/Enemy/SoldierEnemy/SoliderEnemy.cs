@@ -1,19 +1,20 @@
 ﻿using AIObjects;
 using Damage;
 using Health;
+using InteractiveObjectAction;
 using InteractiveObjects;
 using InteractiveObjects_Interfaces;
-using InteractiveObjectAction;
 using SightVisualFeedback;
 using SoldierAnimation;
 using SoliderAIBehavior;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Profiling;
 using Weapon;
 
 namespace TrainingLevel
 {
-    public partial class SoliderEnemy : CoreInteractiveObject, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
+    public unsafe partial class SoliderEnemy : CoreInteractiveObject, IEM_InteractiveObjectActionPlayerSystem_Retriever, IEM_WeaponHandlingSystem_Retriever
     {
         [VE_Nested] private HealthSystem HealthSystem;
         [VE_Nested] private StunningDamageDealerReceiverSystem _stunningDamageDealerReceiverSystem;
@@ -25,7 +26,7 @@ namespace TrainingLevel
         private SightObjectSystem SightObjectSystem;
         [VE_Nested] private SoldierStateBehavior _soldierStateBehavior;
         public InteractiveObjectActionPlayerSystem InteractiveObjectActionPlayerSystem { get; private set; }
-        private SightVisualFeedbackSystem SightVisualFeedbackSystem;
+        private SightVisualFeedbackSystemPointer SightVisualFeedbackSystemPtr;
         private SightVisualFeedbackStateBehavior SightVisualFeedbackStateBehavior;
 
         public SoliderEnemy(IInteractiveGameObject parent, SoliderEnemyDefinition SoliderEnemyDefinition)
@@ -51,8 +52,11 @@ namespace TrainingLevel
             this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
 
-            this.SightVisualFeedbackSystem = new SightVisualFeedbackSystem(SoliderEnemyDefinition.SightVisualFeedbackSystemDefinition, this, mainCamera);
-            this.SightVisualFeedbackStateBehavior = new SightVisualFeedbackStateBehavior(this.SightVisualFeedbackSystem);
+            Profiler.BeginSample("SoliderEnemy : Memory test");
+            this.SightVisualFeedbackSystemPtr = SightVisualFeedbackSystemPointer.Allocate();
+            this.SightVisualFeedbackSystemPtr.Ref()->Initialize(SoliderEnemyDefinition.SightVisualFeedbackSystemDefinition, this, mainCamera);
+            this.SightVisualFeedbackStateBehavior = new SightVisualFeedbackStateBehavior(this.SightVisualFeedbackSystemPtr);
+            Profiler.EndSample();
 
             this._soldierStateBehavior.Init(this, SoliderEnemyDefinition.SoldierAIBehaviorDefinition,
                 new SoldierAIBehaviorExternalCallbacksV2()
@@ -100,7 +104,7 @@ namespace TrainingLevel
                 this.SoliderEnemyAnimationStateManager.SetUnscaledObjectLocalDirection(this.ObjectMovementSpeedSystem.GetLocalSpeedDirection_Attenuated());
             }
 
-            SightVisualFeedbackSystem.AfterTicks(d);
+            this.SightVisualFeedbackSystemPtr.Ref()->AfterTicks(d);
 
             base.AfterTicks(d);
             this.SoliderEnemyAnimationStateManager.Tick(d);
@@ -109,7 +113,7 @@ namespace TrainingLevel
 
         public override void TickTimeFrozen(float d)
         {
-            this.SightVisualFeedbackSystem.TickTimeFrozen(d);
+            this.SightVisualFeedbackSystemPtr.Ref()->TickTimeFrozen(d);
             base.TickTimeFrozen(d);
         }
 
@@ -118,7 +122,8 @@ namespace TrainingLevel
             this.SightObjectSystem.OnDestroy();
             this._soldierStateBehavior.OnDestroy();
             this.WeaponHandlingSystem.Destroy();
-            SightVisualFeedbackSystem.Destroy();
+            this.SightVisualFeedbackSystemPtr.Ref()->Destroy();
+            this.SightVisualFeedbackSystemPtr.Dispose();
             base.Destroy();
         }
 
@@ -195,13 +200,13 @@ namespace TrainingLevel
         private void OnShootingAtPlayerStart(CoreInteractiveObject TargettedInteractiveObject)
         {
             this.SoliderEnemyAnimationStateManager.StartTargetting();
-            this.SightVisualFeedbackSystem.Show(SightVisualFeedbackColorType.DANGER);
+            this.SightVisualFeedbackSystemPtr.Ref()->Show(SightVisualFeedbackColorType.DANGER);
         }
 
         private void OnShootingAtPlayerEnd()
         {
             this.SoliderEnemyAnimationStateManager.StopTargetting();
-            this.SightVisualFeedbackSystem.Hide();
+            this.SightVisualFeedbackSystemPtr.Ref()->Hide();
         }
 
         #endregion

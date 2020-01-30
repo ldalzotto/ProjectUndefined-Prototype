@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+﻿using CoreGame;
 using InteractiveObjects;
 using UnityEngine;
 
@@ -17,29 +17,28 @@ namespace SightVisualFeedback
     ///     - Displaying the corrent icon base on <see cref="SightVisualFeedbackColorType"/>. The icon object is <see cref="SightVisualFeedbackSystemDefinition"/>.
     ///     - Making the <see cref="SightVisualFeedbackSystemDefinition"/> facing the camera.
     /// </summary>
-    public class SightVisualFeedbackSystem
+    public struct SightVisualFeedbackSystem
     {
-        private SightVisualFeedbackSystemDefinition SightVisualFeedbackSystemDefinition;
-        private CoreInteractiveObject AssociatedInteractiveObject;
-        private Camera MainCamera;
+        private SightVisualFeedbackSystemDefinitionPointer SightVisualFeedbackSystemDefinitionPtr;
+        private CoreInteractiveObjectPointer AssociatedInteractiveObjectPtr;
+        private CameraPointer MainCameraPtr;
 
-        public SightVisualFeedbackSystem(SightVisualFeedbackSystemDefinition sightVisualFeedbackSystemDefinition, CoreInteractiveObject associatedInteractiveObject, Camera MainCamera)
+        public void Initialize(SightVisualFeedbackSystemDefinition sightVisualFeedbackSystemDefinition, CoreInteractiveObject associatedInteractiveObject, Camera MainCamera)
         {
-            SightVisualFeedbackSystemDefinition = sightVisualFeedbackSystemDefinition;
-            this.AssociatedInteractiveObject = associatedInteractiveObject;
-            this.MainCamera = MainCamera;
-            this.SightVisualFeedbackGameObject =
-                new SightVisualFeedbackGameObject(GameObject.Instantiate(this.SightVisualFeedbackSystemDefinition.BaseAIStateIconPrefab,
-                    this.AssociatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform), this.SightVisualFeedbackSystemDefinition.SightVisualFeedbackAnimation);
+            SightVisualFeedbackSystemDefinitionPtr = sightVisualFeedbackSystemDefinition.ToPointer();
+            this.AssociatedInteractiveObjectPtr = associatedInteractiveObject.ToPointer();
+            this.MainCameraPtr = MainCamera.ToPointer();
+            this.SightVisualFeedbackGameObjectV2 =
+                new SightVisualFeedbackGameObjectV2(GameObject.Instantiate(sightVisualFeedbackSystemDefinition.BaseAIStateIconPrefab,
+                    associatedInteractiveObject.InteractiveGameObject.InteractiveGameObjectParent.transform), sightVisualFeedbackSystemDefinition.SightVisualFeedbackAnimation);
         }
 
+        private SightVisualFeedbackGameObjectV2 SightVisualFeedbackGameObjectV2;
 
-        private SightVisualFeedbackGameObject SightVisualFeedbackGameObject;
 
         public void AfterTicks(float d)
         {
-            this.SightVisualFeedbackGameObject.AssociatedGameObject.transform.rotation = Quaternion.LookRotation(-this.MainCamera.transform.forward);
-            this.SightVisualFeedbackGameObject.AfterTicks(d);
+            this.SightVisualFeedbackGameObjectV2.AfterTicks(d, this.MainCameraPtr.GetValue());
         }
 
         public void TickTimeFrozen(float d)
@@ -49,10 +48,7 @@ namespace SightVisualFeedback
 
         public void Destroy()
         {
-            if (this.SightVisualFeedbackGameObject != null)
-            {
-                this.SightVisualFeedbackGameObject.Destroy();
-            }
+            this.SightVisualFeedbackGameObjectV2.Destroy();
         }
 
         public void Show(SightVisualFeedbackColorType SightVisualFeedbackColorType)
@@ -60,26 +56,27 @@ namespace SightVisualFeedback
             switch (SightVisualFeedbackColorType)
             {
                 case SightVisualFeedbackColorType.WARNING:
-                    this.SightVisualFeedbackGameObject.SetMaterial(this.SightVisualFeedbackSystemDefinition.WarningIconMaterial);
-                    this.SightVisualFeedbackGameObject.AssociatedGameObject.transform.position = this.GetSightVisualFeedbackSystemDefinitionWorldPosition();
+                    this.SightVisualFeedbackGameObjectV2.SetMaterial(this.SightVisualFeedbackSystemDefinitionPtr.GetValue().WarningIconMaterial);
+                    this.SightVisualFeedbackGameObjectV2.SetWorldPosition(this.GetSightVisualFeedbackSystemDefinitionWorldPosition());
                     break;
                 case SightVisualFeedbackColorType.DANGER:
-                    this.SightVisualFeedbackGameObject.SetMaterial(this.SightVisualFeedbackSystemDefinition.DangerIconMaterial);
-                    this.SightVisualFeedbackGameObject.AssociatedGameObject.transform.position = this.GetSightVisualFeedbackSystemDefinitionWorldPosition();
+                    this.SightVisualFeedbackGameObjectV2.SetMaterial(this.SightVisualFeedbackSystemDefinitionPtr.GetValue().DangerIconMaterial);
+                    this.SightVisualFeedbackGameObjectV2.SetWorldPosition(this.GetSightVisualFeedbackSystemDefinitionWorldPosition());
                     break;
             }
 
-            this.SightVisualFeedbackGameObject.AssociatedGameObject.SetActive(true);
+            this.SightVisualFeedbackGameObjectV2.SetActive(true);
         }
 
         public void Hide()
         {
-            this.SightVisualFeedbackGameObject.AssociatedGameObject.SetActive(false);
+            this.SightVisualFeedbackGameObjectV2.SetActive(false);
         }
 
         private Vector3 GetSightVisualFeedbackSystemDefinitionWorldPosition()
         {
-            return this.AssociatedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().center + new Vector3(0, this.AssociatedInteractiveObject.InteractiveGameObject.GetAverageModelWorldBounds().max.y * 0.65f, 0);
+            return this.AssociatedInteractiveObjectPtr.GetValue().InteractiveGameObject.GetAverageModelWorldBounds().center
+                   + new Vector3(0, this.AssociatedInteractiveObjectPtr.GetValue().InteractiveGameObject.GetAverageModelWorldBounds().max.y * 0.65f, 0);
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-
-namespace SightVisualFeedback
+﻿namespace SightVisualFeedback
 {
     public enum SightVisualFeedbackState
     {
         NONE = 0,
+
         /// <summary>
         /// The AI is aware that the Target is near and walk/runs towards its
         /// </summary>
         WARNING = 1,
+
         /// <summary>
         /// The AI is seeing it's target.
         /// </summary>
@@ -19,15 +19,16 @@ namespace SightVisualFeedback
     /// The <see cref="SightVisualFeedbackStateBehavior"/> purpose is :
     ///    - Communcate to the associated <see cref="SightVisualFeedbackSystem"/> the current state (<see cref="SightVisualFeedbackState"/>) that will display the correct icon.
     /// </summary>
-    public class SightVisualFeedbackStateBehavior
+    public unsafe struct SightVisualFeedbackStateBehavior
     {
-        private ObjectVariable<SightVisualFeedbackState> SightVisualFeedbackState;
-        private SightVisualFeedbackSystem SightVisualFeedbackSystemRef;
+        private ObjectVariableStruct<SightVisualFeedbackState> SightVisualFeedbackState;
+        private SightVisualFeedbackSystemPointer _sightVisualFeedbackSystemPtr;
 
-        public SightVisualFeedbackStateBehavior(SightVisualFeedbackSystem SightVisualFeedbackSystemRef)
+        public SightVisualFeedbackStateBehavior(SightVisualFeedbackSystemPointer SightVisualFeedbackSystemPtr)
         {
-            this.SightVisualFeedbackSystemRef = SightVisualFeedbackSystemRef;
-            this.SightVisualFeedbackState = new ObjectVariable<SightVisualFeedbackState>(this.OnSightVisualFeedbackStateChange);
+            this._sightVisualFeedbackSystemPtr = SightVisualFeedbackSystemPtr;
+            this.SightVisualFeedbackState = default;
+            this.SightVisualFeedbackState = new ObjectVariableStruct<SightVisualFeedbackState>(this.OnSightVisualFeedbackStateChange);
             this.SightVisualFeedbackState.SetValue(SightVisualFeedback.SightVisualFeedbackState.NONE);
         }
 
@@ -36,13 +37,13 @@ namespace SightVisualFeedback
             switch (@new)
             {
                 case SightVisualFeedback.SightVisualFeedbackState.NONE:
-                    this.SightVisualFeedbackSystemRef.Hide();
+                    this._sightVisualFeedbackSystemPtr.Ref()->Hide();
                     break;
                 case SightVisualFeedback.SightVisualFeedbackState.DANGER:
-                    this.SightVisualFeedbackSystemRef.Show(SightVisualFeedbackColorType.DANGER);
+                    this._sightVisualFeedbackSystemPtr.Ref()->Show(SightVisualFeedbackColorType.DANGER);
                     break;
                 case SightVisualFeedback.SightVisualFeedbackState.WARNING:
-                    this.SightVisualFeedbackSystemRef.Show(SightVisualFeedbackColorType.WARNING);
+                    this._sightVisualFeedbackSystemPtr.Ref()->Show(SightVisualFeedbackColorType.WARNING);
                     break;
             }
         }
