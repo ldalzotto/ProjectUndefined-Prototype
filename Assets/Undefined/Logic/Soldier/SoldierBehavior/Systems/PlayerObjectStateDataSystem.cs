@@ -58,6 +58,10 @@ namespace SoliderAIBehavior
 
                 this.OnPlayerObjectJustOnSightAction.Invoke(InSightInteractiveObject);
             }
+            else if (InSightInteractiveObject.InteractiveObjectTag.IsGivingHealth)
+            {
+                Debug.Log("GIVING HEALTH SEEN !");
+            }
         }
 
         public void OnInteractiveObjectJustOutOfSight(CoreInteractiveObject NotInSightInteractiveObject)

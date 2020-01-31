@@ -22,11 +22,11 @@
     public unsafe struct SightVisualFeedbackStateBehavior
     {
         private ObjectVariableStruct<SightVisualFeedbackState> SightVisualFeedbackState;
-        private SightVisualFeedbackSystemPointer _sightVisualFeedbackSystemPtr;
+        private SightVisualFeedbackSystemPointer sightVisualFeedbackSystemPtr_REF;
 
-        public SightVisualFeedbackStateBehavior(SightVisualFeedbackSystemPointer SightVisualFeedbackSystemPtr)
+        public SightVisualFeedbackStateBehavior(SightVisualFeedbackSystemPointer sightVisualFeedbackSystemPtrRef)
         {
-            this._sightVisualFeedbackSystemPtr = SightVisualFeedbackSystemPtr;
+            this.sightVisualFeedbackSystemPtr_REF = sightVisualFeedbackSystemPtrRef;
             this.SightVisualFeedbackState = default;
             this.SightVisualFeedbackState = new ObjectVariableStruct<SightVisualFeedbackState>(this.OnSightVisualFeedbackStateChange);
             this.SightVisualFeedbackState.SetValue(SightVisualFeedback.SightVisualFeedbackState.NONE);
@@ -37,13 +37,13 @@
             switch (@new)
             {
                 case SightVisualFeedback.SightVisualFeedbackState.NONE:
-                    this._sightVisualFeedbackSystemPtr.Ref()->Hide();
+                    this.sightVisualFeedbackSystemPtr_REF.Ref()->Hide();
                     break;
                 case SightVisualFeedback.SightVisualFeedbackState.DANGER:
-                    this._sightVisualFeedbackSystemPtr.Ref()->Show(SightVisualFeedbackColorType.DANGER);
+                    this.sightVisualFeedbackSystemPtr_REF.Ref()->Show(SightVisualFeedbackColorType.DANGER);
                     break;
                 case SightVisualFeedback.SightVisualFeedbackState.WARNING:
-                    this._sightVisualFeedbackSystemPtr.Ref()->Show(SightVisualFeedbackColorType.WARNING);
+                    this.sightVisualFeedbackSystemPtr_REF.Ref()->Show(SightVisualFeedbackColorType.WARNING);
                     break;
             }
         }

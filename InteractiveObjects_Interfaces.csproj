@@ -61,6 +61,7 @@
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\CommonConstants\InteractiveObjectsConstants.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\Definitions\AIAgentDefinition.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\Definitions\InteractiveObjectBoxLogicColliderDefinition.cs" />
+     <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\Definitions\InteractiveObjectSphereLogicColliderDefinition.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\Definitions\TransformMoveManagerComponentV3.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\IInteractiveGameObject.cs" />
      <Compile Include="Assets\Common\InteractiveObjects\InteractiveObjects_Interfaces\Systems\AInteractiveObjectSystem.cs" />

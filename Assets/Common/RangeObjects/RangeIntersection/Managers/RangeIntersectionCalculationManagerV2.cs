@@ -106,7 +106,8 @@ namespace RangeObjects
 
                 if (RangeIntersectionCalculatorThatChangedThatFrame.Count > 0)
                 {
-                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) RangeIntersectionmanager.CreateNativeArrays();
+                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) 
+                        RangeIntersectionmanager.CreateNativeArrays();
 
                     this.IsOccludedByObstacleJobData = new NativeArray<IsOccludedByObstacleJobData>(AllRangeIntersectionCalculatorV2Count, Allocator.TempJob);
 
@@ -126,7 +127,8 @@ namespace RangeObjects
                                 IsOccludedByObstacleJobData, currentObstacleIntersectionCalculatorCounter);
                     }
 
-                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) RangeIntersectionmanager.BuildJobHandle(IsOccludedByObstacleJobData, RangeObstacleOcclusionIntersection);
+                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) 
+                        RangeIntersectionmanager.BuildJobHandle(IsOccludedByObstacleJobData, RangeObstacleOcclusionIntersection);
 
                     if (!forceCalculation)
                     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Health;
 using InteractiveObjects;
+using InteractiveObjects_Interfaces;
 using OdinSerializer;
 using UnityEngine;
 
@@ -14,11 +15,16 @@ namespace HealthGlobe
         [DrawNested]
         public RecoveringHealthEmitterSystemDefinition RecoveringHealthEmitterSystemDefinition;
 
+        [Inline(CreateAtSameLevelIfAbsent = true)]
+        [DrawNested]
+        public InteractiveObjectSphereLogicColliderDefinition InteractiveObjectSphereLogicColliderDefinition;
+        
         public static implicit operator HealthGlobeInteractiveObjectDefinitionStruct(HealthGlobeInteractiveObjectDefinition HealthGlobeInteractiveObjectDefinition)
         {
             return new HealthGlobeInteractiveObjectDefinitionStruct()
             {
-                RecoveringHealthEmitterSystemDefinitionStruct = HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition
+                RecoveringHealthEmitterSystemDefinitionStruct = HealthGlobeInteractiveObjectDefinition.RecoveringHealthEmitterSystemDefinition,
+                InteractiveObjectSphereLogicColliderDefinitionStruct = HealthGlobeInteractiveObjectDefinition.InteractiveObjectSphereLogicColliderDefinition
             };
         }
 
@@ -31,7 +37,7 @@ namespace HealthGlobe
     public struct HealthGlobeInteractiveObjectDefinitionStruct
     {
         public RecoveringHealthEmitterSystemDefinitionStruct RecoveringHealthEmitterSystemDefinitionStruct;
-
+        public InteractiveObjectSphereLogicColliderDefinitionStruct InteractiveObjectSphereLogicColliderDefinitionStruct;
         public void SetRecoveredHealthValue(float RecoveredHealth)
         {
             this.RecoveringHealthEmitterSystemDefinitionStruct.RecoveredHealth = RecoveredHealth;

@@ -90,29 +90,55 @@ namespace InteractiveObjects
             InitAgent();
         }
 
+        private GameObject InstanciateLogicCollider(int layer)
+        {
+            var LogicColliderObject = new GameObject("LogicCollider");
+            LogicColliderObject.layer = layer;
+            LogicColliderObject.transform.parent = InteractiveGameObjectParent.transform;
+            LogicColliderObject.transform.localPosition = Vector3.zero;
+            LogicColliderObject.transform.localRotation = Quaternion.identity;
+            LogicColliderObject.transform.localScale = Vector3.one;
+            return LogicColliderObject;
+        }
+
+        private void AddRigidBodyIfNecessary(bool HasRigidBody, GameObject LogicColliderObject, RigidbodyInterpolation RigidbodyInterpolation)
+        {
+            if (HasRigidBody)
+            {
+                var rb = LogicColliderObject.AddComponent<Rigidbody>();
+                rb.interpolation = RigidbodyInterpolation;
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
+        }
+
         public void CreateLogicCollider(InteractiveObjectBoxLogicColliderDefinitionStruct InteractiveObjectBoxLogicColliderDefinitionStruct, int layer = 0)
         {
             if (InteractiveObjectBoxLogicColliderDefinitionStruct.Enabled)
             {
-                var LogicColliderObject = new GameObject("LogicCollider");
-                LogicColliderObject.layer = layer;
-                LogicColliderObject.transform.parent = InteractiveGameObjectParent.transform;
-                LogicColliderObject.transform.localPosition = Vector3.zero;
-                LogicColliderObject.transform.localRotation = Quaternion.identity;
-                LogicColliderObject.transform.localScale = Vector3.one;
+                var LogicColliderObject = InstanciateLogicCollider(layer);
 
                 LogicCollider = LogicColliderObject.AddComponent<BoxCollider>();
                 LogicCollider.isTrigger = true;
                 ((BoxCollider) LogicCollider).center = InteractiveObjectBoxLogicColliderDefinitionStruct.LocalCenter;
                 ((BoxCollider) LogicCollider).size = InteractiveObjectBoxLogicColliderDefinitionStruct.LocalSize;
 
-                if (InteractiveObjectBoxLogicColliderDefinitionStruct.HasRigidBody)
-                {
-                    var rb = LogicColliderObject.AddComponent<Rigidbody>();
-                    rb.interpolation = InteractiveObjectBoxLogicColliderDefinitionStruct.RigidbodyInterpolation;
-                    rb.isKinematic = true;
-                    rb.useGravity = false;
-                }
+                this.AddRigidBodyIfNecessary(InteractiveObjectBoxLogicColliderDefinitionStruct.HasRigidBody, LogicColliderObject, InteractiveObjectBoxLogicColliderDefinitionStruct.RigidbodyInterpolation);
+            }
+        }
+        
+        public void CreateLogicCollider(InteractiveObjectSphereLogicColliderDefinitionStruct InteractiveObjectSphereLogicColliderDefinitionStruct, int layer = 0)
+        {
+            if (InteractiveObjectSphereLogicColliderDefinitionStruct.Enabled)
+            {
+                var LogicColliderObject = InstanciateLogicCollider(layer);
+
+                LogicCollider = LogicColliderObject.AddComponent<SphereCollider>();
+                LogicCollider.isTrigger = true;
+                ((SphereCollider) LogicCollider).center = InteractiveObjectSphereLogicColliderDefinitionStruct.LocalCenter;
+                ((SphereCollider) LogicCollider).radius = InteractiveObjectSphereLogicColliderDefinitionStruct.Radius;
+
+                this.AddRigidBodyIfNecessary(InteractiveObjectSphereLogicColliderDefinitionStruct.HasRigidBody, LogicColliderObject, InteractiveObjectSphereLogicColliderDefinitionStruct.RigidbodyInterpolation);
             }
         }
 

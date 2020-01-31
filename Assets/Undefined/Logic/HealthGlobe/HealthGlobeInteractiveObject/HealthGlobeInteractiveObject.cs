@@ -25,6 +25,10 @@ namespace HealthGlobe
             IInteractiveGameObject interactiveGameObject, BeziersControlPointsBuildInput BeziersControlPointsBuildInput, bool IsUpdatedInMainManager = true)
         {
             this.HealthGlobeInteractiveObjectDefinitionStruct = healthGlobeInteractiveObjectDefinitionStruct;
+            this.interactiveObjectTag = new InteractiveObjectTag() {IsGivingHealth = true};
+
+            interactiveGameObject.CreateLogicCollider(healthGlobeInteractiveObjectDefinitionStruct.InteractiveObjectSphereLogicColliderDefinitionStruct);
+
             base.BaseInit(interactiveGameObject, IsUpdatedInMainManager);
 
             this.SpawnBeziersMovementSystem = new BeziersMovementSystem(BeziersControlPointsBuildInput, this.OnHealthGlobeSpawnBeziersMovementEnded);

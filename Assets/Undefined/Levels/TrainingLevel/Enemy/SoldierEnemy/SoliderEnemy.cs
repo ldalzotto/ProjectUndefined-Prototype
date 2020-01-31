@@ -49,7 +49,7 @@ namespace TrainingLevel
             this.SoliderEnemyAnimationStateManager = new SoliderEnemyAnimationStateManager(this.AnimationController, SoliderEnemyDefinition.LocomotionAnimation, SoliderEnemyDefinition.SoldierAnimationSystemDefinition);
             this._soldierStateBehavior = new SoldierStateBehavior();
 
-            this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer,
+            this.SightObjectSystem = new SightObjectSystem(this, SoliderEnemyDefinition.SightObjectSystemDefinition, tag => tag.IsPlayer || tag.IsGivingHealth,
                 this._soldierStateBehavior.OnInteractiveObjectJustOnSight, null, this._soldierStateBehavior.OnInteractiveObjectJustOutOfSight);
 
             Profiler.BeginSample("SoliderEnemy : Memory test");

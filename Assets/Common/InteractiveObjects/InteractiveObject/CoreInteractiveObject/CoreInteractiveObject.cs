@@ -170,5 +170,7 @@ namespace InteractiveObjects
         ///     The player targetting visual feedback takes into account this tag to position the visual feedback.
         /// </summary>
         public bool IsTakingDamage;
+        
+        public bool IsGivingHealth;
     }
 }
