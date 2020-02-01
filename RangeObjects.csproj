@@ -61,6 +61,7 @@
      <Compile Include="Assets\Common\RangeObjects\Events\RangeEventsManager.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeIntersection\JobSteps\RangeIntersectionJob.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeIntersection\JobSteps\RangeObstacleOcclusionIntersectionJob.cs" />
+     <Compile Include="Assets\Common\RangeObjects\RangeIntersection\Lib\RangeIntersectionAlgorithm.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeIntersection\Lib\RangeIntersectionCalculator.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeIntersection\Managers\RangeIntersectionCalculationManagerV2.cs" />
      <Compile Include="Assets\Common\RangeObjects\RangeIntersection\Managers\RangeIntersectionCalculatorManager.cs" />
