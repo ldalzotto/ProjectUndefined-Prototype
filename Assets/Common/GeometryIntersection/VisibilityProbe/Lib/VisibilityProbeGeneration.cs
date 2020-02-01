@@ -19,27 +19,27 @@ namespace GeometryIntersection
             CalculateProbeNumberAndIntervalFromDensity(BoxHeight, ProbeDensityPerUnit, out int HeightNumberOfProbe, out float HeightDistanceBetweenProbes);
             CalculateProbeNumberAndIntervalFromDensity(BoxDepth, ProbeDensityPerUnit, out int DepthNumberOfProbe, out float DepthDistanceBetweenProbes);
 
-            int totalNumberOfProbe = (WidthNumberOfProbe + HeightNumberOfProbe + DepthNumberOfProbe) * 4;
+            int totalNumberOfProbe = (WidthNumberOfProbe + HeightNumberOfProbe - 2 + DepthNumberOfProbe - 2) * 4;
             VisibilityProbe VisibilityProbe = VisibilityProbe.Allocate(totalNumberOfProbe);
 
             int probeCounter = 0;
 
-            FeedVisibilityProbe(C1, C2, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C4, C3, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C5, C6, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C8, C7, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C1, C2, true, true, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C4, C3, true, true, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C5, C6, true, true, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C8, C7, true, true, WidthNumberOfProbe, WidthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
 
 
-            FeedVisibilityProbe(C1, C4, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C2, C3, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C5, C8, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C6, C7, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C1, C4, false, false, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C2, C3, false, false, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C5, C8, false, false, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C6, C7, false, false, HeightNumberOfProbe, HeightDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
 
 
-            FeedVisibilityProbe(C1, C5, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C2, C6, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C4, C8, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
-            FeedVisibilityProbe(C3, C7, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C1, C5, false, false, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C2, C6, false, false, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C4, C8, false, false, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
+            FeedVisibilityProbe(C3, C7, false, false, DepthNumberOfProbe, DepthDistanceBetweenProbes, ref VisibilityProbe, ref probeCounter);
 
             return VisibilityProbe;
         }
@@ -50,14 +50,25 @@ namespace GeometryIntersection
             DistanceBetweenProbes = ComparedDistance / (NumberOfProbes - 1);
         }
 
-        private static void FeedVisibilityProbe(Vector3 StartPosition, Vector3 EndPosition, int NumberOfProbes, float DistanceBetweenProbes, ref VisibilityProbe visibilityProbe, ref int CurrentProbeCounter)
+        private static void FeedVisibilityProbe(Vector3 StartPosition, Vector3 EndPosition,
+            bool GenerateStart, bool GenerateEnd, int NumberOfProbes, float DistanceBetweenProbes, ref VisibilityProbe visibilityProbe, ref int CurrentProbeCounter)
         {
-            visibilityProbe[CurrentProbeCounter] = StartPosition;
-            CurrentProbeCounter += 1;
+            if (GenerateStart)
+            {
+                visibilityProbe[CurrentProbeCounter] = StartPosition;
+                CurrentProbeCounter += 1;
+            }
+
             Vector3 OffsetDirectionNormalize = (EndPosition - StartPosition).normalized;
 
             for (int i = 1; i < NumberOfProbes; i++)
             {
+                if (i == NumberOfProbes - 1 && !GenerateEnd)
+                {
+                    break;
+                    ;
+                }
+
                 Vector3 probePosition;
                 if (i == NumberOfProbes - 1)
                 {
