@@ -1,10 +1,16 @@
 ﻿using System;
-using ICSharpCode.NRefactory.Ast;
 using Unity.Collections;
 using UnityEngine;
 
 namespace GeometryIntersection
 {
+    /// <summary>
+    /// A <see cref="VisibilityProbe"/> is a set a local points <see cref="LocalPoints"/> that are used by Sight detection algorithm to check of the associated
+    /// interactive object is contained in the sight volume or not.
+    /// These local points are discrete representation of the volume that will be used by the algorithm. Is order for an interactive object to be visible, at least
+    /// one of these points must be visible.
+    /// The more points there are, the more accurate is the calculation, but the less performant it is. 
+    /// </summary>
     [Serializable]
     public struct VisibilityProbe
     {

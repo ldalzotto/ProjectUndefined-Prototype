@@ -84,17 +84,10 @@ namespace RangeObjects
         }
     }
 
-    public struct VisibilityProbeJobData
+    public struct VisibilityProbeIntersectionJobData
     {
         public Matrix4x4 VisibilityProbeLocalToWorld;
         public int VisibilityProbePositionsBeginIndexIncluded;
         public int VisibilityProbePositionsEndIndexIncluded;
-
-        public static VisibilityProbeJobData Empty()
-        {
-            VisibilityProbeJobData VisibilityProbeJobData = default;
-            VisibilityProbeJobData.VisibilityProbePositionsBeginIndexIncluded = -1;
-            return VisibilityProbeJobData;
-        }
     }
 }

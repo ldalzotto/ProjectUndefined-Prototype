@@ -12,7 +12,7 @@ namespace RangeObjects
         void CountingForRangeIntersectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator);
 
         void CalculationDataSetupForRangeIntersectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator,
-            IsOccludedByObstacleJobData IsOccludedByObstacleJobData, VisibilityProbeJobData VisibilityProbeJobData, int currentObstacleIntersectionCalculatorCounter);
+            IsOccludedByObstacleJobData IsOccludedByObstacleJobData, VisibilityProbeIntersectionJobData visibilityProbeIntersectionJobData, int currentObstacleIntersectionCalculatorCounter);
 
         void BuildJobHandle(NativeArray<IsOccludedByObstacleJobData> IsOccludedByObstacleJobData,
             NativeArray<Vector3> VisibilityProbeLocalPoints, RangeObstacleOcclusionIntersection RangeObstacleOcclusionIntersection);
@@ -49,7 +49,7 @@ namespace RangeObjects
         }
 
         public void CalculationDataSetupForRangeIntersectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator,
-            IsOccludedByObstacleJobData IsOccludedByObstacleJobData, VisibilityProbeJobData VisibilityProbeJobData, int currentObstacleIntersectionCalculatorCounter)
+            IsOccludedByObstacleJobData IsOccludedByObstacleJobData, VisibilityProbeIntersectionJobData visibilityProbeIntersectionJobData, int currentObstacleIntersectionCalculatorCounter)
         {
             if (rangeIntersectionCalculator.GetAssociatedRangeObjectType() == RangeType.ROUNDED_FRUSTUM)
             {
@@ -61,7 +61,7 @@ namespace RangeObjects
                     RangeTransform = RoundedFrustumRangeObject.GetTransform(),
                     IsOccludedByObstacleJobData = IsOccludedByObstacleJobData,
                     RoundedFrustumPositions = RoundedFrustumRangeObject.GetFrustumWorldPositions(),
-                    VisibilityProbeJobData = VisibilityProbeJobData,
+                    VisibilityProbeIntersectionJobData = visibilityProbeIntersectionJobData,
                     ObstacleCalculationDataIndex = RoundedFrustumRangeObject.GetObstacleListener() == null ? -1 : (currentObstacleIntersectionCalculatorCounter - 1)
                 };
                 this.RoundedFrustumIntersectionJobData[currentRoundedFrustumIntersectionJobDataCounter] = RoundedFrustumIntersectionJobData;
@@ -135,11 +135,13 @@ namespace RangeObjects
 
             bool isVisibleReturnValue = false;
 
-            for (var i = RoundedFrustumIntersectionJobData.VisibilityProbeJobData.VisibilityProbePositionsBeginIndexIncluded;
-                i <= RoundedFrustumIntersectionJobData.VisibilityProbeJobData.VisibilityProbePositionsEndIndexIncluded;
+            /// If at least one of VisibilityProbe points is visible, we consider that the targetted interactive object is visible
+            
+            for (var i = RoundedFrustumIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbePositionsBeginIndexIncluded;
+                i <= RoundedFrustumIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbePositionsEndIndexIncluded;
                 i++)
             {
-                Vector3 worldVisibilityProbePoint = RoundedFrustumIntersectionJobData.VisibilityProbeJobData.VisibilityProbeLocalToWorld.MultiplyPoint(this.VisibilityProbeLocalPoints[i]);
+                Vector3 worldVisibilityProbePoint = RoundedFrustumIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbeLocalToWorld.MultiplyPoint(this.VisibilityProbeLocalPoints[i]);
                 bool isVisible = IsInsideRoundedFrustum(worldVisibilityProbePoint, RoundedFrustumIntersectionJobData);
                 RangeIntersectionAlgorithm.IsWorldPointOccludedByObstacleTest(worldVisibilityProbePoint, ref isVisible, RoundedFrustumIntersectionJobData.ObstacleCalculationDataIndex,
                     IsOccludedByObstacleJobData, AssociatedObstacleFrustumPointsPositions);
@@ -177,7 +179,7 @@ namespace RangeObjects
         public TransformStruct RangeTransform;
         public FrustumPointsPositions RoundedFrustumPositions;
         public float FrustumRadius;
-        public VisibilityProbeJobData VisibilityProbeJobData;
+        public VisibilityProbeIntersectionJobData VisibilityProbeIntersectionJobData;
         public IsOccludedByObstacleJobData IsOccludedByObstacleJobData;
         public int ObstacleCalculationDataIndex;
     }
@@ -214,7 +216,7 @@ namespace RangeObjects
 
         public void CalculationDataSetupForRangeIntersectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator,
             IsOccludedByObstacleJobData IsOccludedByObstacleJobData,
-            VisibilityProbeJobData VisibilityProbeJobData, int currentObstacleIntersectionCalculatorCounter)
+            VisibilityProbeIntersectionJobData visibilityProbeIntersectionJobData, int currentObstacleIntersectionCalculatorCounter)
         {
             if (rangeIntersectionCalculator.GetAssociatedRangeObjectType() == RangeType.SPHERE)
             {
@@ -224,7 +226,7 @@ namespace RangeObjects
                     RangeIntersectionCalculatorV2UniqueID = rangeIntersectionCalculator.RangeIntersectionCalculatorV2UniqueID,
                     RangeTransform = SphereRangeObject.GetTransform(),
                     IsOccludedByObstacleJobData = IsOccludedByObstacleJobData,
-                    VisibilityProbeJobData = VisibilityProbeJobData,
+                    VisibilityProbeIntersectionJobData = visibilityProbeIntersectionJobData,
                     ObstacleCalculationDataIndex = SphereRangeObject.GetObstacleListener() == null ? -1 : (currentObstacleIntersectionCalculatorCounter - 1),
                     SphereRadius = SphereRangeObject.SphereBoundingCollider.radius
                 };
@@ -291,12 +293,14 @@ namespace RangeObjects
             var SphereIntersectionJobData = this.SphereIntersectionJobDatas[SphereIntersectionJobDataIndex];
 
             bool isVisibleReturnValue = false;
-
-            for (var i = SphereIntersectionJobData.VisibilityProbeJobData.VisibilityProbePositionsBeginIndexIncluded;
-                i <= SphereIntersectionJobData.VisibilityProbeJobData.VisibilityProbePositionsEndIndexIncluded;
+            
+            /// If at least one of VisibilityProbe points is visible, we consider that the targetted interactive object is visible
+            
+            for (var i = SphereIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbePositionsBeginIndexIncluded;
+                i <= SphereIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbePositionsEndIndexIncluded;
                 i++)
             {
-                Vector3 worldVisibilityProbePoint = SphereIntersectionJobData.VisibilityProbeJobData.VisibilityProbeLocalToWorld.MultiplyPoint(this.VisibilityProbeLocalPoints[i]);
+                Vector3 worldVisibilityProbePoint = SphereIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbeLocalToWorld.MultiplyPoint(this.VisibilityProbeLocalPoints[i]);
 
                 bool isVisible = Vector3.Distance(worldVisibilityProbePoint, SphereIntersectionJobData.RangeTransform.WorldPosition) <= SphereIntersectionJobData.SphereRadius;
                 RangeIntersectionAlgorithm.IsWorldPointOccludedByObstacleTest(worldVisibilityProbePoint, ref isVisible, SphereIntersectionJobData.ObstacleCalculationDataIndex,
@@ -322,7 +326,7 @@ namespace RangeObjects
         public int RangeIntersectionCalculatorV2UniqueID;
         public TransformStruct RangeTransform;
         public float SphereRadius;
-        public VisibilityProbeJobData VisibilityProbeJobData;
+        public VisibilityProbeIntersectionJobData VisibilityProbeIntersectionJobData;
         public IsOccludedByObstacleJobData IsOccludedByObstacleJobData;
         public int ObstacleCalculationDataIndex;
     }

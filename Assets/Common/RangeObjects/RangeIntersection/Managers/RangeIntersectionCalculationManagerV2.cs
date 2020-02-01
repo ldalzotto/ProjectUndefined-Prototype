@@ -135,27 +135,7 @@ namespace RangeObjects
                             currentObstacleIntersectionCalculatorCounter += 1;
                         }
 
-                        var visibilityProbes = RangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.VisibilityProbe;
-                        VisibilityProbeJobData VisibilityProbeJobData = VisibilityProbeJobData.Empty();
-
-                        if (visibilityProbes.LocalPoints != null && visibilityProbes.LocalPoints.Length > 0)
-                        {
-                            int startIndex = currentVisibilityProbeLocalPointsCounter;
-                            int endIndex = startIndex;
-                            for (int i = 0; i < visibilityProbes.LocalPoints.Length; i++)
-                            {
-                                this.VisibilityProbeLocalPoints[currentVisibilityProbeLocalPointsCounter] = visibilityProbes[i];
-                                endIndex = currentVisibilityProbeLocalPointsCounter;
-                                currentVisibilityProbeLocalPointsCounter += 1;
-                            }
-
-                            VisibilityProbeJobData = new VisibilityProbeJobData()
-                            {
-                                VisibilityProbeLocalToWorld = RangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.LogicCollider.transform.localToWorldMatrix,
-                                VisibilityProbePositionsBeginIndexIncluded = startIndex,
-                                VisibilityProbePositionsEndIndexIncluded = endIndex
-                            };
-                        }
+                        var VisibilityProbeJobData = CalculatingVisibilityProbeJobData(RangeIntersectionCalculatorV2, ref currentVisibilityProbeLocalPointsCounter);
 
                         foreach (var RangeIntersectionmanager in RangeIntersectionmanagers)
                             RangeIntersectionmanager.CalculationDataSetupForRangeIntersectionCalculator(RangeIntersectionCalculatorV2,
@@ -202,6 +182,36 @@ namespace RangeObjects
             if (this.VisibilityProbeLocalPoints.IsCreated) this.VisibilityProbeLocalPoints.Dispose();
 
             RangeObstacleOcclusionIntersection.Dispose();
+        }
+
+        /// <summary>
+        /// Build the <see cref="VisibilityProbeIntersectionJobData"/> and feed the <see cref="VisibilityProbeLocalPoints"/> based on targetted interactive object probe.
+        /// </summary>
+        private VisibilityProbeIntersectionJobData CalculatingVisibilityProbeJobData(RangeIntersectionCalculator RangeIntersectionCalculatorV2, ref int currentVisibilityProbeLocalPointsCounter)
+        {
+            var visibilityProbes = RangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.VisibilityProbe;
+            VisibilityProbeIntersectionJobData visibilityProbeIntersectionJobData = default;
+
+            if (visibilityProbes.LocalPoints != null && visibilityProbes.LocalPoints.Length > 0)
+            {
+                int startIndex = currentVisibilityProbeLocalPointsCounter;
+                int endIndex = startIndex;
+                for (int i = 0; i < visibilityProbes.LocalPoints.Length; i++)
+                {
+                    this.VisibilityProbeLocalPoints[currentVisibilityProbeLocalPointsCounter] = visibilityProbes[i];
+                    endIndex = currentVisibilityProbeLocalPointsCounter;
+                    currentVisibilityProbeLocalPointsCounter += 1;
+                }
+
+                visibilityProbeIntersectionJobData = new VisibilityProbeIntersectionJobData()
+                {
+                    VisibilityProbeLocalToWorld = RangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.LogicCollider.transform.localToWorldMatrix,
+                    VisibilityProbePositionsBeginIndexIncluded = startIndex,
+                    VisibilityProbePositionsEndIndexIncluded = endIndex
+                };
+            }
+
+            return visibilityProbeIntersectionJobData;
         }
     }
 }

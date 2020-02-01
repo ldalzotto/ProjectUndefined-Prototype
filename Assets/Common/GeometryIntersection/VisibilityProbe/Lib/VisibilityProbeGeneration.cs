@@ -6,6 +6,10 @@ namespace GeometryIntersection
 {
     public static class VisibilityProbeGeneration
     {
+        /// <summary>
+        /// Procedurally generates probe points on a <see cref="BoxDefinition"/>.
+        /// If the provided density is too high, a minimum set of points (represented by Box corners) are provided. 
+        /// </summary>
         public static VisibilityProbe GenerateAndAlocateVisibilityProbeLocalPointsFrom(float ProbeDensityPerUnit, BoxDefinition BoxDefinition)
         {
             Intersection.ExtractBoxColliderLocalPoints(BoxDefinition.LocalCenter, BoxDefinition.LocalSize,
@@ -50,6 +54,9 @@ namespace GeometryIntersection
             DistanceBetweenProbes = ComparedDistance / (NumberOfProbes - 1);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void FeedVisibilityProbe(Vector3 StartPosition, Vector3 EndPosition,
             bool GenerateStart, bool GenerateEnd, int NumberOfProbes, float DistanceBetweenProbes, ref VisibilityProbe visibilityProbe, ref int CurrentProbeCounter)
         {
