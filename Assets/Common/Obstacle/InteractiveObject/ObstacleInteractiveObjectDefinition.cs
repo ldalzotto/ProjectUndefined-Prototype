@@ -14,7 +14,7 @@ namespace Obstacle
 
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new ObstacleInteractiveObject(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
+            return new ObstacleInteractiveObject(InteractiveGameObjectFactory.Build_Allocate(interactiveGameObject), this);
         }
     }
 

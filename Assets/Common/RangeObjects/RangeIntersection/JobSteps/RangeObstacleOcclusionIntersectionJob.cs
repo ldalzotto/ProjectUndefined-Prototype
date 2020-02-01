@@ -43,7 +43,6 @@ namespace RangeObjects
 
                 IsOccludedByObstacleJobData = new IsOccludedByObstacleJobData
                 {
-                    TestedBoxCollider = new BoxDefinition(rangeIntersectionCalculator.TrackedInteractiveObject.InteractiveGameObject.GetLogicColliderAsBox()),
                     ObstacleFrustumPointsPositionsBeginIndex = ObstacleFrustumPointsPositionsBeginIndex,
                     ObstacleFrustumPointsPositionsEndIndex = currentObstacleFrustumPointsCounter
                 };
@@ -65,25 +64,8 @@ namespace RangeObjects
 
     public struct IsOccludedByObstacleJobData
     {
-        public BoxDefinition TestedBoxCollider;
         public int ObstacleFrustumPointsPositionsBeginIndex;
         public int ObstacleFrustumPointsPositionsEndIndex;
-
-        public bool IsOccluded(NativeArray<FrustumPointsPositions> AssociatedObstacleFrustumPointsPositions)
-        {
-            Intersection.ExtractBoxColliderWorldPointsV2(this.TestedBoxCollider,
-                out Vector3 BC1, out Vector3 BC2, out Vector3 BC3, out Vector3 BC4, out Vector3 BC5, out Vector3 BC6, out Vector3 BC7, out Vector3 BC8);
-
-            return
-                IsPointFullyOccludedByObstacle(BC1, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC2, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC3, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC4, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC5, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC6, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC7, AssociatedObstacleFrustumPointsPositions) &&
-                IsPointFullyOccludedByObstacle(BC8, AssociatedObstacleFrustumPointsPositions);
-        }
 
         public bool IsPointFullyOccludedByObstacle(Vector3 PointWorldPosition, NativeArray<FrustumPointsPositions> AssociatedObstacleFrustumPointsPositions)
         {
@@ -96,6 +78,20 @@ namespace RangeObjects
             }
 
             return false;
+        }
+    }
+
+    public struct VisibilityProbeJobData
+    {
+        public Matrix4x4 VisibilityProbeLocalToWorld;
+        public int VisibilityProbePositionsBeginIndexIncluded;
+        public int VisibilityProbePositionsEndIndexIncluded;
+
+        public static VisibilityProbeJobData Empty()
+        {
+            VisibilityProbeJobData VisibilityProbeJobData = default;
+            VisibilityProbeJobData.VisibilityProbePositionsBeginIndexIncluded = -1;
+            return VisibilityProbeJobData;
         }
     }
 }

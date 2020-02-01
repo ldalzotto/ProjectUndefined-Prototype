@@ -1,6 +1,8 @@
 {
     "name": "GeometryIntersection",
     "references": [
+        "Editor_Common",
+        "OdinSerializer",
         "CoreGame",
         "Unity.Burst"
     ],

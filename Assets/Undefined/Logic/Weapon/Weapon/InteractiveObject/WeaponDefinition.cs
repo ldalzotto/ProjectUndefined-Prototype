@@ -17,7 +17,7 @@ namespace Weapon
         public Weapon BuildWeapon(CoreInteractiveObject WeaponHolder)
         {
             var weaponModelPrefab = Instantiate(this.WeaponModelPrefab);
-            return new Weapon(InteractiveGameObjectFactory.Build(weaponModelPrefab), this, WeaponHolder);
+            return new Weapon(InteractiveGameObjectFactory.Build_Allocate(weaponModelPrefab), this, WeaponHolder);
         }
 
         public float GetFiredProjectileTravelSpeed()

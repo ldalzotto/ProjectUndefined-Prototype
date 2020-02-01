@@ -6,6 +6,7 @@
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
         "InteractiveObjectAction",
+        "GeometryIntersection",
         "Editor_Common",
         "OdinSerializer",
         "Persistence",

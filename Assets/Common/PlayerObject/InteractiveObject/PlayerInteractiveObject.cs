@@ -60,6 +60,7 @@ namespace PlayerObject
         {
             this.PlayerInteractiveObjectDefinition = PlayerInteractiveObjectDefinition;
             base.BaseInit(interactiveGameObject, false);
+            interactiveGameObject.GenerateVisibilityProbes(PlayerInteractiveObjectDefinition.VisibilityProbeDefinition, interactiveGameObject.GetLogicColliderAsBox());
             this.InteractiveObjectActionPlayerSystem = new InteractiveObjectActionPlayerSystem(this);
             this.WeaponHandlingSystem = new WeaponHandlingSystem(
                 this,

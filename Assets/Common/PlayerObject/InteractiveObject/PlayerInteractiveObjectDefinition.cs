@@ -1,6 +1,7 @@
 ﻿using System;
 using AnimatorPlayable;
 using Damage;
+using GeometryIntersection;
 using PlayerAim;
 using Health;
 using InteractiveObject_Animation;
@@ -20,6 +21,9 @@ namespace PlayerObject
     {
         [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public InteractiveObjectBoxLogicColliderDefinition InteractiveObjectLogicCollider;
+
+        [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
+        public VisibilityProbeDefinition VisibilityProbeDefinition;
 
         [DrawNested] [Inline(CreateAtSameLevelIfAbsent = true)]
         public AIAgentDefinition AIAgentDefinition;

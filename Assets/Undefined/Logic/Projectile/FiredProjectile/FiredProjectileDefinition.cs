@@ -32,7 +32,7 @@ namespace PlayerAim
         public FiredProjectile BuildFiredProjectile(CoreInteractiveObject WeaponHolder)
         {
             var FiredProjectileModel = Instantiate(this.FiredProjectileModelPrefab);
-            return new FiredProjectile(InteractiveGameObjectFactory.Build(FiredProjectileModel), this, WeaponHolder);
+            return new FiredProjectile(InteractiveGameObjectFactory.Build_Allocate(FiredProjectileModel), this, WeaponHolder);
         }
 
         /// <summary>

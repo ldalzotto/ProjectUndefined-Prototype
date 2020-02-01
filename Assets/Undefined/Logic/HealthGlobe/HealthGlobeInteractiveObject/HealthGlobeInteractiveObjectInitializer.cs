@@ -26,7 +26,7 @@ namespace HealthGlobe
 
         protected override CoreInteractiveObject InitializationLogic()
         {
-            return new HealthGlobeInteractiveObject(this.RuntimeHealthGlobeInteractiveObjectDefinition, InteractiveGameObjectFactory.Build(this.gameObject), this.BeziersControlPointsBuildInput);
+            return new HealthGlobeInteractiveObject(this.RuntimeHealthGlobeInteractiveObjectDefinition, InteractiveGameObjectFactory.Build_Allocate(this.gameObject), this.BeziersControlPointsBuildInput);
         }
     }
 }

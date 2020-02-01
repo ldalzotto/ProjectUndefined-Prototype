@@ -62,6 +62,10 @@
      <Compile Include="Assets\Common\GeometryIntersection\Lib\Intersection.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\PhysicsIntersection.cs" />
      <Compile Include="Assets\Common\GeometryIntersection\Lib\ShapeDefinitions.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\Test\VisibilityProbeGenerationTest.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\VisibilityProbe\Definition\VisibilityProbeDefinition.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\VisibilityProbe\Lib\VisibilityProbeGeneration.cs" />
+     <Compile Include="Assets\Common\GeometryIntersection\VisibilityProbe\VisibilityProbe.cs" />
      <None Include="Assets\Common\GeometryIntersection\GeometryIntersection.asmdef" />
  <Reference Include="Unity.Burst">
  <HintPath>G:/GameProjects/ProjectUndefined/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
@@ -623,6 +627,14 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Editor_Common.csproj">
+      <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
+      <Name>Editor_Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="OdinSerializer.csproj">
+      <Project>{23BDDC0C-B4BD-4730-2494-4F3FD031F3AA}</Project>
+      <Name>OdinSerializer</Name>
+    </ProjectReference>
     <ProjectReference Include="CoreGame.csproj">
       <Project>{A580E245-1026-BF95-7905-7D4E919E27F6}</Project>
       <Name>CoreGame</Name>

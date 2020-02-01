@@ -667,6 +667,10 @@
       <Project>{0E7E932C-D599-DDD3-F651-832E1B0E66C4}</Project>
       <Name>InteractiveObjectAction</Name>
     </ProjectReference>
+    <ProjectReference Include="GeometryIntersection.csproj">
+      <Project>{1C41B0EC-9EE4-2CF0-1FFA-C23CC0B573CE}</Project>
+      <Name>GeometryIntersection</Name>
+    </ProjectReference>
     <ProjectReference Include="Editor_Common.csproj">
       <Project>{9F05861D-A30D-BD60-68C3-F863F147FACA}</Project>
       <Name>Editor_Common</Name>

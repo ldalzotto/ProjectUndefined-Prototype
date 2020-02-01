@@ -9,7 +9,7 @@ namespace LevelManagement
 
         protected override CoreInteractiveObject InitializationLogic()
         {
-            return new LevelChunkInteractiveObject(InteractiveGameObjectFactory.Build(gameObject), this.LevelChunkInteractiveObjectDefinition);
+            return new LevelChunkInteractiveObject(InteractiveGameObjectFactory.Build_Allocate(gameObject), this.LevelChunkInteractiveObjectDefinition);
         }
     }
 }

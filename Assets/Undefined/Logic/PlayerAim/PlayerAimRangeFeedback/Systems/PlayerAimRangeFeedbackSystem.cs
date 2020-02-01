@@ -33,7 +33,7 @@ namespace PlayerAim
             PlayerInteractiveObject = playerInteractiveObject;
             this.FiringPlayerActionTargetSystemRef = FiringPlayerActionTargetSystemRef;
             this.firingRangeFeedbackRangeObject = new FiringRangeFeedbackRangeObject(
-                InteractiveGameObjectFactory.Build(new GameObject("FiringRangeFeedbackRangeObject")),
+                InteractiveGameObjectFactory.Build_Allocate(new GameObject("FiringRangeFeedbackRangeObject")),
                 PlayerAimingRangeFeedbackConfigurationGameObject.Get().playerAimingRangeVisualFeedbackConfiguration.FiredProjectileFeedbackPrefab,
                 playerInteractiveObject);
 

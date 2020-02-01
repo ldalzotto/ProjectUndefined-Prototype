@@ -9,7 +9,7 @@ namespace InteractiveObjects
 {
     public static class InteractiveGameObjectFactory
     {
-        public static IInteractiveGameObject Build(GameObject InteractiveGameObjectParent)
+        public static IInteractiveGameObject Build_Allocate(GameObject InteractiveGameObjectParent)
         {
             return new InteractiveGameObject(InteractiveGameObjectParent);
         }
@@ -36,6 +36,7 @@ namespace InteractiveObjects
         }
 
         public GameObject InteractiveGameObjectParent { get; private set; }
+
         public void Hide()
         {
             if (this.Renderers != null)
@@ -126,7 +127,7 @@ namespace InteractiveObjects
                 this.AddRigidBodyIfNecessary(InteractiveObjectBoxLogicColliderDefinitionStruct.HasRigidBody, LogicColliderObject, InteractiveObjectBoxLogicColliderDefinitionStruct.RigidbodyInterpolation);
             }
         }
-        
+
         public void CreateLogicCollider(InteractiveObjectSphereLogicColliderDefinitionStruct InteractiveObjectSphereLogicColliderDefinitionStruct, int layer = 0)
         {
             if (InteractiveObjectSphereLogicColliderDefinitionStruct.Enabled)
@@ -142,11 +143,16 @@ namespace InteractiveObjects
             }
         }
 
+        public void GenerateVisibilityProbes(VisibilityProbeDefinition VisibilityProbeDefinition, BoxCollider BoxCollider)
+        {
+            this.VisibilityProbe = VisibilityProbeGeneration.GenerateAndAlocateVisibilityProbeLocalPointsFrom(VisibilityProbeDefinition.ProbeDensityPerUnit, new BoxDefinition(BoxCollider));
+        }
+
         public TransformStruct GetTransform()
         {
             return new TransformStruct(InteractiveGameObjectParent.transform);
         }
-        
+
         public Matrix4x4 GetLocalToWorld()
         {
             return InteractiveGameObjectParent.transform.localToWorldMatrix;
@@ -196,6 +202,8 @@ namespace InteractiveObjects
         public Rigidbody PhysicsRigidbody { get; private set; }
         public Collider PhysicsCollider { get; private set; }
         public NavMeshAgent Agent { get; private set; }
+
+        public VisibilityProbe VisibilityProbe { get; private set; }
 
         #endregion
     }

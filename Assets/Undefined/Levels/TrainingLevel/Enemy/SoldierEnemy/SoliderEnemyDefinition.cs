@@ -56,7 +56,7 @@ namespace TrainingLevel
         
         public override CoreInteractiveObject BuildInteractiveObject(GameObject interactiveGameObject)
         {
-            return new SoliderEnemy(InteractiveGameObjectFactory.Build(interactiveGameObject), this);
+            return new SoliderEnemy(InteractiveGameObjectFactory.Build_Allocate(interactiveGameObject), this);
         }
     }
 }

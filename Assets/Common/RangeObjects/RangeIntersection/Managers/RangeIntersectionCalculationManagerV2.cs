@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using CoreGame;
+using GeometryIntersection;
 using Obstacle;
 using Unity.Collections;
+using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace RangeObjects
@@ -11,15 +13,15 @@ namespace RangeObjects
     /// </summary>
     public class RangeIntersectionCalculationManagerV2 : GameSingleton<RangeIntersectionCalculationManagerV2>
     {
-        
         #region External Dependencies
 
         private ObstacleOcclusionCalculationManagerV2 ObstacleOcclusionCalculationManagerV2 = ObstacleOcclusionCalculationManagerV2.Get();
         private RangeIntersectionCalculatorManager _rangeIntersectionCalculatorManager = RangeIntersectionCalculatorManager.Get();
 
         #endregion
-        
+
         private NativeArray<IsOccludedByObstacleJobData> IsOccludedByObstacleJobData;
+        private NativeArray<Vector3> VisibilityProbeLocalPoints;
 
         #region Job State   
 
@@ -85,6 +87,7 @@ namespace RangeObjects
                 #region Counting
 
                 var totalObstacleFrustumPointsCounter = 0;
+                var totalVisibilityProbePointsCounter = 0;
                 foreach (var rangeIntersectionCalculatorV2 in InvolvedRangeIntersectionCalculatorV2)
                     if (forceCalculation || !forceCalculation && rangeIntersectionCalculatorV2.TickChangedPositions())
                     {
@@ -100,20 +103,30 @@ namespace RangeObjects
                                 foreach (var calculatedObstacleFrustum in calculatedFrustumPositions.Values)
                                     totalObstacleFrustumPointsCounter += calculatedObstacleFrustum.Count;
                         }
+
+                        // visibility probe counting
+                        var visibilityProbes = rangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.VisibilityProbe;
+                        if (visibilityProbes.LocalPoints != null)
+                        {
+                            totalVisibilityProbePointsCounter += visibilityProbes.LocalPoints.Length;
+                        }
                     }
 
                 #endregion
 
                 if (RangeIntersectionCalculatorThatChangedThatFrame.Count > 0)
                 {
-                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) 
+                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers)
                         RangeIntersectionmanager.CreateNativeArrays();
 
                     this.IsOccludedByObstacleJobData = new NativeArray<IsOccludedByObstacleJobData>(AllRangeIntersectionCalculatorV2Count, Allocator.TempJob);
+                    this.VisibilityProbeLocalPoints = new NativeArray<Vector3>(totalVisibilityProbePointsCounter, Allocator.TempJob);
 
                     RangeObstacleOcclusionIntersection.Prepare(totalObstacleFrustumPointsCounter, _rangeIntersectionCalculatorManager);
 
                     var currentObstacleIntersectionCalculatorCounter = 0;
+                    var currentVisibilityProbeLocalPointsCounter = 0;
+
                     foreach (var RangeIntersectionCalculatorV2 in RangeIntersectionCalculatorThatChangedThatFrame)
                     {
                         if (RangeObstacleOcclusionIntersection.ForRangeInteresectionCalculator(RangeIntersectionCalculatorV2, ObstacleOcclusionCalculationManagerV2, out var IsOccludedByObstacleJobData))
@@ -122,13 +135,35 @@ namespace RangeObjects
                             currentObstacleIntersectionCalculatorCounter += 1;
                         }
 
+                        var visibilityProbes = RangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.VisibilityProbe;
+                        VisibilityProbeJobData VisibilityProbeJobData = VisibilityProbeJobData.Empty();
+
+                        if (visibilityProbes.LocalPoints != null && visibilityProbes.LocalPoints.Length > 0)
+                        {
+                            int startIndex = currentVisibilityProbeLocalPointsCounter;
+                            int endIndex = startIndex;
+                            for (int i = 0; i < visibilityProbes.LocalPoints.Length; i++)
+                            {
+                                this.VisibilityProbeLocalPoints[currentVisibilityProbeLocalPointsCounter] = visibilityProbes[i];
+                                endIndex = currentVisibilityProbeLocalPointsCounter;
+                                currentVisibilityProbeLocalPointsCounter += 1;
+                            }
+
+                            VisibilityProbeJobData = new VisibilityProbeJobData()
+                            {
+                                VisibilityProbeLocalToWorld = RangeIntersectionCalculatorV2.TrackedInteractiveObject.InteractiveGameObject.LogicCollider.transform.localToWorldMatrix,
+                                VisibilityProbePositionsBeginIndexIncluded = startIndex,
+                                VisibilityProbePositionsEndIndexIncluded = endIndex
+                            };
+                        }
+
                         foreach (var RangeIntersectionmanager in RangeIntersectionmanagers)
                             RangeIntersectionmanager.CalculationDataSetupForRangeIntersectionCalculator(RangeIntersectionCalculatorV2,
-                                IsOccludedByObstacleJobData, currentObstacleIntersectionCalculatorCounter);
+                                IsOccludedByObstacleJobData, VisibilityProbeJobData, currentObstacleIntersectionCalculatorCounter);
                     }
 
-                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) 
-                        RangeIntersectionmanager.BuildJobHandle(IsOccludedByObstacleJobData, RangeObstacleOcclusionIntersection);
+                    foreach (var RangeIntersectionmanager in RangeIntersectionmanagers)
+                        RangeIntersectionmanager.BuildJobHandle(IsOccludedByObstacleJobData, this.VisibilityProbeLocalPoints, RangeObstacleOcclusionIntersection);
 
                     if (!forceCalculation)
                     {
@@ -164,9 +199,9 @@ namespace RangeObjects
             }
 
             if (IsOccludedByObstacleJobData.IsCreated) IsOccludedByObstacleJobData.Dispose();
+            if (this.VisibilityProbeLocalPoints.IsCreated) this.VisibilityProbeLocalPoints.Dispose();
 
             RangeObstacleOcclusionIntersection.Dispose();
         }
-
     }
 }
