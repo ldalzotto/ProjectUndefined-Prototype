@@ -58,17 +58,11 @@ namespace GeometryIntersection
         {
             return
                 (Vector3.Dot(FrustumPointsWorldPositions.normal1, worldPositionPoint - FrustumPointsWorldPositions.FC1) >= 0)
-                && (Vector3.Dot(FrustumPointsWorldPositions.normal1, FrustumPointsWorldPositions.FC5 - FrustumPointsWorldPositions.FC1) > 0)
                 && (Vector3.Dot(FrustumPointsWorldPositions.normal2, worldPositionPoint - FrustumPointsWorldPositions.FC1) >= 0)
-                && (Vector3.Dot(FrustumPointsWorldPositions.normal2, FrustumPointsWorldPositions.FC4 - FrustumPointsWorldPositions.FC1) > 0)
                 && (Vector3.Dot(FrustumPointsWorldPositions.normal3, worldPositionPoint - FrustumPointsWorldPositions.FC2) >= 0)
-                && (Vector3.Dot(FrustumPointsWorldPositions.normal3, FrustumPointsWorldPositions.FC1 - FrustumPointsWorldPositions.FC2) > 0)
                 && (Vector3.Dot(FrustumPointsWorldPositions.normal4, worldPositionPoint - FrustumPointsWorldPositions.FC3) >= 0)
-                && (Vector3.Dot(FrustumPointsWorldPositions.normal4, FrustumPointsWorldPositions.FC2 - FrustumPointsWorldPositions.FC3) > 0)
                 && (Vector3.Dot(FrustumPointsWorldPositions.normal5, worldPositionPoint - FrustumPointsWorldPositions.FC4) >= 0)
-                && (Vector3.Dot(FrustumPointsWorldPositions.normal5, FrustumPointsWorldPositions.FC3 - FrustumPointsWorldPositions.FC4) > 0)
                 && (Vector3.Dot(FrustumPointsWorldPositions.normal6, worldPositionPoint - FrustumPointsWorldPositions.FC5) >= 0)
-                && (Vector3.Dot(FrustumPointsWorldPositions.normal6, FrustumPointsWorldPositions.FC1 - FrustumPointsWorldPositions.FC5) > 0)
                 ;
         }
 

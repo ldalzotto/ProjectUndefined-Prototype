@@ -126,10 +126,37 @@ namespace RangeObjects
         public void Execute(int RoundedFrustumIntersectionDataIndex)
         {
             var RoundedFrustumIntersectionJobData = this.RoundedFrustumIntersectionJobData[RoundedFrustumIntersectionDataIndex];
-            bool isInsideRange = IsInside(RoundedFrustumIntersectionJobData);
-            if (RoundedFrustumIntersectionJobData.ObstacleCalculationDataIndex != -1 && isInsideRange)
+            NativeArray<Vector3> visibilityPoints = new NativeArray<Vector3>(8, Allocator.Temp);
+            Intersection.ExtractBoxColliderWorldPointsV2(RoundedFrustumIntersectionJobData.ComparedCollider,
+                out Vector3 C1, out Vector3 C2, out Vector3 C3, out Vector3 C4, out Vector3 C5, out Vector3 C6, out Vector3 C7, out Vector3 C8);
+
+            visibilityPoints[0] = C1;
+            visibilityPoints[1] = C2;
+            visibilityPoints[2] = C3;
+            visibilityPoints[3] = C4;
+            visibilityPoints[4] = C5;
+            visibilityPoints[5] = C6;
+            visibilityPoints[6] = C7;
+            visibilityPoints[7] = C8;
+
+            bool isInsideRange = false;
+            
+            /// Hide occluded points
+            for (var i = 0; i < visibilityPoints.Length; i++)
             {
-                isInsideRange = isInsideRange && !this.IsOccludedByObstacleJobData[RoundedFrustumIntersectionJobData.ObstacleCalculationDataIndex].IsOccluded(this.AssociatedObstacleFrustumPointsPositions);
+                bool isVisible = !this.IsOccludedByObstacleJobData[RoundedFrustumIntersectionJobData.ObstacleCalculationDataIndex].IsPointFullyOccludedByObstacle(
+                    visibilityPoints[i], this.AssociatedObstacleFrustumPointsPositions);
+                if (isVisible)
+                {
+                    isVisible = IsInsideV2(visibilityPoints[i], RoundedFrustumIntersectionJobData);
+                }
+
+                isInsideRange = isVisible;
+                
+                if (isInsideRange)
+                {
+                    break;
+                }
             }
 
             this.IntersectionResult[RoundedFrustumIntersectionDataIndex] =
@@ -138,6 +165,8 @@ namespace RangeObjects
                     RangeIntersectionCalculatorV2UniqueID = RoundedFrustumIntersectionJobData.RangeIntersectionCalculatorV2UniqueID,
                     IsInsideRange = isInsideRange
                 };
+
+            visibilityPoints.Dispose();
         }
 
         private bool IsInside(RoundedFrustumIntersectionJobData RoundedFrustumIntersectionJobData)
@@ -145,6 +174,12 @@ namespace RangeObjects
             return Intersection.BoxIntersectsOrEntirelyContainedInSphere(RoundedFrustumIntersectionJobData.ComparedCollider, RoundedFrustumIntersectionJobData.RangeTransform.WorldPosition, RoundedFrustumIntersectionJobData.FrustumRadius)
                    && (Intersection.FrustumBoxIntersection(RoundedFrustumIntersectionJobData.RoundedFrustumPositions, RoundedFrustumIntersectionJobData.ComparedCollider) || Intersection.BoxEntirelyContainedInFrustum(RoundedFrustumIntersectionJobData.RoundedFrustumPositions, RoundedFrustumIntersectionJobData.ComparedCollider))
                 ;
+        }
+
+        private bool IsInsideV2(Vector3 point, RoundedFrustumIntersectionWithBoxJobData roundedFrustumIntersectionWithBoxJobData)
+        {
+            return (Vector3.Distance(point, roundedFrustumIntersectionWithBoxJobData.RangeTransform.WorldPosition) <= roundedFrustumIntersectionWithBoxJobData.FrustumRadius)
+                   && Intersection.PointInsideFrustum(roundedFrustumIntersectionWithBoxJobData.RoundedFrustumPositions, point);
         }
     }
 

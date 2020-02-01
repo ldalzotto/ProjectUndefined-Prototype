@@ -5,20 +5,21 @@
         "InteractiveObjects",
         "InteractiveObjects_Interfaces",
         "LevelManagement_Interfaces",
-        "GameConfigurationID",
         "OdinSerializer",
         "Editor_Common",
         "Obstacle",
         "Unity.Burst",
         "GeometryIntersection",
-        "Unity.RenderPipelines.Lightweight.Runtime"
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.Collections"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
+    "overrideReferences": true,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
