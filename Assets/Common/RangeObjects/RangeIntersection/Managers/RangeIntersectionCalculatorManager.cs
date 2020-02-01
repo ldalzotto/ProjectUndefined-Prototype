@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoreGame;
+using InteractiveObjects;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -21,6 +22,7 @@ namespace RangeObjects
             this.AllRangeIntersectionCalculatorV2.Add(rangeIntersectionCalculator);
             this.CurrentRangeIntersectionCalculatorV2ManagerCounter += 1;
             rangeIntersectionCalculator.GetAssociatedRangeObject().RegisterOnRangeObjectDestroyedEventListener(this.OnRangeObjectDestroyed);
+            rangeIntersectionCalculator.TrackedInteractiveObject.RegisterInteractiveObjectDestroyedEventListener(this.OnTrackedInteractiveObjectDestroyed);
             return this.CurrentRangeIntersectionCalculatorV2ManagerCounter;
         }
 
@@ -46,6 +48,33 @@ namespace RangeObjects
             {
                 var currentIntersectionCalculator = this.AllRangeIntersectionCalculatorV2[i];
                 if (currentIntersectionCalculator.GetAssociatedRangeObject() == RangeObjectV2)
+                {
+                    if (RangeIntersectionCalculatorsToDestroy == null)
+                    {
+                        RangeIntersectionCalculatorsToDestroy = new List<RangeIntersectionCalculator>();
+                    }
+
+                    RangeIntersectionCalculatorsToDestroy.Add(currentIntersectionCalculator);
+                }
+            }
+
+            if (RangeIntersectionCalculatorsToDestroy != null)
+            {
+                foreach (var rangeIntersectionCalculatorToDestroy in RangeIntersectionCalculatorsToDestroy)
+                {
+                    rangeIntersectionCalculatorToDestroy.OnDestroy();
+                    this.AllRangeIntersectionCalculatorV2.Remove(rangeIntersectionCalculatorToDestroy);
+                }
+            }
+        }
+
+        private void OnTrackedInteractiveObjectDestroyed(CoreInteractiveObject trackedInteractiveObject)
+        {
+            List<RangeIntersectionCalculator> RangeIntersectionCalculatorsToDestroy = null;
+            for (var i = 0; i < this.AllRangeIntersectionCalculatorV2.Count; i++)
+            {
+                var currentIntersectionCalculator = this.AllRangeIntersectionCalculatorV2[i];
+                if (currentIntersectionCalculator.TrackedInteractiveObject == trackedInteractiveObject)
                 {
                     if (RangeIntersectionCalculatorsToDestroy == null)
                     {
