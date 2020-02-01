@@ -188,9 +188,14 @@ namespace Obstacle
         private void OnJobEnded()
         {
             //Store results
-            foreach (var result in Results)
+            for (int i = 0; i < Results.Length; i++)
+            {
+                var result = Results[i];
                 if (result.Isinitialized)
+                {
                     CalculatedOcclusionFrustums[result.FrustumCalculationDataID.ObstacleListenerUniqueID][result.FrustumCalculationDataID.SquareObstacleSystemUniqueID].Add(result.FrustumPointsPositions);
+                }
+            }
 
             ClearFrameDependantData();
 
@@ -231,8 +236,10 @@ namespace Obstacle
         private static void AddToArrays(ref NativeArray<FrustumOcclusionCalculationData> FrustumOcclusionCalculationDatas, NativeArray<FrustumV2Indexed> AssociatedFrustums,
             ref int currentOcclusionCalculationCounter, ref int currentFrustumCounter, ObstacleListenerSystem obstacleListenerThatChanged, ObstacleInteractiveObject nearSquareObstacle)
         {
-            foreach (var nearSquaureObstacleFrustum in nearSquareObstacle.GetFaceFrustums())
+            var nearSquareObstacleFaceFrustums = nearSquareObstacle.GetFaceFrustums();
+            for (int i = 0; i < nearSquareObstacleFaceFrustums.Count; i++)
             {
+                var nearSquaureObstacleFrustum = nearSquareObstacleFaceFrustums[i];
                 AssociatedFrustums[currentFrustumCounter] = new FrustumV2Indexed
                 {
                     FrustumV2 = nearSquaureObstacleFrustum,

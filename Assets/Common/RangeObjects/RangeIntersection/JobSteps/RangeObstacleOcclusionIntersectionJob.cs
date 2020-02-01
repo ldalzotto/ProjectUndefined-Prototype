@@ -31,11 +31,14 @@ namespace RangeObjects
                 ObstacleOcclusionCalculationManagerV2.TryGetCalculatedOcclusionFrustumsForObstacleListener(associatedObstacleListener, out Dictionary<int, List<FrustumPointsPositions>> calculatedFrustumPositions);
                 if (calculatedFrustumPositions != null)
                 {
-                    foreach (var calculatedObstacleFrustumList in calculatedFrustumPositions.Values)
+                    var calculatedFrustumPositionsEnumerator = calculatedFrustumPositions.Values.GetEnumerator();
+                    while (calculatedFrustumPositionsEnumerator.MoveNext())
                     {
-                        foreach (var calculatedObstacleFrustum in calculatedObstacleFrustumList)
+                        var calculatedObstacleFrustumList = calculatedFrustumPositionsEnumerator.Current;
+
+                        for (int calculatedObstacleFrustumIndex = 0; calculatedObstacleFrustumIndex < calculatedObstacleFrustumList.Count; calculatedObstacleFrustumIndex++)
                         {
-                            this.AssociatedObstacleFrustumPointsPositions[currentObstacleFrustumPointsCounter] = calculatedObstacleFrustum;
+                            this.AssociatedObstacleFrustumPointsPositions[currentObstacleFrustumPointsCounter] = calculatedObstacleFrustumList[calculatedObstacleFrustumIndex];
                             currentObstacleFrustumPointsCounter += 1;
                         }
                     }
