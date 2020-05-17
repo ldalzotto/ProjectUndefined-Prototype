@@ -1,0 +1,473 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: _1_Town_Mask_Fan
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Base
+    m_Weight: 0
+  - m_Path: Helix
+    m_Weight: 0
+  - m_Path: Helix_001
+    m_Weight: 0
+  - m_Path: Helix_002
+    m_Weight: 0
+  - m_Path: Helix_003
+    m_Weight: 0
+  - m_Path: HidedObject
+    m_Weight: 0
+  - m_Path: HidedObject/FrontDoorLeaf_ParticleGuide
+    m_Weight: 0
+  - m_Path: HidedObject/Leaf
+    m_Weight: 0
+  - m_Path: HidedObject/SunBLocker_ParticleEmitter
+    m_Weight: 0
+  - m_Path: HidedObject/SunBlocker_Unit
+    m_Weight: 0
+  - m_Path: Houses
+    m_Weight: 0
+  - m_Path: Houses/House1
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_018
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_019
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_020
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_021
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_022
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_023
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_024
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_025
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_026
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_027
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_028
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_029
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_030
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_031
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_032
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_033
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_034
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_035
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_036
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_037
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_038
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_039
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_040
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_041
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_042
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_043
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_044
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_045
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_046
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Blocker/SunBlocker_Unit_047
+    m_Weight: 0
+  - m_Path: Houses/House1/Door2SunBlocker/Door2SunBlockerBase
+    m_Weight: 0
+  - m_Path: Houses/House1/DoorSunBlock
+    m_Weight: 0
+  - m_Path: Houses/House1/Fan
+    m_Weight: 1
+  - m_Path: Houses/House1/Fan/Fan_002
+    m_Weight: 1
+  - m_Path: Houses/House1/Fan/Fan_002/Fan_001
+    m_Weight: 1
+  - m_Path: Houses/House1/Fan/Fan_002/Fan_001/Armature
+    m_Weight: 1
+  - m_Path: Houses/House1/Fan/Fan_002/Fan_001/Armature/Bone
+    m_Weight: 1
+  - m_Path: Houses/House1/Fence
+    m_Weight: 0
+  - m_Path: Houses/House1/Fence/Fence_HorizontalBar
+    m_Weight: 0
+  - m_Path: Houses/House1/Floor
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_001
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_002
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_003
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_004
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_005
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_006
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_007
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_008
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_009
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_010
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_011
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_012
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_013
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_014
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_015
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_016
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_017
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_018
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_019
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_020
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_021
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_022
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_023
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_024
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_025
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_026
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_027
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_028
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_029
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_030
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_031
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_032
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_033
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_034
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_035
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_036
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_037
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_038
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_039
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_040
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_041
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_042
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_043
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_044
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_045
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_046
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_047
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_048
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_049
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_050
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_051
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_052
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_053
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_054
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_055
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_056
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_057
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_058
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_059
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_060
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_061
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_062
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_063
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_064
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_065
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_066
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_067
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_068
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_069
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_070
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_071
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_072
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_073
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_074
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_075
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_076
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_077
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_078
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_079
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_080
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_081
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_082
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_083
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_084
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_085
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_086
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_087
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_088
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_089
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_090
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_091
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_092
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_093
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_094
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_095
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_096
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_097
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_098
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_099
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_100
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_101
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_102
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_103
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_104
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_105
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_106
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_107
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_108
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_109
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_110
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_111
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_112
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_113
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_114
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_115
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_116
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_117
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_118
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_119
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_120
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_121
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_122
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_123
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_124
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_125
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_126
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_127
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_128
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_129
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_130
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_131
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_132
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_133
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_134
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_135
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_136
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_137
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_138
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_139
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_140
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_141
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_142
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_143
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_144
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_145
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_146
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_147
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_148
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_149
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_150
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_151
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_152
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_153
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_154
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_155
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_156
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_157
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_158
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_159
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_160
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_161
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_162
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_163
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_164
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_165
+    m_Weight: 0
+  - m_Path: Houses/House1/FrontDoorLeaf/Leaf_166
+    m_Weight: 0
+  - m_Path: Houses/House1/MiniWindows_000
+    m_Weight: 0
+  - m_Path: Houses/House1/MiniWindows_1
+    m_Weight: 0
+  - m_Path: Houses/House1/MiniWindows_2
+    m_Weight: 0
+  - m_Path: Houses/House1/MiniWindows_2/MiniWindows_003
+    m_Weight: 0
+  - m_Path: Houses/House1/Tiles
+    m_Weight: 0
+  - m_Path: Houses/House1/Tube
+    m_Weight: 0
+  - m_Path: Houses/House1_Door
+    m_Weight: 0
+  - m_Path: Road
+    m_Weight: 0
+  - m_Path: Road/Road_001
+    m_Weight: 0

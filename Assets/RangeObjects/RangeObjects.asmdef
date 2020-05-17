@@ -1,0 +1,23 @@
+{
+    "name": "RangeObjects",
+    "references": [
+        "CoreGame",
+        "InteractiveObjects",
+        "InteractiveObjects_Interfaces",
+        "LevelManagement_Interfaces",
+        "GameConfigurationID",
+        "OdinSerializer",
+        "Editor_Common",
+        "Obstacle",
+        "Unity.Burst",
+        "Unity.RenderPipelines.Lightweight.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

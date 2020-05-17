@@ -1,0 +1,16 @@
+{
+    "name": "SelectionWheel",
+    "references": [
+        "CoreGame",
+        "OdinSerializer",
+"Input"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

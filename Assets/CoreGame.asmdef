@@ -1,0 +1,21 @@
+{
+    "name": "CoreGame",
+    "references": [
+        "Unity.Postprocessing.Runtime",
+        "Editor_Common",
+        "OdinSerializer",
+        "GameConfigurationID",
+        "SequencedAction",
+        "Unity.InputSystem",
+        "Unity.RenderPipelines.Lightweight.Runtime",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

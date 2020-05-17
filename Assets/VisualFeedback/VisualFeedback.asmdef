@@ -1,0 +1,19 @@
+{
+    "name": "VisualFeedback",
+    "references": [
+"Editor_Common",
+"OdinSerializer",
+"CoreGame",
+"InteractiveObjects",
+"InteractiveObjects_Interfaces",
+"Unity.RenderPipelines.Lightweight.Runtime"
+],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

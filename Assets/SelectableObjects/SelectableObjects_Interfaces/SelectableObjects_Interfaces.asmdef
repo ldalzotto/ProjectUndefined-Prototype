@@ -1,0 +1,14 @@
+{
+    "name": "SelectableObjects_Interfaces",
+    "references": [
+        "CoreGame"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

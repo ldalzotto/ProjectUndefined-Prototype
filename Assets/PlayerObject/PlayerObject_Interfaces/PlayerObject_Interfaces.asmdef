@@ -1,0 +1,14 @@
+{
+    "name": "PlayerObject_Interface",
+    "references": [
+        "GUID:6f109e35241fab442bce341ff19d91ef"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

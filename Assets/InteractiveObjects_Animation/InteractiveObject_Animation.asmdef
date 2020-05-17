@@ -1,0 +1,18 @@
+{
+    "name": "InteractiveObject_Animation",
+    "references": [
+        "CoreGame",
+        "SequencedAction",
+        "AnimatorPlayable",
+        "InteractiveObjects_Interfaces",
+        "OdinSerializer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

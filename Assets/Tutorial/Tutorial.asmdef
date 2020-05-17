@@ -1,0 +1,23 @@
+{
+    "name": "Tutorial",
+    "references": [
+        "CoreGame",
+        "PlayerObject",
+"InteractiveObjects",
+"InteractiveObjects_Interfaces",
+"PlayerActions_Interfaces",
+"SequencedAction",
+"GameConfigurationID",
+"Persistence",
+"OdinSerializer",
+"Editor_Common"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

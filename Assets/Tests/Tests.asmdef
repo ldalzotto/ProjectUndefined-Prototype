@@ -1,0 +1,48 @@
+{
+    "name": "Tests",
+    "references": [
+        "PuzzleGame",
+        "CoreGame",
+        "Editor",
+        "Editor_Common",
+        "OdinSerializer",
+        "GameConfigurationID",
+        "VisualFeedback",
+"Persistence",
+"Timelines",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.InputSystem",
+"LevelManagement",
+"Input"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "BJM",
+        "iOS",
+        "LinuxStandalone64",
+        "Lumin",
+        "macOSStandalone",
+        "PS4",
+        "Switch",
+        "tvOS",
+        "WSA",
+        "WebGL",
+        "WindowsStandalone32",
+        "WindowsStandalone64",
+        "XboxOne"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "OdinAOTSupport.dll",
+        "OdinSerializer.dll",
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": []
+}

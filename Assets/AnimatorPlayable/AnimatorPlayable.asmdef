@@ -1,0 +1,16 @@
+{
+    "name": "AnimatorPlayable",
+    "references": [
+"Editor_Common",
+"CoreGame",
+"OdinSerializer"
+],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

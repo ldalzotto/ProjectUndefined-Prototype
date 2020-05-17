@@ -1,0 +1,17 @@
+{
+    "name": "Timelines_Editor",
+    "references": [
+"Timelines",
+"OdinSerializer"
+],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

@@ -1,0 +1,13 @@
+Logs
+obj
+Packages
+Temp
+Library
+.vs
+Build
+Pristine
+*comp_dir*
+*comp_light*
+*ReflectionProbe-*
+*LightingData.asset*
+**/node_modules/

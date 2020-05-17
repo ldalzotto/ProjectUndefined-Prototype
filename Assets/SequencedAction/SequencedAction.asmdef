@@ -1,0 +1,14 @@
+{
+    "name": "SequencedAction",
+    "references": [
+"OdinSerializer"
+],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

@@ -1,0 +1,24 @@
+{
+    "name": "SelectionObjects",
+    "references": [
+        "SelectableObjects_Interfaces",
+        "CoreGame",
+        "Editor_Common",
+        "OdinSerializer",
+        "Unity.RenderPipelines.Lightweight.Runtime",
+        "InteractiveObjects",
+        "InteractiveObjects_Interfaces",
+        "RangeObjects",
+"LevelManagement",
+"InteractiveObject_Animation",
+"Input"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

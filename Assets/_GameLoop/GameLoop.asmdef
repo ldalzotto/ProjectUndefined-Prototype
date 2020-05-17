@@ -1,0 +1,19 @@
+{
+    "name": "GameLoop",
+    "references": [
+"CoreGame",
+"LevelManagement",
+"PlayerObject",
+"Persistence",
+"Timelines",
+"Input"
+],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

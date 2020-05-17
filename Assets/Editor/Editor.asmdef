@@ -1,0 +1,32 @@
+{
+  "name": "Editor",
+  "references": [
+    "CoreGame",
+    "AdventureGame",
+    "PuzzleGame",
+    "Editor_Common",
+    "OdinSerializer",
+    "GameConfigurationID",
+    "InteractiveObjects",
+    "InteractiveObjects_Interfaces",
+    "RangeObjects",
+"Timelines",
+"LevelManagement",
+"Tutorial",
+"AIObjects",
+"VisualFeedback",
+"Persistence",
+"AnimatorPlayable",
+"SequencedAction"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": []
+}
