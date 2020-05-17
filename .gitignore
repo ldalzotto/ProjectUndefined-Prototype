@@ -4,6 +4,7 @@ Packages
 Temp
 Library
 .vs
+*.meta
 Build
 Pristine
 *comp_dir*
