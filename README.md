@@ -2,6 +2,8 @@
 
 This repository is the source code of a proof of concept of a Unity game.
 
+ProjectUndefined is a prototype of a top down 3D shooter. The Player can stop time whenever he wants and cast skill to progress trhough levels.
+
 This project contains source code only, there is no asset files. I decided to strip assets from git history as they were taking space for nothing.
 
 ## Purpose
@@ -16,10 +18,25 @@ If you want more details on a specific feature, feel free to post an issue and I
 
 ### Controls
 
+Controls are always displayed in-game and are dynamic depending of the current state. 
+
 ## Features
 
 The application features (links redirect to source code implementation) :
 
+* Custom Player controller (PlayerObject\Lib\PlayerMovement)
+* Skill management for Player and AI. (Undefined\Logic\Skill)
+  * Firing projectiles. (Undefined\Logic\Projectile, Undefined\Logic\PlayerAim) 
+  * Deflecting projectiles when an incoming projectile is on range and health is low. (Assets\Undefined\Logic\ProjectileDeflection)
+  * Teleporting to a location in range. (Undefined\Logic\PlayerDash)
+* AI Behavior driven by fsm. (Common\~CoreGame\Behavior)
+  * Only one AI Behavior is implemented for soldier. (Undefined\Logic\Soldier\SoldierBehavior)
+* Interactive objects entirely defined via scriptable object that interact with the environment. (Common\InteractiveObjects)
+  * Health globe interactive objects that give health on trigger. ()
+  * Player and AI are also InteractiveObjects.
+* 3D Physics shape that takes into account obstacle occlusion to trigger game logic like AI line of sight for example. (Common\RangeObjects)
+* Start/Stop time. (Common\TimeManagement)
+* Custom Animation system based on the Playable API. ()
 
 ## Dependencies
 
