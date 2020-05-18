@@ -16,6 +16,12 @@ If you want more details on a specific feature, feel free to post an issue and I
 
 ## Demo
 
+Click to see a video : 
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/vgzf_5xCZZI/0.jpg)](https://www.youtube.com/watch?v=vgzf_5xCZZI)
+
+A playable demo is available on [itch.io](https://loic-dal-zotto.itch.io/undefined) or as a [git release](https://github.com/ldalzotto/ProjectUndefined-Prototype/releases/tag/0.0.178).
+
 ### Controls
 
 Controls are always displayed in-game and are dynamic depending of the current state. 
