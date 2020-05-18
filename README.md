@@ -24,19 +24,20 @@ Controls are always displayed in-game and are dynamic depending of the current s
 
 The application features (links redirect to source code implementation) :
 
-* Custom Player controller (PlayerObject\Lib\PlayerMovement)
-* Skill management for Player and AI. (Undefined\Logic\Skill)
-  * Firing projectiles. (Undefined\Logic\Projectile, Undefined\Logic\PlayerAim) 
-  * Deflecting projectiles when an incoming projectile is on range and health is low. (Assets\Undefined\Logic\ProjectileDeflection)
-  * Teleporting to a location in range. (Undefined\Logic\PlayerDash)
-* AI Behavior driven by fsm. (Common\~CoreGame\Behavior)
-  * Only one AI Behavior is implemented for soldier. (Undefined\Logic\Soldier\SoldierBehavior)
-* Interactive objects entirely defined via scriptable object that interact with the environment. (Common\InteractiveObjects)
-  * Health globe interactive objects that give health on trigger. ()
+* [Custom Player controller](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/PlayerObject/Lib/PlayerMovement)
+* [Skill management for Player and AI](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/Skill).
+  * [Firing projectiles.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/Projectile) 
+  * [Deflecting projectiles when an incoming projectile is on range and health is low.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/ProjectileDeflection)
+  * [Teleporting to a location in range.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/PlayerDash)
+* [AI Behavior driven by fsm.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/~CoreGame/Behavior)
+  * [Only one AI Behavior is implemented for soldier.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/Soldier/SoldierBehavior)
+* [Interactive objects entirely defined via scriptable object that interact with the environment.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/InteractiveObjects)
+  * [Health globe interactive objects that give health on trigger.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/HealthGlobe)
   * Player and AI are also InteractiveObjects.
-* 3D Physics shape that takes into account obstacle occlusion to trigger game logic like AI line of sight for example. (Common\RangeObjects)
-* Start/Stop time. (Common\TimeManagement)
-* Custom Animation system based on the Playable API. ()
+* [3D Physics shape that takes into account obstacle occlusion to trigger game logic like AI line of sight for example.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/RangeObjects)
+* [Start/Stop time.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/TimeManagement)
+* [Custom Animation system based on the Playable API.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/AnimatorPlayable)
+* [Custom toon shader integrated with the URP](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/_Shader/ToonUnlit)
 
 ## Dependencies
 
