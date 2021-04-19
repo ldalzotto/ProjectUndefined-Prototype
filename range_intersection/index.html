@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Range intersection - ProjectUndefined-Prototype</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <link href="../css/custom.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Range object", url: "#_top", children: [
+          ]},
+          {title: "Visibility probe", url: "#visibility-probe", children: [
+          ]},
+          {title: "Obstacle object", url: "#obstacle-object", children: [
+          ]},
+          {title: "Data model", url: "#data-model", children: [
+          ]},
+          {title: "Intersection calculation", url: "#intersection-calculation", children: [
+              {title: "Occlusion frustum calculation", url: "#occlusion-frustum-calculation" },
+              {title: "Visibility probe test", url: "#visibility-probe-test" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="../js/custom.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <p>The range intersection system is the system that allows the enemies to spot the player when he is in sight. The system takes into account obstacles, meaning that the range will be occluded by it.</p>
+<p><img alt="" src="https://img.itch.zone/aW1nLzI4MjIzNzIuZ2lm/original/OAlluE.gif" /></p>
+<h1 id="range-object">Range object</h1>
+<p>The range object is what defines the range shape which will be used for intersection test.</p>
+<p>The range object is composed of two shapes.</p>
+<p><strong>Intersection shape:</strong>
+The intersection shape is the geometry that will be used by the intersection calculation to precisely tell if one shape is contained into another.</p>
+<p><strong>Trigger shape:</strong>
+The trigger shape acts as a filter to avoid calculating precise intersection against all interactive object. The trigger shape is a Trigger component that will register other interactive objects when a trigger event if fired. The goal is to increase efficiency by not calculating precise intersection when the interactive object is far away.</p>
+<p>The intersection shape must be a shape that how to calculate if a point is inside or not.</p>
+<p>The range object keeps tracks of obstacle objects that are inside the trigger shape.</p>
+<h1 id="visibility-probe">Visibility probe</h1>
+<p>Visibility probes are points that defines the visibility points of an interactive object. It is against these points that the intersection calculation is performed against. </p>
+<p>This method has been preferred over 3D shape intersection because I wasn't aware of sat algorithm. And the sat algorithm is probably cheaper than probe checking against a 3D geometry.</p>
+<h1 id="obstacle-object">Obstacle object</h1>
+<p>Obstacle objects are objects that occlude the range object. When a range object is near an obstacle, occlusion frustums are projected from the point of view of the range object. These frustums will be excluded during the intersection calculation. This means that if another range object is inside the intersection shape but within an occlusion frustum, then the intersection doesn't happen.</p>
+<h1 id="data-model">Data model</h1>
+<p><svg-inline src="range_intersection_data_model.svg"></svg-inline></p>
+<h1 id="intersection-calculation">Intersection calculation</h1>
+<p>A single intersection calculation consists of checking if any point of the visibility probe is inside the range object considering occlusion frustums.</p>
+<p>The calculation is divide in two steps, the occlusion frustum calculations and the visibility probe test.</p>
+<h2 id="occlusion-frustum-calculation">Occlusion frustum calculation</h2>
+<p>For every obstacle objects that are inside the trigger shape of the range object, occlusion frustums are projected from the origin of the range object.</p>
+<p>For now, occlusion frustums are generated from quad faces only. Points of the quad are expanded in the direction defined by the origin point by a distance defined in the visibility probe structure.</p>
+<p>To improve the efficiency of frustum calculations, there are some rules that avoid frustum recalculations :</p>
+<ul>
+<li>
+<p>If the range object has not moved the last frame</p>
+<ul>
+<li>If the obstacle object has moved<ul>
+<li>-&gt; do frustum calculations for this specific obstacle</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>If the range object has moved the last frame</p>
+<ul>
+<li>-&gt; do frustum calculations for all obstacles relative to the range object</li>
+</ul>
+</li>
+</ul>
+<h2 id="visibility-probe-test">Visibility probe test</h2>
+<p>The visibility probe test calculates if any of the probe points are contained within the range object's intersection shape. </p>
+<p>If at least one visibilivisibility probe is inside the intersection shape and not occluded by frustum, then there is intersection.
+All other case result in no intersection.</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="container-fluid wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
