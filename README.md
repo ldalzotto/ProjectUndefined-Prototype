@@ -1,22 +1,18 @@
-# ProjectUndefined-Prototype
+# Welcome
 
 This repository is the source code of a proof of concept of a Unity game.
 
-ProjectUndefined is a prototype of a top down 3D shooter. The Player can stop time whenever he wants and cast skill to progress trhough levels.
+ProjectUndefined is a prototype of a top down 3D shooter. The Player can stop time whenever he wants and cast skill to progress trough levels.
 
-This project contains source code only, there is no asset files. I decided to strip assets from git history as they were taking space for nothing.
+This project was made to challenge my knowledge acquired with the unity engine. This project emphasis my will of building custom solutions for features that I found too limiting in the engine : animation system, surface shader, prefabs. I am satisfied with the solutions that I brought, but the code is not very comprehensive.
 
-## Purpose
+This repository contains source code only, there is no asset files. I decided to strip assets from git history as they were taking space for nothing. The whole unity project with assets is available [here](//todo).
 
-The purpose of this repository is to share pieces of code that can be inspiring for people who wants to develop similar features.
+Some features are more detailed [here](//todo), these are some that I could reuse in future projects.
 
-This project has no external documentation, your guide to understand how things work together will be comments (when there are some 😋). Feel free to dig into code to get a grasp of what is happening.
+## Try it
 
-If you want more details on a specific feature, feel free to post an issue and I will answer to you as best as I can.
-
-## Demo
-
-Click to see a video : 
+Click to see a video :
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/vgzf_5xCZZI/0.jpg)](https://www.youtube.com/watch?v=vgzf_5xCZZI)
 
@@ -24,7 +20,7 @@ A playable demo is available on [itch.io](https://loic-dal-zotto.itch.io/undefin
 
 ### Controls
 
-Controls are always displayed in-game and are dynamic depending of the current state. 
+Controls are always displayed in-game and are dynamic depending of the current state.
 
 ## Features
 
@@ -32,7 +28,7 @@ The application features (links redirect to source code implementation) :
 
 * [Custom Player controller](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/PlayerObject/Lib/PlayerMovement)
 * [Skill management for Player and AI](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/Skill).
-  * [Firing projectiles.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/Projectile) 
+  * [Firing projectiles.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/Projectile)
   * [Deflecting projectiles when an incoming projectile is on range and health is low.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/ProjectileDeflection)
   * [Teleporting to a location in range.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Undefined/Logic/PlayerDash)
 * [AI Behavior driven by fsm.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/~CoreGame/Behavior)
@@ -46,7 +42,6 @@ The application features (links redirect to source code implementation) :
 * [Custom toon shader integrated with the URP](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/_Shader/ToonUnlit)
 
 ## Dependencies
-
 
 ## License
 
