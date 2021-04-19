@@ -32,7 +32,8 @@ namespace RangeObjects
 
         public InterserctionOperationType LastInterserctionOperationType { get; private set; }
 
-        //Updated from RangeIntersection Manager
+        // Updated from RangeIntersection Manager
+        // Update the AssociatedRangeObject and the TrackedInteractiveObject transform tracker to check if they have moved since the last frame.
         public bool TickChangedPositions()
         {
             var TrackedInteractiveGameObjectTransform = this.TrackedInteractiveObject.InteractiveGameObject.GetTransform();

@@ -9,7 +9,8 @@ namespace GeometryIntersection
     /// interactive object is contained in the sight volume or not.
     /// These local points are discrete representation of the volume that will be used by the algorithm. Is order for an interactive object to be visible, at least
     /// one of these points must be visible.
-    /// The more points there are, the more accurate is the calculation, but the less performant it is. 
+    /// The more points there are, the more accurate is the calculation, but the less performant it is.
+    /// This method has been preferred over 3D shape intersection because I wasn't aware of sat algorithm. And the sat algorithm is probably cheaper than probe checking against a 3D geometry.
     /// </summary>
     [Serializable]
     public struct VisibilityProbe
@@ -28,7 +29,7 @@ namespace GeometryIntersection
             get { return this.LocalPoints[i]; }
             set { this.LocalPoints[i] = value; }
         }
-        
+
         public int GetSize()
         {
             if (this.LocalPoints != null)

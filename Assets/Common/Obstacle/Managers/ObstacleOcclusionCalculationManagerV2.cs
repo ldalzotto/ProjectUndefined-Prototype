@@ -12,7 +12,7 @@ namespace Obstacle
 {
     public class ObstacleOcclusionCalculationManagerV2 : GameSingleton<ObstacleOcclusionCalculationManagerV2>
     {
-        //ObstacleListener -> ObstacleInteractiveObject -> FrustumPositions
+        // ObstacleListener -> ObstacleInteractiveObject -> FrustumPositions
         private Dictionary<int, Dictionary<int, List<FrustumPointsPositions>>> CalculatedOcclusionFrustums = new Dictionary<int, Dictionary<int, List<FrustumPointsPositions>>>();
         private Dictionary<ObstacleInteractiveObject, TransformStruct> ObstacleLastFramePositions = new Dictionary<ObstacleInteractiveObject, TransformStruct>();
 
@@ -67,6 +67,8 @@ namespace Obstacle
             var occlusionCalculationCounter = 0;
             var totalFrustumCounter = 0;
 
+            // counting and clearing frustums that are going to be updated
+
             if (!forceCalculation)
             {
                 //Position change detection
@@ -75,7 +77,7 @@ namespace Obstacle
                     ObstacleListenerLastFramePositions.TryGetValue(obstacleListener, out var lastFramePosition);
                     var hasChanged = !obstacleListener.AssociatedRangeTransformProvider().IsEqualTo(lastFramePosition);
 
-                    //The obstacle listener has changed -> all associated near square obstacles are updated
+                    // The obstacle listener has moved -> all associated near obstacles occlusion frustums are updated
                     if (hasChanged)
                     {
                         obstacleListenersThatHasChangedThisFrame.Add(obstacleListener);
@@ -88,7 +90,7 @@ namespace Obstacle
                         }
                     }
 
-                    //The obstacle listener hasn't changed -> we compate near square obstacles positions for update
+                    //The obstacle listener hasn't changed -> we compare near square obstacles positions for update
                     else
                     {
                         singleObstacleThatHasChangedThisFrame.TryGetValue(obstacleListener, out var obstacleInteractiveObjectsThatChanged);
@@ -138,6 +140,8 @@ namespace Obstacle
                     totalFrustumCounter += squareObstacle.GetFaceFrustums().Count;
                 }
             }
+
+            // If there is calculations to be done, create the unity job.
 
             if (occlusionCalculationCounter > 0)
             {

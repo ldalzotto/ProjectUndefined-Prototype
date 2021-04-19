@@ -40,6 +40,10 @@ namespace RangeObjects
         }
     }
 
+    /// <summary>
+    /// The interactive intersection listener instanciate range intersection calculation object when another range object is PhysicsTriggerEnter or PhysicsTriggerExit.
+    /// Two ranges that are triggering doesn't necessary mean that they interset because their range may be smaller that the trigger volume. That is why an intersection calculation is generated.
+    /// </summary>
     public abstract class AInteractiveIntersectionListener : AInteractiveObjectPhysicsEventListener
     {
         protected RangeObjectV2 associatedRangeObject;

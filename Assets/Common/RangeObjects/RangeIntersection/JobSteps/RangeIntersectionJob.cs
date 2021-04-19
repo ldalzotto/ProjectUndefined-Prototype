@@ -9,6 +9,7 @@ namespace RangeObjects
     public interface IIntersectionManager
     {
         void ClearState();
+        // ReSharper restore Unity.ExpensiveCode
         void CountingForRangeIntersectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator);
 
         void CalculationDataSetupForRangeIntersectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator,
@@ -294,7 +295,7 @@ namespace RangeObjects
 
             bool isVisibleReturnValue = false;
             
-            /// If at least one of VisibilityProbe points is visible, we consider that the targetted interactive object is visible
+            // If at least one of VisibilityProbe points is visible, we consider that the targetted interactive object is visible
             
             for (var i = SphereIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbePositionsBeginIndexIncluded;
                 i <= SphereIntersectionJobData.VisibilityProbeIntersectionJobData.VisibilityProbePositionsEndIndexIncluded;

@@ -47,7 +47,6 @@ namespace TrainingLevel
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public A_AnimationPlayableDefinition LocomotionAnimation;
 
-
         [Inline(CreateAtSameLevelIfAbsent = true)]
         public SoldierAnimationSystemDefinition SoldierAnimationSystemDefinition;
 

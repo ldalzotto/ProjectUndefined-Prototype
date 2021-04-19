@@ -19,6 +19,8 @@ namespace RangeObjects
             this.currentObstacleFrustumPointsCounter = 0;
         }
 
+        // Try to get all occlusion frustums fro mthe obstacle listener and push them in the AssociatedObstacleFrustumPointsPositions.
+        // Returns the index range of insertion of AssociatedObstacleFrustumPointsPositions.
         public bool ForRangeInteresectionCalculator(RangeIntersectionCalculator rangeIntersectionCalculator, ObstacleOcclusionCalculationManagerV2 ObstacleOcclusionCalculationManagerV2,
             out IsOccludedByObstacleJobData IsOccludedByObstacleJobData)
         {

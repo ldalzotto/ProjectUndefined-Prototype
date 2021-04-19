@@ -89,15 +89,19 @@ namespace RangeObjects
                 var totalObstacleFrustumPointsCounter = 0;
                 var totalVisibilityProbePointsCounter = 0;
                 foreach (var rangeIntersectionCalculatorV2 in InvolvedRangeIntersectionCalculatorV2)
+                    // If the calculation is forced or the intersection calculator needs recalculation
                     if (forceCalculation || !forceCalculation && rangeIntersectionCalculatorV2.TickChangedPositions())
                     {
+                        // We push the range intersection calculator to the stack that will be calculated
                         RangeIntersectionCalculatorThatChangedThatFrame.Add(rangeIntersectionCalculatorV2);
+                        // We increment manager counter this will be used later to allocate native arrays.
                         foreach (var RangeIntersectionmanager in RangeIntersectionmanagers) RangeIntersectionmanager.CountingForRangeIntersectionCalculator(rangeIntersectionCalculatorV2);
 
                         var associatedObstacleListener = rangeIntersectionCalculatorV2.GetAssociatedObstacleListener();
                         if (associatedObstacleListener != null) //The range can ignore obstacles
                         {
                             //Obstacle listener could have never triggered a calculation
+                            // We get the occlusion frustums associated to the obstacle listener. These frustums will be used during the probe visibility
                             ObstacleOcclusionCalculationManagerV2.TryGetCalculatedOcclusionFrustumsForObstacleListener(associatedObstacleListener, out var calculatedFrustumPositions);
                             if (calculatedFrustumPositions != null)
                                 foreach (var calculatedObstacleFrustum in calculatedFrustumPositions.Values)
@@ -131,10 +135,12 @@ namespace RangeObjects
                     {
                         if (RangeObstacleOcclusionIntersection.ForRangeInteresectionCalculator(RangeIntersectionCalculatorV2, ObstacleOcclusionCalculationManagerV2, out var IsOccludedByObstacleJobData))
                         {
+                            // when there is occlusion, we push it to the job
                             this.IsOccludedByObstacleJobData[currentObstacleIntersectionCalculatorCounter] = IsOccludedByObstacleJobData;
                             currentObstacleIntersectionCalculatorCounter += 1;
                         }
 
+                        // TODO
                         var VisibilityProbeJobData = CalculatingVisibilityProbeJobData(RangeIntersectionCalculatorV2, ref currentVisibilityProbeLocalPointsCounter);
 
                         foreach (var RangeIntersectionmanager in RangeIntersectionmanagers)

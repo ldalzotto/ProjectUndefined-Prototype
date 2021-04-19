@@ -15,6 +15,9 @@ namespace RangeObjects
 
         #endregion
 
+        /*
+            Listens to physics engine trigger.
+         */
         private RangeExternalPhysicsOnlyListenersSystem RangeExternalPhysicsOnlyListenersSystem;
 
         public RangeType RangeType { get; protected set; }
