@@ -6,6 +6,9 @@ using UnityEngine.Playables;
 
 namespace AnimatorPlayable
 {
+    /*
+        Plays multiple animations at the same time but blend them
+     */
     public class BlendedAnimationLayer : MyAnimationLayer
     {
         public List<BlendedAnimationClip> BlendedAnimationClips;

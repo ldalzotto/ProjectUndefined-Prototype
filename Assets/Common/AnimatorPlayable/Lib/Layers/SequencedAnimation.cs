@@ -68,7 +68,7 @@ namespace AnimatorPlayable
             }
 
 
-            //Calculate linear blendings times
+            // Calculate linear blendings times
             float virtualClipElapsedTime = 0f;
 
 

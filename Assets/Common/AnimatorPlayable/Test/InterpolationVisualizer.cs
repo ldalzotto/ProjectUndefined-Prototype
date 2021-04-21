@@ -33,7 +33,7 @@ namespace Test.PlayableGraphConnectionTest
         private void Update()
         {
             var weights = new float[this.TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.Count];
-            FreeformDirectionalInterpolator.SampleWeightsPolar(this.Value, this.TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.ConvertAll(i => i.TreePosition).ToArray(), ref weights);
+            GradiantBandDirectionalInterpolator.SampleWeightsPolar(this.Value, this.TwoDAnimationInput.TwoDBlendTreeAnimationClipInputs.ConvertAll(i => i.TreePosition).ToArray(), ref weights);
             for (var i = 0; i < weights.Length; i++)
             {
                 this.Gos[i].GetComponent<Renderer>().material.SetColor("_BaseColor", new Color(weights[i], weights[i], weights[i]));

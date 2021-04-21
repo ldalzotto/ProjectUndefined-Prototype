@@ -49,7 +49,7 @@ namespace AnimatorPlayable
 
         public override void Tick(float d)
         {
-            FreeformDirectionalInterpolator.SampleWeightsPolar(this.TwoDInputWeight, this.TwoDBlendTreeAnimationClipsPositions, ref this.Weights);
+            GradiantBandDirectionalInterpolator.SampleWeightsPolar(this.TwoDInputWeight, this.TwoDBlendTreeAnimationClipsPositions, ref this.Weights);
             for (var i = 0; i < this.Weights.Length; i++)
             {
                 this.AnimationMixerPlayable.SetInputWeight(this.TwoDBlendTreeAnimationClips[i].InputHandler, this.Weights[i]);

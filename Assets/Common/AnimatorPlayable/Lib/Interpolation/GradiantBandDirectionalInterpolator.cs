@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AnimatorPlayable
 {
-    public class FreeformDirectionalInterpolator
+    public static class GradiantBandDirectionalInterpolator
     {
         public static void SampleWeightsPolar(Vector2 sample_point, Vector2[] Points, ref float[] Weights)
         {

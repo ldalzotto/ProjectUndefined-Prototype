@@ -2,6 +2,7 @@ site_name: ProjectUndefined-Prototype
 theme: 'windmill'
 nav:
     - 'Range intersection': 'range_intersection.md'
+    - 'Animator playable': 'animator_playable.md'
 extra_javascript:
     - ./js/custom.js
 extra_css:
