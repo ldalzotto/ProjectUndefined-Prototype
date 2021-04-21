@@ -6,7 +6,7 @@ ProjectUndefined is a prototype of a top down 3D shooter. The Player can stop ti
 
 This project was made to challenge my knowledge acquired with the unity engine. This project emphasis my will of building custom solutions for features that I found too limiting in the engine : animation system, surface shader, prefabs. I am satisfied with the solutions that I brought, but the code is not very comprehensive.
 
-This repository contains source code only, there is no asset files. I decided to strip assets from git history as they were taking space for nothing. The whole unity project with assets is available [here](//todo).
+This repository contains source code only, there is no asset files. I decided to strip assets from git history as they were taking space for nothing. The whole unity project with assets is available [here](https://github.com/ldalzotto/ProjectUndefined-Prototype/releases/tag/0.0.178).
 
 Some features are more detailed [here](https://ldalzotto.github.io/ProjectUndefined-Prototype/), these are some that I could reuse in future projects.
 
