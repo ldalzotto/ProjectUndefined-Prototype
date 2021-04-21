@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Animator playable - ProjectUndefined-Prototype</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <link href="../css/custom.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "Animation layers", url: "#_top", children: [
+              {title: "Sequenced animation layer", url: "#sequenced-animation-layer" },
+              {title: "1D Blended animation layer", url: "#1d-blended-animation-layer" },
+              {title: "2D Blended animation layer", url: "#2d-blended-animation-layer" },
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="../js/custom.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../range_intersection/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../range_intersection/" class="btn btn-xs btn-link">
+        Range intersection
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <p>The animator playable simulates the unity built-in animator controller state machines. It is a system a system that play layered animations via the playable api. It's role is to calculate and push blending factors to the playable api. Blending factor calculation depends of the type of the animation layer.</p>
+<p>The animator playable supports :</p>
+<ul>
+<li>Sequenced animation with blending between every clip depending of the evaluated time.</li>
+<li>1D Blended animation that play multiple animation in parallel weighted by a single float parameter.</li>
+<li>2D blended animation that play multiple animation in parallel weighted by two float parameters.</li>
+</ul>
+<h1 id="animation-layers">Animation layers</h1>
+<p>Animation layers are object that play one or more animation clip. Layers are ordered, meaning that the animation of the layer 2 will override results of the layer 1.</p>
+<h2 id="sequenced-animation-layer">Sequenced animation layer</h2>
+<p>Sequenced animation layers are animation clips that are played one after another. Transition between one clip to another can be blended in function of the internal clock of the layer.</p>
+<p>Transition blending is defined by a begin and end time and is always linear.</p>
+<p><svg-inline src="animator_playable_sequential.svg"></svg-inline></p>
+<p>The sequenced animations can be repeated.</p>
+<h2 id="1d-blended-animation-layer">1D Blended animation layer</h2>
+<p>The blended animation layer is the same as the sequenced animation layer. However, it is not the elapsed time that control the weight of animation clips, it's an input variable associated to the layer called "weight evaluation". The weight evaluation is clamped between 0 and 1 and every clip has a blending function that return the desired weight of the animation based on the weight evaluation.</p>
+<p>It is up to the consumer to send the desired weight evaluation value.</p>
+<h2 id="2d-blended-animation-layer">2D Blended animation layer</h2>
+<p>Use the same logic as the 1D blended animation layer but the weight evaluation variable are 2 floats. Instead of having blending functions for every clip, they have a 2D position clamped between -1 and 1.</p>
+<p>Animation clip weights are calculated by using the gradient band interpolation (see  <a href="http://runevision.com/thesis/rune_skovbo_johansen_thesis.pdf">Automated Semi‐Procedural Animation
+for Character Locomotion</a> @ #6.3 Gradient Band Interpolation, page 58)</p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../range_intersection/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../range_intersection/" class="btn btn-xs btn-link">
+        Range intersection
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="container-fluid wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="https://github.com/gristlabs/mkdocs-windmill">Windmill</a> theme by Grist Labs.</p>
+</footer>
+
+</body>
+</html>
