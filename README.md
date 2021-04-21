@@ -8,15 +8,13 @@ This project was made to challenge my knowledge acquired with the unity engine. 
 
 This repository contains source code only, there is no asset files. I decided to strip assets from git history as they were taking space for nothing. The whole unity project with assets is available [here](//todo).
 
-Some features are more detailed [here](//todo), these are some that I could reuse in future projects.
+Some features are more detailed [here](https://ldalzotto.github.io/ProjectUndefined-Prototype/), these are some that I could reuse in future projects.
 
 ## Try it
 
-Click to see a video :
+![](https://github.com/ldalzotto/gif/blob/master/ezgif-1-80b82499a60c.gif)
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/vgzf_5xCZZI/0.jpg)](https://www.youtube.com/watch?v=vgzf_5xCZZI)
-
-A playable demo is available on [itch.io](https://loic-dal-zotto.itch.io/undefined) or as a [git release](https://github.com/ldalzotto/ProjectUndefined-Prototype/releases/tag/0.0.178).
+A playable demo is [here](https://github.com/ldalzotto/ProjectUndefined-Prototype/releases/tag/0.0.178).
 
 ### Controls
 
@@ -40,9 +38,3 @@ The application features (links redirect to source code implementation) :
 * [Start/Stop time.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/TimeManagement)
 * [Custom Animation system based on the Playable API.](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/Common/AnimatorPlayable)
 * [Custom toon shader integrated with the URP](https://github.com/ldalzotto/ProjectUndefined-Prototype/tree/master/Assets/_Shader/ToonUnlit)
-
-## Dependencies
-
-## License
-
-Feel free to steal it.
