@@ -13,6 +13,7 @@ Some features are more detailed [here](https://ldalzotto.github.io/ProjectUndefi
 ## Try it
 
 ![](https://github.com/ldalzotto/gif/blob/master/ezgif-1-80b82499a60c.gif)
+![](https://img.itch.zone/aW1nLzI4MjIzNzIuZ2lm/original/OAlluE.gif)
 
 A playable demo is [here](https://github.com/ldalzotto/ProjectUndefined-Prototype/releases/tag/0.0.178).
 
